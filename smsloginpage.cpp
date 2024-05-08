@@ -71,10 +71,26 @@ void SMSLoginPage::on_btnGetSMSCode_clicked()
             //读取响应数据
             QByteArray response = reply->readAll();
             qDebug() << response;
-        }     
 
+            QJsonParseError parseError;
+            QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+            if (parseError.error != QJsonParseError::NoError)
+            {
+                qDebug() << response;
+                qWarning() << "Json parse error:" << parseError.errorString();
+            }
+            else
+            {
+                if (doc.isObject())
+                {
+                    QJsonObject obj = doc.object();
+                    int iCode = obj["code"].toInt();
+                    QString strMessage = obj["message"].toString();
+                    qDebug() << "Code=" << iCode << "message=" << strMessage;
+                }
+            }
+        }
         reply->deleteLater();
         });
-
 }
 
