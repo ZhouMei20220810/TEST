@@ -56,15 +56,7 @@ void SMSLoginPage::on_btnGetSMSCode_clicked()
     QNetworkRequest request;
     request.setRawHeader("Authorization", strPhone.toUtf8());
     request.setUrl(url);
-    //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    /*QJsonDocument doc;
-    QJsonObject obj;
-    obj.insert("account", strAccount);
-    obj.insert("password", strPassword);
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
-    //发出GET请求
-    //QNetworkReply* reply = manager.post(request, postData);//manager.get(request);
+
     QNetworkReply* reply = manager->get(request);
     QNetworkReply::NetworkError error = reply->error();
     qDebug() << "reply error=" << error;
