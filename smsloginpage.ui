@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SMSLoginPage</class>
+ <widget class="QWidget" name="SMSLoginPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>364</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QCheckBox" name="checkBoxPolicy">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>150</y>
+     <width>294</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
+   </property>
+   <property name="text">
+    <string>我已阅读并同意用户协议，隐私政策和免责声明</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnLogin">
+   <property name="geometry">
+    <rect>
+     <x>41</x>
+     <y>241</y>
+     <width>271</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>100</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"> QPushButton {
+     border: 2px solid #555764;
+     border-radius:2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:2px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 2px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+   </property>
+   <property name="text">
+    <string>登录</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame_3">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>60</y>
+     <width>279</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#FF4A4A4A;
+background: #FFE7E8EE;
+border-radius: 3px;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="labelPhoneImage">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="res.qrc">:/login/resource/login/ico_phone.png</pixmap>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEditPhone">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:none</string>
+      </property>
+      <property name="placeholderText">
+       <string>输入您的手机号码</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnArrow">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/login/resource/login/ico_down.png</normaloff>:/login/resource/login/ico_down.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLineEdit" name="lineEditPassword">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>110</y>
+     <width>151</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:none</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+   <property name="placeholderText">
+    <string>短信验证码</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnGetSMSCode">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>110</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>获取验证码</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>180</y>
+     <width>320</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QCheckBox" name="checkBoxAutoLogin">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
+      </property>
+      <property name="text">
+       <string>自动登录</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer_5">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>69</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnPasswordLogin">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>28</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"> QPushButton {
+     border: 2px solid #555764;
+     border-radius:2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:2px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 2px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+      </property>
+      <property name="text">
+       <string>密码登录</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

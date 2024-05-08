@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/login">
+        <file>resource/login/back.png</file>
+        <file>resource/login/ico_del_c.png</file>
+        <file>resource/login/ico_del_n.png</file>
+        <file>resource/login/ico_down.png</file>
+        <file>resource/login/ico_phone.png</file>
+        <file>resource/login/ico_up.png</file>
+        <file>resource/login/ico-warn.png</file>
+        <file>resource/login/link.ico</file>
+        <file>resource/login/logo.png</file>
+        <file>resource/login/main_logo.png</file>
+        <file>resource/login/option_normal.png</file>
+        <file>resource/login/option_select.png</file>
+        <file>resource/login/ScreenShots.jpg</file>
+        <file>resource/login/ScreenShots_v.jpg</file>
+        <file>resource/login/close.png</file>
+        <file>resource/login/ico_lock.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RegisterPage</class>
+ <widget class="QWidget" name="RegisterPage">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>350</width>
+    <height>354</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QFrame" name="frame_9">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>165</y>
+     <width>279</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#FF4A4A4A;
+background: #FFE7E8EE;
+border-radius: 3px;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_11">
+    <item>
+     <widget class="QLineEdit" name="lineEditPassword_3">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:none</string>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>短信验证码</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pushButton">
+      <property name="text">
+       <string>获取验证码</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QFrame" name="frame_7">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>85</y>
+     <width>279</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#FF4A4A4A;
+background: #FFE7E8EE;
+border-radius: 3px;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_9">
+    <item>
+     <widget class="QLabel" name="labelPhoneImage_2">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="res.qrc">:/login/resource/login/ico_phone.png</pixmap>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEditPhone_2">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:none</string>
+      </property>
+      <property name="placeholderText">
+       <string>输入您的手机号码</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnArrow_2">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/login/resource/login/ico_down.png</normaloff>:/login/resource/login/ico_down.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QFrame" name="frame_8">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>125</y>
+     <width>279</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>33</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#FF4A4A4A;
+background: #FFE7E8EE;
+border-radius: 3px;</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_10">
+    <item>
+     <widget class="QLabel" name="labelPWImage_2">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="res.qrc">:/login/resource/login/ico_lock.png</pixmap>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEditPassword_2">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border:none</string>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>输入图形验证码</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>图形验证码</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLineEdit" name="lineEditPassword_4">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>210</y>
+     <width>281</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border:none</string>
+   </property>
+   <property name="text">
+    <string>输入密码</string>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Normal</enum>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="placeholderText">
+    <string>短信验证码</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnReturn">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>41</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>返回</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnCustomerService">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>0</y>
+     <width>41</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>客服</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxPolicy">
+   <property name="geometry">
+    <rect>
+     <x>41</x>
+     <y>255</y>
+     <width>294</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
+   </property>
+   <property name="text">
+    <string>我已阅读并同意用户协议，隐私政策和免责声明</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnRegister">
+   <property name="geometry">
+    <rect>
+     <x>68</x>
+     <y>286</y>
+     <width>231</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>100</width>
+     <height>28</height>
+    </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"> QPushButton {
+     border: 2px solid #555764;
+     border-radius:2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:2px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 2px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+   </property>
+   <property name="text">
+    <string>注册</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>
