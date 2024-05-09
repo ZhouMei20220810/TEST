@@ -22,7 +22,7 @@ public:
 private:
     //http 分组接口
     void QueryAllGroup();//查询全部分组
-    void CreateNewGroup();//创建分组
+    void CreateGroup(QString strGroupName);//创建分组
     void UpdateGroup();//修改分组
     void DeleteGroup();//删除分组
 
