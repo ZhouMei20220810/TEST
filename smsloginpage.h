@@ -21,6 +21,8 @@ private slots:
 
     void on_btnGetSMSCode_clicked();
 
+    void on_btnSMSLogin_clicked();
+
 private:
     Ui::SMSLoginPage *ui;
 };

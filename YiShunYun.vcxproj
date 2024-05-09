@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{50F285C6-5B6C-335B-9F90-012BDDE74B02}</ProjectGuid>
+    <ProjectGuid>{C2A31017-F80F-3954-8DB8-9CF704EC367B}</ProjectGuid>
     <RootNamespace>YiShunYun</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>

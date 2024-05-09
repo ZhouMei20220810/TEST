@@ -9,6 +9,7 @@
 #define HTTP_YSY_GET_SMS_CODE       "/api/sms"             //获取验证码
 
 
+#define HTTP_SUCCESS_CODE           200
 
 QString getMessageByCode(long code);
 
