@@ -208,7 +208,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
-    <ClCompile Include="registerwindow.cpp" />
+    <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -217,7 +217,7 @@
     <QtMoc Include="loginwindow.h" />
     <QtMoc Include="mainwindow.h" />
     <QtMoc Include="passwordloginpage.h" />
-    <QtMoc Include="registerwindow.h" />
+    <QtMoc Include="registerpage.h" />
     <QtMoc Include="smsloginpage.h" />
   </ItemGroup>
   <ItemGroup>
@@ -241,7 +241,7 @@
     <QtUic Include="loginwindow.ui" />
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="passwordloginpage.ui" />
-    <QtUic Include="registerwindow.ui" />
+    <QtUic Include="registerpage.ui" />
     <QtUic Include="smsloginpage.ui" />
   </ItemGroup>
   <ItemGroup>
