@@ -13,6 +13,7 @@
 #define HTTP_CREATE_GROUP           "/api/group/create"     //创建分组
 #define HTTP_UPDATE_GROUP           "/api/group/update"     //修改分组
 #define HTTP_DELETE_GROUP           "/api/group/delete/{id}" //删除分组
+#define HTTP_TOKEN_HEADER           "Bearer "                //token添加头
 
 #define HTTP_SUCCESS_CODE           200
 
@@ -47,4 +48,16 @@ typedef struct USER_LOGIN_INFO
         memset(this, 0, sizeof(USER_LOGIN_INFO));
     }
 }S_USER_LOGIN_INFO,*P_USER_LOGIN_INFO;
+
+typedef struct GROUP_INFO
+{
+    int     iGroupId;
+    int     iGroupNum;
+    QString strGroupName;
+    GROUP_INFO()
+    {
+        memset(this, 0, sizeof(GROUP_INFO));
+    }
+}S_GROUP_INFO,*PS_GROUP_INFO;
+
 #endif // GLOBAL_H

@@ -72,8 +72,8 @@ void PasswordLoginPage::on_btnLogin_clicked()
     
     QJsonDocument doc;
     QJsonObject obj;
-    obj.insert("account", "15019445205");//strAccount);
-    obj.insert("password", "123456");//strPassword);
+    obj.insert("account", strAccount);
+    obj.insert("password", strPassword);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     //发出GET请求
