@@ -206,16 +206,18 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
-    <ClCompile Include="registerpage.cpp" />
+    <ClCompile Include="registerwindow.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
     <QtMoc Include="loginwindow.h" />
+    <QtMoc Include="mainwindow.h" />
     <QtMoc Include="passwordloginpage.h" />
-    <QtMoc Include="registerpage.h" />
+    <QtMoc Include="registerwindow.h" />
     <QtMoc Include="smsloginpage.h" />
   </ItemGroup>
   <ItemGroup>
@@ -237,8 +239,9 @@
   <ItemGroup>
     <QtUic Include="forgetpwdialog.ui" />
     <QtUic Include="loginwindow.ui" />
+    <QtUic Include="mainwindow.ui" />
     <QtUic Include="passwordloginpage.ui" />
-    <QtUic Include="registerpage.ui" />
+    <QtUic Include="registerwindow.ui" />
     <QtUic Include="smsloginpage.ui" />
   </ItemGroup>
   <ItemGroup>

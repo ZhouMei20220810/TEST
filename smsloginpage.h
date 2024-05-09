@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "global.h"
+#include "mainwindow.h"
 namespace Ui {
 class SMSLoginPage;
 }
@@ -25,6 +26,7 @@ private slots:
 
 private:
     Ui::SMSLoginPage *ui;
+    MainWindow* m_mainWindow;
 };
 
 #endif // SMSLOGINPAGE_H

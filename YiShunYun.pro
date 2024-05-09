@@ -13,6 +13,7 @@ SOURCES += \
     global.cpp \
     main.cpp \
     loginwindow.cpp \
+    mainwindow.cpp \
     passwordloginpage.cpp \
     registerpage.cpp \
     smsloginpage.cpp
@@ -21,6 +22,7 @@ HEADERS += \
     forgetpwdialog.h \
     global.h \
     loginwindow.h \
+    mainwindow.h \
     passwordloginpage.h \
     registerpage.h \
     smsloginpage.h
@@ -28,6 +30,7 @@ HEADERS += \
 FORMS += \
     forgetpwdialog.ui \
     loginwindow.ui \
+    mainwindow.ui \
     passwordloginpage.ui \
     registerpage.ui \
     smsloginpage.ui

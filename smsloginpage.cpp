@@ -119,13 +119,13 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
     qDebug() << "url:" << strUrl;
     request.setUrl(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    /*QJsonDocument doc;
+    QJsonDocument doc;
     QJsonObject obj;
     obj.insert("code", strSMSCode);
     obj.insert("mobile", strPhone);
     doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
-    QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
     //发出GET请求
     QNetworkReply* reply = manager->post(request, postData);
     QNetworkReply::NetworkError error = reply->error();
@@ -170,7 +170,10 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                             QString strName = userDetailVO["name"].toString();
                             QString strAccount = userDetailVO["account"].toString();
                             QString strMobile = userDetailVO["mobile"].toString();
-                            qDebug() << "跳转到主页面";
+                            qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"token="<<strToken;
+
+                            m_mainWindow = new MainWindow(this);
+                            m_mainWindow->show();
                         }                                                 
                     }
                     else

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "global.h"
+#include "mainwindow.h"
 
 namespace Ui {
 class RegisterPage;
@@ -24,6 +25,7 @@ private slots:
 
 private:
     Ui::RegisterPage *ui;
+    MainWindow* m_mainWindow;
 };
 
 #endif // REGISTERPAGE_H
