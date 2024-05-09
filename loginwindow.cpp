@@ -1,6 +1,9 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-
+#include <QMessageBox>
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #define     PAGE_WIDGET_X_POS       262
 #define     PAGE_WIDGET_Y_POS       33
@@ -9,8 +12,8 @@ LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::LoginWindow)
 {
-    setWindowFlags(Qt::FramelessWindowHint);
     ui->setupUi(this);
+    setWindowFlags(Qt::FramelessWindowHint);
 
     m_passwordLoginPage = new PasswordLoginPage(this);
     m_smsLoginPage = new SMSLoginPage(this);
@@ -26,6 +29,8 @@ LoginWindow::LoginWindow(QWidget *parent)
             {
         showPage(type);
     });
+    connect(m_smsLoginPage, &SMSLoginPage::LoginHttpResponseSignals, this, &LoginWindow::do_LoginHttpResponseSignals);
+
     connect(m_registerPage, &RegisterPage::showPageType, this, [=](ENUM_LOGIN_PAGE_TYPE type)
             {
                 showPage(type);
@@ -51,6 +56,8 @@ LoginWindow::LoginWindow(QWidget *parent)
                 break;
             }
             });
+
+    connect(m_passwordLoginPage, &PasswordLoginPage::LoginHttpResponseSignals, this, &LoginWindow::do_LoginHttpResponseSignals);
 }
 
 LoginWindow::~LoginWindow()
@@ -84,21 +91,52 @@ void LoginWindow::on_pushButton_clicked()
     this->close();
 }
 
-
-void LoginWindow::on_btnForgetPW_clicked()
+void LoginWindow::do_LoginHttpResponseSignals(QByteArray response)
 {
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+    if (parseError.error != QJsonParseError::NoError)
+    {
+        qDebug() << response;
+        qWarning() << "Json parse error:" << parseError.errorString();
+    }
+    else
+    {
+        if (doc.isObject())
+        {
+            QJsonObject obj = doc.object();
+            int iCode = obj["code"].toInt();
+            QString strMessage = obj["message"].toString();
+            qDebug() << "Code=" << iCode << "message=" << strMessage << "response:" << response;
+            S_USER_LOGIN_INFO userInfo;
+            if (200 == iCode)
+            {
+                if (obj["data"].isObject())
+                {
+                    QJsonObject data = obj["data"].toObject();
+                    userInfo.strToken = data["token"].toString();
+                    userInfo.strMaxExpirationDate = data["maxExpirationDate"].toString();
 
+                    QJsonObject userDetailVO = data["userDetailVO"].toObject();
+                    userInfo.id = userDetailVO["id"].toInt();
+                    userInfo.strName = userDetailVO["name"].toString();
+                    userInfo.strAccount = userDetailVO["account"].toString();
+                    userInfo.strMobile = userDetailVO["mobile"].toString();
+                    userInfo.strPhotoUrl = userDetailVO["photoUrl"].toString();
+
+                    qDebug() << "提示"<<"id="<< userInfo.id<<"name="<< userInfo.strName<<"account="<< userInfo.strAccount<<"mobile="<< userInfo.strMobile<<"MaxExpirationDate"<< userInfo.strMaxExpirationDate<<"token="<< userInfo.strToken;
+
+                    m_mainWindow = new MainWindow(this);
+                    m_mainWindow->setUserInfo(userInfo);
+                    m_mainWindow->show();
+                } 
+            }
+            else
+            {
+                QMessageBox::warning(this, tr("提示"), strMessage);
+            }
+        }
+    }
 }
 
-
-void LoginWindow::on_btnLogin_clicked()
-{
-
-}
-
-
-void LoginWindow::on_btnRegister_clicked()
-{
-
-}
 

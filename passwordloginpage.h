@@ -19,6 +19,8 @@ public:
 signals:
     void showPageType(ENUM_LOGIN_PAGE_TYPE type);
     void showLoginWindow(ENUM_LOGIN_STATUS enStatus);
+
+    void LoginHttpResponseSignals(QByteArray response);
 private slots:
     void on_btnReturn_clicked();
 

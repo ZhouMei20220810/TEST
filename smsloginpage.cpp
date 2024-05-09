@@ -141,8 +141,9 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
             //读取响应数据
             QByteArray response = reply->readAll();
             qDebug() << response;
+            emit LoginHttpResponseSignals(response);
 
-            QJsonParseError parseError;
+            /*QJsonParseError parseError;
             QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
             if (parseError.error != QJsonParseError::NoError)
             {
@@ -173,15 +174,16 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                             qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"token="<<strToken;
 
                             m_mainWindow = new MainWindow(this);
+                            connect(this, &SMSLoginPage::doShowUserInfoSignals, m_mainWindow, &MainWindow::doShowUserInfoSlot);
                             m_mainWindow->show();
-                        }                                                 
+                        } 
                     }
                     else
                     {
                         QMessageBox::warning(this, "错误提示", strMessage);
                     }
                 }
-            }
+            }*/
         }
         reply->deleteLater();
     });

@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "global.h"
-#include "mainwindow.h"
 namespace Ui {
 class SMSLoginPage;
 }
@@ -17,6 +16,8 @@ public:
     ~SMSLoginPage();
 signals:
     void showPageType(ENUM_LOGIN_PAGE_TYPE type);
+    
+    void LoginHttpResponseSignals(QByteArray response);
 private slots:
     void on_btnPasswordLogin_clicked();
 
@@ -26,7 +27,6 @@ private slots:
 
 private:
     Ui::SMSLoginPage *ui;
-    MainWindow* m_mainWindow;
 };
 
 #endif // SMSLOGINPAGE_H

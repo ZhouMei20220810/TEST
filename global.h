@@ -3,7 +3,7 @@
 
 #include <QString>
 #define HTTP_SERVER_DOMAIN_ADDRESS "http://120.26.132.153:8080"
-#define HTTP_YSY_PASSWORD_LOGIN     "/api/login"           //密码登录
+#define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
 #define HTTP_YSY_SMS_LOGIN          "/api/login/sms"        //短信验证码登录

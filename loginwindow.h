@@ -5,6 +5,7 @@
 #include "passwordloginpage.h"
 #include "smsloginpage.h"
 #include "registerpage.h"
+#include "mainwindow.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class LoginWindow;
@@ -24,17 +25,13 @@ private:
 private slots:
     void on_pushButton_clicked();
 
-    void on_btnForgetPW_clicked();
-
-    void on_btnLogin_clicked();
-
-    void on_btnRegister_clicked();
-
+    void do_LoginHttpResponseSignals(QByteArray response);
 private:
     Ui::LoginWindow *ui;
 
     PasswordLoginPage* m_passwordLoginPage;
     SMSLoginPage* m_smsLoginPage;
     RegisterPage* m_registerPage;
+    MainWindow* m_mainWindow;
 };
 #endif // LOGINWINDOW_H
