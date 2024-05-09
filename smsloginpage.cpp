@@ -110,22 +110,24 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
     }
 
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_YSY_LOGIN;
-    //创建网络访问管理器
-    QNetworkAccessManager manager;
+    strUrl += HTTP_YSY_SMS_LOGIN;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
     //创建请求对象
     QNetworkRequest request;
     QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
     request.setUrl(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    QJsonDocument doc;
+    /*QJsonDocument doc;
     QJsonObject obj;
     obj.insert("code", strSMSCode);
     obj.insert("mobile", strPhone);
     doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
+    QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
     //发出GET请求
-    QNetworkReply* reply = manager.post(request, postData);//manager.get(request);
+    QNetworkReply* reply = manager->post(request, postData);
     QNetworkReply::NetworkError error = reply->error();
     qDebug()<<"reply error="<<error;
     //连接请求完成的信号
@@ -153,10 +155,10 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                 {
                     QJsonObject obj = doc.object();
                     int iCode = obj["code"].toInt();
+                    QString strMessage = obj["message"].toString();
+                    qDebug() << "Code=" << iCode << "message=" << strMessage <<"response:"<<response;
                     if(200 == iCode)
                     {
-                        QString strMessage = obj["message"].toString();
-                        qDebug() << "Code=" << iCode << "message=" << strMessage;
                         if (obj["data"].isObject())
                         {
                             QJsonObject data = obj["data"].toObject();
@@ -173,7 +175,7 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                     }
                     else
                     {
-                        qWarning()<<"code="<<iCode <<"json:"<<response;
+                        QMessageBox::warning(this, "错误提示", strMessage);
                     }
                 }
             }
@@ -181,4 +183,3 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
         reply->deleteLater();
     });
 }
-
