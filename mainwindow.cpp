@@ -272,9 +272,70 @@ void MainWindow::CreateGroup(QString strGroupName)//创建分组
         });
 }
 
-void MainWindow::UpdateGroup()//修改分组
+void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
 {
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_UPDATE_GROUP;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("createBy", "");
+    obj.insert("id", iGroupId);
+    obj.insert("name", strNewName);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
 
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                bool data = obj["data"].toBool();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                if (200 == iCode)
+                {
+                    //true操作成功
+                    if (data)
+                    {
+                        //界面直接修改名称不需要重新请求
+                        QueryAllGroup();
+                    }                    
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 
 void MainWindow::DeleteGroup()//删除分组
@@ -286,7 +347,10 @@ void MainWindow::on_btnCreateNewGroup_clicked()
 {
     //新建分组
     QString strNewGroup = "自定义";
-    //调试
-    CreateGroup(strNewGroup);
+    //创建分组
+    //CreateGroup(strNewGroup);
+
+    //调试修改分组接口
+    UpdateGroup(2, "新名称");
 }
 
