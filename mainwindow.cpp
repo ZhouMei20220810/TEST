@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QUrlQuery>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -41,11 +42,11 @@ void MainWindow::on_btnClose_clicked()
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    //request.setRawHeader("token", m_userInfo.strToken.toLocal8Bit());
-    request.setRawHeader("token", m_userInfo.strToken.toLocal8Bit());
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+
     request.setUrl(url);
     /*QJsonDocument doc;
     QJsonObject obj;
@@ -338,9 +339,74 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
         });
 }
 
-void MainWindow::DeleteGroup()//删除分组
+void MainWindow::DeleteGroup(int iGroupId)//删除分组
 {
+    //QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    //strUrl += HTTP_DELETE_GROUP;
+    QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    /*QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("id", iGroupId);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
 
+
+    QByteArray postData = "";// = query.toString(QUrl::FullyEncoded).toUtf8();
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                bool data = obj["data"].toBool();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                if (200 == iCode)
+                {
+                    //true操作成功
+                    if (data)
+                    {
+                        //界面直接修改名称不需要重新请求
+                        QueryAllGroup();
+                    }
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 
 void MainWindow::on_btnCreateNewGroup_clicked()
@@ -351,6 +417,9 @@ void MainWindow::on_btnCreateNewGroup_clicked()
     //CreateGroup(strNewGroup);
 
     //调试修改分组接口
-    UpdateGroup(2, "新名称");
+    //UpdateGroup(2, "新名称");
+
+    //调试删除分组接口
+    DeleteGroup(2);
 }
 

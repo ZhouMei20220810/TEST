@@ -24,7 +24,7 @@ private:
     void QueryAllGroup();//查询全部分组
     void CreateGroup(QString strGroupName);//创建分组
     void UpdateGroup(int iGroupId, QString strNewName);//修改分组
-    void DeleteGroup();//删除分组
+    void DeleteGroup(int iGroupId);//删除分组
 
     //显示树内容
     void ShowGroupInfo();
