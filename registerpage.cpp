@@ -14,6 +14,7 @@ RegisterPage::RegisterPage(QWidget *parent)
     , ui(new Ui::RegisterPage)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 RegisterPage::~RegisterPage()

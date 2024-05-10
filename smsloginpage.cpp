@@ -13,6 +13,8 @@ SMSLoginPage::SMSLoginPage(QWidget *parent)
     , ui(new Ui::SMSLoginPage)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose, true);
+
     ui->lineEditPhone->setText("15019445205");
 }
 

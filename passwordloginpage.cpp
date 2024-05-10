@@ -14,6 +14,7 @@ PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     , ui(new Ui::PasswordLoginPage)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose, true);
 
     //设置默认值
     ui->lineEditPhone->setText("15019445205");

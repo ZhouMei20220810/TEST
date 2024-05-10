@@ -19,7 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);    
+    setAttribute(Qt::WA_DeleteOnClose, true);
 
     //设置TreeWidget相关属性
     ui->treeWidget->resize(200, 600);
@@ -508,5 +509,13 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
         // 右键菜单在鼠标点击的位置显示
         menu->exec(QCursor::pos());
     }
+}
+
+
+void MainWindow::on_btnRefresh_clicked()
+{
+    qDebug()<<"刷新";
+    //重新加载列表
+    QueryAllGroup();
 }
 
