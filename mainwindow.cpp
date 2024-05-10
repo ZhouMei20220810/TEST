@@ -341,9 +341,10 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
 
 void MainWindow::DeleteGroup(int iGroupId)//删除分组
 {
-    //QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    //strUrl += HTTP_DELETE_GROUP;
-    QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_DELETE_GROUP;
+    strUrl += QString("/%1").arg(iGroupId);
+    //QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
     qDebug() << "strUrl = " << strUrl;
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -353,21 +354,12 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    //request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
-    /*QJsonDocument doc;
-    QJsonObject obj;
-    obj.insert("id", iGroupId);
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
-
-
-    QByteArray postData = "";// = query.toString(QUrl::FullyEncoded).toUtf8();
+    
     //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
+    QNetworkReply* reply = manager->post(request, "");
     //连接请求完成的信号
     connect(reply, &QNetworkReply::finished, this, [=] {
         //读取响应数据
@@ -378,7 +370,6 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
         QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
         if (parseError.error != QJsonParseError::NoError)
         {
-            qDebug() << response;
             qWarning() << "Json parse error:" << parseError.errorString();
         }
         else
@@ -412,7 +403,7 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
 void MainWindow::on_btnCreateNewGroup_clicked()
 {
     //新建分组
-    QString strNewGroup = "自定义";
+    QString strNewGroup = "自定义2";
     //创建分组
     //CreateGroup(strNewGroup);
 
@@ -420,6 +411,6 @@ void MainWindow::on_btnCreateNewGroup_clicked()
     //UpdateGroup(2, "新名称");
 
     //调试删除分组接口
-    DeleteGroup(2);
+    DeleteGroup(0);
 }
 

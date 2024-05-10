@@ -12,7 +12,7 @@
 #define HTTP_QUERY_ALL_GROUP        "/api/group/list"       //查询全部分组
 #define HTTP_CREATE_GROUP           "/api/group/create"     //创建分组
 #define HTTP_UPDATE_GROUP           "/api/group/update"     //修改分组
-#define HTTP_DELETE_GROUP           "/api/group/delete/{id}" //删除分组
+#define HTTP_DELETE_GROUP           "/api/group/delete"     //删除分组
 #define HTTP_TOKEN_HEADER           "Bearer "                //token添加头
 
 #define HTTP_SUCCESS_CODE           200
