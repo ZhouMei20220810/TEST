@@ -13,7 +13,15 @@
 #define HTTP_CREATE_GROUP           "/api/group/create"     //创建分组
 #define HTTP_UPDATE_GROUP           "/api/group/update"     //修改分组
 #define HTTP_DELETE_GROUP           "/api/group/delete"     //删除分组
-#define HTTP_TOKEN_HEADER           "Bearer "                //token添加头
+#define HTTP_TOKEN_HEADER           "Bearer "               //token添加头
+
+//订单接口
+#define HTTP_CREATE_ORDER           "/api/order/create"     //创建订单
+#define HTTP_CLOSE_ORDER            "/api/order/closeOrder/{outTradeNo}" //关闭订单
+#define HTTP_DELETE_ORDER           "/api/order/delete/{id}" //删除
+#define HTTP_CLEAR_ORDER            "/api/order/empty"       //清空
+#define HTTP_GET_MY_ORDER           "/api/order/my"          //我的支付订单
+
 //手机实例相关接口
 #define HTTP_GET_SERVER_TOKEN       "/api/user/serverToken" //获取serverToken,供测试使用
 #define HTTP_GET_MYINSTANCE_LEVEL   "/api/user/getLevel"    //获取我的实例级别，可以不用获取级别
@@ -87,5 +95,30 @@ typedef struct PHONE_INFO
         memset(this, 0, sizeof(PHONE_INFO));
     }
 }S_PHONE_INFO,*PS_PHONE_INFO;
+
+typedef struct ORDER_INFO
+{
+    int     iId;
+    float   fActualAmount;      //实际支付金额
+    int     iCreateBy;          //创建人
+    QString strCreateTime;      //创建时间
+    bool    bIsDelete;          //是否删除
+    int     iMemberId;          //购买会员id
+    QString strOrderTitle;      //订单标题
+    int     iBuyNum;            //购买数量
+    QString strOutTradeNo;      //订单号
+    QString strPayTime;         //支付时间
+    float   fPreferentialAmount; //优惠金额
+    QString strRelateid;        //实例id,多个逗号分割
+    QString strRemark;          //订单备注
+    int     iStatus;            //支付状态0:未支付 1:已支付 2:已完成
+    float   fTotalAmount;       //总金额
+    QString strTradeNo;         //第三方支付唯一标识
+    ORDER_INFO()
+    {
+        memset(this, 0, sizeof(ORDER_INFO));
+    }
+}S_ORDER_INFO, * PS_ORDER_INFO;
+
 
 #endif // GLOBAL_H

@@ -77,14 +77,40 @@
    <widget class="QPushButton" name="btnRefresh">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>60</y>
+      <x>250</x>
+      <y>0</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>刷新</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnCreateOrder">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>创建订单</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnMyOrder">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>我的支付订单</string>
     </property>
    </widget>
   </widget>

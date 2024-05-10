@@ -30,6 +30,12 @@ private:
     //显示树内容
     void ShowGroupInfo();
 
+    //订单接口
+    // 我的支付订单
+    void HttpGetMyOrder(int iPage, int iPageSize);
+    //创建订单
+    void HttpCreateOrder(int iChannel, int iMemberId, int iNum, QString strRelateId);
+
     //手机实例相关接口
     //获取serverToken
     //void HttpGetServerToken();
@@ -46,6 +52,10 @@ private slots:
     void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
 
     void on_btnRefresh_clicked();
+
+    void on_btnCreateOrder_clicked();
+
+    void on_btnMyOrder_clicked();
 
 private:
     Ui::MainWindow *ui;
