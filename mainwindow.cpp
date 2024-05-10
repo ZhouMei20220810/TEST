@@ -19,8 +19,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);    
-    setAttribute(Qt::WA_DeleteOnClose, true);
+    ui->setupUi(this);
+    setWindowFlag(Qt::FramelessWindowHint);
+    //setAttribute(Qt::WA_DeleteOnClose, true);
 
     //设置TreeWidget相关属性
     ui->treeWidget->resize(200, 600);
@@ -1009,6 +1010,12 @@ void MainWindow::on_btnPayOrder_clicked()
     //确定支付
     //打开网页传值
     //https://excashier.alipay.com/standard/auth.htm?payOrderId=fe951ef41b1b4a85af044f5f7cf9c4e1.00
+
+}
+
+
+void MainWindow::on_btnMax_clicked()
+{
 
 }
 

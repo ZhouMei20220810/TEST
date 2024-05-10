@@ -69,6 +69,8 @@ private slots:
 
     void on_btnPayOrder_clicked();
 
+    void on_btnMax_clicked();
+
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;

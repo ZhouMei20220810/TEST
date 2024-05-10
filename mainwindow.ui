@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>830</width>
     <height>600</height>
    </rect>
   </property>
@@ -14,26 +14,13 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btnClose">
-    <property name="geometry">
-     <rect>
-      <x>744</x>
-      <y>0</y>
-      <width>51</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>关闭</string>
-    </property>
-   </widget>
    <widget class="QTreeWidget" name="treeWidget">
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>30</y>
+      <y>140</y>
       <width>271</width>
-      <height>531</height>
+      <height>421</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -64,8 +51,8 @@
    <widget class="QPushButton" name="btnCreateNewGroup">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>0</y>
+      <x>70</x>
+      <y>100</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -78,7 +65,7 @@
     <property name="geometry">
      <rect>
       <x>250</x>
-      <y>0</y>
+      <y>100</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -151,6 +138,126 @@
     <property name="text">
      <string>确定支付</string>
     </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>-10</x>
+      <y>0</y>
+      <width>821</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="btnClose">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>10</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>关闭</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnMax">
+     <property name="geometry">
+      <rect>
+       <x>714</x>
+       <y>10</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>放大</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnMin">
+     <property name="geometry">
+      <rect>
+       <x>654</x>
+       <y>10</y>
+       <width>41</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>缩小</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSystemSetting">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>系统设置</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelLogo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>161</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnPhoto">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>20</y>
+       <width>75</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>头像</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="btnUserName">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>40</y>
+       <width>53</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnCustomer">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>10</y>
+       <width>75</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>联系客服</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
