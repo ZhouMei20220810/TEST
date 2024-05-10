@@ -17,7 +17,7 @@ PasswordLoginPage::PasswordLoginPage(QWidget *parent)
 
     //设置默认值
     ui->lineEditPhone->setText("15019445205");
-    ui->lineEditPassword->setText("Zysy888888");
+    ui->lineEditPassword->setText("123456");
 }
 
 PasswordLoginPage::~PasswordLoginPage()

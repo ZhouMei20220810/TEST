@@ -10,12 +10,31 @@
 #include <QJsonArray>
 #include <QUrlQuery>
 #include <QMessageBox>
+#include <QTreeWidget>
+#include <QMenu>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //设置TreeWidget相关属性
+    ui->treeWidget->resize(200, 600);
+    ui->treeWidget->move(100, 80);
+
+    ui->treeWidget->setColumnCount(1);
+    //ui->treeWidget->setHeaderLabel("分组列表");
+    //ui->treeWidget->setHeaderLabels("分组列表");
+    //隐藏表头
+    ui->treeWidget->setHeaderHidden(true);
+
+    //设置复选框
+    ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+    //ui->treeWidget->setCheckBoxes(true);
+
+    ui->treeWidget->expandAll();
+
 }
 
 MainWindow::~MainWindow()
@@ -204,13 +223,32 @@ void MainWindow::ShowGroupInfo()
         return;
 
     QTreeWidgetItem* item = NULL;
-    QMap<int, S_GROUP_INFO>::const_iterator iter = m_mapGroupInfo.constBegin();
-    for( ; iter != m_mapGroupInfo.constEnd(); iter++)
+    QTreeWidgetItem* child = NULL;
+    QMap<int, S_GROUP_INFO>::iterator iter = m_mapGroupInfo.begin();
+    for( ; iter != m_mapGroupInfo.end(); iter++)
     {
         item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0,iter->strGroupName);
+        //存储GroupId
+        item->setData(0, Qt::UserRole, iter->iGroupId);
         ui->treeWidget->addTopLevelItem(item);
+        
+        //添加子节点
+        child = new QTreeWidgetItem(item);
+        child->setText(0, iter->strGroupName + "子节点");
+        //将节点添加到根节点下
+        item->addChild(child);
+
+        child = new QTreeWidgetItem(item);
+        child->setText(0, iter->strGroupName + "子节点1");
+        //将节点插入到第一个位置
+        //item->addChild(child);
+        //同上
+        ui->treeWidget->insertTopLevelItem(0, child);
     }
+
+    //展开所有
+    ui->treeWidget->expandAll();
 }
 
 void MainWindow::CreateGroup(QString strGroupName)//创建分组
@@ -403,14 +441,51 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
 void MainWindow::on_btnCreateNewGroup_clicked()
 {
     //新建分组
-    QString strNewGroup = "自定义2";
+    QString strNewGroup = "新建分组";
     //创建分组
-    //CreateGroup(strNewGroup);
+    CreateGroup(strNewGroup);
 
     //调试修改分组接口
     //UpdateGroup(2, "新名称");
 
     //调试删除分组接口
-    DeleteGroup(0);
+    //DeleteGroup(0);
+}
+
+
+void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
+{
+    if(qApp->mouseButtons() == Qt::RightButton) // 只针对鼠标右键
+    {
+        QTreeWidget* tree = item->treeWidget(); // 获取当前item所在的QTreeWidget
+
+        // [option] 此处可以添加条件来只针对指定的QTreeWidgetItem来添加右键菜单功能。
+
+        QMenu* menu = new QMenu(tree);
+        QAction* action1 = new QAction("删除分组");
+        QAction* action2 = new QAction("编辑分组名称");
+        menu->addAction(action1);
+        menu->addAction(action2);
+
+        // 为右键菜单上的QAction创建信号槽，添加对应的功能
+        connect(action1, &QAction::triggered, this, [this](bool bCheck)
+                {
+                    //QMessageBox::warning(this, "Action", "Open folder");
+                    int iGroupId = 0;
+                    //获取选中的id
+                    DeleteGroup(iGroupId);
+                });
+
+        connect(action2, &QAction::triggered, this,[this](bool bCheck)
+                {
+                    int iGroupId = 0;
+                    QString strNewName = "新";
+                    UpdateGroup(iGroupId,strNewName);
+                    //QMessageBox::warning(this, "Action", "edit file");
+                });
+
+        // 右键菜单在鼠标点击的位置显示
+        menu->exec(QCursor::pos());
+    }
 }
 

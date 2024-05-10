@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "global.h"
 #include <QMap>
+#include <QTreeWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +34,8 @@ private slots:
     void on_btnClose_clicked();
 
     void on_btnCreateNewGroup_clicked();
+
+    void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;
