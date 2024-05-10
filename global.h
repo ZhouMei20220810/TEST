@@ -8,12 +8,22 @@
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
 #define HTTP_YSY_SMS_LOGIN          "/api/login/sms"        //短信验证码登录
 #define HTTP_YSY_GET_SMS_CODE       "/api/sms"             //获取验证码
-
+//分组接口
 #define HTTP_QUERY_ALL_GROUP        "/api/group/list"       //查询全部分组
 #define HTTP_CREATE_GROUP           "/api/group/create"     //创建分组
 #define HTTP_UPDATE_GROUP           "/api/group/update"     //修改分组
 #define HTTP_DELETE_GROUP           "/api/group/delete"     //删除分组
 #define HTTP_TOKEN_HEADER           "Bearer "                //token添加头
+//手机实例相关接口
+#define HTTP_GET_SERVER_TOKEN       "/api/user/serverToken" //获取serverToken,供测试使用
+#define HTTP_GET_MYINSTANCE_LEVEL   "/api/user/getLevel"    //获取我的实例级别，可以不用获取级别
+#define HTTP_GET_MY_PHONE_INSTANCE  "/api/user/myInstance"  //获取我的手机实例
+#define HTTP_INSTANCE_REBOOT        "/api/user/reboot"      //实例重启
+#define HTTP_INSTANCE_RESET         "/api/user/reset"       //实例重置
+#define HTTP_INSTANCE_SCREENSHOT    "/api/user/screenshot"  //获取实例截图
+#define HTTP_INSTANCE_SCREENSHOT_REFRESH "/api/user/screenshot/refresh"  //刷新实例截图
+#define HTTP_SET_INSTANCE_GROUP     "/api/user/setGroup"    //设置实例分组
+#define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 #define HTTP_SUCCESS_CODE           200
 
@@ -59,5 +69,23 @@ typedef struct GROUP_INFO
         memset(this, 0, sizeof(GROUP_INFO));
     }
 }S_GROUP_INFO,*PS_GROUP_INFO;
+
+
+typedef struct PHONE_INFO
+{
+    int     iId;
+    int     iType;              //系统类型 安卓8，安卓10，
+    int     iLevel;             //级别
+    QString strInstanceNo;      //外部实例编号
+    QString strCreateTime;      //创建时间
+    QString strCurrentTime;     //当前时间
+    QString strExpireTime;      //到期时间
+    QString strName;            //实例名称
+    QString strServerToken;     //第三方serverToken
+    PHONE_INFO()
+    {
+        memset(this, 0, sizeof(PHONE_INFO));
+    }
+}S_PHONE_INFO,*PS_PHONE_INFO;
 
 #endif // GLOBAL_H

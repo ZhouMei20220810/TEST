@@ -160,7 +160,7 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                     int iCode = obj["code"].toInt();
                     QString strMessage = obj["message"].toString();
                     qDebug() << "Code=" << iCode << "message=" << strMessage <<"response:"<<response;
-                    if(200 == iCode)
+                    if(HTTP_SUCCESS_CODE == iCode)
                     {
                         if (obj["data"].isObject())
                         {

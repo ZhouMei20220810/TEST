@@ -14,8 +14,8 @@
     <ProjectGuid>{C2A31017-F80F-3954-8DB8-9CF704EC367B}</ProjectGuid>
     <RootNamespace>YiShunYun</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22621.0</WindowsTargetPlatformMinVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -202,6 +202,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="creategroupwidget.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="loginwindow.cpp" />
@@ -210,8 +211,10 @@
     <ClCompile Include="passwordloginpage.cpp" />
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
+    <ClCompile Include="updategroupwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="creategroupwidget.h" />
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
     <QtMoc Include="loginwindow.h" />
@@ -219,6 +222,7 @@
     <QtMoc Include="passwordloginpage.h" />
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="smsloginpage.h" />
+    <QtMoc Include="updategroupwidget.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -237,12 +241,14 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="creategroupwidget.ui" />
     <QtUic Include="forgetpwdialog.ui" />
     <QtUic Include="loginwindow.ui" />
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="passwordloginpage.ui" />
     <QtUic Include="registerpage.ui" />
     <QtUic Include="smsloginpage.ui" />
+    <QtUic Include="updategroupwidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\login\ScreenShots.jpg" />

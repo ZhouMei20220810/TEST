@@ -101,7 +101,7 @@ void MainWindow::on_btnClose_clicked()
                     int iCode = obj["code"].toInt();
                     QString strMessage = obj["message"].toString();
                     qDebug() << "Code=" << iCode << "message=" << strMessage <<"response:"<<response;
-                    if(200 == iCode)
+                    if(HTTP_SUCCESS_CODE == iCode)
                     {
                         /*if (obj["data"].isObject())
                         {
@@ -177,7 +177,7 @@ void MainWindow::QueryAllGroup()//查询全部分组
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "response:" << response;
-                if (200 == iCode)
+                if (HTTP_SUCCESS_CODE == iCode)
                 {
                     if (obj["data"].isArray())
                     {
@@ -299,7 +299,7 @@ void MainWindow::CreateGroup(QString strGroupName)//创建分组
                 QString strMessage = obj["message"].toString();
                 bool data = obj["data"].toBool();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json="<<response;
-                if (200 == iCode)
+                if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //界面添加该组
                     QueryAllGroup();
@@ -361,7 +361,7 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
                 QString strMessage = obj["message"].toString();
                 bool data = obj["data"].toBool();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (200 == iCode)
+                if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //true操作成功
                     if (data)
@@ -422,7 +422,7 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
                 QString strMessage = obj["message"].toString();
                 bool data = obj["data"].toBool();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (200 == iCode)
+                if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //true操作成功
                     if (data)
@@ -444,14 +444,14 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
 void MainWindow::on_btnCreateNewGroup_clicked()
 {
     //新建分组
-    CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
+    /*CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
     connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this,[this](QString strGroupName)
             {
         //创建分组
         qDebug()<<" 创建分组 strGroupName="<<strGroupName;
         CreateGroup(strGroupName);
     });
-    createGroupWidget->show();
+    createGroupWidget->show();*/
 
 
     //调试修改分组接口
@@ -459,6 +459,9 @@ void MainWindow::on_btnCreateNewGroup_clicked()
 
     //调试删除分组接口
     //DeleteGroup(0);
+
+    //调试获取serverToken接口
+    GetMyPhoneInstance();
 }
 
 
@@ -516,6 +519,157 @@ void MainWindow::on_btnRefresh_clicked()
 {
     qDebug()<<"刷新";
     //重新加载列表
-    QueryAllGroup();
+    //QueryAllGroup();
+
+    //测试获取SeverToken接口
+    GetMyPhoneInstance();
 }
 
+
+//获取serverToken
+/*void MainWindow::HttpGetServerToken()
+{
+    int iGroupId = 0;
+    QTreeWidgetItem* selectItem = ui->treeWidget->currentItem();
+    if (selectItem != NULL)
+    {
+        iGroupId = selectItem->data(0, Qt::UserRole).toInt();
+    }
+
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_SERVER_TOKEN;
+    strUrl += QString("/%1").arg(iGroupId);
+    //QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                bool data = obj["data"].toBool();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    qDebug() << "操作成功";
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                }
+            }
+        }
+        reply->deleteLater();
+    });
+}*/
+
+//获取我的手机实例
+void MainWindow::GetMyPhoneInstance()
+{
+    int iGroupId = 0;
+    int iLevel = 0;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_MY_PHONE_INSTANCE;
+    strUrl += QString("?groupId=0&level=0&page=1&pageSize=10");
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();                
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject data = obj["data"].toObject();
+                        int iCurrent = data["current"].toInt();
+                        int iPages = data["pages"].toInt();
+
+                        QJsonArray records = data["records"].toArray();
+                        if (records.size() > 0)
+                        {
+                            int iRecordsSize = records.size();
+                            QJsonObject recordObj;
+                            //获取我的手机实例数据，暂未存储
+                            S_PHONE_INFO phoneInfo;
+                            for (int i = 0; i < iRecordsSize; i++)
+                            {
+                                recordObj = records[i].toObject();
+                                phoneInfo.strCreateTime = recordObj["createTime"].toString();
+                                phoneInfo.strCurrentTime = recordObj["current"].toString();
+                                phoneInfo.strExpireTime = recordObj["expireTime"].toString();
+                                phoneInfo.iId = recordObj["id"].toInt();
+                                phoneInfo.iLevel = recordObj["level"].toInt();
+                                phoneInfo.strName = recordObj["name"].toString();
+                                phoneInfo.strInstanceNo = recordObj["no"].toString();
+                                phoneInfo.strServerToken = recordObj["serverToken"].toString();
+                                phoneInfo.iType = recordObj["type"].toInt();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}

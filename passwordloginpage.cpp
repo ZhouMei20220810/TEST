@@ -17,7 +17,10 @@ PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose, true);
 
     //设置默认值
-    ui->lineEditPhone->setText("15019445205");
+    //ui->lineEditPhone->setText("15019445205");
+    //ui->lineEditPassword->setText("123456");
+
+    ui->lineEditPhone->setText("18774660070");
     ui->lineEditPassword->setText("123456");
 }
 
@@ -99,7 +102,7 @@ void PasswordLoginPage::on_btnLogin_clicked()
                     int iCode = obj["code"].toInt();
                     QString strMessage = obj["message"].toString();
                     qDebug() << "Code=" << iCode << "message=" << strMessage <<"response:"<<response;
-                    if(200 == iCode)
+                    if(HTTP_SUCCESS_CODE == iCode)
                     {
                         if (obj["data"].isObject())
                         {

@@ -21,7 +21,7 @@ public:
     void setUserInfo(S_USER_LOGIN_INFO userInfo);
 
 private:
-    //http 分组接口
+    //分组接口
     void QueryAllGroup();//查询全部分组
     void CreateGroup(QString strGroupName);//创建分组
     void UpdateGroup(int iGroupId, QString strNewName);//修改分组
@@ -29,6 +29,14 @@ private:
 
     //显示树内容
     void ShowGroupInfo();
+
+    //手机实例相关接口
+    //获取serverToken
+    //void HttpGetServerToken();
+    //获取我的手机实例
+    void GetMyPhoneInstance();
+
+
 private slots:
     //注销
     void on_btnClose_clicked();
@@ -36,6 +44,8 @@ private slots:
     void on_btnCreateNewGroup_clicked();
 
     void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
+
+    void on_btnRefresh_clicked();
 
 private:
     Ui::MainWindow *ui;

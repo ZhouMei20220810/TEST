@@ -110,7 +110,7 @@ void LoginWindow::do_LoginHttpResponseSignals(QByteArray response)
             QString strMessage = obj["message"].toString();
             qDebug() << "Code=" << iCode << "message=" << strMessage << "response:" << response;
             S_USER_LOGIN_INFO userInfo;
-            if (200 == iCode)
+            if (HTTP_SUCCESS_CODE == iCode)
             {
                 if (obj["data"].isObject())
                 {
