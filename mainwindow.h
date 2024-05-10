@@ -35,6 +35,12 @@ private:
     void HttpGetMyOrder(int iPage, int iPageSize);
     //创建订单
     void HttpCreateOrder(int iChannel, int iMemberId, int iNum, QString strRelateId);
+    //关闭订单
+    void HttpCloseOrder(QString strOutTradeNo);
+    //删除
+    void HttpDeleteOrder(int iOrderId);
+    //清空
+    void HttpEmptyOrder();
 
     //手机实例相关接口
     //获取serverToken
@@ -56,6 +62,12 @@ private slots:
     void on_btnCreateOrder_clicked();
 
     void on_btnMyOrder_clicked();
+
+    void on_btnCloseOrder_clicked();
+
+    void on_btnDeleteOrder_clicked();
+
+    void on_btnPayOrder_clicked();
 
 private:
     Ui::MainWindow *ui;

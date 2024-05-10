@@ -764,6 +764,130 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
         });
 }
 
+//关闭订单
+void MainWindow::HttpCloseOrder(QString strOutTradeNo)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += "/api/order/closeOrder";// HTTP_CLOSE_ORDER;
+    //strUrl += QString("?outTradeNo=%1").arg(strOutTradeNo);
+    strUrl += QString("/%1").arg(strOutTradeNo);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+
+    QNetworkReply* reply = manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                bool bData = obj["data"].toBool();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if(bData)
+                        qDebug() << "关闭订单成功";
+                    else
+                        qDebug() << "关闭订单失败";
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
+//删除
+void MainWindow::HttpDeleteOrder(int iOrderId)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_DELETE_ORDER;
+    //strUrl += QString("?outTradeNo=%1").arg(strOutTradeNo);
+    strUrl += QString("/%1").arg(iOrderId);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+
+    QNetworkReply* reply = manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                bool bData = obj["data"].toBool();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (bData)
+                        qDebug() << "删除订单成功";
+                    else
+                        qDebug() << "删除订单失败";
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
+//清空
+void MainWindow::HttpEmptyOrder()
+{
+
+}
+
 //获取我的手机实例
 void MainWindow::GetMyPhoneInstance()
 {
@@ -858,5 +982,33 @@ void MainWindow::on_btnMyOrder_clicked()
 {
     //我的支付订单
     HttpGetMyOrder(0,10);
+}
+
+
+void MainWindow::on_btnCloseOrder_clicked()
+{
+    QString strOutTradeNo;
+    //获取关闭订单号
+
+    HttpCloseOrder(strOutTradeNo);
+}
+
+
+void MainWindow::on_btnDeleteOrder_clicked()
+{
+    int iOrderId=0;
+    //获取删除订单ID
+
+
+    HttpDeleteOrder(iOrderId);
+}
+
+
+void MainWindow::on_btnPayOrder_clicked()
+{
+    //确定支付
+    //打开网页传值
+    //https://excashier.alipay.com/standard/auth.htm?payOrderId=fe951ef41b1b4a85af044f5f7cf9c4e1.00
+
 }
 

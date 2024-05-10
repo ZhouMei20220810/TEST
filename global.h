@@ -18,7 +18,7 @@
 //订单接口
 #define HTTP_CREATE_ORDER           "/api/order/create"     //创建订单
 #define HTTP_CLOSE_ORDER            "/api/order/closeOrder/{outTradeNo}" //关闭订单
-#define HTTP_DELETE_ORDER           "/api/order/delete/{id}" //删除
+#define HTTP_DELETE_ORDER           "/api/order/delete"     //删除
 #define HTTP_CLEAR_ORDER            "/api/order/empty"       //清空
 #define HTTP_GET_MY_ORDER           "/api/order/my"          //我的支付订单
 

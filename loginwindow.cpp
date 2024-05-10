@@ -127,7 +127,11 @@ void LoginWindow::do_LoginHttpResponseSignals(QByteArray response)
 
                     qDebug() << "提示"<<"id="<< userInfo.id<<"name="<< userInfo.strName<<"account="<< userInfo.strAccount<<"mobile="<< userInfo.strMobile<<"MaxExpirationDate"<< userInfo.strMaxExpirationDate<<"token="<< userInfo.strToken;
 
-                    m_mainWindow = new MainWindow(this);
+                    //关闭
+                    //this->close();
+
+                    //去掉父窗口
+                    m_mainWindow = new MainWindow();
                     m_mainWindow->setUserInfo(userInfo);
                     m_mainWindow->show();
                 } 

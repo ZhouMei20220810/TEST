@@ -113,6 +113,45 @@
      <string>我的支付订单</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnCloseOrder">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>关闭订单</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnDeleteOrder">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>删除订单</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnPayOrder">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>200</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>确定支付</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
