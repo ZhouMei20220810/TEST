@@ -12,6 +12,8 @@
 #include <QMessageBox>
 #include <QTreeWidget>
 #include <QMenu>
+#include "creategroupwidget.h"
+#include "updategroupwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -441,9 +443,15 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
 void MainWindow::on_btnCreateNewGroup_clicked()
 {
     //新建分组
-    QString strNewGroup = "新建分组";
-    //创建分组
-    CreateGroup(strNewGroup);
+    CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
+    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this,[this](QString strGroupName)
+            {
+        //创建分组
+        qDebug()<<" 创建分组 strGroupName="<<strGroupName;
+        CreateGroup(strGroupName);
+    });
+    createGroupWidget->show();
+
 
     //调试修改分组接口
     //UpdateGroup(2, "新名称");
@@ -470,18 +478,31 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
         // 为右键菜单上的QAction创建信号槽，添加对应的功能
         connect(action1, &QAction::triggered, this, [this](bool bCheck)
                 {
-                    //QMessageBox::warning(this, "Action", "Open folder");
                     int iGroupId = 0;
-                    //获取选中的id
+                    QTreeWidgetItem* selectItem = ui->treeWidget->currentItem();
+                    if(selectItem != NULL)
+                    {
+                        iGroupId = selectItem->data(0, Qt::UserRole).toInt();
+                    }
                     DeleteGroup(iGroupId);
                 });
 
         connect(action2, &QAction::triggered, this,[this](bool bCheck)
                 {
-                    int iGroupId = 0;
-                    QString strNewName = "新";
-                    UpdateGroup(iGroupId,strNewName);
-                    //QMessageBox::warning(this, "Action", "edit file");
+                    UpdateGroupWidget* updateGroupWidget = new UpdateGroupWidget();
+                    connect(updateGroupWidget, &UpdateGroupWidget::updateGroupSignals, this,[this](QString strGroupName)
+                            {
+                                int iGroupId = 0;
+                                QTreeWidgetItem* selectItem = ui->treeWidget->currentItem();
+                                if(selectItem != NULL)
+                                {
+                                    iGroupId = selectItem->data(0, Qt::UserRole).toInt();
+                                }
+                                //修改分组名称
+                                qDebug()<<" 修改分组名称 strGroupName="<<strGroupName;
+                                UpdateGroup(iGroupId,strGroupName);
+                            });
+                    updateGroupWidget->show();
                 });
 
         // 右键菜单在鼠标点击的位置显示

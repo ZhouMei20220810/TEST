@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    creategroupwidget.cpp \
     forgetpwdialog.cpp \
     global.cpp \
     main.cpp \
@@ -16,24 +17,29 @@ SOURCES += \
     mainwindow.cpp \
     passwordloginpage.cpp \
     registerpage.cpp \
-    smsloginpage.cpp
+    smsloginpage.cpp \
+    updategroupwidget.cpp
 
 HEADERS += \
+    creategroupwidget.h \
     forgetpwdialog.h \
     global.h \
     loginwindow.h \
     mainwindow.h \
     passwordloginpage.h \
     registerpage.h \
-    smsloginpage.h
+    smsloginpage.h \
+    updategroupwidget.h
 
 FORMS += \
+    creategroupwidget.ui \
     forgetpwdialog.ui \
     loginwindow.ui \
     mainwindow.ui \
     passwordloginpage.ui \
     registerpage.ui \
-    smsloginpage.ui
+    smsloginpage.ui \
+    updategroupwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
