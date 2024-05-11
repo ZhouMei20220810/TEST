@@ -16,6 +16,7 @@ public:
     explicit LevelItemWidget(QWidget *parent = nullptr);
     ~LevelItemWidget();
 
+    void setLabelCheckStatus(bool bCheck);
 private:
     Ui::LevelItemWidget *ui;
 

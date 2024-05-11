@@ -5,6 +5,7 @@
 #include "global.h"
 #include <QMap>
 #include <QTreeWidgetItem>
+#include <QListWidgetItem>
 
 namespace Ui {
 class MainWindow;
@@ -84,6 +85,8 @@ private slots:
     void on_toolBtnRenewPhone_clicked();
 
     void on_btnBeginPay_clicked();
+
+    void on_listWidgetLevel_itemClicked(QListWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

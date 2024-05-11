@@ -31,6 +31,7 @@ bool LevelItemWidget::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseButtonPress)
         {
             ui->labelCheck->setVisible(true);
+            qDebug()<<"显示labelCheck";
             return true;
         }
         else
@@ -42,4 +43,10 @@ bool LevelItemWidget::eventFilter(QObject *watched, QEvent *event)
     {
         return QWidget::eventFilter(watched, event);
     }
+}
+
+void LevelItemWidget::setLabelCheckStatus(bool bCheck)
+{
+    ui->labelCheck->setVisible(false);
+    qDebug()<<"隐藏labelCheck";
 }

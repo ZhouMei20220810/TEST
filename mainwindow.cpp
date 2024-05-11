@@ -1104,3 +1104,33 @@ void MainWindow::on_btnBeginPay_clicked()
 
 }
 
+void MainWindow::on_listWidgetLevel_itemClicked(QListWidgetItem *item)
+{
+    if (NULL == item)
+        return;
+    //选项更改
+    //LevelItemWidget* levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(item));
+    //levelItemWidget->setLabelCheckStatus(true);
+
+    LevelItemWidget* levelItemWidget = NULL;
+    QListWidgetItem* levelItem=NULL;
+    int iCount = ui->listWidgetLevel->count();
+    for(int iRow=0; iRow < iCount;iRow++)
+    {
+        levelItem = ui->listWidgetLevel->item(iRow);
+        levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(levelItem));
+        if (levelItem == item)
+        {
+            levelItemWidget->setLabelCheckStatus(true);
+            //加载套餐列表
+            //ui->listWidgetVIP
+
+            //续费的列表
+            //ui->listWidgetRenewList
+        }
+        else
+            levelItemWidget->setLabelCheckStatus(false);
+        //levelItem = static_cast<LevelItemWidget*>(ui->listWidgetLevel->item(iRow)->);
+    }
+}
+
