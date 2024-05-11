@@ -68,6 +68,12 @@ private slots:
     void on_btnCreateGroup_clicked();
     void on_btnGroupRefresh_clicked();
 
+    void on_btnActiveCode_clicked();
+
+    void on_toolBtnAdd_clicked();
+
+    void on_toolButtonRenew_clicked();
+
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;

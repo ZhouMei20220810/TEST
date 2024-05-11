@@ -54,3 +54,5 @@ RC_FILE += logo.rc
 
 DISTFILES += \
     logo.rc
+
+MOC_DIR = $$DESTDIR

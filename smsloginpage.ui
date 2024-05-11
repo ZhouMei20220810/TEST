@@ -16,8 +16,8 @@
   <widget class="QCheckBox" name="checkBoxPolicy">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>150</y>
+     <x>40</x>
+     <y>160</y>
      <width>294</width>
      <height>16</height>
     </rect>
@@ -197,8 +197,8 @@ border-radius: 3px;</string>
     <rect>
      <x>220</x>
      <y>110</y>
-     <width>75</width>
-     <height>23</height>
+     <width>101</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -329,7 +329,7 @@ QPushButton:hover
      <x>40</x>
      <y>110</y>
      <width>151</width>
-     <height>16</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -350,7 +350,9 @@ QPushButton:hover
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">border:none</string>
+    <string notr="true">color:#FF4A4A4A;
+background: #FFE7E8EE;
+border-radius: 3px;</string>
    </property>
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>

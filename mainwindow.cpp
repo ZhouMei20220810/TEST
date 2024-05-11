@@ -46,6 +46,9 @@ void MainWindow::InitCloudPhone()
     //设置复选框
     ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);
     //ui->treeWidget->setCheckBoxes(true);
+
+
+    ui->listWidgetRenew->setHidden(true);
 }
 
 void MainWindow::QueryAllGroup()//查询全部分组
@@ -978,5 +981,26 @@ void MainWindow::on_btnGroupRefresh_clicked()
 
     //测试获取SeverToken接口
     //GetMyPhoneInstance();
+}
+
+
+void MainWindow::on_btnActiveCode_clicked()
+{
+    QString strActiveCode = ui->lineEditActiveCode->text();
+    qDebug()<<"点击激活" << strActiveCode;
+}
+
+
+void MainWindow::on_toolBtnAdd_clicked()
+{
+    //新增云手机激活
+    ui->listWidgetRenew->setHidden(true);
+}
+
+
+void MainWindow::on_toolButtonRenew_clicked()
+{
+    //云手机续时激活
+    ui->listWidgetRenew->setHidden(false);
 }
 
