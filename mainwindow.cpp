@@ -994,13 +994,36 @@ void MainWindow::on_btnActiveCode_clicked()
 void MainWindow::on_toolBtnAdd_clicked()
 {
     //新增云手机激活
+    ui->toolButtonRenew->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnAdd->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+
     ui->listWidgetRenew->setHidden(true);
 }
 
 
 void MainWindow::on_toolButtonRenew_clicked()
 {
+    ui->toolBtnAdd->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolButtonRenew->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
     //云手机续时激活
     ui->listWidgetRenew->setHidden(false);
+}
+
+
+void MainWindow::on_toolBtnBuyPhone_clicked()
+{
+    ui->toolBtnRenewPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnBuyPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+
+    ui->listWidgetRenewList->setHidden(true);
+}
+
+
+void MainWindow::on_toolBtnRenewPhone_clicked()
+{
+    ui->toolBtnBuyPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnRenewPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+
+    ui->listWidgetRenewList->setHidden(false);
 }
 

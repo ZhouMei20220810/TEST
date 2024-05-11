@@ -74,6 +74,10 @@ private slots:
 
     void on_toolButtonRenew_clicked();
 
+    void on_toolBtnBuyPhone_clicked();
+
+    void on_toolBtnRenewPhone_clicked();
+
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;
