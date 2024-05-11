@@ -833,6 +833,7 @@ void MainWindow::on_toolBtnBuy_clicked()
 void MainWindow::setUserInfo(S_USER_LOGIN_INFO userInfo)
 {
     m_userInfo = userInfo;
+    ui->labelAccount->setText(m_userInfo.strAccount);
     qDebug() << "跳转到主页面" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
     QueryAllGroup();
 }
@@ -858,13 +859,13 @@ void MainWindow::on_btnSetting_clicked()
 
 void MainWindow::on_btnMin_clicked()
 {
-
+    this->showMinimized();
 }
 
 
 void MainWindow::on_btnMax_clicked()
 {
-
+    this->showMaximized();
 }
 
 
@@ -933,6 +934,7 @@ void MainWindow::on_btnClose_clicked()
                             qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"token="<<strToken;
                         }*/
                     qDebug()<<"注销成功";
+                    this->close();
                 }
                 else
                 {
@@ -941,9 +943,7 @@ void MainWindow::on_btnClose_clicked()
             }
         }
         reply->deleteLater();
-    });
-
-    this->close();
+    });    
 }
 
 
