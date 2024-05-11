@@ -64,7 +64,12 @@ private slots:
     void on_btnClose_clicked();
 
     //云手机
-    void InitCloudPhone();
+    void InitCloudPhoneTab();
+    //激活码
+    void InitActiveCodeTab();
+    //购买
+    void InitBuyTab();
+
     void on_btnCreateGroup_clicked();
     void on_btnGroupRefresh_clicked();
 

@@ -12,6 +12,7 @@ SOURCES += \
     creategroupwidget.cpp \
     forgetpwdialog.cpp \
     global.cpp \
+    levelitemwidget.cpp \
     main.cpp \
     loginwindow.cpp \
     mainwindow.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     creategroupwidget.h \
     forgetpwdialog.h \
     global.h \
+    levelitemwidget.h \
     loginwindow.h \
     mainwindow.h \
     passwordloginpage.h \
@@ -34,6 +36,7 @@ HEADERS += \
 FORMS += \
     creategroupwidget.ui \
     forgetpwdialog.ui \
+    levelitemwidget.ui \
     loginwindow.ui \
     mainwindow.ui \
     passwordloginpage.ui \

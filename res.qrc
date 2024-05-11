@@ -17,4 +17,7 @@
         <file>resource/login/close.png</file>
         <file>resource/login/ico_lock.png</file>
     </qresource>
+    <qresource prefix="/main">
+        <file>resource/main/level.png</file>
+    </qresource>
 </RCC>

@@ -205,6 +205,7 @@
     <ClCompile Include="creategroupwidget.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="levelitemwidget.cpp" />
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -217,6 +218,7 @@
     <QtMoc Include="creategroupwidget.h" />
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
+    <QtMoc Include="levelitemwidget.h" />
     <QtMoc Include="loginwindow.h" />
     <QtMoc Include="mainwindow.h" />
     <QtMoc Include="passwordloginpage.h" />
@@ -243,6 +245,7 @@
   <ItemGroup>
     <QtUic Include="creategroupwidget.ui" />
     <QtUic Include="forgetpwdialog.ui" />
+    <QtUic Include="levelitemwidget.ui" />
     <QtUic Include="loginwindow.ui" />
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="passwordloginpage.ui" />
@@ -262,6 +265,7 @@
     <None Include="resource\login\ico_lock.png" />
     <None Include="resource\login\ico_phone.png" />
     <None Include="resource\login\ico_up.png" />
+    <None Include="resource\main\level.png" />
     <None Include="resource\login\link.ico" />
     <None Include="resource\login\logo.png" />
     <None Include="resource\login\main_logo.png" />

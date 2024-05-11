@@ -35,6 +35,17 @@
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 #define HTTP_SUCCESS_CODE           200
+enum LEVEL_TYPE
+{
+    LEVEL_NOMAL_LEVEL = 0,          //标准型
+    LEVEL_ENHANCEMENT_TYPE = 1,     //增强型
+    LEVEL_PREMIER_TYPE = 2          //尊享型
+};
+
+#define         ITEM_WIDGET_SPACING             15
+//level item
+#define         ITEM_WIDGET_LEVEL_WIDTH         200
+#define         ITEM_WIDGET_LEVEL_HEIGHT        150
 
 QString getMessageByCode(long code);
 

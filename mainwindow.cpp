@@ -14,6 +14,7 @@
 #include <QMenu>
 #include "creategroupwidget.h"
 #include "updategroupwidget.h"
+#include "levelitemwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,7 +24,12 @@ MainWindow::MainWindow(QWidget *parent)
 	setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_DeleteOnClose,true);
 
-    InitCloudPhone();
+    //初始化Tab云手机
+    InitCloudPhoneTab();
+    //初始化Tab激活码
+    InitActiveCodeTab();
+    //初始化Tab购买
+    InitBuyTab();
 }
 
 MainWindow::~MainWindow()
@@ -31,7 +37,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::InitCloudPhone()
+//云手机
+void MainWindow::InitCloudPhoneTab()
 {
     //设置TreeWidget相关属性
     //ui->treeWidget->resize(200, 600);
@@ -49,6 +56,49 @@ void MainWindow::InitCloudPhone()
 
 
     ui->listWidgetRenew->setHidden(true);
+}
+
+
+//激活码
+void MainWindow::InitActiveCodeTab()
+{
+
+}
+
+//购买
+void MainWindow::InitBuyTab()
+{
+    //imageList->resize(365,400);
+    //设置QListWidget的显示模式
+    ui->listWidgetLevel->setViewMode(QListView::IconMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetLevel->setSpacing(ITEM_WIDGET_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetLevel->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetLevel->setMovement(QListWidget::Static);
+
+    //初始化列表云手机购买列表+云手机续费 等级列表
+    LevelItemWidget* widget = NULL;
+    QListWidgetItem* item = NULL;
+    //int iCount = map.size();
+    //qDebug() << "map size() =" << iCount;
+    //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
+    //for (; iter != map.constEnd(); iter++)
+
+    for (int i = 0; i < 3; i++)
+    {
+        widget = new LevelItemWidget(this);//(*iter.value(), this);
+
+        item = new QListWidgetItem(ui->listWidgetLevel);
+        item->setSizeHint(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        item->setData(Qt::UserRole, i);
+        ui->listWidgetLevel->addItem(item);
+        ui->listWidgetLevel->setItemWidget(item, widget);
+        //qDebug() << "listwidget load itemwidget record[ sceneId=" << iter.key() << "]";
+    }
 }
 
 void MainWindow::QueryAllGroup()//查询全部分组
