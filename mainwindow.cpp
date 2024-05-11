@@ -811,25 +811,44 @@ void MainWindow::GetMyPhoneInstance()
 //云手机
 void MainWindow::on_toolBtnCloudPhone_clicked()
 {
-    if(ui->stackedWidget->currentWidget() == 0)
+    if(0 == ui->stackedWidget->currentIndex())
     {
         return;
     }
-    else
-    {
-        ui->stackedWidget->setCurrentIndex(0);
-    }
+
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+
+    ui->stackedWidget->setCurrentIndex(0);
+
 }
 
 //激活码
 void MainWindow::on_toolBtnActiveCode_clicked()
 {
+    if(1 == ui->stackedWidget->currentIndex())
+    {
+        return;
+    }
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+
     ui->stackedWidget->setCurrentIndex(1);
 }
 
 //购买
 void MainWindow::on_toolBtnBuy_clicked()
 {
+    if(2 == ui->stackedWidget->currentIndex())
+    {
+        return;
+    }
+    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+
     ui->stackedWidget->setCurrentIndex(2);
 }
 
@@ -1025,5 +1044,13 @@ void MainWindow::on_toolBtnRenewPhone_clicked()
     ui->toolBtnRenewPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
 
     ui->listWidgetRenewList->setHidden(false);
+}
+
+
+void MainWindow::on_btnBeginPay_clicked()
+{
+    //确定支付
+//获取界面选中的值
+
 }
 
