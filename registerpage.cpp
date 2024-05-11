@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
+#include "ysymainwindow.h"
 
 RegisterPage::RegisterPage(QWidget *parent)
     : QWidget(parent)
@@ -95,8 +96,10 @@ void RegisterPage::on_btnRegister_clicked()
                             QString strPhotoUrl = userDetailVO["photoUrl"].toString();
                             qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"photoUrl="<<strPhotoUrl<<"token="<<strToken;
 
-                            m_mainWindow = new MainWindow(this);
-                            m_mainWindow->show();
+                            //m_mainWindow = new MainWindow();
+                            //m_mainWindow->show();
+                            YsyMainWindow* mainWindow = new YsyMainWindow();
+                            mainWindow->show();
                         }
                     }
                     else
