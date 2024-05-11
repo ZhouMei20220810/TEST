@@ -1,6 +1,7 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include <QToolButton>
 #include <QString>
 #define HTTP_SERVER_DOMAIN_ADDRESS "http://120.26.132.153:8080"
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
@@ -120,5 +121,18 @@ typedef struct ORDER_INFO
     }
 }S_ORDER_INFO, * PS_ORDER_INFO;
 
+class GlobalData
+{
+public:
+    static int userbox_x;
+    static int userbox_y;
+    static QString userphone;
+    static QString useravator;
+    static QString token;
+    static int expire;
+    static QString version;
+    static QString apiurl;
 
+    static void setToolButtonSize(QToolButton* btn);
+};
 #endif // GLOBAL_H

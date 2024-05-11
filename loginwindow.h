@@ -5,7 +5,6 @@
 #include "passwordloginpage.h"
 #include "smsloginpage.h"
 #include "registerpage.h"
-#include "mainwindow.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class LoginWindow;
@@ -31,7 +30,6 @@ private:
 
     PasswordLoginPage* m_passwordLoginPage;
     SMSLoginPage* m_smsLoginPage;
-    RegisterPage* m_registerPage;
-    MainWindow* m_mainWindow;
+    RegisterPage* m_registerPage;    
 };
 #endif // LOGINWINDOW_H

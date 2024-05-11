@@ -4,6 +4,7 @@
 #include <QJsonParseError>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include "ysymainwindow.h"
 
 #define     PAGE_WIDGET_X_POS       262
 #define     PAGE_WIDGET_Y_POS       33
@@ -130,9 +131,15 @@ void LoginWindow::do_LoginHttpResponseSignals(QByteArray response)
                     //this->close();
 
                     //去掉父窗口
-                    m_mainWindow = new MainWindow();
-                    m_mainWindow->setUserInfo(userInfo);
-                    m_mainWindow->show();
+                    /*MainWindow* mainWindow = new MainWindow();
+                    mainWindow->setUserInfo(userInfo);
+                    mainWindow->show();*/
+
+                    //使用新的主窗口
+                    YsyMainWindow* mainWindow = new YsyMainWindow();
+                    mainWindow->setUserInfo(userInfo);
+                    mainWindow->show();
+
                 } 
             }
             else
