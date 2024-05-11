@@ -14,32 +14,32 @@ SOURCES += \
     global.cpp \
     main.cpp \
     loginwindow.cpp \
+    mainwindow.cpp \
     passwordloginpage.cpp \
     registerpage.cpp \
     smsloginpage.cpp \
-    updategroupwidget.cpp \
-    ysymainwindow.cpp
+    updategroupwidget.cpp
 
 HEADERS += \
     creategroupwidget.h \
     forgetpwdialog.h \
     global.h \
     loginwindow.h \
+    mainwindow.h \
     passwordloginpage.h \
     registerpage.h \
     smsloginpage.h \
-    updategroupwidget.h \
-    ysymainwindow.h
+    updategroupwidget.h
 
 FORMS += \
     creategroupwidget.ui \
     forgetpwdialog.ui \
     loginwindow.ui \
+    mainwindow.ui \
     passwordloginpage.ui \
     registerpage.ui \
     smsloginpage.ui \
-    updategroupwidget.ui \
-    ysymainwindow.ui
+    updategroupwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

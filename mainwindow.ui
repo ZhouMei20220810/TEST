@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>830</width>
+    <width>800</width>
     <height>600</height>
    </rect>
   </property>
@@ -14,251 +14,390 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="treeWidget">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>140</y>
-      <width>271</width>
-      <height>421</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"> QTreeView::branch:has-children:!has-siblings:closed,
- QTreeView::branch:closed:has-children:has-siblings {
-         border-image: none;
-         image: url(:/login/resource/login/ico_down.png);
- }
-
- QTreeView::branch:open:has-children:!has-siblings,
- QTreeView::branch:open:has-children:has-siblings  {
-         border-image: none;
-         image: url(branch-open.png);
- }</string>
-    </property>
-    <property name="sizeAdjustPolicy">
-     <enum>QAbstractScrollArea::AdjustIgnored</enum>
-    </property>
-    <property name="selectionMode">
-     <enum>QAbstractItemView::ExtendedSelection</enum>
-    </property>
-    <column>
-     <property name="text">
-      <string notr="true">1</string>
-     </property>
-    </column>
-   </widget>
-   <widget class="QPushButton" name="btnCreateNewGroup">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>–¬Ω®∑÷◊È</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnRefresh">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>À¢–¬</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnCreateOrder">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>¥¥Ω®∂©µ•</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnMyOrder">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Œ“µƒ÷ß∏∂∂©µ•</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnCloseOrder">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>πÿ±’∂©µ•</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnDeleteOrder">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>100</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>…æ≥˝∂©µ•</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnPayOrder">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>200</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>»∑∂®÷ß∏∂</string>
-    </property>
-   </widget>
-   <widget class="QFrame" name="frame">
-    <property name="geometry">
-     <rect>
-      <x>-10</x>
-      <y>0</y>
-      <width>821</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QPushButton" name="btnClose">
-     <property name="geometry">
-      <rect>
-       <x>770</x>
-       <y>10</y>
-       <width>51</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>πÿ±’</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnMax">
-     <property name="geometry">
-      <rect>
-       <x>714</x>
-       <y>10</y>
-       <width>41</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>∑≈¥Û</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnMin">
-     <property name="geometry">
-      <rect>
-       <x>654</x>
-       <y>10</y>
-       <width>41</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Àı–°</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnSystemSetting">
-     <property name="geometry">
-      <rect>
-       <x>580</x>
-       <y>10</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>œµÕ≥…Ë÷√</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="labelLogo">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>161</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnPhoto">
-     <property name="geometry">
-      <rect>
-       <x>330</x>
-       <y>20</y>
-       <width>75</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Õ∑œÒ</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="btnUserName">
-     <property name="geometry">
-      <rect>
-       <x>420</x>
-       <y>40</y>
-       <width>53</width>
-       <height>15</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btnCustomer">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>10</y>
-       <width>75</width>
-       <height>71</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>¡™œµøÕ∑˛</string>
-     </property>
-    </widget>
-   </widget>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="labelLogo">
+        <property name="text">
+         <string>Logo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnPhotoUrl">
+        <property name="text">
+         <string>Â§¥ÂÉè</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelAccount">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnCustomerService">
+        <property name="text">
+         <string>ÂÆ¢Êúç</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnSetting">
+        <property name="text">
+         <string>ËÆæÁΩÆ</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnMin">
+        <property name="text">
+         <string>Áº©Â∞è</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnMax">
+        <property name="text">
+         <string>ÊîæÂ§ß</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnClose">
+        <property name="text">
+         <string>ÂÖ≥Èó≠</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,10">
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QToolButton" name="toolBtnCloudPhone">
+           <property name="minimumSize">
+            <size>
+             <width>55</width>
+             <height>63</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>10</pointsize>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>OpenHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QToolButton {border:none;
+color: rgb(204, 204, 204);
+	background-color: rgb(41, 105, 205);
+border-radius:8px;
+padding-left:10px;
+}
+QToolButton:hover {
+color: rgb(255, 255, 255);
+background-color: rgb(41, 105, 205);
+border-radius:8px;
+padding-left:10px;
+}</string>
+           </property>
+           <property name="text">
+            <string>‰∫ëÊâãÊú∫</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolBtnActiveCode">
+           <property name="minimumSize">
+            <size>
+             <width>55</width>
+             <height>63</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QToolButton {border:none;
+color: rgb(204, 204, 204);
+border-radius:8px;
+padding-left:10px;
+}
+QToolButton:hover {
+background-color: rgb(41, 105, 205);
+color: rgb(255, 255, 255);
+border-radius:8px;
+padding-left:10px;
+}</string>
+           </property>
+           <property name="text">
+            <string>ÊøÄÊ¥ªÁ†Å</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolBtnBuy">
+           <property name="minimumSize">
+            <size>
+             <width>55</width>
+             <height>63</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QToolButton {border:none;
+color: rgb(204, 204, 204);
+border-radius:8px;
+padding-left:10px;
+}
+QToolButton:hover {
+background-color: rgb(41, 105, 205);
+color: rgb(255, 255, 255);
+border-radius:8px;
+padding-left:10px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Ë¥≠‰π∞</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>287</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QStackedWidget" name="stackedWidget">
+           <widget class="QWidget" name="page">
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <item>
+                <widget class="QFrame" name="frame_5">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QPushButton" name="btnCreateGroup">
+                    <property name="text">
+                     <string>Êñ∞Âª∫ÂàÜÁªÑ</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_4">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>71</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnGroupRefresh">
+                    <property name="text">
+                     <string>Âà∑Êñ∞</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QTreeWidget" name="treeWidget">
+                 <column>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QFrame" name="frame_3">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <item>
+                   <widget class="QToolButton" name="toolBtnPreviewMode">
+                    <property name="text">
+                     <string>È¢ÑËßàÊ®°Âºè</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="toolBtnListMode">
+                    <property name="text">
+                     <string>ÂàóË°®Ê®°Âºè</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>308</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="frame_4">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <item>
+                   <widget class="QLabel" name="labelExpire">
+                    <property name="text">
+                     <string>Âç≥Â∞ÜÂà∞ÊúüÔºö0Âè∞</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="labelBreakdown">
+                    <property name="text">
+                     <string>ÊïÖÈöúÁä∂ÊÄÅÔºö0Âè∞</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="labelMaintenance">
+                    <property name="text">
+                     <string>Áª¥Êä§Áä∂ÊÄÅÔºö0Âè∞</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="labelDisable">
+                    <property name="text">
+                     <string>Á¶ÅÁî®Áä∂ÊÄÅÔºö0Âè∞</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="labelOnline">
+                    <property name="text">
+                     <string>Âú®Á∫øÁä∂ÊÄÅÔºö0Âè∞</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_3">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>9</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnRefresh">
+                    <property name="text">
+                     <string>Âà∑Êñ∞</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnChange">
+                    <property name="text">
+                     <string>ÂàáÊç¢Ê®™Â±è</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QListWidget" name="listWidget"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_2"/>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

@@ -20,25 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowFlag(Qt::FramelessWindowHint);
-    //setAttribute(Qt::WA_DeleteOnClose, true);
+	setWindowFlag(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_DeleteOnClose,true);
 
-    //ÉèÖÃTreeWidgetÏà¹ØÊôĞÔ
-    ui->treeWidget->resize(200, 600);
-    ui->treeWidget->move(100, 80);
-
-    ui->treeWidget->setColumnCount(1);
-    //ui->treeWidget->setHeaderLabel("·Ö×éÁĞ±í");
-    //ui->treeWidget->setHeaderLabels("·Ö×éÁĞ±í");
-    //Òş²Ø±íÍ·
-    ui->treeWidget->setHeaderHidden(true);
-
-    //ÉèÖÃ¸´Ñ¡¿ò
-    ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);
-    //ui->treeWidget->setCheckBoxes(true);
-
-    ui->treeWidget->expandAll();
-
+    InitCloudPhone();
 }
 
 MainWindow::~MainWindow()
@@ -46,98 +31,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setUserInfo(S_USER_LOGIN_INFO userInfo)
+void MainWindow::InitCloudPhone()
 {
-    m_userInfo = userInfo;
-    qDebug() << "Ìø×ªµ½Ö÷Ò³Ãæ" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
-    QueryAllGroup();
+    //è®¾ç½®TreeWidgetç›¸å…³å±æ€§
+    //ui->treeWidget->resize(200, 600);
+    //ui->treeWidget->move(100, 80);
+
+    ui->treeWidget->setColumnCount(1);
+    //ui->treeWidget->setHeaderLabel("åˆ†ç»„åˆ—è¡¨");
+    //ui->treeWidget->setHeaderLabels("åˆ†ç»„åˆ—è¡¨");
+    //éšè—è¡¨å¤´
+    ui->treeWidget->setHeaderHidden(true);
+
+    //è®¾ç½®å¤é€‰æ¡†
+    ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+    //ui->treeWidget->setCheckBoxes(true);
 }
 
-void MainWindow::on_btnClose_clicked()
-{
-    //¹Ø±Õ´°¿Ú²¢ÇÒÍË³öµÇÂ¼
-    qDebug() << "×¢Ïú";
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_YSY_LOGOUT;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-
-    request.setUrl(url);
-    /*QJsonDocument doc;
-    QJsonObject obj;
-    obj.insert("code", strSMSCode);
-    obj.insert("mobile", strPhone);
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
-    //QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
-    //·¢³öGETÇëÇó
-    QByteArray postData = "";
-    QNetworkReply* reply = manager->post(request, postData);
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
-    connect(reply, &QNetworkReply::finished,this, [=] {
-            //¶ÁÈ¡ÏìÓ¦Êı¾İ
-            QByteArray response = reply->readAll();
-            qDebug() << response;
-
-            QJsonParseError parseError;
-            QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-            if (parseError.error != QJsonParseError::NoError)
-            {
-                qDebug() << response;
-                qWarning() << "Json parse error:" << parseError.errorString();
-            }
-            else
-            {
-                if (doc.isObject())
-                {
-                    QJsonObject obj = doc.object();
-                    int iCode = obj["code"].toInt();
-                    QString strMessage = obj["message"].toString();
-                    qDebug() << "Code=" << iCode << "message=" << strMessage <<"response:"<<response;
-                    if(HTTP_SUCCESS_CODE == iCode)
-                    {
-                        /*if (obj["data"].isObject())
-                        {
-                            QJsonObject data = obj["data"].toObject();
-                            QString strToken = data["token"].toString();
-                            QString strMaxExpirationDate = data["maxExpirationDate"].toString();
-
-                            QJsonObject userDetailVO = data["userDetailVO"].toObject();
-                            int id = userDetailVO["id"].toInt();
-                            QString strName = userDetailVO["name"].toString();
-                            QString strAccount = userDetailVO["account"].toString();
-                            QString strMobile = userDetailVO["mobile"].toString();
-                            qDebug() << "Ìø×ªµ½Ö÷Ò³Ãæ"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"token="<<strToken;
-                        }*/
-                        qDebug()<<"×¢Ïú³É¹¦";
-                    }
-                    else
-                    {
-                        QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
-                    }
-                }
-            }
-        reply->deleteLater();
-    });
-
-    this->close();
-}
-
-void MainWindow::QueryAllGroup()//²éÑ¯È«²¿·Ö×é
+void MainWindow::QueryAllGroup()//æŸ¥è¯¢å…¨éƒ¨åˆ†ç»„
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_QUERY_ALL_GROUP;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -154,12 +71,12 @@ void MainWindow::QueryAllGroup()//²éÑ¯È«²¿·Ö×é
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
     //QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
-    //·¢³öGETÇëÇó
+    //å‘å‡ºGETè¯·æ±‚
     QByteArray postData = "";
     QNetworkReply* reply = manager->post(request, postData);
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -192,7 +109,7 @@ void MainWindow::QueryAllGroup()//²éÑ¯È«²¿·Ö×é
                         {
                             m_mapGroupInfo.clear();
                             ui->treeWidget->clear();
-                            //Ê÷ĞÎÁĞ±íÏÔÊ¾
+                            //æ ‘å½¢åˆ—è¡¨æ˜¾ç¤º
                             S_GROUP_INFO groupInfo;
                             QJsonObject dataObj;
                             for(int i= 0; i < iGroupSize; i++)
@@ -206,19 +123,19 @@ void MainWindow::QueryAllGroup()//²éÑ¯È«²¿·Ö×é
                                 m_mapGroupInfo.insert(i,groupInfo);
                             }
 
-                            //µ÷ÓÃUI½Ó¿ÚÏÔÊ¾Êı¾İ
+                            //è°ƒç”¨UIæ¥å£æ˜¾ç¤ºæ•°æ®
                             ShowGroupInfo();
                         }
                     }
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
+    });
 }
 
 void MainWindow::ShowGroupInfo()
@@ -233,35 +150,35 @@ void MainWindow::ShowGroupInfo()
     {
         item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0,iter->strGroupName);
-        //´æ´¢GroupId
+        //å­˜å‚¨GroupId
         item->setData(0, Qt::UserRole, iter->iGroupId);
         ui->treeWidget->addTopLevelItem(item);
-        
-        //Ìí¼Ó×Ó½Úµã
+
+        //æ·»åŠ å­èŠ‚ç‚¹
         child = new QTreeWidgetItem(item);
-        child->setText(0, iter->strGroupName + "×Ó½Úµã");
-        //½«½ÚµãÌí¼Óµ½¸ù½ÚµãÏÂ
+        child->setText(0, iter->strGroupName + "å­èŠ‚ç‚¹");
+        //å°†èŠ‚ç‚¹æ·»åŠ åˆ°æ ¹èŠ‚ç‚¹ä¸‹
         item->addChild(child);
 
         child = new QTreeWidgetItem(item);
-        child->setText(0, iter->strGroupName + "×Ó½Úµã1");
-        //½«½Úµã²åÈëµ½µÚÒ»¸öÎ»ÖÃ
-        //item->addChild(child);
-        //Í¬ÉÏ
+        child->setText(0, iter->strGroupName + "å­èŠ‚ç‚¹1");
+        //å°†èŠ‚ç‚¹æ’å…¥åˆ°ç¬¬ä¸€ä¸ªä½ç½®
+        item->addChild(child);
+        //åŒä¸Š
         ui->treeWidget->insertTopLevelItem(0, child);
     }
 
-    //Õ¹¿ªËùÓĞ
+    //å±•å¼€æ‰€æœ‰
     ui->treeWidget->expandAll();
 }
 
-void MainWindow::CreateGroup(QString strGroupName)//´´½¨·Ö×é
+void MainWindow::CreateGroup(QString strGroupName)//åˆ›å»ºåˆ†ç»„
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_CREATE_GROUP;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -276,11 +193,11 @@ void MainWindow::CreateGroup(QString strGroupName)//´´½¨·Ö×é
     obj.insert("name", strGroupName);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    //·¢³öGETÇëÇó
+    //å‘å‡ºGETè¯·æ±‚
     QNetworkReply* reply = manager->post(request, postData);
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -302,26 +219,26 @@ void MainWindow::CreateGroup(QString strGroupName)//´´½¨·Ö×é
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json="<<response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    //½çÃæÌí¼Ó¸Ã×é
+                    //ç•Œé¢æ·»åŠ è¯¥ç»„
                     QueryAllGroup();
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
+    });
 }
 
-void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//ĞŞ¸Ä·Ö×é
+void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//ä¿®æ”¹åˆ†ç»„
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_UPDATE_GROUP;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -338,11 +255,11 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//ĞŞ¸Ä·Ö×é
     obj.insert("name", strNewName);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    //·¢³öGETÇëÇó
+    //å‘å‡ºGETè¯·æ±‚
     QNetworkReply* reply = manager->post(request, postData);
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -364,33 +281,33 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//ĞŞ¸Ä·Ö×é
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    //true²Ù×÷³É¹¦
+                    //trueæ“ä½œæˆåŠŸ
                     if (data)
                     {
-                        //½çÃæÖ±½ÓĞŞ¸ÄÃû³Æ²»ĞèÒªÖØĞÂÇëÇó
+                        //ç•Œé¢ç›´æ¥ä¿®æ”¹åç§°ä¸éœ€è¦é‡æ–°è¯·æ±‚
                         QueryAllGroup();
-                    }                    
+                    }
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
+    });
 }
 
-void MainWindow::DeleteGroup(int iGroupId)//É¾³ı·Ö×é
+void MainWindow::DeleteGroup(int iGroupId)//åˆ é™¤åˆ†ç»„
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_DELETE_GROUP;
     strUrl += QString("/%1").arg(iGroupId);
     //QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
     qDebug() << "strUrl = " << strUrl;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -399,12 +316,12 @@ void MainWindow::DeleteGroup(int iGroupId)//É¾³ı·Ö×é
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
     request.setUrl(url);
-    
-    //·¢³öGETÇëÇó
+
+    //å‘å‡ºGETè¯·æ±‚
     QNetworkReply* reply = manager->post(request, "");
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -425,109 +342,24 @@ void MainWindow::DeleteGroup(int iGroupId)//É¾³ı·Ö×é
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    //true²Ù×÷³É¹¦
+                    //trueæ“ä½œæˆåŠŸ
                     if (data)
                     {
-                        //½çÃæÖ±½ÓĞŞ¸ÄÃû³Æ²»ĞèÒªÖØĞÂÇëÇó
+                        //ç•Œé¢ç›´æ¥ä¿®æ”¹åç§°ä¸éœ€è¦é‡æ–°è¯·æ±‚
                         QueryAllGroup();
                     }
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
-}
-
-void MainWindow::on_btnCreateNewGroup_clicked()
-{
-    //ĞÂ½¨·Ö×é
-    /*CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
-    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this,[this](QString strGroupName)
-            {
-        //´´½¨·Ö×é
-        qDebug()<<" ´´½¨·Ö×é strGroupName="<<strGroupName;
-        CreateGroup(strGroupName);
     });
-    createGroupWidget->show();*/
-
-
-    //µ÷ÊÔĞŞ¸Ä·Ö×é½Ó¿Ú
-    //UpdateGroup(2, "ĞÂÃû³Æ");
-
-    //µ÷ÊÔÉ¾³ı·Ö×é½Ó¿Ú
-    //DeleteGroup(0);
-
-    //µ÷ÊÔ»ñÈ¡serverToken½Ó¿Ú
-    GetMyPhoneInstance();
 }
 
-
-void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
-{
-    if(qApp->mouseButtons() == Qt::RightButton) // Ö»Õë¶ÔÊó±êÓÒ¼ü
-    {
-        QTreeWidget* tree = item->treeWidget(); // »ñÈ¡µ±Ç°itemËùÔÚµÄQTreeWidget
-
-        // [option] ´Ë´¦¿ÉÒÔÌí¼ÓÌõ¼şÀ´Ö»Õë¶ÔÖ¸¶¨µÄQTreeWidgetItemÀ´Ìí¼ÓÓÒ¼ü²Ëµ¥¹¦ÄÜ¡£
-
-        QMenu* menu = new QMenu(tree);
-        QAction* action1 = new QAction("É¾³ı·Ö×é");
-        QAction* action2 = new QAction("±à¼­·Ö×éÃû³Æ");
-        menu->addAction(action1);
-        menu->addAction(action2);
-
-        // ÎªÓÒ¼ü²Ëµ¥ÉÏµÄQAction´´½¨ĞÅºÅ²Û£¬Ìí¼Ó¶ÔÓ¦µÄ¹¦ÄÜ
-        connect(action1, &QAction::triggered, this, [this](bool bCheck)
-                {
-                    int iGroupId = 0;
-                    QTreeWidgetItem* selectItem = ui->treeWidget->currentItem();
-                    if(selectItem != NULL)
-                    {
-                        iGroupId = selectItem->data(0, Qt::UserRole).toInt();
-                    }
-                    DeleteGroup(iGroupId);
-                });
-
-        connect(action2, &QAction::triggered, this,[this](bool bCheck)
-                {
-                    UpdateGroupWidget* updateGroupWidget = new UpdateGroupWidget();
-                    connect(updateGroupWidget, &UpdateGroupWidget::updateGroupSignals, this,[this](QString strGroupName)
-                            {
-                                int iGroupId = 0;
-                                QTreeWidgetItem* selectItem = ui->treeWidget->currentItem();
-                                if(selectItem != NULL)
-                                {
-                                    iGroupId = selectItem->data(0, Qt::UserRole).toInt();
-                                }
-                                //ĞŞ¸Ä·Ö×éÃû³Æ
-                                qDebug()<<" ĞŞ¸Ä·Ö×éÃû³Æ strGroupName="<<strGroupName;
-                                UpdateGroup(iGroupId,strGroupName);
-                            });
-                    updateGroupWidget->show();
-                });
-
-        // ÓÒ¼ü²Ëµ¥ÔÚÊó±êµã»÷µÄÎ»ÖÃÏÔÊ¾
-        menu->exec(QCursor::pos());
-    }
-}
-
-
-void MainWindow::on_btnRefresh_clicked()
-{
-    qDebug()<<"Ë¢ĞÂ";
-    //ÖØĞÂ¼ÓÔØÁĞ±í
-    //QueryAllGroup();
-
-    //²âÊÔ»ñÈ¡SeverToken½Ó¿Ú
-    GetMyPhoneInstance();
-}
-
-
-//»ñÈ¡serverToken
+//è·å–serverToken
 /*void MainWindow::HttpGetServerToken()
 {
     int iGroupId = 0;
@@ -542,9 +374,9 @@ void MainWindow::on_btnRefresh_clicked()
     strUrl += QString("/%1").arg(iGroupId);
     //QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
     qDebug() << "strUrl = " << strUrl;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -554,11 +386,11 @@ void MainWindow::on_btnRefresh_clicked()
     qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
-    //·¢³öGETÇëÇó
+    //å‘å‡ºGETè¯·æ±‚
     QNetworkReply* reply = manager->post(request, "");
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -579,11 +411,11 @@ void MainWindow::on_btnRefresh_clicked()
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    qDebug() << "²Ù×÷³É¹¦";
+                    qDebug() << "æ“ä½œæˆåŠŸ";
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
@@ -591,16 +423,16 @@ void MainWindow::on_btnRefresh_clicked()
     });
 }*/
 
-// ¶©µ¥½Ó¿Ú-ÎÒµÄÖ§¸¶¶©µ¥
+// è®¢å•æ¥å£-æˆ‘çš„æ”¯ä»˜è®¢å•
 void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_GET_MY_ORDER;
     strUrl += QString("?page=%1&pageSize=%2").arg(iPage).arg(iPageSize);
     qDebug() << "strUrl = " << strUrl;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -610,11 +442,11 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
     qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
-    //·¢³öGETÇëÇó
+    //å‘å‡ºGETè¯·æ±‚
     QNetworkReply* reply = manager->get(request);//manager->post(request, "");
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -647,7 +479,7 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
                         {
                             int iRecordsSize = records.size();
                             QJsonObject recordObj;
-                            //»ñÈ¡ÎÒµÄÊÖ»úÊµÀıÊı¾İ£¬ÔİÎ´´æ´¢
+                            //è·å–æˆ‘çš„æ‰‹æœºå®ä¾‹æ•°æ®ï¼Œæš‚æœªå­˜å‚¨
                             S_PHONE_INFO phoneInfo;
                             for (int i = 0; i < iRecordsSize; i++)
                             {
@@ -667,28 +499,28 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
+    });
 }
 
-//¶©µ¥½Ó¿Ú-´´½¨¶©µ¥
+//è®¢å•æ¥å£-åˆ›å»ºè®¢å•
 void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString strRelateId)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_CREATE_ORDER;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); 
+    request.setRawHeader("Authorization", strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
     request.setUrl(url);
     QJsonDocument doc;
@@ -701,9 +533,9 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
 
     QNetworkReply* reply = manager->post(request, postData);
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -736,7 +568,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
                         {
                             m_mapGroupInfo.clear();
                             ui->treeWidget->clear();
-                            //Ê÷ĞÎÁĞ±íÏÔÊ¾
+                            //æ ‘å½¢åˆ—è¡¨æ˜¾ç¤º
                             S_GROUP_INFO groupInfo;
                             QJsonObject dataObj;
                             for (int i = 0; i < iGroupSize; i++)
@@ -750,22 +582,22 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
                                 m_mapGroupInfo.insert(i, groupInfo);
                             }
 
-                            //µ÷ÓÃUI½Ó¿ÚÏÔÊ¾Êı¾İ
+                            //è°ƒç”¨UIæ¥å£æ˜¾ç¤ºæ•°æ®
                             ShowGroupInfo();
                         }
                     }
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
+    });
 }
 
-//¹Ø±Õ¶©µ¥
+//å…³é—­è®¢å•
 void MainWindow::HttpCloseOrder(QString strOutTradeNo)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -773,9 +605,9 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
     //strUrl += QString("?outTradeNo=%1").arg(strOutTradeNo);
     strUrl += QString("/%1").arg(strOutTradeNo);
     qDebug() << "strUrl = " << strUrl;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -786,9 +618,9 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
     request.setUrl(url);
 
     QNetworkReply* reply = manager->post(request, "");
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -810,21 +642,21 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     if(bData)
-                        qDebug() << "¹Ø±Õ¶©µ¥³É¹¦";
+                        qDebug() << "å…³é—­è®¢å•æˆåŠŸ";
                     else
-                        qDebug() << "¹Ø±Õ¶©µ¥Ê§°Ü";
+                        qDebug() << "å…³é—­è®¢å•å¤±è´¥";
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
+    });
 }
 
-//É¾³ı
+//åˆ é™¤
 void MainWindow::HttpDeleteOrder(int iOrderId)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -832,9 +664,9 @@ void MainWindow::HttpDeleteOrder(int iOrderId)
     //strUrl += QString("?outTradeNo=%1").arg(strOutTradeNo);
     strUrl += QString("/%1").arg(iOrderId);
     qDebug() << "strUrl = " << strUrl;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -845,9 +677,9 @@ void MainWindow::HttpDeleteOrder(int iOrderId)
     request.setUrl(url);
 
     QNetworkReply* reply = manager->post(request, "");
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -869,27 +701,27 @@ void MainWindow::HttpDeleteOrder(int iOrderId)
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     if (bData)
-                        qDebug() << "É¾³ı¶©µ¥³É¹¦";
+                        qDebug() << "åˆ é™¤è®¢å•æˆåŠŸ";
                     else
-                        qDebug() << "É¾³ı¶©µ¥Ê§°Ü";
+                        qDebug() << "åˆ é™¤è®¢å•å¤±è´¥";
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
+    });
 }
 
-//Çå¿Õ
+//æ¸…ç©º
 void MainWindow::HttpEmptyOrder()
 {
 
 }
 
-//»ñÈ¡ÎÒµÄÊÖ»úÊµÀı
+//è·å–æˆ‘çš„æ‰‹æœºå®ä¾‹
 void MainWindow::GetMyPhoneInstance()
 {
     int iGroupId = 0;
@@ -898,9 +730,9 @@ void MainWindow::GetMyPhoneInstance()
     strUrl += HTTP_GET_MY_PHONE_INSTANCE;
     strUrl += QString("?groupId=0&level=0&page=1&pageSize=10");
     qDebug() << "strUrl = " << strUrl;
-    //´´½¨ÍøÂç·ÃÎÊ¹ÜÀíÆ÷,²»ÊÇÖ¸Õëº¯Êı½áÊø»áÊÍ·ÅÒò´Ë²»»á½øÈëfinishedµÄ²Û
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //´´½¨ÇëÇó¶ÔÏó
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
@@ -910,11 +742,11 @@ void MainWindow::GetMyPhoneInstance()
     qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
-    //·¢³öGETÇëÇó
+    //å‘å‡ºGETè¯·æ±‚
     QNetworkReply* reply = manager->get(request);//manager->post(request, "");
-    //Á¬½ÓÇëÇóÍê³ÉµÄĞÅºÅ
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
     connect(reply, &QNetworkReply::finished, this, [=] {
-        //¶ÁÈ¡ÏìÓ¦Êı¾İ
+        //è¯»å–å“åº”æ•°æ®
         QByteArray response = reply->readAll();
         qDebug() << response;
 
@@ -930,7 +762,7 @@ void MainWindow::GetMyPhoneInstance()
             {
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();                
+                QString strMessage = obj["message"].toString();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
@@ -945,7 +777,7 @@ void MainWindow::GetMyPhoneInstance()
                         {
                             int iRecordsSize = records.size();
                             QJsonObject recordObj;
-                            //»ñÈ¡ÎÒµÄÊÖ»úÊµÀıÊı¾İ£¬ÔİÎ´´æ´¢
+                            //è·å–æˆ‘çš„æ‰‹æœºå®ä¾‹æ•°æ®ï¼Œæš‚æœªå­˜å‚¨
                             S_PHONE_INFO phoneInfo;
                             for (int i = 0; i < iRecordsSize; i++)
                             {
@@ -965,51 +797,67 @@ void MainWindow::GetMyPhoneInstance()
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("´íÎóÌáÊ¾"), strMessage);
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
                 }
             }
         }
         reply->deleteLater();
-        });
-}
-void MainWindow::on_btnCreateOrder_clicked()
-{
-    //´´½¨¶©µ¥
-    HttpCreateOrder(0,m_userInfo.id,1,"");
+    });
 }
 
-
-void MainWindow::on_btnMyOrder_clicked()
+//äº‘æ‰‹æœº
+void MainWindow::on_toolBtnCloudPhone_clicked()
 {
-    //ÎÒµÄÖ§¸¶¶©µ¥
-    HttpGetMyOrder(0,10);
+    if(ui->stackedWidget->currentWidget() == 0)
+    {
+        return;
+    }
+    else
+    {
+        ui->stackedWidget->setCurrentIndex(0);
+    }
+}
+
+//æ¿€æ´»ç 
+void MainWindow::on_toolBtnActiveCode_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+//è´­ä¹°
+void MainWindow::on_toolBtnBuy_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::setUserInfo(S_USER_LOGIN_INFO userInfo)
+{
+    m_userInfo = userInfo;
+    qDebug() << "è·³è½¬åˆ°ä¸»é¡µé¢" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
+    QueryAllGroup();
+}
+
+//èœå•æ 
+void MainWindow::on_btnPhotoUrl_clicked()
+{
+
 }
 
 
-void MainWindow::on_btnCloseOrder_clicked()
+void MainWindow::on_btnCustomerService_clicked()
 {
-    QString strOutTradeNo;
-    //»ñÈ¡¹Ø±Õ¶©µ¥ºÅ
 
-    HttpCloseOrder(strOutTradeNo);
 }
 
 
-void MainWindow::on_btnDeleteOrder_clicked()
+void MainWindow::on_btnSetting_clicked()
 {
-    int iOrderId=0;
-    //»ñÈ¡É¾³ı¶©µ¥ID
 
-
-    HttpDeleteOrder(iOrderId);
 }
 
 
-void MainWindow::on_btnPayOrder_clicked()
+void MainWindow::on_btnMin_clicked()
 {
-    //È·¶¨Ö§¸¶
-    //´ò¿ªÍøÒ³´«Öµ
-    //https://excashier.alipay.com/standard/auth.htm?payOrderId=fe951ef41b1b4a85af044f5f7cf9c4e1.00
 
 }
 
@@ -1017,5 +865,118 @@ void MainWindow::on_btnPayOrder_clicked()
 void MainWindow::on_btnMax_clicked()
 {
 
+}
+
+
+void MainWindow::on_btnClose_clicked()
+{
+    //å…³é—­çª—å£å¹¶ä¸”é€€å‡ºç™»å½•
+    qDebug() << "æ³¨é”€";
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_YSY_LOGOUT;
+    //åˆ›å»ºç½‘ç»œè®¿é—®ç®¡ç†å™¨,ä¸æ˜¯æŒ‡é’ˆå‡½æ•°ç»“æŸä¼šé‡Šæ”¾å› æ­¤ä¸ä¼šè¿›å…¥finishedçš„æ§½
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //åˆ›å»ºè¯·æ±‚å¯¹è±¡
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+
+    request.setUrl(url);
+    /*QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("code", strSMSCode);
+    obj.insert("mobile", strPhone);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
+    //QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
+    //å‘å‡ºGETè¯·æ±‚
+    QByteArray postData = "";
+    QNetworkReply* reply = manager->post(request, postData);
+    //è¿æ¥è¯·æ±‚å®Œæˆçš„ä¿¡å·
+    connect(reply, &QNetworkReply::finished,this, [=] {
+        //è¯»å–å“åº”æ•°æ®
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage <<"response:"<<response;
+                if(HTTP_SUCCESS_CODE == iCode)
+                {
+                    /*if (obj["data"].isObject())
+                        {
+                            QJsonObject data = obj["data"].toObject();
+                            QString strToken = data["token"].toString();
+                            QString strMaxExpirationDate = data["maxExpirationDate"].toString();
+
+                            QJsonObject userDetailVO = data["userDetailVO"].toObject();
+                            int id = userDetailVO["id"].toInt();
+                            QString strName = userDetailVO["name"].toString();
+                            QString strAccount = userDetailVO["account"].toString();
+                            QString strMobile = userDetailVO["mobile"].toString();
+                            qDebug() << "è·³è½¬åˆ°ä¸»é¡µé¢"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"token="<<strToken;
+                        }*/
+                    qDebug()<<"æ³¨é”€æˆåŠŸ";
+                }
+                else
+                {
+                    QMessageBox::warning(this, tr("é”™è¯¯æç¤º"), strMessage);
+                }
+            }
+        }
+        reply->deleteLater();
+    });
+
+    this->close();
+}
+
+
+void MainWindow::on_btnCreateGroup_clicked()
+{
+    //æ–°å»ºåˆ†ç»„
+    /*CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
+    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this,[this](QString strGroupName)
+            {
+        //åˆ›å»ºåˆ†ç»„
+        qDebug()<<" åˆ›å»ºåˆ†ç»„ strGroupName="<<strGroupName;
+        CreateGroup(strGroupName);
+    });
+    createGroupWidget->show();*/
+
+
+    //è°ƒè¯•ä¿®æ”¹åˆ†ç»„æ¥å£
+    //UpdateGroup(2, "æ–°åç§°");
+
+    //è°ƒè¯•åˆ é™¤åˆ†ç»„æ¥å£
+    //DeleteGroup(0);
+
+    //è°ƒè¯•è·å–serverTokenæ¥å£
+    GetMyPhoneInstance();
+}
+
+void MainWindow::on_btnGroupRefresh_clicked()
+{
+    qDebug()<<"åˆ·æ–°";
+    //é‡æ–°åŠ è½½åˆ—è¡¨
+    QueryAllGroup();
+
+    //æµ‹è¯•è·å–SeverTokenæ¥å£
+    //GetMyPhoneInstance();
 }
 

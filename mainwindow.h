@@ -21,55 +21,52 @@ public:
     void setUserInfo(S_USER_LOGIN_INFO userInfo);
 
 private:
-    //·Ö×é½Ó¿Ú
-    void QueryAllGroup();//²éÑ¯È«²¿·Ö×é
-    void CreateGroup(QString strGroupName);//´´½¨·Ö×é
-    void UpdateGroup(int iGroupId, QString strNewName);//ĞŞ¸Ä·Ö×é
-    void DeleteGroup(int iGroupId);//É¾³ı·Ö×é
+    //åˆ†ç»„æ¥å£
+    void QueryAllGroup();//æŸ¥è¯¢å…¨éƒ¨åˆ†ç»„
+    void CreateGroup(QString strGroupName);//åˆ›å»ºåˆ†ç»„
+    void UpdateGroup(int iGroupId, QString strNewName);//ä¿®æ”¹åˆ†ç»„
+    void DeleteGroup(int iGroupId);//åˆ é™¤åˆ†ç»„
 
-    //ÏÔÊ¾Ê÷ÄÚÈİ
+    //æ˜¾ç¤ºæ ‘å†…å®¹
     void ShowGroupInfo();
 
-    //¶©µ¥½Ó¿Ú
-    // ÎÒµÄÖ§¸¶¶©µ¥
+    //è®¢å•æ¥å£
+    // æˆ‘çš„æ”¯ä»˜è®¢å•
     void HttpGetMyOrder(int iPage, int iPageSize);
-    //´´½¨¶©µ¥
+    //åˆ›å»ºè®¢å•
     void HttpCreateOrder(int iChannel, int iMemberId, int iNum, QString strRelateId);
-    //¹Ø±Õ¶©µ¥
+    //å…³é—­è®¢å•
     void HttpCloseOrder(QString strOutTradeNo);
-    //É¾³ı
+    //åˆ é™¤
     void HttpDeleteOrder(int iOrderId);
-    //Çå¿Õ
+    //æ¸…ç©º
     void HttpEmptyOrder();
 
-    //ÊÖ»úÊµÀıÏà¹Ø½Ó¿Ú
-    //»ñÈ¡serverToken
+    //æ‰‹æœºå®ä¾‹ç›¸å…³æ¥å£
+    //è·å–serverToken
     //void HttpGetServerToken();
-    //»ñÈ¡ÎÒµÄÊÖ»úÊµÀı
+    //è·å–æˆ‘çš„æ‰‹æœºå®ä¾‹
     void GetMyPhoneInstance();
 
 
 private slots:
-    //×¢Ïú
+    //å·¥å…·æ 
+    void on_toolBtnCloudPhone_clicked();
+    void on_toolBtnActiveCode_clicked();
+    void on_toolBtnBuy_clicked();    
+
+    //èœå•æ 
+    void on_btnPhotoUrl_clicked();
+    void on_btnCustomerService_clicked();
+    void on_btnSetting_clicked();
+    void on_btnMin_clicked();
+    void on_btnMax_clicked();
     void on_btnClose_clicked();
 
-    void on_btnCreateNewGroup_clicked();
-
-    void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
-
-    void on_btnRefresh_clicked();
-
-    void on_btnCreateOrder_clicked();
-
-    void on_btnMyOrder_clicked();
-
-    void on_btnCloseOrder_clicked();
-
-    void on_btnDeleteOrder_clicked();
-
-    void on_btnPayOrder_clicked();
-
-    void on_btnMax_clicked();
+    //äº‘æ‰‹æœº
+    void InitCloudPhone();
+    void on_btnCreateGroup_clicked();
+    void on_btnGroupRefresh_clicked();
 
 private:
     Ui::MainWindow *ui;
