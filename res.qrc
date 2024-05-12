@@ -18,6 +18,9 @@
         <file>resource/login/ico_lock.png</file>
     </qresource>
     <qresource prefix="/main">
-        <file>resource/main/level.png</file>
+        <file>main/level.png</file>
+        <file>main/level_enhancenment.png</file>
+        <file>main/level_normal.png</file>
+        <file>main/level_Premier.png</file>
     </qresource>
 </RCC>

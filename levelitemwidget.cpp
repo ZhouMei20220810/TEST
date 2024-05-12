@@ -3,7 +3,7 @@
 #include <QPalette>
 #include "global.h"
 
-LevelItemWidget::LevelItemWidget(QWidget *parent)
+LevelItemWidget::LevelItemWidget(QString strImage,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::LevelItemWidget)
 {
@@ -13,7 +13,7 @@ LevelItemWidget::LevelItemWidget(QWidget *parent)
     ui->labelCheck->setVisible(false);
     ui->labelCheck->setParent(ui->labelBg);
 
-    QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
+    QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     ui->labelBg->setStyleSheet(strStyleSheet);
 
     ui->labelBg->installEventFilter(this);

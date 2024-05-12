@@ -87,10 +87,24 @@ void MainWindow::InitBuyTab()
     //qDebug() << "map size() =" << iCount;
     //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
     //for (; iter != map.constEnd(); iter++)
-
+    QString strImage;
     for (int i = 0; i < 3; i++)
     {
-        widget = new LevelItemWidget(this);//(*iter.value(), this);
+        switch(i)
+        {
+        case LEVEL_NOMAL_LEVEL:
+            strImage = ":/main/main/level_normal.png";
+            break;
+        case LEVEL_ENHANCEMENT_TYPE:
+            strImage = ":/main/main/level_enhancenment.png";
+            break;
+        case LEVEL_PREMIER_TYPE:
+            strImage = ":/main/main/level_Premier.png";
+            break;
+        default:
+            break;
+        }
+        widget = new LevelItemWidget(strImage,this);//(*iter.value(), this);
 
         item = new QListWidgetItem(ui->listWidgetLevel);
         item->setSizeHint(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果

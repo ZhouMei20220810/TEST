@@ -13,7 +13,7 @@ class LevelItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelItemWidget(QWidget *parent = nullptr);
+    explicit LevelItemWidget(QString strImage,QWidget *parent = nullptr);
     ~LevelItemWidget();
 
     void setLabelCheckStatus(bool bCheck);
