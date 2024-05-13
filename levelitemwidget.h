@@ -20,7 +20,7 @@ public:
     void setLabelCheckStatus(bool bCheck);
 
 signals:
-    void showVIPTypeSignals(LEVEL_TYPE enType);
+    void selectLevelTypeSignals(LEVEL_TYPE enType);
 private:
     Ui::LevelItemWidget *ui;
     LEVEL_TYPE m_levelType;

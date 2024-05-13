@@ -120,7 +120,7 @@ void MainWindow::InitLevelList()
             break;
         }
         widget = new LevelItemWidget((LEVEL_TYPE)i, strImage, this);//(*iter.value(), this);
-        connect(widget, &LevelItemWidget::showVIPTypeSignals, this, &MainWindow::do_showVIPTypeSignals);
+        connect(widget, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
         /*toolBtn = new QToolButton(ui->listWidgetLevel);
         toolBtn->setText(QString("%1").arg(i));
         toolBtn->setIcon(QIcon(strImage));
@@ -1173,14 +1173,14 @@ void MainWindow::on_toolBtnRenewPhone_clicked()
 void MainWindow::on_btnBeginPay_clicked()
 {
     //确定支付
-//获取界面选中的值
+    //获取界面选中的值
 
 }
 
 //level item 
-void MainWindow::do_showVIPTypeSignals(LEVEL_TYPE enType)
+void MainWindow::do_selectLevelTypeSignals(LEVEL_TYPE enType)
 {
-    qDebug() << "click do_showVIPTypeSignals level Type="<<enType;
+    qDebug() << "click do_selectLevelTypeSignals level Type="<<enType;
     //设置显示
     LevelItemWidget* levelItemWidget = NULL;
     QListWidgetItem* levelItem=NULL;

@@ -94,7 +94,7 @@ private slots:
     void on_btnBeginPay_clicked();
 
     //level item 
-    void do_showVIPTypeSignals(LEVEL_TYPE enType);
+    void do_selectLevelTypeSignals(LEVEL_TYPE enType);
     //vip item
     void do_selectVIPTypeSignals(VIP_TYPE enType);
 private:

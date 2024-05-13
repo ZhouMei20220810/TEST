@@ -41,6 +41,6 @@ void LevelItemWidget::on_toolButtonBG_clicked()
 {
     ui->labelCheck->setVisible(true);
     //ui->toolButtonBG->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border - radius:3px;background-image:url(:/main/main/level_enhancenment.png);}");
-    emit showVIPTypeSignals(m_levelType);
+    emit selectLevelTypeSignals(m_levelType);
 }
 
