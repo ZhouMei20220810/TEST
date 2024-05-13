@@ -1,5 +1,26 @@
 #include "global.h"
 
+QString getLevelTypeToText(LEVEL_TYPE levelType)
+{
+    QString strText;
+    switch (levelType)
+    {
+    case LEVEL_NOMAL_LEVEL:
+        strText = "VIP";
+        break;
+    case LEVEL_ENHANCEMENT_TYPE:
+        strText = "GVIP";
+        break;
+    case LEVEL_PREMIER_TYPE:
+        strText = "KVIP";
+        break;
+    default:
+        strText = "VIP";
+        break;
+    }
+    return strText;
+}
+
 QString getMessageByCode(long code)
 {
     QString strMsg;

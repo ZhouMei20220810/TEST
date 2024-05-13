@@ -96,11 +96,18 @@ private slots:
     //level item 
     void do_selectLevelTypeSignals(LEVEL_TYPE enType);
     //vip item
-    void do_selectVIPTypeSignals(VIP_TYPE enType);
+    void do_selectVIPTypeSignals(S_VIP_ITEM_INFO sVipInfo);
+
+    void on_btnDecrese_clicked();
+    void on_btnAdd_clicked();
+    void on_lineEditBuyNumber_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
+
+    S_VIP_ITEM_INFO m_curVIPInfo;
 };
 
 #endif // MAINWINDOW_H

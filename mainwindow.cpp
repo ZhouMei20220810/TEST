@@ -1209,6 +1209,9 @@ void MainWindow::do_selectLevelTypeSignals(LEVEL_TYPE enType)
 //初始化vip列表
 void MainWindow::loadVipType(LEVEL_TYPE enType)
 {
+    QString strLevelTypeText = getLevelTypeToText(enType);
+    ui->label_2->setText(QString("%1套餐").arg(strLevelTypeText));
+
     //清空列表
     ui->listWidgetVIP->clear();
     qDebug() << "加载vip列表 enType=" << enType;
@@ -1217,6 +1220,7 @@ void MainWindow::loadVipType(LEVEL_TYPE enType)
     int iVIPType = 0;
     QListWidgetItem* vipItem = NULL;
     VIPItemWidget* vipWidget = NULL;
+    S_VIP_ITEM_INFO sVipInfo;
     for (int iVIPType = 0; iVIPType < ITEM_WIDGET_VIP_COUNT; iVIPType++)
     {
         vipItem = new QListWidgetItem(ui->listWidgetVIP);
@@ -1225,29 +1229,40 @@ void MainWindow::loadVipType(LEVEL_TYPE enType)
         ui->listWidgetVIP->addItem(vipItem);
 
         qDebug() << "vip=" << iVIPType;
-
-        vipWidget = new VIPItemWidget((VIP_TYPE)iVIPType, this);
+        sVipInfo.iDayCount = 30;
+        sVipInfo.vipType = (VIP_TYPE)iVIPType;
+        sVipInfo.fTotalPrice = 58.80f+iVIPType*100;
+        sVipInfo.fDayPrice = sVipInfo.fTotalPrice / sVipInfo.iDayCount;
+        sVipInfo.strVipText = strLevelTypeText;
+        vipWidget = new VIPItemWidget(sVipInfo, this);
         connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
         ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
     }
 }
 
 //vip item
-void MainWindow::do_selectVIPTypeSignals(VIP_TYPE enType)
+void MainWindow::do_selectVIPTypeSignals(S_VIP_ITEM_INFO sVipInfo)
 {
-    qDebug() << "click do_selectVIPTypeSignals vip Type=" << enType;
+    m_curVIPInfo = sVipInfo;
+    qDebug() << "click do_selectVIPTypeSignals vip Type=" << sVipInfo.vipType;
+    QString str;
+    str = str.asprintf("%.2f", sVipInfo.fTotalPrice);
+    ui->labelPayMoney->setText(str);
+
     //设置显示
     VIPItemWidget* vipItemWidget = NULL;
-    QListWidgetItem* levelItem = NULL;
+    QListWidgetItem* vipItem = NULL;
+    VIP_TYPE curType;
     int iCount = ui->listWidgetVIP->count();
     for (int iRow = 0; iRow < iCount; iRow++)
     {
-        levelItem = ui->listWidgetVIP->item(iRow);
-        if (levelItem->data(Qt::UserRole).toInt() != enType)
+        vipItem = ui->listWidgetVIP->item(iRow);
+        curType = (VIP_TYPE)vipItem->data(Qt::UserRole).toInt();
+        if (curType != sVipInfo.vipType)
         {
-            vipItemWidget = static_cast<VIPItemWidget*>(ui->listWidgetVIP->itemWidget(levelItem));
+            vipItemWidget = static_cast<VIPItemWidget*>(ui->listWidgetVIP->itemWidget(vipItem));
             //enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
-            qDebug() << "当前选中：等级" << enType;
+            qDebug() << "当前选中：等级" << curType;
             vipItemWidget->setLabelCheckStatus(false);
 
             //续费的列表
@@ -1255,3 +1270,34 @@ void MainWindow::do_selectVIPTypeSignals(VIP_TYPE enType)
         }
     }
 }
+
+void MainWindow::on_btnDecrese_clicked()
+{
+    //减少
+    QString strBuyNum = ui->lineEditBuyNumber->text();
+    int iBuyNum = strBuyNum.toInt();
+    if(iBuyNum > 1)
+        strBuyNum = strBuyNum.asprintf("%d",--iBuyNum);
+    ui->lineEditBuyNumber->setText(strBuyNum);
+}
+
+
+void MainWindow::on_btnAdd_clicked()
+{
+    //增加
+    QString strBuyNum = ui->lineEditBuyNumber->text();
+    int iBuyNum = strBuyNum.toInt();
+    strBuyNum = strBuyNum.asprintf("%d",++iBuyNum);
+    ui->lineEditBuyNumber->setText(strBuyNum);
+}
+
+
+void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
+{
+    //文本框值改变
+    int iBuyNum = ui->lineEditBuyNumber->text().toInt();
+    QString str;
+    str=str.asprintf("%.2f", iBuyNum* m_curVIPInfo.fTotalPrice);
+    ui->labelPayMoney->setText(str);
+}
+
