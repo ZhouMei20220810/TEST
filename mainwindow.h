@@ -88,6 +88,9 @@ private slots:
 
     void on_listWidgetLevel_itemClicked(QListWidgetItem *item);
 
+    void on_listWidgetLevel_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    //level item 
+    void do_showVIPTypeSignals(LEVEL_TYPE enType);
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;

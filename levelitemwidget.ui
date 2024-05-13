@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>374</width>
+    <width>321</width>
     <height>204</height>
    </rect>
   </property>
@@ -16,14 +16,40 @@
   <property name="styleSheet">
    <string notr="true">border-radius: 10px;</string>
   </property>
-  <widget class="QLabel" name="labelBg">
+  <widget class="QToolButton" name="toolButtonBG">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>371</width>
-     <height>201</height>
+     <x>9</x>
+     <y>-7</y>
+     <width>311</width>
+     <height>211</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QToolButton {
+border:none;
+color: rgb(204, 204, 204);
+border-radius:3px;
+background-image: url(:/main/main/level_enhancenment.png);
+}
+QToolButton:hover  {
+background-color: rgb(41, 105, 205);
+color: rgb(255, 255, 255);
+border-radius:3px;
+background-image: url(:/main/main/level_normal.png)
+}
+QToolButton:pressed  {
+background-color: rgb(41, 105, 205);
+color: rgb(255, 255, 255);
+border-radius:3px;
+background-image: url(:/main/main/level_normal.png)
+}
+QToolButton:clicked  {
+background-color: rgb(41, 105, 205);
+color: rgb(255, 255, 255);
+border-radius:3px;
+background-image: url(:/main/main/level_normal.png)
+}</string>
    </property>
    <property name="text">
     <string/>
@@ -32,20 +58,22 @@
   <widget class="QLabel" name="labelCheck">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>5</y>
+     <x>290</x>
+     <y>0</y>
      <width>16</width>
-     <height>21</height>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>resource/login/option_select.png</pixmap>
+    <pixmap resource="res.qrc">:/login/resource/login/option_select.png</pixmap>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

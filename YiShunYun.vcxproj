@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8F430A20-4ACE-3907-996B-0636B8E752AF}</ProjectGuid>
+    <ProjectGuid>{C2A31017-F80F-3954-8DB8-9CF704EC367B}</ProjectGuid>
     <RootNamespace>YiShunYun</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22621.0</WindowsTargetPlatformMinVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,11 +40,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtInstall>6.4.3_msvc2019_64</QtInstall>
+    <QtInstall>6.5.3_msvc2019_64</QtInstall>
     <QtModules>core;gui;network;widgets</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <QtInstall>6.4.3_msvc2019_64</QtInstall>
+    <QtInstall>6.5.3_msvc2019_64</QtInstall>
     <QtModules>core;gui;network;widgets</QtModules>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
@@ -213,6 +213,7 @@
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
+    <ClCompile Include="vipitemwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="creategroupwidget.h" />
@@ -225,6 +226,7 @@
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="smsloginpage.h" />
     <QtMoc Include="updategroupwidget.h" />
+    <QtMoc Include="vipitemwidget.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -252,6 +254,7 @@
     <QtUic Include="registerpage.ui" />
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="updategroupwidget.ui" />
+    <QtUic Include="vipitemwidget.ui" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\login\ScreenShots.jpg" />
@@ -266,7 +269,6 @@
     <None Include="resource\login\ico_phone.png" />
     <None Include="resource\login\ico_up.png" />
     <None Include="main\level.png" />
-    <None Include="resource\main\level.png" />
     <None Include="main\level_Premier.png" />
     <None Include="main\level_enhancenment.png" />
     <None Include="main\level_normal.png" />

@@ -15,6 +15,8 @@
 #include "creategroupwidget.h"
 #include "updategroupwidget.h"
 #include "levelitemwidget.h"
+#include <QAbstractItemView>
+#include "vipitemwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -79,6 +81,8 @@ void MainWindow::InitBuyTab()
     ui->listWidgetLevel->setResizeMode(QListWidget::Adjust);
     //设置不能移动
     ui->listWidgetLevel->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetLevel->setSelectionMode(QAbstractItemView::SingleSelection);
 
     //初始化列表云手机购买列表+云手机续费 等级列表
     LevelItemWidget* widget = NULL;
@@ -87,6 +91,7 @@ void MainWindow::InitBuyTab()
     //qDebug() << "map size() =" << iCount;
     //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
     //for (; iter != map.constEnd(); iter++)
+    QToolButton* toolBtn;
     QString strImage;
     for (int i = 0; i < 3; i++)
     {
@@ -104,13 +109,19 @@ void MainWindow::InitBuyTab()
         default:
             break;
         }
-        widget = new LevelItemWidget(strImage,this);//(*iter.value(), this);
+        widget = new LevelItemWidget((LEVEL_TYPE)i,strImage,this);//(*iter.value(), this);
+        connect(widget, &LevelItemWidget::showVIPTypeSignals, this, &MainWindow::do_showVIPTypeSignals);
+        /*toolBtn = new QToolButton(ui->listWidgetLevel);
+        toolBtn->setText(QString("%1").arg(i));
+        toolBtn->setIcon(QIcon(strImage));
+        toolBtn->setStyleSheet();*/
 
         item = new QListWidgetItem(ui->listWidgetLevel);
         item->setSizeHint(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
         item->setData(Qt::UserRole, i);
         ui->listWidgetLevel->addItem(item);
         ui->listWidgetLevel->setItemWidget(item, widget);
+        //ui->listWidgetLevel->setItemWidget(item, toolBtn);
         //qDebug() << "listwidget load itemwidget record[ sceneId=" << iter.key() << "]";
     }
 }
@@ -1120,6 +1131,7 @@ void MainWindow::on_btnBeginPay_clicked()
 
 void MainWindow::on_listWidgetLevel_itemClicked(QListWidgetItem *item)
 {
+    qDebug() << "listWidget level click";
     if (NULL == item)
         return;
     //选项更改
@@ -1129,22 +1141,99 @@ void MainWindow::on_listWidgetLevel_itemClicked(QListWidgetItem *item)
     LevelItemWidget* levelItemWidget = NULL;
     QListWidgetItem* levelItem=NULL;
     int iCount = ui->listWidgetLevel->count();
+    LEVEL_TYPE enType;
+    int iVIPType = 0;
+    QListWidgetItem* vipItem = NULL;
+    VIPItemWidget* vipWidget = NULL;
     for(int iRow=0; iRow < iCount;iRow++)
     {
         levelItem = ui->listWidgetLevel->item(iRow);
         levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(levelItem));
-        if (levelItem == item)
+        //if (levelItem == item)
         {
+            enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
+            qDebug()<<"当前选中：等级"<<enType;
             levelItemWidget->setLabelCheckStatus(true);
             //加载套餐列表
             //ui->listWidgetVIP
+            for(iVIPType = 0; iVIPType = ITEM_WIDGET_VIP_COUNT;iVIPType++)
+            {
+                vipItem = new QListWidgetItem(ui->listWidgetVIP);
+                vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                vipItem->setData(Qt::UserRole, iVIPType);
+                ui->listWidgetVIP->addItem(vipItem);
+                vipWidget = new VIPItemWidget((VIP_TYPE)iVIPType,this);
+                ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
+            }
+
+
 
             //续费的列表
             //ui->listWidgetRenewList
         }
-        else
+        /*else
+        {
             levelItemWidget->setLabelCheckStatus(false);
+        }*/
         //levelItem = static_cast<LevelItemWidget*>(ui->listWidgetLevel->item(iRow)->);
     }
 }
 
+
+void MainWindow::on_listWidgetLevel_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    qDebug()<<"on_listWidgetLevel_currentItemChanged";
+    if (previous)
+    {
+        previous->setIcon(QIcon());
+    }
+    if (current)
+    {
+        current->setIcon(QIcon(":/login/resource/login/option_select.png"));
+    }
+}
+
+//level item 
+void MainWindow::do_showVIPTypeSignals(LEVEL_TYPE enType)
+{
+    qDebug() << "click do_showVIPTypeSignals level Type="<<enType;
+    //设置显示
+    LevelItemWidget* levelItemWidget = NULL;
+    QListWidgetItem* levelItem=NULL;
+    int iCount = ui->listWidgetLevel->count();
+    int iVIPType = 0;
+    QListWidgetItem* vipItem = NULL;
+    VIPItemWidget* vipWidget = NULL;
+    for(int iRow=0; iRow < iCount;iRow++)
+    {
+        levelItem = ui->listWidgetLevel->item(iRow);
+        if (levelItem->data(Qt::UserRole).toInt() != enType)
+        {
+            levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(levelItem));
+            //enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
+            qDebug()<<"当前选中：等级"<<enType;
+            levelItemWidget->setLabelCheckStatus(true);
+            /*//加载套餐列表
+            //ui->listWidgetVIP
+            for(iVIPType = 0; iVIPType = ITEM_WIDGET_VIP_COUNT;iVIPType++)
+            {
+                vipItem = new QListWidgetItem(ui->listWidgetVIP);
+                vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                vipItem->setData(Qt::UserRole, iVIPType);
+                ui->listWidgetVIP->addItem(vipItem);
+                vipWidget = new VIPItemWidget((VIP_TYPE)iVIPType,this);
+                ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
+            }*/
+
+
+
+            //续费的列表
+            //ui->listWidgetRenewList
+        }
+        /*else
+        {
+            levelItemWidget->setLabelCheckStatus(false);
+        }*/
+        //levelItem = static_cast<LevelItemWidget*>(ui->listWidgetLevel->item(iRow)->);
+    }
+}

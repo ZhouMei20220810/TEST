@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>938</width>
     <height>600</height>
    </rect>
   </property>
@@ -152,6 +152,11 @@ color: rgb(204, 204, 204);
 border-radius:3px;
 }
 QToolButton:hover {
+color: rgb(255, 255, 255);
+background-color: rgb(41, 105, 205);
+border-radius:3px;
+}
+QToolButton:pressed {
 color: rgb(255, 255, 255);
 background-color: rgb(41, 105, 205);
 border-radius:3px;
