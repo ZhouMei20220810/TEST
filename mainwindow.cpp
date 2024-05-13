@@ -17,6 +17,7 @@
 #include "levelitemwidget.h"
 #include <QAbstractItemView>
 #include "vipitemwidget.h"
+#include "Logoutdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -1016,6 +1017,11 @@ void MainWindow::on_btnMax_clicked()
 
 void MainWindow::on_btnClose_clicked()
 {
+    LogoutDialog *logoutDialog = new LogoutDialog();
+    int ret = logoutDialog->exec();
+    if(ret != QDialog::Accepted)
+        return;
+
     //关闭窗口并且退出登录
     qDebug() << "注销";
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -1174,6 +1180,10 @@ void MainWindow::on_btnBeginPay_clicked()
 {
     //确定支付
     //获取界面选中的值
+    float fTotalPrice = ui->labelPayMoney->text().toFloat();
+    qDebug() << "总价=" << fTotalPrice;
+
+    //http调用支付宝接口
 
 }
 

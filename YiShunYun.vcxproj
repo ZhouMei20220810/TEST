@@ -202,6 +202,7 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Logoutdialog.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="vipitemwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="Logoutdialog.h" />
     <QtMoc Include="creategroupwidget.h" />
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
@@ -245,6 +247,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="Logoutdialog.ui" />
     <QtUic Include="creategroupwidget.ui" />
     <QtUic Include="forgetpwdialog.ui" />
     <QtUic Include="levelitemwidget.ui" />
