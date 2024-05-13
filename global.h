@@ -35,17 +35,31 @@
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 #define HTTP_SUCCESS_CODE           200
+
+#define         ITEM_WIDGET_SPACING             15
+//level item
+#define         ITEM_WIDGET_LEVEL_WIDTH         200
+#define         ITEM_WIDGET_LEVEL_HEIGHT        150
 enum LEVEL_TYPE
 {
     LEVEL_NOMAL_LEVEL = 0,          //标准型
     LEVEL_ENHANCEMENT_TYPE = 1,     //增强型
     LEVEL_PREMIER_TYPE = 2          //尊享型
 };
-
-#define         ITEM_WIDGET_SPACING             15
-//level item
-#define         ITEM_WIDGET_LEVEL_WIDTH         200
-#define         ITEM_WIDGET_LEVEL_HEIGHT        150
+//vip item
+#define         ITEM_WIDGET_VIP_WIDTH           50
+#define         ITEM_WIDGET_VIP_HEIGHT          70
+#define         ITEM_WIDGET_VIP_COUNT           7//列表总数
+enum VIP_TYPE
+{
+    VIP_TYPE_0 = 0,
+    VIP_TYPE_1 = 1,
+    VIP_TYPE_2 = 2,
+    VIP_TYPE_3 = 3,
+    VIP_TYPE_4 = 4,
+    VIP_TYPE_5 = 5,
+    VIP_TYPE_6 = 6
+};
 
 QString getMessageByCode(long code);
 

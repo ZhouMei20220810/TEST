@@ -19,7 +19,8 @@ SOURCES += \
     passwordloginpage.cpp \
     registerpage.cpp \
     smsloginpage.cpp \
-    updategroupwidget.cpp
+    updategroupwidget.cpp \
+    vipitemwidget.cpp
 
 HEADERS += \
     creategroupwidget.h \
@@ -31,7 +32,8 @@ HEADERS += \
     passwordloginpage.h \
     registerpage.h \
     smsloginpage.h \
-    updategroupwidget.h
+    updategroupwidget.h \
+    vipitemwidget.h
 
 FORMS += \
     creategroupwidget.ui \
@@ -42,7 +44,8 @@ FORMS += \
     passwordloginpage.ui \
     registerpage.ui \
     smsloginpage.ui \
-    updategroupwidget.ui
+    updategroupwidget.ui \
+    vipitemwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
