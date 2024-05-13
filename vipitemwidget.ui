@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>91</width>
-    <height>80</height>
+    <width>100</width>
+    <height>120</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,54 +18,84 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>91</width>
-     <height>81</height>
+     <width>101</width>
+     <height>120</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QToolButton {
-border:none;
-color: rgb(204, 204, 204);
-border-radius:3px;
-background-image: url(:/main/main/level_enhancenment.png);
-}
-QToolButton:hover  {
-background-color: rgb(41, 105, 205);
-color: rgb(255, 255, 255);
-border-radius:3px;
-background-image: url(:/main/main/level_normal.png)
-}
-QToolButton:pressed  {
-background-color: rgb(41, 105, 205);
-color: rgb(255, 255, 255);
-border-radius:3px;
-background-image: url(:/main/main/level_normal.png)
-}
-QToolButton:clicked  {
-background-color: rgb(41, 105, 205);
-color: rgb(255, 255, 255);
-border-radius:3px;
-background-image: url(:/main/main/level_normal.png)
-}</string>
+    <string notr="true">QToolButton{background-color:#FFE6DDE5;border:4px;border-color:red;}</string>
    </property>
    <property name="text">
-    <string>...</string>
+    <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="labelCheck">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>0</y>
+     <width>21</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="res.qrc">:/login/resource/login/option_select.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelTotalTime">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>30</y>
      <width>53</width>
      <height>15</height>
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>VIP 30天</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelTotalPrice">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>53</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>32.80</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelDayPrice">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>80</y>
+     <width>53</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1.09元/天</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

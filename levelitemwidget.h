@@ -25,8 +25,6 @@ private:
     Ui::LevelItemWidget *ui;
     LEVEL_TYPE m_levelType;
     // QObject interface
-public:
-    virtual bool eventFilter(QObject *watched, QEvent *event) override;
 private slots:
     void on_toolButtonBG_clicked();
 };

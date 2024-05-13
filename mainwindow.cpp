@@ -56,7 +56,7 @@ void MainWindow::InitCloudPhoneTab()
     ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);
     //ui->treeWidget->setCheckBoxes(true);
 
-
+    //隐藏续费列表
     ui->listWidgetRenew->setHidden(true);
 }
 
@@ -69,6 +69,16 @@ void MainWindow::InitActiveCodeTab()
 
 //购买
 void MainWindow::InitBuyTab()
+{
+    InitLevelList();
+    InitVipList();
+
+    //隐藏续费列表
+    ui->listWidgetRenewList->setHidden(true);
+}
+
+//初始化列表
+void MainWindow::InitLevelList()
 {
     //imageList->resize(365,400);
     //设置QListWidget的显示模式
@@ -95,7 +105,7 @@ void MainWindow::InitBuyTab()
     QString strImage;
     for (int i = 0; i < 3; i++)
     {
-        switch(i)
+        switch (i)
         {
         case LEVEL_NOMAL_LEVEL:
             strImage = ":/main/main/level_normal.png";
@@ -109,7 +119,7 @@ void MainWindow::InitBuyTab()
         default:
             break;
         }
-        widget = new LevelItemWidget((LEVEL_TYPE)i,strImage,this);//(*iter.value(), this);
+        widget = new LevelItemWidget((LEVEL_TYPE)i, strImage, this);//(*iter.value(), this);
         connect(widget, &LevelItemWidget::showVIPTypeSignals, this, &MainWindow::do_showVIPTypeSignals);
         /*toolBtn = new QToolButton(ui->listWidgetLevel);
         toolBtn->setText(QString("%1").arg(i));
@@ -124,6 +134,44 @@ void MainWindow::InitBuyTab()
         //ui->listWidgetLevel->setItemWidget(item, toolBtn);
         //qDebug() << "listwidget load itemwidget record[ sceneId=" << iter.key() << "]";
     }
+}
+void MainWindow::InitVipList()
+{
+    //imageList->resize(365,400);
+    //设置QListWidget的显示模式
+    ui->listWidgetVIP->setViewMode(QListView::IconMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetVIP->setSpacing(ITEM_WIDGET_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetVIP->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetVIP->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetVIP->setSelectionMode(QAbstractItemView::SingleSelection);
+}
+
+void MainWindow::InitVipRenewList()
+{
+    //imageList->resize(365,400);
+    //设置QListWidget的显示模式
+    ui->listWidgetRenewList->setViewMode(QListView::ListMode);//(QListView::IconMode);
+
+    //ui-->setViewMode(QListView::IconMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetRenewList->setSpacing(ITEM_WIDGET_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetRenewList->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetRenewList->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetRenewList->setSelectionMode(QAbstractItemView::SingleSelection);
+    QStringList headers;
+    headers << "Column 1" << "Column 2" << "Column 3";
+    //ui->listWidgetRenewList->setHeaderLabels(headers);
 }
 
 void MainWindow::QueryAllGroup()//查询全部分组
@@ -1129,70 +1177,6 @@ void MainWindow::on_btnBeginPay_clicked()
 
 }
 
-void MainWindow::on_listWidgetLevel_itemClicked(QListWidgetItem *item)
-{
-    qDebug() << "listWidget level click";
-    if (NULL == item)
-        return;
-    //选项更改
-    //LevelItemWidget* levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(item));
-    //levelItemWidget->setLabelCheckStatus(true);
-
-    LevelItemWidget* levelItemWidget = NULL;
-    QListWidgetItem* levelItem=NULL;
-    int iCount = ui->listWidgetLevel->count();
-    LEVEL_TYPE enType;
-    int iVIPType = 0;
-    QListWidgetItem* vipItem = NULL;
-    VIPItemWidget* vipWidget = NULL;
-    for(int iRow=0; iRow < iCount;iRow++)
-    {
-        levelItem = ui->listWidgetLevel->item(iRow);
-        levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(levelItem));
-        //if (levelItem == item)
-        {
-            enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
-            qDebug()<<"当前选中：等级"<<enType;
-            levelItemWidget->setLabelCheckStatus(true);
-            //加载套餐列表
-            //ui->listWidgetVIP
-            for(iVIPType = 0; iVIPType = ITEM_WIDGET_VIP_COUNT;iVIPType++)
-            {
-                vipItem = new QListWidgetItem(ui->listWidgetVIP);
-                vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-                vipItem->setData(Qt::UserRole, iVIPType);
-                ui->listWidgetVIP->addItem(vipItem);
-                vipWidget = new VIPItemWidget((VIP_TYPE)iVIPType,this);
-                ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
-            }
-
-
-
-            //续费的列表
-            //ui->listWidgetRenewList
-        }
-        /*else
-        {
-            levelItemWidget->setLabelCheckStatus(false);
-        }*/
-        //levelItem = static_cast<LevelItemWidget*>(ui->listWidgetLevel->item(iRow)->);
-    }
-}
-
-
-void MainWindow::on_listWidgetLevel_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
-{
-    qDebug()<<"on_listWidgetLevel_currentItemChanged";
-    if (previous)
-    {
-        previous->setIcon(QIcon());
-    }
-    if (current)
-    {
-        current->setIcon(QIcon(":/login/resource/login/option_select.png"));
-    }
-}
-
 //level item 
 void MainWindow::do_showVIPTypeSignals(LEVEL_TYPE enType)
 {
@@ -1200,40 +1184,74 @@ void MainWindow::do_showVIPTypeSignals(LEVEL_TYPE enType)
     //设置显示
     LevelItemWidget* levelItemWidget = NULL;
     QListWidgetItem* levelItem=NULL;
-    int iCount = ui->listWidgetLevel->count();
-    int iVIPType = 0;
-    QListWidgetItem* vipItem = NULL;
-    VIPItemWidget* vipWidget = NULL;
+    LEVEL_TYPE currentType;
+    int iCount = ui->listWidgetLevel->count();    
     for(int iRow=0; iRow < iCount;iRow++)
     {
         levelItem = ui->listWidgetLevel->item(iRow);
-        if (levelItem->data(Qt::UserRole).toInt() != enType)
+        currentType = (LEVEL_TYPE)levelItem->data(Qt::UserRole).toInt();
+        if (currentType != enType)
         {
             levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(levelItem));
             //enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
-            qDebug()<<"当前选中：等级"<<enType;
-            levelItemWidget->setLabelCheckStatus(true);
-            /*//加载套餐列表
-            //ui->listWidgetVIP
-            for(iVIPType = 0; iVIPType = ITEM_WIDGET_VIP_COUNT;iVIPType++)
-            {
-                vipItem = new QListWidgetItem(ui->listWidgetVIP);
-                vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-                vipItem->setData(Qt::UserRole, iVIPType);
-                ui->listWidgetVIP->addItem(vipItem);
-                vipWidget = new VIPItemWidget((VIP_TYPE)iVIPType,this);
-                ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
-            }*/
-
-
+            qDebug()<<"iRow="<<iRow<<"currentType="<<currentType<<"选中状态：";
+            levelItemWidget->setLabelCheckStatus(false);
 
             //续费的列表
             //ui->listWidgetRenewList
         }
-        /*else
+    }
+
+    //加载vip列表
+    loadVipType(enType);
+}
+
+//初始化vip列表
+void MainWindow::loadVipType(LEVEL_TYPE enType)
+{
+    //清空列表
+    ui->listWidgetVIP->clear();
+    qDebug() << "加载vip列表 enType=" << enType;
+    //加载套餐列表
+            //ui->listWidgetVIP
+    int iVIPType = 0;
+    QListWidgetItem* vipItem = NULL;
+    VIPItemWidget* vipWidget = NULL;
+    for (int iVIPType = 0; iVIPType < ITEM_WIDGET_VIP_COUNT; iVIPType++)
+    {
+        vipItem = new QListWidgetItem(ui->listWidgetVIP);
+        vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        vipItem->setData(Qt::UserRole, iVIPType);
+        ui->listWidgetVIP->addItem(vipItem);
+
+        qDebug() << "vip=" << iVIPType;
+
+        vipWidget = new VIPItemWidget((VIP_TYPE)iVIPType, this);
+        connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
+        ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
+    }
+}
+
+//vip item
+void MainWindow::do_selectVIPTypeSignals(VIP_TYPE enType)
+{
+    qDebug() << "click do_selectVIPTypeSignals vip Type=" << enType;
+    //设置显示
+    VIPItemWidget* vipItemWidget = NULL;
+    QListWidgetItem* levelItem = NULL;
+    int iCount = ui->listWidgetVIP->count();
+    for (int iRow = 0; iRow < iCount; iRow++)
+    {
+        levelItem = ui->listWidgetVIP->item(iRow);
+        if (levelItem->data(Qt::UserRole).toInt() != enType)
         {
-            levelItemWidget->setLabelCheckStatus(false);
-        }*/
-        //levelItem = static_cast<LevelItemWidget*>(ui->listWidgetLevel->item(iRow)->);
+            vipItemWidget = static_cast<VIPItemWidget*>(ui->listWidgetVIP->itemWidget(levelItem));
+            //enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
+            qDebug() << "当前选中：等级" << enType;
+            vipItemWidget->setLabelCheckStatus(false);
+
+            //续费的列表
+            //ui->listWidgetRenewList
+        }
     }
 }

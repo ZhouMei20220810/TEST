@@ -70,6 +70,13 @@ private slots:
     void InitActiveCodeTab();
     //购买
     void InitBuyTab();
+    //初始化列表
+    void InitLevelList();
+    void InitVipList();
+    void InitVipRenewList();
+   
+    //初始化vip列表
+    void loadVipType(LEVEL_TYPE enType);
 
     void on_btnCreateGroup_clicked();
     void on_btnGroupRefresh_clicked();
@@ -86,11 +93,10 @@ private slots:
 
     void on_btnBeginPay_clicked();
 
-    void on_listWidgetLevel_itemClicked(QListWidgetItem *item);
-
-    void on_listWidgetLevel_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     //level item 
     void do_showVIPTypeSignals(LEVEL_TYPE enType);
+    //vip item
+    void do_selectVIPTypeSignals(VIP_TYPE enType);
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;

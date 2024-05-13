@@ -47,8 +47,8 @@ enum LEVEL_TYPE
     LEVEL_PREMIER_TYPE = 2          //尊享型
 };
 //vip item
-#define         ITEM_WIDGET_VIP_WIDTH           50
-#define         ITEM_WIDGET_VIP_HEIGHT          70
+#define         ITEM_WIDGET_VIP_WIDTH           100
+#define         ITEM_WIDGET_VIP_HEIGHT          120
 #define         ITEM_WIDGET_VIP_COUNT           7//列表总数
 enum VIP_TYPE
 {
