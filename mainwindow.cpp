@@ -1184,7 +1184,12 @@ void MainWindow::on_btnBeginPay_clicked()
     qDebug() << "总价=" << fTotalPrice;
 
     //http调用支付宝接口
+    qDebug()<<QSslSocket::sslLibraryBuildVersionString();
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    qDebug()<<manager->supportedSchemes();
 
+    std::string str = "Hello World";
+    qDebug() << QString::fromStdString(sha256(str));
 }
 
 //level item 

@@ -75,6 +75,7 @@ typedef struct VIP_ITEM_INFO
 
 
 QString getMessageByCode(long code);
+std::string sha256(const std::string str);
 
 
 enum ENUM_LOGIN_PAGE_TYPE
