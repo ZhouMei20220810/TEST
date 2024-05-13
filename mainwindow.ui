@@ -287,6 +287,9 @@ border-radius:3px;
                </item>
                <item>
                 <widget class="QTreeWidget" name="treeWidget">
+                 <property name="styleSheet">
+                  <string notr="true">border:none</string>
+                 </property>
                  <column>
                   <property name="text">
                    <string notr="true">1</string>
@@ -309,6 +312,20 @@ border-radius:3px;
                  <layout class="QHBoxLayout" name="horizontalLayout_2">
                   <item>
                    <widget class="QToolButton" name="toolBtnPreviewMode">
+                    <property name="styleSheet">
+                     <string notr="true">QToolButton {border:none;
+color: rgb(204, 204, 204);
+	background-color: rgb(41, 105, 205);
+border-radius:3px;
+padding-left:10px;
+}
+QToolButton:hover {
+color: rgb(255, 255, 255);
+background-color: rgb(41, 105, 205);
+border-radius:3px;
+padding-left:10px;
+}</string>
+                    </property>
                     <property name="text">
                      <string>预览模式</string>
                     </property>
@@ -316,6 +333,19 @@ border-radius:3px;
                   </item>
                   <item>
                    <widget class="QToolButton" name="toolBtnListMode">
+                    <property name="styleSheet">
+                     <string notr="true">QToolButton {border:none;
+color: rgb(204, 204, 204);
+border-radius:3px;
+padding-left:10px;
+}
+QToolButton:hover {
+background-color: rgb(41, 105, 205);
+color: rgb(255, 255, 255);
+border-radius:3px;
+padding-left:10px;
+}</string>
+                    </property>
                     <property name="text">
                      <string>列表模式</string>
                     </property>
@@ -412,7 +442,11 @@ border-radius:3px;
                 </widget>
                </item>
                <item>
-                <widget class="QListWidget" name="listWidget"/>
+                <widget class="QListWidget" name="listWidget">
+                 <property name="styleSheet">
+                  <string notr="true">border:none</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -701,7 +735,11 @@ padding-left:10px;
               </layout>
              </item>
              <item>
-              <widget class="QListWidget" name="listWidgetLevel"/>
+              <widget class="QListWidget" name="listWidgetLevel">
+               <property name="styleSheet">
+                <string notr="true">border:none</string>
+               </property>
+              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_12">
@@ -730,10 +768,18 @@ padding-left:10px;
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_16">
                <item>
-                <widget class="QListWidget" name="listWidgetVIP"/>
+                <widget class="QListWidget" name="listWidgetVIP">
+                 <property name="styleSheet">
+                  <string notr="true">border:none</string>
+                 </property>
+                </widget>
                </item>
                <item>
-                <widget class="QListWidget" name="listWidgetRenewList"/>
+                <widget class="QListWidget" name="listWidgetRenewList">
+                 <property name="styleSheet">
+                  <string notr="true">border:none</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
