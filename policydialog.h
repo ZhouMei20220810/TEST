@@ -12,7 +12,7 @@ class PolicyDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PolicyDialog(QString strTitle,QWidget *parent = nullptr);
+    explicit PolicyDialog(QString strTitle,QString strUrl,QWidget *parent = nullptr);
     ~PolicyDialog();
 
 private slots:

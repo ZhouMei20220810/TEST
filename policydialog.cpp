@@ -1,7 +1,8 @@
 #include "policydialog.h"
 #include "ui_policydialog.h"
+#include <QWebEngineView>
 
-PolicyDialog::PolicyDialog(QString strTitle,QWidget *parent)
+PolicyDialog::PolicyDialog(QString strTitle,QString strUrl,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::PolicyDialog)
 {
@@ -10,6 +11,8 @@ PolicyDialog::PolicyDialog(QString strTitle,QWidget *parent)
     setWindowFlag(Qt::FramelessWindowHint);
 
     ui->labelTitle->setText(strTitle);
+    qDebug()<<"url:"<<strUrl;
+    ui->webView->load(QUrl(strUrl));
 }
 
 PolicyDialog::~PolicyDialog()

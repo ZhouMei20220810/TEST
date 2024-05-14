@@ -343,10 +343,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="plainTextEdit"/>
+    <widget class="QWebEngineView" name="webView" native="true"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">qwebengineview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>
