@@ -23,9 +23,8 @@ PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     //设置默认值
     //ui->lineEditPhone->setText("15019445205");
     //ui->lineEditPassword->setText("123456");
-    //隐藏返回和客服按钮
-    ui->btnReturn->setVisible(false);
-    ui->btnCustomerService->setVisible(false);
+    //隐藏返回、客服按钮、隐藏验证码登录功能
+    ui->btnSMSLogin->setVisible(false);
 
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     bool bRemmemberPW = setting.value("IsRemmemberPW",false).toBool();
@@ -52,10 +51,10 @@ PasswordLoginPage::~PasswordLoginPage()
     delete ui;
 }
 
-void PasswordLoginPage::on_btnReturn_clicked()
+/*void PasswordLoginPage::on_btnReturn_clicked()
 {
     emit showPageType(TYPE_SMSLOGIN_PAGE);
-}
+}*/
 
 void PasswordLoginPage::on_btnRegister_clicked()
 {

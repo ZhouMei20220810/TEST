@@ -21,7 +21,7 @@ signals:
     void showLoginWindow(ENUM_LOGIN_STATUS enStatus);
     void closeWindowSignals();
 private slots:
-    void on_btnReturn_clicked();
+    //void on_btnReturn_clicked();
 
     void on_btnRegister_clicked();
 
