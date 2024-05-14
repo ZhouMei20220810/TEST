@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">border-radius:4px;
+   <string notr="true">border-radius:3px;
 background-color: #FFFFFFFF;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -137,6 +137,9 @@ background-color: #FFFFFFFF;</string>
         </colorrole>
        </disabled>
       </palette>
+     </property>
+     <property name="cursor">
+      <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color:#FF0080FF;</string>
@@ -311,6 +314,9 @@ background-color: #FFFFFFFF;</string>
           <width>24</width>
           <height>32</height>
          </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover {
@@ -504,10 +510,10 @@ border-radius: 3px;</string>
             <string notr="true">border:none;
 color:#FF4A4A4A;
 background-color: #FFE7E8EE;
-</string>
+padding-left:10px;</string>
            </property>
            <property name="echoMode">
-            <enum>QLineEdit::Password</enum>
+            <enum>QLineEdit::Normal</enum>
            </property>
            <property name="placeholderText">
             <string>短信验证码</string>
@@ -642,7 +648,7 @@ border-radius: 3px;</string>
              <string/>
             </property>
             <property name="echoMode">
-             <enum>QLineEdit::Normal</enum>
+             <enum>QLineEdit::Password</enum>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -700,6 +706,9 @@ border-radius: 3px;</string>
             </property>
             <property name="styleSheet">
              <string notr="true">border:none</string>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
             </property>
             <property name="placeholderText">
              <string>确定密码</string>
@@ -893,6 +902,9 @@ border-radius: 3px;</string>
           <font>
            <pointsize>10</pointsize>
           </font>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
          </property>
          <property name="styleSheet">
           <string notr="true"> QPushButton {

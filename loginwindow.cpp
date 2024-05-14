@@ -19,13 +19,11 @@ LoginWindow::LoginWindow(QWidget *parent)
     m_passwordLoginPage = new PasswordLoginPage(this);
     m_smsLoginPage = new SMSLoginPage(this);
     //loginWindow的子窗口
-    //m_registerPage = new RegisterPage(this);
-    //独立窗口
-    m_registerPage = new RegisterPage();
+    //m_registerPage = new RegisterPage(this);    
 
     m_passwordLoginPage->move(PAGE_WIDGET_X_POS,PAGE_WIDGET_Y_POS);
     m_smsLoginPage->move(PAGE_WIDGET_X_POS,PAGE_WIDGET_Y_POS);
-    m_registerPage->move(PAGE_WIDGET_X_POS,PAGE_WIDGET_Y_POS);
+    //m_registerPage->move(PAGE_WIDGET_X_POS,PAGE_WIDGET_Y_POS);
 
     //showPage(TYPE_SMSLOGIN_PAGE);
     showPage(TYPE_PASSWORDLOGIN_PAGE);
@@ -39,11 +37,11 @@ LoginWindow::LoginWindow(QWidget *parent)
             this->close();
         });
 
-    connect(m_registerPage, &RegisterPage::showPageType, this, [=](ENUM_LOGIN_PAGE_TYPE type)
+    /*connect(m_registerPage, &RegisterPage::showPageType, this, [=](ENUM_LOGIN_PAGE_TYPE type)
             {
                 this->show();
                 showPage(type);
-            });
+            });*/
     connect(m_passwordLoginPage,&PasswordLoginPage::showPageType,this, [=](ENUM_LOGIN_PAGE_TYPE type)
             {
         showPage(type);        
@@ -80,7 +78,7 @@ void LoginWindow::showPage(ENUM_LOGIN_PAGE_TYPE type)
 {
     m_passwordLoginPage->hide();
     m_smsLoginPage->hide();
-    m_registerPage->hide();
+    //m_registerPage->hide();
 
     switch (type) {
     case TYPE_PASSWORDLOGIN_PAGE:
@@ -93,6 +91,13 @@ void LoginWindow::showPage(ENUM_LOGIN_PAGE_TYPE type)
     {
         //关闭登录窗口
         this->hide();
+        //独立窗口
+        m_registerPage = new RegisterPage();
+        connect(m_registerPage, &RegisterPage::showPageType, this, [=](ENUM_LOGIN_PAGE_TYPE type)
+            {
+                this->show();
+                showPage(type);
+            });
         m_registerPage->show();
     }        
         break;

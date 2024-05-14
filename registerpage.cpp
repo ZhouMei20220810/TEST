@@ -9,16 +9,38 @@
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
 #include "mainwindow.h"
+#include "messagetipsdialog.h"
 
 RegisterPage::RegisterPage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::RegisterPage)
 {
     ui->setupUi(this);
+    //无边框
     setWindowFlags(Qt::FramelessWindowHint);
+    //透明背景
+    //setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    //setStyleSheet("QWidget{backgroud:#FFFFFFFF;border:1px solid #A0A0A0; padding10px;box-shadow:5px 5px 10px rgba(0,0,0,0.5);}");
+    //setStyleSheet("QWidget{backgroud:#FFFFFFFF;border:none; padding:10px;box-shadow:5px 5px 10px rgba(0,0,0,0.8);}");
 
     ui->btnCustomerService->setVisible(false);
+
+    //设置屏幕居中显示
+    //QGuiApplication* desktop = QApplication::primaryScreen(); // =qApp->desktop();也可以
+    //QScreen *primaryScreen = QGuiApplication::primaryScreen();
+    //this->setGeometry(0,0,260,100);
+    //qDebug("十进制%d",this->width());
+    //this->move((primaryScreen->geometry().width() - this->width())/2, (primaryScreen->geometry().height() - this->height())/2);
+    /*QList<QScreen*> screen = QGuiApplication::screens();
+    if(screen.size()>=1)
+    {
+        // 窗口居中
+        int iNewPosX = (screen[0]->geometry().width()-this->width())/2;
+        int iNewPosY = (screen[0]->geometry().height()-this->height())/2;
+        qDebug()<<"setSceneNameAndTagsList move : iNewPosX="<< iNewPosX<<"iNewPosY="<<iNewPosY;
+        this->move(iNewPosX,iNewPosY);
+    }*/
 }
 
 RegisterPage::~RegisterPage()
@@ -27,11 +49,57 @@ RegisterPage::~RegisterPage()
 }
 
 void RegisterPage::on_btnRegister_clicked()
-{
+{    
     //注册
     QString strPhone = ui->lineEditPhone->text();
+    if(strPhone.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("手机号码不能为空",this);
+        tips->show();
+        return;
+    }
     QString strSMSCode = ui->lineEditSMSCode->text();
+    if(strSMSCode.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("短信验证码不能为空",this);
+        tips->show();
+        return;
+    }
     QString strPassword = ui->lineEditPassword->text();
+    if(strPassword.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("密码不能为空",this);
+        tips->show();
+        return;
+    }
+    QString strConfirmPW = ui->lineEditConfirmPW->text();
+    if(strConfirmPW.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("确定密码不能为空",this);
+        tips->show();
+        return;
+    }
+    if(strPassword != strConfirmPW)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("两次密码输入不一致！",this);
+        tips->show();
+        return;
+    }
+
+    if(strPassword.length() < 6 || strPassword.length() > 16)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("密码错误,密码须为6-16位字母和数字组成!",this);
+        tips->show();
+        return;
+    }
+
+    bool bAgree = ui->checkBoxPolicy->isChecked();
+    if(!bAgree)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("注册前须阅读并同意,服务协议和隐私保护声明!",this);
+        tips->show();
+        return;
+    }
 
     //创建网络访问管理器
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -119,6 +187,7 @@ void RegisterPage::on_btnRegister_clicked()
 
 void RegisterPage::on_btnReturn_clicked()
 {
+    this->close();
     emit showPageType(TYPE_PASSWORDLOGIN_PAGE);
 }
 
@@ -130,7 +199,8 @@ void RegisterPage::on_pushButton_clicked()
     QString strPhone = ui->lineEditPhone->text();
     if(strPhone.isEmpty())
     {
-        QMessageBox::warning(this,"提示","输入手机号码不能为空");
+        MessageTipsDialog* tips = new MessageTipsDialog("手机号码不能为空！",this);
+        tips->show();
         return;
     }
 

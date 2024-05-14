@@ -24,6 +24,7 @@ SOURCES += \
     main.cpp \
     loginwindow.cpp \
     mainwindow.cpp \
+    messagetipsdialog.cpp \
     passwordloginpage.cpp \
     registerpage.cpp \
     smsloginpage.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     levelitemwidget.h \
     loginwindow.h \
     mainwindow.h \
+    messagetipsdialog.h \
     passwordloginpage.h \
     registerpage.h \
     smsloginpage.h \
@@ -51,6 +53,7 @@ FORMS += \
     levelitemwidget.ui \
     loginwindow.ui \
     mainwindow.ui \
+    messagetipsdialog.ui \
     passwordloginpage.ui \
     registerpage.ui \
     smsloginpage.ui \
