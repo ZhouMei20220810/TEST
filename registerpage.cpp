@@ -15,7 +15,10 @@ RegisterPage::RegisterPage(QWidget *parent)
     , ui(new Ui::RegisterPage)
 {
     ui->setupUi(this);
+    setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_DeleteOnClose, true);
+
+    ui->btnCustomerService->setVisible(false);
 }
 
 RegisterPage::~RegisterPage()
@@ -182,5 +185,11 @@ void RegisterPage::on_pushButton_clicked()
         }
         reply->deleteLater();
     });
+}
+
+
+void RegisterPage::on_pushButton_2_clicked()
+{
+    this->close();
 }
 
