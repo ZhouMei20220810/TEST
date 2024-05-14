@@ -26,6 +26,12 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_btnUserPolicy_clicked();
+
+    void on_btnPrivacyPolicy_clicked();
+
+    void on_btnDisclaimer_clicked();
+
 private:
     Ui::RegisterPage *ui;
 };

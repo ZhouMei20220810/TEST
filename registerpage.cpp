@@ -10,6 +10,7 @@
 #include <QRegularExpression>
 #include "mainwindow.h"
 #include "messagetipsdialog.h"
+#include "policydialog.h"
 
 RegisterPage::RegisterPage(QWidget *parent)
     : QWidget(parent)
@@ -261,5 +262,29 @@ void RegisterPage::on_pushButton_clicked()
 void RegisterPage::on_pushButton_2_clicked()
 {
     this->close();
+}
+
+
+void RegisterPage::on_btnUserPolicy_clicked()
+{
+    //用户使用协议
+    PolicyDialog* policy = new PolicyDialog("用户使用协议");
+    policy->show();
+}
+
+
+void RegisterPage::on_btnPrivacyPolicy_clicked()
+{
+    //隐私政策
+    PolicyDialog* policy = new PolicyDialog("隐私政策");
+    policy->show();
+}
+
+
+void RegisterPage::on_btnDisclaimer_clicked()
+{
+    //免责申明
+    PolicyDialog* policy = new PolicyDialog("免责声明");
+    policy->show();
 }
 
