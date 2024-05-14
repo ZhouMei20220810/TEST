@@ -5,7 +5,6 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QMessageBox>
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
 #include "mainwindow.h"
@@ -177,7 +176,8 @@ void RegisterPage::on_btnRegister_clicked()
                     }
                     else
                     {
-                        QMessageBox::warning(this, "错误提示", strMessage);
+                        MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                        tips->show();
                     }
                 }
             }

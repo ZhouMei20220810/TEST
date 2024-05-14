@@ -5,11 +5,11 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QMessageBox>
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
 #include "mainwindow.h"
 #include <QSettings>
+#include "messagetipsdialog.h"
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
 
@@ -75,13 +75,23 @@ void PasswordLoginPage::on_btnLogin_clicked()
     QString strAccount = ui->lineEditPhone->text();
     if (strAccount.isEmpty())
     {
-        QMessageBox::warning(this, "错误提示", "账号不能为空");
+        MessageTipsDialog* tips = new MessageTipsDialog("账号不能为空!",this);
+        tips->show();
         return;
     }
+    //判断是否为手机号
+    if(strAccount.length() < 11)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("请输入正确的手机!",this);
+        tips->show();
+        return;
+    }
+
     QString strPassword = ui->lineEditPassword->text();
     if (strPassword.isEmpty())
     {
-        QMessageBox::warning(this, "错误提示", "密码不能为空");
+        MessageTipsDialog* tips = new MessageTipsDialog("密码不能为空!",this);
+        tips->show();
         return;
     }
 
@@ -174,7 +184,8 @@ void PasswordLoginPage::on_btnLogin_clicked()
                     }
                     else
                     {
-                        QMessageBox::warning(this, tr("提示"), strMessage);
+                        MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                        tips->show();
                     }
                 }
             }

@@ -9,7 +9,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QUrlQuery>
-#include <QMessageBox>
 #include <QTreeWidget>
 #include <QMenu>
 #include "creategroupwidget.h"
@@ -18,6 +17,7 @@
 #include <QAbstractItemView>
 #include "vipitemwidget.h"
 #include "Logoutdialog.h"
+#include "messagetipsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -258,7 +258,8 @@ void MainWindow::QueryAllGroup()//查询全部分组
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -352,7 +353,8 @@ void MainWindow::CreateGroup(QString strGroupName)//创建分组
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -418,7 +420,8 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -479,7 +482,8 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -543,7 +547,8 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -627,7 +632,8 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -717,7 +723,8 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -776,7 +783,8 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -835,7 +843,8 @@ void MainWindow::HttpDeleteOrder(int iOrderId)
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -925,7 +934,8 @@ void MainWindow::GetMyPhoneInstance()
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }
@@ -1090,7 +1100,8 @@ void MainWindow::on_btnClose_clicked()
                 }
                 else
                 {
-                    QMessageBox::warning(this, tr("错误提示"), strMessage);
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
                 }
             }
         }

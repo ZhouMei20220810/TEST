@@ -1,6 +1,5 @@
 #include "smsloginpage.h"
 #include "ui_smsloginpage.h"
-#include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -8,6 +7,7 @@
 #include <QJsonObject>
 #include <QUrlQuery>
 #include "mainwindow.h"
+#include "messagetipsdialog.h"
 
 SMSLoginPage::SMSLoginPage(QWidget *parent)
     : QWidget(parent)
@@ -37,7 +37,8 @@ void SMSLoginPage::on_btnGetSMSCode_clicked()
     QString strPhone = ui->lineEditPhone->text();
     if(strPhone.isEmpty())
     {
-        QMessageBox::warning(this,"提示","输入手机号码不能为空");
+        MessageTipsDialog* tips = new MessageTipsDialog("输入手机号码不能为空!", this);
+        tips->show();
         return;
     }
 
@@ -102,13 +103,15 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
     QString strPhone = ui->lineEditPhone->text();
     if (strPhone.isEmpty())
     {
-        QMessageBox::warning(this, "错误提示", "手机不能为空");
+        MessageTipsDialog* tips = new MessageTipsDialog("手机不能为空!", this);
+        tips->show();
         return;
     }
     QString strSMSCode = ui->lineEditSMSCode->text();
     if (strSMSCode.isEmpty())
     {
-        QMessageBox::warning(this, "错误提示", "验证码不能为空");
+        MessageTipsDialog* tips = new MessageTipsDialog("验证码不能为空!", this);
+        tips->show();
         return;
     }
 
@@ -195,7 +198,8 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                     }
                     else
                     {
-                        QMessageBox::warning(this, tr("提示"), strMessage);
+                        MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                        tips->show();
                     }
                 }
             }

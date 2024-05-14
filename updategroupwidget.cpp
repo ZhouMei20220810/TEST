@@ -1,6 +1,6 @@
 #include "updategroupwidget.h"
 #include "ui_updategroupwidget.h"
-#include <QMessageBox>
+#include "messagetipsdialog.h"
 
 UpdateGroupWidget::UpdateGroupWidget(QWidget *parent)
     : QWidget(parent)
@@ -22,7 +22,8 @@ void UpdateGroupWidget::on_btnOk_clicked()
     QString strGroupName = ui->lineEditGroupName->text();
     if(strGroupName.isEmpty())
     {
-        QMessageBox::warning(this, "错误提示", "名称不能为空");
+        MessageTipsDialog* tips = new MessageTipsDialog("名称不能为空!", this);
+        tips->show();
         return;
     }
 
