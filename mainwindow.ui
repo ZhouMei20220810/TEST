@@ -6,15 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>938</width>
-    <height>600</height>
+    <width>1366</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
@@ -22,6 +40,15 @@
       </property>
       <item>
        <widget class="QLabel" name="labelLogo">
+        <property name="minimumSize">
+         <size>
+          <width>59</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(37, 39, 51);</string>
+        </property>
         <property name="text">
          <string>Logo</string>
         </property>
@@ -119,6 +146,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,10">
       <item>
        <widget class="QFrame" name="frame">
+        <property name="styleSheet">
+         <string notr="true">QFrame{backgroud-color:#FF363847}</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -129,11 +159,23 @@
          <property name="spacing">
           <number>0</number>
          </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QToolButton" name="toolBtnCloudPhone">
            <property name="minimumSize">
             <size>
-             <width>55</width>
+             <width>59</width>
              <height>63</height>
             </size>
            </property>
@@ -148,17 +190,17 @@
            <property name="styleSheet">
             <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
-	background-color: rgb(41, 105, 205);
+	background-color: rgb(54, 56, 71);
 border-radius:3px;
 }
 QToolButton:hover {
 color: rgb(255, 255, 255);
-background-color: rgb(41, 105, 205);
+background-color: rgb(37, 39, 51);
 border-radius:3px;
 }
 QToolButton:pressed {
 color: rgb(255, 255, 255);
-background-color: rgb(41, 105, 205);
+background-color: rgb(37, 39, 51);
 border-radius:3px;
 }</string>
            </property>
@@ -171,7 +213,7 @@ border-radius:3px;
           <widget class="QToolButton" name="toolBtnActiveCode">
            <property name="minimumSize">
             <size>
-             <width>55</width>
+             <width>59</width>
              <height>63</height>
             </size>
            </property>
@@ -181,8 +223,13 @@ color: rgb(204, 204, 204);
 border-radius:3px;
 }
 QToolButton:hover {
-background-color: rgb(41, 105, 205);
 color: rgb(255, 255, 255);
+background-color: rgb(37, 39, 51);
+border-radius:3px;
+}
+QToolButton:pressed {
+color: rgb(255, 255, 255);
+background-color: rgb(37, 39, 51);
 border-radius:3px;
 }</string>
            </property>
@@ -195,7 +242,7 @@ border-radius:3px;
           <widget class="QToolButton" name="toolBtnBuy">
            <property name="minimumSize">
             <size>
-             <width>55</width>
+             <width>59</width>
              <height>63</height>
             </size>
            </property>
@@ -205,8 +252,13 @@ color: rgb(204, 204, 204);
 border-radius:3px;
 }
 QToolButton:hover {
-background-color: rgb(41, 105, 205);
 color: rgb(255, 255, 255);
+background-color: rgb(37, 39, 51);
+border-radius:3px;
+}
+QToolButton:pressed {
+color: rgb(255, 255, 255);
+background-color: rgb(37, 39, 51);
 border-radius:3px;
 }</string>
            </property>

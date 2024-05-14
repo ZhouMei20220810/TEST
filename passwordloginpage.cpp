@@ -9,6 +9,9 @@
 #include <QRegularExpressionValidator>
 #include <QRegularExpression>
 #include "mainwindow.h"
+#include <QSettings>
+#define     ORGANIZATION_NAME       "YSY"
+#define     APPLICATION_NAME        "YSY STUDIO"
 
 PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     : QWidget(parent)
@@ -24,8 +27,24 @@ PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     ui->btnReturn->setVisible(false);
     ui->btnCustomerService->setVisible(false);
 
-    ui->lineEditPhone->setText("18774660070");
-    ui->lineEditPassword->setText("123456");
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    bool bRemmemberPW = setting.value("IsRemmemberPW",false).toBool();
+    bool bAutoLogin = setting.value("IsAutoLogin", false).toBool();
+    //自动登录
+    if(bRemmemberPW)
+    {
+        ui->checkBoxRemberPW->setChecked(true);
+        QString strAccount = setting.value("account","").toString();
+        ui->lineEditPhone->setText(strAccount);
+        QString strPassword = setting.value("password","").toString();
+        ui->lineEditPassword->setText(strPassword);        
+    }
+
+    if(bAutoLogin)
+    {
+        ui->checkBoxAutoLogin->setChecked(true);
+        on_btnLogin_clicked();
+    }
 }
 
 PasswordLoginPage::~PasswordLoginPage()
@@ -125,9 +144,21 @@ void PasswordLoginPage::on_btnLogin_clicked()
                             userInfo.strPhotoUrl = userDetailVO["photoUrl"].toString();
 
                             qDebug() << "登录成功：" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
-
+                            if (bRemmemberPW)
+                            {
+                                QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+                                setting.setValue("IsRemmemberPW", bRemmemberPW);
+                                setting.setValue("IsAutoLogin", bAutoLogin);
+                                setting.setValue("id", userInfo.id);
+                                setting.setValue("name", userInfo.strName);
+                                setting.setValue("account", userInfo.strAccount);
+                                setting.setValue("password",strPassword);
+                                setting.setValue("photoUrl", userInfo.strPhotoUrl);
+                                setting.setValue("mobile", userInfo.strMobile);
+                            }
                             //关闭
-                            this->close();
+                            //this->close();
+                            emit closeWindowSignals();
 
                             //去掉父窗口
                             MainWindow* mainWindow = new MainWindow();
@@ -169,6 +200,16 @@ void PasswordLoginPage::on_btnForgetPW_clicked()
     {
         emit showLoginWindow(TYPE_WINDOWS_CLOSE);
         //this->close();
+    }
+}
+
+
+void PasswordLoginPage::on_checkBoxAutoLogin_clicked(bool checked)
+{
+    //自动登录勾选
+    if(checked)
+    {
+        ui->checkBoxRemberPW->setChecked(true);
     }
 }
 

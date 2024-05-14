@@ -19,6 +19,7 @@ public:
 signals:
     void showPageType(ENUM_LOGIN_PAGE_TYPE type);
     void showLoginWindow(ENUM_LOGIN_STATUS enStatus);
+    void closeWindowSignals();
 private slots:
     void on_btnReturn_clicked();
 
@@ -29,6 +30,8 @@ private slots:
     void on_btnLogin_clicked();
 
     void on_btnForgetPW_clicked();
+
+    void on_checkBoxAutoLogin_clicked(bool checked);
 
 private:
     Ui::PasswordLoginPage *ui;

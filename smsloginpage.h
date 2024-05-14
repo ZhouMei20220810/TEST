@@ -15,7 +15,8 @@ public:
     explicit SMSLoginPage(QWidget *parent = nullptr);
     ~SMSLoginPage();
 signals:
-    void showPageType(ENUM_LOGIN_PAGE_TYPE type);    
+    void showPageType(ENUM_LOGIN_PAGE_TYPE type);
+    void closeWindowSignals();
 private slots:
     void on_btnPasswordLogin_clicked();
 

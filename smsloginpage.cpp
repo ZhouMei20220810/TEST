@@ -178,7 +178,8 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                             qDebug() << "登录成功：" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
 
                             //关闭
-                            this->close();
+                            //this->close();
+                            emit closeWindowSignals();
 
                             //去掉父窗口
                             MainWindow* mainWindow = new MainWindow();
