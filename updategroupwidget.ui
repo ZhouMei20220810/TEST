@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#FFFFFFFF;</string>
+  </property>
   <widget class="QLineEdit" name="lineEditGroupName">
    <property name="geometry">
     <rect>

@@ -201,7 +201,13 @@ void RegisterPage::on_pushButton_clicked()
     QString strPhone = ui->lineEditPhone->text();
     if(strPhone.isEmpty())
     {
-        MessageTipsDialog* tips = new MessageTipsDialog("手机号码不能为空！",this);
+        MessageTipsDialog* tips = new MessageTipsDialog("手机号码不能为空!",this);
+        tips->show();
+        return;
+    }
+    if(strPhone.length() < 11)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("请输入正确的手机号!",this);
         tips->show();
         return;
     }

@@ -20,6 +20,10 @@ private slots:
 
     void on_btnClose_clicked();
 
+    void on_btnGetCode_clicked();
+
+    void on_btnOK_clicked();
+
 private:
     Ui::ForgetPWDialog *ui;
 };

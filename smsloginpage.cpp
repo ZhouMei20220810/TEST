@@ -37,7 +37,7 @@ void SMSLoginPage::on_btnGetSMSCode_clicked()
     QString strPhone = ui->lineEditPhone->text();
     if(strPhone.isEmpty())
     {
-        MessageTipsDialog* tips = new MessageTipsDialog("输入手机号码不能为空!", this);
+        MessageTipsDialog* tips = new MessageTipsDialog("输入手机号不能为空!", this);
         tips->show();
         return;
     }
