@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "global.h"
+#include <QMouseEvent>
 
 namespace Ui {
 class RegisterPage;
@@ -34,6 +35,12 @@ private slots:
 
 private:
     Ui::RegisterPage *ui;
+
+    QPoint m_dragPosition;
+    // QWidget interface
+protected:
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // REGISTERPAGE_H

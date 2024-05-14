@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 	setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_DeleteOnClose,true);
+	setAttribute(Qt::WA_Hover, true);
 
     //初始化Tab云手机
     InitCloudPhoneTab();
@@ -1316,3 +1317,23 @@ void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
     ui->labelPayMoney->setText(str);
 }
 
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        m_dragPosition = event->globalPos()-frameGeometry().topLeft();
+        raise();
+        event->accept();
+    }
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton)
+    {
+        move(event->globalPos() - m_dragPosition);
+        event->accept();
+    }
+}

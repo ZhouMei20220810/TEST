@@ -2,6 +2,7 @@
 #define POLICYDIALOG_H
 
 #include <QDialog>
+#include <QMouseEvent>
 
 namespace Ui {
 class PolicyDialog;
@@ -20,6 +21,12 @@ private slots:
 
 private:
     Ui::PolicyDialog *ui;
+
+    QPoint m_dragPosition;
+    // QWidget interface
+protected:
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // POLICYDIALOG_H

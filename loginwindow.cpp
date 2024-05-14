@@ -15,6 +15,7 @@ LoginWindow::LoginWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_Hover, true);
 
     m_passwordLoginPage = new PasswordLoginPage(this);
     m_smsLoginPage = new SMSLoginPage(this);
@@ -111,4 +112,21 @@ void LoginWindow::on_pushButton_clicked()
     this->close();
 }
 
+void LoginWindow::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        m_dragPosition = event->globalPos()-frameGeometry().topLeft();
+        raise();
+        event->accept();
+    }
+}
 
+void LoginWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton)
+    {
+        move(event->globalPos() - m_dragPosition);
+        event->accept();
+    }
+}

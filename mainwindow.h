@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QTreeWidgetItem>
 #include <QListWidgetItem>
+#include <QMouseEvent>
 
 namespace Ui {
 class MainWindow;
@@ -108,6 +109,12 @@ private:
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
 
     S_VIP_ITEM_INFO m_curVIPInfo;
+
+    QPoint m_dragPosition;
+    // QWidget interface
+protected:
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

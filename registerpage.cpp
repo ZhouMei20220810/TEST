@@ -22,6 +22,7 @@ RegisterPage::RegisterPage(QWidget *parent)
     //透明背景
     //setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    setAttribute(Qt::WA_Hover, true);
     //setStyleSheet("QWidget{backgroud:#FFFFFFFF;border:1px solid #A0A0A0; padding10px;box-shadow:5px 5px 10px rgba(0,0,0,0.5);}");
     //setStyleSheet("QWidget{backgroud:#FFFFFFFF;border:none; padding:10px;box-shadow:5px 5px 10px rgba(0,0,0,0.8);}");
 
@@ -291,3 +292,21 @@ void RegisterPage::on_btnDisclaimer_clicked()
     policy->exec();
 }
 
+void RegisterPage::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        m_dragPosition = event->globalPos()-frameGeometry().topLeft();
+        raise();
+        event->accept();
+    }
+}
+
+void RegisterPage::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->buttons() & Qt::LeftButton)
+    {
+        move(event->globalPos() - m_dragPosition);
+        event->accept();
+    }
+}
