@@ -23,8 +23,6 @@ private:
     void showPage(ENUM_LOGIN_PAGE_TYPE type);
 private slots:
     void on_pushButton_clicked();
-
-    void do_LoginHttpResponseSignals(QByteArray response);
 private:
     Ui::LoginWindow *ui;
 
