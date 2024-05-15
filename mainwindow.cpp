@@ -69,6 +69,15 @@ void MainWindow::InitCloudPhoneTab()
 
     //初始化设备列表
     InitPhoneList();
+
+    //初始化QComboBox
+    ui->comboBoxSystem->addItem("安卓","andrios");
+    ui->comboBoxSystem->addItem("苹果","ios");
+
+    ui->comboBoxLevel->addItem("标准型","vip");
+    ui->comboBoxLevel->addItem("增强型","GVIP");
+    ui->comboBoxLevel->addItem("尊享型","KVIP");
+
 }
 
 
