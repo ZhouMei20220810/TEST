@@ -71,7 +71,8 @@ private slots:
     void InitActiveCodeTab();
     //购买
     void InitBuyTab();
-    //初始化列表
+    //初始化列列表
+    void InitPhoneList();
     void InitLevelList();
     void InitVipList();
     void InitVipRenewList();

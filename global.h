@@ -35,6 +35,9 @@
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 #define HTTP_SUCCESS_CODE           200
+//phone item
+#define         ITEM_PHONE_VERTICAL_WIDTH       207 //竖屏宽度
+#define         ITEM_PHONE_VERTICAL_HEIGHT      368 //竖屏高度
 
 #define         ITEM_WIDGET_SPACING             15
 //level item

@@ -18,6 +18,7 @@
 #include "vipitemwidget.h"
 #include "Logoutdialog.h"
 #include "messagetipsdialog.h"
+#include "phoneitemwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -65,6 +66,9 @@ void MainWindow::InitCloudPhoneTab()
     ui->btnExpansion->setVisible(false);
     //隐藏展开功能按钮
     ui->toolBtnExpansionFunction->setVisible(false);
+
+    //初始化设备列表
+    InitPhoneList();
 }
 
 
@@ -85,6 +89,56 @@ void MainWindow::InitBuyTab()
 }
 
 //初始化列表
+void MainWindow::InitPhoneList()
+{
+    //imageList->resize(365,400);
+    //设置QListWidget的显示模式
+    ui->listWidget->setViewMode(QListView::IconMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidget->setSpacing(ITEM_WIDGET_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidget->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidget->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    //初始化手机列表,假数据
+    PhoneItemWidget* widget = NULL;
+    QListWidgetItem* item = NULL;
+    //int iCount = map.size();
+    //qDebug() << "map size() =" << iCount;
+    //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
+    //for (; iter != map.constEnd(); iter++)
+    QString strImage;
+    for (int i = 0; i < 3; i++)
+    {
+        /*switch (i)
+        {
+        case LEVEL_NOMAL_LEVEL:
+            strImage = ":/main/main/level_normal.png";
+            break;
+        case LEVEL_ENHANCEMENT_TYPE:
+            strImage = ":/main/main/level_enhancenment.png";
+            break;
+        case LEVEL_PREMIER_TYPE:
+            strImage = ":/main/main/level_Premier.png";
+            break;
+        default:
+            break;
+        }*/
+        widget = new PhoneItemWidget(this);
+
+        item = new QListWidgetItem(ui->listWidget);
+        item->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        item->setData(Qt::UserRole, i);
+        ui->listWidget->addItem(item);
+        ui->listWidget->setItemWidget(item, widget);
+    }
+}
+
 void MainWindow::InitLevelList()
 {
     //imageList->resize(365,400);

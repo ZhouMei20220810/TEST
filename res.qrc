@@ -55,5 +55,6 @@
         <file>resource/main/packup.png</file>
         <file>resource/main/sync.png</file>
         <file>resource/main/macroscheme.png</file>
+        <file>resource/main/addPhone.png</file>
     </qresource>
 </RCC>
