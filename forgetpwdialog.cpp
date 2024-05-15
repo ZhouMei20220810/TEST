@@ -106,6 +106,54 @@ void ForgetPWDialog::on_btnGetCode_clicked()
 
 void ForgetPWDialog::on_btnOK_clicked()
 {
+    QString strPhone = ui->lineEditPhone->text();
+    if(strPhone.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("手机号码不能为空!",this);
+        tips->show();
+        return;
+    }
+    if(strPhone.length() < 11)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("请输入正确的手机!",this);
+        tips->show();
+        return;
+    }
+    QString strSMSCode = ui->lineEditSMSCode->text();
+    if(strSMSCode.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("短信验证码不能为空",this);
+        tips->show();
+        return;
+    }
+    QString strPassword = ui->lineEditNewPW->text();
+    if(strPassword.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("密码不能为空",this);
+        tips->show();
+        return;
+    }
+    QString strConfirmPW = ui->lineEditConfirmPW->text();
+    if(strConfirmPW.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("确定密码不能为空",this);
+        tips->show();
+        return;
+    }
+    if(strPassword != strConfirmPW)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("两次密码输入不一致！",this);
+        tips->show();
+        return;
+    }
+
+    if(strPassword.length() < 6 || strPassword.length() > 16)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("密码错误,密码须为6-16位字母和数字组成!",this);
+        tips->show();
+        return;
+    }
+
     //请求服务器接口,暂未
 }
 
