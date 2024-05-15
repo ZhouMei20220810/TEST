@@ -35,5 +35,13 @@
         <file>resource/main/max_normal.png</file>
         <file>resource/main/min_normal.png</file>
         <file>resource/main/setting_normal.png</file>
+        <file>resource/main/buy_hover.png</file>
+        <file>resource/main/logo.png</file>
+        <file>resource/main/photo_border.png</file>
+        <file>resource/main/checked.png</file>
+        <file>resource/main/newGroup.png</file>
+        <file>resource/main/refresh.png</file>
+        <file>resource/main/uncheck.png</file>
+        <file>resource/main/allSelect.png</file>
     </qresource>
 </RCC>

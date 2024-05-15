@@ -955,10 +955,14 @@ void MainWindow::on_toolBtnCloudPhone_clicked()
     {
         return;
     }
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/cloudPhone_select.png);}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/activeCode_normal.png);}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/buy_normal.png);}");
 
-    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+
+    //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
 
     ui->stackedWidget->setCurrentIndex(0);
 
@@ -971,9 +975,12 @@ void MainWindow::on_toolBtnActiveCode_clicked()
     {
         return;
     }
-    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/cloudPhone_normal.png);}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/activeCode_select.png);}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/buy_normal.png);}");
+    //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
 
     ui->stackedWidget->setCurrentIndex(1);
 }
@@ -985,9 +992,12 @@ void MainWindow::on_toolBtnBuy_clicked()
     {
         return;
     }
-    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/cloudPhone_normal.png);}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/activeCode_select.png);}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/buy_normal.png);}");
+    //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
 
     ui->stackedWidget->setCurrentIndex(2);
 }
