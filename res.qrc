@@ -43,5 +43,17 @@
         <file>resource/main/refresh.png</file>
         <file>resource/main/uncheck.png</file>
         <file>resource/main/allSelect.png</file>
+        <file>resource/main/listMode_normal.png</file>
+        <file>resource/main/listMode_select.png</file>
+        <file>resource/main/previewMode_normal.png</file>
+        <file>resource/main/previewMode_select.png</file>
+        <file>resource/main/changeScreen.png</file>
+        <file>resource/main/batchOper.png</file>
+        <file>resource/main/appInstaller.png</file>
+        <file>resource/main/buyNum.png</file>
+        <file>resource/main/expand.png</file>
+        <file>resource/main/packup.png</file>
+        <file>resource/main/sync.png</file>
+        <file>resource/main/macroscheme.png</file>
     </qresource>
 </RCC>

@@ -678,13 +678,13 @@ background-image: url(:/main/resource/main/setting_normal.png)
                    <widget class="QFrame" name="frame_5">
                     <property name="minimumSize">
                      <size>
-                      <width>280</width>
+                      <width>278</width>
                       <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize">
                      <size>
-                      <width>280</width>
+                      <width>278</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -798,7 +798,7 @@ border-bottom: 1px solid #D7D7DE;
                    <widget class="QTreeWidget" name="treeWidget">
                     <property name="maximumSize">
                      <size>
-                      <width>280</width>
+                      <width>278</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -821,6 +821,25 @@ border-radius:0px;</string>
                 <layout class="QVBoxLayout" name="verticalLayout_8">
                  <item>
                   <widget class="QFrame" name="frame_4">
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>24</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>24</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QFrame {
+color: rgb(255, 255, 255);
+background-color: #FFFFE5E6;
+border-radius:0px;
+}</string>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
                    </property>
@@ -828,6 +847,15 @@ border-radius:0px;</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <property name="spacing">
+                     <number>30</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="labelExpire">
                       <property name="text">
@@ -876,20 +904,6 @@ border-radius:0px;</string>
                       </property>
                      </spacer>
                     </item>
-                    <item>
-                     <widget class="QPushButton" name="btnRefresh">
-                      <property name="text">
-                       <string>刷新</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="btnChange">
-                      <property name="text">
-                       <string>切换横屏</string>
-                      </property>
-                     </widget>
-                    </item>
                    </layout>
                   </widget>
                  </item>
@@ -910,7 +924,24 @@ border-radius:0px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="lineEditSearchName"/>
+                     <widget class="QLineEdit" name="lineEditSearchName">
+                      <property name="minimumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:#E7E8EE;
+border:none;</string>
+                      </property>
+                     </widget>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_12">
@@ -920,7 +951,29 @@ border-radius:0px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBoxSystem"/>
+                     <widget class="QComboBox" name="comboBoxSystem">
+                      <property name="minimumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>9</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:#E7E8EE;
+border:none;</string>
+                      </property>
+                     </widget>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_13">
@@ -930,7 +983,34 @@ border-radius:0px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBoxLevel"/>
+                     <widget class="QComboBox" name="comboBoxLevel">
+                      <property name="minimumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QComboBox::down-arrow{
+image:url(:/login/resource/login/ico_down.png);
+}
+background-color:#E7E8EE;
+border:none;
+QComboBox{
+  color:#666666;
+  font-size:14px;
+  padding: 1px 15px 1px 3px;
+  border:1px solid rgba(228,228,228,1);
+  border-radius:5px 5px 0px 0px;
+} </string>
+                      </property>
+                     </widget>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_14">
@@ -940,10 +1020,72 @@ border-radius:0px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QComboBox" name="comboBoxStatus"/>
+                     <widget class="QComboBox" name="comboBoxStatus">
+                      <property name="minimumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>109</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:#E7E8EE;
+border:none;</string>
+                      </property>
+                     </widget>
                     </item>
                     <item>
                      <widget class="QPushButton" name="btnSearch">
+                      <property name="minimumSize">
+                       <size>
+                        <width>68</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>68</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"> QPushButton {
+     border: 0px solid #555764;
+     border-radius:2px;
+	 background-color: #FF363847;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:0px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 0px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:disabled
+{
+ background-color: #FFC1C1C1;
+ color:#FFFFFFFF;
+}
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+                      </property>
                       <property name="text">
                        <string>搜索</string>
                       </property>
@@ -951,6 +1093,45 @@ border-radius:0px;</string>
                     </item>
                     <item>
                      <widget class="QPushButton" name="btnBatchSearch">
+                      <property name="minimumSize">
+                       <size>
+                        <width>68</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"> QPushButton {
+     border: 0px solid #555764;
+     border-radius:2px;
+	 background-color: #FF363847;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:0px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 0px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:disabled
+{
+ background-color: #FFC1C1C1;
+ color:#FFFFFFFF;
+}
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+                      </property>
                       <property name="text">
                        <string>批量搜索</string>
                       </property>
@@ -963,7 +1144,7 @@ border-radius:0px;</string>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
-                        <width>224</width>
+                        <width>237</width>
                         <height>20</height>
                        </size>
                       </property>
@@ -981,44 +1162,83 @@ border-radius:0px;</string>
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_2">
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
                     <item>
                      <widget class="QToolButton" name="toolBtnPreviewMode">
+                      <property name="maximumSize">
+                       <size>
+                        <width>92</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>10</pointsize>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
-	background-color: rgb(41, 105, 205);
-border-radius:3px;
-padding-left:10px;
+	background-color:#FF9092A4;
+border-radius:1px;
+padding-left:8px;
 }
 QToolButton:hover {
 color: rgb(255, 255, 255);
-background-color: rgb(41, 105, 205);
-border-radius:3px;
-padding-left:10px;
+background-color: #FFE7E8EE;
+border-radius:1px;
+padding-left:8px;
 }</string>
                       </property>
                       <property name="text">
                        <string>预览模式</string>
                       </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/previewMode_select.png</normaloff>:/main/resource/main/previewMode_select.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                      </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnListMode">
+                      <property name="maximumSize">
+                       <size>
+                        <width>92</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>10</pointsize>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
-border-radius:3px;
-padding-left:10px;
+border-radius:1px;
+padding-left:8px;
 }
 QToolButton:hover {
-background-color: rgb(41, 105, 205);
+background-color: #FFE7E8EE;
 color: rgb(255, 255, 255);
-border-radius:3px;
-padding-left:10px;
+border-radius:1px;
+padding-left:8px;
 }</string>
                       </property>
                       <property name="text">
                        <string>列表模式</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/listMode_normal.png</normaloff>:/main/resource/main/listMode_normal.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -1035,6 +1255,50 @@ padding-left:10px;
                       </property>
                      </spacer>
                     </item>
+                    <item>
+                     <widget class="QToolButton" name="toolBtnChangeScreen">
+                      <property name="minimumSize">
+                       <size>
+                        <width>96</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>96</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>10</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: rgb(204, 204, 204);
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: rgb(255, 255, 255);
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>切换竖屏</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/changeScreen.png</normaloff>:/main/resource/main/changeScreen.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </widget>
                  </item>
@@ -1049,13 +1313,102 @@ padding-left:10px;
                    <layout class="QHBoxLayout" name="horizontalLayout_6">
                     <item>
                      <widget class="QPushButton" name="btnCancelSelect">
+                      <property name="minimumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"> QPushButton {
+     border: 0px solid #555764;
+     border-radius:2px;
+	 background-color: #FF363847;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:0px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 0px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:disabled
+{
+ background-color: #FFC1C1C1;
+ color:#FFFFFFFF;
+}
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+                      </property>
                       <property name="text">
                        <string>取消选择</string>
+                      </property>
+                      <property name="flat">
+                       <bool>true</bool>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QCheckBox" name="checkBoxAllSelect">
+                      <property name="minimumSize">
+                       <size>
+                        <width>48</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
+                      </property>
                       <property name="text">
                        <string>全选</string>
                       </property>
@@ -1063,6 +1416,47 @@ padding-left:10px;
                     </item>
                     <item>
                      <widget class="QCheckBox" name="checkBoxFanSelect">
+                      <property name="minimumSize">
+                       <size>
+                        <width>48</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
+                      </property>
                       <property name="text">
                        <string>反选</string>
                       </property>
@@ -1070,6 +1464,9 @@ padding-left:10px;
                     </item>
                     <item>
                      <widget class="QLabel" name="label_10">
+                      <property name="styleSheet">
+                       <string notr="true">color:#D7D7DE;border:none;</string>
+                      </property>
                       <property name="text">
                        <string>|</string>
                       </property>
@@ -1077,36 +1474,197 @@ padding-left:10px;
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnMacroscheme">
+                      <property name="minimumSize">
+                       <size>
+                        <width>76</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>76</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
                       <property name="text">
                        <string>宏方案</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/macroscheme.png</normaloff>:/main/resource/main/macroscheme.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnBatchOperation">
+                      <property name="minimumSize">
+                       <size>
+                        <width>76</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
                       <property name="text">
                        <string>批量操作</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/batchOper.png</normaloff>:/main/resource/main/batchOper.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnAppInstall">
+                      <property name="minimumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>76</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
                       <property name="text">
                        <string>应用安装</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/appInstaller.png</normaloff>:/main/resource/main/appInstaller.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnSyncOperation">
+                      <property name="minimumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>76</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
                       <property name="text">
                        <string>同步操作</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/sync.png</normaloff>:/main/resource/main/sync.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="pushButton">
+                     <widget class="QPushButton" name="btnBuyNum">
+                      <property name="minimumSize">
+                       <size>
+                        <width>14</width>
+                        <height>14</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>14</width>
+                        <height>14</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton {
+border: none; 
+border-radius: 999px; 
+background: transparent;
+background-image: url(:/main/resource/main/buyNum.png);
+}
+QPushButton:hover{
+border: none; 
+border-radius: 999px; 
+background: transparent;
+background-image: url(:/main/resource/main/default_photoUrl.png);
+}</string>
+                      </property>
                       <property name="text">
-                       <string>PushButton</string>
+                       <string/>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/buyNum.png</normaloff>:/main/resource/main/buyNum.png</iconset>
+                      </property>
+                      <property name="flat">
+                       <bool>true</bool>
                       </property>
                      </widget>
                     </item>
@@ -1117,7 +1675,7 @@ padding-left:10px;
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
-                        <width>316</width>
+                        <width>234</width>
                         <height>20</height>
                        </size>
                       </property>
@@ -1125,15 +1683,79 @@ padding-left:10px;
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnDropFunction">
+                      <property name="minimumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
                       <property name="text">
                        <string>收起功能</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/packup.png</normaloff>:/main/resource/main/packup.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnExpansionFunction">
+                      <property name="minimumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>86</width>
+                        <height>28</height>
+                       </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: #FF4A4A4A;
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
                       <property name="text">
                        <string>展开功能</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/expand.png</normaloff>:/main/resource/main/expand.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -1174,7 +1796,7 @@ padding-left:10px;
                         <property name="sizeHint" stdset="0">
                          <size>
                           <width>9</width>
-                          <height>202</height>
+                          <height>206</height>
                          </size>
                         </property>
                        </spacer>
@@ -1251,7 +1873,7 @@ padding-left:10px;
                         <property name="sizeHint" stdset="0">
                          <size>
                           <width>9</width>
-                          <height>202</height>
+                          <height>207</height>
                          </size>
                         </property>
                        </spacer>
