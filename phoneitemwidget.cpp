@@ -12,3 +12,9 @@ PhoneItemWidget::~PhoneItemWidget()
 {
     delete ui;
 }
+
+void PhoneItemWidget::on_btnAddPhone_clicked()
+{
+    qDebug()<<"添加设备";
+}
+

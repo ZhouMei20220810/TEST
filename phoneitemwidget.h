@@ -15,6 +15,9 @@ public:
     explicit PhoneItemWidget(QWidget *parent = nullptr);
     ~PhoneItemWidget();
 
+private slots:
+    void on_btnAddPhone_clicked();
+
 private:
     Ui::PhoneItemWidget *ui;
 };

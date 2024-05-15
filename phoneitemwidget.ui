@@ -16,50 +16,89 @@
   <property name="styleSheet">
    <string notr="true">QWidget{background-color:#FFE7E8EE;}</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
    <property name="topMargin">
-    <number>148</number>
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>148</number>
+    <number>0</number>
    </property>
    <item>
-    <widget class="QPushButton" name="btnAddPhone">
+    <widget class="QFrame" name="frame">
      <property name="styleSheet">
-      <string notr="true">border:none;
+      <string notr="true">QFrame{background-color:#FFE7E8EE;}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>148</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>148</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="btnAddPhone">
+        <property name="styleSheet">
+         <string notr="true">border:none;
 background:transparent;</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="res.qrc">
-       <normaloff>:/main/resource/main/addPhone.png</normaloff>:/main/resource/main/addPhone.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>36</width>
-       <height>36</height>
-      </size>
-     </property>
-     <property name="flat">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label">
-     <property name="styleSheet">
-      <string notr="true">color:#FF4A4A4A;
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/main/resource/main/addPhone.png</normaloff>:/main/resource/main/addPhone.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>36</width>
+          <height>36</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="styleSheet">
+         <string notr="true">color:#FF4A4A4A;
 border:none;
 background:transparent;</string>
-     </property>
-     <property name="text">
-      <string>添加新设备</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+        </property>
+        <property name="text">
+         <string>添加新设备</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

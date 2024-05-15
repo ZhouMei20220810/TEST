@@ -970,8 +970,22 @@ border:none;</string>
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color:#E7E8EE;
-border:none;</string>
+                       <string notr="true">QComboBox{
+background-color:#E7E8EE;
+border:none;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:30px;width:15px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
+} </string>
                       </property>
                      </widget>
                     </item>
@@ -997,17 +1011,21 @@ border:none;</string>
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QComboBox::down-arrow{
-image:url(:/login/resource/login/ico_down.png);
-}
+                       <string notr="true">QComboBox{
 background-color:#E7E8EE;
 border:none;
-QComboBox{
-  color:#666666;
-  font-size:14px;
-  padding: 1px 15px 1px 3px;
-  border:1px solid rgba(228,228,228,1);
-  border-radius:5px 5px 0px 0px;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:30px;width:15px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
 } </string>
                       </property>
                      </widget>
@@ -1034,8 +1052,22 @@ QComboBox{
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color:#E7E8EE;
-border:none;</string>
+                       <string notr="true">QComboBox{
+background-color:#E7E8EE;
+border:none;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:30px;width:15px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
+} </string>
                       </property>
                      </widget>
                     </item>
