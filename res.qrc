@@ -18,9 +18,22 @@
         <file>resource/login/ico_lock.png</file>
     </qresource>
     <qresource prefix="/main">
-        <file>main/level.png</file>
-        <file>main/level_enhancenment.png</file>
-        <file>main/level_normal.png</file>
-        <file>main/level_Premier.png</file>
+        <file>resource/main/control_contraction.png</file>
+        <file>resource/main/level.png</file>
+        <file>resource/main/level_enhancenment.png</file>
+        <file>resource/main/level_normal.png</file>
+        <file>resource/main/level_Premier.png</file>
+        <file>resource/main/control_expansion.png</file>
+        <file>resource/main/activeCode_normal.png</file>
+        <file>resource/main/activeCode_select.png</file>
+        <file>resource/main/buy_normal.png</file>
+        <file>resource/main/buy_select.png</file>
+        <file>resource/main/cloudPhone_normal.png</file>
+        <file>resource/main/cloudPhone_select.png</file>
+        <file>resource/main/customer.png</file>
+        <file>resource/main/default_photoUrl.png</file>
+        <file>resource/main/max_normal.png</file>
+        <file>resource/main/min_normal.png</file>
+        <file>resource/main/setting_normal.png</file>
     </qresource>
 </RCC>

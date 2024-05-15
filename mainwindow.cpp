@@ -60,6 +60,11 @@ void MainWindow::InitCloudPhoneTab()
 
     //隐藏续费列表
     ui->listWidgetRenew->setHidden(true);
+
+    //隐藏展开按钮
+    ui->btnExpansion->setVisible(false);
+    //隐藏展开功能按钮
+    ui->toolBtnExpansionFunction->setVisible(false);
 }
 
 
@@ -1348,3 +1353,45 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         event->accept();
     }
 }
+
+void MainWindow::on_btnContraction_clicked()
+{
+    ui->btnContraction->setVisible(false);
+    ui->btnExpansion->setVisible(true);
+
+    ui->groupWidget->setVisible(false);
+}
+
+
+void MainWindow::on_btnExpansion_clicked()
+{
+    ui->btnContraction->setVisible(true);
+    ui->btnExpansion->setVisible(false);
+
+    ui->groupWidget->setVisible(true);
+}
+
+
+void MainWindow::on_toolBtnDropFunction_clicked()
+{
+    //收起功能
+    ui->frame_3->setVisible(false);
+    ui->frame_4->setVisible(false);
+    ui->frame_8->setVisible(false);
+
+    ui->toolBtnDropFunction->setVisible(false);
+    ui->toolBtnExpansionFunction->setVisible(true);
+}
+
+
+void MainWindow::on_toolBtnExpansionFunction_clicked()
+{
+    //展开功能
+    ui->frame_3->setVisible(true);
+    ui->frame_4->setVisible(true);
+    ui->frame_8->setVisible(true);
+
+    ui->toolBtnDropFunction->setVisible(true);
+    ui->toolBtnExpansionFunction->setVisible(false);
+}
+

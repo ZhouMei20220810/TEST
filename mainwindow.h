@@ -103,6 +103,13 @@ private slots:
     void on_btnAdd_clicked();
     void on_lineEditBuyNumber_textChanged(const QString &arg1);
 
+	//显示/隐藏分组
+    void on_btnContraction_clicked();
+    void on_btnExpansion_clicked();
+	//展开/收起功能
+    void on_toolBtnDropFunction_clicked();
+    void on_toolBtnExpansionFunction_clicked();
+
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;
