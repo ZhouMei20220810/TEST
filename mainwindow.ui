@@ -2330,13 +2330,75 @@ padding-left:10px;
               </layout>
              </item>
              <item>
-              <widget class="QListWidget" name="listWidgetLevel">
-               <property name="styleSheet">
-                <string notr="true">border:none</string>
+              <widget class="QFrame" name="frame_10">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>254</height>
+                </size>
                </property>
-               <property name="viewMode">
-                <enum>QListView::IconMode</enum>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_21">
+                <item>
+                 <widget class="QScrollArea" name="scrollArea">
+                  <property name="styleSheet">
+                   <string notr="true">QScrollArea{
+border: 0px solid;
+background-color: rgb(64, 69, 81);
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                             background: none;
+width: 0px;
+height: 0px;
+                         }
+QScrollBar:horizontal {
+                     border: none;
+                     background: none;
+                     height: 8px;
+                     margin: 0px 0 0px 0;
+                 }
+                 QScrollBar::handle:horizontal {
+                     background: #FFD7D7DE;
+min-width: 20px;
+border-radius: 4px;
+border: none;
+                 }
+                 QScrollBar::add-line:horizontal {
+                     border: 0px solid grey;
+background: #000000;
+width: 0px;
+subcontrol-position: bottom;
+subcontrol-origin: margin;
+                 }
+                 QScrollBar::sub-line:horizontal {
+                     border: 0px solid grey;
+background: #000000;
+width: 0px;
+subcontrol-position: top;
+subcontrol-origin: margin;
+                 }</string>
+                  </property>
+                  <property name="widgetResizable">
+                   <bool>true</bool>
+                  </property>
+                  <widget class="QWidget" name="scrollAreaWidgetContents">
+                   <property name="geometry">
+                    <rect>
+                     <x>0</x>
+                     <y>0</y>
+                     <width>1264</width>
+                     <height>234</height>
+                    </rect>
+                   </property>
+                  </widget>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
              <item>

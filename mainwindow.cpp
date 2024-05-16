@@ -19,6 +19,7 @@
 #include "Logoutdialog.h"
 #include "messagetipsdialog.h"
 #include "phoneitemwidget.h"
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -125,27 +126,43 @@ void MainWindow::InitLevelList()
 {
     //imageList->resize(365,400);
     //设置QListWidget的显示模式
-    ui->listWidgetLevel->setViewMode(QListView::IconMode);
+    /*ui->listWidgetLevel->setViewMode(QListView::IconMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
     ui->listWidgetLevel->setSpacing(ITEM_WIDGET_SPACING);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-    ui->listWidgetLevel->setResizeMode(QListWidget::Adjust);
+    //ui->listWidgetLevel->setResizeMode(QListWidget::Adjust);
     //设置不能移动
     ui->listWidgetLevel->setMovement(QListWidget::Static);
     //设置单选
     ui->listWidgetLevel->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    //初始化level listwidget
+    //ui->listWidgetLevel->setFixedHeight(254);
+    ui->listWidgetLevel->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->listWidgetLevel->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    //ui->listWidgetLevel->setFixedSize(QSize())
+    ui->listWidgetLevel->verticalScrollBar()->setVisible(false);
+    ui->listWidgetLevel->setFixedWidth(3*(ITEM_WIDGET_LEVEL_WIDTH+15));*/
+
     //初始化列表云手机购买列表+云手机续费 等级列表
     LevelItemWidget* widget = NULL;
-    QListWidgetItem* item = NULL;
+    //QListWidgetItem* item = NULL;
     //int iCount = map.size();
     //qDebug() << "map size() =" << iCount;
     //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
     //for (; iter != map.constEnd(); iter++)
+    ui->scrollArea->setWidgetResizable(true);
+    ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QToolButton* toolBtn;
     QString strImage;
+    //QWidget* containerWidget = new QWidget();
+    ui->scrollAreaWidgetContents->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    //containerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    QHBoxLayout* horizontalLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
+    horizontalLayout->setSpacing(50);
     for (int i = 0; i < 3; i++)
     {
         switch (i)
@@ -164,19 +181,23 @@ void MainWindow::InitLevelList()
         }
         widget = new LevelItemWidget((LEVEL_TYPE)i, strImage, this);//(*iter.value(), this);
         connect(widget, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+        //ui->scrollArea->setWidget(widget);
+        horizontalLayout->addWidget(widget);
         /*toolBtn = new QToolButton(ui->listWidgetLevel);
         toolBtn->setText(QString("%1").arg(i));
         toolBtn->setIcon(QIcon(strImage));
         toolBtn->setStyleSheet();*/
 
-        item = new QListWidgetItem(ui->listWidgetLevel);
-        item->setSizeHint(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        item->setData(Qt::UserRole, i);
-        ui->listWidgetLevel->addItem(item);
-        ui->listWidgetLevel->setItemWidget(item, widget);
+        //item = new QListWidgetItem(ui->listWidgetLevel);
+        //item->setSizeHint(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        //item->setData(Qt::UserRole, i);
+        //ui->listWidgetLevel->addItem(item);
+        //ui->listWidgetLevel->setItemWidget(item, widget);
         //ui->listWidgetLevel->setItemWidget(item, toolBtn);
         //qDebug() << "listwidget load itemwidget record[ sceneId=" << iter.key() << "]";
     }
+
+    //ui->scrollArea->setWidget(containerWidget);
 }
 void MainWindow::InitVipList()
 {
@@ -1260,7 +1281,7 @@ void MainWindow::do_selectLevelTypeSignals(LEVEL_TYPE enType)
 {
     qDebug() << "click do_selectLevelTypeSignals level Type="<<enType;
     //设置显示
-    LevelItemWidget* levelItemWidget = NULL;
+    /*LevelItemWidget* levelItemWidget = NULL;
     QListWidgetItem* levelItem=NULL;
     LEVEL_TYPE currentType;
     int iCount = ui->listWidgetLevel->count();    
@@ -1278,7 +1299,7 @@ void MainWindow::do_selectLevelTypeSignals(LEVEL_TYPE enType)
             //续费的列表
             //ui->listWidgetRenewList
         }
-    }
+    }*/
 
     //加载vip列表
     loadVipType(enType);

@@ -13,7 +13,8 @@ LevelItemWidget::LevelItemWidget(LEVEL_TYPE enType, QString strImage,QWidget *pa
     setAttribute(Qt::WA_DeleteOnClose);
     this->resize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT);
     m_labelCheck = new QLabel(this);
-    m_labelCheck->resize(30,30);
+    m_labelCheck->setPixmap(QPixmap(":/main/resource/main/levelCheck.png"));
+    m_labelCheck->resize(ITEM_LEVEL_LABELCHECK_WIDTH, ITEM_LEVEL_LABELCHECK_HEIGHT);
 
     m_levelType = enType;
     m_labelCheck->move(this->width()-m_labelCheck->width(), 0);

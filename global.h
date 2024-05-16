@@ -46,6 +46,8 @@
 //level item
 #define         ITEM_WIDGET_LEVEL_WIDTH         416
 #define         ITEM_WIDGET_LEVEL_HEIGHT        202
+#define         ITEM_LEVEL_LABELCHECK_WIDTH     36
+#define         ITEM_LEVEL_LABELCHECK_HEIGHT    36
 enum LEVEL_TYPE
 {
     LEVEL_NOMAL_LEVEL = 0,          //标准型

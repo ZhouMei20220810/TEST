@@ -56,5 +56,6 @@
         <file>resource/main/sync.png</file>
         <file>resource/main/macroscheme.png</file>
         <file>resource/main/addPhone.png</file>
+        <file>resource/main/levelCheck.png</file>
     </qresource>
 </RCC>

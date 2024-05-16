@@ -54,6 +54,11 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:#FF4A4A4A;
+border:none;
+background:transparent;</string>
+   </property>
    <property name="text">
     <string>VIP 30天</string>
    </property>
@@ -70,6 +75,11 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">color:#FF4A4A4A;
+border:none;
+background:transparent;</string>
+   </property>
    <property name="text">
     <string>32.80</string>
    </property>
@@ -85,6 +95,11 @@
      <width>101</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#FF4A4A4A;
+border:none;
+background:transparent;</string>
    </property>
    <property name="text">
     <string>1.09元/天</string>
