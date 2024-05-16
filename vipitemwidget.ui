@@ -35,14 +35,14 @@
      <x>80</x>
      <y>0</y>
      <width>21</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="res.qrc">:/login/resource/login/option_select.png</pixmap>
+    <pixmap resource="res.qrc">:/main/resource/main/levelCheck.png</pixmap>
    </property>
   </widget>
   <widget class="QLabel" name="labelTotalTime">
