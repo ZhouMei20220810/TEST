@@ -7,6 +7,9 @@
 #include <QTreeWidgetItem>
 #include <QListWidgetItem>
 #include <QMouseEvent>
+#include "levelnormalwidget.h"
+#include "levelenhancementwidget.h"
+#include "levelpremierwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -124,6 +127,10 @@ private:
 
     QPoint m_dragPosition;
     // QWidget interface
+
+    LevelNormalWidget* normal;
+    LevelEnhancementWidget* enhancement;
+    LevelPremierWidget* premier;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

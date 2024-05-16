@@ -13,7 +13,7 @@
 #include <QMenu>
 #include "creategroupwidget.h"
 #include "updategroupwidget.h"
-#include "levelitemwidget.h"
+//#include "levelitemwidget.h"
 #include <QAbstractItemView>
 #include "vipitemwidget.h"
 #include "Logoutdialog.h"
@@ -147,7 +147,7 @@ void MainWindow::InitLevelList()
     ui->listWidgetLevel->setFixedWidth(3*(ITEM_WIDGET_LEVEL_WIDTH+15));*/
 
     //初始化列表云手机购买列表+云手机续费 等级列表
-    LevelItemWidget* widget = NULL;
+    //LevelItemWidget* widget = NULL;
     //QListWidgetItem* item = NULL;
     //int iCount = map.size();
     //qDebug() << "map size() =" << iCount;
@@ -163,41 +163,18 @@ void MainWindow::InitLevelList()
     //containerWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     QHBoxLayout* horizontalLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
     horizontalLayout->setSpacing(50);
-    for (int i = 0; i < 3; i++)
-    {
-        switch (i)
-        {
-        case LEVEL_NOMAL_LEVEL:
-            strImage = ":/main/resource/main/level_normal.png";
-            break;
-        case LEVEL_ENHANCEMENT_TYPE:
-            strImage = ":/main/resource/main/level_enhancenment.png";
-            break;
-        case LEVEL_PREMIER_TYPE:
-            strImage = ":/main/resource/main/level_Premier.png";
-            break;
-        default:
-            break;
-        }
-        widget = new LevelItemWidget((LEVEL_TYPE)i, strImage, this);//(*iter.value(), this);
-        connect(widget, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-        //ui->scrollArea->setWidget(widget);
-        horizontalLayout->addWidget(widget);
-        /*toolBtn = new QToolButton(ui->listWidgetLevel);
-        toolBtn->setText(QString("%1").arg(i));
-        toolBtn->setIcon(QIcon(strImage));
-        toolBtn->setStyleSheet();*/
 
-        //item = new QListWidgetItem(ui->listWidgetLevel);
-        //item->setSizeHint(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        //item->setData(Qt::UserRole, i);
-        //ui->listWidgetLevel->addItem(item);
-        //ui->listWidgetLevel->setItemWidget(item, widget);
-        //ui->listWidgetLevel->setItemWidget(item, toolBtn);
-        //qDebug() << "listwidget load itemwidget record[ sceneId=" << iter.key() << "]";
-    }
+    normal = new LevelNormalWidget(LEVEL_NOMAL_LEVEL, ui->scrollArea);
+    connect(normal, &LevelNormalWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+    horizontalLayout->addWidget(normal);
 
-    //ui->scrollArea->setWidget(containerWidget);
+    enhancement = new LevelEnhancementWidget(LEVEL_ENHANCEMENT_TYPE, ui->scrollArea);
+    connect(enhancement, &LevelEnhancementWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+    horizontalLayout->addWidget(enhancement);
+
+    premier = new LevelPremierWidget(LEVEL_PREMIER_TYPE, ui->scrollArea);
+    connect(premier, &LevelPremierWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+    horizontalLayout->addWidget(premier);
 }
 void MainWindow::InitVipList()
 {
@@ -1280,6 +1257,29 @@ void MainWindow::on_btnBeginPay_clicked()
 void MainWindow::do_selectLevelTypeSignals(LEVEL_TYPE enType)
 {
     qDebug() << "click do_selectLevelTypeSignals level Type="<<enType;
+    switch (enType)
+    {
+    case LEVEL_NOMAL_LEVEL:
+    {
+        enhancement->setLabelCheckStatus(false);
+        premier->setLabelCheckStatus(false);
+    }
+        break;
+    case LEVEL_ENHANCEMENT_TYPE:
+    {
+        normal->setLabelCheckStatus(false);
+        premier->setLabelCheckStatus(false);
+    }
+        break;
+    case LEVEL_PREMIER_TYPE:
+    {
+        normal->setLabelCheckStatus(false);
+        enhancement->setLabelCheckStatus(false);
+    }
+        break;
+    default:
+        break;
+    }
     //设置显示
     /*LevelItemWidget* levelItemWidget = NULL;
     QListWidgetItem* levelItem=NULL;
