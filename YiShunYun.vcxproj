@@ -204,9 +204,16 @@
   <ItemGroup>
     <ClCompile Include="Logoutdialog.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
+    <ClCompile Include="emptymealwidget.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="levelchildgvipwidget.cpp" />
+    <ClCompile Include="levelchildkvipwidget.cpp" />
+    <ClCompile Include="levelchildwidget.cpp" />
+    <ClCompile Include="levelenhancementwidget.cpp" />
     <ClCompile Include="levelitemwidget.cpp" />
+    <ClCompile Include="levelnormalwidget.cpp" />
+    <ClCompile Include="levelpremierwidget.cpp" />
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -222,9 +229,16 @@
   <ItemGroup>
     <QtMoc Include="Logoutdialog.h" />
     <QtMoc Include="creategroupwidget.h" />
+    <QtMoc Include="emptymealwidget.h" />
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
+    <QtMoc Include="levelchildgvipwidget.h" />
+    <QtMoc Include="levelchildkvipwidget.h" />
+    <QtMoc Include="levelchildwidget.h" />
+    <QtMoc Include="levelenhancementwidget.h" />
     <QtMoc Include="levelitemwidget.h" />
+    <QtMoc Include="levelnormalwidget.h" />
+    <QtMoc Include="levelpremierwidget.h" />
     <QtMoc Include="loginwindow.h" />
     <QtMoc Include="mainwindow.h" />
     <QtMoc Include="messagetipsdialog.h" />
@@ -255,8 +269,15 @@
   <ItemGroup>
     <QtUic Include="Logoutdialog.ui" />
     <QtUic Include="creategroupwidget.ui" />
+    <QtUic Include="emptymealwidget.ui" />
     <QtUic Include="forgetpwdialog.ui" />
+    <QtUic Include="levelchildgvipwidget.ui" />
+    <QtUic Include="levelchildkvipwidget.ui" />
+    <QtUic Include="levelchildwidget.ui" />
+    <QtUic Include="levelenhancementwidget.ui" />
     <QtUic Include="levelitemwidget.ui" />
+    <QtUic Include="levelnormalwidget.ui" />
+    <QtUic Include="levelpremierwidget.ui" />
     <QtUic Include="loginwindow.ui" />
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="messagetipsdialog.ui" />
@@ -269,6 +290,21 @@
     <QtUic Include="vipitemwidget.ui" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="resource\function\1.png" />
+    <None Include="resource\function\10.png" />
+    <None Include="resource\function\11.png" />
+    <None Include="resource\function\12.png" />
+    <None Include="resource\function\13.png" />
+    <None Include="resource\function\14.png" />
+    <None Include="resource\function\15.png" />
+    <None Include="resource\function\2.png" />
+    <None Include="resource\function\3.png" />
+    <None Include="resource\function\4.png" />
+    <None Include="resource\function\5.png" />
+    <None Include="resource\function\6.png" />
+    <None Include="resource\function\7.png" />
+    <None Include="resource\function\8.png" />
+    <None Include="resource\function\9.png" />
     <None Include="resource\login\ScreenShots.jpg" />
     <None Include="resource\login\ScreenShots_v.jpg" />
     <None Include="resource\main\activeCode_normal.png" />
@@ -291,6 +327,7 @@
     <None Include="resource\main\control_expansion.png" />
     <None Include="resource\main\customer.png" />
     <None Include="resource\main\default_photoUrl.png" />
+    <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />
     <None Include="resource\login\ico-warn.png" />
     <None Include="resource\login\ico_del_c.png" />

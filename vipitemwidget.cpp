@@ -13,7 +13,7 @@ VIPItemWidget::VIPItemWidget(S_VIP_ITEM_INFO sVipInfo, QWidget *parent)
     ui->labelCheck->move(this->width() - ui->labelCheck->width(), 0);
     ui->labelCheck->setVisible(false);
     ui->labelCheck->setParent(ui->toolButton);
-
+    ui->labelCheck->setStyleSheet("border:none;background:transparent;");
     //ui->labelCheck->setText(QString("%1").arg(enVipType));
 
     ui->labelTotalTime->setText(QString("%1%2天").arg(sVipInfo.strVipText).arg(sVipInfo.iDayCount));
