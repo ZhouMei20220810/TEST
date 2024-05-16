@@ -74,5 +74,6 @@
         <file>resource/function/13.png</file>
         <file>resource/function/14.png</file>
         <file>resource/function/15.png</file>
+        <file>resource/function/emptyMeal.png</file>
     </qresource>
 </RCC>

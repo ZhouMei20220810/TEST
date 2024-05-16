@@ -1310,16 +1310,26 @@ void MainWindow::loadVipType(LEVEL_TYPE enType)
 {
     QString strLevelTypeText = getLevelTypeToText(enType);
     ui->label_2->setText(QString("%1套餐").arg(strLevelTypeText));
-
     //清空列表
     ui->listWidgetVIP->clear();
+
+    //假设暂时没有KVIP的数据
+    if(enType == LEVEL_PREMIER_TYPE)
+    {
+        qDebug()<<"无套餐";
+        ui->stackedWidget_2->setCurrentWidget(ui->page_EmptyMeal);
+        return;
+    }
+
     qDebug() << "加载vip列表 enType=" << enType;
     //加载套餐列表
-            //ui->listWidgetVIP
+    //ui->listWidgetVIP
+    ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
     int iVIPType = 0;
     QListWidgetItem* vipItem = NULL;
     VIPItemWidget* vipWidget = NULL;
     S_VIP_ITEM_INFO sVipInfo;
+    ui->widget->setVisible(true);
     for (int iVIPType = 0; iVIPType < ITEM_WIDGET_VIP_COUNT; iVIPType++)
     {
         vipItem = new QListWidgetItem(ui->listWidgetVIP);
