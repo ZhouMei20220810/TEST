@@ -24,6 +24,7 @@ signals:
 private:
     Ui::LevelItemWidget *ui;
     LEVEL_TYPE m_levelType;
+    QLabel* m_labelCheck;
     // QObject interface
 private slots:
     void on_toolButtonBG_clicked();

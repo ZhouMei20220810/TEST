@@ -2334,6 +2334,9 @@ padding-left:10px;
                <property name="styleSheet">
                 <string notr="true">border:none</string>
                </property>
+               <property name="viewMode">
+                <enum>QListView::IconMode</enum>
+               </property>
               </widget>
              </item>
              <item>

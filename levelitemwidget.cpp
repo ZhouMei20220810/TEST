@@ -12,12 +12,13 @@ LevelItemWidget::LevelItemWidget(LEVEL_TYPE enType, QString strImage,QWidget *pa
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     this->resize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT);
-    ui->labelCheck->resize(30,30);
+    m_labelCheck = new QLabel(this);
+    m_labelCheck->resize(30,30);
 
     m_levelType = enType;
-    ui->labelCheck->move(this->width()-ui->labelCheck->width(), 0);
-    ui->labelCheck->setVisible(false);
-    ui->labelCheck->setParent(ui->toolButtonBG);
+    m_labelCheck->move(this->width()-m_labelCheck->width(), 0);
+    m_labelCheck->setVisible(false);
+    m_labelCheck->setParent(ui->toolButtonBG);
 
     QString strStyleSheet = QString("QToolButton{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     ui->toolButtonBG->setStyleSheet(strStyleSheet);
@@ -33,13 +34,15 @@ LevelItemWidget::~LevelItemWidget()
 
 void LevelItemWidget::setLabelCheckStatus(bool bCheck)
 {
-    ui->labelCheck->setVisible(bCheck);
+    m_labelCheck->setVisible(bCheck);
+    //ui->labelCheck->setVisible(bCheck);
     qDebug()<<"LevelItemWidget labelCheck status="<<bCheck;
 }
 
 void LevelItemWidget::on_toolButtonBG_clicked()
 {
-    ui->labelCheck->setVisible(true);
+    m_labelCheck->setVisible(true);
+    //ui->labelCheck->setVisible(true);
     //ui->toolButtonBG->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border - radius:3px;background-image:url(:/main/main/level_enhancenment.png);}");
     emit selectLevelTypeSignals(m_levelType);
 }

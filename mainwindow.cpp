@@ -151,13 +151,13 @@ void MainWindow::InitLevelList()
         switch (i)
         {
         case LEVEL_NOMAL_LEVEL:
-            strImage = ":/main/main/level_normal.png";
+            strImage = ":/main/resource/main/level_normal.png";
             break;
         case LEVEL_ENHANCEMENT_TYPE:
-            strImage = ":/main/main/level_enhancenment.png";
+            strImage = ":/main/resource/main/level_enhancenment.png";
             break;
         case LEVEL_PREMIER_TYPE:
-            strImage = ":/main/main/level_Premier.png";
+            strImage = ":/main/resource/main/level_Premier.png";
             break;
         default:
             break;

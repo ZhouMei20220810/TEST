@@ -44,8 +44,8 @@
 
 #define         ITEM_WIDGET_SPACING             15
 //level item
-#define         ITEM_WIDGET_LEVEL_WIDTH         200
-#define         ITEM_WIDGET_LEVEL_HEIGHT        150
+#define         ITEM_WIDGET_LEVEL_WIDTH         416
+#define         ITEM_WIDGET_LEVEL_HEIGHT        202
 enum LEVEL_TYPE
 {
     LEVEL_NOMAL_LEVEL = 0,          //标准型
