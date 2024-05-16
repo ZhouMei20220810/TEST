@@ -2791,7 +2791,7 @@ border-image:url(:/main/resource/main/border_select.png);
                            </property>
                            <property name="styleSheet">
                             <string notr="true">QToolButton{
-border-image:url(:/main/resource/main/border_normal.png);
+border-image:url(:/main/resource/main/border_select.png);
 padding-left:10px;
 }
 QToolButton:hover{
