@@ -75,5 +75,11 @@
         <file>resource/function/14.png</file>
         <file>resource/function/15.png</file>
         <file>resource/function/emptyMeal.png</file>
+        <file>resource/function/add.png</file>
+        <file>resource/function/PayFinish.png</file>
+        <file>resource/function/sub.png</file>
+        <file>resource/function/waitPay.png</file>
+        <file>resource/function/wechat.png</file>
+        <file>resource/function/zhifubao.png</file>
     </qresource>
 </RCC>

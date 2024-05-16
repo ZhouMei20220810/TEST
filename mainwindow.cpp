@@ -1240,6 +1240,14 @@ void MainWindow::on_toolBtnRenewPhone_clicked()
 void MainWindow::on_btnBeginPay_clicked()
 {
     //确定支付
+    bool bAgree = ui->checkBox->isChecked();
+    if(!bAgree)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("请勾选协议!",this);
+        tips->show();
+        return;
+    }
+
     //获取界面选中的值
     float fTotalPrice = ui->labelPayMoney->text().toFloat();
     qDebug() << "总价=" << fTotalPrice;

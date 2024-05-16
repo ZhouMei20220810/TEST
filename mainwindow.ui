@@ -2282,20 +2282,23 @@ border-radius: 3px;</string>
              </property>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_15">
+               <property name="leftMargin">
+                <number>16</number>
+               </property>
                <item>
                 <widget class="QToolButton" name="toolBtnBuyPhone">
                  <property name="styleSheet">
                   <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
-	background-color: rgb(41, 105, 205);
-border-radius:3px;
-padding-left:10px;
+	background-color:#FF9092A4;
+border-radius:1px;
+padding-left:8px;
 }
 QToolButton:hover {
 color: rgb(255, 255, 255);
-background-color: rgb(41, 105, 205);
-border-radius:3px;
-padding-left:10px;
+background-color: #FFE7E8EE;
+border-radius:1px;
+padding-left:8px;
 }</string>
                  </property>
                  <property name="text">
@@ -2308,20 +2311,14 @@ padding-left:10px;
                  <property name="styleSheet">
                   <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
-border-radius:3px;
-padding-left:10px;
+border-radius:1px;
+padding-left:8px;
 }
 QToolButton:hover {
-background-color: rgb(41, 105, 205);
+background-color: #FFE7E8EE;
 color: rgb(255, 255, 255);
-border-radius:3px;
-padding-left:10px;
-}
-QToolButton:pressed {
-background-color: rgb(41, 105, 205);
-color: rgb(255, 255, 255);
-border-radius:3px;
-padding-left:10px;
+border-radius:1px;
+padding-left:8px;
 }</string>
                  </property>
                  <property name="text">
@@ -2407,7 +2404,7 @@ subcontrol-origin: margin;
                      <x>0</x>
                      <y>0</y>
                      <width>1282</width>
-                     <height>310</height>
+                     <height>267</height>
                     </rect>
                    </property>
                   </widget>
@@ -2440,9 +2437,6 @@ subcontrol-origin: margin;
                 <property name="bottomMargin">
                  <number>1</number>
                 </property>
-                <item>
-                 <widget class="QWidget" name="widget_2" native="true"/>
-                </item>
                 <item>
                  <widget class="QStackedWidget" name="stackedWidget_2">
                   <widget class="QWidget" name="page_EmptyMeal">
@@ -2657,9 +2651,72 @@ subcontrol-origin: margin;
                        <item>
                         <layout class="QHBoxLayout" name="horizontalLayout_13">
                          <item>
+                          <widget class="QToolButton" name="toolBtnPayWechat">
+                           <property name="minimumSize">
+                            <size>
+                             <width>112</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>112</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="cursor">
+                            <cursorShape>PointingHandCursor</cursorShape>
+                           </property>
+                           <property name="text">
+                            <string>微信支付</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="res.qrc">
+                             <normaloff>:/func/resource/function/wechat.png</normaloff>:/func/resource/function/wechat.png</iconset>
+                           </property>
+                           <property name="iconSize">
+                            <size>
+                             <width>24</width>
+                             <height>24</height>
+                            </size>
+                           </property>
+                           <property name="toolButtonStyle">
+                            <enum>Qt::ToolButtonTextBesideIcon</enum>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
                           <widget class="QToolButton" name="toolBtnPayZhifubao">
+                           <property name="minimumSize">
+                            <size>
+                             <width>112</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>112</width>
+                             <height>40</height>
+                            </size>
+                           </property>
+                           <property name="cursor">
+                            <cursorShape>PointingHandCursor</cursorShape>
+                           </property>
                            <property name="text">
                             <string>支付宝</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="res.qrc">
+                             <normaloff>:/func/resource/function/zhifubao.png</normaloff>:/func/resource/function/zhifubao.png</iconset>
+                           </property>
+                           <property name="iconSize">
+                            <size>
+                             <width>24</width>
+                             <height>24</height>
+                            </size>
+                           </property>
+                           <property name="toolButtonStyle">
+                            <enum>Qt::ToolButtonTextBesideIcon</enum>
                            </property>
                           </widget>
                          </item>
@@ -2704,10 +2761,60 @@ subcontrol-origin: margin;
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_14">
                <property name="spacing">
+                <number>5</number>
+               </property>
+               <property name="leftMargin">
+                <number>16</number>
+               </property>
+               <property name="topMargin">
                 <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>16</number>
+               </property>
+               <property name="bottomMargin">
+                <number>16</number>
                </property>
                <item>
                 <widget class="QCheckBox" name="checkBox">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
+                 </property>
                  <property name="text">
                   <string>请先阅读</string>
                  </property>
@@ -2719,7 +2826,7 @@ subcontrol-origin: margin;
                   <enum>Qt::LeftToRight</enum>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">color:red</string>
+                  <string notr="true">color:#F96D6F;</string>
                  </property>
                  <property name="text">
                   <string>《VIP会员服务协议》</string>
@@ -2754,40 +2861,93 @@ subcontrol-origin: margin;
                </item>
                <item>
                 <widget class="QPushButton" name="btnDecrese">
-                 <property name="maximumSize">
+                 <property name="minimumSize">
                   <size>
-                   <width>25</width>
-                   <height>16777215</height>
+                   <width>20</width>
+                   <height>20</height>
                   </size>
                  </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="text">
-                  <string>-</string>
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="res.qrc">
+                   <normaloff>:/func/resource/function/sub.png</normaloff>:/func/resource/function/sub.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QLineEdit" name="lineEditBuyNumber">
+                 <property name="minimumSize">
+                  <size>
+                   <width>24</width>
+                   <height>18</height>
+                  </size>
+                 </property>
                  <property name="maximumSize">
                   <size>
-                   <width>25</width>
-                   <height>16777215</height>
+                   <width>24</width>
+                   <height>18</height>
                   </size>
                  </property>
                  <property name="text">
                   <string>1</string>
                  </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="btnAdd">
-                 <property name="maximumSize">
+                 <property name="minimumSize">
                   <size>
-                   <width>25</width>
-                   <height>16777215</height>
+                   <width>20</width>
+                   <height>20</height>
                   </size>
                  </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="text">
-                  <string>+</string>
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="res.qrc">
+                   <normaloff>:/func/resource/function/add.png</normaloff>:/func/resource/function/add.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -2805,6 +2965,16 @@ subcontrol-origin: margin;
                 </widget>
                </item>
                <item>
+                <widget class="QLabel" name="label_19">
+                 <property name="styleSheet">
+                  <string notr="true">color:#F96D6F;</string>
+                 </property>
+                 <property name="text">
+                  <string>￥</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QLabel" name="labelPayMoney">
                  <property name="styleSheet">
                   <string notr="true">color:red</string>
@@ -2816,6 +2986,21 @@ subcontrol-origin: margin;
                </item>
                <item>
                 <widget class="QPushButton" name="btnBeginPay">
+                 <property name="minimumSize">
+                  <size>
+                   <width>80</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>80</width>
+                   <height>32</height>
+                  </size>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true"> QPushButton {
      border: 2px solid #555764;
