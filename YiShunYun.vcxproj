@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C2A31017-F80F-3954-8DB8-9CF704EC367B}</ProjectGuid>
+    <ProjectGuid>{215AABB5-DF81-37FE-B3F9-E57DDD74658B}</ProjectGuid>
     <RootNamespace>YiShunYun</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
     <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
@@ -41,11 +41,11 @@
   <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <QtInstall>6.5.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;network;widgets</QtModules>
+    <QtModules>core;gui;network;qml;quick;widgets;opengl;printsupport;webchannel;webenginecore;positioning;webenginewidgets;webenginequick</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <QtInstall>6.5.3_msvc2019_64</QtInstall>
-    <QtModules>core;gui;network;widgets</QtModules>
+    <QtModules>core;gui;network;qml;quick;widgets;opengl;printsupport;webchannel;webenginecore;positioning;webenginewidgets;webenginequick</QtModules>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -73,7 +73,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;C:\Program;Files\OpenSSL-Win64\include;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -83,7 +83,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>release\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -94,7 +94,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -114,7 +114,7 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <QtMoc>
       <CompilerFlavor>msvc</CompilerFlavor>
@@ -140,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;C:\Program;Files\OpenSSL-Win64\include;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -150,7 +150,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>debug\</ObjectFileName>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -160,7 +160,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;$(QTDIR)\lib\Qt6QmlModelsd.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -177,7 +177,7 @@
       <WarningLevel>0</WarningLevel>
     </Midl>
     <ResourceCompile>
-      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <QtMoc>
       <CompilerFlavor>msvc</CompilerFlavor>
@@ -210,7 +210,10 @@
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="messagetipsdialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
+    <ClCompile Include="phoneitemwidget.cpp" />
+    <ClCompile Include="policydialog.cpp" />
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
@@ -224,7 +227,10 @@
     <QtMoc Include="levelitemwidget.h" />
     <QtMoc Include="loginwindow.h" />
     <QtMoc Include="mainwindow.h" />
+    <QtMoc Include="messagetipsdialog.h" />
     <QtMoc Include="passwordloginpage.h" />
+    <QtMoc Include="phoneitemwidget.h" />
+    <QtMoc Include="policydialog.h" />
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="smsloginpage.h" />
     <QtMoc Include="updategroupwidget.h" />
@@ -253,7 +259,10 @@
     <QtUic Include="levelitemwidget.ui" />
     <QtUic Include="loginwindow.ui" />
     <QtUic Include="mainwindow.ui" />
+    <QtUic Include="messagetipsdialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
+    <QtUic Include="phoneitemwidget.ui" />
+    <QtUic Include="policydialog.ui" />
     <QtUic Include="registerpage.ui" />
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="updategroupwidget.ui" />
@@ -262,8 +271,27 @@
   <ItemGroup>
     <None Include="resource\login\ScreenShots.jpg" />
     <None Include="resource\login\ScreenShots_v.jpg" />
+    <None Include="resource\main\activeCode_normal.png" />
+    <None Include="resource\main\activeCode_select.png" />
+    <None Include="resource\main\addPhone.png" />
+    <None Include="resource\main\allSelect.png" />
+    <None Include="resource\main\appInstaller.png" />
     <None Include="resource\login\back.png" />
+    <None Include="resource\main\batchOper.png" />
+    <None Include="resource\main\buyNum.png" />
+    <None Include="resource\main\buy_hover.png" />
+    <None Include="resource\main\buy_normal.png" />
+    <None Include="resource\main\buy_select.png" />
+    <None Include="resource\main\changeScreen.png" />
+    <None Include="resource\main\checked.png" />
     <None Include="resource\login\close.png" />
+    <None Include="resource\main\cloudPhone_normal.png" />
+    <None Include="resource\main\cloudPhone_select.png" />
+    <None Include="resource\main\control_contraction.png" />
+    <None Include="resource\main\control_expansion.png" />
+    <None Include="resource\main\customer.png" />
+    <None Include="resource\main\default_photoUrl.png" />
+    <None Include="resource\main\expand.png" />
     <None Include="resource\login\ico-warn.png" />
     <None Include="resource\login\ico_del_c.png" />
     <None Include="resource\login\ico_del_n.png" />
@@ -271,16 +299,32 @@
     <None Include="resource\login\ico_lock.png" />
     <None Include="resource\login\ico_phone.png" />
     <None Include="resource\login\ico_up.png" />
-    <None Include="main\level.png" />
-    <None Include="main\level_Premier.png" />
-    <None Include="main\level_enhancenment.png" />
-    <None Include="main\level_normal.png" />
+    <None Include="resource\main\level.png" />
+    <None Include="resource\main\levelCheck.png" />
+    <None Include="resource\main\level_Premier.png" />
+    <None Include="resource\main\level_enhancenment.png" />
+    <None Include="resource\main\level_normal.png" />
     <None Include="resource\login\link.ico" />
+    <None Include="resource\main\listMode_normal.png" />
+    <None Include="resource\main\listMode_select.png" />
     <None Include="resource\login\logo.png" />
+    <None Include="resource\main\logo.png" />
+    <None Include="resource\main\macroscheme.png" />
     <None Include="resource\login\main_logo.png" />
+    <None Include="resource\main\max_normal.png" />
+    <None Include="resource\main\min_normal.png" />
+    <None Include="resource\main\newGroup.png" />
     <None Include="resource\login\option_normal.png" />
     <None Include="resource\login\option_select.png" />
+    <None Include="resource\main\packup.png" />
+    <None Include="resource\main\photo_border.png" />
+    <None Include="resource\main\previewMode_normal.png" />
+    <None Include="resource\main\previewMode_select.png" />
+    <None Include="resource\main\refresh.png" />
     <QtRcc Include="res.qrc" />
+    <None Include="resource\main\setting_normal.png" />
+    <None Include="resource\main\sync.png" />
+    <None Include="resource\main\uncheck.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="logo.rc" />

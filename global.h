@@ -54,6 +54,16 @@ enum LEVEL_TYPE
     LEVEL_ENHANCEMENT_TYPE = 1,     //增强型
     LEVEL_PREMIER_TYPE = 2          //尊享型
 };
+/*struct LEVEL_INFO
+{
+    QString strLevelContent;    //等级描述
+    QString strFunction;        //功能描述
+    bool    bCloudManage;       //云端管理
+    bool    bAndroidSystem;     //安卓系统
+    bool    bCloudPhoneLicensing;//云手机授权
+    bool
+
+};*/
 QString getLevelTypeToText(LEVEL_TYPE levelType);
 //vip item
 #define         ITEM_WIDGET_VIP_WIDTH           100

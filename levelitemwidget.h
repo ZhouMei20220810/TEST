@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include "global.h"
-
+#include "levelchildwidget.h"
 namespace Ui {
 class LevelItemWidget;
 }
@@ -25,6 +25,7 @@ private:
     Ui::LevelItemWidget *ui;
     LEVEL_TYPE m_levelType;
     QLabel* m_labelCheck;
+    levelChildWidget* m_childWidget;
     // QObject interface
 private slots:
     void on_toolButtonBG_clicked();

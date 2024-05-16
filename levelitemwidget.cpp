@@ -25,6 +25,9 @@ LevelItemWidget::LevelItemWidget(LEVEL_TYPE enType, QString strImage,QWidget *pa
     ui->toolButtonBG->setStyleSheet(strStyleSheet);
     /*QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     ui->labelBg->setStyleSheet(strStyleSheet);*/
+
+    m_childWidget = new levelChildWidget(ui->toolButtonBG);
+    m_childWidget->show();
 }
 
 LevelItemWidget::~LevelItemWidget()
