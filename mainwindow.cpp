@@ -99,6 +99,9 @@ void MainWindow::InitBuyTab()
 
     //隐藏续费列表
     ui->listWidgetRenewList->setHidden(true);
+
+    //默认显示
+    ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
 }
 
 //初始化列表
