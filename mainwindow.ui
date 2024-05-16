@@ -2309,15 +2309,20 @@ border-radius: 3px;</string>
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+color: #1E2133;
 	background-color:#FF9092A4;
 border-radius:1px;
 padding-left:8px;
 }
 QToolButton:hover {
-color: rgb(255, 255, 255);
+color: #1E2133;
 background-color: #FFE7E8EE;
 border-radius:1px;
 padding-left:8px;
@@ -2342,15 +2347,20 @@ padding-left:8px;
                     <height>30</height>
                    </size>
                   </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+color: #1E2133;
 border-radius:1px;
 padding-left:8px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
+color: #1E2133;
 border-radius:1px;
 padding-left:8px;
 }</string>
@@ -2627,6 +2637,9 @@ subcontrol-origin: margin;
                         <layout class="QHBoxLayout" name="horizontalLayout_12">
                          <item>
                           <widget class="QLabel" name="label_2">
+                           <property name="styleSheet">
+                            <string notr="true">border:none;</string>
+                           </property>
                            <property name="text">
                             <string>VIP套餐</string>
                            </property>
@@ -2669,6 +2682,14 @@ subcontrol-origin: margin;
                         <layout class="QHBoxLayout" name="horizontalLayout_11">
                          <item>
                           <widget class="QLabel" name="label_3">
+                           <property name="font">
+                            <font>
+                             <pointsize>10</pointsize>
+                            </font>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">border:none;</string>
+                           </property>
                            <property name="text">
                             <string>支付方式</string>
                            </property>
@@ -2705,11 +2726,31 @@ subcontrol-origin: margin;
                              <height>40</height>
                             </size>
                            </property>
+                           <property name="font">
+                            <font>
+                             <pointsize>10</pointsize>
+                            </font>
+                           </property>
                            <property name="cursor">
                             <cursorShape>PointingHandCursor</cursorShape>
                            </property>
+                           <property name="styleSheet">
+                            <string notr="true">QToolButton{
+border-image:url(:/main/resource/main/border_normal.png);
+padding-left:10px;
+}
+QToolButton:hover{
+border-image:url(:/main/resource/main/border_select.png);
+}
+QToolButton:clicked{
+border-image:url(:/main/resource/main/border_select.png);
+}
+QToolButton:selected{
+border-image:url(:/main/resource/main/border_select.png);
+}</string>
+                           </property>
                            <property name="text">
-                            <string>微信支付</string>
+                            <string>  微信支付</string>
                            </property>
                            <property name="icon">
                             <iconset resource="res.qrc">
@@ -2740,11 +2781,31 @@ subcontrol-origin: margin;
                              <height>40</height>
                             </size>
                            </property>
+                           <property name="font">
+                            <font>
+                             <pointsize>10</pointsize>
+                            </font>
+                           </property>
                            <property name="cursor">
                             <cursorShape>PointingHandCursor</cursorShape>
                            </property>
+                           <property name="styleSheet">
+                            <string notr="true">QToolButton{
+border-image:url(:/main/resource/main/border_normal.png);
+padding-left:10px;
+}
+QToolButton:hover{
+border-image:url(:/main/resource/main/border_select.png);
+}
+QToolButton:clicked{
+border-image:url(:/main/resource/main/border_select.png);
+}
+QToolButton:selected{
+border-image:url(:/main/resource/main/border_select.png);
+}</string>
+                           </property>
                            <property name="text">
-                            <string>支付宝</string>
+                            <string>  支付宝</string>
                            </property>
                            <property name="icon">
                             <iconset resource="res.qrc">

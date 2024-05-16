@@ -57,6 +57,8 @@
         <file>resource/main/macroscheme.png</file>
         <file>resource/main/addPhone.png</file>
         <file>resource/main/levelCheck.png</file>
+        <file>resource/main/border_normal.png</file>
+        <file>resource/main/border_select.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

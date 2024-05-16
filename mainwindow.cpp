@@ -1560,3 +1560,17 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     }
 }
 
+
+void MainWindow::on_toolBtnPayZhifubao_clicked()
+{
+    ui->toolBtnPayZhifubao->setStyleSheet("QToolButton{border-image:url(:/main/resource/main/border_select.png);padding-left:10px;}");
+    ui->toolBtnPayWechat->setStyleSheet("QToolButton{border-image:url(:/main/resource/main/border_normal.png);padding-left:10px;}");
+}
+
+
+void MainWindow::on_toolBtnPayWechat_clicked()
+{
+    ui->toolBtnPayWechat->setStyleSheet("QToolButton{border-image:url(:/main/resource/main/border_select.png);padding-left:10px;}");
+    ui->toolBtnPayZhifubao->setStyleSheet("QToolButton{border-image:url(:/main/resource/main/border_normal.png);padding-left:10px;}");
+}
+

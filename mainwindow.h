@@ -118,6 +118,10 @@ private slots:
     void on_toolBtnChangeHorScreen_clicked();
     void on_toolBtnChangeVerScreen_clicked();
 
+	//支付方式
+    void on_toolBtnPayZhifubao_clicked();
+    void on_toolBtnPayWechat_clicked();
+
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;
