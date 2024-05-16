@@ -31,7 +31,6 @@ SOURCES += \
     policydialog.cpp \
     registerpage.cpp \
     smsloginpage.cpp \
-    tcombobox.cpp \
     updategroupwidget.cpp \
     vipitemwidget.cpp
 
@@ -49,7 +48,6 @@ HEADERS += \
     policydialog.h \
     registerpage.h \
     smsloginpage.h \
-    tcombobox.h \
     updategroupwidget.h \
     vipitemwidget.h
 

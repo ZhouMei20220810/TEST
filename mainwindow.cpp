@@ -78,6 +78,9 @@ void MainWindow::InitCloudPhoneTab()
     ui->comboBoxLevel->addItem("增强型","GVIP");
     ui->comboBoxLevel->addItem("尊享型","KVIP");
 
+    //隐藏切换竖屏按钮
+    ui->toolBtnChangeVerScreen->setVisible(false);
+
 }
 
 
@@ -114,38 +117,8 @@ void MainWindow::InitPhoneList()
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    //初始化手机列表,假数据
-    PhoneItemWidget* widget = NULL;
-    QListWidgetItem* item = NULL;
-    //int iCount = map.size();
-    //qDebug() << "map size() =" << iCount;
-    //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
-    //for (; iter != map.constEnd(); iter++)
-    QString strImage;
-    for (int i = 0; i < 3; i++)
-    {
-        /*switch (i)
-        {
-        case LEVEL_NOMAL_LEVEL:
-            strImage = ":/main/main/level_normal.png";
-            break;
-        case LEVEL_ENHANCEMENT_TYPE:
-            strImage = ":/main/main/level_enhancenment.png";
-            break;
-        case LEVEL_PREMIER_TYPE:
-            strImage = ":/main/main/level_Premier.png";
-            break;
-        default:
-            break;
-        }*/
-        widget = new PhoneItemWidget(this);
-
-        item = new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        item->setData(Qt::UserRole, i);
-        ui->listWidget->addItem(item);
-        ui->listWidget->setItemWidget(item, widget);
-    }
+    //默认显示竖屏
+    on_toolBtnChangeVerScreen_clicked();
 }
 
 void MainWindow::InitLevelList()
@@ -1466,5 +1439,87 @@ void MainWindow::on_toolBtnExpansionFunction_clicked()
 
     ui->toolBtnDropFunction->setVisible(true);
     ui->toolBtnExpansionFunction->setVisible(false);
+}
+
+
+void MainWindow::on_toolBtnChangeHorScreen_clicked()
+{
+    qDebug()<<"切换到横屏";
+    ui->toolBtnChangeVerScreen->setVisible(true);
+    ui->toolBtnChangeHorScreen->setVisible(false);
+    ui->listWidget->clear();
+
+    PhoneItemWidget* widget = NULL;
+    QListWidgetItem* item = NULL;
+    //int iCount = map.size();
+    //qDebug() << "map size() =" << iCount;
+    //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
+    //for (; iter != map.constEnd(); iter++)
+    QString strImage;
+    for (int i = 0; i < 1; i++)
+    {
+        /*switch (i)
+        {
+        case LEVEL_NOMAL_LEVEL:
+            strImage = ":/main/main/level_normal.png";
+            break;
+        case LEVEL_ENHANCEMENT_TYPE:
+            strImage = ":/main/main/level_enhancenment.png";
+            break;
+        case LEVEL_PREMIER_TYPE:
+            strImage = ":/main/main/level_Premier.png";
+            break;
+        default:
+            break;
+        }*/
+        widget = new PhoneItemWidget(this);
+
+        item = new QListWidgetItem(ui->listWidget);
+        item->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        item->setData(Qt::UserRole, i);
+        ui->listWidget->addItem(item);
+        ui->listWidget->setItemWidget(item, widget);
+    }
+}
+
+
+void MainWindow::on_toolBtnChangeVerScreen_clicked()
+{
+    qDebug()<<"切换到竖屏";
+    ui->toolBtnChangeVerScreen->setVisible(false);
+    ui->toolBtnChangeHorScreen->setVisible(true);
+    ui->listWidget->clear();
+    //初始化手机列表,假数据
+    PhoneItemWidget* widget = NULL;
+    QListWidgetItem* item = NULL;
+    //int iCount = map.size();
+    //qDebug() << "map size() =" << iCount;
+    //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
+    //for (; iter != map.constEnd(); iter++)
+    QString strImage;
+    for (int i = 0; i < 1; i++)
+    {
+        /*switch (i)
+        {
+        case LEVEL_NOMAL_LEVEL:
+            strImage = ":/main/main/level_normal.png";
+            break;
+        case LEVEL_ENHANCEMENT_TYPE:
+            strImage = ":/main/main/level_enhancenment.png";
+            break;
+        case LEVEL_PREMIER_TYPE:
+            strImage = ":/main/main/level_Premier.png";
+            break;
+        default:
+            break;
+        }*/
+        widget = new PhoneItemWidget(this);
+
+        item = new QListWidgetItem(ui->listWidget);
+        item->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        item->setData(Qt::UserRole, i);
+        ui->listWidget->addItem(item);
+        ui->listWidget->setItemWidget(item, widget);
+    }
 }
 

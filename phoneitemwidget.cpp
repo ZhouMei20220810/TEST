@@ -6,10 +6,12 @@ PhoneItemWidget::PhoneItemWidget(QWidget *parent)
     , ui(new Ui::PhoneItemWidget)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose,true);
 }
 
 PhoneItemWidget::~PhoneItemWidget()
 {
+    qDebug()<<"delete PhoneItemWidget";
     delete ui;
 }
 

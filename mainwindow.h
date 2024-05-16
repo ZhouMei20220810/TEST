@@ -111,6 +111,10 @@ private slots:
     void on_toolBtnDropFunction_clicked();
     void on_toolBtnExpansionFunction_clicked();
 
+	//切换横屏/竖屏
+    void on_toolBtnChangeHorScreen_clicked();
+    void on_toolBtnChangeVerScreen_clicked();
+
 private:
     Ui::MainWindow *ui;
     S_USER_LOGIN_INFO m_userInfo;

@@ -37,7 +37,10 @@
 #define HTTP_SUCCESS_CODE           200
 //phone item
 #define         ITEM_PHONE_VERTICAL_WIDTH       207 //竖屏宽度
-#define         ITEM_PHONE_VERTICAL_HEIGHT      368 //竖屏高度
+#define         ITEM_PHONE_VERTICAL_HEIGHT      396 //竖屏高度
+//phone item
+#define         ITEM_PHONE_HORIZONTAL_WIDTH       368 //横屏宽度
+#define         ITEM_PHONE_HORIZONTAL_HEIGHT      235 //横屏高度
 
 #define         ITEM_WIDGET_SPACING             15
 //level item

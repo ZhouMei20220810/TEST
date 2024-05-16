@@ -1363,7 +1363,51 @@ padding-left:8px;
                      </spacer>
                     </item>
                     <item>
-                     <widget class="QToolButton" name="toolBtnChangeScreen">
+                     <widget class="QToolButton" name="toolBtnChangeHorScreen">
+                      <property name="minimumSize">
+                       <size>
+                        <width>96</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>96</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>10</pointsize>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QToolButton {border:none;
+color: rgb(204, 204, 204);
+border-radius:1px;
+padding-left:8px;
+}
+QToolButton:hover {
+background-color: #FFE7E8EE;
+color: rgb(255, 255, 255);
+border-radius:1px;
+padding-left:8px;
+}</string>
+                      </property>
+                      <property name="text">
+                       <string>切换横屏</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="res.qrc">
+                        <normaloff>:/main/resource/main/changeScreen.png</normaloff>:/main/resource/main/changeScreen.png</iconset>
+                      </property>
+                      <property name="toolButtonStyle">
+                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QToolButton" name="toolBtnChangeVerScreen">
                       <property name="minimumSize">
                        <size>
                         <width>96</width>
