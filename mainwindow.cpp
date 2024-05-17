@@ -651,12 +651,16 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
                         int iPages = data["pages"].toInt();
                         int iSize = data["size"].toInt();
                         int iTotal = data["total"].toInt();
+                        int iMaxLimit = data["maxLimit"].toInt();
+                        int iCountId = data["countId"].toInt();
+                        bool bSearchCount = data["searchCount"].toBool();
+                        bool bOptimizeCountSql = data["optimizeCountSql"].toBool();
 
                         QJsonArray records = data["records"].toArray();
                         if (records.size() > 0)
                         {
                             int iRecordsSize = records.size();
-                            QJsonObject recordObj;
+                            /*QJsonObject recordObj;
                             //获取我的手机实例数据，暂未存储
                             S_PHONE_INFO phoneInfo;
                             for (int i = 0; i < iRecordsSize; i++)
@@ -671,7 +675,28 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
                                 phoneInfo.strInstanceNo = recordObj["no"].toString();
                                 phoneInfo.strServerToken = recordObj["serverToken"].toString();
                                 phoneInfo.iType = recordObj["type"].toInt();
-                            }
+                            }*/
+                        }
+                        QJsonArray orders = data["orders"].toArray();
+                        if (orders.size() > 0)
+                        {
+                            int iOrdersSize = orders.size();
+                            /*QJsonObject recordObj;
+                            //获取我的手机实例数据，暂未存储
+                            S_PHONE_INFO phoneInfo;
+                            for (int i = 0; i < iRecordsSize; i++)
+                            {
+                                recordObj = records[i].toObject();
+                                phoneInfo.strCreateTime = recordObj["createTime"].toString();
+                                phoneInfo.strCurrentTime = recordObj["current"].toString();
+                                phoneInfo.strExpireTime = recordObj["expireTime"].toString();
+                                phoneInfo.iId = recordObj["id"].toInt();
+                                phoneInfo.iLevel = recordObj["level"].toInt();
+                                phoneInfo.strName = recordObj["name"].toString();
+                                phoneInfo.strInstanceNo = recordObj["no"].toString();
+                                phoneInfo.strServerToken = recordObj["serverToken"].toString();
+                                phoneInfo.iType = recordObj["type"].toInt();
+                            }*/
                         }
                     }
                 }
@@ -744,7 +769,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                     QFile file(strFilePath);
                     if (file.exists())
                         file.remove();
-                    if (file.open(QIODevice::ReadWrite | QIODevice::Text))
+                    if (file.open(QIODevice::ReadWrite))
                     {
                         QDataStream stream(&file);
                         stream << strData;
@@ -1242,7 +1267,9 @@ void MainWindow::on_btnBeginPay_clicked()
     }
 
 	//调试传参
-    HttpCreateOrder(1, 1, 1, 1, "");
+    //HttpCreateOrder(1, 1, 1, 1, "");
+
+    HttpGetMyOrder(1, 10);
 }
 
 //level item 
@@ -1396,7 +1423,7 @@ void MainWindow::on_btnAdd_clicked()
 void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
 {
     //文本框值改变
-    int iBuyNum = ui->lineEditBuyNumber->text().toInt();
+    int iBuyNum = arg1.toInt();//ui->lineEditBuyNumber->text().toInt();
     QString str;
     str=str.asprintf("%.2f", iBuyNum* m_curVIPInfo.fTotalPrice);
     ui->labelPayMoney->setText(str);
