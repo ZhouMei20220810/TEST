@@ -20,6 +20,9 @@
 #include "messagetipsdialog.h"
 #include "phoneitemwidget.h"
 #include <QScrollBar>
+#include <QFile>
+#include <QDir>
+#include "paywidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -684,7 +687,7 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
 }
 
 //订单接口-创建订单
-void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString strRelateId)
+void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayType,QString strRelateId)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_CREATE_ORDER;
@@ -704,7 +707,8 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
     obj.insert("channel", iChannel);
     obj.insert("memberId", iMemberId);
     obj.insert("num", iNum);
-    obj.insert("relateId", strRelateId);
+    obj.insert("payType", iPayType);
+    //obj.insert("relateId", strRelateId);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
 
@@ -713,7 +717,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
     connect(reply, &QNetworkReply::finished, this, [=] {
         //读取响应数据
         QByteArray response = reply->readAll();
-        qDebug() << response;
+        qDebug() <<"response="<< response;
 
         QJsonParseError parseError;
         QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
@@ -729,39 +733,27 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum,QString str
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "response:" << response;
+                qDebug() << "Code=" << iCode << "message=" << strMessage;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    if (obj["data"].isArray())
+                    QString strData = obj["data"].toString();
+                    qDebug() << strData;
+
+                    QDir dir;
+                    QString strFilePath = dir.tempPath() + "/" + OPEN_ZHIFUBAO_TEMP_FILE_NAME;
+                    QFile file(strFilePath);
+                    if (file.exists())
+                        file.remove();
+                    if (file.open(QIODevice::ReadWrite | QIODevice::Text))
                     {
-                        QJsonArray dataArray = obj["data"].toArray();
-                        int iGroupSize = dataArray.size();
-                        if (0 == iGroupSize)
-                        {
-                            return;
-                        }
-                        else
-                        {
-                            m_mapGroupInfo.clear();
-                            ui->treeWidget->clear();
-                            //树形列表显示
-                            S_GROUP_INFO groupInfo;
-                            QJsonObject dataObj;
-                            for (int i = 0; i < iGroupSize; i++)
-                            {
-                                dataObj = dataArray[i].toObject();
-                                groupInfo.iGroupId = dataObj["id"].toInt();
-                                groupInfo.iGroupNum = dataObj["num"].toInt();
-                                groupInfo.strGroupName = dataObj["name"].toString();
-                                qDebug() << "iGroupId=" << groupInfo.iGroupId << "strGroupName=" << groupInfo.strGroupName << "iGroupCount=" << groupInfo.iGroupNum;
-
-                                m_mapGroupInfo.insert(i, groupInfo);
-                            }
-
-                            //调用UI接口显示数据
-                            ShowGroupInfo();
-                        }
+                        QDataStream stream(&file);
+                        stream << strData;
+                        file.flush();
+                        file.close();                        
                     }
+
+                    PayWidget* pay = new PayWidget(strFilePath);
+                    pay->show();
                 }
                 else
                 {
@@ -1249,17 +1241,8 @@ void MainWindow::on_btnBeginPay_clicked()
         return;
     }
 
-    //获取界面选中的值
-    float fTotalPrice = ui->labelPayMoney->text().toFloat();
-    qDebug() << "总价=" << fTotalPrice;
-
-    //http调用支付宝接口
-    qDebug()<<QSslSocket::sslLibraryBuildVersionString();
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    qDebug()<<manager->supportedSchemes();
-
-    std::string str = "Hello World";
-    qDebug() << QString::fromStdString(sha256(str));
+	//调试传参
+    HttpCreateOrder(1, 1, 1, 1, "");
 }
 
 //level item 

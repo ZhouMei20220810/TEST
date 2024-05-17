@@ -39,7 +39,7 @@ private:
     // 我的支付订单
     void HttpGetMyOrder(int iPage, int iPageSize);
     //创建订单
-    void HttpCreateOrder(int iChannel, int iMemberId, int iNum, QString strRelateId);
+    void HttpCreateOrder(int iChannel, int iMemberId, int iNum,int iPayType, QString strRelateId);
     //关闭订单
     void HttpCloseOrder(QString strOutTradeNo);
     //删除
