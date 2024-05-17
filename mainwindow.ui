@@ -2117,6 +2117,11 @@ padding-left:10px;
                    <height>195</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string>激活码：</string>
                  </property>
@@ -2127,13 +2132,13 @@ padding-left:10px;
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
-                   <height>0</height>
+                   <height>33</height>
                   </size>
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>16777215</width>
-                   <height>16777215</height>
+                   <width>200</width>
+                   <height>33</height>
                   </size>
                  </property>
                  <property name="font">
@@ -2189,6 +2194,11 @@ border-radius: 3px;</string>
                </item>
                <item>
                 <widget class="QLabel" name="label_4">
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string>1.每个激活码只能激活一次。
 2.您通过。。。
@@ -2241,8 +2251,61 @@ border-radius: 3px;</string>
                </item>
                <item>
                 <widget class="QPushButton" name="btnActiveCode">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>33</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>33</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"> QPushButton {
+     border: 0px solid #555764;
+     border-radius:2px;
+	 background-color: #FF363847;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:0px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 0px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:disabled
+{
+ background-color: #FFC1C1C1;
+ color:#FFFFFFFF;
+}
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+                 </property>
                  <property name="text">
                   <string>确定激活</string>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -3079,7 +3142,7 @@ border-image:url(:/main/resource/main/border_select.png);
                <item>
                 <widget class="QLabel" name="labelPayMoney">
                  <property name="styleSheet">
-                  <string notr="true">color:red</string>
+                  <string notr="true">color:#F96D6F;</string>
                  </property>
                  <property name="text">
                   <string>88.80</string>

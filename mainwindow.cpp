@@ -100,8 +100,28 @@ void MainWindow::InitBuyTab()
     InitLevelList();
     InitVipList();
 
+    QStringList stringList;
+    stringList<<"等级/名称"<<"剩余时间";
+    ui->listWidgetRenewList->addItems(stringList);
+
     //隐藏续费列表
     ui->listWidgetRenewList->setHidden(true);
+    ui->listWidgetRenewList->setModelColumn(2);
+    ui->listWidgetRenewList->setSelectionMode(QAbstractItemView::SingleSelection);
+    QLabel* label=new QLabel(this);
+    label->setText("等级/名称");
+    label->setStyleSheet("background-color:gray;color:#FF2323FF");
+    QListWidgetItem* item = new QListWidgetItem(ui->listWidgetRenewList);
+    ui->listWidgetRenewList->setItemWidget(item,label);
+    ui->listWidgetRenewList->addItem(item);
+
+
+    label=new QLabel(this);
+    label->setText("剩余时间");
+    label->setStyleSheet("background-color:gray;color:#FF2323FF");
+    item = new QListWidgetItem(ui->listWidgetRenewList);
+    ui->listWidgetRenewList->setItemWidget(item,label);
+    ui->listWidgetRenewList->addItem(item);
 
     //默认显示
     ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
@@ -766,7 +786,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
 
                     QDir dir;
                     QString strFilePath = dir.tempPath() + "/" + OPEN_ZHIFUBAO_TEMP_FILE_NAME;
-                    QFile file(strFilePath);
+                    /*QFile file(strFilePath);
                     if (file.exists())
                         file.remove();
                     if (file.open(QIODevice::ReadWrite))
@@ -775,7 +795,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                         stream << strData;
                         file.flush();
                         file.close();                        
-                    }
+                    }*/
 
                     PayWidget* pay = new PayWidget(strFilePath);
                     pay->show();
@@ -1267,9 +1287,9 @@ void MainWindow::on_btnBeginPay_clicked()
     }
 
 	//调试传参
-    //HttpCreateOrder(1, 1, 1, 1, "");
+    HttpCreateOrder(1, 1, 1, 1, "");
 
-    HttpGetMyOrder(1, 10);
+    //HttpGetMyOrder(1, 10);
 }
 
 //level item 
