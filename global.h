@@ -16,6 +16,9 @@
 #define HTTP_DELETE_GROUP           "/api/group/delete"     //删除分组
 #define HTTP_TOKEN_HEADER           "Bearer "               //token添加头
 
+//会员相关接口
+#define HTTP_MEMBER_LEVEL_LIST_DATA "/api/member/data"      //获取会员等级列表
+
 //订单接口
 #define HTTP_CREATE_ORDER           "/api/order/create"     //创建订单
 #define HTTP_CLOSE_ORDER            "/api/order/closeOrder/{outTradeNo}" //关闭订单
@@ -33,6 +36,8 @@
 #define HTTP_INSTANCE_SCREENSHOT_REFRESH "/api/user/screenshot/refresh"  //刷新实例截图
 #define HTTP_SET_INSTANCE_GROUP     "/api/user/setGroup"    //设置实例分组
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
+
+
 #define OPEN_ZHIFUBAO_TEMP_FILE_NAME "ysy.html"
 
 #define HTTP_SUCCESS_CODE           200
@@ -51,20 +56,31 @@
 #define         ITEM_LEVEL_LABELCHECK_HEIGHT    36
 enum LEVEL_TYPE
 {
-    LEVEL_NOMAL_LEVEL = 0,          //标准型
-    LEVEL_ENHANCEMENT_TYPE = 1,     //增强型
-    LEVEL_PREMIER_TYPE = 2          //尊享型
+    LEVEL_NOMAL_LEVEL = 1,          //标准型
+    LEVEL_ENHANCEMENT_TYPE = 2,     //增强型
+    LEVEL_PREMIER_TYPE = 3          //尊享型
 };
-/*struct LEVEL_INFO
+typedef struct LEVEL_DATA_INFO
 {
-    QString strLevelContent;    //等级描述
-    QString strFunction;        //功能描述
-    bool    bCloudManage;       //云端管理
-    bool    bAndroidSystem;     //安卓系统
-    bool    bCloudPhoneLicensing;//云手机授权
-    bool
+    int     iLevelId;           //等级id
+    int     iMemberId;          //会员id
+    int     iUseDay;            //使用天数
+    int     fPrice;             //原价
+    float   fActivityPrice;     //活动价格
+    QString strUrl;             //会员url
+    QString strRemark;          //备注
+    QString strInstanceLevel;   //实例等级
+    QString strLevelName;       //等级名称
+    QString strColorIcon;       //彩色图标
+    QString strAshIcon;         //灰色图标
+    QString strLevelRemark;
+    QString strMemberName;      //会员名称
+    LEVEL_DATA_INFO()
+    {
+        memset(this,0,sizeof(LEVEL_DATA_INFO));
+    }
+}S_LEVEL_DATA_INFO,*PS_LEVEL_DATA_INFO;
 
-};*/
 QString getLevelTypeToText(LEVEL_TYPE levelType);
 //vip item
 #define         ITEM_WIDGET_VIP_WIDTH           100

@@ -35,6 +35,11 @@ private:
     //显示树内容
     void ShowGroupInfo();
 
+    //会员级别接口
+    void HttpMemberLevelList();
+    //会员相关接口
+    void HttpMemberLevelListData();
+
     //订单接口
     // 我的支付订单
     void HttpGetMyOrder(int iPage, int iPageSize);
@@ -135,6 +140,9 @@ private:
     LevelNormalWidget* normal;
     LevelEnhancementWidget* enhancement;
     LevelPremierWidget* premier;
+
+    //会员列表
+    QMap<LEVEL_TYPE,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

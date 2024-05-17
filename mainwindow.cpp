@@ -97,6 +97,9 @@ void MainWindow::InitActiveCodeTab()
 //购买
 void MainWindow::InitBuyTab()
 {
+    //加载数据
+    HttpMemberLevelListData();
+
     InitLevelList();
     InitVipList();
 
@@ -620,6 +623,102 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
         reply->deleteLater();
     });
 }*/
+
+//会员级别接口
+void MainWindow::HttpMemberLevelList()
+{
+
+}
+
+//会员相关接口
+void MainWindow::HttpMemberLevelListData()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_MEMBER_LEVEL_LIST_DATA;
+    //strUrl += QString("?page=%1&pageSize=%2").arg(iPage).arg(iPageSize);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isArray())
+                    {
+                        QJsonArray dataArray = obj["data"].toArray();
+                        QMap<int,S_LEVEL_DATA_INFO> mapData;
+                        S_LEVEL_DATA_INFO sLevelData;
+                        QJsonObject data;
+
+                        QJsonArray memberList;
+                        QJsonObject member;
+                        int iMemberIndex =0;
+                        for(int i =0 ; i < dataArray.size();i++)
+                        {
+                            data = dataArray[i].toObject();
+                            sLevelData.iLevelId = data["level"].toInt();
+                            memberList = data["memberList"].toArray();
+                            for(iMemberIndex = 0; iMemberIndex < memberList.size(); iMemberIndex++)
+                            {
+                                member = memberList[iMemberIndex].toObject();
+                                sLevelData.iLevelId = member["id"].toInt();
+                                sLevelData.strMemberName = member["name"].toString();
+                                sLevelData.fPrice = member["price"].toDouble();
+                                sLevelData.fActivityPrice = member["activityPrice"].toDouble();
+                                sLevelData.strUrl = member["url"].toString();
+                                sLevelData.strRemark = member["remark"].toString();
+                                sLevelData.strInstanceLevel = member["instanceLevel"].toString();
+                                sLevelData.iUseDay = member["useDay"].toInt();
+                                sLevelData.strLevelName = member["levelName"].toString();
+                                sLevelData.strColorIcon = member["colorIcon"].toString();
+                                sLevelData.strAshIcon = member["ashIcon"].toString();
+                                sLevelData.strLevelRemark = member["levelRemark"].toString();
+                                mapData.insert(sLevelData.iMemberId, sLevelData);
+                            }
+                            m_mapLevel.insert((LEVEL_TYPE)sLevelData.iLevelId, mapData);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+    });
+}
 
 // 订单接口-我的支付订单
 void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
