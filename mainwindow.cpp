@@ -36,9 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化Tab云手机
     InitCloudPhoneTab();
     //初始化Tab激活码
-    InitActiveCodeTab();
-    //初始化Tab购买
-    InitBuyTab();
+    InitActiveCodeTab();    
 }
 
 MainWindow::~MainWindow()
@@ -688,10 +686,11 @@ void MainWindow::HttpMemberLevelListData()
                             data = dataArray[i].toObject();
                             sLevelData.iLevelId = data["level"].toInt();
                             memberList = data["memberList"].toArray();
+                            mapData.clear();
                             for(iMemberIndex = 0; iMemberIndex < memberList.size(); iMemberIndex++)
                             {
                                 member = memberList[iMemberIndex].toObject();
-                                sLevelData.iLevelId = member["id"].toInt();
+                                sLevelData.iMemberId = member["id"].toInt();
                                 sLevelData.strMemberName = member["name"].toString();
                                 sLevelData.fPrice = member["price"].toDouble();
                                 sLevelData.fActivityPrice = member["activityPrice"].toDouble();
@@ -1181,6 +1180,10 @@ void MainWindow::setUserInfo(S_USER_LOGIN_INFO userInfo)
     ui->labelAccount->setText(m_userInfo.strAccount);
     qDebug() << "跳转到主页面" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
     QueryAllGroup();
+
+    //登录成功后获取数据
+    //初始化Tab购买
+    InitBuyTab();
 }
 
 //菜单栏
