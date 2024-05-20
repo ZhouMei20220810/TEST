@@ -23,8 +23,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void setUserInfo(S_USER_LOGIN_INFO userInfo);
-
 private:
     //分组接口
     void QueryAllGroup();//查询全部分组
@@ -137,7 +135,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    S_USER_LOGIN_INFO m_userInfo;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
 
     S_LEVEL_DATA_INFO m_curLevelDataInfo;

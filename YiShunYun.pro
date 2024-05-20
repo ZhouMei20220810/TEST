@@ -20,6 +20,7 @@ SOURCES += \
     creategroupwidget.cpp \
     forgetpwdialog.cpp \
     global.cpp \
+    individualcenterwidget.cpp \
     levelchildgvipwidget.cpp \
     levelchildkvipwidget.cpp \
     levelchildwidget.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
     creategroupwidget.h \
     forgetpwdialog.h \
     global.h \
+    individualcenterwidget.h \
     levelchildgvipwidget.h \
     levelchildkvipwidget.h \
     levelchildwidget.h \
@@ -66,6 +68,7 @@ FORMS += \
     Logoutdialog.ui \
     creategroupwidget.ui \
     forgetpwdialog.ui \
+    individualcenterwidget.ui \
     levelchildgvipwidget.ui \
     levelchildkvipwidget.ui \
     levelchildwidget.ui \

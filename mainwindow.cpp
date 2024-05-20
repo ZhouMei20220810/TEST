@@ -34,10 +34,15 @@ MainWindow::MainWindow(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose,true);
 	setAttribute(Qt::WA_Hover, true);
 
+    ui->labelAccount->setText(GlobalData::strAccount);
+
+    QueryAllGroup();
     //初始化Tab云手机
     InitCloudPhoneTab();
     //初始化Tab激活码
-    InitActiveCodeTab();    
+    InitActiveCodeTab(); 
+    //初始化Tab购买
+    InitBuyTab();
 }
 
 MainWindow::~MainWindow()
@@ -289,7 +294,7 @@ void MainWindow::QueryAllGroup()//查询全部分组
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -414,7 +419,7 @@ void MainWindow::CreateGroup(QString strGroupName)//创建分组
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -475,7 +480,7 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -545,7 +550,7 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -678,7 +683,7 @@ void MainWindow::HttpMemberLevelListData()
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -772,7 +777,7 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -949,7 +954,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -1060,7 +1065,7 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -1120,7 +1125,7 @@ void MainWindow::HttpDeleteOrder(int iOrderId)
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -1187,7 +1192,7 @@ void MainWindow::GetMyPhoneInstance()
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -1311,18 +1316,6 @@ void MainWindow::on_toolBtnBuy_clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::setUserInfo(S_USER_LOGIN_INFO userInfo)
-{
-    m_userInfo = userInfo;
-    ui->labelAccount->setText(m_userInfo.strAccount);
-    qDebug() << "跳转到主页面" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
-    QueryAllGroup();
-
-    //登录成功后获取数据
-    //初始化Tab购买
-    InitBuyTab();
-}
-
 //菜单栏
 void MainWindow::on_btnPhotoUrl_clicked()
 {
@@ -1371,7 +1364,7 @@ void MainWindow::on_btnClose_clicked()
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;
@@ -1482,7 +1475,7 @@ void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     qDebug() << "token:   " << strToken;

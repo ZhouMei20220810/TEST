@@ -124,21 +124,6 @@ enum ENUM_LOGIN_STATUS
     TYPE_WINDOWS_CLOSE = 2
 };
 
-typedef struct USER_LOGIN_INFO
-{
-    int     id;
-    QString strMaxExpirationDate;
-    QString strToken;
-    QString strAccount;
-    QString strMobile;
-    QString strName;
-    QString strPhotoUrl;
-    USER_LOGIN_INFO()
-    {
-        memset(this, 0, sizeof(USER_LOGIN_INFO));
-    }
-}S_USER_LOGIN_INFO,*P_USER_LOGIN_INFO;
-
 typedef struct GROUP_INFO
 {
     int     iGroupId;
@@ -195,15 +180,14 @@ typedef struct ORDER_INFO
 class GlobalData
 {
 public:
-    static int userbox_x;
-    static int userbox_y;
-    static QString userphone;
-    static QString useravator;
-    static QString token;
-    static int expire;
-    static QString version;
-    static QString apiurl;
+    static int     id;
+    static QString strMaxExpirationDate;
+    static QString strToken;
+    static QString strAccount;
+    static QString strMobile;
+    static QString strName;
+    static QString strPhotoUrl;
 
-    static void setToolButtonSize(QToolButton* btn);
+    //static void setToolButtonSize(QToolButton* btn);
 };
 #endif // GLOBAL_H

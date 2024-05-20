@@ -162,23 +162,22 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                     int iCode = obj["code"].toInt();
                     QString strMessage = obj["message"].toString();
                     qDebug() << "Code=" << iCode << "message=" << strMessage << "response:" << response;
-                    S_USER_LOGIN_INFO userInfo;
                     if (HTTP_SUCCESS_CODE == iCode)
                     {
                         if (obj["data"].isObject())
                         {
                             QJsonObject data = obj["data"].toObject();
-                            userInfo.strToken = data["token"].toString();
-                            userInfo.strMaxExpirationDate = data["maxExpirationDate"].toString();
+                            GlobalData::strToken = data["token"].toString();
+                            GlobalData::strMaxExpirationDate = data["maxExpirationDate"].toString();
 
                             QJsonObject userDetailVO = data["userDetailVO"].toObject();
-                            userInfo.id = userDetailVO["id"].toInt();
-                            userInfo.strName = userDetailVO["name"].toString();
-                            userInfo.strAccount = userDetailVO["account"].toString();
-                            userInfo.strMobile = userDetailVO["mobile"].toString();
-                            userInfo.strPhotoUrl = userDetailVO["photoUrl"].toString();
+                            GlobalData::id = userDetailVO["id"].toInt();
+                            GlobalData::strName = userDetailVO["name"].toString();
+                            GlobalData::strAccount = userDetailVO["account"].toString();
+                            GlobalData::strMobile = userDetailVO["mobile"].toString();
+                            GlobalData::strPhotoUrl = userDetailVO["photoUrl"].toString();
 
-                            qDebug() << "登录成功：" << "id=" << userInfo.id << "name=" << userInfo.strName << "account=" << userInfo.strAccount << "mobile=" << userInfo.strMobile << "MaxExpirationDate" << userInfo.strMaxExpirationDate << "token=" << userInfo.strToken;
+                            qDebug() << "登录成功：" << "id=" << GlobalData::id << "name=" << GlobalData::strName << "account=" << GlobalData::strAccount << "mobile=" << GlobalData::strMobile << "MaxExpirationDate" << GlobalData::strMaxExpirationDate << "token=" << GlobalData::strToken;
 
                             //关闭
                             //this->close();
@@ -186,13 +185,7 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
 
                             //去掉父窗口
                             MainWindow* mainWindow = new MainWindow();
-                            mainWindow->setUserInfo(userInfo);
                             mainWindow->show();
-
-                            //使用新的主窗口
-                            /*YsyMainWindow* mainWindow = new YsyMainWindow();
-                            mainWindow->setUserInfo(userInfo);
-                            mainWindow->show();*/
 
                         }
                     }

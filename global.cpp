@@ -1,6 +1,15 @@
 #include "global.h"
 #include "openssl/ssl.h"
 
+int GlobalData::id = 10;
+QString GlobalData::strMaxExpirationDate = "";
+QString GlobalData::strToken = "";
+QString GlobalData::strAccount = "";
+QString GlobalData::strMobile = "";
+QString GlobalData::strName = "";
+QString GlobalData::strPhotoUrl = "";
+//QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
+
 QString getLevelTypeToText(LEVEL_TYPE levelType)
 {
     QString strText;
