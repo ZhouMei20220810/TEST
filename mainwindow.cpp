@@ -96,6 +96,9 @@ void MainWindow::InitActiveCodeTab()
 //购买
 void MainWindow::InitBuyTab()
 {
+    //隐藏微信支付
+    ui->toolBtnPayWechat->setVisible(false);
+
     //加载数据
     HttpMemberLevelListData();
 
@@ -964,9 +967,9 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                         QString strQrCode = objResponse["qr_code"].toString();
 
                         QString strSign = obj["sign"].toString();
-
+                        qDebug() << strQrCode;
                         qDebug() << strSign;
-                        QImage qrImage = generateAlipayQRCode(strSign);
+                        QImage qrImage = generateAlipayQRCode(strQrCode);
                         if (!qrImage.isNull())
                         {
                             QDir dir;
@@ -1468,9 +1471,13 @@ void MainWindow::on_btnBeginPay_clicked()
         return;
     }
 
+    QString strBuyNum = ui->lineEditBuyNumber->text();
+    int iNum = strBuyNum.toInt();
+    m_curVIPInfo.fTotalPrice;
 	//调试传参
+    //HttpCreateOrder(int iChannel, int iMemberId, int iNum, int iPayType, QString strRelateId);
+    //HttpCreateOrder(4, m_curVIPInfo.vipType, 1, 1, "");
     HttpCreateOrder(4, 1, 1, 1, "");
-
     //HttpGetMyOrder(1, 10);
 }
 

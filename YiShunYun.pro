@@ -103,7 +103,7 @@ DISTFILES += \
 
 MOC_DIR = $$DESTDIR
 
-DESTDIR = $$PWD/../bin #指定目标文件存放位置
+#DESTDIR = $$PWD/../bin #指定目标文件存放位置
 
 win32: LIBS += -L$$PWD/libs/ -lqrencode
 
