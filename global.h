@@ -27,6 +27,8 @@
 #define HTTP_CLEAR_ORDER            "/api/order/empty"       //清空
 #define HTTP_GET_MY_ORDER           "/api/order/my"          //我的支付订单
 
+#define HTTP_POST_ACTIVE_CODE       "/api/cdkey/activate"   //激活
+
 //手机实例相关接口
 #define HTTP_GET_SERVER_TOKEN       "/api/user/serverToken" //获取serverToken,供测试使用
 #define HTTP_GET_MYINSTANCE_LEVEL   "/api/user/getLevel"    //获取我的实例级别，可以不用获取级别

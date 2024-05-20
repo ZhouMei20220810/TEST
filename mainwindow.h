@@ -52,6 +52,9 @@ private:
     //清空
     void HttpEmptyOrder();
 
+    //激活码接口
+    void HttpPostActivateCode(QString strCode, int iRelateId);
+
     //手机实例相关接口
     //获取serverToken
     //void HttpGetServerToken();
