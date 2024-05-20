@@ -204,7 +204,6 @@
   <ItemGroup>
     <ClCompile Include="Logoutdialog.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
-    <ClCompile Include="emptymealwidget.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="levelchildgvipwidget.cpp" />
@@ -219,6 +218,7 @@
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
+    <ClCompile Include="paywidget.cpp" />
     <ClCompile Include="phoneitemwidget.cpp" />
     <ClCompile Include="policydialog.cpp" />
     <ClCompile Include="registerpage.cpp" />
@@ -229,7 +229,6 @@
   <ItemGroup>
     <QtMoc Include="Logoutdialog.h" />
     <QtMoc Include="creategroupwidget.h" />
-    <QtMoc Include="emptymealwidget.h" />
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
     <QtMoc Include="levelchildgvipwidget.h" />
@@ -243,6 +242,7 @@
     <QtMoc Include="mainwindow.h" />
     <QtMoc Include="messagetipsdialog.h" />
     <QtMoc Include="passwordloginpage.h" />
+    <QtMoc Include="paywidget.h" />
     <QtMoc Include="phoneitemwidget.h" />
     <QtMoc Include="policydialog.h" />
     <QtMoc Include="registerpage.h" />
@@ -269,7 +269,6 @@
   <ItemGroup>
     <QtUic Include="Logoutdialog.ui" />
     <QtUic Include="creategroupwidget.ui" />
-    <QtUic Include="emptymealwidget.ui" />
     <QtUic Include="forgetpwdialog.ui" />
     <QtUic Include="levelchildgvipwidget.ui" />
     <QtUic Include="levelchildkvipwidget.ui" />
@@ -282,6 +281,7 @@
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="messagetipsdialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
+    <QtUic Include="paywidget.ui" />
     <QtUic Include="phoneitemwidget.ui" />
     <QtUic Include="policydialog.ui" />
     <QtUic Include="registerpage.ui" />
@@ -305,15 +305,19 @@
     <None Include="resource\function\7.png" />
     <None Include="resource\function\8.png" />
     <None Include="resource\function\9.png" />
+    <None Include="resource\function\PayFinish.png" />
     <None Include="resource\login\ScreenShots.jpg" />
     <None Include="resource\login\ScreenShots_v.jpg" />
     <None Include="resource\main\activeCode_normal.png" />
     <None Include="resource\main\activeCode_select.png" />
+    <None Include="resource\function\add.png" />
     <None Include="resource\main\addPhone.png" />
     <None Include="resource\main\allSelect.png" />
     <None Include="resource\main\appInstaller.png" />
     <None Include="resource\login\back.png" />
     <None Include="resource\main\batchOper.png" />
+    <None Include="resource\main\border_normal.png" />
+    <None Include="resource\main\border_select.png" />
     <None Include="resource\main\buyNum.png" />
     <None Include="resource\main\buy_hover.png" />
     <None Include="resource\main\buy_normal.png" />
@@ -360,8 +364,12 @@
     <None Include="resource\main\refresh.png" />
     <QtRcc Include="res.qrc" />
     <None Include="resource\main\setting_normal.png" />
+    <None Include="resource\function\sub.png" />
     <None Include="resource\main\sync.png" />
     <None Include="resource\main\uncheck.png" />
+    <None Include="resource\function\waitPay.png" />
+    <None Include="resource\function\wechat.png" />
+    <None Include="resource\function\zhifubao.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="logo.rc" />

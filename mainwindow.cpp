@@ -1454,40 +1454,43 @@ void MainWindow::loadVipType(LEVEL_TYPE enType)
     //清空列表
     ui->listWidgetVIP->clear();
 
-    //假设暂时没有KVIP的数据
-    if(enType == LEVEL_PREMIER_TYPE)
+    QMap<LEVEL_TYPE, QMap<int, S_LEVEL_DATA_INFO>>::iterator iterFind = m_mapLevel.find(enType);
+    if (iterFind != m_mapLevel.end())
     {
-        qDebug()<<"无套餐";
+        qDebug() << "加载vip列表 enType=" << enType;
+        //加载套餐列表
+        //ui->listWidgetVIP
+        ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
+        int iVIPType = 0;
+        QListWidgetItem* vipItem = NULL;
+        VIPItemWidget* vipWidget = NULL;
+        S_VIP_ITEM_INFO sVipInfo;
+        ui->widget->setVisible(true);
+
+        QMap<int, S_LEVEL_DATA_INFO>::iterator iter = iterFind->begin();
+        for (; iter != iterFind->end(); iter++)
+        {
+            vipItem = new QListWidgetItem(ui->listWidgetVIP);
+            vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            vipItem->setData(Qt::UserRole, iter->iMemberId);
+            ui->listWidgetVIP->addItem(vipItem);
+
+            qDebug() << "vip=" << iter->iMemberId;
+            sVipInfo.iDayCount = iter->iUseDay;
+            sVipInfo.vipType = (VIP_TYPE)iter->iMemberId;
+            sVipInfo.fTotalPrice = iter->fPrice;
+            sVipInfo.fDayPrice = sVipInfo.fTotalPrice / sVipInfo.iDayCount;
+            sVipInfo.strVipText = iter->strMemberName;
+            vipWidget = new VIPItemWidget(sVipInfo, this);
+            connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
+            ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
+        }
+    }
+    else
+    {
+        qDebug() << "无套餐";
         ui->stackedWidget_2->setCurrentWidget(ui->page_EmptyMeal);
-        return;
-    }
-
-    qDebug() << "加载vip列表 enType=" << enType;
-    //加载套餐列表
-    //ui->listWidgetVIP
-    ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
-    int iVIPType = 0;
-    QListWidgetItem* vipItem = NULL;
-    VIPItemWidget* vipWidget = NULL;
-    S_VIP_ITEM_INFO sVipInfo;
-    ui->widget->setVisible(true);
-    for (int iVIPType = 0; iVIPType < ITEM_WIDGET_VIP_COUNT; iVIPType++)
-    {
-        vipItem = new QListWidgetItem(ui->listWidgetVIP);
-        vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        vipItem->setData(Qt::UserRole, iVIPType);
-        ui->listWidgetVIP->addItem(vipItem);
-
-        qDebug() << "vip=" << iVIPType;
-        sVipInfo.iDayCount = 30;
-        sVipInfo.vipType = (VIP_TYPE)iVIPType;
-        sVipInfo.fTotalPrice = 58.80f+iVIPType*100;
-        sVipInfo.fDayPrice = sVipInfo.fTotalPrice / sVipInfo.iDayCount;
-        sVipInfo.strVipText = strLevelTypeText;
-        vipWidget = new VIPItemWidget(sVipInfo, this);
-        connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
-        ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
-    }
+    }    
 }
 
 //vip item

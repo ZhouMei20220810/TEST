@@ -16,10 +16,16 @@ VIPItemWidget::VIPItemWidget(S_VIP_ITEM_INFO sVipInfo, QWidget *parent)
     ui->labelCheck->setStyleSheet("border:none;background:transparent;");
     //ui->labelCheck->setText(QString("%1").arg(enVipType));
 
-    ui->labelTotalTime->setText(QString("%1%2天").arg(sVipInfo.strVipText).arg(sVipInfo.iDayCount));
+    ui->labelTotalTime->setText(QString("%1").arg(sVipInfo.strVipText));
     QString strTmp;
-    strTmp = strTmp.asprintf("%.0f",sVipInfo.fTotalPrice);
-    ui->labelTotalPrice->setText(strTmp);
+    strTmp = strTmp.asprintf("%.2f",sVipInfo.fTotalPrice);
+    QStringList strValueList = strTmp.split('.');
+    if (strValueList.size() > 1)
+    {
+        ui->labelTotalPrice0->setText(strValueList.at(0));
+        ui->labelTotalPrice->setText(QString(".%1").arg(strValueList.at(1)));
+    }
+    
 
     strTmp = strTmp.asprintf("%.2f元/天",sVipInfo.fTotalPrice/sVipInfo.iDayCount);
     ui->labelDayPrice->setText(strTmp);
