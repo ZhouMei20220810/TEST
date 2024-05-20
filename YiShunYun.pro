@@ -11,7 +11,6 @@ INCLUDEPATH += C:\Program Files\OpenSSL-Win64\include
 LIBS += D:\zm\QtProject\TEST\MD\libssl.lib \
         D:\zm\QtProject\TEST\MD\libcrypto.lib
 
-
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -103,3 +102,13 @@ DISTFILES += \
     logo.rc
 
 MOC_DIR = $$DESTDIR
+
+DESTDIR = $$PWD/../bin #指定目标文件存放位置
+
+win32: LIBS += -L$$PWD/libs/ -lqrencode
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/qrencode.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libqrencode.a

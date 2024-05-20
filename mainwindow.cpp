@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QDir>
 #include "paywidget.h"
+#include "qrencode.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -866,6 +867,33 @@ void MainWindow::HttpGetMyOrder(int iPage,int iPageSize)
     });
 }
 
+QImage generateAlipayQRCode(const QString& data) 
+{
+    // 使用QRcode库生成二维码
+    QByteArray qrData = data.toUtf8();
+    QRcode* qrcode = QRcode_encodeString(qrData.constData(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
+
+    if (qrcode == nullptr) {
+        return QImage(); // 生成失败，返回空图像
+    }
+
+    int width = qrcode->width;
+    QImage image(width, width, QImage::Format_ARGB32);
+    image.fill(qRgba(255, 255, 255, 0));
+
+    for (int y = 0; y < qrcode->width; y++) {
+        for (int x = 0; x < qrcode->width; x++) {
+            unsigned char b = qrcode->data[y * qrcode->width + x];
+            if (b & 0x01) {
+                image.setPixel(x, y, qRgba(0, 0, 0, 255));
+            }
+        }
+    }
+
+    QRcode_free(qrcode); // 释放QRcode结构
+    return image;
+}
+
 //订单接口-创建订单
 void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayType,QString strRelateId)
 {
@@ -884,6 +912,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
     request.setUrl(url);
     QJsonDocument doc;
     QJsonObject obj;
+
     obj.insert("channel", iChannel);
     obj.insert("memberId", iMemberId);
     obj.insert("num", iNum);
@@ -919,21 +948,35 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                     QString strData = obj["data"].toString();
                     qDebug() << strData;
 
-                    QDir dir;
-                    QString strFilePath = dir.tempPath() + "/" + OPEN_ZHIFUBAO_TEMP_FILE_NAME;
-                    /*QFile file(strFilePath);
-                    if (file.exists())
-                        file.remove();
-                    if (file.open(QIODevice::ReadWrite))
+                    doc = QJsonDocument::fromJson(strData.toUtf8(), &parseError);
+                    if (parseError.error != QJsonParseError::NoError)
                     {
-                        QDataStream stream(&file);
-                        stream << strData;
-                        file.flush();
-                        file.close();                        
-                    }*/
+                        qDebug() << response;
+                        qWarning() << "Json parse error:" << parseError.errorString();
+                    }
+                    else
+                    {
+                        obj = doc.object();
+                        QJsonObject objResponse = obj["alipay_trade_precreate_response"].toObject();
+                        QString strCode = objResponse["code"].toString();
+                        QString strMsg = objResponse["msg"].toString();
+                        QString strOutTradeNo = objResponse["out_trade_no"].toString();
+                        QString strQrCode = objResponse["qr_code"].toString();
 
-                    PayWidget* pay = new PayWidget(strFilePath);
-                    pay->show();
+                        QString strSign = obj["sign"].toString();
+
+                        qDebug() << strSign;
+                        QImage qrImage = generateAlipayQRCode(strSign);
+                        if (!qrImage.isNull())
+                        {
+                            QDir dir;
+                            QString strFilePath = dir.tempPath() + "/alipay_qrcode.png";
+                            qrImage.save(strFilePath);
+
+                            PayWidget* pay = new PayWidget(strFilePath);
+                            pay->show();
+                        }
+                    }                    
                 }
                 else
                 {
@@ -1426,7 +1469,7 @@ void MainWindow::on_btnBeginPay_clicked()
     }
 
 	//调试传参
-    HttpCreateOrder(1, 1, 1, 1, "");
+    HttpCreateOrder(4, 1, 1, 1, "");
 
     //HttpGetMyOrder(1, 10);
 }
