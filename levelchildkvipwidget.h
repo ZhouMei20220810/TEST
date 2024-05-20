@@ -2,6 +2,7 @@
 #define LEVELCHILDKVIPWIDGET_H
 
 #include <QWidget>
+#include "global.h"
 
 namespace Ui {
 class LevelChildKvipWidget;
@@ -12,7 +13,7 @@ class LevelChildKvipWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelChildKvipWidget(QWidget *parent = nullptr);
+    explicit LevelChildKvipWidget(S_LEVEL_INFO levelInfo,QWidget *parent = nullptr);
     ~LevelChildKvipWidget();
 
 private:

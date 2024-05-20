@@ -15,7 +15,7 @@ class LevelEnhancementWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelEnhancementWidget(LEVEL_TYPE enType,QWidget *parent = nullptr);
+    explicit LevelEnhancementWidget(S_LEVEL_INFO levelInfo,QWidget *parent = nullptr);
     ~LevelEnhancementWidget();
     void setLabelCheckStatus(bool bCheck);
 

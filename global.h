@@ -60,6 +60,22 @@ enum LEVEL_TYPE
     LEVEL_ENHANCEMENT_TYPE = 2,     //增强型
     LEVEL_PREMIER_TYPE = 3          //尊享型
 };
+
+typedef struct LEVEL_INFO
+{
+    LEVEL_TYPE enType;
+    QString strLevelName;       //等级名称
+    QString strLevelRemark;     //等级描述
+    QString strFunction;        //功能描述
+    bool    bCloudManage;       //云端管理
+    bool    bAndroidSystem;     //安卓系统
+    bool    bCloudPhoneLicensing;//云手机授权
+    LEVEL_INFO()
+    {
+        memset(this, 0, sizeof(LEVEL_INFO));
+    }
+}S_LEVEL_INFO,*PS_LEVEL_INFO;
+//level data
 typedef struct LEVEL_DATA_INFO
 {
     int     iLevelId;           //等级id

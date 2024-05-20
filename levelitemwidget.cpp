@@ -5,7 +5,7 @@
 #include "vipitemwidget.h"
 #include <QListWidgetItem>
 
-LevelItemWidget::LevelItemWidget(LEVEL_TYPE enType, QString strImage,QWidget *parent)
+LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo,/*LEVEL_TYPE enType, */ QString strImage, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::LevelItemWidget)
 {
@@ -16,7 +16,7 @@ LevelItemWidget::LevelItemWidget(LEVEL_TYPE enType, QString strImage,QWidget *pa
     m_labelCheck->setPixmap(QPixmap(":/main/resource/main/levelCheck.png"));
     m_labelCheck->resize(ITEM_LEVEL_LABELCHECK_WIDTH, ITEM_LEVEL_LABELCHECK_HEIGHT);
 
-    m_levelType = enType;
+    m_levelType = levelInfo.enType;
     m_labelCheck->move(this->width()-m_labelCheck->width(), 0);
     m_labelCheck->setVisible(false);
     m_labelCheck->setParent(ui->toolButtonBG);
@@ -26,7 +26,7 @@ LevelItemWidget::LevelItemWidget(LEVEL_TYPE enType, QString strImage,QWidget *pa
     /*QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     ui->labelBg->setStyleSheet(strStyleSheet);*/
 
-    m_childWidget = new levelChildWidget(ui->toolButtonBG);
+    m_childWidget = new levelChildWidget(levelInfo,ui->toolButtonBG);
     m_childWidget->show();
 }
 

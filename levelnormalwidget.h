@@ -15,7 +15,7 @@ class LevelNormalWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelNormalWidget(LEVEL_TYPE enType,QWidget *parent = nullptr);
+    explicit LevelNormalWidget(S_LEVEL_INFO levelInfo/*LEVEL_TYPE enType*/, QWidget* parent = nullptr);
     ~LevelNormalWidget();
     void setLabelCheckStatus(bool bCheck);
 

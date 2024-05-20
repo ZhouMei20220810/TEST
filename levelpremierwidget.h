@@ -14,7 +14,7 @@ class LevelPremierWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelPremierWidget(LEVEL_TYPE enType,QWidget *parent = nullptr);
+    explicit LevelPremierWidget(S_LEVEL_INFO levelInfo,QWidget *parent = nullptr);
     ~LevelPremierWidget();
     void setLabelCheckStatus(bool bCheck);
 

@@ -14,7 +14,7 @@ class LevelItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelItemWidget(LEVEL_TYPE enType, QString strImage, QWidget* parent = nullptr);
+    explicit LevelItemWidget(S_LEVEL_INFO levelInfo, QString strImage, QWidget* parent = nullptr);
     ~LevelItemWidget();
 
     void setLabelCheckStatus(bool bCheck);

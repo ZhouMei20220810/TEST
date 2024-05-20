@@ -2,7 +2,7 @@
 #include "ui_levelchildwidget.h"
 #include "global.h"
 
-levelChildWidget::levelChildWidget(QWidget *parent)
+levelChildWidget::levelChildWidget(S_LEVEL_INFO levelInfo, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::levelChildWidget)
 {
@@ -10,6 +10,8 @@ levelChildWidget::levelChildWidget(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     this->resize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT);
 
+    ui->labelVersion->setText(levelInfo.strLevelName);
+    ui->labelFunction->setText(levelInfo.strLevelRemark);
     /*ui->listFuncWidget->setViewMode(QListView::IconMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));

@@ -98,7 +98,7 @@ void MainWindow::InitBuyTab()
     //加载数据
     HttpMemberLevelListData();
 
-    InitLevelList();
+    
     InitVipList();
 
     QStringList stringList;
@@ -151,6 +151,12 @@ void MainWindow::InitPhoneList()
 
 void MainWindow::InitLevelList()
 {
+    if (m_mapLevel.size() <= 0)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("暂无数据,请联系后台", this);
+        tips->show();
+        return;
+    }
     //imageList->resize(365,400);
     //设置QListWidget的显示模式
     /*ui->listWidgetLevel->setViewMode(QListView::IconMode);
@@ -191,17 +197,45 @@ void MainWindow::InitLevelList()
     QHBoxLayout* horizontalLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
     horizontalLayout->setSpacing(50);
 
-    normal = new LevelNormalWidget(LEVEL_NOMAL_LEVEL, ui->scrollArea);
-    connect(normal, &LevelNormalWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-    horizontalLayout->addWidget(normal);
-
-    enhancement = new LevelEnhancementWidget(LEVEL_ENHANCEMENT_TYPE, ui->scrollArea);
-    connect(enhancement, &LevelEnhancementWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-    horizontalLayout->addWidget(enhancement);
-
-    premier = new LevelPremierWidget(LEVEL_PREMIER_TYPE, ui->scrollArea);
-    connect(premier, &LevelPremierWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-    horizontalLayout->addWidget(premier);
+    S_LEVEL_INFO levelInfo;
+    QMap<LEVEL_TYPE, QMap<int, S_LEVEL_DATA_INFO>>::iterator iter = m_mapLevel.begin();
+    QMap<int, S_LEVEL_DATA_INFO> data;
+    QMap<int, S_LEVEL_DATA_INFO>::iterator iterData;
+    for (; iter != m_mapLevel.end(); iter++)
+    {
+        data = *iter;
+        iterData = data.begin();
+        //iterData = iter->value().begin();
+        levelInfo.enType = (LEVEL_TYPE)iterData->iLevelId;
+        levelInfo.strLevelRemark = iterData->strLevelRemark;
+        levelInfo.strLevelName = iterData->strLevelName;
+        switch (levelInfo.enType)
+        {
+        case LEVEL_NOMAL_LEVEL:
+        {
+            normal = new LevelNormalWidget(levelInfo, ui->scrollArea);
+            connect(normal, &LevelNormalWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+            horizontalLayout->addWidget(normal);
+        }
+            break;
+        case LEVEL_ENHANCEMENT_TYPE:
+        {
+            enhancement = new LevelEnhancementWidget(levelInfo, ui->scrollArea);
+            connect(enhancement, &LevelEnhancementWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+            horizontalLayout->addWidget(enhancement);
+        }
+            break;
+        case LEVEL_PREMIER_TYPE:
+        {
+            premier = new LevelPremierWidget(levelInfo, ui->scrollArea);
+            connect(premier, &LevelPremierWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+            horizontalLayout->addWidget(premier);
+        }
+            break;
+        default:
+            break;
+        }
+    }
 }
 void MainWindow::InitVipList()
 {
@@ -706,6 +740,9 @@ void MainWindow::HttpMemberLevelListData()
                             }
                             m_mapLevel.insert((LEVEL_TYPE)sLevelData.iLevelId, mapData);
                         }
+
+                        //初始化界面数据
+                        InitLevelList();
                     }
                 }
                 else

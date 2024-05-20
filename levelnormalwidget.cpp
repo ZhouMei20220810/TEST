@@ -1,7 +1,7 @@
 #include "levelnormalwidget.h"
 #include "ui_levelnormalwidget.h"
 
-LevelNormalWidget::LevelNormalWidget(LEVEL_TYPE enType,QWidget *parent)
+LevelNormalWidget::LevelNormalWidget(S_LEVEL_INFO levelInfo/*LEVEL_TYPE enType*/, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::LevelNormalWidget)
 {
@@ -12,7 +12,7 @@ LevelNormalWidget::LevelNormalWidget(LEVEL_TYPE enType,QWidget *parent)
     m_labelCheck->setPixmap(QPixmap(":/main/resource/main/levelCheck.png"));
     m_labelCheck->resize(ITEM_LEVEL_LABELCHECK_WIDTH, ITEM_LEVEL_LABELCHECK_HEIGHT);
 
-    m_levelType = enType;
+    m_levelType = levelInfo.enType;
     m_labelCheck->move(this->width()-m_labelCheck->width(), 0);
     m_labelCheck->setVisible(false);
     m_labelCheck->setParent(ui->toolButtonBG);
@@ -23,7 +23,7 @@ LevelNormalWidget::LevelNormalWidget(LEVEL_TYPE enType,QWidget *parent)
     /*QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     ui->labelBg->setStyleSheet(strStyleSheet);*/
 
-    m_childWidget = new levelChildWidget(ui->toolButtonBG);
+    m_childWidget = new levelChildWidget(levelInfo,ui->toolButtonBG);
     m_childWidget->show();
 }
 
