@@ -204,6 +204,34 @@ border-radius: 3px;</string>
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"> QPushButton {
+     border: 2px solid #555764;
+     border-radius:2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+QPushButton:hover
+{
+	border:2px solid  #FF27282B;
+	background-color: #FF27282B;
+}
+ QPushButton:pressed {
+     border: 2px solid #555764;
+     border-radius: 2px;
+	 background-color: #FF555764;
+	 color:#FFFFFFFF;
+ }
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+   </property>
    <property name="text">
     <string>获取验证码</string>
    </property>
@@ -354,8 +382,11 @@ QPushButton:hover
    </property>
    <property name="styleSheet">
     <string notr="true">color:#FF4A4A4A;
-background: #FFE7E8EE;
-border-radius: 3px;</string>
+border-radius: 3px;
+border:none;
+color:#FF4A4A4A;
+background-color: #FFE7E8EE;
+padding-left:10px;</string>
    </property>
    <property name="echoMode">
     <enum>QLineEdit::Normal</enum>

@@ -133,6 +133,8 @@ private slots:
     void on_btnReturn_clicked();
     void on_btnFinish_clicked();
 
+    void on_toolBtnPhoto_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

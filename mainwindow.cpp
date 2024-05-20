@@ -24,6 +24,7 @@
 #include <QDir>
 #include "qrencode.h"
 #include <QPainter>
+#include "individualcenterwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -1919,5 +1920,14 @@ void MainWindow::on_btnFinish_clicked()
 {
     //支付完成
     ui->stackedWidget->setCurrentWidget(ui->page_3);
+}
+
+
+void MainWindow::on_toolBtnPhoto_clicked()
+{
+    //个人中心
+    IndividualCenterWidget* widget = new IndividualCenterWidget();
+    widget->move(QCursor::pos());
+    widget->show();
 }
 
