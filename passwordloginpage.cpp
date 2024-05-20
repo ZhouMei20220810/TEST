@@ -25,6 +25,8 @@ PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     //ui->lineEditPassword->setText("123456");
     //隐藏返回、客服按钮、隐藏验证码登录功能
     ui->btnSMSLogin->setVisible(false);
+    //隐藏忘记密码功能
+    ui->btnForgetPW->setVisible(false);
 
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     bool bRemmemberPW = setting.value("IsRemmemberPW",false).toBool();

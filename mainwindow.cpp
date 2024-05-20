@@ -22,8 +22,8 @@
 #include <QScrollBar>
 #include <QFile>
 #include <QDir>
-#include "paywidget.h"
 #include "qrencode.h"
+#include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -193,7 +193,6 @@ void MainWindow::InitLevelList()
     ui->scrollArea->setWidgetResizable(true);
     ui->scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     ui->scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    QToolButton* toolBtn;
     QString strImage;
     //QWidget* containerWidget = new QWidget();
     ui->scrollAreaWidgetContents->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -897,6 +896,48 @@ QImage generateAlipayQRCode(const QString& data)
     return image;
 }
 
+void MainWindow::gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale)
+{
+    if (text.isEmpty()) {
+        return;
+    }
+
+    //二维码数据
+    QRcode* qrCode = nullptr;
+
+    //这里二维码版本传入参数是2,实际上二维码生成后，它的版本是根据二维码内容来决定的
+    qrCode = QRcode_encodeString(text.toStdString().c_str(), 2, QR_ECLEVEL_Q, QR_MODE_8, 1);
+    if (nullptr == qrCode) {
+        return;
+    }
+
+    int qrCode_Width = qrCode->width > 0 ? qrCode->width : 1;
+    int width = scale * qrCode_Width;
+    int height = scale * qrCode_Width;
+
+    QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
+
+    QPainter mPainter(&image);
+    QColor background(Qt::white);
+    mPainter.setBrush(background);
+    mPainter.setPen(Qt::NoPen);
+    mPainter.drawRect(0, 0, width, height);
+    QColor foreground(Qt::black);
+    mPainter.setBrush(foreground);
+    for (int y = 0; y < qrCode_Width; ++y) {
+        for (int x = 0; x < qrCode_Width; ++x) {
+            unsigned char character = qrCode->data[y * qrCode_Width + x];
+            if (character & 0x01) {
+                QRect rect(x * scale, y * scale, scale, scale);
+                mPainter.drawRects(&rect, 1);
+            }
+        }
+    }
+
+    qrPixmap = QPixmap::fromImage(image);
+    QRcode_free(qrCode);
+}
+
 //订单接口-创建订单
 void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayType,QString strRelateId)
 {
@@ -966,6 +1007,17 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                         QString strOutTradeNo = objResponse["out_trade_no"].toString();
                         QString strQrCode = objResponse["qr_code"].toString();
 
+                        //生成QRCode
+                        /*QString text = ui->lineEdit_content->text();
+
+                        QPixmap qrPixmap;
+                        int width = ui->label_code->width();
+                        int height = ui->label_code->height();
+                        gernerateQRCode(text, qrPixmap, 10);
+                        qrPixmap = qrPixmap.scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+                        ui->label_code->setPixmap(qrPixmap);*/
+
                         QString strSign = obj["sign"].toString();
                         qDebug() << strQrCode;
                         qDebug() << strSign;
@@ -976,8 +1028,10 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                             QString strFilePath = dir.tempPath() + "/alipay_qrcode.png";
                             qrImage.save(strFilePath);
 
-                            PayWidget* pay = new PayWidget(strFilePath);
-                            pay->show();
+                            //正常情况
+                            ui->stackedWidget->setCurrentWidget(ui->pageQrCode);
+                            /*PayWidget* pay = new PayWidget(strFilePath);
+                            pay->show();*/
                         }
                     }                    
                 }
@@ -1479,10 +1533,10 @@ void MainWindow::on_btnBeginPay_clicked()
 }
 
 //level item 
-void MainWindow::do_selectLevelTypeSignals(LEVEL_TYPE enType)
+void MainWindow::do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo)
 {
-    qDebug() << "click do_selectLevelTypeSignals level Type="<<enType;
-    switch (enType)
+    qDebug() << "click do_selectLevelTypeSignals level Type="<< levelInfo.enType;
+    switch (levelInfo.enType)
     {
     case LEVEL_NOMAL_LEVEL:
     {
@@ -1527,23 +1581,22 @@ void MainWindow::do_selectLevelTypeSignals(LEVEL_TYPE enType)
     }*/
 
     //加载vip列表
-    loadVipType(enType);
+    loadVipType(levelInfo);
 }
 
 //初始化vip列表
-void MainWindow::loadVipType(LEVEL_TYPE enType)
+void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
 {
-    QString strLevelTypeText = getLevelTypeToText(enType);
-    ui->label_2->setText(QString("%1套餐").arg(strLevelTypeText));
     //清空列表
     ui->listWidgetVIP->clear();
 
-    QMap<LEVEL_TYPE, QMap<int, S_LEVEL_DATA_INFO>>::iterator iterFind = m_mapLevel.find(enType);
+    QMap<LEVEL_TYPE, QMap<int, S_LEVEL_DATA_INFO>>::iterator iterFind = m_mapLevel.find(levelInfo.enType);
     if (iterFind != m_mapLevel.end())
     {
-        qDebug() << "加载vip列表 enType=" << enType;
+        qDebug() << "加载vip列表 enType=" << levelInfo.enType;
         //加载套餐列表
         //ui->listWidgetVIP
+        ui->label_2->setText(QString("%1套餐").arg(levelInfo.strLevelName));
         ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
         int iVIPType = 0;
         QListWidgetItem* vipItem = NULL;
@@ -1788,5 +1841,19 @@ void MainWindow::on_toolBtnPayWechat_clicked()
 {
     ui->toolBtnPayWechat->setStyleSheet("QToolButton{border-image:url(:/main/resource/main/border_select.png);padding-left:10px;}");
     ui->toolBtnPayZhifubao->setStyleSheet("QToolButton{border-image:url(:/main/resource/main/border_normal.png);padding-left:10px;}");
+}
+
+
+void MainWindow::on_btnReturn_clicked()
+{
+    //支付返回
+    ui->stackedWidget->setCurrentWidget(ui->page_3);
+}
+
+
+void MainWindow::on_btnFinish_clicked()
+{
+    //支付完成
+    ui->stackedWidget->setCurrentWidget(ui->page_3);
 }
 

@@ -15,18 +15,18 @@ class LevelNormalWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelNormalWidget(S_LEVEL_INFO levelInfo/*LEVEL_TYPE enType*/, QWidget* parent = nullptr);
+    explicit LevelNormalWidget(S_LEVEL_INFO levelInfo, QWidget* parent = nullptr);
     ~LevelNormalWidget();
     void setLabelCheckStatus(bool bCheck);
 
 signals:
-    void selectLevelTypeSignals(LEVEL_TYPE enType);
+    void selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
 private slots:
     void on_toolButtonBG_clicked();
 
 private:
     Ui::LevelNormalWidget *ui;
-    LEVEL_TYPE m_levelType;
+    S_LEVEL_INFO m_levelInfo;
     QLabel* m_labelCheck;
 
     levelChildWidget* m_childWidget;

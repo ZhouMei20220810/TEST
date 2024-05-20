@@ -58,6 +58,8 @@ private:
     //获取我的手机实例
     void GetMyPhoneInstance();
 
+    //生成QrCode
+    void gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale);
 
 private slots:
     //工具栏
@@ -86,7 +88,7 @@ private slots:
     void InitVipRenewList();
    
     //初始化vip列表
-    void loadVipType(LEVEL_TYPE enType);
+    void loadVipType(S_LEVEL_INFO levelInfo);
 
     void on_btnCreateGroup_clicked();
     void on_btnGroupRefresh_clicked();
@@ -104,7 +106,7 @@ private slots:
     void on_btnBeginPay_clicked();
 
     //level item 
-    void do_selectLevelTypeSignals(LEVEL_TYPE enType);
+    void do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
     //vip item
     void do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo);
 
@@ -126,6 +128,9 @@ private slots:
 	//支付方式
     void on_toolBtnPayZhifubao_clicked();
     void on_toolBtnPayWechat_clicked();
+
+    void on_btnReturn_clicked();
+    void on_btnFinish_clicked();
 
 private:
     Ui::MainWindow *ui;

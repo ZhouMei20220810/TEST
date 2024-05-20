@@ -19,13 +19,13 @@ public:
     void setLabelCheckStatus(bool bCheck);
 
 signals:
-    void selectLevelTypeSignals(LEVEL_TYPE enType);
+    void selectLevelTypeSignals(LEVEL_INFO levelInfo);
 private slots:
     void on_toolButtonBG_clicked();
 
 private:
     Ui::LevelPremierWidget *ui;
-    LEVEL_TYPE m_levelType;
+    LEVEL_INFO m_levelInfo;
     QLabel* m_labelCheck;
 
     LevelChildKvipWidget* m_childKvipWidget;

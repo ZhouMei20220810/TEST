@@ -8,7 +8,8 @@
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
 #define HTTP_YSY_SMS_LOGIN          "/api/login/sms"        //短信验证码登录
-#define HTTP_YSY_GET_SMS_CODE       "/api/sms"             //获取验证码
+#define HTTP_YSY_RESET_PASSWORD     "/api/user/setPassword" //重置密码
+#define HTTP_YSY_GET_SMS_CODE       "/api/sms"              //获取验证码
 //分组接口
 #define HTTP_QUERY_ALL_GROUP        "/api/group/list"       //查询全部分组
 #define HTTP_CREATE_GROUP           "/api/group/create"     //创建分组

@@ -25,6 +25,8 @@ private slots:
     void on_btnOK_clicked();
 
 private:
+    void HttpPostResetPassword(QString strCode,QString strPassword);
+
     Ui::ForgetPWDialog *ui;
 };
 

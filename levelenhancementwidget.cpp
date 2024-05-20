@@ -11,8 +11,7 @@ LevelEnhancementWidget::LevelEnhancementWidget(S_LEVEL_INFO levelInfo,QWidget *p
     m_labelCheck = new QLabel(this);
     m_labelCheck->setPixmap(QPixmap(":/main/resource/main/levelCheck.png"));
     m_labelCheck->resize(ITEM_LEVEL_LABELCHECK_WIDTH, ITEM_LEVEL_LABELCHECK_HEIGHT);
-
-    m_levelType = levelInfo.enType;
+    m_levelInfo = levelInfo;
     m_labelCheck->move(this->width()-m_labelCheck->width(), 0);
     m_labelCheck->setVisible(false);
     m_labelCheck->setParent(ui->toolButtonBG);
@@ -41,6 +40,6 @@ void LevelEnhancementWidget::on_toolButtonBG_clicked()
     m_labelCheck->setVisible(true);
     //ui->labelCheck->setVisible(true);
     //ui->toolButtonBG->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border - radius:3px;background-image:url(:/main/main/level_enhancenment.png);}");
-    emit selectLevelTypeSignals(m_levelType);
+    emit selectLevelTypeSignals(m_levelInfo);
 }
 

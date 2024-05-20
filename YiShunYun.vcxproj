@@ -21,7 +21,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <PlatformToolset>v142</PlatformToolset>
-    <OutputDirectory>..\bin\</OutputDirectory>
+    <OutputDirectory>release\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
@@ -30,7 +30,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <PlatformToolset>v142</PlatformToolset>
-    <OutputDirectory>..\bin\</OutputDirectory>
+    <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
     <CharacterSet>NotSet</CharacterSet>
     <ConfigurationType>Application</ConfigurationType>
@@ -61,12 +61,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">YiShunYun</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\bin\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">YiShunYun</TargetName>
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
@@ -218,7 +218,6 @@
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
-    <ClCompile Include="paywidget.cpp" />
     <ClCompile Include="phoneitemwidget.cpp" />
     <ClCompile Include="policydialog.cpp" />
     <ClCompile Include="registerpage.cpp" />
@@ -242,7 +241,6 @@
     <QtMoc Include="mainwindow.h" />
     <QtMoc Include="messagetipsdialog.h" />
     <QtMoc Include="passwordloginpage.h" />
-    <QtMoc Include="paywidget.h" />
     <QtMoc Include="phoneitemwidget.h" />
     <QtMoc Include="policydialog.h" />
     <QtMoc Include="registerpage.h" />
@@ -281,7 +279,6 @@
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="messagetipsdialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
-    <QtUic Include="paywidget.ui" />
     <QtUic Include="phoneitemwidget.ui" />
     <QtUic Include="policydialog.ui" />
     <QtUic Include="registerpage.ui" />
