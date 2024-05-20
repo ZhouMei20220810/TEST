@@ -102,28 +102,6 @@ QString getLevelTypeToText(LEVEL_TYPE levelType);
 #define         ITEM_WIDGET_VIP_WIDTH           100
 #define         ITEM_WIDGET_VIP_HEIGHT          120
 #define         ITEM_WIDGET_VIP_COUNT           5//列表总数
-enum VIP_TYPE
-{
-    VIP_TYPE_0 = 0,
-    VIP_TYPE_1 = 1,
-    VIP_TYPE_2 = 2,
-    VIP_TYPE_3 = 3,
-    VIP_TYPE_4 = 4
-};
-typedef struct VIP_ITEM_INFO
-{
-    VIP_TYPE vipType;
-    int iDayCount;
-    QString strVipText;
-    //QString strTotalTime;
-    float fTotalPrice;
-    float fDayPrice;
-    VIP_ITEM_INFO()
-    {
-        memset(this,0,sizeof(VIP_ITEM_INFO));
-    }
-}S_VIP_ITEM_INFO,*PS_VIP_ITEM_INFO;
-
 
 QString getMessageByCode(long code);
 std::string sha256(const std::string str);

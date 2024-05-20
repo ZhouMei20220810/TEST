@@ -2,23 +2,23 @@
 #include "ui_vipitemwidget.h"
 #include "global.h"
 
-VIPItemWidget::VIPItemWidget(S_VIP_ITEM_INFO sVipInfo, QWidget *parent)
+VIPItemWidget::VIPItemWidget(S_LEVEL_DATA_INFO levelInfo, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::VIPItemWidget)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     this->resize(ITEM_WIDGET_VIP_WIDTH,ITEM_WIDGET_VIP_HEIGHT);
-    m_sVipInfo = sVipInfo;
+    m_levelInfo = levelInfo;
     ui->labelCheck->move(this->width() - ui->labelCheck->width(), 0);
     ui->labelCheck->setVisible(false);
     ui->labelCheck->setParent(ui->toolButton);
     ui->labelCheck->setStyleSheet("border:none;background:transparent;");
     //ui->labelCheck->setText(QString("%1").arg(enVipType));
 
-    ui->labelTotalTime->setText(QString("%1").arg(sVipInfo.strVipText));
+    ui->labelTotalTime->setText(QString("%1").arg(levelInfo.strMemberName));
     QString strTmp;
-    strTmp = strTmp.asprintf("%.2f",sVipInfo.fTotalPrice);
+    strTmp = strTmp.asprintf("%.2f", levelInfo.fActivityPrice);
     QStringList strValueList = strTmp.split('.');
     if (strValueList.size() > 1)
     {
@@ -27,7 +27,7 @@ VIPItemWidget::VIPItemWidget(S_VIP_ITEM_INFO sVipInfo, QWidget *parent)
     }
     
 
-    strTmp = strTmp.asprintf("%.2f元/天",sVipInfo.fTotalPrice/sVipInfo.iDayCount);
+    strTmp = strTmp.asprintf("%.2f元/天", levelInfo.fActivityPrice / levelInfo.iUseDay);
     ui->labelDayPrice->setText(strTmp);
     //QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     //ui->labelBg->setStyleSheet(strStyleSheet)
@@ -51,7 +51,7 @@ void VIPItemWidget::on_toolButton_clicked()
     ui->labelCheck->setVisible(true);
 
     ui->toolButton->setStyleSheet("QToolButton{background-color:#FFE0D3D3;border:4px;border-color:#FF000000;}");
-    qDebug() << "select vip type=" << m_sVipInfo.vipType;
-    emit selectVIPTypeSignals(m_sVipInfo);
+    qDebug() << "select vip type=" << m_levelInfo.iMemberId;
+    emit selectVIPTypeSignals(m_levelInfo);
 }
 

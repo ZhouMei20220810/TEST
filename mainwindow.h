@@ -106,7 +106,7 @@ private slots:
     //level item 
     void do_selectLevelTypeSignals(LEVEL_TYPE enType);
     //vip item
-    void do_selectVIPTypeSignals(S_VIP_ITEM_INFO sVipInfo);
+    void do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo);
 
     void on_btnDecrese_clicked();
     void on_btnAdd_clicked();
@@ -132,7 +132,7 @@ private:
     S_USER_LOGIN_INFO m_userInfo;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
 
-    S_VIP_ITEM_INFO m_curVIPInfo;
+    S_LEVEL_DATA_INFO m_curLevelDataInfo;
 
     QPoint m_dragPosition;
     // QWidget interface

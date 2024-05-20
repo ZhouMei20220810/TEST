@@ -1473,11 +1473,8 @@ void MainWindow::on_btnBeginPay_clicked()
 
     QString strBuyNum = ui->lineEditBuyNumber->text();
     int iNum = strBuyNum.toInt();
-    m_curVIPInfo.fTotalPrice;
-	//调试传参
-    //HttpCreateOrder(int iChannel, int iMemberId, int iNum, int iPayType, QString strRelateId);
-    //HttpCreateOrder(4, m_curVIPInfo.vipType, 1, 1, "");
-    HttpCreateOrder(4, 1, 1, 1, "");
+
+    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, iNum, 1, "");
     //HttpGetMyOrder(1, 10);
 }
 
@@ -1551,7 +1548,6 @@ void MainWindow::loadVipType(LEVEL_TYPE enType)
         int iVIPType = 0;
         QListWidgetItem* vipItem = NULL;
         VIPItemWidget* vipWidget = NULL;
-        S_VIP_ITEM_INFO sVipInfo;
         ui->widget->setVisible(true);
 
         QMap<int, S_LEVEL_DATA_INFO>::iterator iter = iterFind->begin();
@@ -1563,12 +1559,7 @@ void MainWindow::loadVipType(LEVEL_TYPE enType)
             ui->listWidgetVIP->addItem(vipItem);
 
             qDebug() << "vip=" << iter->iMemberId;
-            sVipInfo.iDayCount = iter->iUseDay;
-            sVipInfo.vipType = (VIP_TYPE)iter->iMemberId;
-            sVipInfo.fTotalPrice = iter->fPrice;
-            sVipInfo.fDayPrice = sVipInfo.fTotalPrice / sVipInfo.iDayCount;
-            sVipInfo.strVipText = iter->strMemberName;
-            vipWidget = new VIPItemWidget(sVipInfo, this);
+            vipWidget = new VIPItemWidget(*iter, this);
             connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
             ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
         }
@@ -1581,28 +1572,28 @@ void MainWindow::loadVipType(LEVEL_TYPE enType)
 }
 
 //vip item
-void MainWindow::do_selectVIPTypeSignals(S_VIP_ITEM_INFO sVipInfo)
+void MainWindow::do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo)
 {
-    m_curVIPInfo = sVipInfo;
-    qDebug() << "click do_selectVIPTypeSignals vip Type=" << sVipInfo.vipType;
+    m_curLevelDataInfo = levelInfo;
+    qDebug() << "click do_selectVIPTypeSignals memberId=" << levelInfo.iMemberId;
     QString str;
-    str = str.asprintf("%.2f", sVipInfo.fTotalPrice);
+    str = str.asprintf("%.2f", levelInfo.fActivityPrice);
     ui->labelPayMoney->setText(str);
 
     //设置显示
     VIPItemWidget* vipItemWidget = NULL;
     QListWidgetItem* vipItem = NULL;
-    VIP_TYPE curType;
+    int iMemberId = 0;
     int iCount = ui->listWidgetVIP->count();
     for (int iRow = 0; iRow < iCount; iRow++)
     {
         vipItem = ui->listWidgetVIP->item(iRow);
-        curType = (VIP_TYPE)vipItem->data(Qt::UserRole).toInt();
-        if (curType != sVipInfo.vipType)
+        iMemberId = vipItem->data(Qt::UserRole).toInt();
+        if (iMemberId != levelInfo.iMemberId)
         {
             vipItemWidget = static_cast<VIPItemWidget*>(ui->listWidgetVIP->itemWidget(vipItem));
-            //enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
-            qDebug() << "当前选中：等级" << curType;
+            //enType = item->data(Qt::UserRole).toInt();
+            qDebug() << "当前选中：等级" << iMemberId;
             vipItemWidget->setLabelCheckStatus(false);
 
             //续费的列表
@@ -1637,7 +1628,7 @@ void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
     //文本框值改变
     int iBuyNum = arg1.toInt();//ui->lineEditBuyNumber->text().toInt();
     QString str;
-    str=str.asprintf("%.2f", iBuyNum* m_curVIPInfo.fTotalPrice);
+    str=str.asprintf("%.2f", iBuyNum*m_curLevelDataInfo.fActivityPrice);
     ui->labelPayMoney->setText(str);
 }
 
