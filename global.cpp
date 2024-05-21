@@ -9,6 +9,7 @@ QString GlobalData::strAccount = "";
 QString GlobalData::strMobile = "";
 QString GlobalData::strName = "";
 QString GlobalData::strPhotoUrl = "";
+QString GlobalData::strQrcode = "";
 //QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
 
 

@@ -1031,9 +1031,11 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                         if (!qrImage.isNull())
                         {
                             QDir dir;
-                            QString strFilePath = dir.tempPath() + "/alipay_qrcode.png";
-                            qrImage.save(strFilePath);
-
+                            GlobalData::strQrcode = dir.tempPath() + "/alipay_qrcode.png";
+                            qrImage.save(GlobalData::strQrcode);
+                            int width = ui->labelQrCode->width();
+                            int height = ui->labelQrCode->height();
+                            ui->labelQrCode->setPixmap(QPixmap(GlobalData::strQrcode).scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
                             //正常情况
                             ui->stackedWidget->setCurrentWidget(ui->pageQrCode);
                             /*PayWidget* pay = new PayWidget(strFilePath);

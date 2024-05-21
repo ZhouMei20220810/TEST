@@ -187,7 +187,7 @@ public:
     static QString strMobile;
     static QString strName;
     static QString strPhotoUrl;
-
+    static QString strQrcode;
     static QString md5(const QString &str);
     //static void setToolButtonSize(QToolButton* btn);
 };
