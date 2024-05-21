@@ -1142,16 +1142,30 @@ void MainWindow::HttpGetMyInstanceLevel()
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    if (obj["data"].isObject())
+                    if (obj["data"].isArray())
                     {
-                        QJsonObject data = obj["data"].toObject();
-                        QString strAshIcon = data["ashIcon"].toString();
-                        QString strColorIcon = data["colorIcon"].toString();
-                        int iId = data["id"].toInt();
-                        int isEnabled = data["isEnabled"].toInt();
-                        QString strlevelName = data["name"].toString();
-                        QString strRemark = data["remark"].toString();
-                        qDebug() << "我的实例等级 id=" << iId << "strlevelName" << strlevelName << "remark=" << strRemark;
+                        QJsonArray dataArray = obj["data"].toArray();                        
+                        int iDataSize = dataArray.size();
+                        if (0 == iDataSize)
+                        {
+                            return;
+                        }
+                        else
+                        {                            
+                            QJsonObject data;
+                            for (int i = 0; i < iDataSize; i++)
+                            {
+                                data = dataArray[i].toObject();
+                                QString strAshIcon = data["ashIcon"].toString();
+                                QString strColorIcon = data["colorIcon"].toString();
+                                int iId = data["id"].toInt();
+                                int isEnabled = data["isEnabled"].toInt();
+                                QString strlevelName = data["name"].toString();
+                                QString strRemark = data["remark"].toString();
+                                qDebug() << "获取我的实例级别 id=" << iId << "strlevelName" << strlevelName << "remark=" << strRemark;
+                            }
+                        }
+                        
                     }
                 }
                 else
@@ -1363,10 +1377,13 @@ void MainWindow::on_btnGroupRefresh_clicked()
 {
     qDebug()<<"刷新";
     //重新加载列表
-    HttpQueryAllGroup();
+    //HttpQueryAllGroup();
 
     //测试获取SeverToken接口
     //HttpGetMyPhoneInstance();
+
+    //调试我的实例等级接口
+    HttpGetMyInstanceLevel();
 }
 
 //激活码接口
