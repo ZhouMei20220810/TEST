@@ -16,7 +16,14 @@ public:
     explicit BuyHistoryItemWidget(S_ORDER_INFO orderInfo,QWidget *parent = nullptr);
     ~BuyHistoryItemWidget();
 
+private slots:
+    void on_btnClear_clicked();
+
 private:
+    //É¾³ý
+    void HttpDeleteOrder(int iOrderId);
+
+    S_ORDER_INFO m_orderInfo;
     Ui::BuyHistoryItemWidget *ui;
 };
 

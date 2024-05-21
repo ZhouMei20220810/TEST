@@ -520,7 +520,7 @@ color:#FFA9A9A9;</string>
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true">color:red;</string>
+         <string notr="true">color:#FF616A;</string>
         </property>
         <property name="text">
          <string>清除</string>
@@ -595,6 +595,9 @@ color:#FFA9A9A9;</string>
      </item>
      <item>
       <widget class="QFrame" name="frame_3">
+       <property name="styleSheet">
+        <string notr="true">color:#4A4A4A;</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
@@ -618,6 +621,9 @@ color:#FFA9A9A9;</string>
         </item>
         <item>
          <widget class="QLabel" name="labelAmount">
+          <property name="styleSheet">
+           <string notr="true">color:#FF616A;</string>
+          </property>
           <property name="text">
            <string>金额</string>
           </property>
@@ -681,6 +687,9 @@ color:#FFA9A9A9;</string>
      </item>
      <item>
       <widget class="QFrame" name="frame_5">
+       <property name="styleSheet">
+        <string notr="true">color:#4A4A4A;</string>
+       </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>

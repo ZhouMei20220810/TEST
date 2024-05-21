@@ -24,9 +24,7 @@ private slots:
 private:
     //订单接口
     // 我的支付订单
-    void HttpGetMyOrder(int iPage, int iPageSize);
-    //删除
-    void HttpDeleteOrder(int iOrderId);
+    void HttpGetMyOrder(int iPage, int iPageSize);    
     //清空
     void HttpEmptyOrder();
 

@@ -1,5 +1,11 @@
 #include "buyhistoryitemwidget.h"
 #include "ui_buyhistoryitemwidget.h"
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "messagetipsdialog.h"
 
 BuyHistoryItemWidget::BuyHistoryItemWidget(S_ORDER_INFO orderInfo,QWidget *parent)
     : QWidget(parent)
@@ -7,6 +13,7 @@ BuyHistoryItemWidget::BuyHistoryItemWidget(S_ORDER_INFO orderInfo,QWidget *paren
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
+    m_orderInfo = orderInfo;
 
     ui->labelOrderNo->setText(orderInfo.strOutTradeNo);
     ui->labelMeal->setText(orderInfo.strOrderTitle);
@@ -35,4 +42,70 @@ BuyHistoryItemWidget::BuyHistoryItemWidget(S_ORDER_INFO orderInfo,QWidget *paren
 BuyHistoryItemWidget::~BuyHistoryItemWidget()
 {
     delete ui;
+}
+
+void BuyHistoryItemWidget::on_btnClear_clicked()
+{
+    //删除订单
+    HttpDeleteOrder(m_orderInfo.iId);
+}
+
+//删除
+void BuyHistoryItemWidget::HttpDeleteOrder(int iOrderId)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_DELETE_ORDER;
+    //strUrl += QString("?outTradeNo=%1").arg(strOutTradeNo);
+    strUrl += QString("/%1").arg(iOrderId);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+
+    QNetworkReply* reply = manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                bool bData = obj["data"].toBool();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (bData)
+                        qDebug() << "删除订单成功";
+                    else
+                        qDebug() << "删除订单失败";
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
