@@ -803,9 +803,45 @@ border-bottom: 1px solid #D7D7DE;
                      </size>
                     </property>
                     <property name="styleSheet">
-                     <string notr="true">color: rgb(255, 255, 255);
-background-color: #FFECECF2;
-border-radius:0px;</string>
+                     <string notr="true">QTreeView
+{
+    background-color: #FFECECF2;
+    font-size:14px;
+    color: #4A4A4A;
+}
+QTreeView::item:hover
+{
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);
+    border: 1px solid #bfcde4;
+}
+QTreeView::item:hover
+{
+    background: #CECFD3;
+}
+QTreeView::item:selected:active
+{
+    background: #CECFD3;
+}
+QTreeView::item:selected:!active
+{
+    background: #CECFD3;
+}
+QTreeView::branch
+{
+    background:#FFECECF2;
+}
+QTreeView::branch:has-children:!has-siblings:closed,QTreeView::branch:closed:has-children:has-siblings
+{
+    border-image: none;
+    background:#FFECECF2;
+    image: url(:/main/resource/main/shouqi.png);
+}
+QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-children:has-siblings
+{
+    border-image: none;
+    background:#FFECECF2;
+    image: url(:/main/resource/main/zhangkai.png);
+}</string>
                     </property>
                     <column>
                      <property name="text">
@@ -2511,7 +2547,7 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>1282</width>
+                     <width>80</width>
                      <height>234</height>
                     </rect>
                    </property>

@@ -59,6 +59,8 @@
         <file>resource/main/levelCheck.png</file>
         <file>resource/main/border_normal.png</file>
         <file>resource/main/border_select.png</file>
+        <file>resource/main/shouqi.png</file>
+        <file>resource/main/zhangkai.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

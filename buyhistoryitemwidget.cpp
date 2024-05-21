@@ -18,7 +18,7 @@ BuyHistoryItemWidget::BuyHistoryItemWidget(S_ORDER_INFO orderInfo,QWidget *paren
     ui->labelOrderNo->setText(orderInfo.strOutTradeNo);
     ui->labelMeal->setText(orderInfo.strOrderTitle);
     //实际支付
-    ui->labelAmount->setText(QString::asprintf("%.2f",orderInfo.fActualAmount));
+    ui->labelAmount->setText(QString::asprintf("%.2f元",orderInfo.fActualAmount));
     ui->labelCreateTime->setText(orderInfo.strCreateTime);
     ui->labelCloudId->setText(QString::asprintf("%d",orderInfo.iId));
     QString strStatus;//0:未支付 1:已支付 2:已完成
