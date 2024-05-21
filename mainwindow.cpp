@@ -408,22 +408,24 @@ void MainWindow::ShowGroupInfo()
     QTreeWidgetItem* item = NULL;
     QTreeWidgetItem* child = NULL;
     QMap<int, S_GROUP_INFO>::iterator iter = m_mapGroupInfo.begin();
+    QString strNewGroupName;
     for( ; iter != m_mapGroupInfo.end(); iter++)
     {
         item = new QTreeWidgetItem(ui->treeWidget);
-        item->setText(0,iter->strGroupName);
+        strNewGroupName = QString("%1(%2)").arg(iter->strGroupName).arg(iter->iGroupNum);
+        item->setText(0, strNewGroupName);
         //存储GroupId
         qDebug() << "写入iGroupId=" << iter->iGroupId;
         item->setData(0, Qt::UserRole, iter->iGroupId);
+        //item->setIcon(0, QIcon(":/login/resource/login/option_normal.png"));
         item->setCheckState(0, Qt::Checked);
         ui->treeWidget->addTopLevelItem(item);
 
-        //添加子节点
-        /*child = new QTreeWidgetItem(item);
-        child->setText(0, iter->strGroupName + "子节点");
-        child->setCheckState(0, Qt::Checked);
-        //将节点添加到根节点下
-        item->addChild(child);*/
+        if (iter->iGroupNum > 0)
+        {
+            qDebug() << "查询手机列表";
+            HttpGetMyPhoneInstance(iter->iGroupId, 1, 10, 0);
+        }        
 
         /*child = new QTreeWidgetItem(item);
         child->setText(0, iter->strGroupName + "子节点1");
@@ -434,7 +436,45 @@ void MainWindow::ShowGroupInfo()
     }
 
     //展开所有
-    //ui->treeWidget->expandAll();
+    ui->treeWidget->expandAll();
+}
+
+//实例列表
+void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInfo)
+{
+    if (mapPhoneInfo.size() <= 0)
+        return;    
+
+    int iId = 0;
+    QTreeWidgetItem* item;
+    QTreeWidgetItem* phoneItem;
+    QTreeWidgetItemIterator it(ui->treeWidget);
+    while (*it) 
+    {
+        item = *it;
+        if (item->parent() == nullptr) 
+        { // 判断是否为根节点
+            // 在这里处理根节点
+            // 例如：
+            qDebug() << item->text(0);
+
+            iId = item->data(0, Qt::UserRole).toInt();
+            if (iGroupId == iId)
+            {
+                QMap<int, S_PHONE_INFO>::iterator iter = mapPhoneInfo.begin();
+                for (; iter != mapPhoneInfo.end(); iter++)
+                {
+                    qDebug() << "phone = " << iter->strName;
+                    phoneItem = new QTreeWidgetItem(item);
+                    phoneItem->setText(0, iter->strName);
+                    phoneItem->setCheckState(0, Qt::Checked);
+                    item->addChild(phoneItem);
+                }
+                break;
+            }
+        }
+        ++it;
+    }
 }
 
 void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
@@ -1103,8 +1143,10 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                                 phoneInfo.strInstanceNo = recordObj["no"].toString();
                                 phoneInfo.strServerToken = recordObj["serverToken"].toString();
                                 phoneInfo.iType = recordObj["type"].toInt();
+                                m_mapPhoneInfo.insert(i, phoneInfo);
                                 qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType<<"level="<< phoneInfo.iLevel;
                             }
+                            ShowPhoneInfo(iGroupId, m_mapPhoneInfo);
                         }
                     }
                 }
@@ -1905,13 +1947,14 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     for (int i=0; i<item->childCount(); i++)
     {
         pChildItem = item->child(i);
+        //item->setIcon(0, QIcon(":/login/resource/login/option_select.png"));
         pChildItem->setCheckState(0,item->checkState(0));
     }
 
     int iGroupId = item->data(0, Qt::UserRole).toInt();
     qDebug() << "当前选中groupId=" << iGroupId;
     //请求获取组下面的手机实例
-    HttpGetMyPhoneInstance(iGroupId,1,10,0);
+    //HttpGetMyPhoneInstance(iGroupId,1,10,0);
 }
 
 

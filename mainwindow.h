@@ -32,6 +32,8 @@ private:
 
     //显示树内容
     void ShowGroupInfo();
+    //实例列表
+    void ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> m_mapPhoneInfo);
 
     //会员级别接口
     void HttpMemberLevelList();
@@ -141,9 +143,10 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
-
+    //会员数据列表
     S_LEVEL_DATA_INFO m_curLevelDataInfo;
-
+	//手机列表数据
+    QMap<int, S_PHONE_INFO> m_mapPhoneInfo;
     QPoint m_dragPosition;
     // QWidget interface
 
