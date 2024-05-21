@@ -370,11 +370,13 @@
     <None Include="resource\main\refresh.png" />
     <QtRcc Include="res.qrc" />
     <None Include="resource\main\setting_normal.png" />
+    <None Include="resource\main\shouqi.png" />
     <None Include="resource\function\sub.png" />
     <None Include="resource\main\sync.png" />
     <None Include="resource\main\uncheck.png" />
     <None Include="resource\function\waitPay.png" />
     <None Include="resource\function\wechat.png" />
+    <None Include="resource\main\zhangkai.png" />
     <None Include="resource\function\zhifubao.png" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@
 #include "levelnormalwidget.h"
 #include "levelenhancementwidget.h"
 #include "levelpremierwidget.h"
-
+#include <QMenu>
 namespace Ui {
 class MainWindow;
 }
@@ -52,7 +52,7 @@ private:
     //获取serverToken
     //void HttpGetServerToken();
     //获取我的手机实例
-    void HttpGetMyPhoneInstance();
+    void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
     //获取我的实例级别
     void HttpGetMyInstanceLevel();
 
@@ -135,6 +135,8 @@ private slots:
 
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
+    void on_treeWidget_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -150,6 +152,9 @@ private:
 
     //会员列表
     QMap<LEVEL_TYPE,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;
+
+    //组列表
+    QMenu* m_menu;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

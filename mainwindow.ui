@@ -808,6 +808,7 @@ border-bottom: 1px solid #D7D7DE;
     background-color: #FFECECF2;
     font-size:14px;
     color: #4A4A4A;
+	border:none;
 }
 QTreeView::item:hover
 {
@@ -945,6 +946,13 @@ border-radius:0px;
                  </item>
                  <item>
                   <widget class="QFrame" name="frame_8">
+                   <property name="styleSheet">
+                    <string notr="true">QFrame {
+background-color: #FF#F5F6FA;
+border-radius:0px;
+border-bottom: 1px solid #D7D7DE;
+}</string>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
                    </property>
@@ -954,6 +962,9 @@ border-radius:0px;
                    <layout class="QHBoxLayout" name="horizontalLayout_17">
                     <item>
                      <widget class="QLabel" name="label_11">
+                      <property name="styleSheet">
+                       <string notr="true">border:none;</string>
+                      </property>
                       <property name="text">
                        <string>名称:</string>
                       </property>
@@ -981,6 +992,9 @@ border:none;</string>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_12">
+                      <property name="styleSheet">
+                       <string notr="true">border:none;</string>
+                      </property>
                       <property name="text">
                        <string>系统：</string>
                       </property>
@@ -1049,6 +1063,9 @@ QComboBox QAbstractItemView::item:selected{
                     </item>
                     <item>
                      <widget class="QLabel" name="label_13">
+                      <property name="styleSheet">
+                       <string notr="true">border:none;</string>
+                      </property>
                       <property name="text">
                        <string>等级：</string>
                       </property>
@@ -1121,6 +1138,9 @@ QComboBox::down-arrow:on
                     </item>
                     <item>
                      <widget class="QLabel" name="label_14">
+                      <property name="styleSheet">
+                       <string notr="true">border:none;</string>
+                      </property>
                       <property name="text">
                        <string>状态:</string>
                       </property>
@@ -1298,6 +1318,14 @@ QPushButton:disabled
                  </item>
                  <item>
                   <widget class="QFrame" name="frame_3">
+                   <property name="styleSheet">
+                    <string notr="true">QFrame {
+color: rgb(255, 255, 255);
+background-color: #FF#F5F6FA;
+border-radius:0px;
+border-bottom: 1px solid #D7D7DE;
+}</string>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
                    </property>
@@ -1491,6 +1519,14 @@ padding-left:8px;
                  </item>
                  <item>
                   <widget class="QFrame" name="frame_7">
+                   <property name="styleSheet">
+                    <string notr="true">QFrame {
+color: rgb(255, 255, 255);
+background-color: #FF#F5F6FA;
+border-radius:0px;
+border-bottom: 1px solid #D7D7DE;
+}</string>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
                    </property>

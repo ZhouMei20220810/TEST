@@ -10,7 +10,6 @@
 #include <QJsonArray>
 #include <QUrlQuery>
 #include <QTreeWidget>
-#include <QMenu>
 #include "creategroupwidget.h"
 #include "updategroupwidget.h"
 //#include "levelitemwidget.h"
@@ -57,6 +56,12 @@ void MainWindow::InitCloudPhoneTab()
     //设置TreeWidget相关属性
     //ui->treeWidget->resize(200, 600);
     //ui->treeWidget->move(100, 80);
+    //打开右键菜单属性
+    ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    //右键菜单
+    m_menu = new QMenu(ui->treeWidget);
+    m_menu->addAction("删除分组");
+    m_menu->addAction("编辑分组名称");
 
     ui->treeWidget->setColumnCount(1);
     //ui->treeWidget->setHeaderLabel("分组列表");
@@ -65,7 +70,8 @@ void MainWindow::InitCloudPhoneTab()
     ui->treeWidget->setHeaderHidden(true);
 
     //设置复选框
-    ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+    //ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->treeWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     //ui->treeWidget->setCheckBoxes(true);
 
     //隐藏续费列表
@@ -1007,13 +1013,15 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
 }
 
 //获取我的手机实例
-void MainWindow::HttpGetMyPhoneInstance()
+void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel)
 {
-    int iGroupId = 0;
-    int iLevel = 0;
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_GET_MY_PHONE_INSTANCE;
-    strUrl += QString("?groupId=0&level=0&page=1&pageSize=10");
+    //level不传值,返回该 组下面所有的level
+    if(iLevel != 0)
+        strUrl += QString::asprintf("?groupId=%d&level=%d&page=%d&pageSize=%d", iGroupId, iLevel, iPage, iPageSize);
+    else
+        strUrl += QString::asprintf("?groupId=%d&page=%d&pageSize=%d", iGroupId, iPage, iPageSize);
     qDebug() << "strUrl = " << strUrl;
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -1334,24 +1342,21 @@ void MainWindow::on_btnClose_clicked()
 void MainWindow::on_btnCreateGroup_clicked()
 {
     //新建分组
-    /*CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
+    CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
     connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this,[this](QString strGroupName)
             {
         //创建分组
         qDebug()<<" 创建分组 strGroupName="<<strGroupName;
         HttpCreateGroup(strGroupName);
     });
-    createGroupWidget->show();*/
+    createGroupWidget->show();
 
 
     //调试修改分组接口
     //HttpUpdateGroup(2, "新名称");
 
     //调试删除分组接口
-    //HttpDeleteGroup(0);
-
-    //调试获取我的手机实例
-    HttpGetMyPhoneInstance();
+    //HttpDeleteGroup(0);    
 }
 
 void MainWindow::on_btnGroupRefresh_clicked()
@@ -1846,5 +1851,16 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         pChildItem = item->child(i);
         pChildItem->setCheckState(0,item->checkState(0));
     }
+
+    int iGroupId = item->data(0, Qt::UserRole).toInt();
+    qDebug() << "当前选中groupId=" << iGroupId;
+    //请求获取组下面的手机实例
+    HttpGetMyPhoneInstance(iGroupId,1,10,0);
+}
+
+
+void MainWindow::on_treeWidget_customContextMenuRequested(const QPoint &pos)
+{
+    m_menu->exec(QCursor::pos());
 }
 
