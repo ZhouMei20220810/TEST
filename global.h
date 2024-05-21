@@ -124,6 +124,12 @@ enum ENUM_LOGIN_STATUS
     TYPE_WINDOWS_CLOSE = 2
 };
 
+enum ENUM_CREATE_OR_UPDATA
+{
+    TYPE_CREATE_GROUP = 0,
+    TYPE_UPDATE_GROUP = 1
+};
+
 typedef struct GROUP_INFO
 {
     int     iGroupId;

@@ -12,9 +12,10 @@ ForgetPWDialog::ForgetPWDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ForgetPWDialog)
 {
+    ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);
-    ui->setupUi(this);
+    
 }
 
 ForgetPWDialog::~ForgetPWDialog()

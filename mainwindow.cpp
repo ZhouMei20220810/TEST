@@ -50,6 +50,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//组菜单
+void MainWindow::do_DeleteGroupAction(bool bChecked)
+{
+    QTreeWidgetItem* item = ui->treeWidget->currentItem();
+    int iGroupId = item->data(0, Qt::UserRole).toInt();
+    HttpDeleteGroup(iGroupId);
+}
+
+void MainWindow::do_EditGroupNameAction(bool bChecked)
+{
+    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_UPDATE_GROUP);
+    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
+    createGroupWidget->show();
+}
 //云手机
 void MainWindow::InitCloudPhoneTab()
 {
@@ -60,8 +74,12 @@ void MainWindow::InitCloudPhoneTab()
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     //右键菜单
     m_menu = new QMenu(ui->treeWidget);
-    m_menu->addAction("删除分组");
-    m_menu->addAction("编辑分组名称");
+    QAction* pActionDeleteGroup = new QAction("删除分组");
+    QAction* pActionEditGroupName = new QAction("编辑分组名称");
+    connect(pActionDeleteGroup, &QAction::triggered,this, &MainWindow::do_DeleteGroupAction);
+    connect(pActionEditGroupName, &QAction::triggered, this, &MainWindow::do_EditGroupNameAction);
+    m_menu->addAction(pActionDeleteGroup);
+    m_menu->addAction(pActionEditGroupName);
 
     ui->treeWidget->setColumnCount(1);
     //ui->treeWidget->setHeaderLabel("分组列表");
@@ -395,16 +413,17 @@ void MainWindow::ShowGroupInfo()
         item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0,iter->strGroupName);
         //存储GroupId
+        qDebug() << "写入iGroupId=" << iter->iGroupId;
         item->setData(0, Qt::UserRole, iter->iGroupId);
         item->setCheckState(0, Qt::Checked);
         ui->treeWidget->addTopLevelItem(item);
 
         //添加子节点
-        child = new QTreeWidgetItem(item);
+        /*child = new QTreeWidgetItem(item);
         child->setText(0, iter->strGroupName + "子节点");
         child->setCheckState(0, Qt::Checked);
         //将节点添加到根节点下
-        item->addChild(child);
+        item->addChild(child);*/
 
         /*child = new QTreeWidgetItem(item);
         child->setText(0, iter->strGroupName + "子节点1");
@@ -415,7 +434,7 @@ void MainWindow::ShowGroupInfo()
     }
 
     //展开所有
-    ui->treeWidget->expandAll();
+    //ui->treeWidget->expandAll();
 }
 
 void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
@@ -1352,17 +1371,37 @@ void MainWindow::on_btnClose_clicked()
     HttpLogout();
 }
 
+void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName)
+{
+    switch (type)
+    {
+    case TYPE_CREATE_GROUP:
+    {
+        //创建分组
+        qDebug() << " 创建分组 strGroupName=" << strGroupName;
+        HttpCreateGroup(strGroupName);
+    }
+    break;
+    case TYPE_UPDATE_GROUP:
+    {
+        //修改分组
+        //获取当前选中的item
+        QTreeWidgetItem* item = ui->treeWidget->currentItem();
+        int iGroupId = item->data(0, Qt::UserRole).toInt();
+        qDebug() << " 编辑分组 id=" << iGroupId << "strGroupName=" << strGroupName;
+        HttpUpdateGroup(iGroupId, strGroupName);
+    }
+    break;
+    default:
+        break;
+    }
+}
 
 void MainWindow::on_btnCreateGroup_clicked()
 {
     //新建分组
-    CreateGroupWidget* createGroupWidget = new CreateGroupWidget();
-    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this,[this](QString strGroupName)
-            {
-        //创建分组
-        qDebug()<<" 创建分组 strGroupName="<<strGroupName;
-        HttpCreateGroup(strGroupName);
-    });
+    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_CREATE_GROUP);
+    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
     createGroupWidget->show();
 
 

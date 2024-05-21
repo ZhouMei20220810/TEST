@@ -2,12 +2,26 @@
 #include "ui_creategroupwidget.h"
 #include "messagetipsdialog.h"
 
-CreateGroupWidget::CreateGroupWidget(QWidget *parent)
+CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CreateGroupWidget)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    setWindowFlags(Qt::FramelessWindowHint);
+    m_type = type;
+    switch (type)
+    {
+    case TYPE_CREATE_GROUP:
+        ui->labelTitle->setText("创建分组");
+        break;
+    case TYPE_UPDATE_GROUP:
+        ui->labelTitle->setText("编辑分组名称");
+        break;
+    default:
+        ui->labelTitle->setText("创建分组");
+        break;
+    }
     //最大长度限制
     ui->lineEditGroupName->setMaxLength(16);
 }
@@ -27,7 +41,7 @@ void CreateGroupWidget::on_btnOk_clicked()
         return;
     }
 
-    emit createGroupSignals(strGroupName);
+    emit createGroupSignals(m_type,strGroupName);
 
     this->close();
 }

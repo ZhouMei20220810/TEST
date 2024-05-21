@@ -55,24 +55,8 @@ private:
     void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
     //获取我的实例级别
     void HttpGetMyInstanceLevel();
-
-
     //生成QrCode
     void gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale);
-
-private slots:
-    //工具栏
-    void on_toolBtnCloudPhone_clicked();
-    void on_toolBtnActiveCode_clicked();
-    void on_toolBtnBuy_clicked();    
-
-    //菜单栏
-    void on_btnPhotoUrl_clicked();
-    void on_btnCustomerService_clicked();
-    void on_btnSetting_clicked();
-    void on_btnMin_clicked();
-    void on_btnMax_clicked();
-    void on_btnClose_clicked();
 
     //云手机
     void InitCloudPhoneTab();
@@ -85,9 +69,22 @@ private slots:
     void InitLevelList();
     void InitVipList();
     void InitVipRenewList();
-   
+
     //初始化vip列表
     void loadVipType(S_LEVEL_INFO levelInfo);
+private slots:
+    //工具栏
+    void on_toolBtnCloudPhone_clicked();
+    void on_toolBtnActiveCode_clicked();
+    void on_toolBtnBuy_clicked();    
+
+    //菜单栏
+    void on_btnPhotoUrl_clicked();
+    void on_btnCustomerService_clicked();
+    void on_btnSetting_clicked();
+    void on_btnMin_clicked();
+    void on_btnMax_clicked();
+    void on_btnClose_clicked();    
 
     void on_btnCreateGroup_clicked();
     void on_btnGroupRefresh_clicked();
@@ -137,6 +134,10 @@ private slots:
 
     void on_treeWidget_customContextMenuRequested(const QPoint &pos);
 
+    //组菜单
+    void do_DeleteGroupAction(bool bChecked);
+    void do_EditGroupNameAction(bool bChecked);
+    void do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName);
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -155,6 +156,7 @@ private:
 
     //组列表
     QMenu* m_menu;
+    QMenu* m_PhoneMenu;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
