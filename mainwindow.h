@@ -133,6 +133,8 @@ private slots:
 
     void on_toolBtnPhoto_clicked();
 
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

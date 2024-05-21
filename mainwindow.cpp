@@ -390,20 +390,22 @@ void MainWindow::ShowGroupInfo()
         item->setText(0,iter->strGroupName);
         //存储GroupId
         item->setData(0, Qt::UserRole, iter->iGroupId);
+        item->setCheckState(0, Qt::Checked);
         ui->treeWidget->addTopLevelItem(item);
 
         //添加子节点
         child = new QTreeWidgetItem(item);
         child->setText(0, iter->strGroupName + "子节点");
+        child->setCheckState(0, Qt::Checked);
         //将节点添加到根节点下
         item->addChild(child);
 
-        child = new QTreeWidgetItem(item);
+        /*child = new QTreeWidgetItem(item);
         child->setText(0, iter->strGroupName + "子节点1");
         //将节点插入到第一个位置
         item->addChild(child);
         //同上
-        ui->treeWidget->insertTopLevelItem(0, child);
+        ui->treeWidget->insertTopLevelItem(0, child);*/
     }
 
     //展开所有
@@ -1832,5 +1834,17 @@ void MainWindow::on_toolBtnPhoto_clicked()
     IndividualCenterWidget* widget = new IndividualCenterWidget();
     widget->move(QCursor::pos());
     widget->show();
+}
+
+
+void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+    //QTreeWidget点击事件
+    QTreeWidgetItem *pChildItem = NULL;
+    for (int i=0; i<item->childCount(); i++)
+    {
+        pChildItem = item->child(i);
+        pChildItem->setCheckState(0,item->checkState(0));
+    }
 }
 
