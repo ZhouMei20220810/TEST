@@ -60,7 +60,10 @@ private:
     //获取serverToken
     //void HttpGetServerToken();
     //获取我的手机实例
-    void GetMyPhoneInstance();
+    void HttpGetMyPhoneInstance();
+    //获取我的实例级别
+    void HttpGetMyInstanceLevel();
+
 
     //生成QrCode
     void gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale);

@@ -1181,7 +1181,7 @@ void MainWindow::HttpEmptyOrder()
 }
 
 //获取我的手机实例
-void MainWindow::GetMyPhoneInstance()
+void MainWindow::HttpGetMyPhoneInstance()
 {
     int iGroupId = 0;
     int iLevel = 0;
@@ -1263,6 +1263,71 @@ void MainWindow::GetMyPhoneInstance()
         }
         reply->deleteLater();
     });
+}
+
+//获取我的实例级别
+void MainWindow::HttpGetMyInstanceLevel()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_MYINSTANCE_LEVEL;
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject data = obj["data"].toObject();
+                        QString strAshIcon = data["ashIcon"].toString();
+                        QString strColorIcon = data["colorIcon"].toString();
+                        int iId = data["id"].toInt();
+                        int isEnabled = data["isEnabled"].toInt();
+                        QString strlevelName = data["name"].toString();
+                        QString strRemark = data["remark"].toString();
+                        qDebug() << "我的实例等级 id=" << iId << "strlevelName" << strlevelName << "remark=" << strRemark;
+                    }
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 
 //云手机
@@ -1458,8 +1523,8 @@ void MainWindow::on_btnCreateGroup_clicked()
     //调试删除分组接口
     //HttpDeleteGroup(0);
 
-    //调试获取serverToken接口
-    GetMyPhoneInstance();
+    //调试获取我的手机实例
+    HttpGetMyPhoneInstance();
 }
 
 void MainWindow::on_btnGroupRefresh_clicked()
@@ -1469,7 +1534,7 @@ void MainWindow::on_btnGroupRefresh_clicked()
     HttpQueryAllGroup();
 
     //测试获取SeverToken接口
-    //GetMyPhoneInstance();
+    //HttpGetMyPhoneInstance();
 }
 
 //激活码接口
@@ -1677,7 +1742,7 @@ void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
 
         QMap<int, S_LEVEL_DATA_INFO>::iterator iter = iterFind->begin();
         for (; iter != iterFind->end(); iter++)
-        {
+        {            
             vipItem = new QListWidgetItem(ui->listWidgetVIP);
             vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
             vipItem->setData(Qt::UserRole, iter->iMemberId);
@@ -1687,6 +1752,13 @@ void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
             vipWidget = new VIPItemWidget(*iter, this);
             connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
             ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
+
+            //设置默认第一个被选中
+            if (iter == iterFind->begin())
+            {
+                m_curLevelDataInfo = *iter;
+                vipWidget->setLabelCheckStatus(true);
+            }
         }
     }
     else
