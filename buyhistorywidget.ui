@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>632</width>
-    <height>410</height>
+    <width>640</width>
+    <height>488</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -384,7 +384,7 @@ padding-left:8px;
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget"/>
+    <widget class="QListWidget" name="listWidgetBuyHistory"/>
    </item>
   </layout>
  </widget>

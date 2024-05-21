@@ -165,6 +165,8 @@ typedef struct ORDER_INFO
     int     iBuyNum;            //购买数量
     QString strOutTradeNo;      //订单号
     QString strPayTime;         //支付时间
+    int     iPayType;           //支付方式 1.支付宝 2.微信 3.激活码
+    int     iOrderType;         //订单类型 1.购买 2.续费
     float   fPreferentialAmount; //优惠金额
     QString strRelateid;        //实例id,多个逗号分割
     QString strRemark;          //订单备注

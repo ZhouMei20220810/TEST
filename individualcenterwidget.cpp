@@ -7,6 +7,7 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include "messagetipsdialog.h"
+#include "buyhistorywidget.h"
 
 IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
     : QWidget(parent)
@@ -27,6 +28,8 @@ void IndividualCenterWidget::on_toolBtnIndividualCenter_clicked()
     //个人中心,修改密码
     ForgetPWDialog* forgetPW = new ForgetPWDialog();
     forgetPW->show();
+
+    this->close();
 }
 
 void IndividualCenterWidget::on_toolBtnLogout_clicked()
@@ -37,18 +40,16 @@ void IndividualCenterWidget::on_toolBtnLogout_clicked()
 
 void IndividualCenterWidget::on_toolBtnBuyHistory_clicked()
 {
+    BuyHistoryWidget* widget = new BuyHistoryWidget();
+    widget->show();
 
+    this->close();
 }
 
 
 void IndividualCenterWidget::on_toolBtnActiveHistory_clicked()
 {
-
-}
-//购买记录
-void IndividualCenterWidget::HttpBuyHistory()
-{
-
+    this->close();
 }
 
 void IndividualCenterWidget::HttpLogout()

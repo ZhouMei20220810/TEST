@@ -2,6 +2,7 @@
 #define BUYHISTORYWIDGET_H
 
 #include <QWidget>
+#include "global.h"
 
 namespace Ui {
 class BuyHistoryWidget;
@@ -18,6 +19,8 @@ public:
 private slots:
     void on_toolBtnClearBuyHistory_clicked();
 
+    void on_btnClose_clicked();
+
 private:
     //订单接口
     // 我的支付订单
@@ -27,7 +30,13 @@ private:
     //清空
     void HttpEmptyOrder();
 
+    //显示数据
+    void ShowOrderInfoList();
+
     Ui::BuyHistoryWidget *ui;
+
+    //int序号
+    QMap<int, S_ORDER_INFO> m_mapOrderInfo;
 };
 
 #endif // BUYHISTORYWIDGET_H

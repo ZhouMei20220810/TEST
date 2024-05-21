@@ -27,8 +27,6 @@ private slots:
 private:
     //注销
     void HttpLogout();
-    //购买记录
-    void HttpBuyHistory();
 
     Ui::IndividualCenterWidget *ui;
 };

@@ -1,19 +1,22 @@
 #include "buyhistorywidget.h"
 #include "ui_buyhistorywidget.h"
-#include "global.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
 #include "messagetipsdialog.h"
+#include "buyhistoryitemwidget.h"
 
 BuyHistoryWidget::BuyHistoryWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::BuyHistoryWidget)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
+    setWindowFlags(Qt::FramelessWindowHint);
 
+    m_mapOrderInfo.clear();
     //获取我的订单
     HttpGetMyOrder(1, 10);
 }
@@ -89,43 +92,35 @@ void BuyHistoryWidget::HttpGetMyOrder(int iPage, int iPageSize)
                         if (records.size() > 0)
                         {
                             int iRecordsSize = records.size();
-                            /*QJsonObject recordObj;
+                            QJsonObject recordObj;
                             //获取我的手机实例数据，暂未存储
-                            S_PHONE_INFO phoneInfo;
+                            S_ORDER_INFO orderInfo;
                             for (int i = 0; i < iRecordsSize; i++)
                             {
                                 recordObj = records[i].toObject();
-                                phoneInfo.strCreateTime = recordObj["createTime"].toString();
-                                phoneInfo.strCurrentTime = recordObj["current"].toString();
-                                phoneInfo.strExpireTime = recordObj["expireTime"].toString();
-                                phoneInfo.iId = recordObj["id"].toInt();
-                                phoneInfo.iLevel = recordObj["level"].toInt();
-                                phoneInfo.strName = recordObj["name"].toString();
-                                phoneInfo.strInstanceNo = recordObj["no"].toString();
-                                phoneInfo.strServerToken = recordObj["serverToken"].toString();
-                                phoneInfo.iType = recordObj["type"].toInt();
-                            }*/
-                        }
-                        QJsonArray orders = data["orders"].toArray();
-                        if (orders.size() > 0)
-                        {
-                            int iOrdersSize = orders.size();
-                            /*QJsonObject recordObj;
-                            //获取我的手机实例数据，暂未存储
-                            S_PHONE_INFO phoneInfo;
-                            for (int i = 0; i < iRecordsSize; i++)
-                            {
-                                recordObj = records[i].toObject();
-                                phoneInfo.strCreateTime = recordObj["createTime"].toString();
-                                phoneInfo.strCurrentTime = recordObj["current"].toString();
-                                phoneInfo.strExpireTime = recordObj["expireTime"].toString();
-                                phoneInfo.iId = recordObj["id"].toInt();
-                                phoneInfo.iLevel = recordObj["level"].toInt();
-                                phoneInfo.strName = recordObj["name"].toString();
-                                phoneInfo.strInstanceNo = recordObj["no"].toString();
-                                phoneInfo.strServerToken = recordObj["serverToken"].toString();
-                                phoneInfo.iType = recordObj["type"].toInt();
-                            }*/
+                                orderInfo.fActualAmount = recordObj["actualAmount"].toDouble();
+                                orderInfo.iCreateBy = recordObj["createBy"].toInt();
+                                orderInfo.strCreateTime = recordObj["createTime"].toString();
+                                orderInfo.iId = recordObj["id"].toInt();
+                                orderInfo.bIsDelete = recordObj["isDelete"].toBool();
+                                orderInfo.iMemberId = recordObj["memberId"].toInt();
+                                orderInfo.strOrderTitle = recordObj["name"].toString();
+                                orderInfo.iBuyNum = recordObj["num"].toInt();
+                                orderInfo.strOutTradeNo = recordObj["outTradeNo"].toString();
+                                orderInfo.strPayTime = recordObj["payTime"].toString();
+                                orderInfo.iPayType = recordObj["payType"].toInt();
+                                orderInfo.fPreferentialAmount = recordObj["preferentialAmount"].toDouble();
+                                orderInfo.strRelateid = recordObj["relateId"].toString();
+                                orderInfo.strRemark = recordObj["remark"].toString();
+                                orderInfo.iStatus = recordObj["status"].toInt();
+                                orderInfo.fTotalAmount = recordObj["totalAmount"].toDouble();
+                                orderInfo.strTradeNo = recordObj["tradeNo"].toString();
+                                orderInfo.iOrderType = recordObj["type"].toInt();
+                                m_mapOrderInfo.insert(i, orderInfo);                                
+                            }
+
+                            //显示数据
+                            ShowOrderInfoList();
                         }
                     }
                 }
@@ -137,7 +132,31 @@ void BuyHistoryWidget::HttpGetMyOrder(int iPage, int iPageSize)
             }
         }
         reply->deleteLater();
-        });
+        });    
+}
+
+//显示数据
+void BuyHistoryWidget::ShowOrderInfoList()
+{
+    if (m_mapOrderInfo.size() <= 0)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("没有购买记录!");
+        tips->show();
+        return;
+    }
+
+    QListWidgetItem* item;
+    BuyHistoryItemWidget* itemWidget;
+    QMap<int, S_ORDER_INFO>::iterator iter = m_mapOrderInfo.begin();
+    for (; iter != m_mapOrderInfo.end(); iter++)
+    {
+        item = new QListWidgetItem(ui->listWidgetBuyHistory);
+        ui->listWidgetBuyHistory->addItem(item);
+
+        itemWidget = new BuyHistoryItemWidget(iter.value(),this);
+        item->setSizeHint(QSize(ui->listWidgetBuyHistory->width()-50, itemWidget->height()));
+        ui->listWidgetBuyHistory->setItemWidget(item, itemWidget);        
+    }
 }
 
 //删除
@@ -205,3 +224,9 @@ void BuyHistoryWidget::HttpEmptyOrder()
 {
 
 }
+
+void BuyHistoryWidget::on_btnClose_clicked()
+{
+    this->close();
+}
+

@@ -203,6 +203,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Logoutdialog.cpp" />
+    <ClCompile Include="buyhistoryitemwidget.cpp" />
     <ClCompile Include="buyhistorywidget.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
@@ -229,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Logoutdialog.h" />
+    <QtMoc Include="buyhistoryitemwidget.h" />
     <QtMoc Include="buyhistorywidget.h" />
     <QtMoc Include="creategroupwidget.h" />
     <QtMoc Include="forgetpwdialog.h" />
@@ -270,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Logoutdialog.ui" />
+    <QtUic Include="buyhistoryitemwidget.ui" />
     <QtUic Include="buyhistorywidget.ui" />
     <QtUic Include="creategroupwidget.ui" />
     <QtUic Include="forgetpwdialog.ui" />
