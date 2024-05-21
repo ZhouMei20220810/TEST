@@ -95,16 +95,15 @@ void PasswordLoginPage::on_btnLogin_clicked()
         tips->show();
         return;
     }
-    qDebug()<<"password = " <<strPassword;
-    strPassword = GlobalData::md5(strPassword);
-    qDebug()<<"md5 password= " << strPassword;
+    QString strMd5Password = GlobalData::md5(strPassword);
+    qDebug()<<"strPassword = "<<strPassword<<"md5 password= " << strMd5Password <<"length="<< strMd5Password.length();
 
     bool bRemmemberPW = ui->checkBoxRemberPW->isChecked();
     bool bAutoLogin = ui->checkBoxAutoLogin->isChecked();
 
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_YSY_PASSWORD_LOGIN;
-    qDebug()<<"登录 url="<<strUrl <<"account="<<strAccount<<"strPassword="<<strPassword;
+    qDebug()<<"登录 url="<<strUrl <<"account="<<strAccount<<"strPassword="<<strMd5Password;
     //创建网络访问管理器
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
     //创建请求对象
@@ -117,7 +116,7 @@ void PasswordLoginPage::on_btnLogin_clicked()
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("account", strAccount);
-    obj.insert("password", strPassword);
+    obj.insert("password", strMd5Password);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     //发出GET请求
