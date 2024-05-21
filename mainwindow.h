@@ -25,10 +25,10 @@ public:
 
 private:
     //分组接口
-    void QueryAllGroup();//查询全部分组
-    void CreateGroup(QString strGroupName);//创建分组
-    void UpdateGroup(int iGroupId, QString strNewName);//修改分组
-    void DeleteGroup(int iGroupId);//删除分组
+    void HttpQueryAllGroup();//查询全部分组
+    void HttpCreateGroup(QString strGroupName);//创建分组
+    void HttpUpdateGroup(int iGroupId, QString strNewName);//修改分组
+    void HttpDeleteGroup(int iGroupId);//删除分组
 
     //显示树内容
     void ShowGroupInfo();
@@ -52,6 +52,9 @@ private:
 
     //激活码接口
     void HttpPostActivateCode(QString strCode, int iRelateId);
+
+    //注销
+    void HttpLogout();
 
     //手机实例相关接口
     //获取serverToken

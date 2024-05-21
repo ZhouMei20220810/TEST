@@ -200,3 +200,9 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
         reply->deleteLater();
     });
 }
+
+void SMSLoginPage::on_btnReturn_clicked()
+{
+    emit showPageType(TYPE_PASSWORDLOGIN_PAGE);
+}
+

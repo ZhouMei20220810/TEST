@@ -1,5 +1,6 @@
 #include "global.h"
 #include "openssl/ssl.h"
+#include <QCryptographicHash>
 
 int GlobalData::id = 10;
 QString GlobalData::strMaxExpirationDate = "";
@@ -9,6 +10,13 @@ QString GlobalData::strMobile = "";
 QString GlobalData::strName = "";
 QString GlobalData::strPhotoUrl = "";
 //QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
+
+
+QString GlobalData::md5(const QString &str) {
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    hash.addData(str.toLocal8Bit());
+    return hash.result().toHex();
+}
 
 QString getLevelTypeToText(LEVEL_TYPE levelType)
 {

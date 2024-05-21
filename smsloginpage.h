@@ -24,6 +24,8 @@ private slots:
 
     void on_btnSMSLogin_clicked();
 
+    void on_btnReturn_clicked();
+
 private:
     Ui::SMSLoginPage *ui;
 };

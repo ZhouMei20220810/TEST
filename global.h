@@ -188,6 +188,7 @@ public:
     static QString strName;
     static QString strPhotoUrl;
 
+    static QString md5(const QString &str);
     //static void setToolButtonSize(QToolButton* btn);
 };
 #endif // GLOBAL_H

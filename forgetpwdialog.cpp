@@ -122,7 +122,7 @@ void ForgetPWDialog::HttpPostResetPassword(QString strCode,QString strPassword)
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("code", strCode);
-    obj.insert("password", strCode);
+    obj.insert("password", strPassword);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     //发出GET请求
@@ -215,7 +215,10 @@ void ForgetPWDialog::on_btnOK_clicked()
         return;
     }
 
-    //请求服务器接口,暂未
+
+    qDebug()<<"password = " <<strPassword;
+    strPassword = GlobalData::md5(strPassword);
+    qDebug()<<"md5 password= " << strPassword;
     HttpPostResetPassword(strSMSCode, strPassword);
 }
 

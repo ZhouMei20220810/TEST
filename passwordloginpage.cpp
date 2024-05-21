@@ -10,7 +10,6 @@
 #include "mainwindow.h"
 #include <QSettings>
 #include "messagetipsdialog.h"
-#include <QCryptographicHash>
 
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
@@ -71,12 +70,6 @@ void PasswordLoginPage::on_btnSMSLogin_clicked()
     emit showPageType(TYPE_SMSLOGIN_PAGE);
 }
 
-QString md5(const QString &str) {
-    QCryptographicHash hash(QCryptographicHash::Md5);
-    hash.addData(str.toLocal8Bit());
-    return hash.result().toHex();
-}
-
 void PasswordLoginPage::on_btnLogin_clicked()
 {
     //账号密码登录
@@ -103,7 +96,7 @@ void PasswordLoginPage::on_btnLogin_clicked()
         return;
     }
     qDebug()<<"password = " <<strPassword;
-    strPassword = md5(strPassword);
+    strPassword = GlobalData::md5(strPassword);
     qDebug()<<"md5 password= " << strPassword;
 
     bool bRemmemberPW = ui->checkBoxRemberPW->isChecked();

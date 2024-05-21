@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->labelAccount->setText(GlobalData::strAccount);
 
-    QueryAllGroup();
+    HttpQueryAllGroup();
     //初始化Tab云手机
     InitCloudPhoneTab();
     //初始化Tab激活码
@@ -285,7 +285,7 @@ void MainWindow::InitVipRenewList()
     //ui->listWidgetRenewList->setHeaderLabels(headers);
 }
 
-void MainWindow::QueryAllGroup()//查询全部分组
+void MainWindow::HttpQueryAllGroup()//查询全部分组
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_QUERY_ALL_GROUP;
@@ -410,7 +410,7 @@ void MainWindow::ShowGroupInfo()
     ui->treeWidget->expandAll();
 }
 
-void MainWindow::CreateGroup(QString strGroupName)//创建分组
+void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_CREATE_GROUP;
@@ -458,7 +458,7 @@ void MainWindow::CreateGroup(QString strGroupName)//创建分组
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //界面添加该组
-                    QueryAllGroup();
+                    HttpQueryAllGroup();
                 }
                 else
                 {
@@ -471,7 +471,7 @@ void MainWindow::CreateGroup(QString strGroupName)//创建分组
     });
 }
 
-void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
+void MainWindow::HttpUpdateGroup(int iGroupId, QString strNewName)//修改分组
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_UPDATE_GROUP;
@@ -524,7 +524,7 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
                     if (data)
                     {
                         //界面直接修改名称不需要重新请求
-                        QueryAllGroup();
+                        HttpQueryAllGroup();
                     }
                 }
                 else
@@ -538,7 +538,7 @@ void MainWindow::UpdateGroup(int iGroupId, QString strNewName)//修改分组
     });
 }
 
-void MainWindow::DeleteGroup(int iGroupId)//删除分组
+void MainWindow::HttpDeleteGroup(int iGroupId)//删除分组
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_DELETE_GROUP;
@@ -586,7 +586,7 @@ void MainWindow::DeleteGroup(int iGroupId)//删除分组
                     if (data)
                     {
                         //界面直接修改名称不需要重新请求
-                        QueryAllGroup();
+                        HttpQueryAllGroup();
                     }
                 }
                 else
@@ -1347,14 +1347,8 @@ void MainWindow::on_btnMax_clicked()
     this->showMaximized();
 }
 
-
-void MainWindow::on_btnClose_clicked()
+void MainWindow::HttpLogout()
 {
-    LogoutDialog *logoutDialog = new LogoutDialog();
-    int ret = logoutDialog->exec();
-    if(ret != QDialog::Accepted)
-        return;
-
     //关闭窗口并且退出登录
     qDebug() << "注销";
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -1428,7 +1422,18 @@ void MainWindow::on_btnClose_clicked()
             }
         }
         reply->deleteLater();
-    });    
+    });
+}
+
+void MainWindow::on_btnClose_clicked()
+{
+    LogoutDialog *logoutDialog = new LogoutDialog();
+    int ret = logoutDialog->exec();
+    if(ret != QDialog::Accepted)
+        return;
+
+    //注销
+    HttpLogout();
 }
 
 
@@ -1440,16 +1445,16 @@ void MainWindow::on_btnCreateGroup_clicked()
             {
         //创建分组
         qDebug()<<" 创建分组 strGroupName="<<strGroupName;
-        CreateGroup(strGroupName);
+        HttpCreateGroup(strGroupName);
     });
     createGroupWidget->show();*/
 
 
     //调试修改分组接口
-    //UpdateGroup(2, "新名称");
+    //HttpUpdateGroup(2, "新名称");
 
     //调试删除分组接口
-    //DeleteGroup(0);
+    //HttpDeleteGroup(0);
 
     //调试获取serverToken接口
     GetMyPhoneInstance();
@@ -1459,7 +1464,7 @@ void MainWindow::on_btnGroupRefresh_clicked()
 {
     qDebug()<<"刷新";
     //重新加载列表
-    QueryAllGroup();
+    HttpQueryAllGroup();
 
     //测试获取SeverToken接口
     //GetMyPhoneInstance();
