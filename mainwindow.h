@@ -38,18 +38,10 @@ private:
     //会员相关接口
     void HttpMemberLevelListData();
 
-    //订单接口
-    // 我的支付订单
-    void HttpGetMyOrder(int iPage, int iPageSize);
     //创建订单
     void HttpCreateOrder(int iChannel, int iMemberId, int iNum,int iPayType, QString strRelateId);
     //关闭订单
     void HttpCloseOrder(QString strOutTradeNo);
-    //删除
-    void HttpDeleteOrder(int iOrderId);
-    //清空
-    void HttpEmptyOrder();
-
     //激活码接口
     void HttpPostActivateCode(QString strCode, int iRelateId);
 

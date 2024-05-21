@@ -17,6 +17,7 @@ LIBS += D:\zm\QtProject\TEST\MD\libssl.lib \
 
 SOURCES += \
     Logoutdialog.cpp \
+    buyhistorywidget.cpp \
     creategroupwidget.cpp \
     forgetpwdialog.cpp \
     global.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
 
 HEADERS += \
     Logoutdialog.h \
+    buyhistorywidget.h \
     creategroupwidget.h \
     forgetpwdialog.h \
     global.h \
@@ -66,6 +68,7 @@ HEADERS += \
 
 FORMS += \
     Logoutdialog.ui \
+    buyhistorywidget.ui \
     creategroupwidget.ui \
     forgetpwdialog.ui \
     individualcenterwidget.ui \
