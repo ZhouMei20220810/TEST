@@ -1250,6 +1250,9 @@ void MainWindow::HttpGetMyPhoneInstance()
                                 phoneInfo.strInstanceNo = recordObj["no"].toString();
                                 phoneInfo.strServerToken = recordObj["serverToken"].toString();
                                 phoneInfo.iType = recordObj["type"].toInt();
+                                qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime \
+                                    << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType \ 
+                                    <<"level="<< phoneInfo.iLevel;
                             }
                         }
                     }
