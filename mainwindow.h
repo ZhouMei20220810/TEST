@@ -140,6 +140,18 @@ private slots:
     void do_DeleteGroupAction(bool bChecked);
     void do_EditGroupNameAction(bool bChecked);
     void do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName);
+    //手机菜单
+    void do_ActionBeginControl(bool bChecked);
+    void do_ActionCopyCloudId(bool bChecked);
+    void do_ActionRename(bool bChecked);
+    void do_ActionRestartCloudPhone(bool bChecked);
+    void do_ActionNewPhone(bool bChecked);
+    void do_ActionFactoryDataReset(bool bChecked);
+    void do_ActionUploadFile(bool bChecked);
+    void do_ActionMoveGroup(bool bChecked);
+    void do_ActionRenewCloudPhone(bool bChecked);
+    void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

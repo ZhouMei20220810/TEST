@@ -64,6 +64,36 @@ void MainWindow::do_EditGroupNameAction(bool bChecked)
     connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
     createGroupWidget->show();
 }
+
+//手机菜单
+void MainWindow::do_ActionBeginControl(bool bChecked)
+{
+}
+void MainWindow::do_ActionCopyCloudId(bool bChecked)
+{
+}
+void MainWindow::do_ActionRename(bool bChecked)
+{
+}
+void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
+{
+}
+void MainWindow::do_ActionNewPhone(bool bChecked)
+{
+}
+void MainWindow::do_ActionFactoryDataReset(bool bChecked)
+{
+}
+void MainWindow::do_ActionUploadFile(bool bChecked)
+{
+}
+void MainWindow::do_ActionMoveGroup(bool bChecked)
+{
+}
+void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
+{
+}
+
 //云手机
 void MainWindow::InitCloudPhoneTab()
 {
@@ -72,7 +102,7 @@ void MainWindow::InitCloudPhoneTab()
     //ui->treeWidget->move(100, 80);
     //打开右键菜单属性
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    //右键菜单
+    //组右键菜单
     m_menu = new QMenu(ui->treeWidget);
     QAction* pActionDeleteGroup = new QAction("删除分组");
     QAction* pActionEditGroupName = new QAction("编辑分组名称");
@@ -80,6 +110,39 @@ void MainWindow::InitCloudPhoneTab()
     connect(pActionEditGroupName, &QAction::triggered, this, &MainWindow::do_EditGroupNameAction);
     m_menu->addAction(pActionDeleteGroup);
     m_menu->addAction(pActionEditGroupName);
+
+    //手机右键菜单
+    m_PhoneMenu = new QMenu(ui->treeWidget);
+    QAction* pActionBeginControl = new QAction("开始控制");
+    QAction* pActionCopyCloudId = new QAction("复制云号");
+    QAction* pActionRename = new QAction("重命名");
+    QAction* pActionRestartCloudPhone = new QAction("重启云手机");
+    QAction* pActionNewPhone = new QAction("一键新机");
+    QAction* pActionFactoryDataReset = new QAction("恢复出厂设置");
+    QAction* pActionUploadFile = new QAction("上传文件");
+    QAction* pActionMoveGroup = new QAction("移动分组");
+    QAction* pActionRenewCloudPhone = new QAction("续费云手机");
+    connect(pActionBeginControl, &QAction::triggered, this, &MainWindow::do_ActionBeginControl);
+    connect(pActionCopyCloudId, &QAction::triggered, this, &MainWindow::do_ActionCopyCloudId);
+    connect(pActionRename, &QAction::triggered, this, &MainWindow::do_ActionRename);
+    connect(pActionRestartCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRestartCloudPhone);
+    connect(pActionNewPhone, &QAction::triggered, this, &MainWindow::do_ActionNewPhone);
+    connect(pActionFactoryDataReset, &QAction::triggered, this, &MainWindow::do_ActionFactoryDataReset);
+    connect(pActionUploadFile, &QAction::triggered, this, &MainWindow::do_ActionUploadFile);
+    connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
+    connect(pActionRenewCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRenewCloudPhone);
+    m_PhoneMenu->addAction(pActionBeginControl);
+    m_PhoneMenu->addAction(pActionCopyCloudId);
+    m_PhoneMenu->addAction(pActionRename);
+    m_PhoneMenu->addAction(pActionRestartCloudPhone);
+    m_PhoneMenu->addSeparator();
+    m_PhoneMenu->addAction(pActionNewPhone);
+    m_PhoneMenu->addAction(pActionFactoryDataReset);
+    m_PhoneMenu->addAction(pActionUploadFile);
+    m_PhoneMenu->addAction(pActionMoveGroup);
+    m_PhoneMenu->addSeparator();
+    m_PhoneMenu->addAction(pActionRenewCloudPhone);
+
 
     ui->treeWidget->setColumnCount(1);
     //ui->treeWidget->setHeaderLabel("分组列表");
@@ -1961,5 +2024,17 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 void MainWindow::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 {
     m_menu->exec(QCursor::pos());
+}
+
+
+void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
+{
+    if(qApp->mouseButtons() == Qt::RightButton) // 只针对鼠标右键
+    {
+        if(item->parent() != NULL)
+            m_PhoneMenu->exec(QCursor::pos());
+        else
+            m_menu->exec(QCursor::pos());
+    }
 }
 
