@@ -187,21 +187,27 @@ void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
-                QString data = obj["data"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    //保存图片到本地
-                    if (data.isEmpty())
+                    //更新界面图
+                    if (obj["data"].isArray())
                     {
-                        //使用默认图片
+                        QJsonArray dataArray = obj["data"].toArray();
+                        QJsonObject dataObj;
+                        S_TASK_INFO taskInfo;
+                        int iDataSize = dataArray.size();
+                        for (int i = 0; i < iDataSize; i++)
+                        {
+                            dataObj = dataArray[i].toObject();
+                            taskInfo.fTaskId = dataObj["taskId"].toDouble();
+                            taskInfo.fTaskStatus = dataObj["taskStatus"].toDouble();
+                            taskInfo.strUrl = dataObj["url"].toString();
+                            taskInfo.strPadCode = dataObj["padCode"].toString();
+                            m_mapTask.insert(taskInfo.strPadCode, taskInfo);
+                        }
                     }
-                    else
-                    {
-                        //更新界面图
-                    }
-                    //MessageTipsDialog* tips = new MessageTipsDialog("获取实例截图成功!", this);
-                    //tips->show();
+                    ShowTaskInfo();
                 }
                 else
                 {
@@ -270,15 +276,9 @@ void MainWindow::HttpPostInstanceScreenshotRefresh(QStringList strList)
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
+                    //获取截图
+                    HttpPostInstanceScreenshot(strList);
                     //保存图片到本地
-                    if (data.isEmpty())
-                    {
-                        //使用默认图片
-                    }
-                    else
-                    {
-                        //刷新实例图
-                    }
                 }
                 else
                 {
@@ -289,6 +289,75 @@ void MainWindow::HttpPostInstanceScreenshotRefresh(QStringList strList)
         }
         reply->deleteLater();
     });
+}
+//实例重启
+void MainWindow::HttpPostInstanceReboot(QStringList strList)
+{
+    int iSize = strList.size();
+    if (iSize <= 0)
+        return;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_INSTANCE_REBOOT;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonArray listArray;
+    for (int i = 0; i < iSize; i++)
+    {
+        listArray.append(strList.at(i));
+    }
+    //doc.setObject(listArray);
+    doc.setArray(listArray);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                QString data = obj["data"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog("实例重启操作成功!");
+                    tips->show();
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 //手机菜单
 void MainWindow::do_ActionBeginControl(bool bChecked)
@@ -764,6 +833,18 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     }
 }
 
+//显示任务
+void MainWindow::ShowTaskInfo()
+{
+    if (m_mapTask.size() <= 0)
+        return;
+
+    QMap<QString, S_TASK_INFO>::iterator iter = m_mapTask.begin();
+    for (; iter != m_mapTask.end(); iter++)
+    {
+        qDebug() << "no=" << iter->strPadCode << "url=" << iter->strUrl;
+    }
+}
 void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -2233,25 +2314,36 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         pChildItem->setCheckState(0,item->checkState(0));
     }
 
+    S_PHONE_INFO phoneInfo;
+    QStringList strList;
+    strList.clear();
     if (item->parent() != NULL)
     {
         //获取节点数据
         S_PHONE_INFO phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
         qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
-        //请求获取组下面的手机实例
-        //HttpGetMyPhoneInstance(iGroupId,1,10,0);
-        //获取实例截图
-        QStringList strList;
+
         strList << phoneInfo.strInstanceNo;
-        HttpPostInstanceScreenshot(strList);
     }
     else
     {
         int iGroupId = item->data(0, Qt::UserRole).toInt();
         qDebug() << "当前选中groupId=" << iGroupId;
 
-
+        //获取组的所有子节点
+        int count = item->childCount();
+        QTreeWidgetItem* child = NULL;        
+        for (int i = 0; i < count; ++i) 
+        {
+            child = item->child(i);
+            phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+            strList << phoneInfo.strInstanceNo;
+            qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
+        }
     }
+
+    //生成截图
+    HttpPostInstanceScreenshotRefresh(strList);
 }
 
 

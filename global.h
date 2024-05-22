@@ -154,6 +154,18 @@ typedef struct PHONE_INFO
     }
 }S_PHONE_INFO,*PS_PHONE_INFO;
 
+typedef struct Task_INFO
+{
+    float fTaskId;
+    float fTaskStatus;
+    QString strUrl;
+    QString strPadCode;
+    Task_INFO()
+    {
+        memset(this, 0, sizeof(Task_INFO));
+    }
+}S_TASK_INFO,*PS_TASK_INFO;
+
 typedef struct ORDER_INFO
 {
     int     iId;

@@ -32,6 +32,8 @@ private:
     void ShowGroupInfo();
     //实例列表
     void ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> m_mapPhoneInfo);
+    //显示任务
+    void ShowTaskInfo();
 
     //会员级别接口
     void HttpMemberLevelList();
@@ -55,6 +57,10 @@ private:
     void HttpPostInstanceScreenshot(QStringList strList);
     //刷新实例截图
     void HttpPostInstanceScreenshotRefresh(QStringList strList);
+    //实例重启
+    void HttpPostInstanceReboot(QStringList strList);
+    //实例重置
+    void HttpPostInstanceReset(QStringList strList);
 
     //手机实例相关接口
     //获取serverToken
@@ -172,6 +178,8 @@ private:
 
     //int会员等级id,会员列表
     QMap<int,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;
+    //任务列表
+    QMap<QString, S_TASK_INFO> m_mapTask;
 
     //组列表
     QMenu* m_menu;
