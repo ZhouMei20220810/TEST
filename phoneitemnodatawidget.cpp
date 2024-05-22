@@ -6,6 +6,7 @@ PhoneItemNoDataWidget::PhoneItemNoDataWidget(QWidget *parent)
     , ui(new Ui::PhoneItemNoDataWidget)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose,true);
 }
 
 PhoneItemNoDataWidget::~PhoneItemNoDataWidget()

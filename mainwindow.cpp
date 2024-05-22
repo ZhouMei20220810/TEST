@@ -18,6 +18,7 @@
 #include "Logoutdialog.h"
 #include "messagetipsdialog.h"
 #include "phoneitemwidget.h"
+#include "phoneitemnodatawidget.h"
 #include <QScrollBar>
 #include <QFile>
 #include <QDir>
@@ -769,7 +770,8 @@ void MainWindow::ShowGroupInfo()
         item->setText(0, strNewGroupName);
         //存储GroupId
         qDebug() << "写入iGroupId=" << iter->iGroupId;
-        item->setData(0, Qt::UserRole, iter->iGroupId);
+        item->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
+        //item->setData(0, Qt::UserRole, iter->iGroupId);
         //item->setIcon(0, QIcon(":/login/resource/login/option_normal.png"));
         item->setCheckState(0, Qt::Checked);
         ui->treeWidget->addTopLevelItem(item);
@@ -802,6 +804,10 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     QTreeWidgetItem* item;
     QTreeWidgetItem* phoneItem;
     QTreeWidgetItemIterator it(ui->treeWidget);
+    S_GROUP_INFO sGroupInfo;
+
+    QListWidgetItem* phoneListItem;
+    PhoneItemWidget* widget = NULL;
     while (*it) 
     {
         item = *it;
@@ -811,8 +817,9 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
             // 例如：
             qDebug() << item->text(0);
 
-            iId = item->data(0, Qt::UserRole).toInt();
-            if (iGroupId == iId)
+            //iId = item->data(0, Qt::UserRole).toInt();
+            sGroupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
+            if (iGroupId == sGroupInfo.iGroupId)
             {
                 QMap<int, S_PHONE_INFO>::iterator iter = mapPhoneInfo.begin();
                 for (; iter != mapPhoneInfo.end(); iter++)
@@ -825,6 +832,14 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     phoneItem->setText(0, iter->strName /* + iter->strExpireTime */ );
                     phoneItem->setCheckState(0, Qt::Checked);
                     item->addChild(phoneItem);
+
+
+                    phoneListItem = new QListWidgetItem(ui->listWidget);
+                    widget = new PhoneItemWidget(*iter, this);
+                    phoneListItem->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                    phoneListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
+                    ui->listWidget->addItem(phoneListItem);
+                    ui->listWidget->setItemWidget(phoneListItem, widget);
                 }
                 break;
             }
@@ -839,10 +854,20 @@ void MainWindow::ShowTaskInfo()
     if (m_mapTask.size() <= 0)
         return;
 
+    ui->listWidget->clear();
+    PhoneItemWidget* widget = NULL;
+    QListWidgetItem* phoneItem = NULL;
     QMap<QString, S_TASK_INFO>::iterator iter = m_mapTask.begin();
     for (; iter != m_mapTask.end(); iter++)
     {
         qDebug() << "no=" << iter->strPadCode << "url=" << iter->strUrl;
+        widget = new PhoneItemWidget(*iter,this);
+
+        phoneItem = new QListWidgetItem(ui->listWidget);
+        phoneItem->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        phoneItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
+        ui->listWidget->addItem(phoneItem);
+        ui->listWidget->setItemWidget(phoneItem, widget);
     }
 }
 void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
@@ -1348,10 +1373,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                         qrPixmap = qrPixmap.scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
                         ui->label_code->setPixmap(qrPixmap);*/
-
-                        QString strSign = obj["sign"].toString();
                         qDebug() << strQrCode;
-                        qDebug() << strSign;
                         QImage qrImage = generateAlipayQRCode(strQrCode);
                         if (!qrImage.isNull())
                         {
@@ -1363,8 +1385,6 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                             ui->labelQrCode->setPixmap(QPixmap(GlobalData::strQrcode).scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
                             //正常情况
                             ui->stackedWidget->setCurrentWidget(ui->pageQrCode);
-                            /*PayWidget* pay = new PayWidget(strFilePath);
-                            pay->show();*/
                         }
                     }                    
                 }
@@ -1835,10 +1855,10 @@ void MainWindow::on_btnGroupRefresh_clicked()
 {
     qDebug()<<"刷新";
     //重新加载列表
-    //HttpQueryAllGroup();
+    HttpQueryAllGroup();
 
     //调试我的实例等级接口
-    HttpGetMyInstanceLevel();
+    //HttpGetMyInstanceLevel();
 }
 
 //激活码接口
@@ -2189,7 +2209,7 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     qDebug()<<"切换到横屏";
     ui->toolBtnChangeVerScreen->setVisible(true);
     ui->toolBtnChangeHorScreen->setVisible(false);
-    ui->listWidget->clear();
+    /*ui->listWidget->clear();
 
     PhoneItemWidget* widget = NULL;
     QListWidgetItem* item = NULL;
@@ -2200,20 +2220,6 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     QString strImage;
     for (int i = 0; i < 1; i++)
     {
-        /*switch (i)
-        {
-        case LEVEL_NOMAL_LEVEL:
-            strImage = ":/main/main/level_normal.png";
-            break;
-        case LEVEL_ENHANCEMENT_TYPE:
-            strImage = ":/main/main/level_enhancenment.png";
-            break;
-        case LEVEL_PREMIER_TYPE:
-            strImage = ":/main/main/level_Premier.png";
-            break;
-        default:
-            break;
-        }*/
         widget = new PhoneItemWidget(this);
 
         item = new QListWidgetItem(ui->listWidget);
@@ -2221,7 +2227,7 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
         item->setData(Qt::UserRole, i);
         ui->listWidget->addItem(item);
         ui->listWidget->setItemWidget(item, widget);
-    }
+    }*/
 }
 
 
@@ -2232,7 +2238,7 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     ui->toolBtnChangeHorScreen->setVisible(true);
     ui->listWidget->clear();
     //初始化手机列表,假数据
-    PhoneItemWidget* widget = NULL;
+    /*PhoneItemWidget* widget = NULL;
     QListWidgetItem* item = NULL;
     //int iCount = map.size();
     //qDebug() << "map size() =" << iCount;
@@ -2241,20 +2247,6 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     QString strImage;
     for (int i = 0; i < 1; i++)
     {
-        /*switch (i)
-        {
-        case LEVEL_NOMAL_LEVEL:
-            strImage = ":/main/main/level_normal.png";
-            break;
-        case LEVEL_ENHANCEMENT_TYPE:
-            strImage = ":/main/main/level_enhancenment.png";
-            break;
-        case LEVEL_PREMIER_TYPE:
-            strImage = ":/main/main/level_Premier.png";
-            break;
-        default:
-            break;
-        }*/
         widget = new PhoneItemWidget(this);
 
         item = new QListWidgetItem(ui->listWidget);
@@ -2262,7 +2254,7 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
         item->setData(Qt::UserRole, i);
         ui->listWidget->addItem(item);
         ui->listWidget->setItemWidget(item, widget);
-    }
+    }*/
 }
 
 
@@ -2327,23 +2319,53 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     }
     else
     {
-        int iGroupId = item->data(0, Qt::UserRole).toInt();
-        qDebug() << "当前选中groupId=" << iGroupId;
-
-        //获取组的所有子节点
-        int count = item->childCount();
-        QTreeWidgetItem* child = NULL;        
-        for (int i = 0; i < count; ++i) 
+        S_GROUP_INFO groupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
+        qDebug() << "当前选中groupId=" << groupInfo.iGroupId;
+        if (groupInfo.iGroupNum <= 0)
         {
-            child = item->child(i);
-            phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-            strList << phoneInfo.strInstanceNo;
-            qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
+            ui->listWidget->clear();
+            PhoneItemNoDataWidget* noData = new PhoneItemNoDataWidget(this);
+            QListWidgetItem* phoneItem = new QListWidgetItem(ui->listWidget);
+            phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            ui->listWidget->addItem(phoneItem);
+            ui->listWidget->setItemWidget(phoneItem, noData);
+            return;
+        }
+        else
+        {
+            /*ui->listWidget->clear();
+            PhoneItemWidget* widget = NULL;
+            QListWidgetItem* phoneItem = NULL;
+            QString strImage;
+            for (int i = 0; i < groupInfo.iGroupNum; i++)
+            {
+                widget = new PhoneItemWidget(this);
+
+                phoneItem = new QListWidgetItem(ui->listWidget);
+                phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                phoneItem->setData(Qt::UserRole, i);
+                ui->listWidget->addItem(phoneItem);
+                ui->listWidget->setItemWidget(phoneItem, widget);
+            }*/
+
+            //获取组的所有子节点
+            int count = item->childCount();
+            QTreeWidgetItem* child = NULL;
+            for (int i = 0; i < count; ++i)
+            {
+                child = item->child(i);
+                phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+                strList << phoneInfo.strInstanceNo;
+                qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
+            }
         }
     }
 
     //生成截图
-    HttpPostInstanceScreenshotRefresh(strList);
+    if (strList.size() > 0)
+    {
+        HttpPostInstanceScreenshotRefresh(strList);
+    }    
 }
 
 
