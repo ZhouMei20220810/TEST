@@ -175,6 +175,7 @@ private:
     //组列表
     QMenu* m_menu;
     QMenu* m_PhoneMenu;
+    QTreeWidgetItem* m_pCurItem;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

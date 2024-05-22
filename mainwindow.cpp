@@ -115,8 +115,12 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode && data)
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog("实例重命名成功!", this);
-                    tips->show();
+                    if (m_pCurItem != NULL)
+                    {
+                        m_pCurItem->setText(0, strName);
+                    }
+                    //MessageTipsDialog* tips = new MessageTipsDialog("实例重命名成功!", this);
+                    //tips->show();
                 }
                 else
                 {
@@ -138,10 +142,11 @@ void MainWindow::do_ActionCopyCloudId(bool bChecked)
 }
 void MainWindow::do_ActionRename(bool bChecked)
 {
-    QTreeWidgetItem* item = ui->treeWidget->currentItem();
-    if (item == NULL)
+    m_pCurItem = ui->treeWidget->currentItem();
+    if (m_pCurItem == NULL)
         return;
-    S_PHONE_INFO phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
     CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_PHONE_RENAME_WIDGET,phoneInfo.iId, phoneInfo.strName);
     connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
     createGroupWidget->show();
