@@ -38,6 +38,7 @@
 #define HTTP_INSTANCE_SCREENSHOT    "/api/user/screenshot"  //获取实例截图
 #define HTTP_INSTANCE_SCREENSHOT_REFRESH "/api/user/screenshot/refresh"  //刷新实例截图
 #define HTTP_SET_INSTANCE_GROUP     "/api/user/setGroup"    //设置实例分组
+#define HTTP_SET_INSTANCE_NAME      "/api/user/setName"     // 实例名称修改
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 

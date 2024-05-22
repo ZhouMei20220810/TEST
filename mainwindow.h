@@ -50,6 +50,9 @@ private:
     //注销
     void HttpLogout();
 
+    //实例重命名
+    void HttpPostInstanceRename(int iId, QString strName);
+
     //手机实例相关接口
     //获取serverToken
     //void HttpGetServerToken();
