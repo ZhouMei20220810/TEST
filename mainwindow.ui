@@ -502,6 +502,18 @@ background-image: url(:/main/resource/main/setting_normal.png)
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton:hover {
+     /*background-color: #FFD31111*/
+ }
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -530,6 +542,18 @@ background-image: url(:/main/resource/main/setting_normal.png)
            </property>
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton:hover {
+     /*background-color: #FFD31111*/
+ }
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }</string>
            </property>
            <property name="text">
             <string/>
@@ -2583,7 +2607,7 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>80</width>
+                     <width>1282</width>
                      <height>234</height>
                     </rect>
                    </property>

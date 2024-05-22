@@ -1634,7 +1634,10 @@ void MainWindow::on_btnMin_clicked()
 
 void MainWindow::on_btnMax_clicked()
 {
-    this->showMaximized();
+    if(this->isMaximized())
+        this->showNormal();
+    else
+        this->showMaximized();
 }
 
 void MainWindow::HttpLogout()
@@ -2013,6 +2016,8 @@ void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
             {
                 m_curLevelDataInfo = *iter;
                 vipWidget->setLabelCheckStatus(true);
+                //更新支付金额
+                ui->labelPayMoney->setText(QString::asprintf("%.2f",m_curLevelDataInfo.fActivityPrice));
             }
         }
     }
