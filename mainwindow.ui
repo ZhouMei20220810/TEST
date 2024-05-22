@@ -2463,7 +2463,7 @@ QPushButton:disabled
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_3">
+           <widget class="QWidget" name="pageBuy">
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <property name="leftMargin">
               <number>0</number>

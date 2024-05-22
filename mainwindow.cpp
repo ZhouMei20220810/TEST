@@ -360,7 +360,7 @@ void MainWindow::InitCloudPhoneTab()
     pActionCopyCloudId = new QAction("复制云号", ui->treeWidget);
     pActionRename = new QAction("重命名", ui->treeWidget);
     pActionRestartCloudPhone = new QAction("重启云手机", ui->treeWidget);
-    pActionNewPhone = new QAction("一键新机", ui->treeWidget);
+    pActionNewPhone = new QAction("更换云机", ui->treeWidget);
     pActionFactoryDataReset = new QAction("恢复出厂设置", ui->treeWidget);
     pActionUploadFile = new QAction("上传文件", ui->treeWidget);
     pActionMoveGroup = new QAction("移动分组", ui->treeWidget);
@@ -1530,7 +1530,7 @@ void MainWindow::HttpGetMyInstanceLevel()
 //云手机
 void MainWindow::on_toolBtnCloudPhone_clicked()
 {
-    if(0 == ui->stackedWidget->currentIndex())
+    if(ui->page == ui->stackedWidget->currentWidget())
     {
         return;
     }
@@ -1543,14 +1543,14 @@ void MainWindow::on_toolBtnCloudPhone_clicked()
     //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
     //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
 
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentWidget(ui->page);
 
 }
 
 //激活码
 void MainWindow::on_toolBtnActiveCode_clicked()
 {
-    if(1 == ui->stackedWidget->currentIndex())
+    if(ui->pageActiveCode == ui->stackedWidget->currentWidget())
     {
         return;
     }
@@ -1561,13 +1561,13 @@ void MainWindow::on_toolBtnActiveCode_clicked()
     //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
     //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
 
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentWidget(ui->pageActiveCode);
 }
 
 //购买
 void MainWindow::on_toolBtnBuy_clicked()
 {
-    if(2 == ui->stackedWidget->currentIndex())
+    if(ui->pageBuy == ui->stackedWidget->currentWidget())
     {
         return;
     }
@@ -1578,7 +1578,7 @@ void MainWindow::on_toolBtnBuy_clicked()
     //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
     //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
 
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentWidget(ui->pageBuy);
 }
 
 //菜单栏
@@ -2202,14 +2202,14 @@ void MainWindow::on_toolBtnPayWechat_clicked()
 void MainWindow::on_btnReturn_clicked()
 {
     //支付返回
-    ui->stackedWidget->setCurrentWidget(ui->page_3);
+    ui->stackedWidget->setCurrentWidget(ui->pageBuy);
 }
 
 
 void MainWindow::on_btnFinish_clicked()
 {
     //支付完成
-    ui->stackedWidget->setCurrentWidget(ui->page_3);
+    ui->stackedWidget->setCurrentWidget(ui->pageBuy);
 }
 
 
