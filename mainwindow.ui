@@ -2143,65 +2143,106 @@ padding-left:8px;
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="page_2">
+           <widget class="QWidget" name="pageActiveCode">
             <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
-               <item>
-                <widget class="QToolButton" name="toolBtnAdd">
-                 <property name="styleSheet">
-                  <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
-	background-color: rgb(41, 105, 205);
-border-radius:3px;
-padding-left:10px;
+              <widget class="QFrame" name="frame_14">
+               <property name="styleSheet">
+                <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QToolButton" name="toolBtnAdd">
+                  <property name="minimumSize">
+                   <size>
+                    <width>110</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {border:none;
+color: #1E2133;
+	background-color:#FF9092A4;
+border-radius:1px;
+padding-left:8px;
 }
 QToolButton:hover {
-color: rgb(255, 255, 255);
-background-color: rgb(41, 105, 205);
-border-radius:3px;
-padding-left:10px;
+color: #1E2133;
+background-color: #FFE7E8EE;
+border-radius:1px;
+padding-left:8px;
 }</string>
-                 </property>
-                 <property name="text">
-                  <string>新增云手机激活</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="toolButtonRenew">
-                 <property name="styleSheet">
-                  <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
-border-radius:3px;
-padding-left:10px;
+                  </property>
+                  <property name="text">
+                   <string>新增云手机激活</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="toolButtonRenew">
+                  <property name="minimumSize">
+                   <size>
+                    <width>110</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton {border:none;
+color: #1E2133;
+border-radius:1px;
+padding-left:8px;
 }
 QToolButton:hover {
-background-color: rgb(41, 105, 205);
-color: rgb(255, 255, 255);
-border-radius:3px;
-padding-left:10px;
+background-color: #FFE7E8EE;
+color: #1E2133;
+border-radius:1px;
+padding-left:8px;
 }</string>
-                 </property>
-                 <property name="text">
-                  <string>云手机续时激活</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_6">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
+                  </property>
+                  <property name="text">
+                   <string>云手机续时激活</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>1059</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_7">

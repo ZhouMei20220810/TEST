@@ -1842,8 +1842,8 @@ void MainWindow::on_btnActiveCode_clicked()
 void MainWindow::on_toolBtnAdd_clicked()
 {
     //新增云手机激活
-    ui->toolButtonRenew->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolBtnAdd->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnAdd->setStyleSheet("QToolButton {border:none;color: #1E2133;	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
+    ui->toolButtonRenew->setStyleSheet("QToolButton{color: #1E2133;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
 
     ui->listWidgetRenew->setHidden(true);
 }
@@ -1851,8 +1851,8 @@ void MainWindow::on_toolBtnAdd_clicked()
 
 void MainWindow::on_toolButtonRenew_clicked()
 {
-    ui->toolBtnAdd->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    ui->toolButtonRenew->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolButtonRenew->setStyleSheet("QToolButton {border:none;color: #1E2133;	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnAdd->setStyleSheet("QToolButton{color: #1E2133;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     //云手机续时激活
     ui->listWidgetRenew->setHidden(false);
 }
