@@ -26,10 +26,7 @@ SOURCES += \
     levelchildgvipwidget.cpp \
     levelchildkvipwidget.cpp \
     levelchildwidget.cpp \
-    levelenhancementwidget.cpp \
     levelitemwidget.cpp \
-    levelnormalwidget.cpp \
-    levelpremierwidget.cpp \
     main.cpp \
     loginwindow.cpp \
     mainwindow.cpp \
@@ -55,10 +52,7 @@ HEADERS += \
     levelchildgvipwidget.h \
     levelchildkvipwidget.h \
     levelchildwidget.h \
-    levelenhancementwidget.h \
     levelitemwidget.h \
-    levelnormalwidget.h \
-    levelpremierwidget.h \
     loginwindow.h \
     mainwindow.h \
     messagetips.h \
@@ -82,10 +76,7 @@ FORMS += \
     levelchildgvipwidget.ui \
     levelchildkvipwidget.ui \
     levelchildwidget.ui \
-    levelenhancementwidget.ui \
     levelitemwidget.ui \
-    levelnormalwidget.ui \
-    levelpremierwidget.ui \
     loginwindow.ui \
     mainwindow.ui \
     messagetipsdialog.ui \

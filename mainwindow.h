@@ -8,9 +8,6 @@
 #include <QListWidgetItem>
 #include <QMouseEvent>
 #include "levelitemwidget.h"
-#include "levelnormalwidget.h"
-#include "levelenhancementwidget.h"
-#include "levelpremierwidget.h"
 #include <QMenu>
 namespace Ui {
 class MainWindow;
@@ -172,9 +169,6 @@ private:
     // QWidget interface
 
     LevelItemWidget* levelItem;
-    LevelNormalWidget* normal;
-    LevelEnhancementWidget* enhancement;
-    LevelPremierWidget* premier;
 
     //int会员等级id,会员列表
     QMap<int,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;

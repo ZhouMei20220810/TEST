@@ -551,33 +551,7 @@ void MainWindow::InitLevelList()
          
         levelItem = new LevelItemWidget(levelInfo, ui->scrollArea);
         connect(levelItem, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-        horizontalLayout->addWidget(levelItem);
-        /*switch (levelInfo.enType)
-        {
-        case LEVEL_NOMAL_LEVEL:
-        {
-            normal = new LevelNormalWidget(levelInfo, ui->scrollArea);
-            connect(normal, &LevelNormalWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-            horizontalLayout->addWidget(normal);
-        }
-            break;
-        case LEVEL_ENHANCEMENT_TYPE:
-        {
-            enhancement = new LevelEnhancementWidget(levelInfo, ui->scrollArea);
-            connect(enhancement, &LevelEnhancementWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-            horizontalLayout->addWidget(enhancement);
-        }
-            break;
-        case LEVEL_PREMIER_TYPE:
-        {
-            premier = new LevelPremierWidget(levelInfo, ui->scrollArea);
-            connect(premier, &LevelPremierWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
-            horizontalLayout->addWidget(premier);
-        }
-            break;
-        default:
-            break;
-        }*/
+        horizontalLayout->addWidget(levelItem);        
     }
 }
 void MainWindow::InitVipList()
@@ -1931,29 +1905,6 @@ void MainWindow::do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo)
         }
     }
     
-    /*switch (levelInfo.enType)
-    {
-    case LEVEL_NOMAL_LEVEL:
-    {
-        enhancement->setLabelCheckStatus(false);
-        premier->setLabelCheckStatus(false);
-    }
-        break;
-    case LEVEL_ENHANCEMENT_TYPE:
-    {
-        normal->setLabelCheckStatus(false);
-        premier->setLabelCheckStatus(false);
-    }
-        break;
-    case LEVEL_PREMIER_TYPE:
-    {
-        normal->setLabelCheckStatus(false);
-        enhancement->setLabelCheckStatus(false);
-    }
-        break;
-    default:
-        break;
-    }*/
     //设置显示
     /*LevelItemWidget* levelItemWidget = NULL;
     QListWidgetItem* levelItem=NULL;
