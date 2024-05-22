@@ -142,7 +142,7 @@ private slots:
     //组菜单
     void do_DeleteGroupAction(bool bChecked);
     void do_EditGroupNameAction(bool bChecked);
-    void do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName);
+    void do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName, int id);
     //手机菜单
     void do_ActionBeginControl(bool bChecked);
     void do_ActionCopyCloudId(bool bChecked);

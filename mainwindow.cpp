@@ -60,7 +60,7 @@ void MainWindow::do_DeleteGroupAction(bool bChecked)
 
 void MainWindow::do_EditGroupNameAction(bool bChecked)
 {
-    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_UPDATE_GROUP);
+    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_UPDATE_GROUP_WIDGET);
     connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
     createGroupWidget->show();
 }
@@ -138,9 +138,13 @@ void MainWindow::do_ActionCopyCloudId(bool bChecked)
 }
 void MainWindow::do_ActionRename(bool bChecked)
 {
-    int iId = 0;
-    QString strRename;
-    HttpPostInstanceRename(iId, strRename);    
+    QTreeWidgetItem* item = ui->treeWidget->currentItem();
+    if (item == NULL)
+        return;
+    S_PHONE_INFO phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_PHONE_RENAME_WIDGET,phoneInfo.iId, phoneInfo.strName);
+    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
+    createGroupWidget->show();
 }
 void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
 {
@@ -1546,18 +1550,18 @@ void MainWindow::on_btnClose_clicked()
     HttpLogout();
 }
 
-void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName)
+void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName, int id)
 {
     switch (type)
     {
-    case TYPE_CREATE_GROUP:
+    case TYPE_CREATE_GROUP_WIDGET:
     {
         //创建分组
         qDebug() << " 创建分组 strGroupName=" << strGroupName;
         HttpCreateGroup(strGroupName);
     }
     break;
-    case TYPE_UPDATE_GROUP:
+    case TYPE_UPDATE_GROUP_WIDGET:
     {
         //修改分组
         //获取当前选中的item
@@ -1565,6 +1569,12 @@ void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGr
         int iGroupId = item->data(0, Qt::UserRole).toInt();
         qDebug() << " 编辑分组 id=" << iGroupId << "strGroupName=" << strGroupName;
         HttpUpdateGroup(iGroupId, strGroupName);
+    }
+    break;
+    case TYPE_PHONE_RENAME_WIDGET:
+    {
+        //手机重命名
+        HttpPostInstanceRename(id, strGroupName);
     }
     break;
     default:
@@ -1575,7 +1585,7 @@ void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGr
 void MainWindow::on_btnCreateGroup_clicked()
 {
     //新建分组
-    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_CREATE_GROUP);
+    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_CREATE_GROUP_WIDGET);
     connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
     createGroupWidget->show();
 

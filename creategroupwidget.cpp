@@ -2,7 +2,7 @@
 #include "ui_creategroupwidget.h"
 #include "messagetipsdialog.h"
 
-CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, QWidget *parent)
+CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, int id, QString strLineEditText, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CreateGroupWidget)
 {
@@ -10,13 +10,20 @@ CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, QWidget *parent
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);
     m_type = type;
+    m_id = id;
+
     switch (type)
     {
-    case TYPE_CREATE_GROUP:
+    case TYPE_CREATE_GROUP_WIDGET:
         ui->labelTitle->setText("创建分组");
         break;
-    case TYPE_UPDATE_GROUP:
+    case TYPE_UPDATE_GROUP_WIDGET:
         ui->labelTitle->setText("编辑分组名称");
+        break;
+    case TYPE_PHONE_RENAME_WIDGET:
+        ui->labelTitle->setText("重命名");
+        ui->label->setText("云手机名称");
+        ui->lineEditGroupName->setText(strLineEditText);
         break;
     default:
         ui->labelTitle->setText("创建分组");
@@ -41,7 +48,7 @@ void CreateGroupWidget::on_btnOk_clicked()
         return;
     }
 
-    emit createGroupSignals(m_type,strGroupName);
+    emit createGroupSignals(m_type,strGroupName, m_id);
 
     this->close();
 }

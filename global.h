@@ -127,8 +127,9 @@ enum ENUM_LOGIN_STATUS
 
 enum ENUM_CREATE_OR_UPDATA
 {
-    TYPE_CREATE_GROUP = 0,
-    TYPE_UPDATE_GROUP = 1
+    TYPE_CREATE_GROUP_WIDGET = 0,          // 创建分组
+    TYPE_UPDATE_GROUP_WIDGET = 1,          // 编辑分组名称
+    TYPE_PHONE_RENAME_WIDGET = 2           // 实例重命名
 };
 
 typedef struct GROUP_INFO
