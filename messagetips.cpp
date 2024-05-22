@@ -12,8 +12,8 @@ MessageTips::MessageTips(QString showStr,QWidget *parent) : QWidget(parent),
     opacityValue(0.8),
     textSize(12),
     textColor(QColor(255,255,255)),
-    backgroundColor(QColor(34,35,39)),
-    frameColor(QColor(34, 35, 39)),
+    backgroundColor(QColor(88,88,88)),
+    frameColor(QColor(88, 88, 88)),
     frameSize(0),
     showTime(1000),
     closeTime(100),
@@ -25,6 +25,8 @@ MessageTips::MessageTips(QString showStr,QWidget *parent) : QWidget(parent),
     this->setAttribute(Qt::WA_TranslucentBackground); // ****这里很重要****
     this->setAttribute(Qt::WA_TransparentForMouseEvents, true);// 禁止鼠标事件
     this->showStr = showStr;
+    mText->setStyleSheet("QLabel { background: transparent;color:white;}");
+    mText->setAlignment(Qt::AlignCenter);
     hBoxlayout->addWidget(mText);
     InitLayout();
 }
