@@ -7,6 +7,7 @@
 #include <QTreeWidgetItem>
 #include <QListWidgetItem>
 #include <QMouseEvent>
+#include "levelitemwidget.h"
 #include "levelnormalwidget.h"
 #include "levelenhancementwidget.h"
 #include "levelpremierwidget.h"
@@ -55,6 +56,8 @@ private:
     void HttpPostInstanceRename(int iId, QString strName);
     //获取实例截图
     void HttpPostInstanceScreenshot(QStringList strList);
+    //刷新实例截图
+    void HttpPostInstanceScreenshotRefresh(QStringList strList);
 
     //手机实例相关接口
     //获取serverToken
@@ -168,12 +171,13 @@ private:
     QPoint m_dragPosition;
     // QWidget interface
 
+    LevelItemWidget* levelItem;
     LevelNormalWidget* normal;
     LevelEnhancementWidget* enhancement;
     LevelPremierWidget* premier;
 
-    //会员列表
-    QMap<LEVEL_TYPE,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;
+    //int会员等级id,会员列表
+    QMap<int,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;
 
     //组列表
     QMenu* m_menu;

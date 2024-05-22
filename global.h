@@ -58,16 +58,10 @@
 #define         ITEM_WIDGET_LEVEL_HEIGHT        202
 #define         ITEM_LEVEL_LABELCHECK_WIDTH     36
 #define         ITEM_LEVEL_LABELCHECK_HEIGHT    36
-enum LEVEL_TYPE
-{
-    LEVEL_NOMAL_LEVEL = 1,          //标准型
-    LEVEL_ENHANCEMENT_TYPE = 2,     //增强型
-    LEVEL_PREMIER_TYPE = 3          //尊享型
-};
 
 typedef struct LEVEL_INFO
 {
-    LEVEL_TYPE enType;
+    int     iLevelId;
     QString strLevelName;       //等级名称
     QString strLevelRemark;     //等级描述
     QString strFunction;        //功能描述
@@ -101,7 +95,6 @@ typedef struct LEVEL_DATA_INFO
     }
 }S_LEVEL_DATA_INFO,*PS_LEVEL_DATA_INFO;
 
-QString getLevelTypeToText(LEVEL_TYPE levelType);
 //vip item
 #define         ITEM_WIDGET_VIP_WIDTH           100
 #define         ITEM_WIDGET_VIP_HEIGHT          120

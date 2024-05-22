@@ -1,11 +1,8 @@
 #include "levelitemwidget.h"
 #include "ui_levelitemwidget.h"
-#include <QPalette>
 #include "global.h"
-#include "vipitemwidget.h"
-#include <QListWidgetItem>
 
-LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo,/*LEVEL_TYPE enType, */ QString strImage, QWidget* parent)
+LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::LevelItemWidget)
 {
@@ -16,13 +13,14 @@ LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo,/*LEVEL_TYPE enType, */ 
     m_labelCheck->setPixmap(QPixmap(":/main/resource/main/levelCheck.png"));
     m_labelCheck->resize(ITEM_LEVEL_LABELCHECK_WIDTH, ITEM_LEVEL_LABELCHECK_HEIGHT);
 
-    m_levelType = levelInfo.enType;
+    m_levelInfo = levelInfo;
     m_labelCheck->move(this->width()-m_labelCheck->width(), 0);
     m_labelCheck->setVisible(false);
     m_labelCheck->setParent(ui->toolButtonBG);
+    m_labelCheck->setStyleSheet("border:none;background:transparent;");
 
-    QString strStyleSheet = QString("QToolButton{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
-    ui->toolButtonBG->setStyleSheet(strStyleSheet);
+    //QString strStyleSheet = QString("QToolButton{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
+    ui->toolButtonBG->setStyleSheet("QToolButton{background-image: url(:/main/resource/main/level_normal.png);border: none;}");
     /*QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     ui->labelBg->setStyleSheet(strStyleSheet);*/
 
@@ -34,6 +32,11 @@ LevelItemWidget::~LevelItemWidget()
 {
     qDebug()<<"delete LevelItemWidget";
     delete ui;
+}
+
+S_LEVEL_INFO LevelItemWidget::getLevelInfo()
+{
+    return m_levelInfo;
 }
 
 void LevelItemWidget::setLabelCheckStatus(bool bCheck)
@@ -48,6 +51,6 @@ void LevelItemWidget::on_toolButtonBG_clicked()
     m_labelCheck->setVisible(true);
     //ui->labelCheck->setVisible(true);
     //ui->toolButtonBG->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border - radius:3px;background-image:url(:/main/main/level_enhancenment.png);}");
-    emit selectLevelTypeSignals(m_levelType);
+    emit selectLevelTypeSignals(m_levelInfo);
 }
 

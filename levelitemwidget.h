@@ -14,16 +14,17 @@ class LevelItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit LevelItemWidget(S_LEVEL_INFO levelInfo, QString strImage, QWidget* parent = nullptr);
+    explicit LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent = nullptr);
     ~LevelItemWidget();
 
     void setLabelCheckStatus(bool bCheck);
+    S_LEVEL_INFO getLevelInfo();
 
 signals:
-    void selectLevelTypeSignals(LEVEL_TYPE enType);
+    void selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
 private:
     Ui::LevelItemWidget *ui;
-    LEVEL_TYPE m_levelType;
+    S_LEVEL_INFO m_levelInfo;
     QLabel* m_labelCheck;
     levelChildWidget* m_childWidget;
     // QObject interface

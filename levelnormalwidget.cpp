@@ -1,7 +1,7 @@
 #include "levelnormalwidget.h"
 #include "ui_levelnormalwidget.h"
 
-LevelNormalWidget::LevelNormalWidget(S_LEVEL_INFO levelInfo/*LEVEL_TYPE enType*/, QWidget* parent)
+LevelNormalWidget::LevelNormalWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::LevelNormalWidget)
 {

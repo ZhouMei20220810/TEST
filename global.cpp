@@ -19,27 +19,6 @@ QString GlobalData::md5(const QString &str) {
     return hash.result().toHex();
 }
 
-QString getLevelTypeToText(LEVEL_TYPE levelType)
-{
-    QString strText;
-    switch (levelType)
-    {
-    case LEVEL_NOMAL_LEVEL:
-        strText = "VIP";
-        break;
-    case LEVEL_ENHANCEMENT_TYPE:
-        strText = "GVIP";
-        break;
-    case LEVEL_PREMIER_TYPE:
-        strText = "KVIP";
-        break;
-    default:
-        strText = "VIP";
-        break;
-    }
-    return strText;
-}
-
 std::string sha256(const std::string str)
 {
     char buf[2];

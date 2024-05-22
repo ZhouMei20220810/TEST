@@ -219,8 +219,10 @@
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="messagetips.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
+    <ClCompile Include="phoneinstancewidget.cpp" />
     <ClCompile Include="phoneitemwidget.cpp" />
     <ClCompile Include="policydialog.cpp" />
     <ClCompile Include="registerpage.cpp" />
@@ -245,8 +247,10 @@
     <QtMoc Include="levelpremierwidget.h" />
     <QtMoc Include="loginwindow.h" />
     <QtMoc Include="mainwindow.h" />
+    <QtMoc Include="messagetips.h" />
     <QtMoc Include="messagetipsdialog.h" />
     <QtMoc Include="passwordloginpage.h" />
+    <QtMoc Include="phoneinstancewidget.h" />
     <QtMoc Include="phoneitemwidget.h" />
     <QtMoc Include="policydialog.h" />
     <QtMoc Include="registerpage.h" />
@@ -288,6 +292,7 @@
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="messagetipsdialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
+    <QtUic Include="phoneinstancewidget.ui" />
     <QtUic Include="phoneitemwidget.ui" />
     <QtUic Include="policydialog.ui" />
     <QtUic Include="registerpage.ui" />
@@ -336,6 +341,7 @@
     <None Include="resource\main\control_contraction.png" />
     <None Include="resource\main\control_expansion.png" />
     <None Include="resource\main\customer.png" />
+    <None Include="resource\main\defaultSceenShot.png" />
     <None Include="resource\main\default_photoUrl.png" />
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />

@@ -213,6 +213,83 @@ void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
         reply->deleteLater();
         });
 }
+
+//刷新实例截图
+void MainWindow::HttpPostInstanceScreenshotRefresh(QStringList strList)
+{
+    int iSize = strList.size();
+    if (iSize <= 0)
+        return;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_INSTANCE_SCREENSHOT_REFRESH;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonArray listArray;
+    for (int i = 0; i < iSize; i++)
+    {
+        listArray.append(strList.at(i));
+    }
+    //doc.setObject(listArray);
+    doc.setArray(listArray);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                QString data = obj["data"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    //保存图片到本地
+                    if (data.isEmpty())
+                    {
+                        //使用默认图片
+                    }
+                    else
+                    {
+                        //刷新实例图
+                    }
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+    });
+}
 //手机菜单
 void MainWindow::do_ActionBeginControl(bool bChecked)
 {
@@ -460,7 +537,7 @@ void MainWindow::InitLevelList()
     horizontalLayout->setSpacing(50);
 
     S_LEVEL_INFO levelInfo;
-    QMap<LEVEL_TYPE, QMap<int, S_LEVEL_DATA_INFO>>::iterator iter = m_mapLevel.begin();
+    QMap<int, QMap<int, S_LEVEL_DATA_INFO>>::iterator iter = m_mapLevel.begin();
     QMap<int, S_LEVEL_DATA_INFO> data;
     QMap<int, S_LEVEL_DATA_INFO>::iterator iterData;
     for (; iter != m_mapLevel.end(); iter++)
@@ -468,10 +545,14 @@ void MainWindow::InitLevelList()
         data = *iter;
         iterData = data.begin();
         //iterData = iter->value().begin();
-        levelInfo.enType = (LEVEL_TYPE)iterData->iLevelId;
+        levelInfo.iLevelId = iterData->iLevelId;
         levelInfo.strLevelRemark = iterData->strLevelRemark;
         levelInfo.strLevelName = iterData->strLevelName;
-        switch (levelInfo.enType)
+         
+        levelItem = new LevelItemWidget(levelInfo, ui->scrollArea);
+        connect(levelItem, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+        horizontalLayout->addWidget(levelItem);
+        /*switch (levelInfo.enType)
         {
         case LEVEL_NOMAL_LEVEL:
         {
@@ -496,7 +577,7 @@ void MainWindow::InitLevelList()
             break;
         default:
             break;
-        }
+        }*/
     }
 }
 void MainWindow::InitVipList()
@@ -1046,7 +1127,7 @@ void MainWindow::HttpMemberLevelListData()
                                 sLevelData.strLevelRemark = member["levelRemark"].toString();
                                 mapData.insert(sLevelData.iMemberId, sLevelData);
                             }
-                            m_mapLevel.insert((LEVEL_TYPE)sLevelData.iLevelId, mapData);
+                            m_mapLevel.insert(sLevelData.iLevelId, mapData);
                         }
 
                         //初始化界面数据
@@ -1836,8 +1917,18 @@ void MainWindow::on_btnBeginPay_clicked()
 //level item 
 void MainWindow::do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo)
 {
-    qDebug() << "click do_selectLevelTypeSignals level Type="<< levelInfo.enType;
-    switch (levelInfo.enType)
+    qDebug() << "click do_selectLevelTypeSignals level Type="<< levelInfo.iLevelId;
+    //获取QScrollBar的所有列表
+    QList<LevelItemWidget*> levelItemList = ui->scrollAreaWidgetContents->findChildren<LevelItemWidget*>();
+    foreach(LevelItemWidget* levelItem, levelItemList) 
+    {
+        if (levelItem->getLevelInfo().iLevelId != levelInfo.iLevelId)
+        {
+            levelItem->setLabelCheckStatus(false);
+        }
+    }
+    
+    /*switch (levelInfo.enType)
     {
     case LEVEL_NOMAL_LEVEL:
     {
@@ -1859,7 +1950,7 @@ void MainWindow::do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo)
         break;
     default:
         break;
-    }
+    }*/
     //设置显示
     /*LevelItemWidget* levelItemWidget = NULL;
     QListWidgetItem* levelItem=NULL;
@@ -1891,10 +1982,10 @@ void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
     //清空列表
     ui->listWidgetVIP->clear();
 
-    QMap<LEVEL_TYPE, QMap<int, S_LEVEL_DATA_INFO>>::iterator iterFind = m_mapLevel.find(levelInfo.enType);
+    QMap<int, QMap<int, S_LEVEL_DATA_INFO>>::iterator iterFind = m_mapLevel.find(levelInfo.iLevelId);
     if (iterFind != m_mapLevel.end())
     {
-        qDebug() << "加载vip列表 enType=" << levelInfo.enType;
+        qDebug() << "加载vip列表 enType=" << levelInfo.iLevelId;
         //加载套餐列表
         //ui->listWidgetVIP
         ui->label_2->setText(QString("%1套餐").arg(levelInfo.strLevelName));
