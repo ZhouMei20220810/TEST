@@ -33,6 +33,7 @@ SOURCES += \
     main.cpp \
     loginwindow.cpp \
     mainwindow.cpp \
+    messagetips.cpp \
     messagetipsdialog.cpp \
     passwordloginpage.cpp \
     phoneitemwidget.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     levelpremierwidget.h \
     loginwindow.h \
     mainwindow.h \
+    messagetips.h \
     messagetipsdialog.h \
     passwordloginpage.h \
     phoneitemwidget.h \

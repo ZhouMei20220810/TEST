@@ -50,8 +50,11 @@ private:
     //注销
     void HttpLogout();
 
+    //手机实例相关接口
     //实例重命名
     void HttpPostInstanceRename(int iId, QString strName);
+    //获取实例截图
+    void HttpPostInstanceScreenshot(QStringList strList);
 
     //手机实例相关接口
     //获取serverToken
@@ -174,7 +177,18 @@ private:
 
     //组列表
     QMenu* m_menu;
+
     QMenu* m_PhoneMenu;
+    QAction* pActionBeginControl;
+    QAction* pActionCopyCloudId;
+    QAction* pActionRename;
+    QAction* pActionRestartCloudPhone;
+    QAction* pActionNewPhone;
+    QAction* pActionFactoryDataReset;
+    QAction* pActionUploadFile;
+    QAction* pActionMoveGroup;
+    QAction* pActionRenewCloudPhone;
+
     QTreeWidgetItem* m_pCurItem;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;

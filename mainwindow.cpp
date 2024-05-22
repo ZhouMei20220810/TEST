@@ -24,6 +24,8 @@
 #include "qrencode.h"
 #include <QPainter>
 #include "individualcenterwidget.h"
+#include <QClipboard>
+#include "messagetips.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -133,12 +135,100 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
         });
 }
 
+//获取实例截图
+void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
+{
+    int iSize = strList.size();
+    if (iSize <= 0)
+        return;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_INSTANCE_SCREENSHOT;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonArray listArray;
+    for (int i = 0; i < iSize; i++)
+    {
+        listArray.append(strList.at(i));
+    }    
+    //doc.setObject(listArray);
+    doc.setArray(listArray);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                QString data = obj["data"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    //保存图片到本地
+                    if (data.isEmpty())
+                    {
+                        //使用默认图片
+                    }
+                    else
+                    {
+                        //更新界面图
+                    }
+                    //MessageTipsDialog* tips = new MessageTipsDialog("获取实例截图成功!", this);
+                    //tips->show();
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
 //手机菜单
 void MainWindow::do_ActionBeginControl(bool bChecked)
 {
 }
 void MainWindow::do_ActionCopyCloudId(bool bChecked)
 {
+    m_pCurItem = ui->treeWidget->currentItem();
+    if (m_pCurItem == NULL)
+        return;
+
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+    QClipboard* clipboard = QApplication::clipboard();
+    clipboard->setText(phoneInfo.strInstanceNo);
+
+    MessageTips* tips = new MessageTips("复制成功", this);
+    tips->show();
 }
 void MainWindow::do_ActionRename(bool bChecked)
 {
@@ -189,15 +279,15 @@ void MainWindow::InitCloudPhoneTab()
 
     //手机右键菜单
     m_PhoneMenu = new QMenu(ui->treeWidget);
-    QAction* pActionBeginControl = new QAction("开始控制");
-    QAction* pActionCopyCloudId = new QAction("复制云号");
-    QAction* pActionRename = new QAction("重命名");
-    QAction* pActionRestartCloudPhone = new QAction("重启云手机");
-    QAction* pActionNewPhone = new QAction("一键新机");
-    QAction* pActionFactoryDataReset = new QAction("恢复出厂设置");
-    QAction* pActionUploadFile = new QAction("上传文件");
-    QAction* pActionMoveGroup = new QAction("移动分组");
-    QAction* pActionRenewCloudPhone = new QAction("续费云手机");
+    pActionBeginControl = new QAction("开始控制",ui->treeWidget);
+    pActionCopyCloudId = new QAction("复制云号", ui->treeWidget);
+    pActionRename = new QAction("重命名", ui->treeWidget);
+    pActionRestartCloudPhone = new QAction("重启云手机", ui->treeWidget);
+    pActionNewPhone = new QAction("一键新机", ui->treeWidget);
+    pActionFactoryDataReset = new QAction("恢复出厂设置", ui->treeWidget);
+    pActionUploadFile = new QAction("上传文件", ui->treeWidget);
+    pActionMoveGroup = new QAction("移动分组", ui->treeWidget);
+    pActionRenewCloudPhone = new QAction("续费云手机", ui->treeWidget);
     connect(pActionBeginControl, &QAction::triggered, this, &MainWindow::do_ActionBeginControl);
     connect(pActionCopyCloudId, &QAction::triggered, this, &MainWindow::do_ActionCopyCloudId);
     connect(pActionRename, &QAction::triggered, this, &MainWindow::do_ActionRename);
@@ -608,7 +698,7 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     qDebug() << "phone id" << iter->iId << " name=" << iter->strName;
                     //phoneItem->setData(0, Qt::UserRole, iter->iId);
                     phoneItem->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
-                    phoneItem->setText(0, iter->strName);
+                    phoneItem->setText(0, iter->strName /* + iter->strExpireTime */ );
                     phoneItem->setCheckState(0, Qt::Checked);
                     item->addChild(phoneItem);
                 }
@@ -1608,9 +1698,6 @@ void MainWindow::on_btnGroupRefresh_clicked()
     //重新加载列表
     //HttpQueryAllGroup();
 
-    //测试获取SeverToken接口
-    //HttpGetMyPhoneInstance();
-
     //调试我的实例等级接口
     HttpGetMyInstanceLevel();
 }
@@ -2106,12 +2193,17 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
         //请求获取组下面的手机实例
         //HttpGetMyPhoneInstance(iGroupId,1,10,0);
-
+        //获取实例截图
+        QStringList strList;
+        strList << phoneInfo.strInstanceNo;
+        HttpPostInstanceScreenshot(strList);
     }
     else
     {
         int iGroupId = item->data(0, Qt::UserRole).toInt();
         qDebug() << "当前选中groupId=" << iGroupId;
+
+
     }
 }
 
@@ -2126,8 +2218,12 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
 {
     if(qApp->mouseButtons() == Qt::RightButton) // 只针对鼠标右键
     {
-        if(item->parent() != NULL)
+        if (item->parent() != NULL)
+        {
+            S_PHONE_INFO phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+            pActionCopyCloudId->setText("复制云号[" + phoneInfo.strInstanceNo+"]");
             m_PhoneMenu->exec(QCursor::pos());
+        }            
         else
             m_menu->exec(QCursor::pos());
     }
