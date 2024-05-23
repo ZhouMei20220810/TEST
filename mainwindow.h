@@ -166,6 +166,8 @@ private slots:
 
     //一分钟响应一次
     void do_timeoutRefreshPicture();
+    void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

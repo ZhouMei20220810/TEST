@@ -908,18 +908,27 @@ void MainWindow::ShowTaskInfo()
         return;
 
     int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        qDebug() << "ShowTaskInfo ui->listWidget 已清空";
+        return;
+    }
+        
     QListWidgetItem* item = NULL;
     PhoneItemWidget* phoneItem = NULL;
     S_PHONE_INFO phoneInfo;
     for (int i = 0; i < iCount; i++)
     {
         item = ui->listWidget->item(i);
-        phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-        phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
-        if (phoneItem != NULL)
+        if (item != NULL)
         {
-            phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
-        }
+            phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
+            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
+            {
+                phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
+            }
+        }        
     }
     /*ui->listWidget->clear();
     PhoneItemWidget* widget = NULL;
@@ -2372,79 +2381,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         pChildItem = item->child(i);
         //item->setIcon(0, QIcon(":/login/resource/login/option_select.png"));
         pChildItem->setCheckState(0,item->checkState(0));
-    }
-
-    S_PHONE_INFO phoneInfo;
-    QStringList strList;
-    strList.clear();
-    if (item->parent() != NULL)
-    {
-        //获取节点数据
-        S_PHONE_INFO phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-        qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
-
-        strList << phoneInfo.strInstanceNo;
-
-        ui->listWidget->clear();
-        PhoneItemWidget* widget = NULL;
-        QListWidgetItem* phoneItem = NULL;
-        //重新显示listWidget
-        widget = new PhoneItemWidget(phoneInfo, this);
-        phoneItem = new QListWidgetItem(ui->listWidget);
-        phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-        ui->listWidget->addItem(phoneItem);
-        ui->listWidget->setItemWidget(phoneItem, widget);
-    }
-    else
-    {
-        S_GROUP_INFO groupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
-        qDebug() << "当前选中groupId=" << groupInfo.iGroupId;
-        if (groupInfo.iGroupNum <= 0)
-        {
-            m_TaskTimer->stop();
-            ui->listWidget->clear();
-            PhoneItemNoDataWidget* noData = new PhoneItemNoDataWidget(this);
-            QListWidgetItem* phoneItem = new QListWidgetItem(ui->listWidget);
-            phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-            ui->listWidget->addItem(phoneItem);
-            ui->listWidget->setItemWidget(phoneItem, noData);
-            return;
-        }
-        else
-        {
-            ui->listWidget->clear();
-            PhoneItemWidget* widget = NULL;
-            QListWidgetItem* phoneItem = NULL;
-
-            //获取组的所有子节点
-            int count = item->childCount();
-            QTreeWidgetItem* child = NULL;
-            for (int i = 0; i < count; ++i)
-            {
-                child = item->child(i);
-                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-                strList << phoneInfo.strInstanceNo;
-                qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
-
-                //重新显示listWidget
-                widget = new PhoneItemWidget(phoneInfo,this);
-                phoneItem = new QListWidgetItem(ui->listWidget);
-                phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-                phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-                ui->listWidget->addItem(phoneItem);
-                ui->listWidget->setItemWidget(phoneItem, widget);
-            }
-        }
-    }
-
-    //生成截图
-    if (strList.size() > 0)
-    {
-        m_TaskTimer->start(TIMER_INTERVAL);
-        m_listInstanceNo = strList;
-        HttpPostInstanceScreenshotRefresh(strList);
-    }    
+    }        
 }
 
 
@@ -2479,3 +2416,82 @@ void MainWindow::do_timeoutRefreshPicture()
     //获取选中分组的所有手机
     HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
 }
+
+void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    if(current == previous)
+        return;
+
+    S_PHONE_INFO phoneInfo;
+    QStringList strList;
+    strList.clear();
+    if (current->parent() != NULL)
+    {
+        //获取节点数据
+        S_PHONE_INFO phoneInfo = current->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+        qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
+
+        strList << phoneInfo.strInstanceNo;
+
+        ui->listWidget->clear();
+        PhoneItemWidget* widget = NULL;
+        QListWidgetItem* phoneItem = NULL;
+        //重新显示listWidget
+        widget = new PhoneItemWidget(phoneInfo, this);
+        phoneItem = new QListWidgetItem(ui->listWidget);
+        phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+        ui->listWidget->addItem(phoneItem);
+        ui->listWidget->setItemWidget(phoneItem, widget);
+    }
+    else
+    {
+        S_GROUP_INFO groupInfo = current->data(0, Qt::UserRole).value<S_GROUP_INFO>();
+        qDebug() << "当前选中groupId=" << groupInfo.iGroupId;
+        if (groupInfo.iGroupNum <= 0)
+        {
+            m_TaskTimer->stop();
+            ui->listWidget->clear();
+            PhoneItemNoDataWidget* noData = new PhoneItemNoDataWidget(this);
+            QListWidgetItem* phoneItem = new QListWidgetItem(ui->listWidget);
+            phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            ui->listWidget->addItem(phoneItem);
+            ui->listWidget->setItemWidget(phoneItem, noData);
+            return;
+        }
+        else
+        {
+            ui->listWidget->clear();
+            PhoneItemWidget* widget = NULL;
+            QListWidgetItem* phoneItem = NULL;
+
+            //获取组的所有子节点
+            int count = current->childCount();
+            QTreeWidgetItem* child = NULL;
+            for (int i = 0; i < count; ++i)
+            {
+                child = current->child(i);
+                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+                strList << phoneInfo.strInstanceNo;
+                qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
+
+                //重新显示listWidget
+                widget = new PhoneItemWidget(phoneInfo,this);
+                phoneItem = new QListWidgetItem(ui->listWidget);
+                phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+                ui->listWidget->addItem(phoneItem);
+                ui->listWidget->setItemWidget(phoneItem, widget);
+            }
+        }
+    }
+
+    //生成截图
+    if (strList.size() > 0)
+    {
+        m_TaskTimer->start(TIMER_INTERVAL);
+        m_listInstanceNo = strList;
+        HttpPostInstanceScreenshotRefresh(strList);
+    }
+}
+
