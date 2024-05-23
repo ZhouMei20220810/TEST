@@ -28,6 +28,7 @@
 #include "individualcenterwidget.h"
 #include <QClipboard>
 #include "messagetips.h"
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -189,7 +190,7 @@ void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                qDebug() << "获取实例截图Code=" << iCode << "message=" << strMessage << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //更新界面图
@@ -206,6 +207,7 @@ void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
                             taskInfo.fTaskStatus = dataObj["taskStatus"].toDouble();
                             taskInfo.strUrl = dataObj["url"].toString();
                             taskInfo.strPadCode = dataObj["padCode"].toString();
+                            qDebug() << "任务返回数据 No" << taskInfo.strPadCode << "下载图片地址:" << taskInfo.strUrl;
                             m_mapTask.insert(taskInfo.strPadCode, taskInfo);
                         }
                     }
@@ -275,10 +277,12 @@ void MainWindow::HttpPostInstanceScreenshotRefresh(QStringList strList)
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
                 QString data = obj["data"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                qDebug() << "刷新实例截图 Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //获取截图
+                    QThread::sleep(6);//延迟6秒
+
                     HttpPostInstanceScreenshot(strList);
                     //保存图片到本地
                 }
@@ -818,8 +822,8 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     QTreeWidgetItemIterator it(ui->treeWidget);
     S_GROUP_INFO sGroupInfo;
 
-    QListWidgetItem* phoneListItem;
-    PhoneItemWidget* widget = NULL;
+    //QListWidgetItem* phoneListItem;
+    //PhoneItemWidget* widget = NULL;
     while (*it) 
     {
         item = *it;
@@ -846,12 +850,12 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     item->addChild(phoneItem);
 
 
-                    phoneListItem = new QListWidgetItem(ui->listWidget);
+                    /*phoneListItem = new QListWidgetItem(ui->listWidget);
                     widget = new PhoneItemWidget(*iter, this);
                     phoneListItem->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                     phoneListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
                     ui->listWidget->addItem(phoneListItem);
-                    ui->listWidget->setItemWidget(phoneListItem, widget);
+                    ui->listWidget->setItemWidget(phoneListItem, widget);*/
                 }
                 break;
             }
