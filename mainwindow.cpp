@@ -77,8 +77,8 @@ MainWindow::~MainWindow()
 void MainWindow::do_DeleteGroupAction(bool bChecked)
 {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
-    int iGroupId = item->data(0, Qt::UserRole).toInt();
-    HttpDeleteGroup(iGroupId);
+    S_GROUP_INFO groupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
+    HttpDeleteGroup(groupInfo.iGroupId);
 }
 
 void MainWindow::do_EditGroupNameAction(bool bChecked)
@@ -961,7 +961,6 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
             // 例如：
             qDebug() << item->text(0);
 
-            //iId = item->data(0, Qt::UserRole).toInt();
             sGroupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
             if (iGroupId == sGroupInfo.iGroupId)
             {
@@ -1988,9 +1987,9 @@ void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGr
         //修改分组
         //获取当前选中的item
         QTreeWidgetItem* item = ui->treeWidget->currentItem();
-        int iGroupId = item->data(0, Qt::UserRole).toInt();
-        qDebug() << " 编辑分组 id=" << iGroupId << "strGroupName=" << strGroupName;
-        HttpUpdateGroup(iGroupId, strGroupName);
+        S_GROUP_INFO groupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
+        qDebug() << " 编辑分组 id=" << groupInfo.iGroupId << "strGroupName=" << strGroupName;
+        HttpUpdateGroup(groupInfo.iGroupId, strGroupName);
     }
     break;
     case TYPE_PHONE_RENAME_WIDGET:
