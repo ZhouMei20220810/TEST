@@ -8,6 +8,7 @@
 #include <QUrlQuery>
 #include "mainwindow.h"
 #include "messagetipsdialog.h"
+#include <QSettings>
 
 SMSLoginPage::SMSLoginPage(QWidget *parent)
     : QWidget(parent)
@@ -16,7 +17,9 @@ SMSLoginPage::SMSLoginPage(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
 
-    ui->lineEditPhone->setText("15019445205");
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    QString strAccount = setting.value("account", "").toString();
+    ui->lineEditPhone->setText(strAccount);
 }
 
 SMSLoginPage::~SMSLoginPage()

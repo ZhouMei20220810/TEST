@@ -11,9 +11,6 @@
 #include <QSettings>
 #include "messagetipsdialog.h"
 
-#define     ORGANIZATION_NAME       "YSY"
-#define     APPLICATION_NAME        "YSY STUDIO"
-
 PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PasswordLoginPage)

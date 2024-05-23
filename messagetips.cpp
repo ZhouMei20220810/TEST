@@ -22,6 +22,7 @@ MessageTips::MessageTips(QString showStr,QWidget *parent) : QWidget(parent),
     mText(new QLabel(this))
 {
     setWindowFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint|Qt::Tool|Qt::X11BypassWindowManagerHint);
+    this->setAttribute(Qt::WA_DeleteOnClose, true);
     this->setAttribute(Qt::WA_TranslucentBackground); // ****这里很重要****
     this->setAttribute(Qt::WA_TransparentForMouseEvents, true);// 禁止鼠标事件
     this->showStr = showStr;

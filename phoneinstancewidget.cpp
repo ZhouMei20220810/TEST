@@ -6,6 +6,8 @@ PhoneInstanceWidget::PhoneInstanceWidget(QWidget *parent)
     , ui(new Ui::PhoneInstanceWidget)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose, true);
+
     ui->toolBtnShow->setVisible(false);
     //ui->frame_2->setVisible(true);
 }

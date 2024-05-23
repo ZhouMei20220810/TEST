@@ -7,6 +7,8 @@ LogoutDialog::LogoutDialog(QWidget *parent) :
     ui(new Ui::MyDialog)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose, true);
+
     this->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowSystemMenuHint );
     //GlobalData::setToolButtonSize(ui->toolButton3);
     setWindowFlags(Qt::Tool);

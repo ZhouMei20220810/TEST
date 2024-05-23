@@ -41,7 +41,8 @@
 #define HTTP_SET_INSTANCE_NAME      "/api/user/setName"     // 实例名称修改
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
-
+#define     ORGANIZATION_NAME       "YSY"
+#define     APPLICATION_NAME        "YSY STUDIO"
 #define OPEN_ZHIFUBAO_TEMP_FILE_NAME "ysy.html"
 
 #define HTTP_SUCCESS_CODE           200
