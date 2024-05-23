@@ -2,6 +2,7 @@
 #define UPLOADFILEDIALOG_H
 
 #include <QDialog>
+#include <QListWidget>
 
 namespace Ui {
 class UploadFileDialog;
@@ -28,6 +29,8 @@ private slots:
     void on_toolBtnUpload_clicked();
 
 private:
+    void InitWidget(QListWidget* listWidget);
+
     void SelectFile();
     void uploadFile();
 
