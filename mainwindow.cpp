@@ -387,7 +387,71 @@ void MainWindow::HttpPostInstanceReboot(QStringList strList)
 //实例重置
 void MainWindow::HttpPostInstanceReset(QStringList strList)
 {
+    int iSize = strList.size();
+    if (iSize <= 0)
+        return;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_INSTANCE_RESET;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonArray listArray;
+    for (int i = 0; i < iSize; i++)
+    {
+        listArray.append(strList.at(i));
+    }
+    //doc.setObject(listArray);
+    doc.setArray(listArray);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
 
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                QString data = obj["data"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog("实例重置操作成功!");
+                    tips->show();
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 
 //设置实例分组
@@ -450,8 +514,7 @@ void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
                 qDebug() << "Code=" << iCode << "message=" << strMessage <<"json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode && bData)
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog("设置分组成功!");
-                    tips->show();
+                    HttpQueryAllGroup();
                 }
                 else
                 {
@@ -510,6 +573,15 @@ void MainWindow::do_ActionNewPhone(bool bChecked)
 }
 void MainWindow::do_ActionFactoryDataReset(bool bChecked)
 {
+    m_pCurItem = ui->treeWidget->currentItem();
+    if (m_pCurItem == NULL)
+        return;
+
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+
+    QStringList strList;
+    strList << phoneInfo.strInstanceNo;
+    HttpPostInstanceReset(strList);
 }
 void MainWindow::do_ActionUploadFile(bool bChecked)
 {
