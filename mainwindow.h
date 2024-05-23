@@ -189,6 +189,8 @@ private:
     QMenu* m_menu;
 
     QMenu* m_PhoneMenu;
+    QMenu* m_SubPhoneMenu;
+
     QAction* pActionBeginControl;
     QAction* pActionCopyCloudId;
     QAction* pActionRename;
@@ -196,7 +198,7 @@ private:
     QAction* pActionNewPhone;
     QAction* pActionFactoryDataReset;
     QAction* pActionUploadFile;
-    QAction* pActionMoveGroup;
+    //QAction* pActionMoveGroup;
     QAction* pActionRenewCloudPhone;
 
     QTreeWidgetItem* m_pCurItem;

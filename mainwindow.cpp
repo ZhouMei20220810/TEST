@@ -425,6 +425,12 @@ void MainWindow::do_ActionUploadFile(bool bChecked)
 }
 void MainWindow::do_ActionMoveGroup(bool bChecked)
 {
+    QAction* pAction = qobject_cast<QAction*>(sender());
+    if (pAction != NULL)
+    {
+        S_GROUP_INFO groupInfo = pAction->data().value<S_GROUP_INFO>();
+        qDebug() << "当前选中 分组名称" << groupInfo.strGroupName;
+    }
 }
 void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 {
@@ -459,7 +465,7 @@ void MainWindow::InitCloudPhoneTab()
     pActionNewPhone = new QAction("更换云机", ui->treeWidget);
     pActionFactoryDataReset = new QAction("恢复出厂设置", ui->treeWidget);
     pActionUploadFile = new QAction("上传文件", ui->treeWidget);
-    pActionMoveGroup = new QAction("移动分组", ui->treeWidget);
+    //pActionMoveGroup = new QAction("移动分组", ui->treeWidget);    
     pActionRenewCloudPhone = new QAction("续费云手机", ui->treeWidget);
     connect(pActionBeginControl, &QAction::triggered, this, &MainWindow::do_ActionBeginControl);
     connect(pActionCopyCloudId, &QAction::triggered, this, &MainWindow::do_ActionCopyCloudId);
@@ -467,8 +473,8 @@ void MainWindow::InitCloudPhoneTab()
     connect(pActionRestartCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRestartCloudPhone);
     connect(pActionNewPhone, &QAction::triggered, this, &MainWindow::do_ActionNewPhone);
     connect(pActionFactoryDataReset, &QAction::triggered, this, &MainWindow::do_ActionFactoryDataReset);
-    connect(pActionUploadFile, &QAction::triggered, this, &MainWindow::do_ActionUploadFile);
-    connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
+    connect(pActionUploadFile, &QAction::triggered, this, &MainWindow::do_ActionUploadFile);    
+    //connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
     connect(pActionRenewCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRenewCloudPhone);
     m_PhoneMenu->addAction(pActionBeginControl);
     m_PhoneMenu->addAction(pActionCopyCloudId);
@@ -478,7 +484,8 @@ void MainWindow::InitCloudPhoneTab()
     m_PhoneMenu->addAction(pActionNewPhone);
     m_PhoneMenu->addAction(pActionFactoryDataReset);
     m_PhoneMenu->addAction(pActionUploadFile);
-    m_PhoneMenu->addAction(pActionMoveGroup);
+    m_SubPhoneMenu = m_PhoneMenu->addMenu("移动分组");
+    //m_PhoneMenu->addAction(pActionMoveGroup);
     m_PhoneMenu->addSeparator();
     m_PhoneMenu->addAction(pActionRenewCloudPhone);
 
@@ -785,10 +792,12 @@ void MainWindow::ShowGroupInfo()
     if(m_mapGroupInfo.size() <= 0)
         return;
 
+    m_SubPhoneMenu->clear();
     QTreeWidgetItem* item = NULL;
     QTreeWidgetItem* child = NULL;
     QMap<int, S_GROUP_INFO>::iterator iter = m_mapGroupInfo.begin();
     QString strNewGroupName;
+    QAction* pAction = NULL;
     for( ; iter != m_mapGroupInfo.end(); iter++)
     {
         item = new QTreeWidgetItem(ui->treeWidget);
@@ -801,6 +810,12 @@ void MainWindow::ShowGroupInfo()
         //item->setIcon(0, QIcon(":/login/resource/login/option_normal.png"));
         item->setCheckState(0, Qt::Checked);
         ui->treeWidget->addTopLevelItem(item);
+
+        //初始化子菜单
+        pAction = new QAction(iter->strGroupName, ui->treeWidget);
+        pAction->setData(QVariant::fromValue(*iter));
+        connect(pAction, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
+        m_SubPhoneMenu->addAction(pAction);
 
         if (iter->iGroupNum > 0)
         {
@@ -826,6 +841,7 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     if (mapPhoneInfo.size() <= 0)
         return;    
 
+    ui->listWidget->clear();
     int iId = 0;
     QTreeWidgetItem* item;
     QTreeWidgetItem* phoneItem;
