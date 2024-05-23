@@ -10,6 +10,9 @@ QString GlobalData::strMobile = "";
 QString GlobalData::strName = "";
 QString GlobalData::strPhotoUrl = "";
 QString GlobalData::strQrcode = "";
+
+int GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;
+int GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
 //QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
 
 

@@ -44,7 +44,7 @@
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     DOWNLOAD_SCREENSHOT_INTERVAL (6*1000)       //下载截图间隔
-#define     TIMER_INTERVAL          (20*1000)//测试时间20s //(60*1000)               //正式时间
+#define     TIMER_INTERVAL          (60*1000)               //正式时间
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
 #define OPEN_ZHIFUBAO_TEMP_FILE_NAME "ysy.html"
@@ -209,6 +209,9 @@ public:
     static QString strPhotoUrl;
     static QString strQrcode;
     static QString md5(const QString &str);
+
+    static int      iPhoneItemWidth;
+    static int      iPhoneItemHeight;
     //static void setToolButtonSize(QToolButton* btn);
 };
 #endif // GLOBAL_H

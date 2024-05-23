@@ -843,7 +843,7 @@ void MainWindow::ShowGroupInfo()
     }
 
     //展开所有
-    ui->treeWidget->expandAll();
+    //ui->treeWidget->expandAll();
 }
 
 //实例列表
@@ -889,7 +889,7 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
 
                     phoneListItem = new QListWidgetItem(ui->listWidget);
                     widget = new PhoneItemWidget(*iter, this);
-                    phoneListItem->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                    phoneListItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                     phoneListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
                     ui->listWidget->addItem(phoneListItem);
                     ui->listWidget->setItemWidget(phoneListItem, widget);
@@ -940,7 +940,7 @@ void MainWindow::ShowTaskInfo()
         widget = new PhoneItemWidget(*iter,this);
 
         phoneItem = new QListWidgetItem(ui->listWidget);
-        phoneItem->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
         phoneItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
         ui->listWidget->addItem(phoneItem);
         ui->listWidget->setItemWidget(phoneItem, widget);
@@ -2286,6 +2286,34 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     qDebug()<<"切换到横屏";
     ui->toolBtnChangeVerScreen->setVisible(true);
     ui->toolBtnChangeHorScreen->setVisible(false);
+
+    GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH;
+    GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT;
+
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        qDebug() << "ShowTaskInfo ui->listWidget 已清空";
+        return;
+    }
+
+    QListWidgetItem* item = NULL;
+    PhoneItemWidget* phoneItem = NULL;
+    S_PHONE_INFO phoneInfo;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            item->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));
+            /*phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
+            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
+            {
+                phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
+            }*/
+        }
+    }
     /*ui->listWidget->clear();
 
     PhoneItemWidget* widget = NULL;
@@ -2300,7 +2328,7 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
         widget = new PhoneItemWidget(this);
 
         item = new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        item->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
         item->setData(Qt::UserRole, i);
         ui->listWidget->addItem(item);
         ui->listWidget->setItemWidget(item, widget);
@@ -2313,9 +2341,35 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     qDebug()<<"切换到竖屏";
     ui->toolBtnChangeVerScreen->setVisible(false);
     ui->toolBtnChangeHorScreen->setVisible(true);
-    ui->listWidget->clear();
+    GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;
+    GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        qDebug() << "ShowTaskInfo ui->listWidget 已清空";
+        return;
+    }
+
+    QListWidgetItem* item = NULL;
+    PhoneItemWidget* phoneItem = NULL;
+    S_PHONE_INFO phoneInfo;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            item->setSizeHint(QSize(GlobalData::iPhoneItemWidth,GlobalData::iPhoneItemHeight));
+            /*phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
+            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
+            {
+                phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
+            }*/
+        }
+    }
+    /*ui->listWidget->clear();
     //初始化手机列表,假数据
-    /*PhoneItemWidget* widget = NULL;
+    PhoneItemWidget* widget = NULL;
     QListWidgetItem* item = NULL;
     //int iCount = map.size();
     //qDebug() << "map size() =" << iCount;
@@ -2327,7 +2381,7 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
         widget = new PhoneItemWidget(this);
 
         item = new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        item->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
         item->setData(Qt::UserRole, i);
         ui->listWidget->addItem(item);
         ui->listWidget->setItemWidget(item, widget);
@@ -2439,7 +2493,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
         //重新显示listWidget
         widget = new PhoneItemWidget(phoneInfo, this);
         phoneItem = new QListWidgetItem(ui->listWidget);
-        phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
         phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
         ui->listWidget->addItem(phoneItem);
         ui->listWidget->setItemWidget(phoneItem, widget);
@@ -2454,7 +2508,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
             ui->listWidget->clear();
             PhoneItemNoDataWidget* noData = new PhoneItemNoDataWidget(this);
             QListWidgetItem* phoneItem = new QListWidgetItem(ui->listWidget);
-            phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
             ui->listWidget->addItem(phoneItem);
             ui->listWidget->setItemWidget(phoneItem, noData);
             return;
@@ -2478,7 +2532,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
                 //重新显示listWidget
                 widget = new PhoneItemWidget(phoneInfo,this);
                 phoneItem = new QListWidgetItem(ui->listWidget);
-                phoneItem->setSizeHint(QSize(ITEM_PHONE_HORIZONTAL_WIDTH, ITEM_PHONE_HORIZONTAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                 phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
                 ui->listWidget->addItem(phoneItem);
                 ui->listWidget->setItemWidget(phoneItem, widget);

@@ -19,10 +19,10 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     QString strUrl;
     if (!file1.exists())
         strUrl = ":/main/resource/main/defaultSceenShot.png";
+    else
+        strUrl = m_strPicturePath;
 
-    int width = ui->label->width();
-    int height = ui->label->height();
-    ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     
     m_manager = new QNetworkAccessManager(this);
     //未下载时先隐藏进度条
@@ -78,7 +78,7 @@ void PhoneItemWidget::httpFinished()
     {
         file->close();
         QPixmap pixmap(m_strPicturePath);
-        ui->label->setPixmap(pixmap.scaled(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT)); // 缩放为合适的大小
+        ui->label->setPixmap(pixmap.scaled(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight)); // 缩放为合适的大小
 
         delete file;
         file = 0;
@@ -114,7 +114,7 @@ void PhoneItemWidget::do_timeoutRefreshPicture()
         //请求刷新函数
         qDebug() << "请求刷新函数";
         QPixmap pixmap(m_strPicturePath);
-        ui->label->setPixmap(pixmap.scaled(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT)); // 缩放为合适的大小
+        ui->label->setPixmap(pixmap.scaled(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight)); // 缩放为合适的大小
     }
     else
     {
