@@ -185,6 +185,8 @@ private:
     QTimer* m_TaskTimer;//定时任务
     QStringList m_listInstanceNo;
 
+    QTimer* m_Timer;
+
     //组列表
     QMenu* m_menu;
 
