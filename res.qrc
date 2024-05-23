@@ -62,6 +62,7 @@
         <file>resource/main/shouqi.png</file>
         <file>resource/main/zhangkai.png</file>
         <file>resource/main/defaultSceenShot.png</file>
+        <file>resource/main/upload.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

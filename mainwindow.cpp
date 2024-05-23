@@ -29,6 +29,7 @@
 #include <QClipboard>
 #include "messagetips.h"
 #include <QThread>
+#include "uploadfiledialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -585,6 +586,8 @@ void MainWindow::do_ActionFactoryDataReset(bool bChecked)
 }
 void MainWindow::do_ActionUploadFile(bool bChecked)
 {
+    UploadFileDialog* upload = new UploadFileDialog();
+    upload->exec();
 }
 void MainWindow::do_ActionMoveGroup(bool bChecked)
 {
