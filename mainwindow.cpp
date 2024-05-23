@@ -428,6 +428,9 @@ void MainWindow::do_ActionMoveGroup(bool bChecked)
 }
 void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 {
+    ui->stackedWidget->setCurrentWidget(ui->pageBuy);
+    //手机续费
+    on_toolBtnRenewPhone_clicked();
 }
 
 //云手机

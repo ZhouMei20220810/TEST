@@ -35,6 +35,7 @@
 #define HTTP_GET_MY_PHONE_INSTANCE  "/api/user/myInstance"  //获取我的手机实例
 #define HTTP_INSTANCE_REBOOT        "/api/user/reboot"      //实例重启
 #define HTTP_INSTANCE_RESET         "/api/user/reset"       //实例重置
+#define HTTP_INSTANCE_RESET_CALLBACK "/api/instance/callback/reset-fb" //实例重置回调
 #define HTTP_INSTANCE_SCREENSHOT    "/api/user/screenshot"  //获取实例截图
 #define HTTP_INSTANCE_SCREENSHOT_REFRESH "/api/user/screenshot/refresh"  //刷新实例截图
 #define HTTP_SET_INSTANCE_GROUP     "/api/user/setGroup"    //设置实例分组
