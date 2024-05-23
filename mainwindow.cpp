@@ -2672,6 +2672,9 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
             m_TaskTimer->stop();
             ui->listWidget->clear();
             PhoneItemNoDataWidget* noData = new PhoneItemNoDataWidget(this);
+            connect(noData, &PhoneItemNoDataWidget::changeStackedWidgetSignal, this, [=] {
+                on_toolBtnBuy_clicked();
+                });
             QListWidgetItem* phoneItem = new QListWidgetItem(ui->listWidget);
             phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
             ui->listWidget->addItem(phoneItem);

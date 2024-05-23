@@ -22,7 +22,15 @@ private slots:
     void on_toolBtnUploadQueue_clicked();
     void on_toolBtnUploadHistory_clicked();
 
+    void on_toolBtnSelectFile_2_clicked();
+    void on_toolBtnUpload_2_clicked();
+    void on_toolBtnSelectFile_clicked();
+    void on_toolBtnUpload_clicked();
+
 private:
+    void SelectFile();
+    void uploadFile();
+
     Ui::UploadFileDialog *ui;
 };
 

@@ -39,6 +39,7 @@ SOURCES += \
     smsloginpage.cpp \
     updategroupwidget.cpp \
     uploadfiledialog.cpp \
+    uploadfileitemwidget.cpp \
     vipitemwidget.cpp
 
 HEADERS += \
@@ -64,6 +65,7 @@ HEADERS += \
     smsloginpage.h \
     updategroupwidget.h \
     uploadfiledialog.h \
+    uploadfileitemwidget.h \
     vipitemwidget.h
 
 FORMS += \
@@ -87,6 +89,7 @@ FORMS += \
     smsloginpage.ui \
     updategroupwidget.ui \
     uploadfiledialog.ui \
+    uploadfileitemwidget.ui \
     vipitemwidget.ui
 
 # Default rules for deployment.

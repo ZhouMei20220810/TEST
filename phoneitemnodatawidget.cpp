@@ -13,3 +13,10 @@ PhoneItemNoDataWidget::~PhoneItemNoDataWidget()
 {
     delete ui;
 }
+
+void PhoneItemNoDataWidget::on_btnAddPhone_clicked()
+{
+    //跳转到购买页面
+    emit changeStackedWidgetSignal();
+}
+

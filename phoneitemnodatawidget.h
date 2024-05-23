@@ -15,6 +15,11 @@ public:
     explicit PhoneItemNoDataWidget(QWidget *parent = nullptr);
     ~PhoneItemNoDataWidget();
 
+signals:
+    void changeStackedWidgetSignal();
+private slots:
+    void on_btnAddPhone_clicked();
+
 private:
     Ui::PhoneItemNoDataWidget *ui;
 };
