@@ -18,7 +18,7 @@ class PhoneItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit PhoneItemWidget(S_TASK_INFO sTaskInfo,QWidget *parent = nullptr);
+    explicit PhoneItemWidget(S_PHONE_INFO sTaskInfo,QWidget *parent = nullptr);
     ~PhoneItemWidget();
     void startRequest(QUrl url);
     void setRefreshTimer(bool bIsRefresh);
@@ -37,7 +37,7 @@ private:
     QFile* file;
     QUrl url;
 
-    S_TASK_INFO m_sTaskInfo;
+    S_PHONE_INFO m_sTaskInfo;
     QByteArray byteArrayImageUrl;
     QString  m_strPicturePath;
 

@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_TaskTimer = new QTimer();
     connect(m_TaskTimer, &QTimer::timeout, this, &MainWindow::do_timeoutRefreshPicture);
-    m_TaskTimer->start(60 * 1000);// 每分钟触发一次，60000毫秒
 
     HttpQueryAllGroup();
     //初始化Tab云手机
@@ -830,8 +829,8 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     QTreeWidgetItemIterator it(ui->treeWidget);
     S_GROUP_INFO sGroupInfo;
 
-    //QListWidgetItem* phoneListItem;
-    //PhoneItemWidget* widget = NULL;
+    QListWidgetItem* phoneListItem;
+    PhoneItemWidget* widget = NULL;
     while (*it) 
     {
         item = *it;
@@ -858,12 +857,12 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     item->addChild(phoneItem);
 
 
-                    /*phoneListItem = new QListWidgetItem(ui->listWidget);
+                    phoneListItem = new QListWidgetItem(ui->listWidget);
                     widget = new PhoneItemWidget(*iter, this);
                     phoneListItem->setSizeHint(QSize(ITEM_PHONE_VERTICAL_WIDTH, ITEM_PHONE_VERTICAL_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                     phoneListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
                     ui->listWidget->addItem(phoneListItem);
-                    ui->listWidget->setItemWidget(phoneListItem, widget);*/
+                    ui->listWidget->setItemWidget(phoneListItem, widget);
                 }
                 break;
             }
@@ -878,7 +877,21 @@ void MainWindow::ShowTaskInfo()
     if (m_mapTask.size() <= 0)
         return;
 
-    ui->listWidget->clear();
+    int iCount = ui->listWidget->count();
+    QListWidgetItem* item = NULL;
+    PhoneItemWidget* phoneItem = NULL;
+    S_PHONE_INFO phoneInfo;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+        phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
+        if (phoneItem != NULL)
+        {
+            phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
+        }
+    }
+    /*ui->listWidget->clear();
     PhoneItemWidget* widget = NULL;
     QListWidgetItem* phoneItem = NULL;
     QMap<QString, S_TASK_INFO>::iterator iter = m_mapTask.begin();
@@ -892,7 +905,8 @@ void MainWindow::ShowTaskInfo()
         phoneItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
         ui->listWidget->addItem(phoneItem);
         ui->listWidget->setItemWidget(phoneItem, widget);
-    }
+    }*/
+
 }
 void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
 {

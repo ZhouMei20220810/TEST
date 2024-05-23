@@ -1,7 +1,7 @@
 #include "phoneitemwidget.h"
 #include "ui_phoneitemwidget.h"
 
-PhoneItemWidget::PhoneItemWidget(S_TASK_INFO sTaskInfo, QWidget *parent)
+PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PhoneItemWidget)
 {
@@ -14,7 +14,7 @@ PhoneItemWidget::PhoneItemWidget(S_TASK_INFO sTaskInfo, QWidget *parent)
     m_bIsRefresh = true;
     m_sTaskInfo = sTaskInfo;
     
-    m_strPicturePath = QDir::tempPath() + "/"+ SCREENSHOT_PICTRUE_FLODER+"/" + sTaskInfo.strPadCode + ".png";
+    m_strPicturePath = QDir::tempPath() + "/"+ SCREENSHOT_PICTRUE_FLODER+"/" + sTaskInfo.strInstanceNo + ".png";
     QFile file1(m_strPicturePath);
     QString strUrl;
     if (!file1.exists())
@@ -29,14 +29,14 @@ PhoneItemWidget::PhoneItemWidget(S_TASK_INFO sTaskInfo, QWidget *parent)
     //ui->progressBar->hide();
 
     //初始化文件
-    file = new QFile(m_strPicturePath);
+    /*file = new QFile(m_strPicturePath);
     if (!file->open(QIODevice::WriteOnly))
     {
         delete file;
         file = NULL;
-    }
+    }*/
 
-    startRequest(QUrl(m_sTaskInfo.strUrl));
+    //startRequest(QUrl(m_sTaskInfo.strUrl));
 
     //进度条清0
     //ui->progressBar->setValue(0);
@@ -57,6 +57,14 @@ void PhoneItemWidget::setRefreshTimer(bool bIsRefresh)
 
 void PhoneItemWidget::startRequest(QUrl url)
 {
+    //初始化文件
+    file = new QFile(m_strPicturePath);
+    if (!file->open(QIODevice::WriteOnly))
+    {
+        delete file;
+        file = NULL;
+    }
+    qDebug() << "PhoneItemWidget::startRequest url=" << url << "No=" << m_sTaskInfo.strInstanceNo;
     m_reply = m_manager->get(QNetworkRequest(url));
     connect(m_reply, &QNetworkReply::readyRead, this, &PhoneItemWidget::httpReadyRead);
     connect(m_reply, &QNetworkReply::finished, this, &PhoneItemWidget::httpFinished);
@@ -83,7 +91,10 @@ void PhoneItemWidget::httpFinished()
 //接受数据中
 void PhoneItemWidget::httpReadyRead()
 {
-    if (file) { file->write(m_reply->readAll()); }
+    if (file) 
+    { 
+        file->write(m_reply->readAll()); 
+    }
 }
 
 //进度条更新
