@@ -17,6 +17,21 @@
    <string notr="true">background-color:white;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QFrame" name="frame">
      <property name="minimumSize">
@@ -263,7 +278,7 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>9</pointsize>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -452,6 +467,12 @@ padding-left:8px;
     <widget class="QStackedWidget" name="stackedWidget">
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QFrame" name="frame_3">
          <property name="styleSheet">
@@ -575,7 +596,7 @@ padding-left:8px;
           <widget class="QToolButton" name="toolBtnSelectFile">
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>80</width>
              <height>30</height>
             </size>
            </property>
@@ -626,7 +647,7 @@ QToolButton:disabled
           <widget class="QToolButton" name="toolBtnUpload">
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>80</width>
              <height>30</height>
             </size>
            </property>
@@ -678,9 +699,19 @@ QToolButton:disabled
       </layout>
      </widget>
      <widget class="QWidget" name="pageChooseFile">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QListWidget" name="listWidgetChooseFile"/>
+        <widget class="QListWidget" name="listWidgetChooseFile">
+         <property name="styleSheet">
+          <string notr="true">background-color:#FFF5F6FA;</string>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -701,7 +732,7 @@ QToolButton:disabled
           <widget class="QToolButton" name="toolBtnSelectFile_2">
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>80</width>
              <height>30</height>
             </size>
            </property>
@@ -752,7 +783,7 @@ QToolButton:disabled
           <widget class="QToolButton" name="toolBtnUpload_2">
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>80</width>
              <height>30</height>
             </size>
            </property>
@@ -805,15 +836,29 @@ QToolButton:disabled
      </widget>
      <widget class="QWidget" name="pageQueue">
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QListWidget" name="listWidget"/>
+        <widget class="QListWidget" name="listWidget">
+         <property name="styleSheet">
+          <string notr="true">background-color:#FFF5F6FA;</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="pageHistory">
       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QListWidget" name="listWidget_2"/>
+        <widget class="QListWidget" name="listWidget_2">
+         <property name="styleSheet">
+          <string notr="true">background-color:#FFF5F6FA;</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
