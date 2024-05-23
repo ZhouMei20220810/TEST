@@ -164,6 +164,8 @@ private slots:
     void do_ActionRenewCloudPhone(bool bChecked);
     void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
 
+    //一分钟响应一次
+    void do_timeoutRefreshPicture();
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -180,6 +182,8 @@ private:
     QMap<int,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;
     //任务列表
     QMap<QString, S_TASK_INFO> m_mapTask;
+    QTimer* m_TaskTimer;//定时任务
+    QStringList m_listInstanceNo;
 
     //组列表
     QMenu* m_menu;

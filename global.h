@@ -42,6 +42,7 @@
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
+#define     TIMER_INTERVAL          (20*1000)//测试时间20s //(60*1000)               //正式时间
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
 #define OPEN_ZHIFUBAO_TEMP_FILE_NAME "ysy.html"

@@ -10,7 +10,7 @@ PhoneItemWidget::PhoneItemWidget(S_TASK_INFO sTaskInfo, QWidget *parent)
 
     m_refreshTimer = new QTimer();
     connect(m_refreshTimer, &QTimer::timeout, this, &PhoneItemWidget::do_timeoutRefreshPicture);
-    m_refreshTimer->start(60 * 1000);// 每分钟触发一次，60000毫秒
+    m_refreshTimer->start(TIMER_INTERVAL);// 每分钟触发一次，60000毫秒
     m_bIsRefresh = true;
     m_sTaskInfo = sTaskInfo;
     

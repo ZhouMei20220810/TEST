@@ -41,6 +41,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->labelAccount->setText(GlobalData::strAccount);
 
+    m_TaskTimer = new QTimer();
+    connect(m_TaskTimer, &QTimer::timeout, this, &MainWindow::do_timeoutRefreshPicture);
+    m_TaskTimer->start(60 * 1000);// 每分钟触发一次，60000毫秒
+
     HttpQueryAllGroup();
     //初始化Tab云手机
     InitCloudPhoneTab();
@@ -52,6 +56,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    if (m_TaskTimer->isActive())
+    {
+        m_TaskTimer->stop();
+    }
     delete ui;
 }
 
@@ -2339,6 +2347,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         qDebug() << "当前选中groupId=" << groupInfo.iGroupId;
         if (groupInfo.iGroupNum <= 0)
         {
+            m_TaskTimer->stop();
             ui->listWidget->clear();
             PhoneItemNoDataWidget* noData = new PhoneItemNoDataWidget(this);
             QListWidgetItem* phoneItem = new QListWidgetItem(ui->listWidget);
@@ -2380,6 +2389,8 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     //生成截图
     if (strList.size() > 0)
     {
+        m_TaskTimer->start(TIMER_INTERVAL);
+        m_listInstanceNo = strList;
         HttpPostInstanceScreenshotRefresh(strList);
     }    
 }
@@ -2406,3 +2417,13 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
     }
 }
 
+//一分钟响应一次
+void MainWindow::do_timeoutRefreshPicture()
+{
+    QDateTime dateTime = QDateTime::currentDateTime();
+    qDebug() << dateTime.toString("yyyy-MM-dd HH:mm:ss");    
+    //请求刷新函数
+    qDebug() << "请求生成图片函数";
+    //获取选中分组的所有手机
+    HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
+}
