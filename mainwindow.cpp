@@ -383,6 +383,86 @@ void MainWindow::HttpPostInstanceReboot(QStringList strList)
         reply->deleteLater();
         });
 }
+
+//实例重置
+void MainWindow::HttpPostInstanceReset(QStringList strList)
+{
+
+}
+
+//设置实例分组
+void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
+{
+    int iSize = strList.size();
+    if (iSize <= 0)
+        return;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_SET_INSTANCE_GROUP;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonObject jsonObj;
+    jsonObj["groupId"] = iGroupId;
+    
+    QJsonArray listArray;
+    for (int i = 0; i < iSize; i++)
+    {
+        listArray.append(strList.at(i).toInt());
+    }
+    //doc.setObject(listArray);
+    jsonObj["ids"] = listArray;
+    //doc.setArray(listArray);
+    QJsonDocument doc(jsonObj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                bool bData = obj["data"].toBool();
+                qDebug() << "Code=" << iCode << "message=" << strMessage <<"json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode && bData)
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog("设置分组成功!");
+                    tips->show();
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
 //手机菜单
 void MainWindow::do_ActionBeginControl(bool bChecked)
 {
@@ -437,11 +517,22 @@ void MainWindow::do_ActionUploadFile(bool bChecked)
 void MainWindow::do_ActionMoveGroup(bool bChecked)
 {
     QAction* pAction = qobject_cast<QAction*>(sender());
+    S_GROUP_INFO groupInfo;
     if (pAction != NULL)
     {
-        S_GROUP_INFO groupInfo = pAction->data().value<S_GROUP_INFO>();
+        groupInfo = pAction->data().value<S_GROUP_INFO>();
         qDebug() << "当前选中 分组名称" << groupInfo.strGroupName;
     }
+
+    m_pCurItem = ui->treeWidget->currentItem();
+    if (m_pCurItem == NULL)
+        return;
+
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+
+    QStringList strList;
+    strList << QString("%1").arg(phoneInfo.iId);
+    HttpPostInstanceSetGroup(groupInfo.iGroupId, strList);
 }
 void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 {
@@ -2473,7 +2564,7 @@ void MainWindow::do_timeoutRefreshPicture()
 
 void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    if(current == previous)
+    if(current == previous || current == NULL)
         return;
 
     S_PHONE_INFO phoneInfo;

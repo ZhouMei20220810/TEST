@@ -61,6 +61,8 @@ private:
     void HttpPostInstanceReboot(QStringList strList);
     //实例重置
     void HttpPostInstanceReset(QStringList strList);
+    //设置实例分组
+    void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
 
     //手机实例相关接口
     //获取serverToken
