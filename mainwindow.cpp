@@ -19,6 +19,7 @@
 #include "messagetipsdialog.h"
 #include "phoneitemwidget.h"
 #include "phoneitemnodatawidget.h"
+#include "phoneinstancewidget.h"
 #include <QScrollBar>
 #include <QFile>
 #include <QDir>
@@ -363,6 +364,8 @@ void MainWindow::HttpPostInstanceReboot(QStringList strList)
 //手机菜单
 void MainWindow::do_ActionBeginControl(bool bChecked)
 {
+    PhoneInstanceWidget* widget = new PhoneInstanceWidget();
+    widget->show();
 }
 void MainWindow::do_ActionCopyCloudId(bool bChecked)
 {
@@ -390,6 +393,15 @@ void MainWindow::do_ActionRename(bool bChecked)
 }
 void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
 {
+    m_pCurItem = ui->treeWidget->currentItem();
+    if (m_pCurItem == NULL)
+        return;
+
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+
+    QStringList strList;    
+    strList << phoneInfo.strInstanceNo;
+    HttpPostInstanceReboot(strList);
 }
 void MainWindow::do_ActionNewPhone(bool bChecked)
 {
@@ -2354,7 +2366,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
             for (int i = 0; i < count; ++i)
             {
                 child = item->child(i);
-                phoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
                 strList << phoneInfo.strInstanceNo;
                 qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
             }

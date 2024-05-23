@@ -209,8 +209,6 @@
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="individualcenterwidget.cpp" />
-    <ClCompile Include="levelchildgvipwidget.cpp" />
-    <ClCompile Include="levelchildkvipwidget.cpp" />
     <ClCompile Include="levelchildwidget.cpp" />
     <ClCompile Include="levelitemwidget.cpp" />
     <ClCompile Include="loginwindow.cpp" />
@@ -236,8 +234,6 @@
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
     <QtMoc Include="individualcenterwidget.h" />
-    <QtMoc Include="levelchildgvipwidget.h" />
-    <QtMoc Include="levelchildkvipwidget.h" />
     <QtMoc Include="levelchildwidget.h" />
     <QtMoc Include="levelitemwidget.h" />
     <QtMoc Include="loginwindow.h" />
@@ -277,8 +273,6 @@
     <QtUic Include="creategroupwidget.ui" />
     <QtUic Include="forgetpwdialog.ui" />
     <QtUic Include="individualcenterwidget.ui" />
-    <QtUic Include="levelchildgvipwidget.ui" />
-    <QtUic Include="levelchildkvipwidget.ui" />
     <QtUic Include="levelchildwidget.ui" />
     <QtUic Include="levelitemwidget.ui" />
     <QtUic Include="loginwindow.ui" />
