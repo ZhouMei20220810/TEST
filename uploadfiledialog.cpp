@@ -102,7 +102,7 @@ void UploadFileDialog::SelectFile()
             qDebug()<<"第"<<i<<"个："<<strFileList.at(i);
             item = new QListWidgetItem(ui->listWidgetChooseFile);
 
-            fileItem = new UploadFileItemWidget(this);
+            fileItem = new UploadFileItemWidget(strFileList.at(i),this);
             item->setSizeHint(QSize(fileItem->size()));
             ui->listWidgetChooseFile->addItem(item);
             ui->listWidgetChooseFile->setItemWidget(item, fileItem);

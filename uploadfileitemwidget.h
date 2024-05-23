@@ -12,7 +12,7 @@ class UploadFileItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit UploadFileItemWidget(QWidget *parent = nullptr);
+    explicit UploadFileItemWidget(QString strFilePath,QWidget *parent = nullptr);
     ~UploadFileItemWidget();
 
 private:
