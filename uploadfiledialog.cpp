@@ -166,7 +166,7 @@ void UploadFileDialog::uploadFile()
             queueItem->setData(Qt::UserRole, strFilePath);
             queueItem->setSizeHint(QSize(QUEUE_ITEM_WIDTH, QUEUE_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
             //tableitem* widget = new tableitem(dataObj,this);
-            widget = new QueueTableItem(strFilePath,this);
+            widget = new QueueTableItem(m_strPhoneList,strFilePath,this);
             ui->listWidgetQueue->addItem(queueItem);
             ui->listWidgetQueue->setItemWidget(queueItem, widget);
         }
