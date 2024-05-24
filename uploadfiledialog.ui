@@ -951,7 +951,7 @@ border:1px solid grey;
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="2,2,1,2">
              <item>
               <widget class="QLabel" name="label_5">
                <property name="font">
