@@ -5,8 +5,9 @@
 #include "global.h"
 #include <QProgressBar>
 #include "queuetableitem.h"
-
-UploadFileDialog::UploadFileDialog(QWidget *parent)
+#define          QUEUE_ITEM_WIDTH           100
+#define          QUEUE_ITEM_HEIGHT          30
+UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UploadFileDialog)
 {
@@ -15,8 +16,12 @@ UploadFileDialog::UploadFileDialog(QWidget *parent)
     //透明背景
     //setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose, true);
+
+    m_strPhoneList = strList;
+
     ui->toolBtnUpload->setDisabled(true);
 
+    ui->stackedWidget->setCurrentWidget(ui->page);
     InitWidget(ui->listWidgetChooseFile);
 }
 
@@ -142,28 +147,29 @@ void UploadFileDialog::uploadFile()
     ui->listWidgetQueue->setResizeMode(QListWidget::Adjust);
     //设置不能移动
     ui->listWidgetQueue->setMovement(QListWidget::Static);
-    // 添加几个示例项到列表小部件
+
+    //获取上传列表
+    int iUploadCount = ui->listWidgetChooseFile->count();
+    if (iUploadCount <= 0)
+        return;
     QListWidgetItem* item = NULL;
-    for (int i = 0; i < 5; ++i) {
-        item = new QListWidgetItem(ui->listWidgetQueue);
-        item->setSizeHint(QSize(251,130));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        //tableitem* widget = new tableitem(dataObj,this);
-        QueueTableItem* widget = new QueueTableItem(this);
-        ui->listWidgetQueue->addItem(item);
-        ui->listWidgetQueue->setItemWidget(item,widget);
-        /*QWidget* widget = new QWidget(ui->listWidgetQueue);
-        QHBoxLayout* layout = new QHBoxLayout(widget);
-
-        QProgressBar* progressBar = new QProgressBar(widget);
-        progressBar->setValue(i * 20); // 示例进度值
-        layout->addWidget(progressBar);
-
-        QToolButton* toolButton = new QToolButton(widget);
-        toolButton->setText("Button"); // 示例按钮文本
-        layout->addWidget(toolButton);
-
-        QListWidgetItem* item = new QListWidgetItem(ui->listWidgetQueue);
-        ui->listWidgetQueue->setItemWidget(item, widget);*/
+    QListWidgetItem* queueItem = NULL;
+    QString strFilePath;
+    QueueTableItem* widget = NULL;
+    for (int i = 0; i < iUploadCount; i++)
+    {
+        item = ui->listWidgetChooseFile->item(i);
+        if (item != NULL)
+        {
+            strFilePath = item->data(Qt::UserRole).toString();
+            queueItem = new QListWidgetItem(ui->listWidgetQueue);
+            queueItem->setData(Qt::UserRole, strFilePath);
+            queueItem->setSizeHint(QSize(QUEUE_ITEM_WIDTH, QUEUE_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            //tableitem* widget = new tableitem(dataObj,this);
+            widget = new QueueTableItem(strFilePath,this);
+            ui->listWidgetQueue->addItem(queueItem);
+            ui->listWidgetQueue->setItemWidget(queueItem, widget);
+        }
     }
 }
 

@@ -586,7 +586,15 @@ void MainWindow::do_ActionFactoryDataReset(bool bChecked)
 }
 void MainWindow::do_ActionUploadFile(bool bChecked)
 {
-    UploadFileDialog* upload = new UploadFileDialog();
+    m_pCurItem = ui->treeWidget->currentItem();
+    if (m_pCurItem == NULL)
+        return;
+
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+
+    QStringList strList;
+    strList << phoneInfo.strInstanceNo;
+    UploadFileDialog* upload = new UploadFileDialog(strList);
     upload->exec();
 }
 void MainWindow::do_ActionMoveGroup(bool bChecked)

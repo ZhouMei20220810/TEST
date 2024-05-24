@@ -13,7 +13,7 @@ class UploadFileDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit UploadFileDialog(QWidget *parent = nullptr);
+    explicit UploadFileDialog(QStringList strList,QWidget *parent = nullptr);
     ~UploadFileDialog();
 
 private slots:
@@ -36,6 +36,7 @@ private:
     void uploadFile();
 
     Ui::UploadFileDialog *ui;
+    QStringList m_strPhoneList;
 };
 
 #endif // UPLOADFILEDIALOG_H
