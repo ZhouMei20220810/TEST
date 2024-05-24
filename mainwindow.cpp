@@ -846,7 +846,7 @@ void MainWindow::InitVipRenewList()
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidgetRenewList->setSpacing(ITEM_WIDGET_SPACING);
+    ui->listWidgetRenewList->setSpacing(5);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidgetRenewList->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -1070,7 +1070,7 @@ void MainWindow::ShowTaskInfo()
         if (item != NULL)
         {
             phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-            phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
+            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
             if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
             {
                 phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
@@ -1541,7 +1541,10 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
     obj.insert("memberId", iMemberId);
     obj.insert("num", iNum);
     obj.insert("payType", iPayType);
-    //obj.insert("relateId", strRelateId);
+    if (!strRelateId.isEmpty())
+    {
+        obj.insert("relateId", strRelateId);
+    }
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
 
@@ -2220,6 +2223,12 @@ void MainWindow::on_toolBtnRenewPhone_clicked()
 
 void MainWindow::on_btnBeginPay_clicked()
 {
+    if (0 == m_curLevelDataInfo.iMemberId)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("请选择VIP类型!", this);
+        tips->show();
+        return;
+    }
     //确定支付
     bool bAgree = ui->checkBox->isChecked();
     if(!bAgree)
@@ -2229,10 +2238,40 @@ void MainWindow::on_btnBeginPay_clicked()
         return;
     }
 
+    int iCount = ui->listWidgetRenewList->count();
+    QListWidgetItem* item = NULL;
+    renewItemWidget* widget = NULL;
+    bool bChecked = false;
+    S_PHONE_INFO phoneInfo;
+    QString strRelateId = "";
+    for(int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenewList->item(i);
+        if(item != NULL)
+        {
+            widget = static_cast<renewItemWidget*>(ui->listWidgetRenewList->itemWidget(item));
+            bChecked = widget->getCheckBoxStatus();
+            if(bChecked)
+            {
+                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                qDebug()<<"选中iRow="<<i <<";No="<<phoneInfo.strInstanceNo;
+                if (strRelateId.isEmpty())
+                {
+                    strRelateId = QString::asprintf("%d", phoneInfo.iId);
+                }
+                else
+                {
+                    strRelateId += QString::asprintf(",%d", phoneInfo.iId);
+                }
+            }
+        }
+    }
+
+    qDebug() <<"strRelateId=" << strRelateId;
     QString strBuyNum = ui->lineEditBuyNumber->text();
     int iNum = strBuyNum.toInt();
 
-    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, iNum, 1, "");    
+    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, iNum, 1, strRelateId);
 }
 
 //level item 
@@ -2468,12 +2507,6 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
         if (item != NULL)
         {
             item->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));
-            /*phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-            phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
-            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
-            {
-                phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
-            }*/
         }
     }
     /*ui->listWidget->clear();
@@ -2711,6 +2744,23 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
         m_TaskTimer->start(TIMER_INTERVAL);
         m_listInstanceNo = strList;
         HttpPostInstanceScreenshotRefresh(strList);
+    }
+}
+
+void MainWindow::on_checkBoxRenew_clicked(bool checked)
+{
+    //选中状态
+    int iCount = ui->listWidgetRenewList->count();
+    QListWidgetItem* item = NULL;
+    renewItemWidget* widget = NULL;
+    for(int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenewList->item(i);
+        if(item != NULL)
+        {
+            widget = static_cast<renewItemWidget*>(ui->listWidgetRenewList->itemWidget(item));
+            widget->setCheckBoxStatus(checked);
+        }
     }
 }
 

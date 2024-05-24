@@ -170,6 +170,8 @@ private slots:
     void do_timeoutRefreshPicture();
     void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
+    void on_checkBoxRenew_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
