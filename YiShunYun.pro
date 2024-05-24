@@ -37,6 +37,7 @@ SOURCES += \
     policydialog.cpp \
     queuetableitem.cpp \
     registerpage.cpp \
+    renewitemwidget.cpp \
     smsloginpage.cpp \
     updategroupwidget.cpp \
     uploadfiledialog.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     policydialog.h \
     queuetableitem.h \
     registerpage.h \
+    renewitemwidget.h \
     smsloginpage.h \
     updategroupwidget.h \
     uploadfiledialog.h \
@@ -89,6 +91,7 @@ FORMS += \
     policydialog.ui \
     queuetableitem.ui \
     registerpage.ui \
+    renewitemwidget.ui \
     smsloginpage.ui \
     updategroupwidget.ui \
     uploadfiledialog.ui \

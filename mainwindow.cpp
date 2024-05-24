@@ -725,32 +725,12 @@ void MainWindow::InitBuyTab()
 
     //加载数据
     HttpMemberLevelListData();
-
     
     InitVipList();
-
-    QStringList stringList;
-    stringList<<"等级/名称"<<"剩余时间";
-    ui->listWidgetRenewList->addItems(stringList);
+    InitVipRenewList();
 
     //隐藏续费列表
-    ui->listWidgetRenewList->setHidden(true);
-    ui->listWidgetRenewList->setModelColumn(2);
-    ui->listWidgetRenewList->setSelectionMode(QAbstractItemView::SingleSelection);
-    QLabel* label=new QLabel(this);
-    label->setText("等级/名称");
-    label->setStyleSheet("background-color:gray;color:#FF2323FF");
-    QListWidgetItem* item = new QListWidgetItem(ui->listWidgetRenewList);
-    ui->listWidgetRenewList->setItemWidget(item,label);
-    ui->listWidgetRenewList->addItem(item);
-
-
-    label=new QLabel(this);
-    label->setText("剩余时间");
-    label->setStyleSheet("background-color:gray;color:#FF2323FF");
-    item = new QListWidgetItem(ui->listWidgetRenewList);
-    ui->listWidgetRenewList->setItemWidget(item,label);
-    ui->listWidgetRenewList->addItem(item);
+    ui->frame_Renew->setHidden(true);
 
     //默认显示
     ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
@@ -861,11 +841,7 @@ void MainWindow::InitVipList()
 
 void MainWindow::InitVipRenewList()
 {
-    //imageList->resize(365,400);
-    //设置QListWidget的显示模式
-    ui->listWidgetRenewList->setViewMode(QListView::ListMode);//(QListView::IconMode);
-
-    //ui-->setViewMode(QListView::IconMode);
+    ui->listWidgetRenewList->setViewMode(QListView::IconMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
@@ -876,9 +852,6 @@ void MainWindow::InitVipRenewList()
     ui->listWidgetRenewList->setMovement(QListWidget::Static);
     //设置单选
     ui->listWidgetRenewList->setSelectionMode(QAbstractItemView::SingleSelection);
-    QStringList headers;
-    headers << "Column 1" << "Column 2" << "Column 3";
-    //ui->listWidgetRenewList->setHeaderLabels(headers);
 }
 
 void MainWindow::HttpQueryAllGroup()//查询全部分组
@@ -2213,7 +2186,9 @@ void MainWindow::on_toolBtnBuyPhone_clicked()
 {
     ui->toolBtnBuyPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover{color:rgb(255,255,255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     ui->toolBtnRenewPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
-    ui->listWidgetRenewList->setHidden(true);
+    ui->frame_Renew->setHidden(true);
+
+    //加载数据信息并显示
 }
 
 
@@ -2221,7 +2196,7 @@ void MainWindow::on_toolBtnRenewPhone_clicked()
 {
     ui->toolBtnRenewPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover{color:rgb(255,255,255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     ui->toolBtnBuyPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
-    ui->listWidgetRenewList->setHidden(false);
+    ui->frame_Renew->setHidden(false);
 }
 
 
