@@ -35,6 +35,7 @@ SOURCES += \
     phoneitemnodatawidget.cpp \
     phoneitemwidget.cpp \
     policydialog.cpp \
+    queuetableitem.cpp \
     registerpage.cpp \
     smsloginpage.cpp \
     updategroupwidget.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     phoneitemnodatawidget.h \
     phoneitemwidget.h \
     policydialog.h \
+    queuetableitem.h \
     registerpage.h \
     smsloginpage.h \
     updategroupwidget.h \
@@ -85,6 +87,7 @@ FORMS += \
     phoneitemnodatawidget.ui \
     phoneitemwidget.ui \
     policydialog.ui \
+    queuetableitem.ui \
     registerpage.ui \
     smsloginpage.ui \
     updategroupwidget.ui \

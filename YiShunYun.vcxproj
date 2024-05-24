@@ -225,6 +225,7 @@
     <ClCompile Include="smsloginpage.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
+    <ClCompile Include="uploadfileitemwidget.cpp" />
     <ClCompile Include="vipitemwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +251,7 @@
     <QtMoc Include="smsloginpage.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="uploadfiledialog.h" />
+    <QtMoc Include="uploadfileitemwidget.h" />
     <QtMoc Include="vipitemwidget.h" />
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +291,7 @@
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="updategroupwidget.ui" />
     <QtUic Include="uploadfiledialog.ui" />
+    <QtUic Include="uploadfileitemwidget.ui" />
     <QtUic Include="vipitemwidget.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +375,7 @@
     <None Include="resource\main\sync.png" />
     <None Include="resource\main\uncheck.png" />
     <None Include="resource\main\upload.png" />
+    <None Include="resource\main\uploadItem.png" />
     <None Include="resource\function\waitPay.png" />
     <None Include="resource\function\wechat.png" />
     <None Include="resource\main\zhangkai.png" />

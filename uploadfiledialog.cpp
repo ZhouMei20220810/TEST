@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include "uploadfileitemwidget.h"
 #include "global.h"
+#include <QProgressBar>
+#include "queuetableitem.h"
 
 UploadFileDialog::UploadFileDialog(QWidget *parent)
     : QDialog(parent)
@@ -103,6 +105,8 @@ void UploadFileDialog::SelectFile()
             item = new QListWidgetItem(ui->listWidgetChooseFile);
 
             fileItem = new UploadFileItemWidget(strFileList.at(i),this);
+            connect(fileItem, &UploadFileItemWidget::deleteFileItemSignal, this, &UploadFileDialog::do_deleteFileItemSignal);
+            item->setData(Qt::UserRole, strFileList.at(i));
             item->setSizeHint(QSize(fileItem->size()));
             ui->listWidgetChooseFile->addItem(item);
             ui->listWidgetChooseFile->setItemWidget(item, fileItem);
@@ -117,5 +121,67 @@ void UploadFileDialog::SelectFile()
 
 void UploadFileDialog::uploadFile()
 {
+    ui->stackedWidget->setCurrentWidget(ui->pageQueue);
+    //初始化列表
+    ui->listWidgetQueue->setViewMode(QListWidget::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetQueue->setSpacing(5);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetQueue->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetQueue->setMovement(QListWidget::Static);
+    // 添加几个示例项到列表小部件
+    QListWidgetItem* item = NULL;
+    for (int i = 0; i < 5; ++i) {
+        item = new QListWidgetItem(ui->listWidgetQueue);
+        item->setSizeHint(QSize(251,130));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        //tableitem* widget = new tableitem(dataObj,this);
+        QueueTableItem* widget = new QueueTableItem(this);
+        ui->listWidgetQueue->addItem(item);
+        ui->listWidgetQueue->setItemWidget(item,widget);
+        /*QWidget* widget = new QWidget(ui->listWidgetQueue);
+        QHBoxLayout* layout = new QHBoxLayout(widget);
 
+        QProgressBar* progressBar = new QProgressBar(widget);
+        progressBar->setValue(i * 20); // 示例进度值
+        layout->addWidget(progressBar);
+
+        QToolButton* toolButton = new QToolButton(widget);
+        toolButton->setText("Button"); // 示例按钮文本
+        layout->addWidget(toolButton);
+
+        QListWidgetItem* item = new QListWidgetItem(ui->listWidgetQueue);
+        ui->listWidgetQueue->setItemWidget(item, widget);*/
+    }
+}
+
+void UploadFileDialog::do_deleteFileItemSignal(QString strFilePath)
+{
+    qDebug() << "delete " << strFilePath;
+    int iCount = ui->listWidgetChooseFile->count();
+    QListWidgetItem* item = NULL;
+    QString strFile;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetChooseFile->item(i);
+        if (item != NULL)
+        {
+            strFile = item->data(Qt::UserRole).toString();
+            if (strFile.compare(strFilePath) == 0)
+            {
+                qDebug() << "list remove item" << strFile;
+                ui->listWidgetChooseFile->takeItem(i);
+                //ui->listWidgetChooseFile->removeItemWidget(item);
+                break;
+            }            
+        }
+    }
+
+    iCount = ui->listWidgetChooseFile->count();
+    if(iCount <= 0)
+    {
+        ui->stackedWidget->setCurrentWidget(ui->page);
+    }
 }

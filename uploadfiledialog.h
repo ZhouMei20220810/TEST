@@ -28,6 +28,7 @@ private slots:
     void on_toolBtnSelectFile_clicked();
     void on_toolBtnUpload_clicked();
 
+    void do_deleteFileItemSignal(QString strFilePath);
 private:
     void InitWidget(QListWidget* listWidget);
 
