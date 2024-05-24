@@ -49,21 +49,44 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>499</width>
-        <height>16</height>
+        <width>101</width>
+        <height>10</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>10</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>10</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QProgressBar{text-align: center;
+                                     background-color: #FFD7D7DE;
+                                     border: 1px solid #FFD7D7DE;
+                                     border-radius: 5px;}
+QProgressBar::chunk{background-color: #FF000000;
+                                     border-radius: 5px;}</string>
       </property>
       <property name="value">
        <number>24</number>
+      </property>
+      <property name="textVisible">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QLabel" name="labelProgressStatus">
       <property name="geometry">
        <rect>
-        <x>515</x>
+        <x>120</x>
         <y>10</y>
         <width>53</width>
-        <height>16</height>
+        <height>15</height>
        </rect>
       </property>
       <property name="text">
