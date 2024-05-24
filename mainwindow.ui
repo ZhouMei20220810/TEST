@@ -2391,8 +2391,16 @@ border-radius: 3px;</string>
               <layout class="QHBoxLayout" name="horizontalLayout_9">
                <item>
                 <widget class="QLabel" name="label_5">
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string>使用说明：</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                  </property>
                 </widget>
                </item>
@@ -2405,8 +2413,8 @@ border-radius: 3px;</string>
                  </property>
                  <property name="text">
                   <string>1.每个激活码只能激活一次。
-2.您通过。。。
-3.易舜云手机。。。</string>
+2.您通过非官方渠道获取的激活码,若无法激活,易舜云手机概不负责。
+3.易舜云手机对激活码使用拥有最终解释权。</string>
                  </property>
                 </widget>
                </item>
