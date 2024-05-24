@@ -30,6 +30,7 @@
 #include "messagetips.h"
 #include <QThread>
 #include "uploadfiledialog.h"
+#include "renewitemwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -841,7 +842,7 @@ void MainWindow::InitVipList()
 
 void MainWindow::InitVipRenewList()
 {
-    ui->listWidgetRenewList->setViewMode(QListView::IconMode);
+    ui->listWidgetRenewList->setViewMode(QListView::ListMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
@@ -1006,8 +1007,8 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     QTreeWidgetItemIterator it(ui->treeWidget);
     S_GROUP_INFO sGroupInfo;
 
-    QListWidgetItem* phoneListItem;
-    PhoneItemWidget* widget = NULL;
+    QListWidgetItem* phoneListItem = NULL;
+    PhoneItemWidget* widget = NULL;    
     while (*it) 
     {
         item = *it;
@@ -2187,8 +2188,6 @@ void MainWindow::on_toolBtnBuyPhone_clicked()
     ui->toolBtnBuyPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover{color:rgb(255,255,255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     ui->toolBtnRenewPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
     ui->frame_Renew->setHidden(true);
-
-    //加载数据信息并显示
 }
 
 
@@ -2197,6 +2196,25 @@ void MainWindow::on_toolBtnRenewPhone_clicked()
     ui->toolBtnRenewPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover{color:rgb(255,255,255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     ui->toolBtnBuyPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
     ui->frame_Renew->setHidden(false);
+
+    //加载数据并显示
+    int iCount = m_mapPhoneInfo.size();
+    if (iCount > 0)
+    {
+        //初始化续费列表
+        QListWidgetItem* renewListItem = NULL;
+        renewItemWidget* widget = NULL;
+        QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
+        for (; iter != m_mapPhoneInfo.end(); iter++)
+        {
+            renewListItem = new QListWidgetItem(ui->listWidgetRenewList);
+            renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
+            renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            widget = new renewItemWidget(*iter, this);
+            ui->listWidgetRenewList->addItem(renewListItem);
+            ui->listWidgetRenewList->setItemWidget(renewListItem, widget);
+        }
+    }
 }
 
 
@@ -2326,12 +2344,8 @@ void MainWindow::do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo)
         if (iMemberId != levelInfo.iMemberId)
         {
             vipItemWidget = static_cast<VIPItemWidget*>(ui->listWidgetVIP->itemWidget(vipItem));
-            //enType = item->data(Qt::UserRole).toInt();
             qDebug() << "当前选中：等级" << iMemberId;
-            vipItemWidget->setLabelCheckStatus(false);
-
-            //续费的列表
-            //ui->listWidgetRenewList
+            vipItemWidget->setLabelCheckStatus(false);         
         }
     }
 }

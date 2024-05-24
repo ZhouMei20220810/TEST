@@ -63,6 +63,12 @@
 #define         ITEM_WIDGET_LEVEL_HEIGHT        202
 #define         ITEM_LEVEL_LABELCHECK_WIDTH     36
 #define         ITEM_LEVEL_LABELCHECK_HEIGHT    36
+//queue item
+#define          QUEUE_ITEM_WIDTH           100
+#define          QUEUE_ITEM_HEIGHT          30
+//renew item
+#define          RENEW_ITEM_WIDTH           100
+#define          RENEW_ITEM_HEIGHT          30
 
 typedef struct LEVEL_INFO
 {

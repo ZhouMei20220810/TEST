@@ -5,8 +5,7 @@
 #include "global.h"
 #include <QProgressBar>
 #include "queuetableitem.h"
-#define          QUEUE_ITEM_WIDTH           100
-#define          QUEUE_ITEM_HEIGHT          30
+
 UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UploadFileDialog)

@@ -223,6 +223,7 @@
     <ClCompile Include="policydialog.cpp" />
     <ClCompile Include="queuetableitem.cpp" />
     <ClCompile Include="registerpage.cpp" />
+    <ClCompile Include="renewitemwidget.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
@@ -250,6 +251,7 @@
     <QtMoc Include="policydialog.h" />
     <QtMoc Include="queuetableitem.h" />
     <QtMoc Include="registerpage.h" />
+    <QtMoc Include="renewitemwidget.h" />
     <QtMoc Include="smsloginpage.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="uploadfiledialog.h" />
@@ -291,6 +293,7 @@
     <QtUic Include="policydialog.ui" />
     <QtUic Include="queuetableitem.ui" />
     <QtUic Include="registerpage.ui" />
+    <QtUic Include="renewitemwidget.ui" />
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="updategroupwidget.ui" />
     <QtUic Include="uploadfiledialog.ui" />
@@ -371,6 +374,7 @@
     <None Include="resource\main\previewMode_normal.png" />
     <None Include="resource\main\previewMode_select.png" />
     <None Include="resource\main\refresh.png" />
+    <None Include="resource\main\renew.png" />
     <QtRcc Include="res.qrc" />
     <None Include="resource\main\setting_normal.png" />
     <None Include="resource\main\shouqi.png" />
