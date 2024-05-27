@@ -79,7 +79,8 @@ void QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
         if (file->open(QIODevice::ReadOnly)) { // 打开文件，只读模式
             QHttpMultiPart* multiPart = new QHttpMultiPart(this); // 创建QHttpMultiPart对象
             QHttpPart filePart; // 创建QHttpPart对象来包含文件内容
-            filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("multipart/form-data"));
+            //filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("multipart/form-data"));
+            filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
             QFileInfo info(filePath);
             QString xlname = info.fileName();
             QJsonObject jsonObj;
@@ -114,11 +115,11 @@ void QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
             multiPart->append(filePart);
 
 
-
+            QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
             QNetworkRequest request(url); // 创建网络请求
             //request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data"); // 设置content-type为multipart/form-data
-            request.setRawHeader("Authorization", GlobalData::strToken.toLocal8Bit()); // 设置token头
-            qDebug() << GlobalData::strToken.toLocal8Bit();
+            request.setRawHeader("Authorization", strToken.toLocal8Bit()); // 设置token头
+            qDebug() << "token="<< strToken;
             QNetworkReply* reply = manager->post(request, multiPart); // 发送包含multiPart的请求
             //imageurl = "";
             //imgKey = "";
