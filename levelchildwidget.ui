@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>416</width>
+    <width>434</width>
     <height>202</height>
    </rect>
   </property>
@@ -97,11 +97,11 @@ background:transparent;</string>
       <item>
        <widget class="QToolButton" name="toolButton">
         <property name="text">
-         <string>云端管理</string>
+         <string>64位 10系统</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/func/resource/function/15.png</normaloff>:/func/resource/function/15.png</iconset>
+          <normaloff>:/func/resource/function/1.png</normaloff>:/func/resource/function/1.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -120,11 +120,11 @@ background:transparent;</string>
       <item>
        <widget class="QToolButton" name="toolButton_2">
         <property name="text">
-         <string>云端管理</string>
+         <string>4G内存</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/func/resource/function/15.png</normaloff>:/func/resource/function/15.png</iconset>
+          <normaloff>:/func/resource/function/2.png</normaloff>:/func/resource/function/2.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -143,11 +143,11 @@ background:transparent;</string>
       <item>
        <widget class="QToolButton" name="toolButton_3">
         <property name="text">
-         <string>云端管理</string>
+         <string>45G存储</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/func/resource/function/15.png</normaloff>:/func/resource/function/15.png</iconset>
+          <normaloff>:/func/resource/function/3.png</normaloff>:/func/resource/function/3.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -166,11 +166,11 @@ background:transparent;</string>
       <item>
        <widget class="QToolButton" name="toolButton_4">
         <property name="text">
-         <string>云端管理</string>
+         <string>8核处理</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/func/resource/function/15.png</normaloff>:/func/resource/function/15.png</iconset>
+          <normaloff>:/func/resource/function/4.png</normaloff>:/func/resource/function/4.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -189,11 +189,11 @@ background:transparent;</string>
       <item>
        <widget class="QToolButton" name="toolButton_5">
         <property name="text">
-         <string>云端管理</string>
+         <string>一键新机</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/func/resource/function/15.png</normaloff>:/func/resource/function/15.png</iconset>
+          <normaloff>:/func/resource/function/5.png</normaloff>:/func/resource/function/5.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -212,11 +212,11 @@ background:transparent;</string>
       <item>
        <widget class="QToolButton" name="toolButton_6">
         <property name="text">
-         <string>云端管理</string>
+         <string>高性价比</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/func/resource/function/15.png</normaloff>:/func/resource/function/15.png</iconset>
+          <normaloff>:/func/resource/function/6.png</normaloff>:/func/resource/function/6.png</iconset>
         </property>
         <property name="iconSize">
          <size>
