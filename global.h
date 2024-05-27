@@ -43,6 +43,7 @@
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 //文件相关接口
+#define HTTP_ALIBABA_OSS_ENDPOINT   "oss-cn-beijing.aliyuncs.com" //去掉https,否则https会报认证问题
 #define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
