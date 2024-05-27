@@ -28,7 +28,6 @@ QueueTableItem::QueueTableItem(QStringList strPhoneList, QString strFilePath,QWi
     QFileInfo fileInfo(strFilePath);
     ui->labelFileName->setText(fileInfo.fileName());
 
-    //QString filePath = "/path/to/your/file";
     uploadFile(strFilePath,strPhoneList);
 }
 
@@ -59,7 +58,122 @@ void QueueTableItem::on_toolBtnReupload_clicked()
     //重新上传
 }
 
-void QueueTableItem::uploadFile(const QString& filePath,QStringList strPhoneList)
+void QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList)
+{
+    int iSize = strPhoneList.size();
+    if (iSize <= 0)
+        return;
+
+    //QString filePath = QFileDialog::getOpenFileName(this, tr("Select Image"), "", tr("Images (*.png *.jpg *.jpeg)"));
+    if (!filePath.isEmpty()) {
+        //localimage = filePath;
+        //mLoadingDialog1->show();
+        QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+
+        //QUrl url(strApiRomain + "api/oss/upload");
+        QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+        strUrl += HTTP_UPLOAD_FILE_TO_INSTANCE;
+        QUrl url(strUrl);
+
+        QFile* file = new QFile(filePath); // 创建一个QFile对象，用于读取文件内容
+        if (file->open(QIODevice::ReadOnly)) { // 打开文件，只读模式
+            QHttpMultiPart* multiPart = new QHttpMultiPart(this); // 创建QHttpMultiPart对象
+            QHttpPart filePart; // 创建QHttpPart对象来包含文件内容
+            filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("multipart/form-data"));
+            QFileInfo info(filePath);
+            QString xlname = info.fileName();
+            QJsonObject jsonObj;
+            jsonObj["autoInstall"] = 0;
+            jsonObj["customizeFilePath"] = "";
+            jsonObj["fileMd5"] = "";
+            jsonObj["fileName"] = xlname;
+            jsonObj["fileUrl"] = filePath;
+            QJsonArray listArray;
+            for (int i = 0; i < iSize; i++)
+            {
+                listArray.append(strPhoneList.at(i));
+            }
+            //doc.setObject(listArray);
+            jsonObj["instanceCodes"] = listArray;
+            //doc.setArray(listArray);
+            QJsonDocument doc(jsonObj);
+            QByteArray postData = doc.toJson(QJsonDocument::Compact);
+            qDebug() << postData;
+            //filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"" + xlname + "\""));;
+            filePart.setHeader(QNetworkRequest::ContentDispositionHeader, postData);
+            // 使用QFile::readAll来读取文件内容，并将其设置为HTTP部分的内容
+//            QByteArray fileData = file->readAll(); // 使用适当的MIME类型
+//            filePart.setBody(fileData); // 使用适当的MIME类型
+//            file->setParent(multiPart); // 设置文件的父对象为multiPart，确保文件在multiPart删除时被关闭
+//            multiPart->append(filePart); // 将文件部分添加到multiPart中
+
+
+            file->open(QIODevice::ReadOnly);
+            filePart.setBodyDevice(file);
+            file->setParent(multiPart);
+            multiPart->append(filePart);
+
+
+
+            QNetworkRequest request(url); // 创建网络请求
+            //request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data"); // 设置content-type为multipart/form-data
+            request.setRawHeader("Authorization", GlobalData::strToken.toLocal8Bit()); // 设置token头
+            qDebug() << GlobalData::strToken.toLocal8Bit();
+            QNetworkReply* reply = manager->post(request, multiPart); // 发送包含multiPart的请求
+            //imageurl = "";
+            //imgKey = "";
+            connect(reply, &QNetworkReply::finished, this, [multiPart, reply]()
+                {
+                    if (reply->error() == QNetworkReply::NoError) {
+                        // 处理响应数据
+                        QByteArray response = reply->readAll();
+                        qDebug() << response;
+
+                        QJsonParseError parseError;
+                        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+                        if (parseError.error != QJsonParseError::NoError)
+                        {
+                            qDebug() << response;
+                            qWarning() << "Json parse error:" << parseError.errorString();
+                        }
+                        else
+                        {
+                            if (doc.isObject())
+                            {
+                                QJsonObject obj = doc.object();
+                                int iCode = obj["code"].toInt();
+                                QString strMessage = obj["message"].toString();
+                                bool bData = obj["data"].toBool();
+                                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                                if (HTTP_SUCCESS_CODE == iCode && bData)
+                                {
+                                    //HttpQueryAllGroup();
+                                }
+                                else
+                                {
+                                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage);
+                                    tips->show();
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        // 处理错误
+                        qDebug() << "Error:" << reply->errorString();
+                    }
+
+                    multiPart->deleteLater();
+                    reply->deleteLater();
+                }); // 连接reply的finished信号到你的槽函数
+        }
+        else {
+            // 处理文件打开失败的情况，例如显示错误消息等
+            qDebug() << "Failed to open file:" << filePath;
+            delete file; // 确保在出错时删除file对象，防止内存泄漏
+        }
+    }
+}
+/*void QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList)
 {
     int iSize = strPhoneList.size();
     if (iSize <= 0)
@@ -83,6 +197,10 @@ void QueueTableItem::uploadFile(const QString& filePath,QStringList strPhoneList
     //request.setUrl(url);
 
     QJsonObject jsonObj;
+    jsonObj["autoInstall"] = 0;
+    jsonObj["customizeFilePath"] = "";
+    jsonObj["fileMd5"] = "";
+    jsonObj["fileName"] = "";
     jsonObj["fileUrl"] = filePath;
     QJsonArray listArray;
     for (int i = 0; i < iSize; i++)
@@ -102,7 +220,8 @@ void QueueTableItem::uploadFile(const QString& filePath,QStringList strPhoneList
     // 添加文件部分
     QHttpPart filePart;
     QFile file(filePath);
-    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"" + QFileInfo(filePath).fileName() + "\""));
+    //filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"" + QFileInfo(filePath).fileName() + "\""));
+    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, postData);
     filePart.setBodyDevice(&file);
     multiPart->append(filePart);
     request.setUrl(url);
@@ -152,4 +271,4 @@ void QueueTableItem::uploadFile(const QString& filePath,QStringList strPhoneList
         multiPart->deleteLater();
         reply->deleteLater();
         });
-}
+}*/
