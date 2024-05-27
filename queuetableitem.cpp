@@ -78,20 +78,31 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
 
     /* 初始化OSS账号信息 */
 
-    std::string Endpoint = "yourEndpoint";
+    std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
     /* 填写Bucket名称，例如examplebucket */
-    std::string BucketName = "examplebucket";
+    std::string BucketName = "yishunyun-file";
     /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
-    std::string ObjectName = "exampledir/exampleobject.txt";
+    QFileInfo fileInfo(filePath);
+    std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
 
     /* 初始化网络等资源 */
     InitializeSdk();
 
     ClientConfiguration conf;
+    /* 设置连接池数，默认为16个 */
+    conf.maxConnections = 20;
+    /* 设置请求超时时间，超时没有收到数据就关闭连接，默认为10000ms */
+    conf.requestTimeoutMs = 8000;
+    /* 设置建立连接的超时时间，默认为5000ms */
+    conf.connectTimeoutMs = 8000;
+
     /* 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。*/
     //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
     //OssClient client(Endpoint, credentialsProvider, conf);
-    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), conf);
+    
+    //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
+    //OssClient client(Endpoint, credentialsProvider, conf);
+    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(),GlobalData::strSecurityToken.toStdString(), conf);
 
     InitiateMultipartUploadRequest initUploadRequest(BucketName, ObjectName);
     /*（可选）请参见如下示例设置存储类型 */
@@ -103,10 +114,12 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     /* 如果您需要根据您需要UploadId执行取消分片上传事件的操作，您需要在调用InitiateMultipartUpload完成初始化分片之后获取uploadId。*/
     /* 如果您需要根据您需要UploadId执行列举已上传分片的操作，您需要在调用InitiateMultipartUpload完成初始化分片之后，且在调用CompleteMultipartUpload完成分片上传之前获取uploadId。*/
     auto uploadId = uploadIdResult.result().UploadId();
-    std::string fileToUpload = "yourLocalFilename";
+    std::string fileToUpload = filePath.toStdString();//"yourLocalFilename";
     int64_t partSize = 100 * 1024;
-    PartList partETagList;
-    auto fileSize = getFileSize(fileToUpload);
+    PartList partETagList;    
+    auto fileSize = fileInfo.size();
+    //auto fileSize = getFileSize(fileToUpload);
+    qDebug() << "fileSize=" << fileSize;
     int partCount = static_cast<int>(fileSize / partSize);
     /* 计算分片个数 */
     if (fileSize % partSize != 0) {
@@ -130,10 +143,10 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
             partETagList.push_back(part);
         }
         else {
-            std::cout << "uploadPart fail" <<
+            qDebug() << "uploadPart fail" <<
                 ",code:" << uploadPartOutcome.error().Code() <<
                 ",message:" << uploadPartOutcome.error().Message() <<
-                ",requestId:" << uploadPartOutcome.error().RequestId() << std::endl;
+                ",requestId:" << uploadPartOutcome.error().RequestId();
         }
 
     }
