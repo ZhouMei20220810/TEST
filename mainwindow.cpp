@@ -1007,8 +1007,8 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     QTreeWidgetItemIterator it(ui->treeWidget);
     S_GROUP_INFO sGroupInfo;
 
-    QListWidgetItem* phoneListItem = NULL;
-    PhoneItemWidget* widget = NULL;    
+    //QListWidgetItem* phoneListItem = NULL;
+    //PhoneItemWidget* widget = NULL;    
     while (*it) 
     {
         item = *it;
@@ -1034,12 +1034,12 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     item->addChild(phoneItem);
 
 
-                    phoneListItem = new QListWidgetItem(ui->listWidget);
+                    /*phoneListItem = new QListWidgetItem(ui->listWidget);
                     widget = new PhoneItemWidget(*iter, this);
                     phoneListItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                     phoneListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
                     ui->listWidget->addItem(phoneListItem);
-                    ui->listWidget->setItemWidget(phoneListItem, widget);
+                    ui->listWidget->setItemWidget(phoneListItem, widget);*/
                 }
                 break;
             }
