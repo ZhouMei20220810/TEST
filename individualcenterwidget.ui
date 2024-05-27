@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>236</width>
+    <width>164</width>
     <height>166</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color:#FFFFFFFF;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="leftMargin">
@@ -113,6 +113,11 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
    </item>
    <item>
     <widget class="QToolButton" name="toolBtnIndividualCenter">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
@@ -127,12 +132,17 @@ padding-left:8px;
 }</string>
      </property>
      <property name="text">
-      <string>个人中心                      &gt;</string>
+      <string>重置密码                      &gt;</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QToolButton" name="toolBtnBuyHistory">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
@@ -153,6 +163,11 @@ padding-left:8px;
    </item>
    <item>
     <widget class="QToolButton" name="toolBtnActiveHistory">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
@@ -173,6 +188,11 @@ padding-left:8px;
    </item>
    <item>
     <widget class="QToolButton" name="toolBtnLogout">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);

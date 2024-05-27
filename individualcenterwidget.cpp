@@ -16,6 +16,10 @@ IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);
+
+    ui->labelAccount->setText(GlobalData::strAccount);
+    ui->labelID->setText(QString("%1").arg(GlobalData::id));
+
 }
 
 IndividualCenterWidget::~IndividualCenterWidget()
