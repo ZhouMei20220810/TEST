@@ -25,7 +25,7 @@ private:
     Ui::QueueTableItem *ui;
     QString m_strFilePath;
 
-    void uploadFile(const QString& filePath, QStringList strPhoneList);
+    bool uploadFile(const QString& filePath, QStringList strPhoneList);
 };
 
 #endif // QUEUETABLEITEM_H

@@ -42,6 +42,9 @@
 #define HTTP_SET_INSTANCE_NAME      "/api/user/setName"     // 实例名称修改
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
+//文件相关接口
+#define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
+
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     DOWNLOAD_SCREENSHOT_INTERVAL (6*1000)       //下载截图间隔
 #define     TIMER_INTERVAL          (60*1000)               //正式时间
@@ -219,5 +222,10 @@ public:
     static int      iPhoneItemWidth;
     static int      iPhoneItemHeight;
     //static void setToolButtonSize(QToolButton* btn);
+
+    static QString strSecurityToken;
+    static QString strAccessKeySecret;
+    static QString strAccessKeyId;
+    static QString strExpiration;
 };
 #endif // GLOBAL_H

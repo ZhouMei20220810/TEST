@@ -94,7 +94,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -160,7 +160,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;$(QTDIR)\lib\Qt6QmlModelsd.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;$(QTDIR)\lib\Qt6QmlModelsd.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -302,20 +302,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\function\1.png" />
-    <None Include="resource\function\10.png" />
-    <None Include="resource\function\11.png" />
-    <None Include="resource\function\12.png" />
-    <None Include="resource\function\13.png" />
-    <None Include="resource\function\14.png" />
-    <None Include="resource\function\15.png" />
     <None Include="resource\function\2.png" />
     <None Include="resource\function\3.png" />
     <None Include="resource\function\4.png" />
     <None Include="resource\function\5.png" />
     <None Include="resource\function\6.png" />
-    <None Include="resource\function\7.png" />
-    <None Include="resource\function\8.png" />
-    <None Include="resource\function\9.png" />
     <None Include="resource\function\PayFinish.png" />
     <None Include="resource\login\ScreenShots.jpg" />
     <None Include="resource\login\ScreenShots_v.jpg" />

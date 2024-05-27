@@ -12,6 +12,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "messagetipsdialog.h"
+#include <alibabacloud/oss/OssClient.h>
+#include <fstream>
 
 QueueTableItem::QueueTableItem(QStringList strPhoneList, QString strFilePath,QWidget *parent)
     : QWidget(parent)
@@ -58,14 +60,109 @@ void QueueTableItem::on_toolBtnReupload_clicked()
     //重新上传
 }
 
-void QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList)
+int64_t getFileSize(const std::string& file)
 {
-    int iSize = strPhoneList.size();
+    std::fstream f(file, std::ios::in | std::ios::binary);
+    f.seekg(0, f.end);
+    int64_t size = f.tellg();
+    f.close();
+    return size;
+}
+
+using namespace AlibabaCloud::OSS;
+bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList)
+{
+    int iSize = strPhoneList.size();    
     if (iSize <= 0)
-        return;
+        return false;
+
+    /* 初始化OSS账号信息 */
+
+    std::string Endpoint = "yourEndpoint";
+    /* 填写Bucket名称，例如examplebucket */
+    std::string BucketName = "examplebucket";
+    /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
+    std::string ObjectName = "exampledir/exampleobject.txt";
+
+    /* 初始化网络等资源 */
+    InitializeSdk();
+
+    ClientConfiguration conf;
+    /* 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。*/
+    //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
+    //OssClient client(Endpoint, credentialsProvider, conf);
+    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), conf);
+
+    InitiateMultipartUploadRequest initUploadRequest(BucketName, ObjectName);
+    /*（可选）请参见如下示例设置存储类型 */
+    //initUploadRequest.MetaData().addHeader("x-oss-storage-class", "Standard");
+
+    /* 初始化分片上传事件 */
+    auto uploadIdResult = client.InitiateMultipartUpload(initUploadRequest);
+    /* 根据UploadId执行取消分片上传事件或者列举已上传分片的操作。*/
+    /* 如果您需要根据您需要UploadId执行取消分片上传事件的操作，您需要在调用InitiateMultipartUpload完成初始化分片之后获取uploadId。*/
+    /* 如果您需要根据您需要UploadId执行列举已上传分片的操作，您需要在调用InitiateMultipartUpload完成初始化分片之后，且在调用CompleteMultipartUpload完成分片上传之前获取uploadId。*/
+    auto uploadId = uploadIdResult.result().UploadId();
+    std::string fileToUpload = "yourLocalFilename";
+    int64_t partSize = 100 * 1024;
+    PartList partETagList;
+    auto fileSize = getFileSize(fileToUpload);
+    int partCount = static_cast<int>(fileSize / partSize);
+    /* 计算分片个数 */
+    if (fileSize % partSize != 0) {
+        partCount++;
+    }
+
+    /* 对每一个分片进行上传 */
+    for (int i = 1; i <= partCount; i++) {
+        auto skipBytes = partSize * (i - 1);
+        auto size = (partSize < fileSize - skipBytes) ? partSize : (fileSize - skipBytes);
+        std::shared_ptr<std::iostream> content = std::make_shared<std::fstream>(fileToUpload, std::ios::in | std::ios::binary);
+        content->seekg(skipBytes, std::ios::beg);
+
+        UploadPartRequest uploadPartRequest(BucketName, ObjectName, content);
+        uploadPartRequest.setContentLength(size);
+        uploadPartRequest.setUploadId(uploadId);
+        uploadPartRequest.setPartNumber(i);
+        auto uploadPartOutcome = client.UploadPart(uploadPartRequest);
+        if (uploadPartOutcome.isSuccess()) {
+            Part part(i, uploadPartOutcome.result().ETag());
+            partETagList.push_back(part);
+        }
+        else {
+            std::cout << "uploadPart fail" <<
+                ",code:" << uploadPartOutcome.error().Code() <<
+                ",message:" << uploadPartOutcome.error().Message() <<
+                ",requestId:" << uploadPartOutcome.error().RequestId() << std::endl;
+        }
+
+    }
+
+    /* 完成分片上传 */
+    /* 在执行完成分片上传操作时，需要提供所有有效的partETags。OSS收到提交的partETags后，会逐一验证每个分片的有效性。当所有的数据分片验证通过后，OSS将把这些分片组合成一个完整的文件。*/
+    CompleteMultipartUploadRequest request(BucketName, ObjectName);
+    request.setUploadId(uploadId);
+    request.setPartList(partETagList);
+    /*（可选）请参见如下示例设置读写权限ACL */
+    //request.setAcl(CannedAccessControlList::Private);
+
+    auto outcome = client.CompleteMultipartUpload(request);
+
+    if (!outcome.isSuccess()) {
+        /* 异常处理 */
+        std::cout << "CompleteMultipartUpload fail" <<
+            ",code:" << outcome.error().Code() <<
+            ",message:" << outcome.error().Message() <<
+            ",requestId:" << outcome.error().RequestId() << std::endl;
+        return false;
+    }
+
+    /* 释放网络等资源 */
+    ShutdownSdk();
+    return true;
 
     //QString filePath = QFileDialog::getOpenFileName(this, tr("Select Image"), "", tr("Images (*.png *.jpg *.jpeg)"));
-    if (!filePath.isEmpty()) {
+    /*if (!filePath.isEmpty()) {
         //localimage = filePath;
         //mLoadingDialog1->show();
         QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -172,104 +269,5 @@ void QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
             qDebug() << "Failed to open file:" << filePath;
             delete file; // 确保在出错时删除file对象，防止内存泄漏
         }
-    }
+    }*/
 }
-/*void QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList)
-{
-    int iSize = strPhoneList.size();
-    if (iSize <= 0)
-        return;
-
-    QHttpMultiPart* multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_UPLOAD_FILE_TO_INSTANCE;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    //request.setUrl(url);
-
-    QJsonObject jsonObj;
-    jsonObj["autoInstall"] = 0;
-    jsonObj["customizeFilePath"] = "";
-    jsonObj["fileMd5"] = "";
-    jsonObj["fileName"] = "";
-    jsonObj["fileUrl"] = filePath;
-    QJsonArray listArray;
-    for (int i = 0; i < iSize; i++)
-    {
-        listArray.append(strPhoneList.at(i));
-    }
-    //doc.setObject(listArray);
-    jsonObj["instanceCodes"] = listArray;
-    //doc.setArray(listArray);
-    QJsonDocument doc(jsonObj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
-    //发出GET请求
-    //QNetworkReply* reply = manager->post(request, postData);
-
-
-    // 添加文件部分
-    QHttpPart filePart;
-    QFile file(filePath);
-    //filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"" + QFileInfo(filePath).fileName() + "\""));
-    filePart.setHeader(QNetworkRequest::ContentDispositionHeader, postData);
-    filePart.setBodyDevice(&file);
-    multiPart->append(filePart);
-    request.setUrl(url);
-    //QNetworkRequest request(url);
-    QNetworkReply* reply = manager->post(request, multiPart);
-
-    QObject::connect(reply, &QNetworkReply::finished,this, [multiPart, reply]() 
-        {
-        if (reply->error() == QNetworkReply::NoError) {
-            // 处理响应数据
-            QByteArray response = reply->readAll();
-            qDebug() << response;
-
-            QJsonParseError parseError;
-            QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-            if (parseError.error != QJsonParseError::NoError)
-            {
-                qDebug() << response;
-                qWarning() << "Json parse error:" << parseError.errorString();
-            }
-            else
-            {
-                if (doc.isObject())
-                {
-                    QJsonObject obj = doc.object();
-                    int iCode = obj["code"].toInt();
-                    QString strMessage = obj["message"].toString();
-                    bool bData = obj["data"].toBool();
-                    qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                    if (HTTP_SUCCESS_CODE == iCode && bData)
-                    {
-                        //HttpQueryAllGroup();
-                    }
-                    else
-                    {
-                        MessageTipsDialog* tips = new MessageTipsDialog(strMessage);
-                        tips->show();
-                    }
-                }
-            }
-        }
-        else {
-            // 处理错误
-            qDebug() << "Error:" << reply->errorString();
-        }
-                 
-        multiPart->deleteLater();
-        reply->deleteLater();
-        });
-}*/

@@ -35,6 +35,8 @@ private:
     void SelectFile();
     void uploadFile();
 
+    void GetOSSInfo();
+
     Ui::UploadFileDialog *ui;
     QStringList m_strPhoneList;
 };

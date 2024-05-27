@@ -123,3 +123,35 @@ DEPENDPATH += $$PWD/include
 
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/qrencode.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libqrencode.a
+
+win32: LIBS += -L$$PWD/libs/ -lalibabacloud-oss-cpp-sdk
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/alibabacloud-oss-cpp-sdk.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libalibabacloud-oss-cpp-sdk.a
+
+win32: LIBS += -L$$PWD/libs/ -llibcurl
+
+INCLUDEPATH += $$PWD/include/curl
+DEPENDPATH += $$PWD/include/curl
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/libcurl.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/liblibcurl.a
+
+win32: LIBS += -L$$PWD/libs/ -lssleay32
+
+INCLUDEPATH += $$PWD/include/openssl
+DEPENDPATH += $$PWD/include/openssl
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/ssleay32.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libssleay32.a
+
+win32: LIBS += -L$$PWD/libs/ -llibeay32
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/libeay32.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/liblibeay32.a

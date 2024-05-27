@@ -5,6 +5,12 @@
 #include "global.h"
 #include <QProgressBar>
 #include "queuetableitem.h"
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include "messagetipsdialog.h"
+#include <QNetworkReply>
+#include <QJsonParseError>
+#include <QJsonObject>
 
 UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     : QDialog(parent)
@@ -22,6 +28,8 @@ UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
 
     ui->stackedWidget->setCurrentWidget(ui->page);
     InitWidget(ui->listWidgetChooseFile);
+
+    GetOSSInfo();
 }
 
 UploadFileDialog::~UploadFileDialog()
@@ -199,4 +207,69 @@ void UploadFileDialog::do_deleteFileItemSignal(QString strFilePath)
     {
         ui->stackedWidget->setCurrentWidget(ui->page);
     }
+}
+
+void UploadFileDialog::GetOSSInfo()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_SERVER_OSS_INFO;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    request.setUrl(url);
+    QByteArray postData = "";
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject dataObj = obj["data"].toObject();
+                        GlobalData::strSecurityToken = dataObj["securityToken"].toString();
+                        GlobalData::strAccessKeySecret = dataObj["accessKeySecret"].toString();
+                        GlobalData::strAccessKeyId = dataObj["accessKeyId"].toString();
+                        GlobalData::strExpiration = dataObj["expiration"].toString();
+                    }
+                    qDebug() << "Code=" << iCode << "message=" << strMessage;
+                    qDebug() << "securityToken=" << GlobalData::strSecurityToken;
+                    qDebug()<< "strAccessKeySecret=" << GlobalData::strAccessKeySecret;
+                    qDebug() << "strAccessKeyId=" << GlobalData::strAccessKeyId;
+                    qDebug() << "strExpiration=" << GlobalData::strExpiration;
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
