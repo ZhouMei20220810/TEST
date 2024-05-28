@@ -169,8 +169,11 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     return true;
 }
 
-bool QueueTableItem::uploadFileCallback(QString filePath, QStringList strPhoneList)
+bool QueueTableItem::uploadFileCallback(QString filePath, QStringList strPhoneList, int iAutoInstall)
 {
+    int iSize = strPhoneList.size();
+    if (iSize <= 0 || filePath.isEmpty())
+        return false;
     /* 初始化OSS账号信息。*/
     std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
     /* 填写Bucket名称，例如examplebucket */
@@ -193,11 +196,47 @@ bool QueueTableItem::uploadFileCallback(QString filePath, QStringList strPhoneLi
     *content << "Thank you for using Aliyun Object Storage Service!";
 
     /* 设置上传回调参数。*/
-    QString strCallbackBody = QString("fileMd5=%1&autoInstall=%2&instanceCodes=%3&createBy=%4&mimeType=${mimeType}&size=${size}&imageInfo=${\"imageInfo.format\"}&bucket=${bucket}&fileName=${object}").arg(GlobalData::getFileMd5(filePath)).arg(0).arg(strPhoneList.at(0)).arg(GlobalData::id);
+    /*QJsonObject jsonObj;
+    jsonObj["fileMd5"] = GlobalData::getFileMd5(filePath);
+    jsonObj["autoInstall"] = 0;//apk文件 0不自动安装，1:自动安装
+    jsonObj["instanceCodes"] = "";
+    jsonObj["createBy"] = GlobalData::id;
+    jsonObj["mimeType"] = "${mimeType}";
+    jsonObj["size"] = "${size}";
+    jsonObj["imageInfo"] = "${\"imageInfo.format\"}";
+    jsonObj["bucket"] = "${bucket}";
+    jsonObj["fileName"] = "${object}";
+    QJsonArray listArray;
+    for (int i = 0; i < iSize; i++)
+    {
+        listArray.append(strPhoneList.at(i));
+    }
+    //doc.setObject(listArray);
+    jsonObj["instanceCodes"] = listArray;
+    //doc.setArray(listArray);
+    QJsonDocument doc(jsonObj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;*/
+    //报错json格式
+    //QString strCallbackBody = "{\"fileMd5\":\"${md5}\",\"autoInstall\":${autoInstall},\"instanceCodes\":${map},\"createBy\":${CacheUtil.getUserInfo()?.userDetailVO?.id},\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${\"imageInfo.format\"},\"bucket\":\${bucket},\"fileName\":\${object}}";
+    //还是报错
+    //QString callbackBody = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${\"imageInfo.format\"},\"bucket\":\${bucket},\"fileName\":\${object}}")
+    //    .arg(GlobalData::getFileMd5(filePath)).arg(iAutoInstall).arg(strPhoneList.at(0)).arg(GlobalData::id);
+    
+    //网站解析正确
+    //QString callbackBody = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"mimeType\":\"${mimeType}\",\"size\":\"${size}\",\"imageInfo\":\"${imageInfo.format}\",\"bucket\":\"${bucket}\",\"fileName\":\"${object}\"}")
+    //    .arg(GlobalData::getFileMd5(filePath)).arg(iAutoInstall).arg(strPhoneList.at(0)).arg(GlobalData::id);
+    //qDebug() << callbackBody;
+    
     //std::string callbackBody = "bucket=${bucket}&object=${object}&etag=${etag}&size=${size}&mimeType=${mimeType}&my_var1=${x:var1}";
-    ObjectCallbackBuilder builder(ServerName, strCallbackBody.toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::URL);
-    //builder.setCallbackBody(strCallbackBody.toStdString());
-    //builder.setCallbackBodyType()
+
+    //QString callbackBody = QString("fileMd5=%1&autoInstall=%2&instanceCodes=%3&createBy=%4&mimeType=${mimeType}&size=${size}&imageInfo=${\"imageInfo.format\"}&bucket=${bucket}&fileName=${object}").arg(GlobalData::getFileMd5(filePath)).arg(0).arg(strPhoneList.at(0)).arg(GlobalData::id);
+    
+    //std::string callbackBody = "bucket=${bucket}&object=${object}&etag=${etag}&size=${size}&mimeType=${mimeType}&my_var1=${x:var1}";
+    QString callbackBody = QString("autoInstall=%1&createBy=%2&fileMd5=%3&fileName=%4&instanceCodes=%5&bucket=${bucket}&object=${object}&size=${size}&mimeType=${mimeType}&size=${size}&imageInfo=${imageInfo}&bucket=${bucket}")
+        .arg(iAutoInstall).arg(GlobalData::id).arg(GlobalData::getFileMd5(filePath)).arg(fileInfo.fileName()).arg(strPhoneList.at(0));
+    qDebug() << callbackBody;
+    ObjectCallbackBuilder builder(ServerName, callbackBody.toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::URL);
     std::string value = builder.build();
     ObjectCallbackVariableBuilder varBuilder;
     varBuilder.addCallbackVariable("x:var1", "value1");
@@ -205,6 +244,7 @@ bool QueueTableItem::uploadFileCallback(QString filePath, QStringList strPhoneLi
     PutObjectRequest request(BucketName, ObjectName, content);
     request.MetaData().addHeader("x-oss-callback", value);
     request.MetaData().addHeader("x-oss-callback-var", varValue);
+    request.MetaData().setContentType("application/x-www-form-urlencoded");//("multipart/form-data");
     auto outcome = client.PutObject(request);
     if (!outcome.isSuccess()) {
         /* 异常处理 */
