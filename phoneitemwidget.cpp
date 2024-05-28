@@ -1,5 +1,6 @@
 #include "phoneitemwidget.h"
 #include "ui_phoneitemwidget.h"
+#include "phoneinstancewidget.h"
 
 PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     : QWidget(parent)
@@ -22,7 +23,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     else
         strUrl = m_strPicturePath;
 
-    ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(GlobalData::iPhoneItemWidth-4, GlobalData::iPhoneItemHeight-4), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     
     m_manager = new QNetworkAccessManager(this);
     //未下载时先隐藏进度条
@@ -42,6 +43,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     //ui->progressBar->setValue(0);
     //ui->progressBar->show();
 
+    ui->label->installEventFilter(this);
 }
 
 PhoneItemWidget::~PhoneItemWidget()
@@ -121,4 +123,25 @@ void PhoneItemWidget::do_timeoutRefreshPicture()
         qDebug() << "停止刷新图片";
         m_refreshTimer->stop();
     }
+}
+
+bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == ui->label)
+    {
+        if (event->type() == QEvent::MouseButtonPress)
+        {
+            PhoneInstanceWidget* instance = new PhoneInstanceWidget();
+            instance->show();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return QWidget::eventFilter(watched, event);
+    }    
 }

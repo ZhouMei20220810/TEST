@@ -44,6 +44,10 @@ private:
     //…Ë÷√∂® ±∆˜
     QTimer* m_refreshTimer;
     bool m_bIsRefresh;
+
+    // QObject interface
+public:
+    virtual bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // PHONEITEMWIDGET_H
