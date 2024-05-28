@@ -44,6 +44,7 @@
 
 //文件相关接口
 #define HTTP_ALIBABA_OSS_ENDPOINT   "oss-cn-beijing.aliyuncs.com" //去掉https,否则https会报认证问题
+#define HTTP_ALIBABA_OSS_CALLBACK   "https://www.ysyos.com/api/file/callback/instance"
 #define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
@@ -219,6 +220,7 @@ public:
     static QString strPhotoUrl;
     static QString strQrcode;
     static QString md5(const QString &str);
+    static QString getFileMd5(const QString& fileName);
 
     static int      iPhoneItemWidth;
     static int      iPhoneItemHeight;

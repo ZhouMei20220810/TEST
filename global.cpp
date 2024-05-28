@@ -1,6 +1,7 @@
 #include "global.h"
 #include "openssl/ssl.h"
 #include <QCryptographicHash>
+#include <QFile>
 
 int GlobalData::id = 10;
 QString GlobalData::strMaxExpirationDate = "";
@@ -25,6 +26,21 @@ QString GlobalData::md5(const QString &str) {
     QCryptographicHash hash(QCryptographicHash::Md5);
     hash.addData(str.toLocal8Bit());
     return hash.result().toHex();
+}
+
+QString GlobalData::getFileMd5(const QString& fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly))
+        return "";
+
+    QCryptographicHash hash(QCryptographicHash::Md5);
+    while (!file.atEnd()) {
+        hash.addData(file.read(1024 * 1024)); // 每次读取1MB
+    }
+    file.close();
+
+    return hash.result().toHex(); // 转换为16进制字符串
 }
 
 std::string sha256(const std::string str)
