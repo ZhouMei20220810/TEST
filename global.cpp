@@ -2,6 +2,9 @@
 #include "openssl/ssl.h"
 #include <QCryptographicHash>
 #include <QFile>
+#include <QMimeDatabase>
+#include <QMimeType>
+#include <QFileInfo>
 
 int GlobalData::id = 10;
 QString GlobalData::strMaxExpirationDate = "";
@@ -41,6 +44,33 @@ QString GlobalData::getFileMd5(const QString& fileName)
     file.close();
 
     return hash.result().toHex(); // 转换为16进制字符串
+}
+
+QString GlobalData::getContentType(const QString& filePath)
+{
+    QMimeDatabase db;
+    QMimeType mimeType = db.mimeTypeForFile(QFileInfo(filePath).canonicalFilePath());
+    return mimeType.name();
+}
+
+QString GlobalData::QStringToBase64(QString str)
+{
+    QByteArray byteA;
+    byteA = str.toUtf8();
+    byteA = byteA.toBase64();
+    char* cbyteA = byteA.data();
+
+    return QString(cbyteA);
+}
+
+QString GlobalData::Base64ToQString(QString base64Str)
+{
+    QByteArray byteA;
+    std::string stdStr = base64Str.toStdString();
+    byteA = QByteArray(stdStr.c_str());
+    byteA = byteA.fromBase64(byteA);
+
+    return  QString::fromUtf8(byteA);
 }
 
 std::string sha256(const std::string str)

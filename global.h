@@ -43,7 +43,7 @@
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 
 //文件相关接口
-#define HTTP_ALIBABA_OSS_ENDPOINT   "oss-cn-beijing.aliyuncs.com" //去掉https,否则https会报认证问题
+#define HTTP_ALIBABA_OSS_ENDPOINT   "https://oss-cn-beijing.aliyuncs.com" //去掉https,否则https会报认证问题
 #define HTTP_ALIBABA_OSS_CALLBACK   "https://www.ysyos.com/api/file/callback/instance"
 #define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
 
@@ -221,6 +221,9 @@ public:
     static QString strQrcode;
     static QString md5(const QString &str);
     static QString getFileMd5(const QString& fileName);
+    static QString getContentType(const QString& filePath);
+    static QString QStringToBase64(QString str);
+    static QString Base64ToQString(QString base64Str);
 
     static int      iPhoneItemWidth;
     static int      iPhoneItemHeight;
