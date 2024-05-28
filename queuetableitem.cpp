@@ -15,6 +15,7 @@
 #include <alibabacloud/oss/OssClient.h>
 #include <fstream>
 
+using namespace AlibabaCloud::OSS;
 QueueTableItem::QueueTableItem(QStringList strPhoneList, QString strFilePath,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::QueueTableItem)
@@ -25,16 +26,24 @@ QueueTableItem::QueueTableItem(QStringList strPhoneList, QString strFilePath,QWi
     ui->labelFinish->setVisible(false);
     ui->toolBtnDelete->setVisible(false);
     ui->toolBtnReupload->setVisible(false);
+    /* 初始化网络等资源 */
+    InitializeSdk();
 
     m_strFilePath = strFilePath;
     QFileInfo fileInfo(strFilePath);
     ui->labelFileName->setText(fileInfo.fileName());
 
-    uploadFile(strFilePath,strPhoneList);
+    if (uploadFile(strFilePath, strPhoneList))
+    {
+        ui->toolBtnCancel->setVisible(false);
+        ui->labelFinish->setVisible(true);
+    }
 }
 
 QueueTableItem::~QueueTableItem()
 {
+    /* 释放网络等资源 */
+    ShutdownSdk();
     delete ui;
 }
 
@@ -60,16 +69,6 @@ void QueueTableItem::on_toolBtnReupload_clicked()
     //重新上传
 }
 
-int64_t getFileSize(const std::string& file)
-{
-    std::fstream f(file, std::ios::in | std::ios::binary);
-    f.seekg(0, f.end);
-    int64_t size = f.tellg();
-    f.close();
-    return size;
-}
-
-using namespace AlibabaCloud::OSS;
 bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList)
 {
     int iSize = strPhoneList.size();    
@@ -84,9 +83,6 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
     QFileInfo fileInfo(filePath);
     std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
-
-    /* 初始化网络等资源 */
-    InitializeSdk();
 
     ClientConfiguration conf;
     /* 设置连接池数，默认为16个 */
@@ -109,11 +105,11 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     //initUploadRequest.MetaData().addHeader("x-oss-storage-class", "Standard");
 
     /* 初始化分片上传事件 */
-    auto uploadIdResult = client.InitiateMultipartUpload(initUploadRequest);
+    InitiateMultipartUploadOutcome uploadIdResult = client.InitiateMultipartUpload(initUploadRequest);
     /* 根据UploadId执行取消分片上传事件或者列举已上传分片的操作。*/
     /* 如果您需要根据您需要UploadId执行取消分片上传事件的操作，您需要在调用InitiateMultipartUpload完成初始化分片之后获取uploadId。*/
     /* 如果您需要根据您需要UploadId执行列举已上传分片的操作，您需要在调用InitiateMultipartUpload完成初始化分片之后，且在调用CompleteMultipartUpload完成分片上传之前获取uploadId。*/
-    auto uploadId = uploadIdResult.result().UploadId();
+    const std::string uploadId = uploadIdResult.result().UploadId();
     std::string fileToUpload = filePath.toStdString();//"yourLocalFilename";
     int64_t partSize = 100 * 1024;
     PartList partETagList;    
@@ -159,19 +155,16 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     /*（可选）请参见如下示例设置读写权限ACL */
     //request.setAcl(CannedAccessControlList::Private);
 
-    auto outcome = client.CompleteMultipartUpload(request);
+    CompleteMultipartUploadOutcome outcome = client.CompleteMultipartUpload(request);
 
     if (!outcome.isSuccess()) {
         /* 异常处理 */
-        std::cout << "CompleteMultipartUpload fail" <<
+        qDebug() << "CompleteMultipartUpload fail" <<
             ",code:" << outcome.error().Code() <<
             ",message:" << outcome.error().Message() <<
-            ",requestId:" << outcome.error().RequestId() << std::endl;
+            ",requestId:" << outcome.error().RequestId();
         return false;
-    }
-
-    /* 释放网络等资源 */
-    ShutdownSdk();
+    }    
     return true;
 
     //QString filePath = QFileDialog::getOpenFileName(this, tr("Select Image"), "", tr("Images (*.png *.jpg *.jpeg)"));
