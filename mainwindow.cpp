@@ -194,7 +194,7 @@ void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
     connect(reply, &QNetworkReply::finished, this, [=] {
         //读取响应数据
         QByteArray response = reply->readAll();
-        qDebug() << response;
+        //qDebug() << response;
 
         QJsonParseError parseError;
         QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
@@ -210,7 +210,7 @@ void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
-                qDebug() << "获取实例截图Code=" << iCode << "message=" << strMessage << "json=" << response;
+                //qDebug() << "获取实例截图Code=" << iCode << "message=" << strMessage << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //更新界面图
@@ -227,7 +227,7 @@ void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
                             taskInfo.fTaskStatus = dataObj["taskStatus"].toDouble();
                             taskInfo.strUrl = dataObj["url"].toString();
                             taskInfo.strPadCode = dataObj["padCode"].toString();
-                            qDebug() << "任务返回数据 No" << taskInfo.strPadCode << "下载图片地址:" << taskInfo.strUrl;
+                            //qDebug() << "任务返回数据 No" << taskInfo.strPadCode << "下载图片地址:" << taskInfo.strUrl;
                             m_mapTask.insert(taskInfo.strPadCode, taskInfo);
                         }
                     }
@@ -297,7 +297,7 @@ void MainWindow::HttpPostInstanceScreenshotRefresh(QStringList strList)
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
                 QString data = obj["data"].toString();
-                qDebug() << "刷新实例截图 Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
+                //qDebug() << "刷新实例截图 Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     m_Timer->start(DOWNLOAD_SCREENSHOT_INTERVAL);
@@ -2661,7 +2661,7 @@ void MainWindow::do_timeoutRefreshPicture()
     QDateTime dateTime = QDateTime::currentDateTime();
     qDebug() << dateTime.toString("yyyy-MM-dd HH:mm:ss");    
     //请求刷新函数
-    qDebug() << "请求生成图片函数";
+    //qDebug() << "请求生成图片函数";
     //获取选中分组的所有手机
     HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
 }
