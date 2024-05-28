@@ -26,6 +26,7 @@ private:
     QString m_strFilePath;
 
     bool uploadFile(const QString& filePath, QStringList strPhoneList);
+    bool uploadFileCallback(QString filePath, QStringList strPhoneList);
 };
 
 #endif // QUEUETABLEITEM_H

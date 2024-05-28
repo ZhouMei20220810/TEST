@@ -165,115 +165,56 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
             ",requestId:" << outcome.error().RequestId();
         return false;
     }    
+    uploadFileCallback(filePath, strPhoneList);
     return true;
+}
 
-    //QString filePath = QFileDialog::getOpenFileName(this, tr("Select Image"), "", tr("Images (*.png *.jpg *.jpeg)"));
-    /*if (!filePath.isEmpty()) {
-        //localimage = filePath;
-        //mLoadingDialog1->show();
-        QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+bool QueueTableItem::uploadFileCallback(QString filePath, QStringList strPhoneList)
+{
+    /* 初始化OSS账号信息。*/
+    std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
+    /* 填写Bucket名称，例如examplebucket */
+    std::string BucketName = "yishunyun-file";
+    /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
+    QFileInfo fileInfo(filePath);
+    std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
+    std::string ServerName = HTTP_ALIBABA_OSS_CALLBACK;//"https://example.aliyundoc.com:23450";
 
-        //QUrl url(strApiRomain + "api/oss/upload");
-        QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-        strUrl += HTTP_UPLOAD_FILE_TO_INSTANCE;
-        QUrl url(strUrl);
+    /* 初始化网络等资源。*/
+    //InitializeSdk();
 
-        QFile* file = new QFile(filePath); // 创建一个QFile对象，用于读取文件内容
-        if (file->open(QIODevice::ReadOnly)) { // 打开文件，只读模式
-            QHttpMultiPart* multiPart = new QHttpMultiPart(this); // 创建QHttpMultiPart对象
-            QHttpPart filePart; // 创建QHttpPart对象来包含文件内容
-            //filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("multipart/form-data"));
-            filePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
-            QFileInfo info(filePath);
-            QString xlname = info.fileName();
-            QJsonObject jsonObj;
-            jsonObj["autoInstall"] = 0;
-            jsonObj["customizeFilePath"] = "";
-            jsonObj["fileMd5"] = "";
-            jsonObj["fileName"] = xlname;
-            jsonObj["fileUrl"] = filePath;
-            QJsonArray listArray;
-            for (int i = 0; i < iSize; i++)
-            {
-                listArray.append(strPhoneList.at(i));
-            }
-            //doc.setObject(listArray);
-            jsonObj["instanceCodes"] = listArray;
-            //doc.setArray(listArray);
-            QJsonDocument doc(jsonObj);
-            QByteArray postData = doc.toJson(QJsonDocument::Compact);
-            qDebug() << postData;
-            //filePart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"file\"; filename=\"" + xlname + "\""));;
-            filePart.setHeader(QNetworkRequest::ContentDispositionHeader, postData);
-            // 使用QFile::readAll来读取文件内容，并将其设置为HTTP部分的内容
-//            QByteArray fileData = file->readAll(); // 使用适当的MIME类型
-//            filePart.setBody(fileData); // 使用适当的MIME类型
-//            file->setParent(multiPart); // 设置文件的父对象为multiPart，确保文件在multiPart删除时被关闭
-//            multiPart->append(filePart); // 将文件部分添加到multiPart中
+    ClientConfiguration conf;
+    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
+    /* 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。*/
+    //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
+    //OssClient client(Endpoint, credentialsProvider, conf);
 
+    std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
+    *content << "Thank you for using Aliyun Object Storage Service!";
 
-            file->open(QIODevice::ReadOnly);
-            filePart.setBodyDevice(file);
-            file->setParent(multiPart);
-            multiPart->append(filePart);
-
-
-            QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-            QNetworkRequest request(url); // 创建网络请求
-            //request.setHeader(QNetworkRequest::ContentTypeHeader, "multipart/form-data"); // 设置content-type为multipart/form-data
-            request.setRawHeader("Authorization", strToken.toLocal8Bit()); // 设置token头
-            qDebug() << "token="<< strToken;
-            QNetworkReply* reply = manager->post(request, multiPart); // 发送包含multiPart的请求
-            //imageurl = "";
-            //imgKey = "";
-            connect(reply, &QNetworkReply::finished, this, [multiPart, reply]()
-                {
-                    if (reply->error() == QNetworkReply::NoError) {
-                        // 处理响应数据
-                        QByteArray response = reply->readAll();
-                        qDebug() << response;
-
-                        QJsonParseError parseError;
-                        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-                        if (parseError.error != QJsonParseError::NoError)
-                        {
-                            qDebug() << response;
-                            qWarning() << "Json parse error:" << parseError.errorString();
-                        }
-                        else
-                        {
-                            if (doc.isObject())
-                            {
-                                QJsonObject obj = doc.object();
-                                int iCode = obj["code"].toInt();
-                                QString strMessage = obj["message"].toString();
-                                bool bData = obj["data"].toBool();
-                                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                                if (HTTP_SUCCESS_CODE == iCode && bData)
-                                {
-                                    //HttpQueryAllGroup();
-                                }
-                                else
-                                {
-                                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage);
-                                    tips->show();
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        // 处理错误
-                        qDebug() << "Error:" << reply->errorString();
-                    }
-
-                    multiPart->deleteLater();
-                    reply->deleteLater();
-                }); // 连接reply的finished信号到你的槽函数
-        }
-        else {
-            // 处理文件打开失败的情况，例如显示错误消息等
-            qDebug() << "Failed to open file:" << filePath;
-            delete file; // 确保在出错时删除file对象，防止内存泄漏
-        }
-    }*/
+    /* 设置上传回调参数。*/
+    QString strCallbackBody = QString("fileMd5=%1&autoInstall=%2&instanceCodes=%3&createBy=%4&mimeType=${mimeType}&size=${size}&imageInfo=${\"imageInfo.format\"}&bucket=${bucket}&fileName=${object}").arg(GlobalData::getFileMd5(filePath)).arg(0).arg(strPhoneList.at(0)).arg(GlobalData::id);
+    //std::string callbackBody = "bucket=${bucket}&object=${object}&etag=${etag}&size=${size}&mimeType=${mimeType}&my_var1=${x:var1}";
+    ObjectCallbackBuilder builder(ServerName, strCallbackBody.toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::URL);
+    //builder.setCallbackBody(strCallbackBody.toStdString());
+    //builder.setCallbackBodyType()
+    std::string value = builder.build();
+    ObjectCallbackVariableBuilder varBuilder;
+    varBuilder.addCallbackVariable("x:var1", "value1");
+    std::string varValue = varBuilder.build();
+    PutObjectRequest request(BucketName, ObjectName, content);
+    request.MetaData().addHeader("x-oss-callback", value);
+    request.MetaData().addHeader("x-oss-callback-var", varValue);
+    auto outcome = client.PutObject(request);
+    if (!outcome.isSuccess()) {
+        /* 异常处理 */
+        qDebug() << "CompleteMultipartUpload fail" <<
+            ",code:" << outcome.error().Code() <<
+            ",message:" << outcome.error().Message() <<
+            ",requestId:" << outcome.error().RequestId();
+        return false;
+    }
+    return true;
+    /* 释放网络等资源。*/
+    //ShutdownSdk();
 }
