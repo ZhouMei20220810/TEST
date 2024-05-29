@@ -13,10 +13,10 @@
 
 class AWE_DECLARE_DATA APacket{
 public:
-    APacket(int32_t capacity);
-    APacket(void *data, int32_t capacity);
+	APacket(int32_t capacity);
+	APacket(void *data, int32_t capacity);
 
-    ~APacket();
+	~APacket();
 
     uint8_t *base() { return (uint8_t *)mData; }
     uint8_t *data() { return (uint8_t *)mData + mRangeOffset; }
@@ -53,9 +53,9 @@ private:
 };
 
 typedef struct MediaPacket{
-    uint32_t length;
-    uint32_t type;    //0:audio, 1:I frame, 2:P frame, 7:sps, 8:pps, 100:fps
-    int64_t timestamp;
+	uint32_t length;
+	uint32_t type;	//0:audio, 1:I frame, 2:P frame, 7:sps, 8:pps, 100:fps
+	int64_t timestamp;
 }MediaPacket;
 
 #endif /* APACKET_H_ */

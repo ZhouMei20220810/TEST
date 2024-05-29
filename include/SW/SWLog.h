@@ -10,15 +10,15 @@
 
 class AWE_DECLARE_DATA SWLog{
 public:
-    ~SWLog();
-    void init(int level, const char* filename);
-    static SWLog* getInstance();
+	~SWLog();
+	void init(int level, const char* filename);
+	static SWLog* getInstance();
 
-    static void write();
+	static void write();
 private:
-    static SWLog _instance;
-    SWLog();
-    DISALLOW_EVIL_CONSTRUCTORS(SWLog);
+	static SWLog _instance;
+	SWLog();
+	DISALLOW_EVIL_CONSTRUCTORS(SWLog);
 };
 
 #endif /* SWLOG_H_ */

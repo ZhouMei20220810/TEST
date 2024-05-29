@@ -17,7 +17,7 @@
 #include <sys/time.h>
 #endif
 
-#include "common/common.h"
+#include <common/common.h>
 
 /** number of microseconds per second */
 #define AWE_USEC_PER_SEC INT64_C(1000000)
@@ -79,8 +79,8 @@ void delay_ms(int32_t ms);
 #if defined(_WIN32)
 
 struct timezone {
-    int tz_minuteswest; /* minutes W of Greenwich */
-    int tz_dsttime; /* type of dst correction */
+	int tz_minuteswest; /* minutes W of Greenwich */
+	int tz_dsttime; /* type of dst correction */
 };
 
 int gettimeofday(struct timeval *tv, struct timezone *tz);

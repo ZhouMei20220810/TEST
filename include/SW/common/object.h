@@ -9,14 +9,14 @@
 #include <common/common.h>
 
 #define OBJECT_DEC \
-    volatile int _refs
+	volatile int _refs
 
 #define object_init(obj) (obj)->_refs = 1
 //#define object_ref_inc(obj) atomic_fetch_add(&(obj)->_refs, 1)
 //#define object_ref_dec(obj) atomic_fetch_sub(&(obj)->_refs, 1)
 
 typedef struct awe_object{
-    OBJECT_DEC;
+	OBJECT_DEC;
 }awe_object;
 
 AWE_BEGIN_DECLS

@@ -12,16 +12,16 @@
 AWE_BEGIN_DECLS
 
 typedef enum ConnType{
-    CONN_STREAM = 1,
-    CONN_DGRAM,
+	CONN_STREAM = 1,
+	CONN_DGRAM,
 }ConnType;
 
 typedef enum af_t{
-    STREAM            = SOCK_STREAM,
-    DGRAM            = SOCK_DGRAM,
+	STREAM			= SOCK_STREAM,
+	DGRAM			= SOCK_DGRAM,
 
-    STREAM_V6        = SOCK_STREAM,
-    DGRAM_V6        = SOCK_DGRAM,
+	STREAM_V6		= SOCK_STREAM,
+	DGRAM_V6		= SOCK_DGRAM,
 }af_t;
 
 typedef struct connection connection_t;
@@ -29,10 +29,10 @@ typedef struct connection connection_t;
 /*
  * Create a connection.
  * @return 0: success,
- *          < 0: failed.
+ * 		 < 0: failed.
  */
 AWE_DECLARE(connection_t*) connection_stream(int af, int fd,
-        struct sockaddr* addr, socklen_t addrlen, int use_ssl, uint32_t id);
+		struct sockaddr* addr, socklen_t addrlen, int use_ssl, uint32_t id);
 AWE_DECLARE(connection_t*) connection_stream2(int af, int use_ssl, uint32_t id);
 
 AWE_DECLARE(connection_t*) connection_dgram(int af, int fd, uint32_t id);
@@ -50,9 +50,9 @@ AWE_DECLARE(void) connection_autorelease(connection_t **conn);
 /**
  * Open connection
  * @return 0: The connection is pending
- *           1: local connection connected
- *           > 1: Connection had opened
- *           < 0: error
+ * 		  1: local connection connected
+ * 		  > 1: Connection had opened
+ * 		  < 0: error
  */
 AWE_DECLARE(status_t) connection_open(connection_t *conn, const char *host, uint16_t port, uint16_t bindPort);
 
@@ -75,13 +75,13 @@ AWE_DECLARE(int) connection_ssl_pending(connection_t *conn);
  * @param buffer    Pointer to destination buffer.
  * @param size       Number of bytes to read.
  * @return Number of bytes read.
- *             < 0 if error.
+ * 			< 0 if error.
  */
 AWE_DECLARE(int) connection_read(connection_t *conn,
-        void *buffer, size_t size);
+		void *buffer, size_t size);
 
 AWE_DECLARE(int) connection_read2(connection_t *conn,
-        void *buffer, size_t size, struct sockaddr *fromAddress);
+		void *buffer, size_t size, struct sockaddr *fromAddress);
 
 /**
  * Write bytes to the connection.
@@ -89,13 +89,13 @@ AWE_DECLARE(int) connection_read2(connection_t *conn,
  * @param buffer    Pointer to source buffer.
  * @param size       Number of bytes to read.
  * @return Number of bytes written.
- *             < 0 if error.
+ * 			< 0 if error.
  */
 AWE_DECLARE(int) connection_write(connection_t *conn,
-        const void *buffer, size_t size);
+		const void *buffer, size_t size);
 
 AWE_DECLARE(int) connection_write2(connection_t *conn,
-        const char *host, uint16_t port, const void *buffer, size_t size);
+		const char *host, uint16_t port, const void *buffer, size_t size);
 
 AWE_DECLARE(void) connection_setid(connection_t *conn, uint32_t id);
 

@@ -14,16 +14,16 @@
 #include <VideoDisplay.h>
 
 
-class SWDisplayIOS : public VideoDisplay{
+class SWDisplayIOS: public VideoDisplay{
 public:
-    SWDisplayIOS(SWView* view);
-    virtual ~SWDisplayIOS();
+	SWDisplayIOS(SWView* view);
+	virtual ~SWDisplayIOS();
 
-    void setLogId(uint32_t id) override;
-    void render(VideoFrame *vf) override;
+	void setLogId(uint32_t id) override;
+	void render(VideoFrame *vf) override;
 
-    inline int getFrameWidth(){ return mWidth; }
-    inline int getFrameHeight(){ return mHeight; }
+	inline int getFrameWidth(){ return mWidth; }
+	inline int getFrameHeight(){ return mHeight; }
 
 private:
 //    Mutex mMutex;
@@ -31,8 +31,8 @@ private:
     
     uint32_t mId = 0;
     
-    int    mWidth = 0;
-    int mHeight = 0;
+	int	mWidth = 0;
+	int mHeight = 0;
     
     bool mRenderedFirstFrame = true;
     
@@ -42,7 +42,7 @@ private:
     uint8_t* mBuffer = NULL;
     int mBufferSize = 0;
     
-    DISALLOW_EVIL_CONSTRUCTORS(SWDisplayIOS);
+	DISALLOW_EVIL_CONSTRUCTORS(SWDisplayIOS);
 };
 
 #endif /* SW_DISPLAY_IOS_H_ */
