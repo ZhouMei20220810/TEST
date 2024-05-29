@@ -24,8 +24,11 @@ private slots:
 private:
     Ui::QueueTableItem *ui;
     QString m_strFilePath;
+    QStringList m_strPhoneList;
+    std::string m_UploadId;
 
     bool uploadFile(const QString& filePath, QStringList strPhoneList);
+    bool cancelUploadFile(const QString& filePath, QStringList strPhoneList);
     bool uploadFileCallback(QString filePath, QStringList strPhoneList,int iAutoInstall = 0);
 };
 
