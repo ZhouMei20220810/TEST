@@ -199,16 +199,20 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     qDebug() <<"strcallbackBody="<< strcallbackBody;
     QString strcallbackBodyJson = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${imageInfo},\"bucket\":\${bucket},\"fileName\":\"%5\"}")
         .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName());
-    qDebug() << "strcallbackBodyJson=" << strcallbackBodyJson;
-    QString strcallbackBodyXml = QString("fileMd5=%1&autoInstall=%2&instanceCodes=%3&createBy=%4&mimeType=${mimeType}&size=${size}&imageInfo=${imageInfo}&bucket=${bucket}&fileName=%5")
+    strcallbackBodyJson = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"fileName\":\"%5\"}")
         .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName());
-    qDebug() <<"strcallbackBodyXml"<< strcallbackBodyXml;
+    qDebug() << "strcallbackBodyJson=" << strcallbackBodyJson;
+
+    QString strcallbackBodyUrl = QString("fileMd5=%1&autoInstall=%2&instanceCodes=%3&createBy=%4&mimeType=${mimeType}&size=${size}&imageInfo=${imageInfo}&bucket=${bucket}&fileName=%5")
+        .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName());
+    qDebug() <<"strcallbackBodyUrl"<< strcallbackBodyUrl;
 
     QString strNewcallbackBody = "bucket=${bucket}&object=${object}";
     /* 在执行完成分片上传操作时，需要提供所有有效的partETags。OSS收到提交的partETags后，会逐一验证每个分片的有效性。当所有的数据分片验证通过后，OSS将把这些分片组合成一个完整的文件。*/
     //QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":\"bucket=${bucket}&object=${object}\",\"callbackBodyType\":\"application/x-www-form-urlencoded\"}";
 
-    QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":\"" + strNewcallbackBody+"\",\"callbackBodyType\":\"application/x-www-form-urlencoded\"}";
+    //QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":\"" + strNewcallbackBody+"\",\"callbackBodyType\":\"application/x-www-form-urlencoded\"}";
+    QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":" + strcallbackBodyJson + ",\"callbackBodyType\":\"application/json\"}";
     qDebug()<<"strBody="<<strBody;
     CompleteMultipartUploadRequest putrequest(BucketName, ObjectName);
     putrequest.setUploadId(uploadId);
@@ -217,19 +221,26 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     putrequest.setCallback(GlobalData::QStringToBase64(strBody).toStdString());
     qDebug() << "64base strBody=" << GlobalData::QStringToBase64(strBody).toStdString();
 
-    //auto outcome = client.PutObject(request);
-
-
-
-
-
-
-
-
-
-    
+    //auto outcome = client.PutObject(request);    
     CompleteMultipartUploadOutcome outcome = client.CompleteMultipartUpload(putrequest);
 
+
+    //std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
+    //*content << "Thank you for using Aliyun Object Storage Service!";
+
+    /* 设置上传回调参数。*/
+    /*std::string callbackBody = "bucket=${bucket}&object=${object}&etag=${etag}&size=${size}&mimeType=${mimeType}&my_var1=${x:var1}";
+    ObjectCallbackBuilder builder(ServerName, callbackBody, "", ObjectCallbackBuilder::Type::URL);
+    std::string value = builder.build();
+    ObjectCallbackVariableBuilder varBuilder;
+    varBuilder.addCallbackVariable("x:var1", "value1");
+    std::string varValue = varBuilder.build();
+    PutObjectRequest request(BucketName, ObjectName, content);
+    request.MetaData().addHeader("x-oss-callback", value);
+    request.MetaData().addHeader("x-oss-callback-var", varValue);
+    //设置回调参数？
+    request.setCallback(GlobalData::QStringToBase64(strBody).toStdString());
+    auto outcome = client.PutObject(request);*/
     if (!outcome.isSuccess()) {
         /* 异常处理 */
         qDebug() << "CompleteMultipartUpload fail" <<
@@ -241,7 +252,8 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     else
     {
         //成功结果
-        qDebug() << "成功：location=" << outcome.result().Location() <<"Tag="<<outcome.result().ETag()<<"CRC64="<<outcome.result().CRC64();
+        qDebug() << "成功";
+        //qDebug() << "成功：location=" << outcome.result().Location() <<"Tag="<<outcome.result().ETag()<<"CRC64="<<outcome.result().CRC64();
     }
     return true;
 }
