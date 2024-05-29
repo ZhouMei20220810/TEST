@@ -94,7 +94,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -160,7 +160,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;$(QTDIR)\lib\Qt6QmlModelsd.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;$(QTDIR)\lib\Qt6QmlModelsd.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>

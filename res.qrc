@@ -19,7 +19,6 @@
     </qresource>
     <qresource prefix="/main">
         <file>resource/main/control_contraction.png</file>
-        <file>resource/main/level.png</file>
         <file>resource/main/level_enhancenment.png</file>
         <file>resource/main/level_normal.png</file>
         <file>resource/main/level_Premier.png</file>

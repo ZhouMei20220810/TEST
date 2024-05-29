@@ -17,6 +17,8 @@
 #define HTTP_DELETE_GROUP           "/api/group/delete"     //删除分组
 #define HTTP_TOKEN_HEADER           "Bearer "               //token添加头
 
+//会员列表
+#define HTTP_LEVEL_LIST             "/api/level/list"       
 //会员相关接口
 #define HTTP_MEMBER_LEVEL_LIST_DATA "/api/member/data"      //获取会员等级列表
 
@@ -80,10 +82,9 @@ typedef struct LEVEL_INFO
     int     iLevelId;
     QString strLevelName;       //等级名称
     QString strLevelRemark;     //等级描述
-    QString strFunction;        //功能描述
-    bool    bCloudManage;       //云端管理
-    bool    bAndroidSystem;     //安卓系统
-    bool    bCloudPhoneLicensing;//云手机授权
+    QString strColorIcon;       //彩图
+    QString strAshIcon;         //灰图
+    bool    bIsEnabled;         //是否启动
     LEVEL_INFO()
     {
         memset(this, 0, sizeof(LEVEL_INFO));

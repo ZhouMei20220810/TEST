@@ -36,7 +36,7 @@ private:
     void ShowTaskInfo();
 
     //会员级别接口
-    void HttpMemberLevelList();
+    void HttpLevelList();
     //会员相关接口
     void HttpMemberLevelListData();
 
@@ -70,7 +70,7 @@ private:
     //获取我的手机实例
     void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
     //获取我的实例级别
-    void HttpGetMyInstanceLevel();
+    void HttpGetMyInstanceLevel(int iPhoneId);
     //生成QrCode
     void gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale);
 
@@ -183,7 +183,8 @@ private:
     // QWidget interface
 
     LevelItemWidget* levelItem;
-
+    //int会员等级
+    QMap<int, S_LEVEL_INFO> m_mapLevelList;
     //int会员等级id,会员列表
     QMap<int,QMap<int,S_LEVEL_DATA_INFO>> m_mapLevel;
     //任务列表

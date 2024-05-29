@@ -680,8 +680,9 @@ void MainWindow::InitCloudPhoneTab()
     m_PhoneMenu->addSeparator();
     m_PhoneMenu->addAction(pActionRenewCloudPhone);
 
-
-    ui->treeWidget->setColumnCount(1);
+    ui->treeWidget->setColumnCount(2);
+    ui->treeWidget->setColumnWidth(0, 200);
+    ui->treeWidget->setColumnWidth(1, 50);
     //ui->treeWidget->setHeaderLabel("分组列表");
     //ui->treeWidget->setHeaderLabels("分组列表");
     //隐藏表头
@@ -728,8 +729,9 @@ void MainWindow::InitBuyTab()
 {
     //隐藏微信支付
     ui->toolBtnPayWechat->setVisible(false);
-
-    //加载数据
+    //加载等级列表
+    HttpLevelList();
+    //加载等级数据
     HttpMemberLevelListData();
     
     InitVipList();
@@ -1021,20 +1023,30 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
         { // 判断是否为根节点
             // 在这里处理根节点
             // 例如：
-            qDebug() << item->text(0);
+            QString strLevelName = "";
 
             sGroupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
             if (iGroupId == sGroupInfo.iGroupId)
             {
+                QMap<int, S_LEVEL_INFO>::iterator iterFind; 
                 QMap<int, S_PHONE_INFO>::iterator iter = mapPhoneInfo.begin();
                 for (; iter != mapPhoneInfo.end(); iter++)
                 {
+                    iterFind = m_mapLevelList.find(iter->iLevel);
+                    strLevelName = "";
+                    if (iterFind != m_mapLevelList.end())
+                    {
+                        strLevelName = iterFind->strLevelName;
+                    }
+
                     qDebug() << "phone = " << iter->strName;
                     phoneItem = new QTreeWidgetItem(item);
                     qDebug() << "phone id" << iter->iId << " name=" << iter->strName;
                     //phoneItem->setData(0, Qt::UserRole, iter->iId);
                     phoneItem->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
-                    phoneItem->setText(0, iter->strName /* + iter->strExpireTime */ );
+                    phoneItem->setIcon(0,QIcon(":/main/resource/main/expand.png"));
+                    phoneItem->setIcon(1, QIcon(":/main/resource/main/expand.png"));
+                    phoneItem->setText(0, strLevelName+" " + iter->strName /* + iter->strExpireTime */);
                     phoneItem->setCheckState(0, Qt::Checked);
                     item->addChild(phoneItem);
 
@@ -1355,9 +1367,83 @@ void MainWindow::HttpDeleteGroup(int iGroupId)//删除分组
 }*/
 
 //会员级别接口
-void MainWindow::HttpMemberLevelList()
-{
+void MainWindow::HttpLevelList()
+{    
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_LEVEL_LIST;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    /*QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("code", strCode);
+    obj.insert("password", strPassword);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
+    QByteArray postData = "";
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
 
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();                
+                qDebug() << "Code=" << iCode << "message=" << strMessage <<"json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isArray())
+                    {
+                        QJsonArray dataArray = obj["data"].toArray();
+                        QJsonObject objData;
+                        int iSize = dataArray.size();
+                        m_mapLevelList.clear();
+                        S_LEVEL_INFO info;
+                        for (int i = 0; i < iSize; i++)
+                        {
+                            objData = dataArray.at(i).toObject();
+                            info.iLevelId = objData["id"].toInt();
+                            info.strLevelName = objData["name"].toString();
+                            info.strColorIcon = objData["colorIcon"].toString();
+                            info.strAshIcon = objData["ashIcon"].toString();
+                            info.bIsEnabled = objData["isEnabled"].toBool();
+                            info.strLevelRemark = objData["remark"].toString();
+                            m_mapLevelList.insert(info.iLevelId,info);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 
 //会员相关接口
@@ -1782,10 +1868,11 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
 }
 
 //获取我的实例级别
-void MainWindow::HttpGetMyInstanceLevel()
+void MainWindow::HttpGetMyInstanceLevel(int iPhoneId)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_GET_MYINSTANCE_LEVEL;
+    strUrl += QString("/%1").arg(iPhoneId);
     qDebug() << "strUrl = " << strUrl;
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);

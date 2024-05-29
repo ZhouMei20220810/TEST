@@ -904,11 +904,7 @@ border-bottom: 1px solid #D7D7DE;
 QTreeView::item:hover
 {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);
-    border: 1px solid #bfcde4;
-}
-QTreeView::item:hover
-{
-    background: #CECFD3;
+    border:0px solid #bfcde4;
 }
 QTreeView::item:selected:active
 {
@@ -933,7 +929,8 @@ QTreeView::branch:open:has-children:!has-siblings,QTreeView::branch:open:has-chi
     border-image: none;
     background:#FFECECF2;
     image: url(:/main/resource/main/zhangkai.png);
-}</string>
+}
+QTreeView::item{border-right: 0px solid #ffffff; border-bottom: 0px solid #ffffff;}</string>
                     </property>
                     <column>
                      <property name="text">
@@ -2745,7 +2742,7 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>1282</width>
+                     <width>80</width>
                      <height>234</height>
                     </rect>
                    </property>
