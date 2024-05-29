@@ -189,8 +189,10 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
      jsonBody.insert("callbackBody")
      docBody.setObject(jsonBody);
      QByteArray postData = docBody.toJson(QJsonDocument::Compact);*/
-
-     ObjectCallbackBuilder builder(ServerName, GlobalData::QStringToBase64(callbackBody).toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::URL);
+    QString strJson = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"fileName\":\"%5\",\"mimeType\":\"%6\",\"size\":%7,\"bucket\":\"yishunyun-file\",\"imageInfo\":\"%8\"}")
+        .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName()).arg(GlobalData::getContentType(filePath)).arg(fileInfo.size()).arg(fileInfo.absoluteFilePath());
+    qDebug() << "strJson=" << strJson;
+     ObjectCallbackBuilder builder(ServerName, GlobalData::QStringToBase64(strJson).toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::JSON);
      std::string value = builder.build();
      //ObjectCallbackVariableBuilder varBuilder;
      //varBuilder.addCallbackVariable("x:var1", "value1");
