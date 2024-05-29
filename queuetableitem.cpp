@@ -197,7 +197,7 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     //同安卓
     QString strcallbackBody = "{\"fileMd5\":\"${md5}\",\"autoInstall\":${autoInstall},\"instanceCodes\":${map},\"createBy\":${CacheUtil.getUserInfo()?.userDetailVO?.id},\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${\"imageInfo.format\"},\"bucket\":\${bucket},\"fileName\":\${object}}";
     qDebug() <<"strcallbackBody="<< strcallbackBody;
-    QString strcallbackBody2 = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":\"%3\",\"createBy\":%4,\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${\"imageInfo\"},\"bucket\":\${bucket},\"fileName\":\"%5\"}")
+    QString strcallbackBody2 = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${imageInfo},\"bucket\":\${bucket},\"fileName\":\"%5\"}")
         .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName());
     qDebug() << "strcallbackBody2=" << strcallbackBody2;
     QString strNewcallbackBody = "bucket=${bucket}&object=${object}";
