@@ -81,4 +81,11 @@
         <file>resource/function/wechat.png</file>
         <file>resource/function/zhifubao.png</file>
     </qresource>
+    <qresource prefix="/instance">
+        <file>resource/instance/b1.png</file>
+        <file>resource/instance/b2.png</file>
+        <file>resource/instance/b3.png</file>
+        <file>resource/instance/b4.png</file>
+        <file>resource/instance/b5.png</file>
+    </qresource>
 </RCC>

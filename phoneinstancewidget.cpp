@@ -14,6 +14,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
 
     m_PhoneInfo = sPhoneInfo;
     ui->toolBtnShow->setVisible(false);
+    m_strPicturePath = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + "/" + m_PhoneInfo.strInstanceNo + ".png";
 
     ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);
     //ui->frame_2->setVisible(true);    
@@ -41,9 +42,35 @@ void PhoneInstanceWidget::on_toolBtnPictureQuality_clicked()
 
 void PhoneInstanceWidget::on_toolBtnTopLevel_clicked()
 {
+    //切换窗口状态
+    if (window()->isMaximized()) {
+        return;
+    }
+    // 获取当前窗口状态
+    Qt::WindowFlags flags = window()->windowFlags();
 
+    // 切换置顶状态
+    flags ^= Qt::WindowStaysOnTopHint;
+
+    // 更新窗口状态
+    window()->setWindowFlags(flags);
+
+    // 检查窗口是否可见
+    if (!window()->isVisible()) {
+        // 窗口不可见，尝试重新显示窗口
+        window()->show();
+    }
+    if (flags & Qt::WindowStaysOnTopHint) {
+        ui->toolBtnTopLevel->setText("➴");
+        QString styleSheet = QString("QToolButton{background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
+        ui->toolBtnTopLevel->setStyleSheet(styleSheet);
+    }
+    else {
+        ui->toolBtnTopLevel->setText("↘");
+        QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
+        ui->toolBtnTopLevel->setStyleSheet(styleSheet);
+    }
 }
-
 
 void PhoneInstanceWidget::on_toolBtnMin_clicked()
 {
@@ -53,7 +80,21 @@ void PhoneInstanceWidget::on_toolBtnMin_clicked()
 
 void PhoneInstanceWidget::on_toolBtnMax_clicked()
 {
-    this->showMaximized();
+    //最大化、常态
+    QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
+    ui->toolBtnTopLevel->setStyleSheet(styleSheet);
+    if (window()->isMaximized()) {
+        ui->toolBtnMax->setIcon(QIcon(":/instance/resource/instance/b3.png"));
+        QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);margin-bottom:3px;}QToolButton:hover {color: rgb(255, 255, 255);}");
+        ui->toolBtnMax->setStyleSheet(styleSheet);
+        this->showNormal();
+    }
+    else {
+        ui->toolBtnMax->setIcon(QIcon(":/instance/resource/instance/b5.png"));
+        QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);margin-bottom:2px;}QToolButton:hover {color: rgb(255, 255, 255);}");
+        ui->toolBtnMax->setStyleSheet(styleSheet);
+        this->showMaximized();
+    }
 }
 
 
@@ -124,12 +165,9 @@ void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
     //恢复出厂设置
 }
 
-
-
 void PhoneInstanceWidget::showEvent(QShowEvent *event)
 {
-    qDebug() << "showEvent = ";
-    m_strPicturePath = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + "/" + m_PhoneInfo.strInstanceNo + ".png";
+    qDebug() << "PhoneInstanceWidget showEvent = ";    
     QFile file1(m_strPicturePath);
     QString strUrl;
     if (!file1.exists())
