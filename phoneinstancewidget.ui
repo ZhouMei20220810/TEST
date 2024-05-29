@@ -14,6 +14,21 @@
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
@@ -37,10 +52,42 @@
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QLabel" name="labelPhoneName">
+         <widget class="QToolButton" name="toolBtnPhoneInstance">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton:hover{
+border:0px
+}</string>
+          </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>VM</string>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -64,28 +111,28 @@
         <item>
          <widget class="QToolButton" name="toolBtnTopLevel">
           <property name="text">
-           <string>...</string>
+           <string>置顶</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnMin">
           <property name="text">
-           <string>...</string>
+           <string>最小化</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnMax">
           <property name="text">
-           <string>...</string>
+           <string>最大化</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnClose">
           <property name="text">
-           <string>...</string>
+           <string>关闭</string>
           </property>
          </widget>
         </item>

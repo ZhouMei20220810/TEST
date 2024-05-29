@@ -23,7 +23,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     else
         strUrl = m_strPicturePath;
 
-    ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(GlobalData::iPhoneItemWidth-4, GlobalData::iPhoneItemHeight-4), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     
     m_manager = new QNetworkAccessManager(this);
     //未下载时先隐藏进度条
@@ -131,7 +131,7 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
-            PhoneInstanceWidget* instance = new PhoneInstanceWidget();
+            PhoneInstanceWidget* instance = new PhoneInstanceWidget(m_sTaskInfo);
             instance->show();
             return true;
         }

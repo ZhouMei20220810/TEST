@@ -1,20 +1,36 @@
 #include "phoneinstancewidget.h"
 #include "ui_phoneinstancewidget.h"
+#include <QDir>
+#include <QClipboard>
+#include "messagetips.h"
 
-PhoneInstanceWidget::PhoneInstanceWidget(QWidget *parent)
+PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PhoneInstanceWidget)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    setWindowFlag(Qt::FramelessWindowHint);
 
+    m_PhoneInfo = sPhoneInfo;
     ui->toolBtnShow->setVisible(false);
-    //ui->frame_2->setVisible(true);
+
+    ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);
+    //ui->frame_2->setVisible(true);    
 }
 
 PhoneInstanceWidget::~PhoneInstanceWidget()
 {
     delete ui;
+}
+
+void PhoneInstanceWidget::on_toolBtnPhoneInstance_clicked()
+{
+    QClipboard* clipboard = QApplication::clipboard();
+    clipboard->setText(ui->toolBtnPhoneInstance->text());
+
+    MessageTips* tips = new MessageTips("已复制云号至剪贴板", this);
+    tips->show();
 }
 
 void PhoneInstanceWidget::on_toolBtnPictureQuality_clicked()
@@ -107,4 +123,23 @@ void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
 {
     //恢复出厂设置
 }
+
+
+
+void PhoneInstanceWidget::showEvent(QShowEvent *event)
+{
+    qDebug() << "showEvent = ";
+    m_strPicturePath = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + "/" + m_PhoneInfo.strInstanceNo + ".png";
+    QFile file1(m_strPicturePath);
+    QString strUrl;
+    if (!file1.exists())
+        strUrl = ":/main/resource/main/defaultSceenShot.png";
+    else
+        strUrl = m_strPicturePath;
+    ui->labelPhone->setPixmap(QPixmap(strUrl).scaled(QSize(ui->labelPhone->width(), ui->labelPhone->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    QSize actualSize = ui->labelPhone->size();
+    ui->labelPhone->setPixmap(QPixmap(strUrl).scaled(QSize(ui->labelPhone->width(), ui->labelPhone->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    qDebug() << "Size after showing:" << actualSize;
+}
+
 

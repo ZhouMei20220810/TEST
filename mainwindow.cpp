@@ -531,7 +531,12 @@ void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
 //手机菜单
 void MainWindow::do_ActionBeginControl(bool bChecked)
 {
-    PhoneInstanceWidget* widget = new PhoneInstanceWidget();
+    m_pCurItem = ui->treeWidget->currentItem();
+    if (m_pCurItem == NULL)
+        return;
+
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+    PhoneInstanceWidget* widget = new PhoneInstanceWidget(phoneInfo);
     widget->show();
 }
 void MainWindow::do_ActionCopyCloudId(bool bChecked)
