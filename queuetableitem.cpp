@@ -197,14 +197,14 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     //同安卓
     QString strcallbackBody = "{\"fileMd5\":\"${md5}\",\"autoInstall\":${autoInstall},\"instanceCodes\":${map},\"createBy\":${CacheUtil.getUserInfo()?.userDetailVO?.id},\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${\"imageInfo.format\"},\"bucket\":\${bucket},\"fileName\":\${object}}";
     qDebug() <<"strcallbackBody="<< strcallbackBody;
-    QString strcallbackBody2 = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${\"imageInfo\"},\"bucket\":\${bucket},\"fileName\":%5}")
+    QString strcallbackBody2 = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":\"%3\",\"createBy\":%4,\"mimeType\":\${mimeType},\"size\":\${size},\"imageInfo\":\${\"imageInfo\"},\"bucket\":\${bucket},\"fileName\":\"%5\"}")
         .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName());
     qDebug() << "strcallbackBody2=" << strcallbackBody2;
     QString strNewcallbackBody = "bucket=${bucket}&object=${object}";
     /* 在执行完成分片上传操作时，需要提供所有有效的partETags。OSS收到提交的partETags后，会逐一验证每个分片的有效性。当所有的数据分片验证通过后，OSS将把这些分片组合成一个完整的文件。*/
     //QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":\"bucket=${bucket}&object=${object}\",\"callbackBodyType\":\"application/x-www-form-urlencoded\"}";
-    QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":\"";
-    strBody += strNewcallbackBody+"\",\"callbackBodyType\":\"application/x-www-form-urlencoded\"}";
+
+    QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":\"" + strNewcallbackBody+"\",\"callbackBodyType\":\"application/x-www-form-urlencoded\"}";
     qDebug()<<"strBody="<<strBody;
     CompleteMultipartUploadRequest putrequest(BucketName, ObjectName);
     putrequest.setUploadId(uploadId);
