@@ -21,7 +21,7 @@ QToolButton:hover {
 color: rgb(255, 255, 255);
 background-color: #FFE7E8EE;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -55,6 +55,13 @@ padding-left:8px;
          <width>16777215</width>
          <height>40</height>
         </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton
+{
+width:28;
+height:40;
+}</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -95,10 +102,10 @@ border:none;
 color: rgb(204, 204, 204);
 }
 QToolButton:hover {
-color: rgb(255, 255, 255);
+color: rgb(204, 204, 204);
 background-color: none;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }</string>
           </property>
           <property name="text">
@@ -131,8 +138,16 @@ padding-left:8px;
         </item>
         <item>
          <widget class="QLabel" name="label">
+          <property name="styleSheet">
+           <string notr="true">QFrame {
+color: rgb(255, 255, 255);
+background-color: #FF#F5F6FA;
+border-radius:0px;
+border-right: 1px solid #D7D7DE;
+}</string>
+          </property>
           <property name="text">
-           <string>|</string>
+           <string/>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -141,6 +156,9 @@ padding-left:8px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnTopLevel">
+          <property name="toolTip">
+           <string>置顶</string>
+          </property>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
@@ -155,6 +173,9 @@ padding-left:8px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnMin">
+          <property name="toolTip">
+           <string>最小化</string>
+          </property>
           <property name="text">
            <string>最小化</string>
           </property>
@@ -166,6 +187,9 @@ padding-left:8px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnMax">
+          <property name="toolTip">
+           <string>全屏</string>
+          </property>
           <property name="text">
            <string>最大化</string>
           </property>
@@ -177,6 +201,9 @@ padding-left:8px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnClose">
+          <property name="toolTip">
+           <string>关闭</string>
+          </property>
           <property name="text">
            <string>关闭</string>
           </property>
@@ -188,6 +215,9 @@ padding-left:8px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnShow">
+          <property name="toolTip">
+           <string>展开</string>
+          </property>
           <property name="text">
            <string>&gt;&gt;</string>
           </property>
@@ -219,6 +249,13 @@ padding-left:8px;
        <height>16777215</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QToolButton
+{
+width:40;
+height:40
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -226,6 +263,9 @@ padding-left:8px;
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -240,6 +280,9 @@ padding-left:8px;
       </property>
       <item>
        <widget class="QToolButton" name="toolBtnHide">
+        <property name="toolTip">
+         <string>收起</string>
+        </property>
         <property name="text">
          <string>&lt;&lt;</string>
         </property>
@@ -254,50 +297,72 @@ padding-left:8px;
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnVerOrHor">
+        <property name="toolTip">
+         <string>横竖屏</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>横竖屏</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnScreenshot">
+        <property name="toolTip">
+         <string>截图</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>截图</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnAddVolume">
+        <property name="toolTip">
+         <string>音量+</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>音量+</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnSubVolume">
+        <property name="toolTip">
+         <string>音量-</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>音量-</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnClipboard">
+        <property name="toolTip">
+         <string>剪贴板</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>剪贴板</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnRestart">
+        <property name="toolTip">
+         <string>重启</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>重启</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnFactoryDataReset">
+        <property name="toolTip">
+         <string>恢复出厂</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>恢复
+出厂</string>
         </property>
        </widget>
       </item>
@@ -316,22 +381,31 @@ padding-left:8px;
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnReturn">
+        <property name="toolTip">
+         <string>返回</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>返回</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnHome">
+        <property name="toolTip">
+         <string>HOME</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>HOME</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnChangePage">
+        <property name="toolTip">
+         <string>切换</string>
+        </property>
         <property name="text">
-         <string>...</string>
+         <string>切换</string>
         </property>
        </widget>
       </item>
