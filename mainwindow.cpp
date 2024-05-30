@@ -41,6 +41,16 @@ MainWindow::MainWindow(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose,true);
 	setAttribute(Qt::WA_Hover, true);
 
+    m_toolObject = new ToolObject(this);
+    connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this,[=]
+            {
+        m_Timer->start(DOWNLOAD_SCREENSHOT_INTERVAL);
+    });
+    connect(m_toolObject, &ToolObject::getScreenshortSignals, this, [=](QMap<QString, S_TASK_INFO> mapScreenshotTask) {
+        m_mapTask = mapScreenshotTask;
+        ShowTaskInfo();
+        });
+
     ui->labelAccount->setText(GlobalData::strAccount);
 
     m_TaskTimer = new QTimer();
@@ -50,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_Timer, &QTimer::timeout, this, [this]() 
         {
         m_Timer->stop();
-        HttpPostInstanceScreenshot(m_listInstanceNo);
+        this->m_toolObject->HttpPostInstanceScreenshot(m_listInstanceNo);
         });
 
     HttpQueryAllGroup();
@@ -157,305 +167,6 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
         reply->deleteLater();
         });
 }
-
-//获取实例截图
-void MainWindow::HttpPostInstanceScreenshot(QStringList strList)
-{
-    int iSize = strList.size();
-    if (iSize <= 0)
-        return;
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_INSTANCE_SCREENSHOT;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    QJsonDocument doc;
-    QJsonArray listArray;
-    for (int i = 0; i < iSize; i++)
-    {
-        listArray.append(strList.at(i));
-    }    
-    //doc.setObject(listArray);
-    doc.setArray(listArray);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        //qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                //qDebug() << "获取实例截图Code=" << iCode << "message=" << strMessage << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    //更新界面图
-                    if (obj["data"].isArray())
-                    {
-                        QJsonArray dataArray = obj["data"].toArray();
-                        QJsonObject dataObj;
-                        S_TASK_INFO taskInfo;
-                        int iDataSize = dataArray.size();
-                        for (int i = 0; i < iDataSize; i++)
-                        {
-                            dataObj = dataArray[i].toObject();
-                            taskInfo.fTaskId = dataObj["taskId"].toDouble();
-                            taskInfo.fTaskStatus = dataObj["taskStatus"].toDouble();
-                            taskInfo.strUrl = dataObj["url"].toString();
-                            taskInfo.strPadCode = dataObj["padCode"].toString();
-                            //qDebug() << "任务返回数据 No" << taskInfo.strPadCode << "下载图片地址:" << taskInfo.strUrl;
-                            m_mapTask.insert(taskInfo.strPadCode, taskInfo);
-                        }
-                    }
-                    ShowTaskInfo();
-                }
-                else
-                {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
-}
-
-//刷新实例截图
-void MainWindow::HttpPostInstanceScreenshotRefresh(QStringList strList)
-{
-    int iSize = strList.size();
-    if (iSize <= 0)
-        return;
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_INSTANCE_SCREENSHOT_REFRESH;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    QJsonDocument doc;
-    QJsonArray listArray;
-    for (int i = 0; i < iSize; i++)
-    {
-        listArray.append(strList.at(i));
-    }
-    //doc.setObject(listArray);
-    doc.setArray(listArray);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                QString data = obj["data"].toString();
-                //qDebug() << "刷新实例截图 Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    m_Timer->start(DOWNLOAD_SCREENSHOT_INTERVAL);
-                    //获取截图
-                    //QThread::sleep(6);//延迟6秒                    
-                    //HttpPostInstanceScreenshot(strList);
-                    //保存图片到本地
-                }
-                else
-                {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-    });
-}
-//实例重启
-void MainWindow::HttpPostInstanceReboot(QStringList strList)
-{
-    int iSize = strList.size();
-    if (iSize <= 0)
-        return;
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_INSTANCE_REBOOT;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    QJsonDocument doc;
-    QJsonArray listArray;
-    for (int i = 0; i < iSize; i++)
-    {
-        listArray.append(strList.at(i));
-    }
-    //doc.setObject(listArray);
-    doc.setArray(listArray);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                QString data = obj["data"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    MessageTipsDialog* tips = new MessageTipsDialog("实例重启操作成功!");
-                    tips->show();
-                }
-                else
-                {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
-}
-
-//实例重置
-void MainWindow::HttpPostInstanceReset(QStringList strList)
-{
-    int iSize = strList.size();
-    if (iSize <= 0)
-        return;
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_INSTANCE_RESET;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    QJsonDocument doc;
-    QJsonArray listArray;
-    for (int i = 0; i < iSize; i++)
-    {
-        listArray.append(strList.at(i));
-    }
-    //doc.setObject(listArray);
-    doc.setArray(listArray);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                QString data = obj["data"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    MessageTipsDialog* tips = new MessageTipsDialog("实例重置操作成功!");
-                    tips->show();
-                }
-                else
-                {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
-}
-
 //设置实例分组
 void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
 {
@@ -573,7 +284,7 @@ void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
 
     QStringList strList;    
     strList << phoneInfo.strInstanceNo;
-    HttpPostInstanceReboot(strList);
+    this->m_toolObject->HttpPostInstanceReboot(strList);
 }
 void MainWindow::do_ActionNewPhone(bool bChecked)
 {
@@ -588,7 +299,7 @@ void MainWindow::do_ActionFactoryDataReset(bool bChecked)
 
     QStringList strList;
     strList << phoneInfo.strInstanceNo;
-    HttpPostInstanceReset(strList);
+    this->m_toolObject->HttpPostInstanceReset(strList);
 }
 void MainWindow::do_ActionUploadFile(bool bChecked)
 {
@@ -2755,7 +2466,7 @@ void MainWindow::do_timeoutRefreshPicture()
     //请求刷新函数
     //qDebug() << "请求生成图片函数";
     //获取选中分组的所有手机
-    HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
+    this->m_toolObject->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
 }
 
 void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
@@ -2835,7 +2546,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
     {
         m_TaskTimer->start(TIMER_INTERVAL);
         m_listInstanceNo = strList;
-        HttpPostInstanceScreenshotRefresh(strList);
+        this->m_toolObject->HttpPostInstanceScreenshotRefresh(strList);
     }
 }
 

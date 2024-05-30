@@ -73,7 +73,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;C:\Program;Files\OpenSSL-Win64\include;include;include\curl;include\openssl;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;C:\Program;Files\OpenSSL-Win64\include;include;include\curl;include\openssl;include\SW;release;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -94,7 +94,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;.\libs\swplay_ud.lib;$(QTDIR)\lib\Qt6QmlModels.lib;$(QTDIR)\lib\Qt6EntryPoint.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -140,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;C:\Program;Files\OpenSSL-Win64\include;include;include\curl;include\openssl;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;.;C:\Program;Files\OpenSSL-Win64\include;include;include\curl;include\openssl;include\SW;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -permissive- -Zc:__cplusplus -Zc:externConstexpr -utf-8 -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -160,7 +160,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;$(QTDIR)\lib\Qt6QmlModelsd.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D:\zm\QtProject\TEST\MD\libssl.lib;D:\zm\QtProject\TEST\MD\libcrypto.lib;.\libs\qrencode.lib;.\libs\alibabacloud-oss-cpp-sdk.lib;.\libs\libcurl.lib;.\libs\ssleay32.lib;.\libs\libeay32.lib;.\libs\swplay_ud.lib;$(QTDIR)\lib\Qt6QmlModelsd.lib;$(QTDIR)\lib\Qt6EntryPointd.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>.\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
@@ -225,6 +225,7 @@
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="renewitemwidget.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
+    <ClCompile Include="toolobject.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
     <ClCompile Include="uploadfileitemwidget.cpp" />
@@ -253,6 +254,7 @@
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="renewitemwidget.h" />
     <QtMoc Include="smsloginpage.h" />
+    <QtMoc Include="toolobject.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="uploadfiledialog.h" />
     <QtMoc Include="uploadfileitemwidget.h" />
@@ -316,6 +318,11 @@
     <None Include="resource\main\addPhone.png" />
     <None Include="resource\main\allSelect.png" />
     <None Include="resource\main\appInstaller.png" />
+    <None Include="resource\instance\b1.png" />
+    <None Include="resource\instance\b2.png" />
+    <None Include="resource\instance\b3.png" />
+    <None Include="resource\instance\b4.png" />
+    <None Include="resource\instance\b5.png" />
     <None Include="resource\login\back.png" />
     <None Include="resource\main\batchOper.png" />
     <None Include="resource\main\border_normal.png" />
@@ -343,7 +350,6 @@
     <None Include="resource\login\ico_lock.png" />
     <None Include="resource\login\ico_phone.png" />
     <None Include="resource\login\ico_up.png" />
-    <None Include="resource\main\level.png" />
     <None Include="resource\main\levelCheck.png" />
     <None Include="resource\main\level_Premier.png" />
     <None Include="resource\main\level_enhancenment.png" />

@@ -39,6 +39,7 @@ SOURCES += \
     registerpage.cpp \
     renewitemwidget.cpp \
     smsloginpage.cpp \
+    toolobject.cpp \
     updategroupwidget.cpp \
     uploadfiledialog.cpp \
     uploadfileitemwidget.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     registerpage.h \
     renewitemwidget.h \
     smsloginpage.h \
+    toolobject.h \
     updategroupwidget.h \
     uploadfiledialog.h \
     uploadfileitemwidget.h \
@@ -155,3 +157,11 @@ DEPENDPATH += $$PWD/include
 
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/libeay32.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/liblibeay32.a
+
+win32: LIBS += -L$$PWD/libs/ -lswplay_ud
+
+INCLUDEPATH += $$PWD/include/SW
+DEPENDPATH += $$PWD/include/SW
+
+win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/swplay_ud.lib
+else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libswplay_ud.a

@@ -9,6 +9,7 @@
 #include <QMouseEvent>
 #include "levelitemwidget.h"
 #include <QMenu>
+#include "toolobject.h"
 namespace Ui {
 class MainWindow;
 }
@@ -49,22 +50,12 @@ private:
 
     //注销
     void HttpLogout();
-
+    
     //手机实例相关接口
     //实例重命名
     void HttpPostInstanceRename(int iId, QString strName);
-    //获取实例截图
-    void HttpPostInstanceScreenshot(QStringList strList);
-    //刷新实例截图
-    void HttpPostInstanceScreenshotRefresh(QStringList strList);
-    //实例重启
-    void HttpPostInstanceReboot(QStringList strList);
-    //实例重置
-    void HttpPostInstanceReset(QStringList strList);
     //设置实例分组
     void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
-
-    //手机实例相关接口
     //获取serverToken
     //void HttpGetServerToken();
     //获取我的手机实例
@@ -211,6 +202,7 @@ private:
     QAction* pActionRenewCloudPhone;
 
     QTreeWidgetItem* m_pCurItem;
+    ToolObject* m_toolObject;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
