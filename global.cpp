@@ -5,6 +5,7 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QFileInfo>
+#include <QDir>
 
 int GlobalData::id = 10;
 QString GlobalData::strMaxExpirationDate = "";
@@ -22,6 +23,9 @@ QString GlobalData::strExpiration = "";
 
 int GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;
 int GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
+
+QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER;
+
 //QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
 
 

@@ -3,12 +3,13 @@
 #include <QApplication>
 #include <QDir>
 #include "SWRuntime.h"
-#include "common/log.h""
+#include "common/log.h"
+#include "global.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);    
-    QString strDir = QDir::tempPath() + "/"+ SCREENSHOT_PICTRUE_FLODER;
+    QString strDir = GlobalData::strFileTempDir;
     QDir dir(strDir);
     if (!dir.exists(strDir))
     {
