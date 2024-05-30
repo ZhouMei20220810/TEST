@@ -3,14 +3,24 @@
 #include "global.h"
 #include <QFile>
 #include <QDataStream>
-VideoViewWidget::VideoViewWidget(QWidget *parent)
+VideoViewWidget::VideoViewWidget(QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::VideoViewWidget)
 {
     ui->setupUi(this);
 
-	setStyleSheet("background-color:red");
-    ui->label->setText("Hello world");
+	setStyleSheet("background-color:gray");
+    //ui->label->setText("Hello world");
+	m_strTempFile = GlobalData::strFileTempDir +INSTANCE_TEMP_DIR + "1.png";
+	
+	QFile file1(m_strTempFile);
+	QString strUrl;
+	if (!file1.exists())
+		strUrl = ":/main/resource/main/defaultSceenShot.png";
+	else
+		strUrl = m_strTempFile;
+	ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	//m_strPicturePath = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + "/" + m_PhoneInfo.strInstanceNo + ".png";
 }
 
 VideoViewWidget::~VideoViewWidget()
@@ -111,7 +121,8 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 		//if (!::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem))
 		//	return;
 		QWidget::paintEvent(event);
-
+		ui->label->setPixmap(QPixmap(m_strTempFile).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+		ui->label->resize(this->size());
 		int item_w = ui->label->width();// m_rcItem.right - m_rcItem.left;
 		int item_h = ui->label->height();//m_rcItem.bottom - m_rcItem.top;
 		if (item_w != viewWidth || item_h != viewHeight)
@@ -132,7 +143,7 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 
 			char* src_data = (char*)getFrameBuffer();
 			//Window* parent_wnd = GetWindow();
-			QFile file(GlobalData::strFileTempDir+"11.png");
+			QFile file(GlobalData::strFileTempDir+ INSTANCE_TEMP_DIR +"/1.png");
 			if (file.open(QIODevice::WriteOnly))
 			{
 				QDataStream stream(&file);

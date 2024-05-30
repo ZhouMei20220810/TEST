@@ -16,6 +16,12 @@ int main(int argc, char *argv[])
         if (!dir.mkdir(strDir))
             qDebug() << "failed:" << strDir;
     }
+    strDir += INSTANCE_TEMP_DIR;
+    if (!dir.exists(strDir))
+    {
+        if (!dir.mkdir(strDir))
+            qDebug() << "failed:" << strDir;
+    }
 
     SWRuntime::getInstance()->init(ANDROID_LOG_DEFAULT, strDir.toStdString().c_str());
     LoginWindow w;

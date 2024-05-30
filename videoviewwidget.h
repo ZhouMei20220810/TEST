@@ -1,7 +1,7 @@
 #ifndef VIDEOVIEWWIDGET_H
 #define VIDEOVIEWWIDGET_H
 
-#include <QWidget>
+#include <QLabel>
 #include <QMouseEvent>
 #include "VideoDisplayWinBase.h"
 
@@ -14,7 +14,7 @@ class VideoViewWidget : public QWidget,public VideoDisplayWinBase
     Q_OBJECT
 
 public:
-    explicit VideoViewWidget(QWidget *parent = nullptr);
+    explicit VideoViewWidget(QWidget* parent = nullptr);
     ~VideoViewWidget();
 
     // VideoDisplayWinBase implementation
@@ -26,6 +26,8 @@ private:
     int viewHeight = 0;
 
     int clicktype = -1;
+
+    QString m_strTempFile;
     // QWidget interface
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;

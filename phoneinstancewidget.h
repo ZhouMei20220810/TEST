@@ -79,7 +79,7 @@ private:
     QStringList m_strPhoneList;
     ToolObject* m_toolObject;
 
-    VideoViewWidget* m_Display;
+    //VideoViewWidget* m_Display;
     SWPlayer* m_Player;
     Mutex m_Mutex;
 };

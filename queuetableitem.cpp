@@ -215,6 +215,7 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     {
         //成功结果
         qDebug() << "成功：location=" << outcome.result().Location() << "Tag=" << outcome.result().ETag() << "CRC64=" << outcome.result().CRC64();
+        qDebug() << "Content = ";
         //uploadFileCallback(filePath, strPhoneList, 0);
     }
     return true;

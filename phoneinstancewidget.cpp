@@ -31,9 +31,9 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     ui->comboBoxQuality->addItem("自动");
 
     m_Player = NULL;
-    m_Display = new VideoViewWidget(this);
-    m_Display->move(0, 100);
-    m_Display->resize(ui->labelPhone->size());
+    //m_Display = new VideoViewWidget(this);
+    //m_Display->move(0, 100);
+    //m_Display->resize(ui->labelPhone->size());
 
 	onPlayStart();
 }
@@ -191,7 +191,7 @@ void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
 
 void PhoneInstanceWidget::showEvent(QShowEvent *event)
 {
-    qDebug() << "PhoneInstanceWidget showEvent = ";    
+    /*qDebug() << "PhoneInstanceWidget showEvent = ";    
     QFile file1(m_strPicturePath);
     QString strUrl;
     if (!file1.exists())
@@ -201,7 +201,7 @@ void PhoneInstanceWidget::showEvent(QShowEvent *event)
     ui->labelPhone->setPixmap(QPixmap(strUrl).scaled(QSize(ui->labelPhone->width(), ui->labelPhone->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     QSize actualSize = ui->labelPhone->size();
     ui->labelPhone->setPixmap(QPixmap(strUrl).scaled(QSize(ui->labelPhone->width(), ui->labelPhone->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    qDebug() << "Size after showing:" << actualSize;
+    qDebug() << "Size after showing:" << actualSize;*/
 }
 
 
@@ -370,7 +370,7 @@ bool PhoneInstanceWidget::onPlayStart()
 			datasource->setBusinessType(businessType);
 
 			m_Player->setDataSource(datasource);
-            m_Player->setDisplay(m_Display);
+            m_Player->setDisplay(ui->videoViewWidget);
             //开始投屏
 			m_Player->start();
 			return true;

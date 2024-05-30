@@ -42,6 +42,9 @@ padding-left:0px;
    </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QFrame" name="frame">
        <property name="minimumSize">
@@ -264,11 +267,7 @@ border-right: 1px solid #D7D7DE;
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="labelPhone">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
+      <widget class="VideoViewWidget" name="videoViewWidget" native="true"/>
      </item>
     </layout>
    </item>
@@ -451,6 +450,14 @@ height:40
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>VideoViewWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">videoviewwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>

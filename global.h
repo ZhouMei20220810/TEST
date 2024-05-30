@@ -50,6 +50,7 @@
 #define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
+#define     INSTANCE_TEMP_DIR         "/Instance/"
 #define     DOWNLOAD_SCREENSHOT_INTERVAL (6*1000)       //下载截图间隔
 #define     TIMER_INTERVAL          (60*1000)               //正式时间
 #define     ORGANIZATION_NAME       "YSY"
