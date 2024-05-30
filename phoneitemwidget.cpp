@@ -1,6 +1,8 @@
 #include "phoneitemwidget.h"
 #include "ui_phoneitemwidget.h"
 #include "phoneinstancewidget.h"
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     : QWidget(parent)
@@ -14,6 +16,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     m_refreshTimer->start(TIMER_INTERVAL);// 每分钟触发一次，60000毫秒
     m_bIsRefresh = true;
     m_sTaskInfo = sTaskInfo;
+    ui->toolBtnName->setText(sTaskInfo.strName);
     
     m_strPicturePath = QDir::tempPath() + "/"+ SCREENSHOT_PICTRUE_FLODER+"/" + sTaskInfo.strInstanceNo + ".png";
     QFile file1(m_strPicturePath);
@@ -26,6 +29,20 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     
     m_manager = new QNetworkAccessManager(this);
+
+
+    m_LabelAccredit = new QLabel(ui->label);
+    m_checkBox = new QCheckBox(ui->label);
+    m_checkBox->setStyleSheet("QCheckBox{spacing:0px;background:transparent;}QCheckBox::indicator{width: 16px;height: 16px;}QCheckBox::indicator:unchecked{ image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}");    
+    m_LabelAccredit->setStyleSheet("QLabel{background:transparent;border:none;}");
+    QVBoxLayout* vBox = new QVBoxLayout(ui->label);    
+    QHBoxLayout* hBox = new QHBoxLayout(ui->label);
+    hBox->addWidget(m_LabelAccredit);
+    hBox->addStretch();
+    hBox->addWidget(m_checkBox);
+    vBox->addLayout(hBox);
+    vBox->addStretch();
+
     //未下载时先隐藏进度条
     //ui->progressBar->hide();
 

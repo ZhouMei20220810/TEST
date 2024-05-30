@@ -8,6 +8,8 @@
 #include <QDir>
 #include <QFile>
 #include <QTimer>
+#include <QCheckBox>
+#include <QLabel>
 
 namespace Ui {
 class PhoneItemWidget;
@@ -45,6 +47,8 @@ private:
     QTimer* m_refreshTimer;
     bool m_bIsRefresh;
 
+    QLabel* m_LabelAccredit;
+    QCheckBox* m_checkBox;
     // QObject interface
 public:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;
