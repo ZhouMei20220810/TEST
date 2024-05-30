@@ -14,8 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color:#FFFFFFFF;
-</string>
+   <string notr="true">background-color:#FFF4F6FA;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -260,7 +259,7 @@ background-image: url(:/main/resource/main/buy_select.png)
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;}</string>
+         <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;background-color:white}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -504,16 +503,7 @@ background-image: url(:/main/resource/main/setting_normal.png)
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">QPushButton:hover {
-     /*background-color: #FFD31111*/
- }
- QPushButton:flat {
-     border: none; /* no border for a flat push button */
- }
-
- QPushButton:default {
-     border-color: navy; /* make the default button prominent */
- }</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string/>
@@ -545,16 +535,7 @@ background-image: url(:/main/resource/main/setting_normal.png)
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">QPushButton:hover {
-     /*background-color: #FFD31111*/
- }
- QPushButton:flat {
-     border: none; /* no border for a flat push button */
- }
-
- QPushButton:default {
-     border-color: navy; /* make the default button prominent */
- }</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string/>
@@ -586,16 +567,7 @@ background-image: url(:/main/resource/main/setting_normal.png)
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">QPushButton:hover {
-     background-color: #FFD31111
- }
- QPushButton:flat {
-     border: none; /* no border for a flat push button */
- }
-
- QPushButton:default {
-     border-color: navy; /* make the default button prominent */
- }</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string/>
