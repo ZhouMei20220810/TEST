@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "global.h"
+#include "toolobject.h"
 
 namespace Ui {
     class PhoneInstanceWidget;
@@ -54,6 +55,8 @@ private:
 
     QString m_strPicturePath;
     S_PHONE_INFO m_PhoneInfo;
+    QStringList m_strPhoneList;//同步操作时
+    ToolObject* m_toolObject;
     // QWidget interface
 protected:
     virtual void showEvent(QShowEvent *event) override;

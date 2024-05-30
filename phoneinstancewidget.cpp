@@ -12,7 +12,10 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlag(Qt::FramelessWindowHint);
 
+    m_toolObject = new ToolObject(this);
     m_PhoneInfo = sPhoneInfo;
+    m_strPhoneList.clear();
+    m_strPhoneList << sPhoneInfo.strInstanceNo;//同步操作时，同时传入所有选中的item
     ui->toolBtnShow->setVisible(false);
     m_strPicturePath = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + "/" + m_PhoneInfo.strInstanceNo + ".png";
 
@@ -133,6 +136,8 @@ void PhoneInstanceWidget::on_toolBtnVerOrHor_clicked()
 void PhoneInstanceWidget::on_toolBtnScreenshot_clicked()
 {
     //截图
+    //只需要截图，不需要获取当前页面
+    this->m_toolObject->HttpPostInstanceScreenshot(m_strPhoneList);
 }
 
 
@@ -157,12 +162,14 @@ void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
 void PhoneInstanceWidget::on_toolBtnRestart_clicked()
 {
     //重启
+    this->m_toolObject->HttpPostInstanceReboot(m_strPhoneList);
 }
 
 
 void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
 {
     //恢复出厂设置
+    this->m_toolObject->HttpPostInstanceReset(m_strPhoneList);
 }
 
 void PhoneInstanceWidget::showEvent(QShowEvent *event)
