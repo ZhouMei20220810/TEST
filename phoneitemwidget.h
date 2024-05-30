@@ -24,10 +24,10 @@ public:
     void setRefreshTimer(bool bIsRefresh);
 
 private slots:
-    void httpFinished();//ÎÄ¼ş½ÓÊÕÍê³É
-    void httpReadyRead();//½ÓÊÜÊı¾İÖĞ
-    void updateDataReadProgress(qint64, qint64);//½ø¶ÈÌõ¸üĞÂ
-    //Ò»·ÖÖÓÏìÓ¦Ò»´Î
+    void httpFinished();//æ–‡ä»¶æ¥æ”¶å®Œæˆ
+    void httpReadyRead();//æ¥å—æ•°æ®ä¸­
+    void updateDataReadProgress(qint64, qint64);//è¿›åº¦æ¡æ›´æ–°
+    //ä¸€åˆ†é’Ÿå“åº”ä¸€æ¬¡
     void do_timeoutRefreshPicture();
 private:
     Ui::PhoneItemWidget *ui;
@@ -41,7 +41,7 @@ private:
     QByteArray byteArrayImageUrl;
     QString  m_strPicturePath;
 
-    //ÉèÖÃ¶¨Ê±Æ÷
+    //è®¾ç½®å®šæ—¶å™¨
     QTimer* m_refreshTimer;
     bool m_bIsRefresh;
 

@@ -43,6 +43,7 @@ SOURCES += \
     updategroupwidget.cpp \
     uploadfiledialog.cpp \
     uploadfileitemwidget.cpp \
+    videoviewwidget.cpp \
     vipitemwidget.cpp
 
 HEADERS += \
@@ -72,6 +73,7 @@ HEADERS += \
     updategroupwidget.h \
     uploadfiledialog.h \
     uploadfileitemwidget.h \
+    videoviewwidget.h \
     vipitemwidget.h
 
 FORMS += \
@@ -98,6 +100,7 @@ FORMS += \
     updategroupwidget.ui \
     uploadfiledialog.ui \
     uploadfileitemwidget.ui \
+    videoviewwidget.ui \
     vipitemwidget.ui
 
 # Default rules for deployment.

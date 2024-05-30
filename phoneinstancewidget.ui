@@ -117,9 +117,46 @@ padding-left:0px;
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolBtnPictureQuality">
-          <property name="text">
-           <string>...</string>
+         <widget class="QComboBox" name="comboBoxQuality">
+          <property name="styleSheet">
+           <string notr="true">QComboBox{
+background-color:#E7E8EE;
+border:none;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:30px;width:15px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
+} 
+QComboBox QAbstractItemView
+{
+	background:#FFFFFFFF;
+	border:1px solid rgba(228,228,228,1);
+	border-radius:0px 0px 5px 5px;
+	font-size:14px;
+	outline:0px;
+}
+QComboBox QAbstractItemView::item{
+	height:36px;
+	color:#FF666666;
+	padding-left:9px;
+	background-color:#FFFFFFFF;
+}
+QComboBox QAbstractItemView::item:hover{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}
+QComboBox QAbstractItemView::item:selected{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}</string>
           </property>
          </widget>
         </item>

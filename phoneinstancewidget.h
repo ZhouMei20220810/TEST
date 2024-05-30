@@ -4,19 +4,34 @@
 #include <QWidget>
 #include "global.h"
 #include "toolobject.h"
+#include "SWPlayer.h"
+#include "SWDataSourceListener.h"
+#include "videoviewwidget.h"
 
 namespace Ui {
     class PhoneInstanceWidget;
 }
 
-class PhoneInstanceWidget : public QWidget
+class PhoneInstanceWidget : public QWidget,public SWDataSourceListener
 {
     Q_OBJECT
 
 public:
     explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo,QWidget* parent = nullptr);
     ~PhoneInstanceWidget();
+    // QWidget interface
+protected:
+    virtual void showEvent(QShowEvent* event) override;
 
+    bool onPlayStart();
+    void onPlayStop(bool bQuit);
+
+    // SWDataSourceListener implementation
+    void onReconnecting(int NthTime) override;
+    void onConnected() override;
+    void onDisconnected(int errcode) override;
+    void onDisconnected(int errcode, const char* errmsg) override;
+    void onPlayInfo(const char* info) override;
 private slots:
     void on_toolBtnPhoneInstance_clicked();
     void on_toolBtnPictureQuality_clicked();
@@ -50,16 +65,23 @@ private slots:
     void on_toolBtnFactoryDataReset_clicked();
     
 
+    void on_toolBtnReturn_clicked();
+
+    void on_toolBtnHome_clicked();
+
+    void on_toolBtnChangePage_clicked();
+
 private:
     Ui::PhoneInstanceWidget* ui;
 
     QString m_strPicturePath;
     S_PHONE_INFO m_PhoneInfo;
-    QStringList m_strPhoneList;//同步操作时
+    QStringList m_strPhoneList;
     ToolObject* m_toolObject;
-    // QWidget interface
-protected:
-    virtual void showEvent(QShowEvent *event) override;
+
+    VideoViewWidget* m_Display;
+    SWPlayer* m_Player;
+    Mutex m_Mutex;
 };
 
 #endif // PHONEINSTANCEWIDGET_H

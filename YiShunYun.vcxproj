@@ -229,6 +229,7 @@
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
     <ClCompile Include="uploadfileitemwidget.cpp" />
+    <ClCompile Include="videoviewwidget.cpp" />
     <ClCompile Include="vipitemwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +259,7 @@
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="uploadfiledialog.h" />
     <QtMoc Include="uploadfileitemwidget.h" />
+    <QtMoc Include="videoviewwidget.h" />
     <QtMoc Include="vipitemwidget.h" />
   </ItemGroup>
   <ItemGroup>
@@ -300,6 +302,7 @@
     <QtUic Include="updategroupwidget.ui" />
     <QtUic Include="uploadfiledialog.ui" />
     <QtUic Include="uploadfileitemwidget.ui" />
+    <QtUic Include="videoviewwidget.ui" />
     <QtUic Include="vipitemwidget.ui" />
   </ItemGroup>
   <ItemGroup>

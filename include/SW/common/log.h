@@ -42,7 +42,7 @@ typedef enum android_LogPriority {
  * before using the other macros to change the tag.
  */
 #ifndef SW_LOG_TAG
-#error "No SW_LOG_TAG"
+#define error "No SW_LOG_TAG"
 #endif
 
 // ---------------------------------------------------------------------
