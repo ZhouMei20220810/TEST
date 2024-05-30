@@ -32,6 +32,8 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
 
     m_Player = NULL;
     m_Display = new VideoViewWidget(this);
+    m_Display->move(0, 100);
+    m_Display->resize(ui->labelPhone->size());
 
 	onPlayStart();
 }
@@ -318,15 +320,51 @@ bool PhoneInstanceWidget::onPlayStart()
 			int resolutionLevel = -1;//3;
 			int videoQuality = -1;
 			int apiLevel = businessType == 0 ? 2 : 1;
-			int playType = 3;
+			int playType = PLAYTYPE_AV;
 
 			m_Player = new SWPlayer();
-            SWDataSource* datasource =  new SWDataSource(m_Player->getId(), this);
-			datasource->setLoginParams(controlAddr.c_str(), controlPort, userID, sessionID.c_str(), padcode.c_str(), 0);
-			datasource->setPlayParams(packageName.c_str(), encodetype, 0, 0,
+            UINT32 playerId = m_Player->getId();
+            qDebug() << "playerId = " << playerId;
+            SWDataSource* datasource =  new SWDataSource(playerId, this);
+			int ret = datasource->setLoginParams(controlAddr.c_str(), controlPort, userID, sessionID.c_str(), padcode.c_str(), 0);
+            if (ret != 0)
+            {
+                qDebug() << "设置连接参数失败ret=" << ret;
+            }
+            /**
+             * 设置投屏参数
+             * @param appName       应用包名
+             * @param encodetype    1：软解，2：硬解
+             * @param width         width
+             * @param height        height
+             * @param maxfps        最大帧率
+             * @param minfps        最小帧率
+             * @param bitrate       码率
+             * @param gop           I帧间隔
+             * @param resolutionLevel   分辨率等，1-4
+             * @param videoQuality  不用填
+             * @param playType     	播放类型， 0：无，1：视频， 2：音频, 3：音视频
+             * @param apiLevel      1：旧接口，2：新接口
+             * @param useSSL        1:使用SSL加密，0：不加密
+             * @return 0为成功，其它为失败
+             */
+			ret = datasource->setPlayParams(packageName.c_str(), encodetype, 0, 0,
 				0, 0, 0, 0, resolutionLevel, videoQuality, playType, apiLevel, 0);
-
+            if (ret != 0)
+            {
+                qDebug() << "设置播放参数失败ret=" << ret;
+            }
+            /**
+            设置视频码流的配置档数（高清，标清，流畅三档配置信息）
+            @param videoLevel 视频码流的配置档
+            @return 0为成功，其它为失败
+            */
 			datasource->setVideoLevels((VideoLevel*)&videoLevels[0], videoLevelCount);
+            /**
+            设置投屏用哪一档
+            @param levelIndex （0：自动，1：高清，2：标清，3：流畅）
+            @return 0为成功，其它为失败
+            */
 			datasource->setVideoLevel(picQualityIndex);
 
 			datasource->setBusinessType(businessType);
