@@ -251,17 +251,17 @@ bool PhoneInstanceWidget::onPlayStart()
 		do {
 
             //QString strQuality = ui->comboBoxQuality->currentText();//ui->comboBoxQuality->GetCurSel();
-            int picQualityIndex = ui->comboBoxQuality->currentIndex();
+            int picQualityIndex = 1;//ui->comboBoxQuality->currentIndex();
             //PAAS(试玩): BusinessType为0; 主营: BusinessType为1; 百度: BusinessType为2
             int businessType = 1;//m_OptionPlayType->IsSelected() ? 0 : 1;
 
 			std::string padcode = ui->toolBtnPhoneInstance->text().toStdString();
             std::string packageName = "packageName";
-            std::string controlAddr ="127.0.0.1";
+            std::string controlAddr ="10.100.0.253";
 
-            int controlPort = 8011;//端口
-            int userID = GlobalData::id;
-            std::string sessionID="session"; //?
+            int controlPort = 19955;//端口
+            int userID = 3331;//GlobalData::id;
+            std::string sessionID="sessionID"; //?
 
 			if (padcode.empty()) {
 				break;
@@ -333,7 +333,7 @@ bool PhoneInstanceWidget::onPlayStart()
 
 			m_Player->setDataSource(datasource);
             m_Player->setDisplay(m_Display);
-
+            //开始投屏
 			m_Player->start();
 			return true;
 		} while (0);
