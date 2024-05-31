@@ -20,7 +20,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     m_strPhoneList.clear();
     m_strPhoneList << sPhoneInfo.strInstanceNo;//同步操作时，同时传入所有选中的item
     ui->toolBtnShow->setVisible(false);
-    m_strPicturePath = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + "/" + m_PhoneInfo.strInstanceNo + ".png";
+    m_strPicturePath = GlobalData::strFileTempDir + "/" + m_PhoneInfo.strInstanceNo + ".png";
 
     ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);
 
@@ -253,16 +253,16 @@ bool PhoneInstanceWidget::onPlayStart()
 		do {
 
             //QString strQuality = ui->comboBoxQuality->currentText();//ui->comboBoxQuality->GetCurSel();
-            int picQualityIndex = 1;//ui->comboBoxQuality->currentIndex();
+            int picQualityIndex = 2;//1;//ui->comboBoxQuality->currentIndex();
             //PAAS(试玩): BusinessType为0; 主营: BusinessType为1; 百度: BusinessType为2
             int businessType = 1;//m_OptionPlayType->IsSelected() ? 0 : 1;
 
 			std::string padcode = ui->toolBtnPhoneInstance->text().toStdString();
             std::string packageName = "packageName";
-            std::string controlAddr ="10.100.0.253";
+            std::string controlAddr ="120.26.132.153";
 
-            int controlPort = 19955;//端口
-            int userID = 3331;//GlobalData::id;
+            int controlPort = 8080;//端口
+            int userID = GlobalData::id;
             std::string sessionID="sessionID"; //?
 
 			if (padcode.empty()) {
