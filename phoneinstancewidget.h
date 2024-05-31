@@ -30,6 +30,8 @@ protected:
     void onDisconnected(int errcode) override;
     void onDisconnected(int errcode, const char* errmsg) override;
     void onPlayInfo(const char* info) override;
+private:
+    void setToolBtnVisible(bool bVisible);
 private slots:
     void on_toolBtnPhoneInstance_clicked();
     void on_toolBtnPictureQuality_clicked();

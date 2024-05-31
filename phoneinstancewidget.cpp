@@ -6,7 +6,6 @@
 #include "Keyboard.h"
 #include "SWDataSource.h"
 #include "messagetips.h"
-#include "phoneinstancehorwidget.h"
 
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
     : QWidget(parent)
@@ -15,7 +14,11 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlag(Qt::FramelessWindowHint);
-
+    setToolBtnVisible(false);
+    if (GlobalData::bVerticalScreen)
+        resize(380, 660);
+    else
+        resize(660, 380);
     m_toolObject = new ToolObject(this);
     m_PhoneInfo = sPhoneInfo;
     m_strPhoneList.clear();
@@ -136,14 +139,24 @@ void PhoneInstanceWidget::on_toolBtnSignal_clicked()
 {
     //信号
 }
-
+void PhoneInstanceWidget::setToolBtnVisible(bool bVisible)
+{
+    ui->toolBtnScreenshot->setVisible(bVisible);
+    ui->toolBtnScreenshotsDir->setVisible(bVisible);
+    ui->toolBtnClipboard->setVisible(bVisible);
+    ui->toolBtnShark->setVisible(bVisible);
+    ui->toolBtnRoot->setVisible(bVisible);
+    ui->toolBtnKeyboard->setVisible(bVisible);
+    ui->toolBtnADB->setVisible(bVisible);
+}
 
 void PhoneInstanceWidget::on_toolBtnVerOrHor_clicked()
 {
-    //横竖屏
     this->close();
-    PhoneInstanceHorWidget* widget = new PhoneInstanceHorWidget();
-    widget->show();
+
+    GlobalData::bVerticalScreen = !GlobalData::bVerticalScreen;
+    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
+    nn->show();
 }
 
 
