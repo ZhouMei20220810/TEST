@@ -188,18 +188,39 @@ void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
     //剪贴板
 }
 
-
-void PhoneInstanceWidget::on_toolBtnRestart_clicked()
+void PhoneInstanceWidget::on_toolBtnInput_clicked()
 {
-    //重启
-    this->m_toolObject->HttpPostInstanceReboot(m_strPhoneList);
+    //输入协助
 }
 
 
-void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
+void PhoneInstanceWidget::on_toolBtnScreenshotsDir_clicked()
 {
-    //恢复出厂设置
-    this->m_toolObject->HttpPostInstanceReset(m_strPhoneList);
+    //截图目录
+}
+
+
+void PhoneInstanceWidget::on_toolBtnShark_clicked()
+{
+    //摇一摇
+}
+
+
+void PhoneInstanceWidget::on_toolBtnRoot_clicked()
+{
+    //root
+}
+
+
+void PhoneInstanceWidget::on_toolBtnKeyboard_clicked()
+{
+    //硬键盘
+}
+
+
+void PhoneInstanceWidget::on_toolBtnADB_clicked()
+{
+    //ADB
 }
 
 void PhoneInstanceWidget::on_toolBtnReturn_clicked()
@@ -438,3 +459,44 @@ void PhoneInstanceWidget::on_toolBtnMore_clicked()
     ui->frameTool->setVisible(!bVisible);
 }
 
+
+void PhoneInstanceWidget::on_toolBtnScreenshot_2_clicked()
+{
+    on_toolBtnScreenshot_clicked();
+}
+
+
+void PhoneInstanceWidget::on_toolBtnScreenshotsDir_2_clicked()
+{
+    on_toolBtnScreenshotsDir_clicked();
+}
+
+
+void PhoneInstanceWidget::on_toolBtnClipboard_2_clicked()
+{
+    on_toolBtnClipboard_clicked();
+}
+
+
+void PhoneInstanceWidget::on_toolBtnShark_2_clicked()
+{
+    on_toolBtnShark_clicked();
+}
+
+
+void PhoneInstanceWidget::on_toolBtnRoot_2_clicked()
+{
+    on_toolBtnRoot_clicked();
+}
+
+
+void PhoneInstanceWidget::on_toolBtnKeyboard_2_clicked()
+{
+    on_toolBtnKeyboard_clicked();
+}
+
+
+void PhoneInstanceWidget::on_toolBtnADB_2_clicked()
+{
+    on_toolBtnADB_clicked();
+}
