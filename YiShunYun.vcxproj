@@ -220,6 +220,7 @@
     <ClCompile Include="phoneinstancewidget.cpp" />
     <ClCompile Include="phoneitemnodatawidget.cpp" />
     <ClCompile Include="phoneitemwidget.cpp" />
+    <ClCompile Include="phonelistmodeitemwidget.cpp" />
     <ClCompile Include="policydialog.cpp" />
     <ClCompile Include="queuetableitem.cpp" />
     <ClCompile Include="registerpage.cpp" />
@@ -250,6 +251,7 @@
     <QtMoc Include="phoneinstancewidget.h" />
     <QtMoc Include="phoneitemnodatawidget.h" />
     <QtMoc Include="phoneitemwidget.h" />
+    <QtMoc Include="phonelistmodeitemwidget.h" />
     <QtMoc Include="policydialog.h" />
     <QtMoc Include="queuetableitem.h" />
     <QtMoc Include="registerpage.h" />
@@ -294,6 +296,7 @@
     <QtUic Include="phoneinstancewidget.ui" />
     <QtUic Include="phoneitemnodatawidget.ui" />
     <QtUic Include="phoneitemwidget.ui" />
+    <QtUic Include="phonelistmodeitemwidget.ui" />
     <QtUic Include="policydialog.ui" />
     <QtUic Include="queuetableitem.ui" />
     <QtUic Include="registerpage.ui" />

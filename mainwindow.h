@@ -73,7 +73,6 @@ private:
     void InitBuyTab();
     //初始化列列表
     void InitPhoneList();
-    void InitPhoneItemList(bool bIconMode = true);
     void setPhoneItemCheckBoxStatus(bool bCheck);
     void InitLevelList();
     void InitVipList();
@@ -168,6 +167,7 @@ private slots:
     void on_btnCancelSelect_clicked();
 
     void on_toolBtnListMode_clicked();
+	void on_toolBtnPreviewMode_clicked();
 
     void on_checkBoxAllSelect_clicked(bool checked);
 
