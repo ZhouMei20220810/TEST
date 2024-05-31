@@ -314,7 +314,7 @@ void RegisterPage::on_btnDisclaimer_clicked()
     policy->exec();
 }
 
-void RegisterPage::mousePressEvent(QMouseEvent *event)
+/*void RegisterPage::mousePressEvent(QMouseEvent* event)
 {
     if(event->button() == Qt::LeftButton)
     {
@@ -331,4 +331,4 @@ void RegisterPage::mouseMoveEvent(QMouseEvent *event)
         move(event->globalPos() - m_dragPosition);
         event->accept();
     }
-}
+}*/

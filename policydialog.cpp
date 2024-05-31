@@ -27,7 +27,7 @@ void PolicyDialog::on_btnClose_clicked()
 }
 
 
-
+/*
 void PolicyDialog::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
@@ -45,4 +45,4 @@ void PolicyDialog::mouseMoveEvent(QMouseEvent *event)
         move(event->globalPos() - m_dragPosition);
         event->accept();
     }
-}
+}*/

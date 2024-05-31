@@ -215,9 +215,9 @@ private:
 
     QTreeWidgetItem* m_pCurItem;
     ToolObject* m_toolObject;
-protected:
+/*protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;*/
 };
 
 #endif // MAINWINDOW_H

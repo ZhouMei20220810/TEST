@@ -81,13 +81,13 @@ void PhoneInstanceWidget::on_toolBtnTopLevel_clicked()
     }
     if (flags & Qt::WindowStaysOnTopHint) {
         ui->toolBtnTopLevel->setText("➴");
-        QString styleSheet = QString("QToolButton{background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
-        ui->toolBtnTopLevel->setStyleSheet(styleSheet);
+        /*QString styleSheet = QString("QToolButton{background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
+        ui->toolBtnTopLevel->setStyleSheet(styleSheet);*/
     }
     else {
         ui->toolBtnTopLevel->setText("↘");
-        QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
-        ui->toolBtnTopLevel->setStyleSheet(styleSheet);
+        /*QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
+        ui->toolBtnTopLevel->setStyleSheet(styleSheet);*/
     }
 }
 

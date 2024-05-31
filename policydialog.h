@@ -24,9 +24,9 @@ private:
 
     QPoint m_dragPosition;
     // QWidget interface
-protected:
+/*protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;*/
 };
 
 #endif // POLICYDIALOG_H

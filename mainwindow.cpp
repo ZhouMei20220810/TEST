@@ -2218,7 +2218,7 @@ void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
 }
 
 
-
+/*
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
@@ -2236,7 +2236,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         move(event->globalPos() - m_dragPosition);
         event->accept();
     }
-}
+}*/
 
 void MainWindow::on_btnContraction_clicked()
 {

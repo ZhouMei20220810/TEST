@@ -110,7 +110,7 @@ void LoginWindow::on_pushButton_clicked()
 {
     this->close();
 }
-
+/*
 void LoginWindow::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
@@ -128,4 +128,4 @@ void LoginWindow::mouseMoveEvent(QMouseEvent *event)
         move(event->globalPos() - m_dragPosition);
         event->accept();
     }
-}
+}*/
