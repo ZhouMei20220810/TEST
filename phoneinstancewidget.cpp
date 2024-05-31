@@ -6,6 +6,7 @@
 #include "Keyboard.h"
 #include "SWDataSource.h"
 #include "messagetips.h"
+#include "phoneinstancehorwidget.h"
 
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
     : QWidget(parent)
@@ -20,7 +21,6 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     m_strPhoneList.clear();
     m_strPhoneList << sPhoneInfo.strInstanceNo;//同步操作时，同时传入所有选中的item
     ui->toolBtnShow->setVisible(false);
-    m_strPicturePath = GlobalData::strFileTempDir + "/" + m_PhoneInfo.strInstanceNo + ".png";
 
     ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);
 
@@ -141,6 +141,9 @@ void PhoneInstanceWidget::on_toolBtnSignal_clicked()
 void PhoneInstanceWidget::on_toolBtnVerOrHor_clicked()
 {
     //横竖屏
+    this->close();
+    PhoneInstanceHorWidget* widget = new PhoneInstanceHorWidget();
+    widget->show();
 }
 
 
@@ -182,23 +185,6 @@ void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
     //恢复出厂设置
     this->m_toolObject->HttpPostInstanceReset(m_strPhoneList);
 }
-
-void PhoneInstanceWidget::showEvent(QShowEvent *event)
-{
-    /*qDebug() << "PhoneInstanceWidget showEvent = ";    
-    QFile file1(m_strPicturePath);
-    QString strUrl;
-    if (!file1.exists())
-        strUrl = ":/main/resource/main/defaultSceenShot.png";
-    else
-        strUrl = m_strPicturePath;
-    ui->labelPhone->setPixmap(QPixmap(strUrl).scaled(QSize(ui->labelPhone->width(), ui->labelPhone->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    QSize actualSize = ui->labelPhone->size();
-    ui->labelPhone->setPixmap(QPixmap(strUrl).scaled(QSize(ui->labelPhone->width(), ui->labelPhone->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    qDebug() << "Size after showing:" << actualSize;*/
-}
-
-
 
 void PhoneInstanceWidget::on_toolBtnReturn_clicked()
 {

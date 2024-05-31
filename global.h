@@ -229,6 +229,8 @@ public:
 
     static int      iPhoneItemWidth;
     static int      iPhoneItemHeight;
+
+    static bool     bVerticalScreen;   
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;

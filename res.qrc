@@ -120,5 +120,6 @@
         <file>resource/instance/screenshotsDir.png</file>
         <file>resource/instance/screenshotsDirSpecial.png</file>
         <file>resource/instance/Input.png</file>
+        <file>resource/instance/more.png</file>
     </qresource>
 </RCC>

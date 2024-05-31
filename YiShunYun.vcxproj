@@ -218,6 +218,7 @@
     <ClCompile Include="messagetips.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
+    <ClCompile Include="phoneinstancehorwidget.cpp" />
     <ClCompile Include="phoneinstancewidget.cpp" />
     <ClCompile Include="phoneitemnodatawidget.cpp" />
     <ClCompile Include="phoneitemwidget.cpp" />
@@ -250,6 +251,7 @@
     <QtMoc Include="messagetips.h" />
     <QtMoc Include="messagetipsdialog.h" />
     <QtMoc Include="passwordloginpage.h" />
+    <QtMoc Include="phoneinstancehorwidget.h" />
     <QtMoc Include="phoneinstancewidget.h" />
     <QtMoc Include="phoneitemnodatawidget.h" />
     <QtMoc Include="phoneitemwidget.h" />
@@ -295,6 +297,7 @@
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="messagetipsdialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
+    <QtUic Include="phoneinstancehorwidget.ui" />
     <QtUic Include="phoneinstancewidget.ui" />
     <QtUic Include="phoneitemnodatawidget.ui" />
     <QtUic Include="phoneitemwidget.ui" />
@@ -322,6 +325,7 @@
     <None Include="resource\instance\GPS.png" />
     <None Include="resource\instance\HighDefinition.png" />
     <None Include="resource\instance\HorVerScreen.png" />
+    <None Include="resource\instance\Input.png" />
     <None Include="resource\function\PayFinish.png" />
     <None Include="resource\instance\Root.png" />
     <None Include="resource\login\ScreenShots.jpg" />
@@ -365,6 +369,7 @@
     <None Include="resource\main\default_photoUrl.png" />
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />
+    <None Include="resource\instance\factoryDataReset.png" />
     <None Include="resource\instance\home.png" />
     <None Include="resource\login\ico-warn.png" />
     <None Include="resource\login\ico_del_c.png" />
@@ -403,6 +408,8 @@
     <QtRcc Include="res.qrc" />
     <None Include="resource\instance\restore.png" />
     <None Include="resource\instance\screenshots.png" />
+    <None Include="resource\instance\screenshotsDir.png" />
+    <None Include="resource\instance\screenshotsDirSpecial.png" />
     <None Include="resource\main\setting_normal.png" />
     <None Include="resource\instance\shake.png" />
     <None Include="resource\main\shouqi.png" />

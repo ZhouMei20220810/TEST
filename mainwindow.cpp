@@ -2283,6 +2283,7 @@ void MainWindow::on_toolBtnExpansionFunction_clicked()
 void MainWindow::on_toolBtnChangeHorScreen_clicked()
 {
     qDebug()<<"切换到横屏";
+    GlobalData::bVerticalScreen = false;
     ui->toolBtnChangeVerScreen->setVisible(true);
     ui->toolBtnChangeHorScreen->setVisible(false);
 
@@ -2295,6 +2296,8 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
         qDebug() << "ShowTaskInfo ui->listWidget 已清空";
         return;
     }
+
+
 
     QListWidgetItem* item = NULL;
     PhoneItemWidget* phoneItem = NULL;
@@ -2332,6 +2335,7 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
 void MainWindow::on_toolBtnChangeVerScreen_clicked()
 {
     qDebug()<<"切换到竖屏";
+    GlobalData::bVerticalScreen = true;
     ui->toolBtnChangeVerScreen->setVisible(false);
     ui->toolBtnChangeHorScreen->setVisible(true);
     GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;

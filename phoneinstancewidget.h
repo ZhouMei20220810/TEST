@@ -21,8 +21,6 @@ public:
     ~PhoneInstanceWidget();
     // QWidget interface
 protected:
-    virtual void showEvent(QShowEvent* event) override;
-
     bool onPlayStart();
     void onPlayStop(bool bQuit);
 
@@ -74,7 +72,6 @@ private slots:
 private:
     Ui::PhoneInstanceWidget* ui;
 
-    QString m_strPicturePath;
     S_PHONE_INFO m_PhoneInfo;
     QStringList m_strPhoneList;
     ToolObject* m_toolObject;
