@@ -14,7 +14,9 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlag(Qt::FramelessWindowHint);
-    setToolBtnVisible(false);
+    
+    ui->frameTool->setVisible(false);
+    setToolBtnVisible(GlobalData::bVerticalScreen);
     if (GlobalData::bVerticalScreen)
         resize(380, 660);
     else
@@ -141,6 +143,7 @@ void PhoneInstanceWidget::on_toolBtnSignal_clicked()
 }
 void PhoneInstanceWidget::setToolBtnVisible(bool bVisible)
 {
+    ui->toolBtnMore->setVisible(!bVisible);
     ui->toolBtnScreenshot->setVisible(bVisible);
     ui->toolBtnScreenshotsDir->setVisible(bVisible);
     ui->toolBtnClipboard->setVisible(bVisible);
@@ -426,3 +429,12 @@ void PhoneInstanceWidget::onPlayInfo(const char* info)
     //std::wstring msg = nbase::StringPrintf(L"%s", info);
     //nbase::ThreadManager::PostTask(kThreadUI, nbase::Bind(&MainForm::OnShowMessage, this, msg));
 }
+
+void PhoneInstanceWidget::on_toolBtnMore_clicked()
+{
+    bool bVisible = ui->frameTool->isVisible();
+    ui->frameTool->setParent(ui->videoViewWidget);
+    ui->frameTool->move(ui->videoViewWidget->width()-ui->frameTool->width()-2, 50);
+    ui->frameTool->setVisible(!bVisible);
+}
+

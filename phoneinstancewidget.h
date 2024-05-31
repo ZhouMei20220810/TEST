@@ -71,6 +71,8 @@ private slots:
 
     void on_toolBtnChangePage_clicked();
 
+    void on_toolBtnMore_clicked();
+
 private:
     Ui::PhoneInstanceWidget* ui;
 

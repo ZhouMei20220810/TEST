@@ -218,7 +218,6 @@
     <ClCompile Include="messagetips.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
-    <ClCompile Include="phoneinstancehorwidget.cpp" />
     <ClCompile Include="phoneinstancewidget.cpp" />
     <ClCompile Include="phoneitemnodatawidget.cpp" />
     <ClCompile Include="phoneitemwidget.cpp" />
@@ -251,7 +250,6 @@
     <QtMoc Include="messagetips.h" />
     <QtMoc Include="messagetipsdialog.h" />
     <QtMoc Include="passwordloginpage.h" />
-    <QtMoc Include="phoneinstancehorwidget.h" />
     <QtMoc Include="phoneinstancewidget.h" />
     <QtMoc Include="phoneitemnodatawidget.h" />
     <QtMoc Include="phoneitemwidget.h" />
@@ -297,7 +295,6 @@
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="messagetipsdialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
-    <QtUic Include="phoneinstancehorwidget.ui" />
     <QtUic Include="phoneinstancewidget.ui" />
     <QtUic Include="phoneitemnodatawidget.ui" />
     <QtUic Include="phoneitemwidget.ui" />
@@ -395,6 +392,7 @@
     <None Include="resource\main\max_normal.png" />
     <None Include="resource\instance\min.png" />
     <None Include="resource\main\min_normal.png" />
+    <None Include="resource\instance\more.png" />
     <None Include="resource\main\newGroup.png" />
     <None Include="resource\login\option_normal.png" />
     <None Include="resource\login\option_select.png" />
