@@ -24,12 +24,6 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
 
     ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);
 
-    ui->comboBoxQuality->addItem("高清");
-    ui->comboBoxQuality->addItem("普通");
-    ui->comboBoxQuality->addItem("高速");
-    ui->comboBoxQuality->addItem("极速");
-    ui->comboBoxQuality->addItem("自动");
-
     m_Player = NULL;
     //m_Display = new VideoViewWidget(this);
     //m_Display->move(0, 100);
@@ -104,13 +98,13 @@ void PhoneInstanceWidget::on_toolBtnMax_clicked()
     QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);}QToolButton:hover {background-color: rgb(60, 63, 71);border:none;border-radius:5px;color: rgb(255, 255, 255);}");
     ui->toolBtnTopLevel->setStyleSheet(styleSheet);
     if (window()->isMaximized()) {
-        ui->toolBtnMax->setIcon(QIcon(":/instance/resource/instance/b3.png"));
+        ui->toolBtnMax->setIcon(QIcon(":/resource/instance/max.png"));        
         QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);margin-bottom:3px;}QToolButton:hover {color: rgb(255, 255, 255);}");
         ui->toolBtnMax->setStyleSheet(styleSheet);
         this->showNormal();
     }
     else {
-        ui->toolBtnMax->setIcon(QIcon(":/instance/resource/instance/b5.png"));
+        ui->toolBtnMax->setIcon(QIcon(":/resource/instance/restore.png"));
         QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);margin-bottom:2px;}QToolButton:hover {color: rgb(255, 255, 255);}");
         ui->toolBtnMax->setStyleSheet(styleSheet);
         this->showMaximized();

@@ -117,5 +117,8 @@
         <file>resource/instance/Zhankai.png</file>
         <file>resource/instance/screenshots.png</file>
         <file>resource/instance/factoryDataReset.png</file>
+        <file>resource/instance/screenshotsDir.png</file>
+        <file>resource/instance/screenshotsDirSpecial.png</file>
+        <file>resource/instance/Input.png</file>
     </qresource>
 </RCC>

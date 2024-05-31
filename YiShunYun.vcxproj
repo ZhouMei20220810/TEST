@@ -85,8 +85,7 @@
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>
-      </ProgramDataBaseFileName>
+      <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -203,11 +202,11 @@
     </QtUic>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="filedownloader.cpp" />
     <ClCompile Include="Logoutdialog.cpp" />
     <ClCompile Include="buyhistoryitemwidget.cpp" />
     <ClCompile Include="buyhistorywidget.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
+    <ClCompile Include="filedownloader.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="individualcenterwidget.cpp" />
@@ -240,8 +239,8 @@
     <QtMoc Include="buyhistoryitemwidget.h" />
     <QtMoc Include="buyhistorywidget.h" />
     <QtMoc Include="creategroupwidget.h" />
-    <QtMoc Include="forgetpwdialog.h" />
     <QtMoc Include="filedownloader.h" />
+    <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
     <QtMoc Include="individualcenterwidget.h" />
     <QtMoc Include="levelchildwidget.h" />
@@ -318,20 +317,23 @@
     <None Include="resource\function\4.png" />
     <None Include="resource\function\5.png" />
     <None Include="resource\function\6.png" />
+    <None Include="resource\instance\ADB.png" />
+    <None Include="resource\instance\ADB_open.png" />
+    <None Include="resource\instance\GPS.png" />
+    <None Include="resource\instance\HighDefinition.png" />
+    <None Include="resource\instance\HorVerScreen.png" />
     <None Include="resource\function\PayFinish.png" />
+    <None Include="resource\instance\Root.png" />
     <None Include="resource\login\ScreenShots.jpg" />
     <None Include="resource\login\ScreenShots_v.jpg" />
+    <None Include="resource\instance\Shouqi.png" />
+    <None Include="resource\instance\Zhankai.png" />
     <None Include="resource\main\activeCode_normal.png" />
     <None Include="resource\main\activeCode_select.png" />
     <None Include="resource\function\add.png" />
     <None Include="resource\main\addPhone.png" />
     <None Include="resource\main\allSelect.png" />
     <None Include="resource\main\appInstaller.png" />
-    <None Include="resource\instance\b1.png" />
-    <None Include="resource\instance\b2.png" />
-    <None Include="resource\instance\b3.png" />
-    <None Include="resource\instance\b4.png" />
-    <None Include="resource\instance\b5.png" />
     <None Include="resource\login\back.png" />
     <None Include="resource\main\batchOper.png" />
     <None Include="resource\main\border_normal.png" />
@@ -340,18 +342,30 @@
     <None Include="resource\main\buy_hover.png" />
     <None Include="resource\main\buy_normal.png" />
     <None Include="resource\main\buy_select.png" />
+    <None Include="resource\instance\change.png" />
     <None Include="resource\main\changeScreen.png" />
     <None Include="resource\main\checked.png" />
+    <None Include="resource\instance\clipboard.png" />
+    <None Include="resource\instance\clipboardDelete.png" />
+    <None Include="resource\instance\clipboardLock.png" />
+    <None Include="resource\instance\clipboardUnlock.png" />
     <None Include="resource\login\close.png" />
+    <None Include="resource\instance\close_hover.png" />
+    <None Include="resource\instance\close_normal.png" />
     <None Include="resource\main\cloudPhone_normal.png" />
     <None Include="resource\main\cloudPhone_select.png" />
+    <None Include="resource\instance\control.png" />
     <None Include="resource\main\control_contraction.png" />
     <None Include="resource\main\control_expansion.png" />
     <None Include="resource\main\customer.png" />
+    <None Include="resource\instance\data_bad.png" />
+    <None Include="resource\instance\data_good.png" />
+    <None Include="resource\instance\data_optimal.png" />
     <None Include="resource\main\defaultSceenShot.png" />
     <None Include="resource\main\default_photoUrl.png" />
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />
+    <None Include="resource\instance\home.png" />
     <None Include="resource\login\ico-warn.png" />
     <None Include="resource\login\ico_del_c.png" />
     <None Include="resource\login\ico_del_n.png" />
@@ -359,6 +373,8 @@
     <None Include="resource\login\ico_lock.png" />
     <None Include="resource\login\ico_phone.png" />
     <None Include="resource\login\ico_up.png" />
+    <None Include="resource\instance\key_hide.png" />
+    <None Include="resource\instance\key_show.png" />
     <None Include="resource\main\levelCheck.png" />
     <None Include="resource\main\level_Premier.png" />
     <None Include="resource\main\level_enhancenment.png" />
@@ -370,7 +386,9 @@
     <None Include="resource\main\logo.png" />
     <None Include="resource\main\macroscheme.png" />
     <None Include="resource\login\main_logo.png" />
+    <None Include="resource\instance\max.png" />
     <None Include="resource\main\max_normal.png" />
+    <None Include="resource\instance\min.png" />
     <None Include="resource\main\min_normal.png" />
     <None Include="resource\main\newGroup.png" />
     <None Include="resource\login\option_normal.png" />
@@ -379,18 +397,28 @@
     <None Include="resource\main\photo_border.png" />
     <None Include="resource\main\previewMode_normal.png" />
     <None Include="resource\main\previewMode_select.png" />
+    <None Include="resource\instance\reback.png" />
     <None Include="resource\main\refresh.png" />
     <None Include="resource\main\renew.png" />
     <QtRcc Include="res.qrc" />
+    <None Include="resource\instance\restore.png" />
+    <None Include="resource\instance\screenshots.png" />
     <None Include="resource\main\setting_normal.png" />
+    <None Include="resource\instance\shake.png" />
     <None Include="resource\main\shouqi.png" />
     <None Include="resource\function\sub.png" />
     <None Include="resource\main\sync.png" />
+    <None Include="resource\instance\topWindow.png" />
     <None Include="resource\main\uncheck.png" />
     <None Include="resource\main\upload.png" />
     <None Include="resource\main\uploadItem.png" />
+    <None Include="resource\instance\volumeAdd.png" />
+    <None Include="resource\instance\volumeSub.png" />
     <None Include="resource\function\waitPay.png" />
     <None Include="resource\function\wechat.png" />
+    <None Include="resource\instance\wifi_bad.png" />
+    <None Include="resource\instance\wifi_good.png" />
+    <None Include="resource\instance\wifi_optimal.png" />
     <None Include="resource\main\zhangkai.png" />
     <None Include="resource\function\zhifubao.png" />
   </ItemGroup>
