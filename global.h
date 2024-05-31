@@ -236,6 +236,7 @@ public:
     static QString strAccessKeyId;
     static QString strExpiration;
 
+    static QString strPictureTempDir;
     static QString strFileTempDir;
 };
 #endif // GLOBAL_H

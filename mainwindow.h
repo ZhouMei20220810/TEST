@@ -80,6 +80,8 @@ private:
 
     //初始化vip列表
     void loadVipType(S_LEVEL_INFO levelInfo);
+
+    void startDownload(QString strUrl);
 private slots:
     //工具栏
     void on_toolBtnCloudPhone_clicked();

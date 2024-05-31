@@ -32,6 +32,7 @@
 #include <QThread>
 #include "uploadfiledialog.h"
 #include "renewitemwidget.h"
+#include "filedownloader.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -1125,7 +1126,15 @@ void MainWindow::HttpLevelList()
                             info.iLevelId = objData["id"].toInt();
                             info.strLevelName = objData["name"].toString();
                             info.strColorIcon = objData["colorIcon"].toString();
+                            if (!info.strColorIcon.isEmpty())
+                            {
+                                startDownload(info.strColorIcon);
+                            }
                             info.strAshIcon = objData["ashIcon"].toString();
+                            if (!info.strAshIcon.isEmpty())
+                            {
+                                startDownload(info.strAshIcon);
+                            }
                             info.bIsEnabled = objData["isEnabled"].toBool();
                             info.strLevelRemark = objData["remark"].toString();
                             m_mapLevelList.insert(info.iLevelId,info);
@@ -2650,5 +2659,12 @@ void MainWindow::on_toolBtnListMode_clicked()
 void MainWindow::on_toolBtnPreviewMode_clicked()
 {
     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
+}
+
+void MainWindow::startDownload(QString strUrl) 
+{
+    FileDownloader* downloader = new FileDownloader(this);    
+    downloader->setUrl(strUrl, "xxx.png");
+    downloader->start();
 }
 

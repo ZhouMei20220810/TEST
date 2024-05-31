@@ -11,7 +11,7 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
 
 	setStyleSheet("background-color:gray");
     //ui->label->setText("Hello world");
-	m_strTempFile = GlobalData::strFileTempDir +INSTANCE_TEMP_DIR + "1.png";
+	m_strTempFile = GlobalData::strPictureTempDir +"1.png";
 	
 	QFile file1(m_strTempFile);
 	QString strUrl;
@@ -20,7 +20,7 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
 	else
 		strUrl = m_strTempFile;
 	ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-	//m_strPicturePath = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + "/" + m_PhoneInfo.strInstanceNo + ".png";
+	//m_strPicturePath = GlobalData::strFileTempDir + "/" + m_PhoneInfo.strInstanceNo + ".png";
 }
 
 VideoViewWidget::~VideoViewWidget()
@@ -143,7 +143,7 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 
 			char* src_data = (char*)getFrameBuffer();
 			//Window* parent_wnd = GetWindow();
-			QFile file(GlobalData::strFileTempDir+ INSTANCE_TEMP_DIR +"/1.png");
+			QFile file(GlobalData::strPictureTempDir +"1.png");
 			if (file.open(QIODevice::WriteOnly))
 			{
 				QDataStream stream(&file);

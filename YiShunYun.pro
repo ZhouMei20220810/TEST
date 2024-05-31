@@ -20,6 +20,7 @@ SOURCES += \
     buyhistoryitemwidget.cpp \
     buyhistorywidget.cpp \
     creategroupwidget.cpp \
+    filedownloader.cpp \
     forgetpwdialog.cpp \
     global.cpp \
     individualcenterwidget.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     buyhistoryitemwidget.h \
     buyhistorywidget.h \
     creategroupwidget.h \
+    filedownloader.h \
     forgetpwdialog.h \
     global.h \
     individualcenterwidget.h \

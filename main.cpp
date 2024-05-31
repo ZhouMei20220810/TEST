@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
         if (!dir.mkdir(strDir))
             qDebug() << "failed:" << strDir;
     }
-    strDir += INSTANCE_TEMP_DIR;
+    strDir = GlobalData::strPictureTempDir;
     if (!dir.exists(strDir))
     {
         if (!dir.mkdir(strDir))

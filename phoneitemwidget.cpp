@@ -18,7 +18,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     m_sTaskInfo = sTaskInfo;
     ui->toolBtnName->setText(sTaskInfo.strName);
     
-    m_strPicturePath = QDir::tempPath() + "/"+ SCREENSHOT_PICTRUE_FLODER+"/" + sTaskInfo.strInstanceNo + ".png";
+    m_strPicturePath = GlobalData::strFileTempDir+"/" + sTaskInfo.strInstanceNo + ".png";
     QFile file1(m_strPicturePath);
     QString strUrl;
     if (!file1.exists())
