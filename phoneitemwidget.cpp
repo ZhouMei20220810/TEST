@@ -74,6 +74,14 @@ void PhoneItemWidget::setRefreshTimer(bool bIsRefresh)
     m_bIsRefresh = bIsRefresh;
 }
 
+void PhoneItemWidget::setCheckBoxStatus(bool bCheck)
+{
+    m_checkBox->setChecked(bCheck);
+}
+bool PhoneItemWidget::getCheckBoxStatus()
+{
+    return m_checkBox->isChecked();
+}
 void PhoneItemWidget::startRequest(QUrl url)
 {
     //初始化文件

@@ -73,6 +73,8 @@ private:
     void InitBuyTab();
     //初始化列列表
     void InitPhoneList();
+    void InitPhoneItemList(bool bIconMode = true);
+    void setPhoneItemCheckBoxStatus(bool bCheck);
     void InitLevelList();
     void InitVipList();
     void InitVipRenewList();
@@ -162,6 +164,14 @@ private slots:
     void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
     void on_checkBoxRenew_clicked(bool checked);
+
+    void on_btnCancelSelect_clicked();
+
+    void on_toolBtnListMode_clicked();
+
+    void on_checkBoxAllSelect_clicked(bool checked);
+
+    void on_checkBoxFanSelect_clicked(bool checked);
 
 private:
     Ui::MainWindow *ui;

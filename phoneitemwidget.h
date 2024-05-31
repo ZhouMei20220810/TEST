@@ -24,7 +24,8 @@ public:
     ~PhoneItemWidget();
     void startRequest(QUrl url);
     void setRefreshTimer(bool bIsRefresh);
-
+    void setCheckBoxStatus(bool bCheck);
+    bool getCheckBoxStatus();
 private slots:
     void httpFinished();//文件接收完成
     void httpReadyRead();//接受数据中

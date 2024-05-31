@@ -457,10 +457,20 @@ void MainWindow::InitBuyTab()
 
 //初始化列表
 void MainWindow::InitPhoneList()
+{    
+    InitPhoneItemList(true);
+    //默认显示竖屏
+    on_toolBtnChangeVerScreen_clicked();
+}
+
+void MainWindow::InitPhoneItemList(bool bIconMode)
 {
     //imageList->resize(365,400);
     //设置QListWidget的显示模式
-    ui->listWidget->setViewMode(QListView::IconMode);
+    if (bIconMode)
+        ui->listWidget->setViewMode(QListView::IconMode);
+    else
+        ui->listWidget->setViewMode(QListView::ListMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
@@ -471,9 +481,6 @@ void MainWindow::InitPhoneList()
     ui->listWidget->setMovement(QListWidget::Static);
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-
-    //默认显示竖屏
-    on_toolBtnChangeVerScreen_clicked();
 }
 
 void MainWindow::InitLevelList()
@@ -2566,4 +2573,94 @@ void MainWindow::on_checkBoxRenew_clicked(bool checked)
         }
     }
 }
+
+
+void MainWindow::on_btnCancelSelect_clicked()
+{
+    //取消选择
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        return;
+    }
+
+    QListWidgetItem* item = NULL;
+    PhoneItemWidget* phoneItem = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+            if (phoneItem != NULL)
+            {
+                phoneItem->setCheckBoxStatus(false);
+            }
+        }
+    }
+}
+
+void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
+{
+    //全选
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        return;
+    }
+
+    QListWidgetItem* item = NULL;
+    PhoneItemWidget* phoneItem = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+            if (phoneItem != NULL)
+            {
+                phoneItem->setCheckBoxStatus(true);
+            }
+        }
+    }
+}
+
+
+void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
+{
+    //反选
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        return;
+    }
+
+    QListWidgetItem* item = NULL;
+    PhoneItemWidget* phoneItem = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+            if (phoneItem != NULL)
+            {
+                phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
+            }
+        }
+    }
+}
+
+void MainWindow::setPhoneItemCheckBoxStatus(bool bCheck)
+{
+
+}
+void MainWindow::on_toolBtnListMode_clicked()
+{
+    InitPhoneItemList(false);
+
+    //初始化列表
+
+}
+
 
