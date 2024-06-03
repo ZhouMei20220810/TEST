@@ -26,6 +26,7 @@ private:
     Ui::VIPItemWidget *ui;
 
     S_LEVEL_DATA_INFO m_levelInfo;
+    QToolButton* m_toolBtn;
 };
 
 #endif // VIPITEMWIDGET_H

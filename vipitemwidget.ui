@@ -13,41 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QToolButton" name="toolButton">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>101</width>
-     <height>120</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QToolButton{background-color:#FFE6DDE5;border:4px;border-color:red;}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="labelCheck">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>0</y>
-     <width>21</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap resource="res.qrc">:/main/resource/main/levelCheck.png</pixmap>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QLabel" name="labelTotalTime">
    <property name="geometry">
     <rect>
@@ -211,8 +176,6 @@ background:transparent;</string>
    </layout>
   </widget>
  </widget>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

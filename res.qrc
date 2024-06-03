@@ -61,6 +61,9 @@
         <file>resource/main/upload.png</file>
         <file>resource/main/uploadItem.png</file>
         <file>resource/main/renew.png</file>
+        <file>resource/main/defaultLevelIcon.png</file>
+        <file>resource/main/gvip_bg_normal.png</file>
+        <file>resource/main/gvip_bg_select.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

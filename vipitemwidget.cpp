@@ -10,12 +10,21 @@ VIPItemWidget::VIPItemWidget(S_LEVEL_DATA_INFO levelInfo, QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     this->resize(ITEM_WIDGET_VIP_WIDTH,ITEM_WIDGET_VIP_HEIGHT);
     m_levelInfo = levelInfo;
-    ui->toolButton->setIcon(QIcon(":/func/resource/function/1.png"));
-    ui->toolButton->setIconSize(ui->toolButton->size());
-    ui->labelCheck->move(this->width() - ui->labelCheck->width(), 0);
+    m_toolBtn = new QToolButton(this);
+    m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_normal.png"));
+    m_toolBtn->setIconSize(QSize(ITEM_WIDGET_VIP_WIDTH-2, ITEM_WIDGET_VIP_HEIGHT));
+    connect(m_toolBtn, &QToolButton::clicked, this, &VIPItemWidget::on_toolButton_clicked);
+
+    ui->frame->setParent(m_toolBtn);
+    ui->labelDayPrice->setParent(m_toolBtn);
+    ui->labelTotalTime->setParent(m_toolBtn);
+
+    //ui->toolButton->setIcon(QIcon(":/main/resource/main/gvip_bg_normal.png"));
+    //ui->toolButton->setIconSize(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));
+    /*ui->labelCheck->move(this->width() - ui->labelCheck->width(), 0);
     ui->labelCheck->setVisible(false);
     ui->labelCheck->setParent(ui->toolButton);
-    ui->labelCheck->setStyleSheet("border:none;background:transparent;");
+    ui->labelCheck->setStyleSheet("border:none;background:transparent;");*/
     //ui->labelCheck->setText(QString("%1").arg(enVipType));
 
     ui->labelTotalTime->setText(QString("%1").arg(levelInfo.strMemberName));
@@ -45,23 +54,21 @@ void VIPItemWidget::setLabelCheckStatus(bool bCheck)
 {
     if (bCheck)
     {
-        ui->toolButton->setIcon(QIcon(":/func/resource/function/2.png"));
+        m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_select.png"));
     }
     else
     {
-        ui->toolButton->setIcon(QIcon(":/func/resource/function/1.png"));
+        m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_normal.png"));
     }
-    ui->labelCheck->setVisible(bCheck);
-    ui->toolButton->setStyleSheet("QToolButton{background-color:#FFE6DDE5;border:4px;border-color:red;}");
-    qDebug() << "VIPItemWidget labelCheck status<<" << bCheck;
+    //ui->labelCheck->setVisible(bCheck);
+    //ui->toolButton->setStyleSheet("QToolButton{background-color:#FFE6DDE5;border:4px;border-color:red;}");
+    //qDebug() << "VIPItemWidget labelCheck status<<" << bCheck;
 }
 
 void VIPItemWidget::on_toolButton_clicked()
 {
-    ui->labelCheck->setVisible(true);
-    ui->toolButton->setIcon(QIcon(":/func/resource/function/2.png"));
-
-    ui->toolButton->setStyleSheet("QToolButton{background-color:#FFE0D3D3;border:4px;border-color:#FF000000;}");
+    //ui->labelCheck->setVisible(true);
+    m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_select.png"));    
     qDebug() << "select vip type=" << m_levelInfo.iMemberId;
     emit selectVIPTypeSignals(m_levelInfo);
 }

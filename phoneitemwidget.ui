@@ -120,7 +120,7 @@ padding-left:0px;
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/login/resource/login/link.ico</normaloff>:/login/resource/login/link.ico</iconset>
+          <normaloff>:/main/resource/main/defaultLevelIcon.png</normaloff>:/main/resource/main/defaultLevelIcon.png</iconset>
         </property>
         <property name="iconSize">
          <size>
