@@ -33,7 +33,7 @@ protected:
 private:
     void setToolBtnVisible(bool bVisible);
 
-    void HttpPhoneInstanceRequest(QString strUUID,qint64 i64OnlineTime,QString strPadCode);
+    void HttpGetInstanceSession(int id);
 private slots:
     void on_toolBtnPhoneInstance_clicked();
     void on_toolBtnPictureQuality_clicked();
@@ -76,6 +76,16 @@ private:
     S_PHONE_INFO m_PhoneInfo;
     QStringList m_strPhoneList;
     ToolObject* m_toolObject;
+
+
+    QString m_strSessionId;
+    QString m_strControlIp;
+    float   m_fControlPort;
+    QString m_strControlCode;
+    QString m_strDomain;
+    QString m_strControlTactics;
+    QString m_strTraceServer;
+    double m_dControlPort;
 
     //VideoViewWidget* m_Display;
     SWPlayer* m_Player;

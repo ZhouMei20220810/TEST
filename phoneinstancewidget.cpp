@@ -11,6 +11,7 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include "messagetipsdialog.h"
 
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
@@ -47,37 +48,30 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     qint64 i64Time = time.toSecsSinceEpoch();//time.toMSecsSinceEpoch();
     qDebug() << "i64Time(s)=" << i64Time<<"i64Time(ms)="<< time.toMSecsSinceEpoch();
 
-    HttpPhoneInstanceRequest(strUUID, i64Time, strPadCode);
-
-	onPlayStart();
+    HttpGetInstanceSession(sPhoneInfo.iId);
 }
 
-void PhoneInstanceWidget::HttpPhoneInstanceRequest(QString strUUID, qint64 i64OnlineTime, QString strPadCode)
+void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint64 i64OnlineTime, QString strPadCode*/
 {
-    QString strUrl = HTTP_CLOUD_PHONE_SERVER;
-    strUrl += HTTP_CLOUD_PHONE_GET_INSTANCE;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_INSTANCE_SESSION;
+    strUrl += QString("/%1").arg(id);
+    //QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
+    qDebug() << "strUrl = " << strUrl;
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
     //创建请求对象
     QNetworkRequest request;
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
-    /*QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;*/
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    qDebug() << "token:   " << strToken;
     request.setUrl(url);
-    QJsonDocument doc;
-    QJsonObject obj;
-    //QJsonValue value(u64OnlineTime);
-    obj.insert("uuid", strUUID);
-    obj.insert("onlineTime",i64OnlineTime);
-    obj.insert("padCode", strPadCode);
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+
     //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
+    QNetworkReply* reply = manager->get(request);
     //连接请求完成的信号
     connect(reply, &QNetworkReply::finished, this, [=] {
         //读取响应数据
@@ -88,7 +82,6 @@ void PhoneInstanceWidget::HttpPhoneInstanceRequest(QString strUUID, qint64 i64On
         QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
         if (parseError.error != QJsonParseError::NoError)
         {
-            qDebug() << response;
             qWarning() << "Json parse error:" << parseError.errorString();
         }
         else
@@ -96,13 +89,46 @@ void PhoneInstanceWidget::HttpPhoneInstanceRequest(QString strUUID, qint64 i64On
             if (doc.isObject())
             {
                 QJsonObject obj = doc.object();
-                int iCode = obj["resultCode"].toInt();
-                QString strMessage = obj["resultInfo"].toString();
-                qDebug() << "resultCode=" << iCode << "resultInfo=" << strMessage;
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog("重置密码成功", this);
-                    tips->show();
+                    //true操作成功
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject dataObj = obj["data"].toObject();
+                        QJsonObject data = dataObj["data"].toObject();
+                        m_strSessionId = data["sessionId"].toString();
+                        m_strDomain = data["domain"].toString();
+                        m_strControlTactics = data["controlTactics"].toString();
+                        qDebug() << "m_strSessionId = " << m_strSessionId;
+                        qDebug() << "m_strControlCode = " << m_strControlCode;
+                        QJsonObject control;
+                        QJsonArray controlArray = data["controlList"].toArray();
+                        for (int iControl = 0; iControl < controlArray.size(); iControl++)
+                        {
+                            control = controlArray.at(iControl).toObject();
+                            m_strControlCode = control["controlCode"].toString();
+                            
+                            if (control["controlInfoList"].isArray())
+                            {
+                                QJsonArray controlList = control["controlInfoList"].toArray();
+                                int iSize = controlList.size();
+                                QJsonObject info;
+                                for (int i = 0; i < iSize; i++)
+                                {
+                                    info = controlList.at(i).toObject();
+                                    m_strControlIp = info["controlIp"].toString();
+                                    m_dControlPort = info["controlPort"].toDouble();
+                                    m_strTraceServer = info["traceServer"].toString();
+                                    qDebug() << "m_strControlIp=" << m_strControlIp << "m_dControlPort=" << m_dControlPort << "strTraceServer=" << m_strTraceServer;
+                                }
+                            }
+                        }
+                         
+                        onPlayStart();
+                    }
                 }
                 else
                 {
@@ -354,11 +380,11 @@ bool PhoneInstanceWidget::onPlayStart()
 
 			std::string padcode = ui->toolBtnPhoneInstance->text().toStdString();
             std::string packageName = "packageName";
-            std::string controlAddr ="120.26.132.153";
+            std::string controlAddr = m_strControlIp.toStdString();//"120.26.132.153";
 
-            int controlPort = 8080;//端口
+            int controlPort = m_dControlPort;//端口
             int userID = GlobalData::id;
-            std::string sessionID="sessionID"; //?
+            std::string sessionID=m_strSessionId.toStdString();
 
 			if (padcode.empty()) {
 				break;

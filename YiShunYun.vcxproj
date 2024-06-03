@@ -206,6 +206,7 @@
     <ClCompile Include="buyhistoryitemwidget.cpp" />
     <ClCompile Include="buyhistorywidget.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
+    <ClCompile Include="factorydataresetdialog.cpp" />
     <ClCompile Include="filedownloader.cpp" />
     <ClCompile Include="forgetpwdialog.cpp" />
     <ClCompile Include="global.cpp" />
@@ -239,6 +240,7 @@
     <QtMoc Include="buyhistoryitemwidget.h" />
     <QtMoc Include="buyhistorywidget.h" />
     <QtMoc Include="creategroupwidget.h" />
+    <QtMoc Include="factorydataresetdialog.h" />
     <QtMoc Include="filedownloader.h" />
     <QtMoc Include="forgetpwdialog.h" />
     <ClInclude Include="global.h" />
@@ -287,6 +289,7 @@
     <QtUic Include="buyhistoryitemwidget.ui" />
     <QtUic Include="buyhistorywidget.ui" />
     <QtUic Include="creategroupwidget.ui" />
+    <QtUic Include="factorydataresetdialog.ui" />
     <QtUic Include="forgetpwdialog.ui" />
     <QtUic Include="individualcenterwidget.ui" />
     <QtUic Include="levelchildwidget.ui" />
@@ -325,8 +328,6 @@
     <None Include="resource\instance\Input.png" />
     <None Include="resource\function\PayFinish.png" />
     <None Include="resource\instance\Root.png" />
-    <None Include="resource\login\ScreenShots.jpg" />
-    <None Include="resource\login\ScreenShots_v.jpg" />
     <None Include="resource\instance\Shouqi.png" />
     <None Include="resource\instance\Zhankai.png" />
     <None Include="resource\main\activeCode_normal.png" />
@@ -368,7 +369,6 @@
     <None Include="resource\main\expand.png" />
     <None Include="resource\instance\factoryDataReset.png" />
     <None Include="resource\instance\home.png" />
-    <None Include="resource\login\ico-warn.png" />
     <None Include="resource\login\ico_del_c.png" />
     <None Include="resource\login\ico_del_n.png" />
     <None Include="resource\login\ico_down.png" />
@@ -381,7 +381,6 @@
     <None Include="resource\main\level_Premier.png" />
     <None Include="resource\main\level_enhancenment.png" />
     <None Include="resource\main\level_normal.png" />
-    <None Include="resource\login\link.ico" />
     <None Include="resource\main\listMode_normal.png" />
     <None Include="resource\main\listMode_select.png" />
     <None Include="resource\login\logo.png" />
@@ -397,6 +396,7 @@
     <None Include="resource\login\option_normal.png" />
     <None Include="resource\login\option_select.png" />
     <None Include="resource\main\packup.png" />
+    <None Include="resource\login\passsword.png" />
     <None Include="resource\main\photo_border.png" />
     <None Include="resource\main\previewMode_normal.png" />
     <None Include="resource\main\previewMode_select.png" />
