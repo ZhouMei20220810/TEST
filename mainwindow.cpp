@@ -33,6 +33,7 @@
 #include "uploadfiledialog.h"
 #include "renewitemwidget.h"
 #include "filedownloader.h"
+#include "factorydataresetdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -297,11 +298,22 @@ void MainWindow::do_ActionFactoryDataReset(bool bChecked)
     if (m_pCurItem == NULL)
         return;
 
-    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+    FactoryDataResetDialog* dialog = new FactoryDataResetDialog(this);
+    if (QDialog::Accepted == dialog->exec())
+    {
+        qDebug() << "确定出厂";
+        S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
 
-    QStringList strList;
-    strList << phoneInfo.strInstanceNo;
-    this->m_toolObject->HttpPostInstanceReset(strList);
+        QStringList strList;
+        strList << phoneInfo.strInstanceNo;
+        this->m_toolObject->HttpPostInstanceReset(strList);
+    }
+    else
+    {
+        qDebug() << "取消出厂";
+    }
+
+    
 }
 void MainWindow::do_ActionUploadFile(bool bChecked)
 {

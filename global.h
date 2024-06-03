@@ -3,7 +3,7 @@
 
 #include <QToolButton>
 #include <QString>
-#define HTTP_SERVER_DOMAIN_ADDRESS "http://120.26.132.153:8080"
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080"    //"http://120.26.132.153:8080"
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -43,6 +43,7 @@
 #define HTTP_SET_INSTANCE_GROUP     "/api/user/setGroup"    //设置实例分组
 #define HTTP_SET_INSTANCE_NAME      "/api/user/setName"     // 实例名称修改
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
+#define HTTP_GET_INSTANCE_SESSION    "/api/user/getSessionId" //获取连接session
 
 //文件相关接口
 #define HTTP_ALIBABA_OSS_ENDPOINT   "https://oss-cn-beijing.aliyuncs.com" //去掉https,否则https会报认证问题
