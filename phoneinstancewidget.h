@@ -32,6 +32,8 @@ protected:
     void onPlayInfo(const char* info) override;
 private:
     void setToolBtnVisible(bool bVisible);
+
+    void HttpPhoneInstanceRequest(QString strUUID,qint64 i64OnlineTime,QString strPadCode);
 private slots:
     void on_toolBtnPhoneInstance_clicked();
     void on_toolBtnPictureQuality_clicked();

@@ -6,6 +6,12 @@
 #include "Keyboard.h"
 #include "SWDataSource.h"
 #include "messagetips.h"
+#include <QDateTime>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include "messagetipsdialog.h"
 
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
     : QWidget(parent)
@@ -34,7 +40,79 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     //m_Display->move(0, 100);
     //m_Display->resize(ui->labelPhone->size());
 
+    QString strUUID = GlobalData::strAccount;
+    QString strPadCode = sPhoneInfo.strInstanceNo;
+    QString strOnlineTime = sPhoneInfo.strExpireTime;
+    QDateTime time = QDateTime::fromString(strOnlineTime,"yyyy-MM-dd hh:mm:ss");
+    qint64 i64Time = time.toSecsSinceEpoch();//time.toMSecsSinceEpoch();
+    qDebug() << "i64Time(s)=" << i64Time<<"i64Time(ms)="<< time.toMSecsSinceEpoch();
+
+    HttpPhoneInstanceRequest(strUUID, i64Time, strPadCode);
+
 	onPlayStart();
+}
+
+void PhoneInstanceWidget::HttpPhoneInstanceRequest(QString strUUID, qint64 i64OnlineTime, QString strPadCode)
+{
+    QString strUrl = HTTP_CLOUD_PHONE_SERVER;
+    strUrl += HTTP_CLOUD_PHONE_GET_INSTANCE;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    /*QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    qDebug() << "token:   " << strToken;*/
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    //QJsonValue value(u64OnlineTime);
+    obj.insert("uuid", strUUID);
+    obj.insert("onlineTime",i64OnlineTime);
+    obj.insert("padCode", strPadCode);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["resultCode"].toInt();
+                QString strMessage = obj["resultInfo"].toString();
+                qDebug() << "resultCode=" << iCode << "resultInfo=" << strMessage;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog("重置密码成功", this);
+                    tips->show();
+                }
+                else
+                {
+                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 
 PhoneInstanceWidget::~PhoneInstanceWidget()

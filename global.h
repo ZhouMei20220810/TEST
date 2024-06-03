@@ -49,6 +49,12 @@
 #define HTTP_ALIBABA_OSS_CALLBACK   "https://www.ysyos.com/api/file/callback/instance"
 #define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
 
+//云手机
+#define HTTP_CLOUD_PHONE_SERVER         "https://platform.armvm.com"
+#define HTTP_CLOUD_PHONE_GET_INSTANCE   "/auth/device/connect.html?s=da67906d06e8d334d1c8308fbba8af67&appkey=4a8311be034943cfaa6a357fdc9f0461&auth_ver=2&nonce=1576737589993" //实例申请
+
+
+
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
 #define     DOWNLOAD_SCREENSHOT_INTERVAL (6*1000)       //下载截图间隔
