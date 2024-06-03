@@ -379,7 +379,7 @@ bool PhoneInstanceWidget::onPlayStart()
             int businessType = 1;//m_OptionPlayType->IsSelected() ? 0 : 1;
 
 			std::string padcode = ui->toolBtnPhoneInstance->text().toStdString();
-            std::string packageName = "packageName";
+            std::string packageName = "";//可以为空
             std::string controlAddr = m_strControlIp.toStdString();//"120.26.132.153";
 
             int controlPort = m_dControlPort;//端口
