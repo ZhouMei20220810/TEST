@@ -7,6 +7,7 @@ FactoryDataResetDialog::FactoryDataResetDialog(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 FactoryDataResetDialog::~FactoryDataResetDialog()
@@ -23,5 +24,11 @@ void FactoryDataResetDialog::on_btnOk_clicked()
 void FactoryDataResetDialog::on_btnCancel_clicked()
 {
     this->reject();
+}
+
+
+void FactoryDataResetDialog::on_btnClose_clicked()
+{
+    this->close();
 }
 

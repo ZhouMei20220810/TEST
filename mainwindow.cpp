@@ -298,7 +298,7 @@ void MainWindow::do_ActionFactoryDataReset(bool bChecked)
     if (m_pCurItem == NULL)
         return;
 
-    FactoryDataResetDialog* dialog = new FactoryDataResetDialog(this);
+    FactoryDataResetDialog* dialog = new FactoryDataResetDialog();
     if (QDialog::Accepted == dialog->exec())
     {
         qDebug() << "确定出厂";

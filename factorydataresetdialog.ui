@@ -298,7 +298,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btnClose">
         <property name="minimumSize">
          <size>
           <width>24</width>
@@ -453,6 +453,9 @@
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
      border: 1px solid #D7D7DE;
@@ -462,14 +465,14 @@
  }
 QPushButton:hover
 {
-	border:2px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:1px solid  #D7D7DE;
+	background-color: #FFFFFFFF;
 }
  QPushButton:pressed {
-     border: 2px solid #555764;
+     border: 1px solid #D7D7DE;
      border-radius: 2px;
-	 background-color: #FF555764;
-	 color:#FFFFFFFF;
+	 background-color: #FFFFFFFF;
+	 color:#4A4A4A;
  }
 
  QPushButton:flat {
@@ -504,22 +507,25 @@ QPushButton:hover
           <pointsize>11</pointsize>
          </font>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
-     border: 2px solid #407AFF;
+     border: 1px solid #FF407AFF;
      border-radius:2px;
 	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 QPushButton:hover
 {
-	border:2px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:0px solid  #FF407AFF;
+	background-color: #FF407AFF;
 }
  QPushButton:pressed {
-     border: 2px solid #555764;
+     border: 0px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 
