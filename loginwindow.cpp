@@ -5,8 +5,8 @@
 #include <QJsonObject>
 #include "mainwindow.h"
 
-#define     PAGE_WIDGET_X_POS       262
-#define     PAGE_WIDGET_Y_POS       33
+#define     PAGE_WIDGET_X_POS       324
+#define     PAGE_WIDGET_Y_POS       32
 
 LoginWindow::LoginWindow(QWidget *parent)
     : QMainWindow(parent)

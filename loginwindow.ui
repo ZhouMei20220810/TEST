@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>620</width>
-    <height>392</height>
+    <width>700</width>
+    <height>346</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>620</width>
-    <height>392</height>
+    <width>700</width>
+    <height>346</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>620</width>
-    <height>392</height>
+    <width>708</width>
+    <height>346</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -68,27 +68,27 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
@@ -97,27 +97,27 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
@@ -126,27 +126,27 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>0</red>
-            <green>128</green>
-            <blue>255</blue>
+            <red>41</red>
+            <green>64</green>
+            <blue>115</blue>
            </color>
           </brush>
          </colorrole>
@@ -154,7 +154,7 @@
        </palette>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color:#FF0080FF;</string>
+       <string notr="true">background-color:#FF294073;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -195,27 +195,27 @@
             <colorrole role="Button">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Base">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Window">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
@@ -233,27 +233,27 @@
             <colorrole role="Button">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Base">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Window">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
@@ -262,27 +262,27 @@
             <colorrole role="Button">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Base">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
             <colorrole role="Window">
              <brush brushstyle="SolidPattern">
               <color alpha="255">
-               <red>0</red>
-               <green>128</green>
-               <blue>255</blue>
+               <red>41</red>
+               <green>64</green>
+               <blue>115</blue>
               </color>
              </brush>
             </colorrole>
@@ -291,7 +291,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>9</pointsize>
+           <pointsize>10</pointsize>
            <bold>true</bold>
           </font>
          </property>
@@ -366,18 +366,21 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="label_2">
         <property name="minimumSize">
          <size>
-          <width>260</width>
-          <height>360</height>
+          <width>324</width>
+          <height>314</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>260</width>
-          <height>360</height>
+          <width>324</width>
+          <height>314</height>
          </size>
         </property>
         <property name="text">
@@ -385,6 +388,9 @@
         </property>
         <property name="pixmap">
          <pixmap resource="res.qrc">:/login/resource/login/logo.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

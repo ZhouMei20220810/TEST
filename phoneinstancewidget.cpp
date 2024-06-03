@@ -24,9 +24,9 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     ui->frameTool->setVisible(false);
     setToolBtnVisible(GlobalData::bVerticalScreen);
     if (GlobalData::bVerticalScreen)
-        resize(380, 660);
+        resize(PHONE_INSTANCE_VERTICAL_WIDTH, PHONE_INSTANCE_VERTICAL_WIDTH);
     else
-        resize(660, 380);
+        resize(PHONE_INSTANCE_HORIZONTAL_WIDTH, PHONE_INSTANCE_HORIZONTAL_HEIGHT);
     m_toolObject = new ToolObject(this);
     m_PhoneInfo = sPhoneInfo;
     m_strPhoneList.clear();

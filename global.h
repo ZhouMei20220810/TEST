@@ -70,7 +70,12 @@
 //phone item
 #define         ITEM_PHONE_HORIZONTAL_WIDTH       368 //横屏宽度
 #define         ITEM_PHONE_HORIZONTAL_HEIGHT      235 //横屏高度
-
+//instance item
+#define         PHONE_INSTANCE_VERTICAL_WIDTH       520 //竖屏宽度
+#define         PHONE_INSTANCE_VERTICAL_HEIGHT      840 //竖屏高度
+//instance item
+#define         PHONE_INSTANCE_HORIZONTAL_WIDTH       840 //横屏宽度
+#define         PHONE_INSTANCE_HORIZONTAL_HEIGHT      520 //横屏高度
 #define         ITEM_WIDGET_SPACING             15
 //level item
 #define         ITEM_WIDGET_LEVEL_WIDTH         416

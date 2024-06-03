@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>614</width>
-    <height>768</height>
+    <height>801</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,7 +60,7 @@ padding-left:0px;
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color:#2B354D;
+        <string notr="true">background-color:#FF2B354C;
 QToolButton
 {
 width:28;
@@ -169,6 +169,12 @@ padding-left:0px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnTopLevel">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>32</width>
@@ -198,6 +204,12 @@ padding-left:0px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnMin">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>32</width>
@@ -224,6 +236,12 @@ padding-left:0px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnMax">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>32</width>
@@ -250,6 +268,12 @@ padding-left:0px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnClose">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
             <width>32</width>
@@ -276,9 +300,15 @@ padding-left:0px;
         </item>
         <item>
          <widget class="QToolButton" name="toolBtnShow">
+          <property name="minimumSize">
+           <size>
+            <width>40</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>32</width>
+            <width>40</width>
             <height>40</height>
            </size>
           </property>
@@ -286,7 +316,7 @@ padding-left:0px;
            <string>展开</string>
           </property>
           <property name="text">
-           <string>&gt;&gt;</string>
+           <string/>
           </property>
           <property name="icon">
            <iconset resource="res.qrc">
@@ -294,8 +324,8 @@ padding-left:0px;
           </property>
           <property name="iconSize">
            <size>
-            <width>32</width>
-            <height>40</height>
+            <width>17</width>
+            <height>17</height>
            </size>
           </property>
          </widget>
@@ -323,7 +353,7 @@ padding-left:0px;
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:#2B354D;
+      <string notr="true">background-color:#FF2B354C;
 QToolButton
 {
 width:40;
@@ -582,7 +612,7 @@ height:40
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:#2B354D;
+      <string notr="true">background-color:#FF2B354C;
 QToolButton
 {
 width:40;
@@ -633,6 +663,18 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnSignal">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -658,6 +700,18 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnAddVolume">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -675,17 +729,29 @@ height:40
         </property>
         <property name="iconSize">
          <size>
-          <width>24</width>
-          <height>24</height>
+          <width>40</width>
+          <height>37</height>
          </size>
         </property>
         <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+         <enum>Qt::ToolButtonIconOnly</enum>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnSubVolume">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -714,6 +780,18 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnVerOrHor">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -742,6 +820,18 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnInput">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -768,6 +858,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnMore">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -793,6 +889,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnScreenshot">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -821,6 +923,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnScreenshotsDir">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -847,6 +955,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnClipboard">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -875,6 +989,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnShark">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -903,6 +1023,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnRoot">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -928,6 +1054,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnKeyboard">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>46</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>
@@ -953,6 +1085,12 @@ height:40
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnADB">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="font">
          <font>
           <pointsize>8</pointsize>

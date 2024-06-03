@@ -20,6 +20,7 @@ SOURCES += \
     buyhistoryitemwidget.cpp \
     buyhistorywidget.cpp \
     creategroupwidget.cpp \
+    factorydataresetdialog.cpp \
     filedownloader.cpp \
     forgetpwdialog.cpp \
     global.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     buyhistoryitemwidget.h \
     buyhistorywidget.h \
     creategroupwidget.h \
+    factorydataresetdialog.h \
     filedownloader.h \
     forgetpwdialog.h \
     global.h \
@@ -85,6 +87,7 @@ FORMS += \
     buyhistoryitemwidget.ui \
     buyhistorywidget.ui \
     creategroupwidget.ui \
+    factorydataresetdialog.ui \
     forgetpwdialog.ui \
     individualcenterwidget.ui \
     levelchildwidget.ui \
