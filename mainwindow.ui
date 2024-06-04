@@ -50,7 +50,7 @@
       <property name="styleSheet">
        <string notr="true">QFrame {
 color: rgb(255, 255, 255);
-background-color: #FF363847;
+background-color: #FF294073;
 border-radius:0px;
 }</string>
       </property>
