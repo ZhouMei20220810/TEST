@@ -10,7 +10,6 @@
 #include <QJsonArray>
 #include <QUrlQuery>
 #include <QTreeWidget>
-#include "creategroupwidget.h"
 #include "updategroupwidget.h"
 //#include "levelitemwidget.h"
 #include <QAbstractItemView>
@@ -44,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
 	setAttribute(Qt::WA_Hover, true);
 
     m_PhoneInstanceWidget = NULL;
+    m_createGroupWidget = NULL;
 
     m_toolObject = new ToolObject(this);
     connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this,[=]
@@ -99,9 +99,17 @@ void MainWindow::do_DeleteGroupAction(bool bChecked)
 
 void MainWindow::do_EditGroupNameAction(bool bChecked)
 {
-    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_UPDATE_GROUP_WIDGET);
-    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
-    createGroupWidget->show();
+    if (NULL == m_createGroupWidget)
+    {
+        m_createGroupWidget = new CreateGroupWidget(TYPE_UPDATE_GROUP_WIDGET);
+    }
+        
+    connect(m_createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
+    connect(m_createGroupWidget, &CreateGroupWidget::destroyed, this, [=]() {
+        m_createGroupWidget = NULL;
+        });
+    m_createGroupWidget->setModal(true);
+    m_createGroupWidget->show();
 }
 
 //实例重命名
@@ -280,9 +288,17 @@ void MainWindow::do_ActionRename(bool bChecked)
         return;
 
     S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_PHONE_RENAME_WIDGET,phoneInfo.iId, phoneInfo.strName);
-    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
-    createGroupWidget->show();
+    if (NULL == m_createGroupWidget)
+    {
+        m_createGroupWidget = new CreateGroupWidget(TYPE_PHONE_RENAME_WIDGET, phoneInfo.iId, phoneInfo.strName);
+    }
+
+    connect(m_createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
+    connect(m_createGroupWidget, &CreateGroupWidget::destroyed, this, [=]() {
+        m_createGroupWidget = NULL;
+        });
+    m_createGroupWidget->setModal(true);
+    m_createGroupWidget->show();
 }
 void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
 {
@@ -1904,10 +1920,17 @@ void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGr
 void MainWindow::on_btnCreateGroup_clicked()
 {
     //新建分组
-    CreateGroupWidget* createGroupWidget = new CreateGroupWidget(TYPE_CREATE_GROUP_WIDGET);
-    connect(createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
-    createGroupWidget->show();
+    if (NULL == m_createGroupWidget)
+    {
+        m_createGroupWidget = new CreateGroupWidget(TYPE_CREATE_GROUP_WIDGET);
+    }
 
+    connect(m_createGroupWidget, &CreateGroupWidget::createGroupSignals, this, &MainWindow::do_createGroupSignals);
+    connect(m_createGroupWidget, &CreateGroupWidget::destroyed, this, [=]() {
+        m_createGroupWidget = NULL;
+        });
+    m_createGroupWidget->setModal(true);
+    m_createGroupWidget->show();
 
     //调试修改分组接口
     //HttpUpdateGroup(2, "新名称");
@@ -2528,13 +2551,6 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     }        
 }
 
-
-void MainWindow::on_treeWidget_customContextMenuRequested(const QPoint &pos)
-{
-    m_menu->exec(QCursor::pos());
-}
-
-
 void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
 {
     if(qApp->mouseButtons() == Qt::RightButton) // 只针对鼠标右键
@@ -2546,7 +2562,13 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
             m_PhoneMenu->exec(QCursor::pos());
         }            
         else
-            m_menu->exec(QCursor::pos());
+        {
+            S_GROUP_INFO groupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
+            if ("默认分组" != groupInfo.strGroupName)
+            {
+                m_menu->exec(QCursor::pos());
+            }
+        }            
     }
 }
 

@@ -2,8 +2,8 @@
 #include "ui_creategroupwidget.h"
 #include "messagetipsdialog.h"
 
-CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, int id, QString strLineEditText, QWidget *parent)
-    : QWidget(parent)
+CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, int id, QString strLineEditText, QDialog* parent)
+    : QDialog(parent)
     , ui(new Ui::CreateGroupWidget)
 {
     ui->setupUi(this);
@@ -50,6 +50,12 @@ void CreateGroupWidget::on_btnOk_clicked()
 
     emit createGroupSignals(m_type,strGroupName, m_id);
 
+    this->close();
+}
+
+
+void CreateGroupWidget::on_pushButton_2_clicked()
+{
     this->close();
 }
 

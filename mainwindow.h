@@ -11,6 +11,7 @@
 #include <QMenu>
 #include "toolobject.h"
 #include "phoneinstancewidget.h"
+#include "creategroupwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -145,8 +146,6 @@ private slots:
 
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
-    void on_treeWidget_customContextMenuRequested(const QPoint &pos);
-
     //组菜单
     void do_DeleteGroupAction(bool bChecked);
     void do_EditGroupNameAction(bool bChecked);
@@ -222,6 +221,7 @@ private:
     ToolObject* m_toolObject;
 
     PhoneInstanceWidget* m_PhoneInstanceWidget;
+    CreateGroupWidget* m_createGroupWidget;
 /*protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;*/
