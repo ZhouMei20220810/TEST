@@ -2751,8 +2751,6 @@ void MainWindow::startDownload(QString strUrl)
     downloader->start();
 }
 
-
-
 void MainWindow::on_checkBoxRenewHeader_clicked(bool checked)
 {
     //选中状态

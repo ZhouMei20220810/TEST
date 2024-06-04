@@ -503,7 +503,21 @@ background-image: url(:/main/resource/main/setting_normal.png)
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">QPushButton
+{
+background-color: #FFFFFFFF
+}
+QPushButton:hover {
+     background-color: #FFFFFFFF
+ }
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: #FFFFFFFF; /* make the default button prominent */
+ }
+</string>
            </property>
            <property name="text">
             <string/>
@@ -535,7 +549,21 @@ background-image: url(:/main/resource/main/setting_normal.png)
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">QPushButton
+{
+background-color: #FFFFFFFF
+}
+QPushButton:hover {
+     background-color: #FFFFFFFF;
+ }
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: #FFFFFFFF; /* make the default button prominent */
+ }
+</string>
            </property>
            <property name="text">
             <string/>
@@ -567,14 +595,28 @@ background-image: url(:/main/resource/main/setting_normal.png)
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">QPushButton
+{
+background-color: #FFFFFFFF
+}
+QPushButton:hover {
+     background-color: none;
+ }
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: none; /* make the default button prominent */
+ }
+</string>
            </property>
            <property name="text">
             <string/>
            </property>
            <property name="icon">
             <iconset resource="res.qrc">
-             <normaloff>:/login/resource/login/ico_del_n.png</normaloff>:/login/resource/login/ico_del_n.png</iconset>
+             <normaloff>:/main/resource/main/close.png</normaloff>:/main/resource/main/close.png</iconset>
            </property>
            <property name="iconSize">
             <size>
