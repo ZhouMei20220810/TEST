@@ -377,27 +377,22 @@ void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
     //手机续费
     on_toolBtnRenewPhone_clicked();
 }
-
-//云手机
-void MainWindow::InitCloudPhoneTab()
+void MainWindow::InitGroupMenu()
 {
-    //设置TreeWidget相关属性
-    //ui->treeWidget->resize(200, 600);
-    //ui->treeWidget->move(100, 80);
-    //打开右键菜单属性
-    ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
     //组右键菜单
     m_menu = new QMenu(ui->treeWidget);
     QAction* pActionDeleteGroup = new QAction("删除分组");
     QAction* pActionEditGroupName = new QAction("编辑分组名称");
-    connect(pActionDeleteGroup, &QAction::triggered,this, &MainWindow::do_DeleteGroupAction);
+    connect(pActionDeleteGroup, &QAction::triggered, this, &MainWindow::do_DeleteGroupAction);
     connect(pActionEditGroupName, &QAction::triggered, this, &MainWindow::do_EditGroupNameAction);
     m_menu->addAction(pActionDeleteGroup);
     m_menu->addAction(pActionEditGroupName);
-
+}
+void MainWindow::InitPhoneMenu()
+{
     //手机右键菜单
     m_PhoneMenu = new QMenu(ui->treeWidget);
-    pActionBeginControl = new QAction("开始控制",ui->treeWidget);
+    pActionBeginControl = new QAction("开始控制", ui->treeWidget);
     pActionCopyCloudId = new QAction("复制云号", ui->treeWidget);
     pActionRename = new QAction("重命名", ui->treeWidget);
     pActionRestartCloudPhone = new QAction("重启云手机", ui->treeWidget);
@@ -412,7 +407,7 @@ void MainWindow::InitCloudPhoneTab()
     connect(pActionRestartCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRestartCloudPhone);
     connect(pActionNewPhone, &QAction::triggered, this, &MainWindow::do_ActionNewPhone);
     connect(pActionFactoryDataReset, &QAction::triggered, this, &MainWindow::do_ActionFactoryDataReset);
-    connect(pActionUploadFile, &QAction::triggered, this, &MainWindow::do_ActionUploadFile);    
+    connect(pActionUploadFile, &QAction::triggered, this, &MainWindow::do_ActionUploadFile);
     //connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
     connect(pActionRenewCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRenewCloudPhone);
     m_PhoneMenu->addAction(pActionBeginControl);
@@ -427,6 +422,19 @@ void MainWindow::InitCloudPhoneTab()
     //m_PhoneMenu->addAction(pActionMoveGroup);
     m_PhoneMenu->addSeparator();
     m_PhoneMenu->addAction(pActionRenewCloudPhone);
+}
+
+//云手机
+void MainWindow::InitCloudPhoneTab()
+{
+    InitGroupMenu();
+    InitPhoneMenu();
+    InitBatchOperatorMenu();
+    //设置TreeWidget相关属性
+    //ui->treeWidget->resize(200, 600);
+    //ui->treeWidget->move(100, 80);
+    //打开右键菜单属性
+    ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);       
 
     ui->treeWidget->setColumnCount(2);
     ui->treeWidget->setColumnWidth(0, 200);
@@ -464,7 +472,6 @@ void MainWindow::InitCloudPhoneTab()
     ui->toolBtnChangeVerScreen->setVisible(false);
 
 }
-
 
 //激活码
 void MainWindow::InitActiveCodeTab()
@@ -523,6 +530,71 @@ void MainWindow::InitPhoneList()
 
     //默认显示竖屏
     on_toolBtnChangeVerScreen_clicked();
+}
+
+void MainWindow::InitBatchOperatorMenu()
+{
+    m_BatchOperMenu = new QMenu(this);
+    pActionBatchReboot = new QAction("批量重启", this);
+    pActionBatchUploadFile = new QAction("批量上传文件", this);
+    pActionBatchFactoryReset = new QAction("批量恢复出厂", this);
+    //pActionMoveGroup = new QAction("移动分组", ui->treeWidget);
+    connect(pActionBatchReboot, &QAction::triggered, this, &MainWindow::do_ActionBatchReboot);
+    connect(pActionBatchUploadFile, &QAction::triggered, this, &MainWindow::do_ActionBatchUploadFile);
+    connect(pActionBatchFactoryReset, &QAction::triggered, this, &MainWindow::do_ActionBatchFactoryReset);
+    //connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
+    m_BatchOperMenu->addAction(pActionBatchReboot);
+    m_BatchOperMenu->addSeparator();
+    m_BatchOperMenu->addAction(pActionBatchUploadFile);
+    m_BatchOperMenu->addAction(pActionBatchFactoryReset);
+    m_BatchOperSubMenu = m_BatchOperMenu->addMenu("批量移动分组");
+}
+
+QStringList MainWindow::getCheckedPhoneInstance()
+{
+    QStringList strPhoneList;
+    strPhoneList.clear();
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+        return strPhoneList;
+    
+    QListWidgetItem* item = NULL;
+    PhoneItemWidget* phoneItem = NULL;
+    S_PHONE_INFO sPhoneInfo;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            //phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+            //if (phoneItem != NULL)
+            {
+                sPhoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                strPhoneList << sPhoneInfo.strInstanceNo;
+                //phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+
+                //phoneItem->setCheckBoxStatus(checked);
+            }
+        }
+    }
+}
+
+void MainWindow::do_ActionBatchReboot(bool bChecked)
+{
+    //获取列表选中项
+    QStringList strPhoneList = getCheckedPhoneInstance();
+}
+
+void MainWindow::do_ActionBatchUploadFile(bool bChecked)
+{
+    //获取列表选中项
+    QStringList strPhoneList = getCheckedPhoneInstance();
+}
+
+void MainWindow::do_ActionBatchFactoryReset(bool bChecked)
+{
+    //获取列表选中项
+    QStringList strPhoneList = getCheckedPhoneInstance();
 }
 
 void MainWindow::InitLevelList()
@@ -733,6 +805,7 @@ void MainWindow::ShowGroupInfo()
         return;
 
     m_SubPhoneMenu->clear();
+    m_BatchOperSubMenu->clear();
     QTreeWidgetItem* item = NULL;
     QTreeWidgetItem* child = NULL;
     QMap<int, S_GROUP_INFO>::iterator iter = m_mapGroupInfo.begin();
@@ -756,7 +829,7 @@ void MainWindow::ShowGroupInfo()
         pAction->setData(QVariant::fromValue(*iter));
         connect(pAction, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
         m_SubPhoneMenu->addAction(pAction);
-
+        m_BatchOperSubMenu->addAction(pAction);
         if (iter->iGroupNum > 0)
         {
             qDebug() << "查询手机列表";
@@ -2802,5 +2875,12 @@ void MainWindow::on_checkBoxRenewHeader_clicked(bool checked)
             widget->setCheckBoxStatus(checked);
         }
     }
+}
+
+
+void MainWindow::on_toolBtnBatchOperation_clicked(bool checked)
+{
+    qDebug()<<"checked="<<checked;
+    m_BatchOperMenu->exec(QCursor::pos());
 }
 

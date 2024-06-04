@@ -70,17 +70,19 @@ private:
 
     //云手机
     void InitCloudPhoneTab();
+    void InitPhoneList();
+    void InitGroupMenu();
+    void InitPhoneMenu();
+    void InitBatchOperatorMenu();
     //激活码
     void InitActiveCodeTab();
+    void InitActiveCodeRenewList();
     //购买
     void InitBuyTab();
-    //初始化列列表
-    void InitPhoneList();
-    void setPhoneItemCheckBoxStatus(bool bCheck);
     void InitLevelList();
     void InitVipList();
     void InitVipRenewList();
-    void InitActiveCodeRenewList();
+    
 
     //初始化vip列表
     void loadVipType(S_LEVEL_INFO levelInfo);
@@ -174,10 +176,16 @@ private slots:
 	void on_toolBtnPreviewMode_clicked();
 
     void on_checkBoxAllSelect_clicked(bool checked);
-
     void on_checkBoxFanSelect_clicked(bool checked);
 
     void on_checkBoxRenewHeader_clicked(bool checked);
+
+    void on_toolBtnBatchOperation_clicked(bool checked);
+
+    QStringList getCheckedPhoneInstance();
+    void do_ActionBatchReboot(bool bChecked);
+    void do_ActionBatchUploadFile(bool bChecked);
+    void do_ActionBatchFactoryReset(bool bChecked);
 
 private:
     Ui::MainWindow *ui;
@@ -206,6 +214,9 @@ private:
 
     QMenu* m_PhoneMenu;
     QMenu* m_SubPhoneMenu;
+    
+    QMenu* m_BatchOperMenu;
+    QMenu* m_BatchOperSubMenu;
 
     QAction* pActionBeginControl;
     QAction* pActionCopyCloudId;
@@ -216,6 +227,10 @@ private:
     QAction* pActionUploadFile;
     //QAction* pActionMoveGroup;
     QAction* pActionRenewCloudPhone;
+
+    QAction* pActionBatchReboot;
+    QAction* pActionBatchUploadFile;
+    QAction* pActionBatchFactoryReset;
 
     QTreeWidgetItem* m_pCurItem;
     ToolObject* m_toolObject;
