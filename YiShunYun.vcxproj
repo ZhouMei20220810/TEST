@@ -352,6 +352,7 @@
     <None Include="resource\instance\clipboardLock.png" />
     <None Include="resource\instance\clipboardUnlock.png" />
     <None Include="resource\login\close.png" />
+    <None Include="resource\main\close.png" />
     <None Include="resource\instance\close_hover.png" />
     <None Include="resource\instance\close_normal.png" />
     <None Include="resource\main\cloudPhone_normal.png" />

@@ -20,7 +20,6 @@
 #include "phoneitemwidget.h"
 #include "phonelistmodeitemwidget.h"
 #include "phoneitemnodatawidget.h"
-#include "phoneinstancewidget.h"
 #include <QScrollBar>
 #include <QFile>
 #include <QDir>
@@ -43,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 	setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_DeleteOnClose,true);
 	setAttribute(Qt::WA_Hover, true);
+
+    m_PhoneInstanceWidget = NULL;
 
     m_toolObject = new ToolObject(this);
     connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this,[=]
@@ -248,10 +249,16 @@ void MainWindow::do_ActionBeginControl(bool bChecked)
     m_pCurItem = ui->treeWidget->currentItem();
     if (m_pCurItem == NULL)
         return;
-
     S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-    PhoneInstanceWidget* widget = new PhoneInstanceWidget(phoneInfo);
-    widget->show();
+    if (NULL == m_PhoneInstanceWidget)
+    {
+        m_PhoneInstanceWidget = new PhoneInstanceWidget(phoneInfo);
+    }
+    m_PhoneInstanceWidget->show();
+    connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::destroyed, this,[this](){
+        m_PhoneInstanceWidget = NULL;
+    });
+    
 }
 void MainWindow::do_ActionCopyCloudId(bool bChecked)
 {
@@ -763,7 +770,11 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     QTreeWidgetItem* phoneItem;
     QTreeWidgetItemIterator it(ui->treeWidget);
     S_GROUP_INFO sGroupInfo;
-
+    QDateTime curDateTime = QDateTime::currentDateTime();
+    QDateTime expireTime;
+    QString strTime;
+    QString strLevelName = "";
+    qint64 mseconds = 0;
     while (*it) 
     {
         item = *it;
@@ -771,8 +782,6 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
         { // 判断是否为根节点
             // 在这里处理根节点
             // 例如：
-            QString strLevelName = "";
-
             sGroupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
             if (iGroupId == sGroupInfo.iGroupId)
             {
@@ -790,11 +799,16 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     qDebug() << "phone = " << iter->strName;
                     phoneItem = new QTreeWidgetItem(item);
                     qDebug() << "phone id" << iter->iId << " name=" << iter->strName;
-                    //phoneItem->setData(0, Qt::UserRole, iter->iId);
                     phoneItem->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
-                    phoneItem->setIcon(0,QIcon(":/main/resource/main/expand.png"));
-                    phoneItem->setIcon(1, QIcon(":/main/resource/main/expand.png"));
-                    phoneItem->setText(0, strLevelName+" " + iter->strName /* + iter->strExpireTime */);
+                    phoneItem->setIcon(0,QIcon(":/main/resource/main/defaultLevelIcon.png"));
+                    
+                    expireTime = QDateTime::fromString(iter->strExpireTime, "yyyy-MM-dd hh:mm:ss");                    
+                    mseconds = expireTime.toMSecsSinceEpoch() - curDateTime.toMSecsSinceEpoch();
+
+                    strTime = strTime.asprintf("%d天%d小时", mseconds/(1000 * 60 * 60 * 24), (mseconds/(1000*60*60))%24);
+                    qDebug() << "strTime=" << strTime;
+                    phoneItem->setText(0, strLevelName+" " + iter->strName );
+                    phoneItem->setText(1, strTime);
                     phoneItem->setCheckState(0, Qt::Checked);
                     item->addChild(phoneItem);
                 }

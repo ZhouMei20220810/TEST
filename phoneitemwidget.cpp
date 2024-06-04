@@ -1,6 +1,5 @@
 #include "phoneitemwidget.h"
 #include "ui_phoneitemwidget.h"
-#include "phoneinstancewidget.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
@@ -11,6 +10,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose,true);
 
+    m_PhoneInstanceWidget = NULL;
     m_refreshTimer = new QTimer();
     connect(m_refreshTimer, &QTimer::timeout, this, &PhoneItemWidget::do_timeoutRefreshPicture);
     m_refreshTimer->start(TIMER_INTERVAL);// 每分钟触发一次，60000毫秒
@@ -156,8 +156,14 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
-            PhoneInstanceWidget* instance = new PhoneInstanceWidget(m_sTaskInfo);
-            instance->show();
+            if (NULL == m_PhoneInstanceWidget)
+            {
+                m_PhoneInstanceWidget = new PhoneInstanceWidget(m_sTaskInfo);
+            }
+            m_PhoneInstanceWidget->show();
+            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::destroyed, this, [this]() {
+                m_PhoneInstanceWidget = NULL;
+                });
             return true;
         }
         else

@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QCheckBox>
 #include <QLabel>
+#include "phoneinstancewidget.h"
 
 namespace Ui {
 class PhoneItemWidget;
@@ -50,6 +51,8 @@ private:
 
     QLabel* m_LabelAccredit;
     QCheckBox* m_checkBox;
+
+    PhoneInstanceWidget* m_PhoneInstanceWidget;
     // QObject interface
 public:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;

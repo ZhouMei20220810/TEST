@@ -10,6 +10,8 @@
 #include "levelitemwidget.h"
 #include <QMenu>
 #include "toolobject.h"
+#include "phoneinstancewidget.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -218,6 +220,8 @@ private:
 
     QTreeWidgetItem* m_pCurItem;
     ToolObject* m_toolObject;
+
+    PhoneInstanceWidget* m_PhoneInstanceWidget;
 /*protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;*/
