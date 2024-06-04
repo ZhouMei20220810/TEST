@@ -60,9 +60,9 @@ void UploadFileDialog::on_btnClose_clicked()
 
 void UploadFileDialog::on_toolBtnAddUploadFile_clicked()
 {
-    ui->toolBtnAddUploadFile->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
-    ui->toolBtnUploadQueue->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
-    ui->toolBtnUploadHistory->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
+    ui->toolBtnAddUploadFile->setStyleSheet("QToolButton {border:none;color:#FF505465;	background-color:#FFE6E9F2;border-radius:1px;padding-left:8px;}QToolButton:hover {color: #FF505465;;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnUploadQueue->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnUploadHistory->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
     if(ui->listWidgetChooseFile->count() > 0)
         ui->stackedWidget->setCurrentWidget(ui->pageChooseFile);
     else
@@ -72,18 +72,19 @@ void UploadFileDialog::on_toolBtnAddUploadFile_clicked()
 
 void UploadFileDialog::on_toolBtnUploadQueue_clicked()
 {
-    ui->toolBtnUploadQueue->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
-    ui->toolBtnAddUploadFile->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
-    ui->toolBtnUploadHistory->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
+    ui->toolBtnUploadQueue->setStyleSheet("QToolButton {border:none;color:#FF505465;	background-color:#FFE6E9F2;border-radius:1px;padding-left:8px;}QToolButton:hover {color: #FF505465;;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnAddUploadFile->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnUploadHistory->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
+
     ui->stackedWidget->setCurrentWidget(ui->pageQueue);
 }
 
 
 void UploadFileDialog::on_toolBtnUploadHistory_clicked()
 {
-    ui->toolBtnUploadHistory->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
-    ui->toolBtnAddUploadFile->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
-    ui->toolBtnUploadQueue->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
+    ui->toolBtnUploadHistory->setStyleSheet("QToolButton {border:none;color:#FF505465;	background-color:#FFE6E9F2;border-radius:1px;padding-left:8px;}QToolButton:hover {color: #FF505465;;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnAddUploadFile->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnUploadHistory->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
 
     ui->stackedWidget->setCurrentWidget(ui->pageHistory);
 }

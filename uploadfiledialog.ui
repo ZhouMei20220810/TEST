@@ -574,7 +574,7 @@ subcontrol-origin: margin;
 </string>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -596,6 +596,9 @@ subcontrol-origin: margin;
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>8</number>
+          </property>
           <item>
            <spacer name="verticalSpacer">
             <property name="orientation">
@@ -626,6 +629,18 @@ subcontrol-origin: margin;
             </item>
             <item>
              <widget class="QLabel" name="label_4">
+              <property name="minimumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -650,7 +665,28 @@ subcontrol-origin: margin;
            </layout>
           </item>
           <item>
+           <spacer name="verticalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>8</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
            <widget class="QLabel" name="label">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:#505465;</string>
+            </property>
             <property name="text">
              <string>单击“选择文件”添加需要上传的文件</string>
             </property>
@@ -661,6 +697,14 @@ subcontrol-origin: margin;
           </item>
           <item>
            <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color:#A9ADB6;</string>
+            </property>
             <property name="text">
              <string>上传文件大小最大支持2GB,仅APK文件支持自动安装</string>
             </property>
@@ -707,38 +751,39 @@ subcontrol-origin: margin;
           <widget class="QToolButton" name="toolBtnSelectFile">
            <property name="minimumSize">
             <size>
-             <width>80</width>
-             <height>30</height>
+             <width>100</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>28</height>
             </size>
            </property>
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>11</pointsize>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-     border: 0px solid #555764;
+            <string notr="true"> QToolButton {
+     border: 2px solid #FF407AFF;
      border-radius:2px;
-	 background-color: #FF363847;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 QToolButton:hover
 {
-	border:0px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:2px solid  #FF407AFF;
+	background-color: #FF407AFF;
 }
  QToolButton:pressed {
-     border: 0px solid #555764;
+     border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
-QToolButton:disabled
-{
- background-color: #FFC1C1C1;
- color:#FFFFFFFF;
-}
 
  QToolButton:flat {
      border: none; /* no border for a flat push button */
@@ -759,37 +804,38 @@ QToolButton:disabled
            <property name="minimumSize">
             <size>
              <width>80</width>
-             <height>30</height>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>28</height>
             </size>
            </property>
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>11</pointsize>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-     border: 0px solid #555764;
+            <string notr="true"> QToolButton {
+     border: 2px solid #FF25BFA1;
      border-radius:2px;
-	 background-color: #FF363847;
+	 background-color: #FF25BFA1;
 	 color:#FFFFFFFF;
  }
 QToolButton:hover
 {
-	border:0px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:2px solid  #FF25BFA1;
+	background-color: #FF25BFA1;
 }
  QToolButton:pressed {
-     border: 0px solid #555764;
+     border: 2px solid #FF25BFA1;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF25BFA1;
 	 color:#FFFFFFFF;
  }
-QToolButton:disabled
-{
- background-color: #FFC1C1C1;
- color:#FFFFFFFF;
-}
 
  QToolButton:flat {
      border: none; /* no border for a flat push button */
@@ -811,9 +857,12 @@ QToolButton:disabled
      </widget>
      <widget class="QWidget" name="pageChooseFile">
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">border:none;</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QListWidget" name="listWidgetChooseFile">
          <property name="styleSheet">
@@ -943,6 +992,9 @@ QToolButton:disabled
       </layout>
      </widget>
      <widget class="QWidget" name="pageQueue">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <property name="topMargin">
         <number>0</number>
@@ -958,6 +1010,7 @@ QToolButton:disabled
          <property name="styleSheet">
           <string notr="true">QFrame{background-color:#FFF5F6FA;
 border:1px solid grey;
+border:none;
 }</string>
          </property>
          <property name="frameShape">
@@ -1074,6 +1127,9 @@ border:1px solid grey;
       </layout>
      </widget>
      <widget class="QWidget" name="pageHistory">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <property name="topMargin">
         <number>0</number>
@@ -1100,6 +1156,7 @@ border:1px solid grey;
          <property name="styleSheet">
           <string notr="true">QFrame{background-color:#FFF5F6FA;
 border:1px solid grey;
+border:none;
 }</string>
          </property>
          <property name="frameShape">

@@ -2,6 +2,7 @@
 #define UPLOADFILEITEMWIDGET_H
 
 #include <QWidget>
+#include <QLabel>
 
 namespace Ui {
 class UploadFileItemWidget;
@@ -22,6 +23,12 @@ private slots:
 private:
     Ui::UploadFileItemWidget *ui;
     QString m_strFilePath;
+
+
+    QLabel* m_labelSuffix;
+    // QWidget interface
+protected:
+    virtual void showEvent(QShowEvent *event) override;
 };
 
 #endif // UPLOADFILEITEMWIDGET_H

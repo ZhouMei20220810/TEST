@@ -16,10 +16,10 @@ UploadFileItemWidget::UploadFileItemWidget(QString strFilePath,QWidget *parent)
     ui->labelFileName->setText(fileInfo.baseName());
     ui->labelFileName->setToolTip(fileInfo.baseName());
 
-    QLabel* labelSuffix = new QLabel(ui->labelBg);
-    labelSuffix->setStyleSheet("background-color:transparent;color:white");
-    labelSuffix->setAlignment(Qt::AlignCenter);
-    labelSuffix->setText(fileInfo.suffix());
+    m_labelSuffix = new QLabel(ui->labelBg);
+    m_labelSuffix->setStyleSheet("background-color:transparent;color:white");
+    m_labelSuffix->setAlignment(Qt::AlignCenter);
+    m_labelSuffix->setText(fileInfo.suffix());
 
     //ui->labelBg->hasSelectedText();
     QToolButton* btnDel = new QToolButton(this);
@@ -42,4 +42,10 @@ UploadFileItemWidget::~UploadFileItemWidget()
 void UploadFileItemWidget::do_DeleteFileItem(bool checked)
 {
     emit deleteFileItemSignal(m_strFilePath);
+}
+
+
+void UploadFileItemWidget::showEvent(QShowEvent *event)
+{
+    m_labelSuffix->resize(ui->labelBg->size());
 }
