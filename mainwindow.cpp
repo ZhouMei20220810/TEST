@@ -2011,6 +2011,7 @@ void MainWindow::on_toolBtnRenewPhone_clicked()
     ui->frame_Renew->setHidden(false);
 
     //加载数据并显示
+    ui->listWidgetRenewList->clear();
     int iCount = m_mapPhoneInfo.size();
     if (iCount > 0)
     {
