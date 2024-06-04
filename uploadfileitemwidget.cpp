@@ -24,10 +24,11 @@ UploadFileItemWidget::UploadFileItemWidget(QString strFilePath,QWidget *parent)
     //ui->labelBg->hasSelectedText();
     QToolButton* btnDel = new QToolButton(this);
     connect(btnDel, &QToolButton::clicked, this, &UploadFileItemWidget::do_DeleteFileItem);
-    btnDel->resize(12,12);
-    btnDel->setStyleSheet("QToolButton {border: none; border-radius: 999px; background: transparent;background-image: url(:/main/resource/main/default_photoUrl.png);}");
-    btnDel->setIcon(QIcon(":/main/resource/main/photo_border.png"));
-    btnDel->setIconSize(QSize(12,12));
+    btnDel->move(0, 0);
+    btnDel->resize(16,16);
+    btnDel->setStyleSheet("QToolButton{border:none;border-radius:999px;background:transparent;background-image:url(:/resource/upload/fileDel.png);}");
+    //btnDel->setIcon(QIcon(":/resource/upload/fileDel.png"));
+    btnDel->setIconSize(QSize(16,16));
     qDebug()<<"bundleName"<<fileInfo.bundleName() <<"baseName="<<fileInfo.baseName();
     qDebug()<<"suffix="<<fileInfo.suffix();
 

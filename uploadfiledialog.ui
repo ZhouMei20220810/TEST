@@ -57,27 +57,27 @@
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
@@ -86,27 +86,27 @@
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
@@ -115,38 +115,43 @@
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>0</red>
-           <green>128</green>
-           <blue>255</blue>
+           <red>41</red>
+           <green>64</green>
+           <blue>116</blue>
           </color>
          </brush>
         </colorrole>
        </disabled>
       </palette>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="cursor">
       <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color:#FF0080FF;</string>
+      <string notr="true">background-color:#FF294074;</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -187,27 +192,27 @@
            <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
            <colorrole role="Base">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
            <colorrole role="Window">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
@@ -225,27 +230,27 @@
            <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
            <colorrole role="Base">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
            <colorrole role="Window">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
@@ -254,27 +259,27 @@
            <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
            <colorrole role="Base">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
            <colorrole role="Window">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>0</red>
-              <green>128</green>
-              <blue>255</blue>
+              <red>41</red>
+              <green>64</green>
+              <blue>116</blue>
              </color>
             </brush>
            </colorrole>
@@ -372,7 +377,13 @@
        <widget class="QToolButton" name="toolBtnAddUploadFile">
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>94</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>94</width>
           <height>30</height>
          </size>
         </property>
@@ -383,13 +394,13 @@
         </property>
         <property name="styleSheet">
          <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
-	background-color:#FF9092A4;
+color:#FF505465;
+	background-color:#FFE6E9F2;
 border-radius:1px;
 padding-left:8px;
 }
 QToolButton:hover {
-color: rgb(255, 255, 255);
+color: #FF505465;;
 background-color: #FFE7E8EE;
 border-radius:1px;
 padding-left:8px;
@@ -404,19 +415,32 @@ padding-left:8px;
        <widget class="QToolButton" name="toolBtnUploadQueue">
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>76</width>
           <height>30</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>76</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+         <string notr="true">QToolButton {
+background-color:#FfF4F6FA;
+border: 1px solid #FFE6E9F2;
+color: #FF505465;
 border-radius:1px;
 padding-left:8px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
+color: #FF505465;
 border-radius:1px;
 padding-left:8px;
 }</string>
@@ -430,19 +454,32 @@ padding-left:8px;
        <widget class="QToolButton" name="toolBtnUploadHistory">
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>76</width>
           <height>30</height>
          </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>76</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+         <string notr="true">QToolButton {
+background-color:#FfF4F6FA;
+border: 1px solid #FFE6E9F2;
+color: #FF505465;
 border-radius:1px;
 padding-left:8px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
+color: #FF505465;
 border-radius:1px;
 padding-left:8px;
 }</string>
@@ -593,7 +630,7 @@ subcontrol-origin: margin;
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap resource="res.qrc">:/main/resource/main/upload.png</pixmap>
+               <pixmap resource="res.qrc">:/resource/upload/upload.png</pixmap>
               </property>
              </widget>
             </item>

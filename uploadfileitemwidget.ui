@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>38</width>
-    <height>68</height>
+    <width>44</width>
+    <height>72</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,10 +18,10 @@
     <number>6</number>
    </property>
    <property name="leftMargin">
-    <number>0</number>
+    <number>6</number>
    </property>
    <property name="topMargin">
-    <number>0</number>
+    <number>6</number>
    </property>
    <property name="rightMargin">
     <number>0</number>
@@ -35,7 +35,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="res.qrc">:/main/resource/main/uploadItem.png</pixmap>
+      <pixmap resource="res.qrc">:/resource/upload/uploadItem.png</pixmap>
      </property>
     </widget>
    </item>
