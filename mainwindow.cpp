@@ -559,14 +559,19 @@ QStringList MainWindow::getCheckedPhoneInstance()
         return strPhoneList;
     
     QListWidgetItem* item = NULL;
-    S_PHONE_INFO sPhoneInfo;
+    PhoneItemWidget* phoneItem = NULL;
+    S_PHONE_INFO phoneInfo;
     for (int i = 0; i < iCount; i++)
     {
         item = ui->listWidget->item(i);
         if (item != NULL)
         {
-            sPhoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-            strPhoneList << sPhoneInfo.strInstanceNo;
+            phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty() && phoneItem->getCheckBoxStatus())
+            {
+                strPhoneList<< phoneInfo.strInstanceNo;
+            }
         }
     }
     return strPhoneList;
