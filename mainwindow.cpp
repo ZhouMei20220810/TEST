@@ -559,42 +559,48 @@ QStringList MainWindow::getCheckedPhoneInstance()
         return strPhoneList;
     
     QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
     S_PHONE_INFO sPhoneInfo;
     for (int i = 0; i < iCount; i++)
     {
         item = ui->listWidget->item(i);
         if (item != NULL)
         {
-            //phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
-            //if (phoneItem != NULL)
-            {
-                sPhoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-                strPhoneList << sPhoneInfo.strInstanceNo;
-                //phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-
-                //phoneItem->setCheckBoxStatus(checked);
-            }
+            sPhoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            strPhoneList << sPhoneInfo.strInstanceNo;
         }
     }
+    return strPhoneList;
 }
 
 void MainWindow::do_ActionBatchReboot(bool bChecked)
 {
     //获取列表选中项
     QStringList strPhoneList = getCheckedPhoneInstance();
+    if (strPhoneList.size() > 0)
+    {
+        m_toolObject->HttpPostInstanceReboot(strPhoneList);
+    }    
 }
 
 void MainWindow::do_ActionBatchUploadFile(bool bChecked)
 {
     //获取列表选中项
     QStringList strPhoneList = getCheckedPhoneInstance();
+    if (strPhoneList.size() > 0)
+    {
+        UploadFileDialog* upload = new UploadFileDialog(strPhoneList);
+        upload->exec();
+    }    
 }
 
 void MainWindow::do_ActionBatchFactoryReset(bool bChecked)
 {
     //获取列表选中项
     QStringList strPhoneList = getCheckedPhoneInstance();
+    if (strPhoneList.size() > 0)
+    {
+        m_toolObject->HttpPostInstanceReset(strPhoneList);
+    }
 }
 
 void MainWindow::InitLevelList()
@@ -2880,7 +2886,15 @@ void MainWindow::on_checkBoxRenewHeader_clicked(bool checked)
 
 void MainWindow::on_toolBtnBatchOperation_clicked(bool checked)
 {
-    qDebug()<<"checked="<<checked;
-    m_BatchOperMenu->exec(QCursor::pos());
+    QStringList strPhoneList = getCheckedPhoneInstance();
+    if (strPhoneList.size() <= 0)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("请先选择云手机后再进行操作");
+        tips->show();
+        return;
+    }
+
+    QPoint globalPos = ui->toolBtnBatchOperation->mapToGlobal(QPoint(0, 0));
+    m_BatchOperMenu->exec(QPoint(globalPos.x(), globalPos.y()+ui->toolBtnBatchOperation->height()));
 }
 
