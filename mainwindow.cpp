@@ -419,7 +419,7 @@ void MainWindow::InitCloudPhoneTab()
     //ui->treeWidget->setCheckBoxes(true);
 
     //隐藏续费列表
-    ui->listWidgetRenew->setHidden(true);
+    ui->frameActiveCodeRenew->setHidden(true);
 
     //隐藏展开按钮
     ui->btnExpansion->setVisible(false);
@@ -599,6 +599,20 @@ void MainWindow::InitVipRenewList()
     ui->listWidgetRenewList->setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
+void MainWindow::InitActiveCodeRenewList()
+{
+    ui->listWidgetRenew->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetRenew->setSpacing(5);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetRenew->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetRenew->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetRenew->setSelectionMode(QAbstractItemView::SingleSelection);
+}
 void MainWindow::HttpQueryAllGroup()//查询全部分组
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -1972,6 +1986,38 @@ void MainWindow::on_btnActiveCode_clicked()
     }
     qDebug()<<"点击激活" << strActiveCode;
 
+    //查看是否是激活码续费
+    int iCount = ui->listWidgetRenew->count();
+    QListWidgetItem* item = NULL;
+    renewItemWidget* widget = NULL;
+    bool bChecked = false;
+    S_PHONE_INFO phoneInfo;
+    QString strRelateId = "";
+    for(int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenew->item(i);
+        if(item != NULL)
+        {
+            widget = static_cast<renewItemWidget*>(ui->listWidgetRenew->itemWidget(item));
+            bChecked = widget->getCheckBoxStatus();
+            if(bChecked)
+            {
+                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                qDebug()<<"选中iRow="<<i <<";No="<<phoneInfo.strInstanceNo;
+                if (strRelateId.isEmpty())
+                {
+                    strRelateId = QString::asprintf("%d", phoneInfo.iId);
+                }
+                else
+                {
+                    strRelateId += QString::asprintf(",%d", phoneInfo.iId);
+                }
+            }
+        }
+    }
+
+    qDebug() <<"strRelateId=" << strRelateId;
+
     //relateId
     HttpPostActivateCode(strActiveCode, 1);
 }
@@ -1983,7 +2029,7 @@ void MainWindow::on_toolBtnAdd_clicked()
     ui->toolBtnAdd->setStyleSheet("QToolButton {border:none;color: #1E2133;	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
     ui->toolButtonRenew->setStyleSheet("QToolButton{color: #1E2133;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
 
-    ui->listWidgetRenew->setHidden(true);
+    ui->frameActiveCodeRenew->setHidden(true);
 }
 
 
@@ -1992,7 +2038,27 @@ void MainWindow::on_toolButtonRenew_clicked()
     ui->toolButtonRenew->setStyleSheet("QToolButton {border:none;color: #1E2133;	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
     ui->toolBtnAdd->setStyleSheet("QToolButton{color: #1E2133;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     //云手机续时激活
-    ui->listWidgetRenew->setHidden(false);
+    ui->frameActiveCodeRenew->setHidden(false);
+
+    //加载数据并显示
+    ui->listWidgetRenew->clear();
+    int iCount = m_mapPhoneInfo.size();
+    if (iCount > 0)
+    {
+        //初始化续费列表
+        QListWidgetItem* renewListItem = NULL;
+        renewItemWidget* widget = NULL;
+        QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
+        for (; iter != m_mapPhoneInfo.end(); iter++)
+        {
+            renewListItem = new QListWidgetItem(ui->listWidgetRenew);
+            renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
+            renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            widget = new renewItemWidget(*iter, this);
+            ui->listWidgetRenew->addItem(renewListItem);
+            ui->listWidgetRenew->setItemWidget(renewListItem, widget);
+        }
+    }
 }
 
 
@@ -2683,5 +2749,24 @@ void MainWindow::startDownload(QString strUrl)
     FileDownloader* downloader = new FileDownloader(this);    
     downloader->setUrl(strUrl, "xxx.png");
     downloader->start();
+}
+
+
+
+void MainWindow::on_checkBoxRenewHeader_clicked(bool checked)
+{
+    //选中状态
+    int iCount = ui->listWidgetRenew->count();
+    QListWidgetItem* item = NULL;
+    renewItemWidget* widget = NULL;
+    for(int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenew->item(i);
+        if(item != NULL)
+        {
+            widget = static_cast<renewItemWidget*>(ui->listWidgetRenew->itemWidget(item));
+            widget->setCheckBoxStatus(checked);
+        }
+    }
 }
 

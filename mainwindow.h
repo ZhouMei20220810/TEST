@@ -77,6 +77,7 @@ private:
     void InitLevelList();
     void InitVipList();
     void InitVipRenewList();
+    void InitActiveCodeRenewList();
 
     //初始化vip列表
     void loadVipType(S_LEVEL_INFO levelInfo);
@@ -174,6 +175,8 @@ private slots:
     void on_checkBoxAllSelect_clicked(bool checked);
 
     void on_checkBoxFanSelect_clicked(bool checked);
+
+    void on_checkBoxRenewHeader_clicked(bool checked);
 
 private:
     Ui::MainWindow *ui;
