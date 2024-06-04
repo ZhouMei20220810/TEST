@@ -3,6 +3,7 @@
 #include "global.h"
 #include <QFile>
 #include <QDataStream>
+//#include <QMatrix>
 VideoViewWidget::VideoViewWidget(QWidget* parent)
     : QWidget(parent)
     , ui(new Ui::VideoViewWidget)
@@ -113,6 +114,29 @@ void VideoViewWidget::mouseMoveEvent(QMouseEvent *event)
 	}
 	QWidget::mouseMoveEvent(event);
 }
+
+void  VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar frame_len)//data帧数组
+{
+	//QImage image(data, ui->label->width(), frame_len, ui->label->height(), QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
+    //QImage image(data, getSrcWidth(), frame_len, 1005, QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
+    QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_RGBA8888);
+    //QMatrix matrix;
+    //matrix.rotate(-90.0);//旋转-90度
+    //image = image.transformed(matrix, Qt::FastTransformation);
+
+
+	QPixmap pixmap2 = QPixmap::fromImage(image);
+    ui->label->setAutoFillBackground(true);
+
+
+    pixmap2 = pixmap2.scaled(ui->label->size(), Qt::KeepAspectRatio);//自适应/等比例
+
+    ui->label->setStyleSheet("background: black;");  // 标签背景
+    ui->label->setAlignment(Qt::AlignCenter);  // 图片居中
+
+    ui->label->setPixmap(pixmap2);
+}
+
 void VideoViewWidget::paintEvent(QPaintEvent *event)
 {
 	try
@@ -121,6 +145,7 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 		//if (!::IntersectRect(&m_rcPaint, &rcPaint, &m_rcItem))
 		//	return;
 		QWidget::paintEvent(event);
+		QRect rcPaint = event->rect();
 		ui->label->setPixmap(QPixmap(m_strTempFile).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 		ui->label->resize(this->size());
 		int item_w = ui->label->width();// m_rcItem.right - m_rcItem.left;
@@ -142,15 +167,20 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 			int source_h = getFrameHeight();
 
 			char* src_data = (char*)getFrameBuffer();
+
+            Show_RGB((const uchar*)src_data, 20,10);
+
+
+            //ui->label->setPixmap(QPixmap(src_data));
 			//Window* parent_wnd = GetWindow();
-			QFile file(GlobalData::strPictureTempDir +"1.png");
+			/*QFile file(GlobalData::strPictureTempDir + "1.png");
 			if (file.open(QIODevice::WriteOnly))
 			{
 				QDataStream stream(&file);
 				stream << src_data;
 				file.flush();
 				file.close();
-			}
+			}*/
 			
 
 			if (src_data /*&& parent_wnd */)
@@ -165,21 +195,21 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 				int height = rcClient.bottom() - rcClient.top();
 
 				//计算实际绘制区域坐标
-				/*int draw_x = max(rcPaint.left, item_x);
-				draw_x = max(m_rcItem.left, draw_x);
-				int draw_y = max(rcPaint.top, item_y);
-				draw_y = max(m_rcItem.top, draw_y);
-				int draw_h = min(rcPaint.bottom - draw_y, min(item_y + source_h, m_rcItem.bottom) - draw_y);
+				/*int draw_x = max(rcPaint.left(), item_x);
+				draw_x = max(ui->label.left(), draw_x);
+				int draw_y = max(rcPaint.top(), item_y);
+				draw_y = max(ui->label.top(), draw_y);
+				int draw_h = min(rcPaint.bottom() - draw_y, min(item_y + source_h, ui->label.bottom()) - draw_y);
 				draw_h = max(draw_h, 0);
 				int src_x = draw_x - item_x;
 				int src_y = draw_y - item_y;
-				int src_w = min(rcPaint.right - draw_x, min(item_x + source_w, m_rcItem.right) - draw_x);
+				int src_w = min(rcPaint.right() - draw_x, min(item_x + source_w, ui->label.right()) - draw_x);
 				src_w = max(src_w, 0);
 
 				int dest_byte_width = width * 4;
 				int src_byte_width = source_w * 4;
 				int paint_byte_width = src_w * 4;
-				char* dest_data = (char*)parent_wnd->GetRenderContext()->GetBits();
+				char* dest_data = ui->label //(char*)parent_wnd->GetRenderContext()->GetBits();
 				int bottom = draw_y;// height - draw_y - 1;
 				dest_data += bottom * dest_byte_width + draw_x * 4;
 				//char* src_data = (char*)getFrameBuffer();
@@ -230,7 +260,7 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 				}
 			}*/
 
-			unlockFrameBuffer();
+			unlockFrameBuffer();			
 		}
 
 		////绘制子控件

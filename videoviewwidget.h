@@ -20,6 +20,8 @@ public:
     // VideoDisplayWinBase implementation
     void onRenderer();
 private:
+    void  Show_RGB(const uchar* data, uchar Per_port_number, uchar frame_len);
+
     Ui::VideoViewWidget *ui;
 
     int viewWidth = 0;

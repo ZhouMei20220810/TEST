@@ -363,11 +363,14 @@
     <None Include="resource\instance\data_bad.png" />
     <None Include="resource\instance\data_good.png" />
     <None Include="resource\instance\data_optimal.png" />
+    <None Include="resource\main\defaultLevelIcon.png" />
     <None Include="resource\main\defaultSceenShot.png" />
     <None Include="resource\main\default_photoUrl.png" />
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />
     <None Include="resource\instance\factoryDataReset.png" />
+    <None Include="resource\main\gvip_bg_normal.png" />
+    <None Include="resource\main\gvip_bg_select.png" />
     <None Include="resource\instance\home.png" />
     <None Include="resource\login\ico_del_c.png" />
     <None Include="resource\login\ico_del_n.png" />
