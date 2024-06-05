@@ -1,5 +1,6 @@
 #include "systemsettingwidget.h"
 #include "ui_systemsettingwidget.h"
+#include "messagetips.h"
 
 SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     : QWidget(parent)
@@ -45,5 +46,20 @@ void SystemSettingWidget::on_toolBtnAbout_clicked()
 void SystemSettingWidget::on_pushButton_clicked()
 {
     this->close();
+}
+
+
+void SystemSettingWidget::on_btnCancel_clicked()
+{
+    //取消
+    this->close();
+}
+
+
+void SystemSettingWidget::on_btnSave_clicked()
+{
+    //保存
+    MessageTips* tips = new MessageTips("数据已保存",this);
+    tips->show();
 }
 

@@ -22,6 +22,9 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_btnCancel_clicked();
+    void on_btnSave_clicked();
+
 private:
     Ui::SystemSettingWidget *ui;
 };
