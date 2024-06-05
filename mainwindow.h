@@ -12,6 +12,7 @@
 #include "toolobject.h"
 #include "phoneinstancewidget.h"
 #include "creategroupwidget.h"
+#include "systemsettingwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -187,6 +188,8 @@ private slots:
     void do_ActionBatchUploadFile(bool bChecked);
     void do_ActionBatchFactoryReset(bool bChecked);
 
+    void on_toolBtnSetting_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -237,6 +240,7 @@ private:
 
     PhoneInstanceWidget* m_PhoneInstanceWidget;
     CreateGroupWidget* m_createGroupWidget;
+    SystemSettingWidget* m_systemSettingWidget;
 /*protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;*/

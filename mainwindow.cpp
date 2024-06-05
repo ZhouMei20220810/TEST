@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_PhoneInstanceWidget = NULL;
     m_createGroupWidget = NULL;
+    m_systemSettingWidget = NULL;
 
     m_toolObject = new ToolObject(this);
     connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this,[=]
@@ -2906,5 +2907,17 @@ void MainWindow::on_toolBtnBatchOperation_clicked(bool checked)
 
     QPoint globalPos = ui->toolBtnBatchOperation->mapToGlobal(QPoint(0, 0));
     m_BatchOperMenu->exec(QPoint(globalPos.x(), globalPos.y()+ui->toolBtnBatchOperation->height()));
+}
+
+
+void MainWindow::on_toolBtnSetting_clicked()
+{
+    //系统设置
+    if(NULL == m_systemSettingWidget)
+        m_systemSettingWidget = new SystemSettingWidget();
+    m_systemSettingWidget->show();
+    connect(m_systemSettingWidget, &SystemSettingWidget::destroyed, this, [this]() {
+        m_systemSettingWidget = NULL;
+        });
 }
 

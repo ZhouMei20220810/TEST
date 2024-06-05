@@ -42,6 +42,7 @@ SOURCES += \
     registerpage.cpp \
     renewitemwidget.cpp \
     smsloginpage.cpp \
+    systemsettingwidget.cpp \
     toolobject.cpp \
     updategroupwidget.cpp \
     uploadfiledialog.cpp \
@@ -75,6 +76,7 @@ HEADERS += \
     registerpage.h \
     renewitemwidget.h \
     smsloginpage.h \
+    systemsettingwidget.h \
     toolobject.h \
     updategroupwidget.h \
     uploadfiledialog.h \
@@ -105,6 +107,7 @@ FORMS += \
     registerpage.ui \
     renewitemwidget.ui \
     smsloginpage.ui \
+    systemsettingwidget.ui \
     updategroupwidget.ui \
     uploadfiledialog.ui \
     uploadfileitemwidget.ui \
