@@ -329,7 +329,7 @@
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton:hover {
-     background-color: #FFD31111
+     background: transparent;
  }
  QPushButton:flat {
      border: none; /* no border for a flat push button */

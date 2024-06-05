@@ -150,7 +150,8 @@ QToolButton:hover
  QToolButton:pressed {
      border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF407AFF;
+	 background: transparent;
+	 /*background-color: #FF407AFF;*/
 	 color:#FFFFFFFF;
  }
 
@@ -201,7 +202,8 @@ QToolButton:hover
  QToolButton:pressed {
      border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF407AFF;
+	 background: transparent;
+	 /*background-color: #FF407AFF;*/
 	 color:#FFFFFFFF;
  }
 
@@ -252,7 +254,8 @@ QToolButton:hover
  QToolButton:pressed {
      border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF407AFF;
+	 background: transparent;
+	 /*background-color: #FF407AFF;*/
 	 color:#FFFFFFFF;
  }
 
@@ -303,7 +306,8 @@ QToolButton:hover
  QToolButton:pressed {
      border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF407AFF;
+	 background: transparent;
+	 /*background-color: #FF407AFF;*/
 	 color:#FFFFFFFF;
  }
 
