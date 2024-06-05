@@ -190,6 +190,8 @@ private slots:
 
     void on_toolBtnSetting_clicked();
 
+    void on_toolBtnCustomer_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

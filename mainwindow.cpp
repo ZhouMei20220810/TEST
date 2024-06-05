@@ -32,6 +32,7 @@
 #include "renewitemwidget.h"
 #include "filedownloader.h"
 #include "factorydataresetdialog.h"
+#include <QDesktopServices>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -2919,5 +2920,15 @@ void MainWindow::on_toolBtnSetting_clicked()
     connect(m_systemSettingWidget, &SystemSettingWidget::destroyed, this, [this]() {
         m_systemSettingWidget = NULL;
         });
+}
+
+
+void MainWindow::on_toolBtnCustomer_clicked()
+{
+    //客服
+    //打开官网客服
+    //https://ccc-v2.aliyun.com/v-chat?token=9XYGTGWtq2yxzD3cm38yM7T_QkVSJzQAOkOb_XIk-aVrFVf7Dx49UKN0ym7bYIPjKaJ5Gkt1onRIX_6726a9reskIUuwRp_cdgYLRzd2lpE%3D
+    QString strUrl = "https://ccc-v2.aliyun.com/v-chat?token=9XYGTGWtq2yxzD3cm38yM7T_QkVSJzQAOkOb_XIk-aVrFVf7Dx49UKN0ym7bYIPjKaJ5Gkt1onRIX_6726a9reskIUuwRp_cdgYLRzd2lpE%3D";
+    QDesktopServices::openUrl(QUrl(strUrl));
 }
 
