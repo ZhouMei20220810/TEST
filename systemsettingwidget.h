@@ -17,10 +17,10 @@ public:
 
 private slots:
     void on_toolBtnGeneralSetting_clicked();
+	void on_toolBtnUISetting_clicked();
+	void on_toolBtnAbout_clicked();
 
-    void on_toolBtnUISetting_clicked();
-
-    void on_toolBtnAbout_clicked();
+    void on_pushButton_clicked();
 
 private:
     Ui::SystemSettingWidget *ui;

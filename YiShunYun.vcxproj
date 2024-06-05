@@ -228,6 +228,7 @@
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="renewitemwidget.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
+    <ClCompile Include="systemsettingwidget.cpp" />
     <ClCompile Include="toolobject.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
@@ -261,6 +262,7 @@
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="renewitemwidget.h" />
     <QtMoc Include="smsloginpage.h" />
+    <QtMoc Include="systemsettingwidget.h" />
     <QtMoc Include="toolobject.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="uploadfiledialog.h" />
@@ -307,6 +309,7 @@
     <QtUic Include="registerpage.ui" />
     <QtUic Include="renewitemwidget.ui" />
     <QtUic Include="smsloginpage.ui" />
+    <QtUic Include="systemsettingwidget.ui" />
     <QtUic Include="updategroupwidget.ui" />
     <QtUic Include="uploadfiledialog.ui" />
     <QtUic Include="uploadfileitemwidget.ui" />
@@ -329,7 +332,9 @@
     <None Include="resource\function\PayFinish.png" />
     <None Include="resource\instance\Root.png" />
     <None Include="resource\instance\Shouqi.png" />
+    <None Include="resource\main\UISetting.png" />
     <None Include="resource\instance\Zhankai.png" />
+    <None Include="resource\main\about.png" />
     <None Include="resource\main\activeCode_normal.png" />
     <None Include="resource\main\activeCode_select.png" />
     <None Include="resource\function\add.png" />
@@ -372,6 +377,7 @@
     <None Include="resource\main\expand.png" />
     <None Include="resource\instance\factoryDataReset.png" />
     <None Include="resource\upload\fileDel.png" />
+    <None Include="resource\main\generalSetting.png" />
     <None Include="resource\main\gvip_bg_normal.png" />
     <None Include="resource\main\gvip_bg_select.png" />
     <None Include="resource\instance\home.png" />
