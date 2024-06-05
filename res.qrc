@@ -67,6 +67,8 @@
         <file>resource/main/generalSetting.png</file>
         <file>resource/main/UISetting.png</file>
         <file>resource/main/aboutlogo.png</file>
+        <file>resource/main/radioCheck.png</file>
+        <file>resource/main/radioUncheck.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

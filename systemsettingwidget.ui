@@ -18,35 +18,6 @@
  QCheckBox {
      spacing: 5px;
  }
-
- QCheckBox::indicator {
-     width: 16px;
-     height: 16px;
- }
-
- QCheckBox::indicator:unchecked {
-     image: url(:/login/resource/login/option_normal.png);
- }
-
- QCheckBox::indicator:unchecked:hover {
-     image: url(:/login/resource/login/option_normal.png);
- }
-
- QCheckBox::indicator:unchecked:pressed {
-     image: url(:/login/resource/login/option_normal.png);
- }
-
- QCheckBox::indicator:checked {
-     image: url(:/login/resource/login/option_select.png);
- }
-
- QCheckBox::indicator:checked:hover {
-     image: url(:/login/resource/login/option_select.png);
- }
-
- QCheckBox::indicator:checked:pressed {
-     image: url(:/login/resource/login/option_select.png);
- }
 </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -618,6 +589,49 @@ padding-left:16px;
        </property>
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
+         <property name="styleSheet">
+          <string notr="true">QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+QRadioButton::indicator::unchecked
+{
+border-image:url(:/main/resource/main/radioUncheck.png);
+}
+QRadioButton::indicator::checked
+{
+border-image:url(:/main/resource/main/radioCheck.png);
+}
+QRadioButton::indicator
+{
+width:16px;
+height:16px;
+}</string>
+         </property>
          <widget class="QWidget" name="pageGeneralSetting">
           <property name="styleSheet">
            <string notr="true">color:#FF505465;
@@ -1344,7 +1358,7 @@ border-radius:2px;</string>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>222</width>
+                  <width>223</width>
                   <height>20</height>
                  </size>
                 </property>
