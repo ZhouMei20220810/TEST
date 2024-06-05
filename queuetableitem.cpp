@@ -197,7 +197,7 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     QJsonDocument doc(jsonObj);
     doc.setArray(listArray);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
+    qDebug() <<"upload File json:"<< postData;
     QString callbackBody = QString("bucket=${bucket}");//
         //.arg(0).arg(GlobalData::id).arg(GlobalData::getFileMd5(filePath)).arg(fileInfo.fileName()).arg(postData);
     qDebug() << callbackBody;

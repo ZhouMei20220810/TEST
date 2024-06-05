@@ -591,6 +591,11 @@ void MainWindow::do_ActionBatchUploadFile(bool bChecked)
 {
     //获取列表选中项
     QStringList strPhoneList = getCheckedPhoneInstance();
+    for (int i = 0; i < strPhoneList.size(); i++)
+    {
+        qDebug() << "批处理设备No("<<i<<"):" << strPhoneList.at(i);
+    }
+    
     if (strPhoneList.size() > 0)
     {
         UploadFileDialog* upload = new UploadFileDialog(strPhoneList);
