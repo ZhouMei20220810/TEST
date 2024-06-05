@@ -2,6 +2,7 @@
 #include "ui_uploadfileitemwidget.h"
 #include <QFileInfo>
 #include <QToolButton>
+#include <QFontMetrics>
 
 UploadFileItemWidget::UploadFileItemWidget(QString strFilePath,QWidget *parent)
     : QWidget(parent)
@@ -13,7 +14,9 @@ UploadFileItemWidget::UploadFileItemWidget(QString strFilePath,QWidget *parent)
     m_strFilePath = strFilePath;
 
     QFileInfo fileInfo(strFilePath);
-    ui->labelFileName->setText(fileInfo.baseName());
+    QFontMetrics fontWidth(ui->labelFileName->font());
+    QString strElideNote = fontWidth.elidedText(fileInfo.baseName(), Qt::ElideRight, 38);
+    ui->labelFileName->setText(strElideNote);
     ui->labelFileName->setToolTip(fileInfo.baseName());
 
     m_labelSuffix = new QLabel(ui->labelBg);
