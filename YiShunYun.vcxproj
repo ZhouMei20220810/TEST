@@ -370,6 +370,7 @@
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />
     <None Include="resource\instance\factoryDataReset.png" />
+    <None Include="resource\upload\fileDel.png" />
     <None Include="resource\main\gvip_bg_normal.png" />
     <None Include="resource\main\gvip_bg_select.png" />
     <None Include="resource\instance\home.png" />
@@ -419,8 +420,8 @@
     <None Include="resource\main\sync.png" />
     <None Include="resource\instance\topWindow.png" />
     <None Include="resource\main\uncheck.png" />
-    <None Include="resource\main\upload.png" />
-    <None Include="resource\main\uploadItem.png" />
+    <None Include="resource\upload\upload.png" />
+    <None Include="resource\upload\uploadItem.png" />
     <None Include="resource\instance\volumeAdd.png" />
     <None Include="resource\instance\volumeSub.png" />
     <None Include="resource\function\waitPay.png" />

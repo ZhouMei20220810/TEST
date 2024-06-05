@@ -574,7 +574,7 @@ subcontrol-origin: margin;
 </string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -766,6 +766,9 @@ subcontrol-origin: margin;
              <pointsize>11</pointsize>
             </font>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="styleSheet">
             <string notr="true"> QToolButton {
      border: 2px solid #FF407AFF;
@@ -817,6 +820,9 @@ QToolButton:hover
             <font>
              <pointsize>11</pointsize>
             </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
             <string notr="true"> QToolButton {
@@ -872,6 +878,9 @@ QToolButton:hover
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <property name="spacing">
+          <number>16</number>
+         </property>
          <item>
           <spacer name="horizontalSpacer_6">
            <property name="orientation">
@@ -889,38 +898,42 @@ QToolButton:hover
           <widget class="QToolButton" name="toolBtnSelectFile_2">
            <property name="minimumSize">
             <size>
-             <width>80</width>
-             <height>30</height>
+             <width>100</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>28</height>
             </size>
            </property>
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>11</pointsize>
             </font>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-     border: 0px solid #555764;
+            <string notr="true"> QToolButton {
+     border: 2px solid #FF407AFF;
      border-radius:2px;
-	 background-color: #FF363847;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 QToolButton:hover
 {
-	border:0px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:2px solid  #FF407AFF;
+	background-color: #FF407AFF;
 }
  QToolButton:pressed {
-     border: 0px solid #555764;
+     border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
-QToolButton:disabled
-{
- background-color: #FFC1C1C1;
- color:#FFFFFFFF;
-}
 
  QToolButton:flat {
      border: none; /* no border for a flat push button */
@@ -941,37 +954,41 @@ QToolButton:disabled
            <property name="minimumSize">
             <size>
              <width>80</width>
-             <height>30</height>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>28</height>
             </size>
            </property>
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>11</pointsize>
             </font>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-     border: 0px solid #555764;
+            <string notr="true"> QToolButton {
+     border: 2px solid #FF25BFA1;
      border-radius:2px;
-	 background-color: #FF363847;
+	 background-color: #FF25BFA1;
 	 color:#FFFFFFFF;
  }
 QToolButton:hover
 {
-	border:0px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:2px solid  #FF25BFA1;
+	background-color: #FF25BFA1;
 }
  QToolButton:pressed {
-     border: 0px solid #555764;
+     border: 2px solid #FF25BFA1;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF25BFA1;
 	 color:#FFFFFFFF;
  }
-QToolButton:disabled
-{
- background-color: #FFC1C1C1;
- color:#FFFFFFFF;
-}
 
  QToolButton:flat {
      border: none; /* no border for a flat push button */
