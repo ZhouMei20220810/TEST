@@ -928,6 +928,9 @@ font-size:13px;</string>
                   <property name="text">
                    <string>退出程序</string>
                   </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
                  </widget>
                 </item>
                </layout>
@@ -1006,6 +1009,9 @@ font-size:13px;</string>
                 </property>
                 <property name="text">
                  <string>滚动模式</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -1283,6 +1289,9 @@ border-radius:2px;</string>
                   <widget class="QCheckBox" name="checkBox_4">
                    <property name="text">
                     <string>热键与其它软件冲突时提醒</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -1770,6 +1779,9 @@ font-size:13px;</string>
                 <property name="text">
                  <string>高速</string>
                 </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
@@ -1854,6 +1866,9 @@ font-size:13px;</string>
                 <property name="text">
                  <string>默认为竖屏</string>
                 </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
@@ -1917,6 +1932,9 @@ font-size:13px;</string>
                 </property>
                 <property name="text">
                  <string>居中显示</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
