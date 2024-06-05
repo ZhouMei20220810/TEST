@@ -22,8 +22,7 @@ QueueTableItem::QueueTableItem(QStringList strPhoneList, QString strFilePath, QW
 {
     ui->setupUi(this);
     ui->toolBtnCancel->setVisible(true);
-    ui->labelCancelling->setVisible(false);
-    ui->labelFinish->setVisible(false);
+    ui->toolBtnFinish->setVisible(false);
     ui->toolBtnDelete->setVisible(false);
     ui->toolBtnReupload->setVisible(false);
     /* 初始化网络等资源 */
@@ -33,17 +32,30 @@ QueueTableItem::QueueTableItem(QStringList strPhoneList, QString strFilePath, QW
     m_strFilePath = strFilePath;
     QFileInfo fileInfo(strFilePath);
     ui->labelFileName->setText(fileInfo.fileName());
+    ui->progressBar->setValue(0);
+    ui->labelProgressStatus->setText("等待中");
 
-    //上传
-    if (uploadFile(m_strFilePath, m_strPhoneList))
-    {
-        ui->toolBtnCancel->setVisible(false);
-        ui->labelFinish->setVisible(true);
-    }
+    m_Timer = new QTimer();
+    m_Timer->start(3000);
+    connect(m_Timer, &QTimer::timeout, this, [this]()
+        {
+            m_Timer->stop();
+            //上传
+            if (uploadFile(m_strFilePath, m_strPhoneList))
+            {
+                ui->toolBtnCancel->setVisible(false);
+                ui->toolBtnFinish->setVisible(true);
+            }
+        });
+    
 }
 
 QueueTableItem::~QueueTableItem()
 {
+    if (m_Timer->isActive())
+    {
+        m_Timer->stop();
+    }
     /* 释放网络等资源 */
     ShutdownSdk();
     delete ui;
@@ -52,7 +64,12 @@ QueueTableItem::~QueueTableItem()
 void QueueTableItem::on_toolBtnCancel_clicked()
 {
     ui->toolBtnCancel->setVisible(false);
-    ui->labelCancelling->setVisible(true);
+    ui->toolBtnFinish->setVisible(false);
+    ui->toolBtnDelete->setVisible(true);
+    ui->toolBtnReupload->setVisible(true);
+    ui->labelProgressStatus->setText("已取消");
+    ui->progressBar->setStyleSheet("QProgressBar{text-align:center;background-color: #FFC4C7D0;border: 0px solid #FFC4C7D0;border-radius:2px;}QProgressBar::chunk{background-color:#FFA9ADB6;border-radius:2px;}");
+    ui->progressBar->setValue(80);
     //上传取消
     cancelUploadFile(m_strFilePath, m_strPhoneList);
 }
@@ -68,11 +85,13 @@ void QueueTableItem::on_toolBtnDelete_clicked()
 
 void QueueTableItem::on_toolBtnReupload_clicked()
 {
+    ui->progressBar->setStyleSheet("QProgressBar{text-align:center;background-color: #FFC4C7D0;border: 0px solid #FFC4C7D0;border-radius:2px;}QProgressBar::chunk{background-color:#FF407AFF;border-radius:2px;}");
+    ui->progressBar->setValue(0);
     //重新上传
     if (uploadFile(m_strFilePath, m_strPhoneList))
     {
         ui->toolBtnCancel->setVisible(false);
-        ui->labelFinish->setVisible(true);
+        ui->toolBtnFinish->setVisible(true);
     }
 }
 
@@ -83,7 +102,8 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
         return false;
 
     /* 初始化OSS账号信息 */
-
+    ui->progressBar->setValue(50);
+    ui->labelProgressStatus->setText("上传中");
     std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
     /* 填写Bucket名称，例如examplebucket */
     std::string BucketName = "yishunyun-file";
@@ -218,6 +238,12 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
         qDebug() << "Content = ";
         //uploadFileCallback(filePath, strPhoneList, 0);
     }
+    ui->labelProgressStatus->setText("解析中");
+    ui->toolBtnCancel->setVisible(false);
+    ui->toolBtnFinish->setVisible(true);
+    ui->toolBtnDelete->setVisible(false);
+    ui->toolBtnReupload->setVisible(false);
+    ui->progressBar->setValue(100);
     return true;
 }
 bool QueueTableItem::cancelUploadFile(const QString& filePath, QStringList strPhoneList)

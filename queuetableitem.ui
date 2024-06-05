@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>950</width>
-    <height>36</height>
+    <height>41</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,23 +76,23 @@
        <widget class="QProgressBar" name="progressBar">
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>10</height>
+          <width>64</width>
+          <height>4</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>16777215</width>
-          <height>10</height>
+          <width>64</width>
+          <height>4</height>
          </size>
         </property>
         <property name="styleSheet">
          <string notr="true">QProgressBar{text-align: center;
-                                     background-color: #FFD7D7DE;
-                                     border: 1px solid #FFD7D7DE;
-                                     border-radius: 5px;}
-QProgressBar::chunk{background-color: #FF000000;
-                                     border-radius: 5px;}</string>
+                                     background-color: #FFC4C7D0;
+                                     border: 0px solid #FFC4C7D0;
+                                     border-radius: 2px;}
+QProgressBar::chunk{background-color: #FF407AFF;
+                                     border-radius: 2px;}</string>
         </property>
         <property name="value">
          <number>24</number>
@@ -115,7 +115,7 @@ QProgressBar::chunk{background-color: #FF000000;
    <item>
     <widget class="QLabel" name="labelPhoneNum">
      <property name="text">
-      <string>TextLabel</string>
+      <string>1/1</string>
      </property>
     </widget>
    </item>
@@ -129,43 +129,208 @@ QProgressBar::chunk{background-color: #FF000000;
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QLabel" name="labelFinish">
+       <widget class="QToolButton" name="toolBtnFinish">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">background:transparent;</string>
+         <string notr="true"> QToolButton {
+     border: none;
+     border-radius:2px;
+	 background: transparent;
+	 color:#FF505465;
+ }
+QToolButton:hover
+{
+	border:none;
+	background: transparent;
+}
+ QToolButton:pressed {
+     border: 2px solid #FF407AFF;
+     border-radius: 2px;
+	 background-color: #FF407AFF;
+	 color:#FFFFFFFF;
+ }
+
+ QToolButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QToolButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
         </property>
         <property name="text">
-         <string>上传完成</string>
+         <string> 上传完成</string>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelCancelling">
-        <property name="styleSheet">
-         <string notr="true">background:transparent;</string>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/upload/uploadFinish.png</normaloff>:/resource/upload/uploadFinish.png</iconset>
         </property>
-        <property name="text">
-         <string>取消中...</string>
+        <property name="iconSize">
+         <size>
+          <width>12</width>
+          <height>12</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnReupload">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> QToolButton {
+     border: none;
+     border-radius:2px;
+	 background: transparent;
+	 color:#FF505465;
+ }
+QToolButton:hover
+{
+	border:none;
+	background: transparent;
+}
+ QToolButton:pressed {
+     border: 2px solid #FF407AFF;
+     border-radius: 2px;
+	 background-color: #FF407AFF;
+	 color:#FFFFFFFF;
+ }
+
+ QToolButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QToolButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+        </property>
         <property name="text">
-         <string>重新上传</string>
+         <string> 重新上传</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/upload/reupload.png</normaloff>:/resource/upload/reupload.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>12</width>
+          <height>12</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnDelete">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> QToolButton {
+     border: none;
+     border-radius:2px;
+	 background: transparent;
+	 color:#FF505465;
+ }
+QToolButton:hover
+{
+	border:none;
+	background: transparent;
+}
+ QToolButton:pressed {
+     border: 2px solid #FF407AFF;
+     border-radius: 2px;
+	 background-color: #FF407AFF;
+	 color:#FFFFFFFF;
+ }
+
+ QToolButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QToolButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+        </property>
         <property name="text">
-         <string>删除</string>
+         <string> 删除</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/upload/uploadDel.png</normaloff>:/resource/upload/uploadDel.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>12</width>
+          <height>12</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnCancel">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> QToolButton {
+     border: none;
+     border-radius:2px;
+	 background: transparent;
+	 color:#FF505465;
+ }
+QToolButton:hover
+{
+	border:none;
+	background: transparent;
+}
+ QToolButton:pressed {
+     border: 2px solid #FF407AFF;
+     border-radius: 2px;
+	 background-color: #FF407AFF;
+	 color:#FFFFFFFF;
+ }
+
+ QToolButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QToolButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+        </property>
         <property name="text">
-         <string>取消上传</string>
+         <string> 取消上传</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/upload/cancelUpload.png</normaloff>:/resource/upload/cancelUpload.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>12</width>
+          <height>12</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
         </property>
        </widget>
       </item>
@@ -174,6 +339,8 @@ QProgressBar::chunk{background-color: #FF000000;
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

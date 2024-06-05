@@ -2,6 +2,7 @@
 #define QUEUETABLEITEM_H
 
 #include <QWidget>
+#include <QTimer>
 
 namespace Ui {
 class QueueTableItem;
@@ -26,6 +27,7 @@ private:
     QString m_strFilePath;
     QStringList m_strPhoneList;
     std::string m_UploadId;
+    QTimer* m_Timer;
 
     bool uploadFile(const QString& filePath, QStringList strPhoneList);
     bool cancelUploadFile(const QString& filePath, QStringList strPhoneList);

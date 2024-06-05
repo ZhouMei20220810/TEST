@@ -123,5 +123,9 @@
         <file>resource/upload/fileDel.png</file>
         <file>resource/upload/upload.png</file>
         <file>resource/upload/uploadItem.png</file>
+        <file>resource/upload/cancelUpload.png</file>
+        <file>resource/upload/reupload.png</file>
+        <file>resource/upload/uploadDel.png</file>
+        <file>resource/upload/uploadFinish.png</file>
     </qresource>
 </RCC>
