@@ -7,7 +7,7 @@
 #include <QTransform>
 //#include <QMatrix>
 
-PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
+PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PhoneItemWidget)
 {
@@ -47,11 +47,11 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     });
     m_refreshTimer->start(1);// 1ms触发一次
     
-    m_sTaskInfo = sTaskInfo;
-    ui->toolBtnName->setText(sTaskInfo.strName);
+    m_sPhoneInfo = sPhoneInfo;
+    ui->toolBtnName->setText(sPhoneInfo.strName);
     
-    m_strPicturePath = GlobalData::strFileTempDir+"/" + sTaskInfo.strInstanceNo + ".png";
-    m_strTemp = GlobalData::strFileTempDir + "/" + sTaskInfo.strInstanceNo + "_bak.png";   
+    m_strPicturePath = GlobalData::strFileTempDir+"/" + sPhoneInfo.strInstanceNo + ".png";
+    m_strTemp = GlobalData::strFileTempDir + "/" + sPhoneInfo.strInstanceNo + "_bak.png";
 
     m_manager = new QNetworkAccessManager(this);
 
@@ -181,7 +181,7 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
             GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
             if (NULL == m_PhoneInstanceWidget)
             {
-                m_PhoneInstanceWidget = new PhoneInstanceWidget(m_sTaskInfo);
+                m_PhoneInstanceWidget = new PhoneInstanceWidget(m_sPhoneInfo);
             }
             if (!GlobalData::bVerticalPhoneInstanceCenter)
             {

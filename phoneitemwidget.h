@@ -40,7 +40,7 @@ private:
     QFile* file;
     QUrl url;
 
-    S_PHONE_INFO m_sTaskInfo;
+    S_PHONE_INFO m_sPhoneInfo;
     QByteArray byteArrayImageUrl;
     QString  m_strPicturePath;
     QString  m_strTemp;
