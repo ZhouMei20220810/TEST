@@ -13,6 +13,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "messagetipsdialog.h"
+#include <QSettings>
 
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
     : QWidget(parent)
@@ -223,6 +224,10 @@ void PhoneInstanceWidget::on_toolBtnMax_clicked()
 
 void PhoneInstanceWidget::on_toolBtnClose_clicked()
 {
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    QPoint point = this->pos();
+    setting.setValue("PhoneInstancePoint", QVariant::fromValue(point));
+    
     this->close();
 }
 

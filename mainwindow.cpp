@@ -270,6 +270,11 @@ void MainWindow::do_ActionBeginControl(bool bChecked)
     {
         m_PhoneInstanceWidget = new PhoneInstanceWidget(phoneInfo);
     }
+    if (!GlobalData::bVerticalPhoneInstanceCenter)
+    {
+        QPoint point = setting.value("PhoneInstancePoint").toPoint();
+        m_PhoneInstanceWidget->move(point);
+    }
     m_PhoneInstanceWidget->show();
     connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::destroyed, this,[this](){
         m_PhoneInstanceWidget = NULL;

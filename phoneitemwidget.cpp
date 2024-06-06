@@ -165,6 +165,12 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
             {
                 m_PhoneInstanceWidget = new PhoneInstanceWidget(m_sTaskInfo);
             }
+            if (!GlobalData::bVerticalPhoneInstanceCenter)
+            {
+                QPoint point = setting.value("PhoneInstancePoint").toPoint();
+                m_PhoneInstanceWidget->move(point);
+            }           
+
             m_PhoneInstanceWidget->show();
             connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::destroyed, this, [this]() {
                 m_PhoneInstanceWidget = NULL;
