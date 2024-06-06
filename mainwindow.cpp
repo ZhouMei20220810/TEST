@@ -445,6 +445,7 @@ void MainWindow::InitCloudPhoneTab()
     InitGroupMenu();
     InitPhoneMenu();
     InitBatchOperatorMenu();
+    InitComboBox();
     //设置TreeWidget相关属性
     //ui->treeWidget->resize(200, 600);
     //ui->treeWidget->move(100, 80);
@@ -563,6 +564,16 @@ void MainWindow::InitBatchOperatorMenu()
     m_BatchOperMenu->addAction(pActionBatchUploadFile);
     m_BatchOperMenu->addAction(pActionBatchFactoryReset);
     m_BatchOperSubMenu = m_BatchOperMenu->addMenu("批量移动分组");
+}
+
+void MainWindow::InitComboBox()
+{
+    ui->comboBoxView->addItem("视图100%",100);
+    ui->comboBoxView->addItem("视图80%",80);
+    ui->comboBoxView->addItem("视图60%",60);
+    ui->comboBoxView->addItem("视图50%",50);
+    ui->comboBoxView->addItem("视图40%",40);
+    ui->comboBoxView->addItem("视图30%",30);
 }
 
 QStringList MainWindow::getCheckedPhoneInstance()
@@ -2865,5 +2876,17 @@ void MainWindow::on_toolBtnCustomer_clicked()
     //https://ccc-v2.aliyun.com/v-chat?token=9XYGTGWtq2yxzD3cm38yM7T_QkVSJzQAOkOb_XIk-aVrFVf7Dx49UKN0ym7bYIPjKaJ5Gkt1onRIX_6726a9reskIUuwRp_cdgYLRzd2lpE%3D
     QString strUrl = "https://ccc-v2.aliyun.com/v-chat?token=9XYGTGWtq2yxzD3cm38yM7T_QkVSJzQAOkOb_XIk-aVrFVf7Dx49UKN0ym7bYIPjKaJ5Gkt1onRIX_6726a9reskIUuwRp_cdgYLRzd2lpE%3D";
     QDesktopServices::openUrl(QUrl(strUrl));
+}
+
+
+void MainWindow::on_comboBoxView_currentIndexChanged(int index)
+{
+    int i = ui->comboBoxView->itemData(index).toInt();
+    qDebug()<<"click i="<<i <<"old width="<< GlobalData::iPhoneItemWidth<<"old height="<< GlobalData::iPhoneItemHeight;
+
+    GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH*(i/100.0);
+    GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT*(i/100.0);
+    qDebug() << "click i=" << i << "new width=" << GlobalData::iPhoneItemWidth << "new height=" << GlobalData::iPhoneItemHeight;
+    on_treeWidget_currentItemChanged(m_pCurItem, NULL);
 }
 

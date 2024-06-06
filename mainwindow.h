@@ -75,6 +75,7 @@ private:
     void InitGroupMenu();
     void InitPhoneMenu();
     void InitBatchOperatorMenu();
+    void InitComboBox();
     //激活码
     void InitActiveCodeTab();
     void InitActiveCodeRenewList();
@@ -191,6 +192,8 @@ private slots:
     void on_toolBtnSetting_clicked();
 
     void on_toolBtnCustomer_clicked();
+
+    void on_comboBoxView_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;
