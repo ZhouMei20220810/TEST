@@ -249,13 +249,13 @@ background-image: url(:/main/resource/main/buy_select.png)
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>0</height>
+          <height>44</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>41</height>
+          <height>44</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -275,10 +275,13 @@ background-image: url(:/main/resource/main/buy_select.png)
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>10</number>
          </property>
          <property name="topMargin">
           <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>12</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -373,7 +376,7 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>38</height>
+             <height>40</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -388,13 +391,13 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
           <widget class="QToolButton" name="toolBtnCustomer">
            <property name="minimumSize">
             <size>
-             <width>60</width>
+             <width>52</width>
              <height>40</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>60</width>
+             <width>52</width>
              <height>40</height>
             </size>
            </property>
@@ -443,9 +446,15 @@ color:#FF407AFF;
          </item>
          <item>
           <widget class="QToolButton" name="toolBtnSetting">
+           <property name="minimumSize">
+            <size>
+             <width>24</width>
+             <height>40</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
-             <width>28</width>
+             <width>24</width>
              <height>40</height>
             </size>
            </property>
@@ -488,10 +497,14 @@ background-image: url(:/main/resource/main/setting_normal.png)
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">color:#D7D7DE;border:none;</string>
+            <string notr="true">QFrame {
+background-color: #FFF5F6FA;
+border-radius:0px;
+border-left: 1px solid #D7D7DE;
+}</string>
            </property>
            <property name="text">
-            <string> | </string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -500,10 +513,16 @@ background-image: url(:/main/resource/main/setting_normal.png)
          </item>
          <item>
           <widget class="QPushButton" name="btnMin">
+           <property name="minimumSize">
+            <size>
+             <width>24</width>
+             <height>40</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>24</width>
-             <height>32</height>
+             <height>40</height>
             </size>
            </property>
            <property name="cursor">
@@ -546,10 +565,16 @@ QPushButton:hover {
          </item>
          <item>
           <widget class="QPushButton" name="btnMax">
+           <property name="minimumSize">
+            <size>
+             <width>24</width>
+             <height>40</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>24</width>
-             <height>32</height>
+             <height>40</height>
             </size>
            </property>
            <property name="cursor">
@@ -592,10 +617,16 @@ QPushButton:hover {
          </item>
          <item>
           <widget class="QPushButton" name="btnClose">
+           <property name="minimumSize">
+            <size>
+             <width>24</width>
+             <height>40</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>24</width>
-             <height>32</height>
+             <height>40</height>
             </size>
            </property>
            <property name="cursor">

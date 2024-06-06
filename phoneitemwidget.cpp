@@ -15,43 +15,45 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose,true);
 
     m_PhoneInstanceWidget = NULL;
-    //m_refreshTimer = new QTimer();
-    //connect(m_refreshTimer, &QTimer::timeout, this, &PhoneItemWidget::do_timeoutRefreshPicture);
-    //m_refreshTimer->start(TIMER_INTERVAL);// 每分钟触发一次，60000毫秒
+    m_refreshTimer = new QTimer();
+    connect(m_refreshTimer, &QTimer::timeout, this, [this]() {
+        m_refreshTimer->stop();
+
+        QFile file1(m_strPicturePath);
+        QString strUrl;
+        if (!file1.exists())
+            strUrl = ":/main/resource/main/defaultSceenShot.png";
+        else
+            strUrl = m_strPicturePath;
+        QPixmap pixmap;
+        QImage image(strUrl);
+        if (!image.isNull())
+        {
+            if (!GlobalData::bVerticalScreen)
+            {
+                QTransform transform;
+                transform.rotate(270);
+                image = image.transformed(transform);
+            }
+        }
+
+        pixmap = QPixmap::fromImage(image);
+        if (pixmap.isNull())
+        {
+            pixmap = QPixmap(strUrl);
+        }
+        //ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        });
+    m_refreshTimer->start(100);// 每秒触发一次
     //m_bIsRefresh = true;
     m_sTaskInfo = sTaskInfo;
     ui->toolBtnName->setText(sTaskInfo.strName);
     
     m_strPicturePath = GlobalData::strFileTempDir+"/" + sTaskInfo.strInstanceNo + ".png";
-    m_strTemp = GlobalData::strFileTempDir + "/" + sTaskInfo.strInstanceNo + "_bak.png";
-    QFile file1(m_strPicturePath);
-    QString strUrl;
-    if (!file1.exists())
-        strUrl = ":/main/resource/main/defaultSceenShot.png";
-    else
-        strUrl = m_strPicturePath;
-    QPixmap pixmap;
-    QImage image(strUrl);
-    if(!image.isNull())
-    {
-        if (!GlobalData::bVerticalScreen)
-        {
-            QTransform transform;
-            transform.rotate(270);
-            image = image.transformed(transform);
-        }
-        //image.save(strUrl);
-    }
+    m_strTemp = GlobalData::strFileTempDir + "/" + sTaskInfo.strInstanceNo + "_bak.png";   
 
-    pixmap = QPixmap::fromImage(image);
-    if (pixmap.isNull())
-    {
-        pixmap = QPixmap(strUrl);
-    }
-    ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    
     m_manager = new QNetworkAccessManager(this);
-
 
     m_LabelAccredit = new QLabel(ui->label);
     m_checkBox = new QCheckBox(ui->label);
@@ -138,15 +140,15 @@ void PhoneItemWidget::httpFinished()
             }
             file->rename(m_strPicturePath);
             pixmap = QPixmap(m_strPicturePath);
-            ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
         else
         {
             qDebug() << "图片无效,显示默认图片";
             if(QFile::exists(m_strPicturePath))
-                ui->label->setPixmap(QPixmap(m_strPicturePath).scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+                ui->label->setPixmap(QPixmap(m_strPicturePath).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
             else
-                ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+                ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
         delete file;
         file = 0;
@@ -184,7 +186,7 @@ void PhoneItemWidget::updateDataReadProgress(qint64 byteRead, qint64 totalBytes)
         QPixmap pixmap(m_strPicturePath);
         if (!pixmap.isNull())
         {
-            ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight),Qt::IgnoreAspectRatio, Qt::SmoothTransformation)); // 缩放为合适的大小
+            ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()),Qt::IgnoreAspectRatio, Qt::SmoothTransformation)); // 缩放为合适的大小
         }        
     }
     else
@@ -229,4 +231,10 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
     {
         return QWidget::eventFilter(watched, event);
     }    
+}
+
+
+
+void PhoneItemWidget::showEvent(QShowEvent *event)
+{
 }
