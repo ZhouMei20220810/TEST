@@ -2387,6 +2387,9 @@ padding-left:8px;
                       </layout>
                      </widget>
                      <widget class="QWidget" name="pageListMode">
+                      <property name="styleSheet">
+                       <string notr="true">color:#505465;</string>
+                      </property>
                       <layout class="QVBoxLayout" name="verticalLayout_16">
                        <property name="spacing">
                         <number>0</number>
@@ -2416,6 +2419,9 @@ padding-left:8px;
                            <width>16777215</width>
                            <height>30</height>
                           </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true"/>
                          </property>
                          <property name="frameShape">
                           <enum>QFrame::StyledPanel</enum>
