@@ -2503,8 +2503,10 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     ui->toolBtnChangeVerScreen->setVisible(true);
     ui->toolBtnChangeHorScreen->setVisible(false);
 
-    GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH;
-    GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT;
+    int iIndex = ui->comboBoxView->currentIndex();
+    int i = ui->comboBoxView->itemData(iIndex).toInt();
+    GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
+    GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
 
     on_treeWidget_currentItemChanged(m_pCurItem, NULL);
 }
@@ -2516,8 +2518,10 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     GlobalData::bVerticalScreen = true;
     ui->toolBtnChangeVerScreen->setVisible(false);
     ui->toolBtnChangeHorScreen->setVisible(true);
-    GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;
-    GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
+    int iIndex = ui->comboBoxView->currentIndex();
+    int i = ui->comboBoxView->itemData(iIndex).toInt();
+    GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
+    GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
 
     on_treeWidget_currentItemChanged(m_pCurItem, NULL);    
 }
@@ -2868,9 +2872,16 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
 {
     int i = ui->comboBoxView->itemData(index).toInt();
     qDebug()<<"click i="<<i <<"old width="<< GlobalData::iPhoneItemWidth<<"old height="<< GlobalData::iPhoneItemHeight;
-
-    GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH*(i/100.0);
-    GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT*(i/100.0);
+    if (GlobalData::bVerticalScreen)
+    {
+        GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
+        GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
+    }
+    else
+    {
+        GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
+        GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
+    }    
     qDebug() << "click i=" << i << "new width=" << GlobalData::iPhoneItemWidth << "new height=" << GlobalData::iPhoneItemHeight;
     on_treeWidget_currentItemChanged(m_pCurItem, NULL);
 }
