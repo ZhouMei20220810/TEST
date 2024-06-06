@@ -23,8 +23,8 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     setWindowFlag(Qt::FramelessWindowHint);
     
     ui->frameTool->setVisible(false);
-    setToolBtnVisible(GlobalData::bVerticalScreen);
-    if (GlobalData::bVerticalScreen)
+    setToolBtnVisible(GlobalData::bVerticalPhoneInstance);
+    if (GlobalData::bVerticalPhoneInstance)
         resize(PHONE_INSTANCE_VERTICAL_WIDTH, PHONE_INSTANCE_VERTICAL_WIDTH);
     else
         resize(PHONE_INSTANCE_HORIZONTAL_WIDTH, PHONE_INSTANCE_HORIZONTAL_HEIGHT);
@@ -261,7 +261,7 @@ void PhoneInstanceWidget::on_toolBtnVerOrHor_clicked()
 {
     this->close();
 
-    GlobalData::bVerticalScreen = !GlobalData::bVerticalScreen;
+    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
     PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
     nn->show();
 }

@@ -33,6 +33,7 @@
 #include "filedownloader.h"
 #include "factorydataresetdialog.h"
 #include <QDesktopServices>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -259,6 +260,11 @@ void MainWindow::do_ActionBeginControl(bool bChecked)
     m_pCurItem = ui->treeWidget->currentItem();
     if (m_pCurItem == NULL)
         return;
+    
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    //m_enQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
+    GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
+    GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
     S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
     if (NULL == m_PhoneInstanceWidget)
     {

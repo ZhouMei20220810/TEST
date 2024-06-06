@@ -2,6 +2,7 @@
 #include "ui_phoneitemwidget.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QSettings>
 
 PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     : QWidget(parent)
@@ -156,6 +157,10 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
+            QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+            //m_enQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
+            GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
+            GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
             if (NULL == m_PhoneInstanceWidget)
             {
                 m_PhoneInstanceWidget = new PhoneInstanceWidget(m_sTaskInfo);

@@ -155,6 +155,15 @@ enum ENUM_CREATE_OR_UPDATA
     TYPE_PHONE_RENAME_WIDGET = 2           // 实例重命名
 };
 
+enum ENUM_PICTURE_QUALITY
+{
+    TYPE_QUALITY_AUTO = 1,
+    TYPE_QUALITY_TOPSPEED,
+    TYPE_QUALITY_HIGH_SPEED,
+    TYPE_QUALITY_NORMAL,
+    TYPE_QUALITY_HIGH_DEFINITION
+};
+
 typedef struct GROUP_INFO
 {
     int     iGroupId;
@@ -242,7 +251,9 @@ public:
     static int      iPhoneItemWidth;
     static int      iPhoneItemHeight;
 
-    static bool     bVerticalScreen;   
+    static bool     bVerticalScreen;
+    static bool     bVerticalPhoneInstance;
+    static bool     bVerticalPhoneInstanceCenter;
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;
