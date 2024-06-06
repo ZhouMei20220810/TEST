@@ -1446,6 +1446,12 @@ border-bottom: 1px solid #D7D7DE;
                     </property>
                     <item>
                      <widget class="QToolButton" name="toolBtnPreviewMode">
+                      <property name="minimumSize">
+                       <size>
+                        <width>92</width>
+                        <height>28</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>92</width>
@@ -1488,6 +1494,12 @@ padding-left:8px;
                     </item>
                     <item>
                      <widget class="QToolButton" name="toolBtnListMode">
+                      <property name="minimumSize">
+                       <size>
+                        <width>92</width>
+                        <height>28</height>
+                       </size>
+                      </property>
                       <property name="maximumSize">
                        <size>
                         <width>92</width>
@@ -1658,15 +1670,20 @@ border-bottom: 1px solid #D7D7DE;
                      <widget class="QPushButton" name="btnCancelSelect">
                       <property name="minimumSize">
                        <size>
-                        <width>86</width>
-                        <height>28</height>
+                        <width>76</width>
+                        <height>27</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>86</width>
-                        <height>28</height>
+                        <width>76</width>
+                        <height>27</height>
                        </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>10</pointsize>
+                       </font>
                       </property>
                       <property name="cursor">
                        <cursorShape>PointingHandCursor</cursorShape>
@@ -1675,23 +1692,23 @@ border-bottom: 1px solid #D7D7DE;
                        <string notr="true"> QPushButton {
      border: 0px solid #555764;
      border-radius:2px;
-	 background-color: #FF363847;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 QPushButton:hover
 {
 	border:0px solid  #FF27282B;
-	background-color: #FF27282B;
+	background-color: #FF407AFF;
 }
  QPushButton:pressed {
      border: 0px solid #555764;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 QPushButton:disabled
 {
- background-color: #FFC1C1C1;
+ background-color: #FF407AFF;
  color:#FFFFFFFF;
 }
 

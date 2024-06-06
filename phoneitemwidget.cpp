@@ -3,6 +3,9 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QSettings>
+#include <QImage>
+#include <QTransform>
+//#include <QMatrix>
 
 PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     : QWidget(parent)
@@ -12,22 +15,40 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose,true);
 
     m_PhoneInstanceWidget = NULL;
-    m_refreshTimer = new QTimer();
-    connect(m_refreshTimer, &QTimer::timeout, this, &PhoneItemWidget::do_timeoutRefreshPicture);
-    m_refreshTimer->start(TIMER_INTERVAL);// 每分钟触发一次，60000毫秒
-    m_bIsRefresh = true;
+    //m_refreshTimer = new QTimer();
+    //connect(m_refreshTimer, &QTimer::timeout, this, &PhoneItemWidget::do_timeoutRefreshPicture);
+    //m_refreshTimer->start(TIMER_INTERVAL);// 每分钟触发一次，60000毫秒
+    //m_bIsRefresh = true;
     m_sTaskInfo = sTaskInfo;
     ui->toolBtnName->setText(sTaskInfo.strName);
     
     m_strPicturePath = GlobalData::strFileTempDir+"/" + sTaskInfo.strInstanceNo + ".png";
+    m_strTemp = GlobalData::strFileTempDir + "/" + sTaskInfo.strInstanceNo + "_bak.png";
     QFile file1(m_strPicturePath);
     QString strUrl;
     if (!file1.exists())
         strUrl = ":/main/resource/main/defaultSceenShot.png";
     else
         strUrl = m_strPicturePath;
+    QPixmap pixmap;
+    QImage image(strUrl);
+    if(!image.isNull())
+    {
+        if (!GlobalData::bVerticalScreen)
+        {
+            QTransform transform;
+            transform.rotate(270);
+            image = image.transformed(transform);
+        }
+        //image.save(strUrl);
+    }
 
-    ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    pixmap = QPixmap::fromImage(image);
+    if (pixmap.isNull())
+    {
+        pixmap = QPixmap(strUrl);
+    }
+    ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     
     m_manager = new QNetworkAccessManager(this);
 
@@ -70,10 +91,10 @@ PhoneItemWidget::~PhoneItemWidget()
     delete ui;
 }
 
-void PhoneItemWidget::setRefreshTimer(bool bIsRefresh)
+/*void PhoneItemWidget::setRefreshTimer(bool bIsRefresh)
 {
     m_bIsRefresh = bIsRefresh;
-}
+}*/
 
 void PhoneItemWidget::setCheckBoxStatus(bool bCheck)
 {
@@ -86,13 +107,13 @@ bool PhoneItemWidget::getCheckBoxStatus()
 void PhoneItemWidget::startRequest(QUrl url)
 {
     //初始化文件
-    file = new QFile(m_strPicturePath);
+    file = new QFile(m_strTemp);
     if (!file->open(QIODevice::WriteOnly))
     {
         delete file;
         file = NULL;
     }
-    qDebug() << "PhoneItemWidget::startRequest url=" << url << "No=" << m_sTaskInfo.strInstanceNo;
+    qDebug() << "PhoneItemWidget::startRequest url=" << url << " file=" << m_strTemp;
     m_reply = m_manager->get(QNetworkRequest(url));
     connect(m_reply, &QNetworkReply::readyRead, this, &PhoneItemWidget::httpReadyRead);
     connect(m_reply, &QNetworkReply::finished, this, &PhoneItemWidget::httpFinished);
@@ -105,9 +126,18 @@ void PhoneItemWidget::httpFinished()
     if (file)
     {
         file->close();
-        QPixmap pixmap(m_strPicturePath);
-        ui->label->setPixmap(pixmap.scaled(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight)); // 缩放为合适的大小
+        QPixmap pixmap(m_strTemp);
+        if (!pixmap.isNull())
+        {
+            if (QFile::exists(m_strPicturePath))
+            {
+                qDebug()<<"remove status:"<< QFile::remove(m_strPicturePath);
+            }
+            file->rename(m_strPicturePath);
+            pixmap = QPixmap(m_strPicturePath);
+            ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 
+        }
         delete file;
         file = 0;
     }
@@ -133,7 +163,7 @@ void PhoneItemWidget::updateDataReadProgress(qint64 byteRead, qint64 totalBytes)
 }
 
 //一分钟响应一次
-void PhoneItemWidget::do_timeoutRefreshPicture()
+/*void PhoneItemWidget::do_timeoutRefreshPicture()
 {
     QDateTime dateTime = QDateTime::currentDateTime();
     qDebug() << dateTime.toString("yyyy-MM-dd HH:mm:ss");
@@ -142,14 +172,17 @@ void PhoneItemWidget::do_timeoutRefreshPicture()
         //请求刷新函数
         qDebug() << "请求刷新函数";
         QPixmap pixmap(m_strPicturePath);
-        ui->label->setPixmap(pixmap.scaled(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight)); // 缩放为合适的大小
+        if (!pixmap.isNull())
+        {
+            ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight),Qt::IgnoreAspectRatio, Qt::SmoothTransformation)); // 缩放为合适的大小
+        }        
     }
     else
     {
         qDebug() << "停止刷新图片";
         m_refreshTimer->stop();
     }
-}
+}*/
 
 bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
 {

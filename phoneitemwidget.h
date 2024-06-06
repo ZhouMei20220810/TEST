@@ -32,7 +32,7 @@ private slots:
     void httpReadyRead();//接受数据中
     void updateDataReadProgress(qint64, qint64);//进度条更新
     //一分钟响应一次
-    void do_timeoutRefreshPicture();
+    //void do_timeoutRefreshPicture();
 private:
     Ui::PhoneItemWidget *ui;
 
@@ -44,6 +44,7 @@ private:
     S_PHONE_INFO m_sTaskInfo;
     QByteArray byteArrayImageUrl;
     QString  m_strPicturePath;
+    QString  m_strTemp;
 
     //设置定时器
     QTimer* m_refreshTimer;
