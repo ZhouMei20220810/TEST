@@ -1318,6 +1318,9 @@ QComboBox QAbstractItemView::item:selected{
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true"> QPushButton {
      border: 0px solid #555764;
@@ -1363,6 +1366,9 @@ QPushButton:disabled
                         <width>68</width>
                         <height>28</height>
                        </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true"> QPushButton {
@@ -1451,6 +1457,9 @@ border-bottom: 1px solid #D7D7DE;
                         <pointsize>10</pointsize>
                        </font>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
@@ -1489,6 +1498,9 @@ padding-left:8px;
                        <font>
                         <pointsize>10</pointsize>
                        </font>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
@@ -1547,6 +1559,9 @@ padding-left:8px;
                         <pointsize>10</pointsize>
                        </font>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: rgb(204, 204, 204);
@@ -1590,6 +1605,9 @@ padding-left:8px;
                        <font>
                         <pointsize>10</pointsize>
                        </font>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
@@ -1650,6 +1668,9 @@ border-bottom: 1px solid #D7D7DE;
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true"> QPushButton {
      border: 0px solid #555764;
@@ -1699,6 +1720,9 @@ QPushButton:disabled
                         <height>20</height>
                        </size>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true"> QCheckBox {
      spacing: 5px;
@@ -1746,6 +1770,9 @@ QPushButton:disabled
                         <width>48</width>
                         <height>20</height>
                        </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true"> QCheckBox {
@@ -1811,6 +1838,9 @@ QPushButton:disabled
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: #FF4A4A4A;
@@ -1849,6 +1879,9 @@ padding-left:8px;
                         <width>86</width>
                         <height>28</height>
                        </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
@@ -1889,6 +1922,9 @@ padding-left:8px;
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: #FF4A4A4A;
@@ -1927,6 +1963,9 @@ padding-left:8px;
                         <width>76</width>
                         <height>28</height>
                        </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
@@ -2020,6 +2059,9 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
                         <height>28</height>
                        </size>
                       </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: #FF4A4A4A;
@@ -2058,6 +2100,9 @@ padding-left:8px;
                         <width>86</width>
                         <height>28</height>
                        </size>
+                      </property>
+                      <property name="cursor">
+                       <cursorShape>PointingHandCursor</cursorShape>
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
@@ -3070,8 +3115,8 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>80</width>
-                     <height>234</height>
+                     <width>100</width>
+                     <height>30</height>
                     </rect>
                    </property>
                   </widget>

@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_createGroupWidget = NULL;
     m_systemSettingWidget = NULL;
 
+    m_pCurItem = NULL;
+
     m_toolObject = new ToolObject(this);
     connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this,[=]
             {
@@ -2508,45 +2510,7 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH;
     GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT;
 
-    int iCount = ui->listWidget->count();
-    if (iCount <= 0)
-    {
-        qDebug() << "ShowTaskInfo ui->listWidget 已清空";
-        return;
-    }
-
-
-
-    QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
-    S_PHONE_INFO phoneInfo;
-    for (int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidget->item(i);
-        if (item != NULL)
-        {
-            item->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));
-        }
-    }
-    /*ui->listWidget->clear();
-
-    PhoneItemWidget* widget = NULL;
-    QListWidgetItem* item = NULL;
-    //int iCount = map.size();
-    //qDebug() << "map size() =" << iCount;
-    //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
-    //for (; iter != map.constEnd(); iter++)
-    QString strImage;
-    for (int i = 0; i < 1; i++)
-    {
-        widget = new PhoneItemWidget(this);
-
-        item = new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        item->setData(Qt::UserRole, i);
-        ui->listWidget->addItem(item);
-        ui->listWidget->setItemWidget(item, widget);
-    }*/
+    on_treeWidget_currentItemChanged(m_pCurItem, NULL);
 }
 
 
@@ -2558,49 +2522,8 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     ui->toolBtnChangeHorScreen->setVisible(true);
     GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;
     GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
-    int iCount = ui->listWidget->count();
-    if (iCount <= 0)
-    {
-        qDebug() << "ShowTaskInfo ui->listWidget 已清空";
-        return;
-    }
 
-    QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
-    S_PHONE_INFO phoneInfo;
-    for (int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidget->item(i);
-        if (item != NULL)
-        {
-            item->setSizeHint(QSize(GlobalData::iPhoneItemWidth,GlobalData::iPhoneItemHeight));
-            /*phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-            phoneItem = (PhoneItemWidget*)ui->listWidget->itemWidget(item);
-            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
-            {
-                phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
-            }*/
-        }
-    }
-    /*ui->listWidget->clear();
-    //初始化手机列表,假数据
-    PhoneItemWidget* widget = NULL;
-    QListWidgetItem* item = NULL;
-    //int iCount = map.size();
-    //qDebug() << "map size() =" << iCount;
-    //QMap<int, S_ItemWidgetData*>::const_iterator iter = map.constBegin();
-    //for (; iter != map.constEnd(); iter++)
-    QString strImage;
-    for (int i = 0; i < 1; i++)
-    {
-        widget = new PhoneItemWidget(this);
-
-        item = new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-        item->setData(Qt::UserRole, i);
-        ui->listWidget->addItem(item);
-        ui->listWidget->setItemWidget(item, widget);
-    }*/
+    on_treeWidget_currentItemChanged(m_pCurItem, NULL);    
 }
 
 
@@ -2689,6 +2612,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
 {
     if(current == previous || current == NULL)
         return;
+    m_pCurItem = current;
 
     S_PHONE_INFO phoneInfo;
     QStringList strList;
