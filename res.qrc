@@ -133,5 +133,17 @@
         <file>resource/upload/reupload.png</file>
         <file>resource/upload/uploadDel.png</file>
         <file>resource/upload/uploadFinish.png</file>
+        <file>resource/setting/1.png</file>
+        <file>resource/setting/2.png</file>
+        <file>resource/setting/3.png</file>
+        <file>resource/setting/4.png</file>
+        <file>resource/setting/5.png</file>
+        <file>resource/setting/6.png</file>
+        <file>resource/setting/7.png</file>
+        <file>resource/setting/8.png</file>
+        <file>resource/setting/9.png</file>
+        <file>resource/setting/10.png</file>
+        <file>resource/setting/11.png</file>
+        <file>resource/setting/12.png</file>
     </qresource>
 </RCC>

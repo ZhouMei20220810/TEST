@@ -16,6 +16,9 @@ public:
     explicit SystemSettingWidget(QWidget *parent = nullptr);
     ~SystemSettingWidget();
 
+private:
+    void InitListWidget();
+
 private slots:
     void on_toolBtnGeneralSetting_clicked();
 	void on_toolBtnUISetting_clicked();

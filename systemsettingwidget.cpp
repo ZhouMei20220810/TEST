@@ -70,6 +70,41 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
             qDebug() << "Button:" << m_enQuality << (isChecked ? "checked" : "unchecked");
         }
     });
+
+    InitListWidget();
+}
+
+void SystemSettingWidget::InitListWidget()
+{
+    //imageList->resize(365,400);
+    //设置QListWidget的显示模式
+    ui->listWidget->setViewMode(QListView::IconMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidget->setSpacing(ITEM_WIDGET_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidget->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    //ui->listWidget->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    QSize size(40, 46);
+    QToolButton* btn;
+    QListWidgetItem* item = NULL;
+    QString strIcon;
+    for (int i = 1; i <= 12; i++)
+    {
+        item = new QListWidgetItem(ui->listWidget);
+        item->setSizeHint(size);
+        btn = new QToolButton(this);
+        strIcon = QString::asprintf(":/resource/setting/%d.png",i);
+        btn->setIcon(QIcon(strIcon));
+        btn->setIconSize(size);
+        ui->listWidget->addItem(item);
+        ui->listWidget->setItemWidget(item, btn);
+    }
 }
 
 SystemSettingWidget::~SystemSettingWidget()
