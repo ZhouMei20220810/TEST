@@ -1520,12 +1520,6 @@ color: rgb(204, 204, 204);
 	background-color:#FF9092A4;
 border-radius:1px;
 padding-left:8px;
-}
-QToolButton:hover {
-color: rgb(255, 255, 255);
-background-color: #FFE7E8EE;
-border-radius:1px;
-padding-left:8px;
 }</string>
                       </property>
                       <property name="text">
@@ -1564,15 +1558,10 @@ padding-left:8px;
                       </property>
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
-border-radius:1px;
+color: #505465;
+border-radius:0px;
 padding-left:8px;
-}
-QToolButton:hover {
-background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
-border-radius:1px;
-padding-left:8px;
+background-color:#E6E9F2;
 }</string>
                       </property>
                       <property name="text">
