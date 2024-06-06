@@ -16,7 +16,8 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
 
     m_PhoneInstanceWidget = NULL;
     m_refreshTimer = new QTimer();
-    connect(m_refreshTimer, &QTimer::timeout, this, [this]() {
+    connect(m_refreshTimer, &QTimer::timeout, this, [this]() 
+    {
         m_refreshTimer->stop();
 
         QFile file1(m_strPicturePath);
@@ -42,11 +43,10 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sTaskInfo, QWidget *parent)
         {
             pixmap = QPixmap(strUrl);
         }
-        //ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-        });
-    m_refreshTimer->start(100);// 每秒触发一次
-    //m_bIsRefresh = true;
+    });
+    m_refreshTimer->start(1);// 1ms触发一次
+    
     m_sTaskInfo = sTaskInfo;
     ui->toolBtnName->setText(sTaskInfo.strName);
     
@@ -92,11 +92,6 @@ PhoneItemWidget::~PhoneItemWidget()
     qDebug()<<"delete PhoneItemWidget";
     delete ui;
 }
-
-/*void PhoneItemWidget::setRefreshTimer(bool bIsRefresh)
-{
-    m_bIsRefresh = bIsRefresh;
-}*/
 
 void PhoneItemWidget::setCheckBoxStatus(bool bCheck)
 {
@@ -174,28 +169,6 @@ void PhoneItemWidget::updateDataReadProgress(qint64 byteRead, qint64 totalBytes)
     //ui->progressBar->setValue(byteRead);
 }
 
-//一分钟响应一次
-/*void PhoneItemWidget::do_timeoutRefreshPicture()
-{
-    QDateTime dateTime = QDateTime::currentDateTime();
-    qDebug() << dateTime.toString("yyyy-MM-dd HH:mm:ss");
-    if (m_bIsRefresh)
-    {
-        //请求刷新函数
-        qDebug() << "请求刷新函数";
-        QPixmap pixmap(m_strPicturePath);
-        if (!pixmap.isNull())
-        {
-            ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()),Qt::IgnoreAspectRatio, Qt::SmoothTransformation)); // 缩放为合适的大小
-        }        
-    }
-    else
-    {
-        qDebug() << "停止刷新图片";
-        m_refreshTimer->stop();
-    }
-}*/
-
 bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
 {
     if(watched == ui->label)
@@ -231,10 +204,4 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
     {
         return QWidget::eventFilter(watched, event);
     }    
-}
-
-
-
-void PhoneItemWidget::showEvent(QShowEvent *event)
-{
 }

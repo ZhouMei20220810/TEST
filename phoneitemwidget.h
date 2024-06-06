@@ -24,15 +24,14 @@ public:
     explicit PhoneItemWidget(S_PHONE_INFO sTaskInfo,QWidget *parent = nullptr);
     ~PhoneItemWidget();
     void startRequest(QUrl url);
-    void setRefreshTimer(bool bIsRefresh);
     void setCheckBoxStatus(bool bCheck);
     bool getCheckBoxStatus();
+
+    virtual bool eventFilter(QObject* watched, QEvent* event) override;
 private slots:
     void httpFinished();//文件接收完成
     void httpReadyRead();//接受数据中
     void updateDataReadProgress(qint64, qint64);//进度条更新
-    //一分钟响应一次
-    //void do_timeoutRefreshPicture();
 private:
     Ui::PhoneItemWidget *ui;
 
@@ -48,15 +47,11 @@ private:
 
     //设置定时器
     QTimer* m_refreshTimer;
-    bool m_bIsRefresh;
 
     QLabel* m_LabelAccredit;
     QCheckBox* m_checkBox;
 
     PhoneInstanceWidget* m_PhoneInstanceWidget;
-    // QObject interface
-public:
-    virtual bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // PHONEITEMWIDGET_H
