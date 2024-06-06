@@ -71,8 +71,6 @@ void IndividualCenterWidget::HttpLogout()
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-
     request.setUrl(url);
     /*QJsonDocument doc;
     QJsonObject obj;

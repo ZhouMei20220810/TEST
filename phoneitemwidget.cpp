@@ -131,12 +131,22 @@ void PhoneItemWidget::httpFinished()
         {
             if (QFile::exists(m_strPicturePath))
             {
-                qDebug()<<"remove status:"<< QFile::remove(m_strPicturePath);
+                if (!QFile::remove(m_strPicturePath))
+                {
+                    qDebug() << "remove fail:" << m_strPicturePath;
+                }                    
             }
             file->rename(m_strPicturePath);
             pixmap = QPixmap(m_strPicturePath);
             ui->label->setPixmap(pixmap.scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-
+        }
+        else
+        {
+            qDebug() << "图片无效,显示默认图片";
+            if(QFile::exists(m_strPicturePath))
+                ui->label->setPixmap(QPixmap(m_strPicturePath).scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            else
+                ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
         delete file;
         file = 0;

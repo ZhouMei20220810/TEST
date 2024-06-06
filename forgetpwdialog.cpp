@@ -117,7 +117,6 @@ void ForgetPWDialog::HttpPostResetPassword(QString strCode,QString strPassword)
     QString strToken = HTTP_TOKEN_HEADER+ GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     QJsonDocument doc;

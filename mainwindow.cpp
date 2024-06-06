@@ -132,7 +132,6 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     QJsonDocument doc;
@@ -201,7 +200,6 @@ void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     QJsonObject jsonObj;
@@ -763,7 +761,6 @@ void MainWindow::HttpQueryAllGroup()//查询全部分组
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     /*QJsonDocument doc;
@@ -993,7 +990,6 @@ void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     QJsonDocument doc;
@@ -1054,7 +1050,6 @@ void MainWindow::HttpUpdateGroup(int iGroupId, QString strNewName)//修改分组
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     QJsonDocument doc;
@@ -1124,7 +1119,6 @@ void MainWindow::HttpDeleteGroup(int iGroupId)//删除分组
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
     //发出GET请求
@@ -1249,7 +1243,6 @@ void MainWindow::HttpLevelList()
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     /*QJsonDocument doc;
@@ -1339,7 +1332,6 @@ void MainWindow::HttpMemberLevelListData()
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
     //发出GET请求
@@ -1500,7 +1492,6 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     request.setUrl(url);
     QJsonDocument doc;
     QJsonObject obj;
@@ -1611,7 +1602,6 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
     QNetworkReply* reply = manager->post(request, "");
@@ -1674,7 +1664,6 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
     //发出GET请求
@@ -1760,7 +1749,6 @@ void MainWindow::HttpGetMyInstanceLevel(int iPhoneId)
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
     //发出GET请求
@@ -1926,8 +1914,6 @@ void MainWindow::HttpLogout()
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-
     request.setUrl(url);
     /*QJsonDocument doc;
     QJsonObject obj;
@@ -2078,7 +2064,6 @@ void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
     request.setUrl(url);
     QJsonDocument doc;

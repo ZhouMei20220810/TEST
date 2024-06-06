@@ -67,7 +67,6 @@ void BuyHistoryItemWidget::HttpDeleteOrder(int iOrderId)
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
     request.setUrl(url);
 
     QNetworkReply* reply = manager->post(request, "");
