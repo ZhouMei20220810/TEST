@@ -11,8 +11,8 @@
 #include "messagetipsdialog.h"
 #include "policydialog.h"
 
-RegisterPage::RegisterPage(QWidget *parent)
-    : QWidget(parent)
+RegisterPage::RegisterPage(QMoveWidget *parent)
+    : QMoveWidget(parent)
     , ui(new Ui::RegisterPage)
 {
     ui->setupUi(this);
@@ -313,22 +313,3 @@ void RegisterPage::on_btnDisclaimer_clicked()
     //policy->show();
     policy->exec();
 }
-
-/*void RegisterPage::mousePressEvent(QMouseEvent* event)
-{
-    if(event->button() == Qt::LeftButton)
-    {
-        m_dragPosition = event->globalPos()-frameGeometry().topLeft();
-        raise();
-        event->accept();
-    }
-}
-
-void RegisterPage::mouseMoveEvent(QMouseEvent *event)
-{
-    if (event->buttons() & Qt::LeftButton)
-    {
-        move(event->globalPos() - m_dragPosition);
-        event->accept();
-    }
-}*/

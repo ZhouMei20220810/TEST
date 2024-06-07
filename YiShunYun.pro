@@ -38,6 +38,7 @@ SOURCES += \
     phoneitemwidget.cpp \
     phonelistmodeitemwidget.cpp \
     policydialog.cpp \
+    qmovewidget.cpp \
     queuetableitem.cpp \
     registerpage.cpp \
     renewitemwidget.cpp \
@@ -72,6 +73,7 @@ HEADERS += \
     phoneitemwidget.h \
     phonelistmodeitemwidget.h \
     policydialog.h \
+    qmovewidget.h \
     queuetableitem.h \
     registerpage.h \
     renewitemwidget.h \

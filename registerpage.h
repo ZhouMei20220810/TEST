@@ -1,7 +1,7 @@
 #ifndef REGISTERPAGE_H
 #define REGISTERPAGE_H
 
-#include <QWidget>
+#include "qmovewidget.h"
 #include "global.h"
 #include <QMouseEvent>
 
@@ -9,12 +9,12 @@ namespace Ui {
 class RegisterPage;
 }
 
-class RegisterPage : public QWidget
+class RegisterPage : public QMoveWidget
 {
     Q_OBJECT
 
 public:
-    explicit RegisterPage(QWidget *parent = nullptr);
+    explicit RegisterPage(QMoveWidget *parent = nullptr);
     ~RegisterPage();
 signals:
     void showPageType(ENUM_LOGIN_PAGE_TYPE type);
@@ -35,12 +35,7 @@ private slots:
 
 private:
     Ui::RegisterPage *ui;
-
     QPoint m_dragPosition;
-    // QWidget interface
-/*protected:
-    virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;*/
 };
 
 #endif // REGISTERPAGE_H
