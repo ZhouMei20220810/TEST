@@ -26,7 +26,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+protected:
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
 
+    virtual void closeEvent(QCloseEvent *event) override;
 private:
     //分组接口
     void HttpQueryAllGroup();//查询全部分组
@@ -248,13 +253,9 @@ private:
     PhoneInstanceWidget* m_PhoneInstanceWidget;
     CreateGroupWidget* m_createGroupWidget;
     SystemSettingWidget* m_systemSettingWidget;
-/*protected:
-    virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;*/
 
-    // QWidget interface
-protected:
-    virtual void closeEvent(QCloseEvent *event) override;
+    QPoint  m_LastPos;
+    bool m_bMoving= false;
 };
 
 #endif // MAINWINDOW_H

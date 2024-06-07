@@ -2441,26 +2441,33 @@ void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
     ui->labelPayMoney->setText(str);
 }
 
-
-/*
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        m_dragPosition = event->globalPos()-frameGeometry().topLeft();
-        raise();
-        event->accept();
+        m_LastPos = event->globalPosition().toPoint()-this->pos();
+        m_bMoving = true;
     }
+    return QWidget::mousePressEvent(event);
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+
+    m_bMoving = false;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->buttons() & Qt::LeftButton)
+    QPoint globalPosition = event->globalPosition().toPoint();
+    if(m_bMoving && (event->buttons()&Qt::LeftButton)
+        && (globalPosition-m_LastPos-pos()).manhattanLength() > QApplication::startDragDistance()) //控制移动的距离，多少距离执行拖拽
     {
-        move(event->globalPos() - m_dragPosition);
-        event->accept();
+        move(globalPosition-m_LastPos);
+        m_LastPos = globalPosition-pos();
     }
-}*/
+    return QWidget::mouseMoveEvent(event);
+}
 
 void MainWindow::on_btnContraction_clicked()
 {
