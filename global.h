@@ -260,6 +260,7 @@ public:
     static QPoint   pointPhoneInstance;
     static bool     bCloseMainWindowExit;
     static bool     bShowSystemTrayIcon;
+    static QString  strToolButtonList;
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;

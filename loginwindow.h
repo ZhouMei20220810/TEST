@@ -32,10 +32,12 @@ private:
     SMSLoginPage* m_smsLoginPage;
     RegisterPage* m_registerPage;
 
-    QPoint m_dragPosition;
+    QPoint  m_LastPos;
+    bool m_bMoving= false;
     // QWidget interface
-/*protected:
+protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;*/
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
 };
 #endif // LOGINWINDOW_H

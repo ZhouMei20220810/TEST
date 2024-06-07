@@ -32,6 +32,7 @@ bool GlobalData::bVerticalPhoneInstanceCenter = true;
 QPoint GlobalData::pointPhoneInstance = QPoint(0, 0);
 bool GlobalData::bCloseMainWindowExit = true;
 bool GlobalData::bShowSystemTrayIcon = true;
+QString GlobalData::strToolButtonList = "";
 
 QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER+"/";
 QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + INSTANCE_TEMP_DIR;

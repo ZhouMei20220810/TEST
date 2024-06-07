@@ -16,7 +16,6 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     m_bPhoneInstanceCenter = GlobalData::bVerticalPhoneInstanceCenter;
     m_bCloseMainWindowExit = GlobalData::bCloseMainWindowExit;
     m_bShowTrayIcon = GlobalData::bShowSystemTrayIcon;
-
     ui->checkBox_3->setChecked(m_bShowTrayIcon);
     switch (m_enQuality)
     {
@@ -103,6 +102,7 @@ void SystemSettingWidget::InitListWidget()
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->listWidget->setDragEnabled(true);
     //设置接受拖放
+    ui->listWidget->setSortingEnabled(true);
     ui->listWidget->viewport()->setAcceptDrops(true);
     ui->listWidget->setDropIndicatorShown(true);
     ui->listWidget->setDragDropMode(QAbstractItemView::DragDrop);
@@ -127,20 +127,43 @@ void SystemSettingWidget::InitListWidget()
     //QToolButton* btn;
     QLabel* label;
     QListWidgetItem* item = NULL;
-    QString strIcon;
-    for (int i = 1; i <= 12; i++)
+    QString strIcon;    
+    if (!GlobalData::strToolButtonList.isEmpty())
     {
-        item = new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(size);
-        //btn = new QToolButton(this);
-        label = new QLabel(this);
-        strIcon = QString::asprintf(":/resource/setting/%d.png",i);
-        //btn->setIcon(QIcon(strIcon));
-        //btn->setIconSize(size);
-        label->setPixmap(QPixmap(strIcon));
-        label->resize(size);
-        ui->listWidget->addItem(item);
-        ui->listWidget->setItemWidget(item, label);
+        QStringList strList = GlobalData::strToolButtonList.split(',');
+        for (int i = 0; i < strList.size(); i++)
+        {
+            item = new QListWidgetItem(ui->listWidget);
+            item->setData(Qt::UserRole, i);
+            item->setSizeHint(size);
+            //btn = new QToolButton(this);
+            label = new QLabel(this);
+            strIcon = QString::asprintf(":/resource/setting/%d.png", strList.at(i).toInt());
+            //btn->setIcon(QIcon(strIcon));
+            //btn->setIconSize(size);
+            label->setPixmap(QPixmap(strIcon));
+            label->resize(size);
+            ui->listWidget->addItem(item);
+            ui->listWidget->setItemWidget(item, label);
+        }
+    }
+    else
+    {
+        for (int i = 1; i <= 12; i++)
+        {
+            item = new QListWidgetItem(ui->listWidget);
+            item->setData(Qt::UserRole, i);
+            item->setSizeHint(size);
+            //btn = new QToolButton(this);
+            label = new QLabel(this);
+            strIcon = QString::asprintf(":/resource/setting/%d.png", i);
+            //btn->setIcon(QIcon(strIcon));
+            //btn->setIconSize(size);
+            label->setPixmap(QPixmap(strIcon));
+            label->resize(size);
+            ui->listWidget->addItem(item);
+            ui->listWidget->setItemWidget(item, label);
+        }
     }
 }
 
@@ -209,6 +232,30 @@ void SystemSettingWidget::on_btnSave_clicked()
     setting.setValue("PhoneInstanceCenter", m_bPhoneInstanceCenter);
     setting.setValue("CloseMainWindowExit", m_bCloseMainWindowExit);
     setting.setValue("ShowSystemTrayIcon", m_bShowTrayIcon);
+    
+
+    //获取工具栏按钮设置
+    QListWidgetItem* item= NULL;
+    int iCount = ui->listWidget->count();
+    int iType = 0;
+    QString strToolList ="";
+    //strToolList.clear();
+    for(int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        iType = item->data(Qt::UserRole).toInt();
+        if (strToolList.isEmpty())
+        {
+            strToolList = QString::asprintf("%d", iType);
+        }
+        else
+        {
+            strToolList += QString::asprintf(",%d", iType);
+        }
+    }
+    qDebug() << "strToolList = " << strToolList;
+    GlobalData::strToolButtonList = strToolList;
+    setting.setValue("ToolButtonList", strToolList);
     //保存
     MessageTips* tips = new MessageTips("数据已保存",this);
     tips->show();
@@ -290,8 +337,8 @@ void SystemSettingWidget::on_radioButton_13_clicked(bool checked)
 
 void SystemSettingWidget::on_pushButton_2_clicked()
 {
-    //设置排序
-
+    //设置排序    
+    ui->listWidget->sortItems(Qt::AscendingOrder);
 }
 
 

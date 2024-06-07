@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();
     GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
     GlobalData::bShowSystemTrayIcon = setting.value("ShowSystemTrayIcon", false).toBool();
-
+    GlobalData::strToolButtonList = setting.value("ToolButtonList","").toString();
     
     if (GlobalData::bShowSystemTrayIcon)
     {
