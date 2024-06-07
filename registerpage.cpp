@@ -291,7 +291,7 @@ void RegisterPage::on_pushButton_2_clicked()
 void RegisterPage::on_btnUserPolicy_clicked()
 {
     //用户使用协议
-    PolicyDialog* policy = new PolicyDialog("用户使用协议","https://www.example.com",this);
+    PolicyDialog* policy = new PolicyDialog("用户使用协议","https://www.ysyos.com/deal/UserPrivacy.html",this);
     //policy->show();
     policy->exec();
 }
@@ -300,7 +300,7 @@ void RegisterPage::on_btnUserPolicy_clicked()
 void RegisterPage::on_btnPrivacyPolicy_clicked()
 {
     //隐私政策
-    PolicyDialog* policy = new PolicyDialog("隐私政策","https://www.baidu.com/?tn=65081411_oem_dg");
+    PolicyDialog* policy = new PolicyDialog("隐私政策","https://www.ysyos.com/deal/PrivacyPolicy.html");
     //policy->show();
     policy->exec();
 }
@@ -309,7 +309,7 @@ void RegisterPage::on_btnPrivacyPolicy_clicked()
 void RegisterPage::on_btnDisclaimer_clicked()
 {
     //免责申明
-    PolicyDialog* policy = new PolicyDialog("免责声明","https://www.hao123.com/?src=from_pc");
+    PolicyDialog* policy = new PolicyDialog("免责声明","https://www.ysyos.com/deal/Disclaimer.html");
     //policy->show();
     policy->exec();
 }
