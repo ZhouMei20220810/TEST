@@ -14,6 +14,7 @@
 #include <QJsonArray>
 #include "messagetipsdialog.h"
 #include <QSettings>
+#include <QDateTime>
 
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
     : QWidget(parent)
@@ -760,17 +761,8 @@ void PhoneInstanceWidget::on_toolButton_4_clicked()
 
 void PhoneInstanceWidget::on_toolButton_5_clicked()
 {
-    //KEY_CUT
-    Mutex::Autolock lock(m_Mutex);
-    if (m_Player != NULL)
-    {
-        DataSource* source = m_Player->getDataSource();
-        if (source != NULL)
-        {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_CUT);
-        }
-    }
-
+    //截图
+    m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
 }
 
 
@@ -782,31 +774,15 @@ void PhoneInstanceWidget::on_toolButton_6_clicked()
 
 void PhoneInstanceWidget::on_toolButton_7_clicked()
 {
-    //重启KEY_POWER
-    Mutex::Autolock lock(m_Mutex);
-    if (m_Player != NULL)
-    {
-        DataSource* source = m_Player->getDataSource();
-        if (source != NULL)
-        {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_WAKEUP);
-        }
-    }
+    //重启
+    m_toolObject->HttpPostInstanceReboot(m_strPhoneList);
 }
 
 
 void PhoneInstanceWidget::on_toolButton_8_clicked()
 {
-    //KEY_SETUP
-    Mutex::Autolock lock(m_Mutex);
-    if (m_Player != NULL)
-    {
-        DataSource* source = m_Player->getDataSource();
-        if (source != NULL)
-        {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_SETUP);
-        }
-    }
+    //恢复出厂
+    m_toolObject->HttpPostInstanceReset(m_strPhoneList);
 }
 
 
@@ -818,16 +794,35 @@ void PhoneInstanceWidget::on_toolButton_9_clicked()
 
 void PhoneInstanceWidget::on_toolButton_10_clicked()
 {
-
+	//摇一摇
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            source->sendInputAccelerometer(10,10,10);
+        }
+    }
 }
 
 
 void PhoneInstanceWidget::on_toolButton_11_clicked()
 {
-
+    //gps
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            QDateTime dateTime = QDateTime::currentDateTime();
+            source->sendInputLocation(100,100,100,1,1,1,1,1,dateTime.toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str());
+        }
+    }
 }
 
 void PhoneInstanceWidget::on_toolButton_12_clicked()
 {
-
+    //键盘KEY_KEYBOARD
 }
