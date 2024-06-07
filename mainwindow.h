@@ -13,6 +13,7 @@
 #include "phoneinstancewidget.h"
 #include "creategroupwidget.h"
 #include "systemsettingwidget.h"
+#include <QSystemTrayIcon>
 
 namespace Ui {
 class MainWindow;
@@ -195,6 +196,7 @@ private slots:
 
     void on_comboBoxView_currentIndexChanged(int index);
 
+    void handleTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -246,9 +248,15 @@ private:
     PhoneInstanceWidget* m_PhoneInstanceWidget;
     CreateGroupWidget* m_createGroupWidget;
     SystemSettingWidget* m_systemSettingWidget;
+
+    QSystemTrayIcon* m_trayIcon;
 /*protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;*/
+
+    // QWidget interface
+protected:
+    virtual void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

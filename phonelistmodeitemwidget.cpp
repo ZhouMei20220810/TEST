@@ -35,19 +35,14 @@ PhoneListModeItemWidget::~PhoneListModeItemWidget()
 void PhoneListModeItemWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
-    {
-        QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-        //m_enQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
-        GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
-        GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
+    {        
         if (NULL == m_PhoneInstanceWidget)
         {
             m_PhoneInstanceWidget = new PhoneInstanceWidget(m_sPhoneInfo);
         }
         if (!GlobalData::bVerticalPhoneInstanceCenter)
         {
-            QPoint point = setting.value("PhoneInstancePoint").toPoint();
-            m_PhoneInstanceWidget->move(point);
+            m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
         }
 
         m_PhoneInstanceWidget->show();

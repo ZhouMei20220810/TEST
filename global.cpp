@@ -25,8 +25,12 @@ int GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;
 int GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
 
 bool GlobalData::bVerticalScreen = true;
+
+ENUM_PICTURE_QUALITY GlobalData::enPictrueQuality = TYPE_QUALITY_HIGH_SPEED;
 bool GlobalData::bVerticalPhoneInstance = true;
 bool GlobalData::bVerticalPhoneInstanceCenter = true;
+QPoint GlobalData::pointPhoneInstance = QPoint(0, 0);
+bool GlobalData::bCloseMainWindowExit = true;
 
 QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER+"/";
 QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + INSTANCE_TEMP_DIR;

@@ -40,6 +40,11 @@ private slots:
     void on_radioButton_12_clicked(bool checked);
     void on_radioButton_13_clicked(bool checked);
 
+    void on_pushButton_2_clicked();
+
+    void on_radioButton_clicked(bool checked);
+    void on_radioButton_2_clicked(bool checked);
+
 private:
     Ui::SystemSettingWidget *ui;
 
@@ -47,6 +52,7 @@ private:
     ENUM_PICTURE_QUALITY  m_enQuality;
     bool            m_bVerticalScreen;
     bool            m_bPhoneInstanceCenter;
+    bool            m_bCloseMainWindowExit;
 };
 
 #endif // SYSTEMSETTINGWIDGET_H

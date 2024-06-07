@@ -5,6 +5,7 @@
 #include "SWRuntime.h"
 #include "common/log.h"
 #include "global.h"
+#include <QSettings>
 
 int main(int argc, char *argv[])
 {
@@ -24,6 +25,14 @@ int main(int argc, char *argv[])
     }
 
     SWRuntime::getInstance()->init(ANDROID_LOG_DEFAULT, strDir.toStdString().c_str());
+
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    GlobalData::enPictrueQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
+    GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
+    GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
+    GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();
+    GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
+
     LoginWindow w;
     w.show();
 

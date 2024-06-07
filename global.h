@@ -252,8 +252,12 @@ public:
     static int      iPhoneItemHeight;
 
     static bool     bVerticalScreen;
+
+    static ENUM_PICTURE_QUALITY enPictrueQuality;
     static bool     bVerticalPhoneInstance;
     static bool     bVerticalPhoneInstanceCenter;
+    static QPoint   pointPhoneInstance;
+    static bool     bCloseMainWindowExit;
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;

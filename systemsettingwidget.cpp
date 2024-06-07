@@ -10,13 +10,11 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
-    setWindowFlags(Qt::FramelessWindowHint);
-
-    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-    m_enQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
-    m_bVerticalScreen = setting.value("VerticalScreen", true).toBool();
-    m_bPhoneInstanceCenter = setting.value("PhoneInstanceCenter",true).toBool();
-
+    setWindowFlags(Qt::FramelessWindowHint);    
+    m_enQuality = GlobalData::enPictrueQuality;
+    m_bVerticalScreen = GlobalData::bVerticalPhoneInstance;
+    m_bPhoneInstanceCenter = GlobalData::bVerticalPhoneInstanceCenter;
+    m_bCloseMainWindowExit = GlobalData::bCloseMainWindowExit;
     switch (m_enQuality)
     {
     case TYPE_QUALITY_AUTO:
@@ -53,6 +51,14 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     {
         ui->radioButton_12->setChecked(true);
     }
+    if (m_bCloseMainWindowExit)
+    {
+        ui->radioButton_2->setChecked(true);
+    }
+    else
+    {
+        ui->radioButton->setChecked(true);
+    }
 
     m_qualityGroup = new QButtonGroup(this);
     m_qualityGroup->addButton(ui->radioButton_5, TYPE_QUALITY_AUTO);
@@ -78,32 +84,60 @@ void SystemSettingWidget::InitListWidget()
 {
     //imageList->resize(365,400);
     //设置QListWidget的显示模式
+    ui->listWidget->sortItems(Qt::DescendingOrder);
     ui->listWidget->setViewMode(QListView::IconMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
     ui->listWidget->setSpacing(ITEM_WIDGET_SPACING);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-    ui->listWidget->setResizeMode(QListWidget::Adjust);
-    //设置不能移动
-    //ui->listWidget->setMovement(QListWidget::Static);
+    //ui->listWidget->setResizeMode(QListWidget::Adjust);
+    //ui->listWidget->setSizePolicy(QSizePolicy.f)
+    ui->listWidget->setFixedHeight(128);
+    //设置能移动
+    ui->listWidget->setMovement(QListWidget::Free);
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->listWidget->setDragEnabled(true);
+    //设置接受拖放
+    ui->listWidget->viewport()->setAcceptDrops(true);
+    ui->listWidget->setDropIndicatorShown(true);
+    ui->listWidget->setDragDropMode(QAbstractItemView::DragDrop);
+    //ui->listWidget->setDragDropMode(QAbstractItemView::InternalMove);
+
+
+    //设置排序为倒序
+/*ui->listWidget->sortItems(Qt::DescendingOrder);
+    ui->listWidget->setViewMode(QListView::IconMode);
+    //设置选择模式为单选
+    ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    //启用拖动
+    ui->listWidget->setDragEnabled(true);
+    //设置接受拖放
+    ui->listWidget->viewport()->setAcceptDrops(true);
+    //设置要显示将要被放置的位置
+    ui->listWidget->setDropIndicatorShown(true);
+    //设置拖放模式为移动项目，如果不设置，默认为复制项目
+    ui->listWidget->setDragDropMode(QAbstractItemView::InternalMove);*/
 
     QSize size(40, 46);
-    QToolButton* btn;
+    //QToolButton* btn;
+    QLabel* label;
     QListWidgetItem* item = NULL;
     QString strIcon;
     for (int i = 1; i <= 12; i++)
     {
         item = new QListWidgetItem(ui->listWidget);
         item->setSizeHint(size);
-        btn = new QToolButton(this);
+        //btn = new QToolButton(this);
+        label = new QLabel(this);
         strIcon = QString::asprintf(":/resource/setting/%d.png",i);
-        btn->setIcon(QIcon(strIcon));
-        btn->setIconSize(size);
+        //btn->setIcon(QIcon(strIcon));
+        //btn->setIconSize(size);
+        label->setPixmap(QPixmap(strIcon));
+        label->resize(size);
         ui->listWidget->addItem(item);
-        ui->listWidget->setItemWidget(item, btn);
+        ui->listWidget->setItemWidget(item, label);
     }
 }
 
@@ -161,11 +195,15 @@ void SystemSettingWidget::on_btnCancel_clicked()
 void SystemSettingWidget::on_btnSave_clicked()
 {
     //获取界面数据并保存
-    qDebug()<<"m_enQuality="<<m_enQuality;
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-    setting.setValue("PictureQuality", m_enQuality);
+    GlobalData::enPictrueQuality = m_enQuality;
+    GlobalData::bVerticalPhoneInstance = m_bVerticalScreen;
+    GlobalData::bVerticalPhoneInstanceCenter = m_bPhoneInstanceCenter;
+    GlobalData::bCloseMainWindowExit = m_bCloseMainWindowExit;
+    setting.setValue("PictureQuality", m_enQuality);    
     setting.setValue("VerticalScreen", m_bVerticalScreen);
     setting.setValue("PhoneInstanceCenter", m_bPhoneInstanceCenter);
+    setting.setValue("CloseMainWindowExit", m_bCloseMainWindowExit);
     //保存
     MessageTips* tips = new MessageTips("数据已保存",this);
     tips->show();
@@ -242,5 +280,24 @@ void SystemSettingWidget::on_radioButton_13_clicked(bool checked)
         //居中
         m_bPhoneInstanceCenter = true;
     }
+}
+
+
+void SystemSettingWidget::on_pushButton_2_clicked()
+{
+    //设置排序
+
+}
+
+
+void SystemSettingWidget::on_radioButton_clicked(bool checked)
+{
+    m_bCloseMainWindowExit = false;
+}
+
+
+void SystemSettingWidget::on_radioButton_2_clicked(bool checked)
+{
+    m_bCloseMainWindowExit = true;
 }
 

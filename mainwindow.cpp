@@ -33,7 +33,6 @@
 #include "filedownloader.h"
 #include "factorydataresetdialog.h"
 #include <QDesktopServices>
-#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -79,6 +78,12 @@ MainWindow::MainWindow(QWidget *parent)
     InitActiveCodeTab(); 
     //初始化Tab购买
     InitBuyTab();
+
+    m_trayIcon = new QSystemTrayIcon(this);
+    m_trayIcon->setIcon(QIcon(":/main/resource/main/aboutlogo.png"));
+    m_trayIcon->setVisible(true);
+    connect(m_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::handleTrayIconActivated);
+    this->setContextMenuPolicy(Qt::PreventContextMenu);
 }
 
 MainWindow::~MainWindow()
@@ -261,10 +266,6 @@ void MainWindow::do_ActionBeginControl(bool bChecked)
     if (m_pCurItem == NULL)
         return;
     
-    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-    //m_enQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
-    GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
-    GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
     S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
     if (NULL == m_PhoneInstanceWidget)
     {
@@ -272,8 +273,7 @@ void MainWindow::do_ActionBeginControl(bool bChecked)
     }
     if (!GlobalData::bVerticalPhoneInstanceCenter)
     {
-        QPoint point = setting.value("PhoneInstancePoint").toPoint();
-        m_PhoneInstanceWidget->move(point);
+        m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
     }
     m_PhoneInstanceWidget->show();
     connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::destroyed, this,[this](){
@@ -2892,3 +2892,27 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
     on_treeWidget_currentItemChanged(m_pCurItem, NULL);
 }
 
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (GlobalData::bCloseMainWindowExit)
+    {
+        this->close();
+    }
+    else
+    {
+        this->hide();
+        //m_trayIcon->showMessage("程序在运行", "程序已最小化到系统托盘", QIcon(":/main/resource/main/aboutlogo.png"));
+        event->ignore(); // 忽略关闭事件，防止程序退出
+    }
+}
+
+void MainWindow::handleTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::DoubleClick)
+    {
+        this->showNormal();
+        this->activateWindow();
+    }
+}

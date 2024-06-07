@@ -224,8 +224,7 @@ void PhoneInstanceWidget::on_toolBtnMax_clicked()
 void PhoneInstanceWidget::on_toolBtnClose_clicked()
 {
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-    QPoint point = this->pos();
-    setting.setValue("PhoneInstancePoint", QVariant::fromValue(point));
+    setting.setValue("PhoneInstancePoint", QVariant::fromValue(this->pos()));
     
     this->close();
 }
