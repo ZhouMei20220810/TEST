@@ -36,6 +36,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
+    void InitToolButton(QToolButton* toolBtn);
     void setToolBtnVisible(bool bVisible);
 
     void HttpGetInstanceSession(int id);
@@ -49,7 +50,7 @@ private slots:
     void on_toolBtnShow_clicked();
     void on_toolBtnHide_clicked();
 
-    void on_toolBtnSignal_clicked();
+    /*void on_toolBtnSignal_clicked();
     void on_toolBtnVerOrHor_clicked();
     void on_toolBtnScreenshot_clicked();
     void on_toolBtnAddVolume_clicked();
@@ -60,20 +61,33 @@ private slots:
     void on_toolBtnShark_clicked();
     void on_toolBtnRoot_clicked();
     void on_toolBtnKeyboard_clicked();
-    void on_toolBtnADB_clicked();
+    void on_toolBtnADB_clicked();*/
     void on_toolBtnMore_clicked();
 
     void on_toolBtnReturn_clicked();
     void on_toolBtnHome_clicked();
     void on_toolBtnChangePage_clicked();
 
-    void on_toolBtnScreenshot_2_clicked();
+    /*void on_toolBtnScreenshot_2_clicked();
     void on_toolBtnScreenshotsDir_2_clicked();
     void on_toolBtnClipboard_2_clicked();
     void on_toolBtnShark_2_clicked();
     void on_toolBtnRoot_2_clicked();
     void on_toolBtnKeyboard_2_clicked();
-    void on_toolBtnADB_2_clicked();
+    void on_toolBtnADB_2_clicked();*/
+
+    void on_toolButton_1_clicked();
+    void on_toolButton_2_clicked();
+    void on_toolButton_3_clicked();
+    void on_toolButton_4_clicked();
+    void on_toolButton_5_clicked();
+    void on_toolButton_6_clicked();
+    void on_toolButton_7_clicked();
+    void on_toolButton_8_clicked();
+    void on_toolButton_9_clicked();
+    void on_toolButton_10_clicked();
+    void on_toolButton_11_clicked();
+    void on_toolButton_12_clicked();
 
 private:
     Ui::PhoneInstanceWidget* ui;

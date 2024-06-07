@@ -24,7 +24,71 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent
     setWindowFlag(Qt::FramelessWindowHint);
     
     ui->frameTool->setVisible(false);
-    setToolBtnVisible(GlobalData::bVerticalPhoneInstance);
+    InitToolButton(ui->toolButton_1);
+    InitToolButton(ui->toolButton_2);
+    InitToolButton(ui->toolButton_3);
+    InitToolButton(ui->toolButton_4); 
+    InitToolButton(ui->toolButton_5); 
+    InitToolButton(ui->toolButton_6);
+    InitToolButton(ui->toolButton_7);
+    InitToolButton(ui->toolButton_8);
+    InitToolButton(ui->toolButton_9);
+    InitToolButton(ui->toolButton_10);
+    InitToolButton(ui->toolButton_11);
+    InitToolButton(ui->toolButton_12);
+
+    if (!GlobalData::strToolButtonList.isEmpty())
+    {
+        QStringList strList = GlobalData::strToolButtonList.split(',');
+        int iToolIndex = 0;
+        for (int i = 0; i < PHONE_INSTANCE_SHOW_TOOLBUTTON_NUM; i++)
+        {
+            iToolIndex = strList.at(i).toInt();
+            switch (iToolIndex)
+            {
+            case 1:
+                ui->toolButton_1->setVisible(true);
+                break;
+            case 2:
+                ui->toolButton_2->setVisible(true);
+                break;
+            case 3:
+                ui->toolButton_3->setVisible(true);
+                break;
+            case 4:
+                ui->toolButton_4->setVisible(true);
+                break;
+            case 5:
+                ui->toolButton_5->setVisible(true);
+                break;
+            case 6:
+                ui->toolButton_6->setVisible(true);
+                break;
+            case 7:
+                ui->toolButton_7->setVisible(true);
+                break;
+            case 8:
+                ui->toolButton_8->setVisible(true);
+                break;
+            case 9:
+                ui->toolButton_9->setVisible(true);
+                break;
+            case 10:
+                ui->toolButton_10->setVisible(true);
+                break;
+            case 11:
+                ui->toolButton_11->setVisible(true);
+                break;
+            case 12:
+                ui->toolButton_12->setVisible(true);
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    //setToolBtnVisible(GlobalData::bVerticalPhoneInstance);
     if (GlobalData::bVerticalPhoneInstance)
         resize(PHONE_INSTANCE_VERTICAL_WIDTH, PHONE_INSTANCE_VERTICAL_WIDTH);
     else
@@ -243,21 +307,28 @@ void PhoneInstanceWidget::on_toolBtnHide_clicked()
     ui->frame_2->setVisible(false);
 }
 
-
-void PhoneInstanceWidget::on_toolBtnSignal_clicked()
+void PhoneInstanceWidget::InitToolButton(QToolButton* toolBtn)
 {
-    //信号
+    toolBtn->setIconSize(QSize(40,40));
+    toolBtn->setVisible(false);
 }
+
 void PhoneInstanceWidget::setToolBtnVisible(bool bVisible)
 {
-    ui->toolBtnMore->setVisible(!bVisible);
+    /*ui->toolBtnMore->setVisible(!bVisible);
     ui->toolBtnScreenshot->setVisible(bVisible);
     ui->toolBtnScreenshotsDir->setVisible(bVisible);
     ui->toolBtnClipboard->setVisible(bVisible);
     ui->toolBtnShark->setVisible(bVisible);
     ui->toolBtnRoot->setVisible(bVisible);
     ui->toolBtnKeyboard->setVisible(bVisible);
-    ui->toolBtnADB->setVisible(bVisible);
+    ui->toolBtnADB->setVisible(bVisible);*/
+}
+
+/*
+void PhoneInstanceWidget::on_toolBtnSignal_clicked()
+{
+    //信号
 }
 
 void PhoneInstanceWidget::on_toolBtnVerOrHor_clicked()
@@ -328,7 +399,7 @@ void PhoneInstanceWidget::on_toolBtnKeyboard_clicked()
 void PhoneInstanceWidget::on_toolBtnADB_clicked()
 {
     //ADB
-}
+}*/
 
 void PhoneInstanceWidget::on_toolBtnReturn_clicked()
 {
@@ -565,7 +636,7 @@ void PhoneInstanceWidget::on_toolBtnMore_clicked()
     ui->frameTool->move(ui->videoViewWidget->width()-ui->frameTool->width()-2, 50);
     ui->frameTool->setVisible(!bVisible);
 }
-
+/*
 
 void PhoneInstanceWidget::on_toolBtnScreenshot_2_clicked()
 {
@@ -606,7 +677,7 @@ void PhoneInstanceWidget::on_toolBtnKeyboard_2_clicked()
 void PhoneInstanceWidget::on_toolBtnADB_2_clicked()
 {
     on_toolBtnADB_clicked();
-}
+}*/
 
 
 void PhoneInstanceWidget::mousePressEvent(QMouseEvent *event)
@@ -635,4 +706,128 @@ void PhoneInstanceWidget::mouseMoveEvent(QMouseEvent *event)
         m_LastPos = globalPosition-pos();
     }
     return QWidget::mouseMoveEvent(event);
+}
+
+void PhoneInstanceWidget::on_toolButton_1_clicked()
+{
+    //音量加大
+    Mutex::Autolock lock(m_Mutex);
+    if(m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if(source != NULL)
+        {
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN|SW_ACTION_KEY_UP, KEY_VOLUMEUP);
+        }
+    }
+}
+
+void PhoneInstanceWidget::on_toolButton_2_clicked()
+{
+    //音量减小
+    Mutex::Autolock lock(m_Mutex);
+    if(m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if(source != NULL)
+        {
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN|SW_ACTION_KEY_UP, KEY_VOLUMEDOWN);
+        }
+    }
+}
+
+
+void PhoneInstanceWidget::on_toolButton_3_clicked()
+{
+    //横屏
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_VOLUMEDOWN);
+        }
+    }
+}
+
+
+void PhoneInstanceWidget::on_toolButton_4_clicked()
+{
+
+}
+
+
+void PhoneInstanceWidget::on_toolButton_5_clicked()
+{
+    //KEY_CUT
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_CUT);
+        }
+    }
+
+}
+
+
+void PhoneInstanceWidget::on_toolButton_6_clicked()
+{
+
+}
+
+
+void PhoneInstanceWidget::on_toolButton_7_clicked()
+{
+    //重启KEY_POWER
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_WAKEUP);
+        }
+    }
+}
+
+
+void PhoneInstanceWidget::on_toolButton_8_clicked()
+{
+    //KEY_SETUP
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_SETUP);
+        }
+    }
+}
+
+
+void PhoneInstanceWidget::on_toolButton_9_clicked()
+{
+
+}
+
+
+void PhoneInstanceWidget::on_toolButton_10_clicked()
+{
+
+}
+
+
+void PhoneInstanceWidget::on_toolButton_11_clicked()
+{
+
+}
+
+void PhoneInstanceWidget::on_toolButton_12_clicked()
+{
+
 }

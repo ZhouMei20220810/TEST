@@ -224,6 +224,7 @@
     <ClCompile Include="phoneitemwidget.cpp" />
     <ClCompile Include="phonelistmodeitemwidget.cpp" />
     <ClCompile Include="policydialog.cpp" />
+    <ClCompile Include="qmovewidget.cpp" />
     <ClCompile Include="queuetableitem.cpp" />
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="renewitemwidget.cpp" />
@@ -258,6 +259,7 @@
     <QtMoc Include="phoneitemwidget.h" />
     <QtMoc Include="phonelistmodeitemwidget.h" />
     <QtMoc Include="policydialog.h" />
+    <QtMoc Include="qmovewidget.h" />
     <QtMoc Include="queuetableitem.h" />
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="renewitemwidget.h" />
@@ -318,11 +320,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\function\1.png" />
+    <None Include="resource\setting\1.png" />
+    <None Include="resource\setting\10.png" />
+    <None Include="resource\setting\11.png" />
+    <None Include="resource\setting\12.png" />
     <None Include="resource\function\2.png" />
+    <None Include="resource\setting\2.png" />
     <None Include="resource\function\3.png" />
+    <None Include="resource\setting\3.png" />
     <None Include="resource\function\4.png" />
+    <None Include="resource\setting\4.png" />
     <None Include="resource\function\5.png" />
+    <None Include="resource\setting\5.png" />
     <None Include="resource\function\6.png" />
+    <None Include="resource\setting\6.png" />
+    <None Include="resource\setting\7.png" />
+    <None Include="resource\setting\8.png" />
+    <None Include="resource\setting\9.png" />
     <None Include="resource\instance\ADB.png" />
     <None Include="resource\instance\ADB_open.png" />
     <None Include="resource\instance\GPS.png" />
@@ -346,6 +360,7 @@
     <None Include="resource\main\batchOper.png" />
     <None Include="resource\main\border_normal.png" />
     <None Include="resource\main\border_select.png" />
+    <None Include="resource\main\buy.png" />
     <None Include="resource\main\buyNum.png" />
     <None Include="resource\main\buy_hover.png" />
     <None Include="resource\main\buy_normal.png" />
@@ -374,6 +389,7 @@
     <None Include="resource\main\defaultLevelIcon.png" />
     <None Include="resource\main\defaultSceenShot.png" />
     <None Include="resource\main\default_photoUrl.png" />
+    <None Include="resource\main\email.png" />
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />
     <None Include="resource\instance\factoryDataReset.png" />
