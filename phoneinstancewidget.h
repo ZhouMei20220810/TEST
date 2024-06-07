@@ -30,6 +30,11 @@ protected:
     void onDisconnected(int errcode) override;
     void onDisconnected(int errcode, const char* errmsg) override;
     void onPlayInfo(const char* info) override;
+
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
+
 private:
     void setToolBtnVisible(bool bVisible);
 
@@ -90,6 +95,9 @@ private:
     //VideoViewWidget* m_Display;
     SWPlayer* m_Player;
     Mutex m_Mutex;
+
+    QPoint  m_LastPos;
+    bool m_bMoving= false;
 };
 
 #endif // PHONEINSTANCEWIDGET_H
