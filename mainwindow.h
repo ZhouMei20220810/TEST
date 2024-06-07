@@ -248,8 +248,6 @@ private:
     PhoneInstanceWidget* m_PhoneInstanceWidget;
     CreateGroupWidget* m_createGroupWidget;
     SystemSettingWidget* m_systemSettingWidget;
-
-    QSystemTrayIcon* m_trayIcon;
 /*protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;*/

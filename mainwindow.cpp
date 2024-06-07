@@ -34,6 +34,8 @@
 #include "factorydataresetdialog.h"
 #include <QDesktopServices>
 
+extern QSystemTrayIcon* g_trayIcon;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -79,10 +81,22 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化Tab购买
     InitBuyTab();
 
-    m_trayIcon = new QSystemTrayIcon(this);
-    m_trayIcon->setIcon(QIcon(":/main/resource/main/aboutlogo.png"));
-    m_trayIcon->setVisible(true);
-    connect(m_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::handleTrayIconActivated);
+    if (!GlobalData::bCloseMainWindowExit && NULL == g_trayIcon)
+    {
+        g_trayIcon = new QSystemTrayIcon(QIcon(":/main/resource/main/aboutlogo.png"));
+        g_trayIcon->setToolTip("易舜云手机");
+        g_trayIcon->setVisible(true);
+        g_trayIcon->show();        
+    }
+    if (NULL != g_trayIcon)
+    {
+        QMenu* menu = new QMenu();
+        QAction* pActionExit = new QAction("退出");
+        QObject::connect(pActionExit, &QAction::triggered, QApplication::instance(), &QApplication::quit);
+        menu->addAction(pActionExit);
+        g_trayIcon->setContextMenu(menu);
+    }
+    connect(g_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::handleTrayIconActivated);
     this->setContextMenuPolicy(Qt::PreventContextMenu);
 }
 
@@ -1976,14 +1990,8 @@ void MainWindow::HttpLogout()
 }
 
 void MainWindow::on_btnClose_clicked()
-{
-    LogoutDialog *logoutDialog = new LogoutDialog();
-    int ret = logoutDialog->exec();
-    if(ret != QDialog::Accepted)
-        return;
-
-    //注销
-    HttpLogout();
+{    
+    this->close();
 }
 
 void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName, int id)
@@ -2898,12 +2906,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (GlobalData::bCloseMainWindowExit)
     {
-        this->close();
+		//注销
+    	HttpLogout();
     }
     else
     {
         this->hide();
-        //m_trayIcon->showMessage("程序在运行", "程序已最小化到系统托盘", QIcon(":/main/resource/main/aboutlogo.png"));
+        //g_trayIcon->showMessage("程序在运行", "程序已最小化到系统托盘", QIcon(":/main/resource/main/aboutlogo.png"));
         event->ignore(); // 忽略关闭事件，防止程序退出
     }
 }

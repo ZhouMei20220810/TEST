@@ -15,6 +15,9 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     m_bVerticalScreen = GlobalData::bVerticalPhoneInstance;
     m_bPhoneInstanceCenter = GlobalData::bVerticalPhoneInstanceCenter;
     m_bCloseMainWindowExit = GlobalData::bCloseMainWindowExit;
+    m_bShowTrayIcon = GlobalData::bShowSystemTrayIcon;
+
+    ui->checkBox_3->setChecked(m_bShowTrayIcon);
     switch (m_enQuality)
     {
     case TYPE_QUALITY_AUTO:
@@ -200,10 +203,12 @@ void SystemSettingWidget::on_btnSave_clicked()
     GlobalData::bVerticalPhoneInstance = m_bVerticalScreen;
     GlobalData::bVerticalPhoneInstanceCenter = m_bPhoneInstanceCenter;
     GlobalData::bCloseMainWindowExit = m_bCloseMainWindowExit;
+    GlobalData::bShowSystemTrayIcon = m_bShowTrayIcon;
     setting.setValue("PictureQuality", m_enQuality);    
     setting.setValue("VerticalScreen", m_bVerticalScreen);
     setting.setValue("PhoneInstanceCenter", m_bPhoneInstanceCenter);
     setting.setValue("CloseMainWindowExit", m_bCloseMainWindowExit);
+    setting.setValue("ShowSystemTrayIcon", m_bShowTrayIcon);
     //保存
     MessageTips* tips = new MessageTips("数据已保存",this);
     tips->show();
@@ -299,5 +304,11 @@ void SystemSettingWidget::on_radioButton_clicked(bool checked)
 void SystemSettingWidget::on_radioButton_2_clicked(bool checked)
 {
     m_bCloseMainWindowExit = true;
+}
+
+
+void SystemSettingWidget::on_checkBox_3_clicked(bool checked)
+{
+    m_bShowTrayIcon = checked;
 }
 

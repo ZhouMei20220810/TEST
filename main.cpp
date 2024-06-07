@@ -6,6 +6,9 @@
 #include "common/log.h"
 #include "global.h"
 #include <QSettings>
+#include <QMenu>
+#include <QAction>
+QSystemTrayIcon* g_trayIcon = NULL;
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +35,15 @@ int main(int argc, char *argv[])
     GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
     GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();
     GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
+    GlobalData::bShowSystemTrayIcon = setting.value("ShowSystemTrayIcon", false).toBool();
+
+    
+    if (GlobalData::bShowSystemTrayIcon)
+    {
+        g_trayIcon = new QSystemTrayIcon(QIcon(":/main/resource/main/aboutlogo.png"));
+        g_trayIcon->setToolTip("全局系统托盘图标示例");
+        g_trayIcon->show();        
+    }    
 
     LoginWindow w;
     w.show();

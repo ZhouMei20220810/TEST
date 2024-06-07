@@ -3,6 +3,7 @@
 
 #include <QToolButton>
 #include <QString>
+#include <QSystemTrayIcon>
 #define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080" //"http://192.168.1.6:8080"
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
@@ -258,6 +259,7 @@ public:
     static bool     bVerticalPhoneInstanceCenter;
     static QPoint   pointPhoneInstance;
     static bool     bCloseMainWindowExit;
+    static bool     bShowSystemTrayIcon;
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;
