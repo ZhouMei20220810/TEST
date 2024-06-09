@@ -91,7 +91,7 @@
 #define          RENEW_ITEM_WIDTH           100
 #define          RENEW_ITEM_HEIGHT          30
 
-#define         PHONE_INSTANCE_SHOW_TOOLBUTTON_NUM           7
+#define         PHONE_INSTANCE_SHOW_TOOLBUTTON_NUM           (7)
 
 typedef struct LEVEL_INFO
 {
@@ -264,6 +264,7 @@ public:
     static bool     bShowSystemTrayIcon;
     static QString  strToolButtonList;
     static bool     bBootstrapAutoStart;
+    static bool     bIsTopWindow;
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;

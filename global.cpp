@@ -34,6 +34,7 @@ bool GlobalData::bCloseMainWindowExit = true;
 bool GlobalData::bShowSystemTrayIcon = true;
 QString GlobalData::strToolButtonList = "";
 bool GlobalData::bBootstrapAutoStart = false;
+bool GlobalData::bIsTopWindow = false;
 
 QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER+"/";
 QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + INSTANCE_TEMP_DIR;

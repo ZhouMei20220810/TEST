@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 	setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_DeleteOnClose,true);
 	setAttribute(Qt::WA_Hover, true);
+    setWindowFlag(Qt::WindowStaysOnTopHint, GlobalData::bIsTopWindow);
 
     m_PhoneInstanceWidget = NULL;
     m_createGroupWidget = NULL;

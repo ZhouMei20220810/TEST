@@ -16,11 +16,23 @@
 #include <QSettings>
 #include <QDateTime>
 
+int calculateWidth(int fixedHeight)
+{
+    const double aspectRatio=9.0/16.0;
+    int calcWidth = static_cast<int>(fixedHeight * aspectRatio);
+    return calcWidth;
+}
+
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PhoneInstanceWidget)
 {
     ui->setupUi(this);
+    m_height = 690;
+    m_width = (m_height-40) * 9 / 16+40;
+    m_width = calculateWidth(m_height-40)+40;
+    qDebug() << "m_height=" << m_height << "m_width=" << m_width;
+    resize(m_width, m_height);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlag(Qt::FramelessWindowHint);
     
@@ -794,6 +806,7 @@ void PhoneInstanceWidget::on_toolButton_9_clicked()
 
 void PhoneInstanceWidget::on_toolButton_10_clicked()
 {
+    qDebug() << "this->width" << this->width() << "this.height=" << this->height();
 	//摇一摇
     Mutex::Autolock lock(m_Mutex);
     if (m_Player != NULL)
@@ -809,6 +822,7 @@ void PhoneInstanceWidget::on_toolButton_10_clicked()
 
 void PhoneInstanceWidget::on_toolButton_11_clicked()
 {
+    qDebug() << "this->width" << this->width() << "this.height=" << this->height();
     //gps
     Mutex::Autolock lock(m_Mutex);
     if (m_Player != NULL)
@@ -825,4 +839,5 @@ void PhoneInstanceWidget::on_toolButton_11_clicked()
 void PhoneInstanceWidget::on_toolButton_12_clicked()
 {
     //键盘KEY_KEYBOARD
+    qDebug() << "this->width" << this->width() << "this.height=" << this->height();
 }

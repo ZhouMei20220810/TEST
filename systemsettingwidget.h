@@ -44,8 +44,6 @@ private slots:
 
     void on_radioButton_clicked(bool checked);
     void on_radioButton_2_clicked(bool checked);
-
-    void on_checkBox_3_clicked(bool checked);
 private:
     Ui::SystemSettingWidget *ui;
 

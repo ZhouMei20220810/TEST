@@ -64,6 +64,7 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     }
 
     ui->checkBox->setChecked(GlobalData::bBootstrapAutoStart);
+    ui->checkBox_2->setChecked(GlobalData::bIsTopWindow);
 
     m_qualityGroup = new QButtonGroup(this);
     m_qualityGroup->addButton(ui->radioButton_5, TYPE_QUALITY_AUTO);
@@ -261,6 +262,8 @@ void SystemSettingWidget::on_btnSave_clicked()
     setting.setValue("ToolButtonList", strToolList);
     GlobalData::bBootstrapAutoStart = ui->checkBox->isChecked();
     setting.setValue("BootstrapAutoStart", GlobalData::bBootstrapAutoStart);
+    GlobalData::bIsTopWindow = ui->checkBox_2->isChecked();
+    setting.setValue("MainWindowTopWindow", GlobalData::bIsTopWindow);
     QSettings reg("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
     if (GlobalData::bBootstrapAutoStart) {
         //设置开机自启注册表
@@ -367,10 +370,3 @@ void SystemSettingWidget::on_radioButton_2_clicked(bool checked)
 {
     m_bCloseMainWindowExit = true;
 }
-
-
-void SystemSettingWidget::on_checkBox_3_clicked(bool checked)
-{
-    m_bShowTrayIcon = checked;
-}
-

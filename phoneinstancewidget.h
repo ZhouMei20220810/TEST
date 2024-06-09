@@ -112,6 +112,9 @@ private:
 
     QPoint  m_LastPos;
     bool m_bMoving= false;
+
+    int     m_width;
+    int     m_height;
 };
 
 #endif // PHONEINSTANCEWIDGET_H

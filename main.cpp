@@ -50,7 +50,8 @@ int main(int argc, char *argv[])
     GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
     GlobalData::bShowSystemTrayIcon = setting.value("ShowSystemTrayIcon", false).toBool();
     GlobalData::strToolButtonList = setting.value("ToolButtonList","").toString();
-    GlobalData::bBootstrapAutoStart = setting.value("BootstrapAutoStart",false).toBool();    
+    GlobalData::bBootstrapAutoStart = setting.value("BootstrapAutoStart",false).toBool();   
+    GlobalData::bIsTopWindow = setting.value("MainWindowTopWindow", false).toBool();
 
     if (GlobalData::bShowSystemTrayIcon)
     {
