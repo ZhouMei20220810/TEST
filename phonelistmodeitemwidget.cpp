@@ -45,10 +45,9 @@ void PhoneListModeItemWidget::mousePressEvent(QMouseEvent *event)
             m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
         }
 
+        m_PhoneInstanceWidget->setModal(true);
         m_PhoneInstanceWidget->show();
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::destroyed, this, [this]() {
-            m_PhoneInstanceWidget = NULL;
-        });
+        m_PhoneInstanceWidget = NULL;
     }
     QWidget::mousePressEvent(event);
 }

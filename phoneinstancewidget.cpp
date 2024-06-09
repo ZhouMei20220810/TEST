@@ -23,8 +23,8 @@ int calculateWidth(int fixedHeight)
     return calcWidth;
 }
 
-PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent)
-    : QWidget(parent)
+PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent)
+    : QDialog(parent)
     , ui(new Ui::PhoneInstanceWidget)
 {
     ui->setupUi(this);

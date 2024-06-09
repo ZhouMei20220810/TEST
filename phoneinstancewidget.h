@@ -1,7 +1,7 @@
 #ifndef PHONEINSTANCEWIDGET_H
 #define PHONEINSTANCEWIDGET_H
 
-#include <QWidget>
+#include <QDialog>
 #include "global.h"
 #include "toolobject.h"
 #include "SWPlayer.h"
@@ -12,12 +12,12 @@ namespace Ui {
     class PhoneInstanceWidget;
 }
 
-class PhoneInstanceWidget : public QWidget,public SWDataSourceListener
+class PhoneInstanceWidget : public QDialog,public SWDataSourceListener
 {
     Q_OBJECT
 
 public:
-    explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo,QWidget* parent = nullptr);
+    explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo, QDialog* parent = nullptr);
     ~PhoneInstanceWidget();
     // QWidget interface
 protected:
