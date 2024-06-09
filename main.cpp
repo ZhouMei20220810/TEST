@@ -8,11 +8,24 @@
 #include <QSettings>
 #include <QMenu>
 #include <QAction>
+
 QSystemTrayIcon* g_trayIcon = NULL;
+
+/*void setAutoStart() {
+    QString appPath = QCoreApplication::applicationFilePath();
+    QString startupDir = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/../Startup");
+    QString startupLink = startupDir + "/YourAppName.lnk";
+
+    QProcess::startDetached("mkdir \"" + startupDir + "\"");
+    QProcess::startDetached("cmd /c \"\"" + appPath + "\"\" > NUL 2> NUL && (echo 指向快捷方式的路径 && pause > NUL) || (echo 创建快捷方式 && copy /Y \"" + appPath + "\" \"" + startupLink + "\" && echo [InternetShortcut] > \"" + startupLink + "\" && echo URL=\\\"file:\\\\\\\"%1\\\"\\\" >> \"" + startupLink + "\" && echo IconIndex=0 >> \"" + startupLink + "\" && echo IconFile=\\\"file:\\\\\\\"%1\\\"\\\" >> \"" + startupLink + "\")");
+}*/
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);    
+    QApplication a(argc, argv);
+
+    //setAutoStart();
+
     QString strDir = GlobalData::strFileTempDir;
     QDir dir(strDir);
     if (!dir.exists(strDir))
@@ -37,11 +50,12 @@ int main(int argc, char *argv[])
     GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
     GlobalData::bShowSystemTrayIcon = setting.value("ShowSystemTrayIcon", false).toBool();
     GlobalData::strToolButtonList = setting.value("ToolButtonList","").toString();
-    
+    GlobalData::bBootstrapAutoStart = setting.value("BootstrapAutoStart",false).toBool();    
+
     if (GlobalData::bShowSystemTrayIcon)
     {
         g_trayIcon = new QSystemTrayIcon(QIcon(":/main/resource/main/aboutlogo.png"));
-        g_trayIcon->setToolTip("ȫ��ϵͳ����ͼ��ʾ��");
+        g_trayIcon->setToolTip("");
         g_trayIcon->show();        
     }    
 

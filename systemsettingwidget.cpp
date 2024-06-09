@@ -3,6 +3,7 @@
 #include "messagetips.h"
 #include <QDesktopServices>
 #include <QSettings>
+#include <QDir>
 
 SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     : QWidget(parent)
@@ -61,6 +62,8 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     {
         ui->radioButton->setChecked(true);
     }
+
+    ui->checkBox->setChecked(GlobalData::bBootstrapAutoStart);
 
     m_qualityGroup = new QButtonGroup(this);
     m_qualityGroup->addButton(ui->radioButton_5, TYPE_QUALITY_AUTO);
@@ -256,6 +259,18 @@ void SystemSettingWidget::on_btnSave_clicked()
     qDebug() << "strToolList = " << strToolList;
     GlobalData::strToolButtonList = strToolList;
     setting.setValue("ToolButtonList", strToolList);
+    GlobalData::bBootstrapAutoStart = ui->checkBox->isChecked();
+    setting.setValue("BootstrapAutoStart", GlobalData::bBootstrapAutoStart);
+    QSettings reg("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+    if (GlobalData::bBootstrapAutoStart) {
+        //设置开机自启注册表
+        QString strAppPath = QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
+        reg.setValue("YiShunYun", strAppPath);
+    }
+    else {
+        //取消开机自启注册表
+        reg.remove("YiShunYun");
+    }
     //保存
     MessageTips* tips = new MessageTips("数据已保存",this);
     tips->show();
