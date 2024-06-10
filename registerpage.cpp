@@ -10,6 +10,7 @@
 #include "mainwindow.h"
 #include "messagetipsdialog.h"
 #include "policydialog.h"
+#include "messagetips.h"
 
 RegisterPage::RegisterPage(QMoveWidget *parent)
     : QMoveWidget(parent)
@@ -192,7 +193,7 @@ void RegisterPage::on_btnRegister_clicked()
                     }
                     else
                     {
-                        MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                        MessageTips* tips = new MessageTips(strMessage, this);
                         tips->show();
                     }
                 }

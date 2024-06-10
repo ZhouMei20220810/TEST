@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonObject>
-#include "messagetipsdialog.h"
+#include "messagetips.h"
 #include "buyhistorywidget.h"
 
 IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
@@ -123,7 +123,7 @@ void IndividualCenterWidget::HttpLogout()
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }

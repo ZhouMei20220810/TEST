@@ -7,6 +7,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "messagetipsdialog.h"
+#include "messagetips.h"
+
 ToolObject::ToolObject(QObject *parent)
     : QObject{parent}
 {
@@ -90,7 +92,7 @@ void ToolObject::HttpPostInstanceScreenshot(QStringList strList)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage);
+                    MessageTips* tips = new MessageTips(strMessage);
                     tips->show();
                 }
             }
@@ -162,7 +164,7 @@ void ToolObject::HttpPostInstanceScreenshotRefresh(QStringList strList)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage);
+                    MessageTips* tips = new MessageTips(strMessage);
                     tips->show();
                 }
             }
@@ -230,7 +232,7 @@ void ToolObject::HttpPostInstanceReboot(QStringList strList)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage);
+                    MessageTips* tips = new MessageTips(strMessage);
                     tips->show();
                 }
             }
@@ -299,7 +301,7 @@ void ToolObject::HttpPostInstanceReset(QStringList strList)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage);
+                    MessageTips* tips = new MessageTips(strMessage);
                     tips->show();
                 }
             }

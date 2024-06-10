@@ -9,6 +9,7 @@
 #include "mainwindow.h"
 #include "messagetipsdialog.h"
 #include <QSettings>
+#include "messagetips.h"
 
 SMSLoginPage::SMSLoginPage(QWidget *parent)
     : QWidget(parent)
@@ -194,7 +195,7 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
                     }
                     else
                     {
-                        MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                        MessageTips* tips = new MessageTips(strMessage, this);
                         tips->show();
                     }
                 }

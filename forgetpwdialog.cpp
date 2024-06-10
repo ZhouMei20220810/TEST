@@ -7,6 +7,7 @@
 #include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonObject>
+#include "messagetips.h"
 
 ForgetPWDialog::ForgetPWDialog(QWidget *parent)
     : QDialog(parent)
@@ -156,7 +157,7 @@ void ForgetPWDialog::HttpPostResetPassword(QString strCode,QString strPassword)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }

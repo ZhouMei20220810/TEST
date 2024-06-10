@@ -7,7 +7,7 @@
 #include "queuetableitem.h"
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
-#include "messagetipsdialog.h"
+#include "messagetips.h"
 #include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonObject>
@@ -266,7 +266,7 @@ void UploadFileDialog::GetOSSInfo()
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }

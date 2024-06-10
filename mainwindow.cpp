@@ -33,6 +33,7 @@
 #include "filedownloader.h"
 #include "factorydataresetdialog.h"
 #include <QDesktopServices>
+#include "messagetips.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -195,7 +196,7 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -266,7 +267,7 @@ void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -842,7 +843,7 @@ void MainWindow::HttpQueryAllGroup()//查询全部分组
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1041,7 +1042,7 @@ void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1107,7 +1108,7 @@ void MainWindow::HttpUpdateGroup(int iGroupId, QString strNewName)//修改分组
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1168,7 +1169,7 @@ void MainWindow::HttpDeleteGroup(int iGroupId)//删除分组
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1233,7 +1234,7 @@ void MainWindow::HttpDeleteGroup(int iGroupId)//删除分组
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1320,7 +1321,7 @@ void MainWindow::HttpLevelList()
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1413,7 +1414,7 @@ void MainWindow::HttpMemberLevelListData()
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1589,7 +1590,7 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1648,7 +1649,7 @@ void MainWindow::HttpCloseOrder(QString strOutTradeNo)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1737,7 +1738,7 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1816,7 +1817,7 @@ void MainWindow::HttpGetMyInstanceLevel(int iPhoneId)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -1979,7 +1980,7 @@ void MainWindow::HttpLogout()
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -2110,7 +2111,7 @@ void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }

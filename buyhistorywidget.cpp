@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include "messagetipsdialog.h"
 #include "buyhistoryitemwidget.h"
+#include "messagetips.h"
 
 BuyHistoryWidget::BuyHistoryWidget(QWidget *parent)
     : QWidget(parent)
@@ -124,7 +125,7 @@ void BuyHistoryWidget::HttpGetMyOrder(int iPage, int iPageSize)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }
@@ -211,7 +212,7 @@ void BuyHistoryWidget::HttpEmptyOrder()
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }

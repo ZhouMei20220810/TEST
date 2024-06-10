@@ -5,7 +5,7 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
-#include "messagetipsdialog.h"
+#include "messagetips.h"
 
 BuyHistoryItemWidget::BuyHistoryItemWidget(S_ORDER_INFO orderInfo,QWidget *parent)
     : QWidget(parent)
@@ -100,7 +100,7 @@ void BuyHistoryItemWidget::HttpDeleteOrder(int iOrderId)
                 }
                 else
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                    MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }
             }

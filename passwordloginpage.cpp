@@ -10,6 +10,7 @@
 #include "mainwindow.h"
 #include <QSettings>
 #include "messagetipsdialog.h"
+#include "messagetips.h"
 
 PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     : QWidget(parent)
@@ -176,7 +177,7 @@ void PasswordLoginPage::on_btnLogin_clicked()
                     }
                     else
                     {
-                        MessageTipsDialog* tips = new MessageTipsDialog(strMessage, this);
+                        MessageTips* tips = new MessageTips(strMessage, this);
                         tips->show();
                     }
                 }
