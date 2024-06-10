@@ -136,6 +136,11 @@ padding-left:0px;
         </item>
         <item>
          <widget class="QPushButton" name="btnQuality">
+          <property name="styleSheet">
+           <string notr="true">QPushButton{border:none;}
+QPushButton:hover{border:none;}
+QPushButton:pressed{border:none;}</string>
+          </property>
           <property name="text">
            <string/>
           </property>

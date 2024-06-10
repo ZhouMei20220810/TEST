@@ -28,11 +28,6 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     , ui(new Ui::PhoneInstanceWidget)
 {
     ui->setupUi(this);
-    m_height = 690;
-    m_width = (m_height-40) * 9 / 16+40;
-    m_width = calculateWidth(m_height-40)+40;
-    qDebug() << "m_height=" << m_height << "m_width=" << m_width;
-    resize(m_width, m_height);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlag(Qt::FramelessWindowHint);
     
@@ -101,11 +96,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         }
     }
 
-    //setToolBtnVisible(GlobalData::bVerticalPhoneInstance);
-    if (GlobalData::bVerticalPhoneInstance)
-        resize(PHONE_INSTANCE_VERTICAL_WIDTH, PHONE_INSTANCE_VERTICAL_WIDTH);
-    else
-        resize(PHONE_INSTANCE_HORIZONTAL_WIDTH, PHONE_INSTANCE_HORIZONTAL_HEIGHT);
+    //setToolBtnVisible(GlobalData::bVerticalPhoneInstance);    
     m_toolObject = new ToolObject(this);
     m_PhoneInfo = sPhoneInfo;
     m_strPhoneList.clear();
@@ -126,6 +117,20 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     qint64 i64Time = time.toSecsSinceEpoch();//time.toMSecsSinceEpoch();
     qDebug() << "i64Time(s)=" << i64Time<<"i64Time(ms)="<< time.toMSecsSinceEpoch();
 
+
+    if (GlobalData::bVerticalPhoneInstance)
+    {
+        int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
+        int iwidth = calculateWidth(height - 40) + 40;
+        resize(iwidth, height);
+    }        
+    else
+    {
+        int height = PHONE_INSTANCE_HORIZONTAL_WIDTH;
+        int width = calculateWidth(height - 40) + 40;
+        resize(height, width);
+    }
+        
     HttpGetInstanceSession(sPhoneInfo.iId);
 }
 
