@@ -133,7 +133,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     }
 
     // 使用QStandardItemModel，因为它支持设置数据的不同角色
-    ui->comboBox->setIconSize(QSize(40,40));
+    ui->comboBox->setIconSize(QSize(50,50));
     QStandardItemModel* model = new QStandardItemModel(ui->comboBox);
     QStandardItem* item = NULL;
     // 添加图片和文本到下拉列表的每一项
@@ -495,7 +495,7 @@ bool PhoneInstanceWidget::onPlayStart()
 		do {
 
             //QString strQuality = ui->comboBoxQuality->currentText();//ui->comboBoxQuality->GetCurSel();
-            int picQualityIndex = 2;//1;//ui->comboBoxQuality->currentIndex();
+            int picQualityIndex = ui->comboBox->currentIndex();//1;//ui->comboBoxQuality->currentIndex();
             //PAAS(试玩): BusinessType为0; 主营: BusinessType为1; 百度: BusinessType为2
             int businessType = 1;//m_OptionPlayType->IsSelected() ? 0 : 1;
 

@@ -135,46 +135,21 @@ padding-left:0px;
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="btnQuality">
-          <property name="styleSheet">
-           <string notr="true">QPushButton{border:none;}
-QPushButton:hover{border:none;}
-QPushButton:pressed{border:none;}</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="res.qrc">
-            <normaloff>:/resource/instance/1.png</normaloff>:/resource/instance/1.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>30</width>
-            <height>18</height>
-           </size>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QComboBox" name="comboBox">
           <property name="minimumSize">
            <size>
-            <width>40</width>
-            <height>30</height>
+            <width>80</width>
+            <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>40</width>
-            <height>30</height>
+            <width>80</width>
+            <height>40</height>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">/*QComboBox{
+           <string notr="true">QComboBox{
 background-color:#FF2B354C;
 border:none;
 }
@@ -199,10 +174,10 @@ QComboBox QAbstractItemView
 	outline:0px;
 }
 QComboBox QAbstractItemView::item{
-	height:30px;
+	height:24px;
 	width:30px;
 	color:#FF666666;
-	padding-left:0px;
+	padding-left:20px;
 	background-color:#FF2B354C;
 }
 QComboBox QAbstractItemView::item:hover{
@@ -212,7 +187,13 @@ QComboBox QAbstractItemView::item:hover{
 QComboBox QAbstractItemView::item:selected{
 	color:#FFFFFFFF;
 	background-color:#FF2B354C;
-}*/</string>
+}</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>30</width>
+            <height>18</height>
+           </size>
           </property>
          </widget>
         </item>
