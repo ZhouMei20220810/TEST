@@ -15,6 +15,7 @@
 #include "messagetips.h"
 #include <QSettings>
 #include <QDateTime>
+#include <QStandardItemModel>
 
 int calculateWidth(int fixedHeight)
 {
@@ -130,7 +131,35 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         int width = calculateWidth(height - 40) + 40;
         resize(height, width);
     }
-        
+
+    // 使用QStandardItemModel，因为它支持设置数据的不同角色
+    ui->comboBox->setIconSize(QSize(40,40));
+    QStandardItemModel* model = new QStandardItemModel(ui->comboBox);
+    QStandardItem* item = NULL;
+    // 添加图片和文本到下拉列表的每一项
+    for (int i = 0; i < 5; ++i)
+    {
+        // 创建QStandardItem
+        item = new QStandardItem;
+
+        // 设置项的文本
+        //item->setText(QString("Item %1").arg(i + 1));
+
+        // 加载图片并设置为项的装饰角色（一般用于显示图片）
+        //QPixmap pixmap(QString(":/resource/instance/%1.png").arg(i + 1)); // 假设你有image1.png到image5.png
+        QIcon icon(QString(":/resource/instance/%1.png").arg(i + 1));
+        item->setIcon(icon);
+
+        // 将项添加到模型
+        model->appendRow(item);
+    }
+
+    // 设置模型到组合框
+    ui->comboBox->setModel(model);
+
+    // 可以设置当前索引，以便初始显示的项
+    ui->comboBox->setCurrentIndex(0);
+
     HttpGetInstanceSession(sPhoneInfo.iId);
 }
 

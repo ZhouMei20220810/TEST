@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
+    <width>433</width>
     <height>426</height>
    </rect>
   </property>
@@ -146,7 +146,7 @@ QPushButton:pressed{border:none;}</string>
           </property>
           <property name="icon">
            <iconset resource="res.qrc">
-            <normaloff>:/resource/instance/HighDefinition.png</normaloff>:/resource/instance/HighDefinition.png</iconset>
+            <normaloff>:/resource/instance/1.png</normaloff>:/resource/instance/1.png</iconset>
           </property>
           <property name="iconSize">
            <size>
@@ -156,6 +156,63 @@ QPushButton:pressed{border:none;}</string>
           </property>
           <property name="flat">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox">
+          <property name="minimumSize">
+           <size>
+            <width>40</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">/*QComboBox{
+background-color:#FF2B354C;
+border:none;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:0px;width:0px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
+} 
+QComboBox QAbstractItemView
+{
+	background:#FF2B354C;
+	border:1px solid rgba(228,228,228,1);
+	border-radius:0px 0px 5px 5px;
+	font-size:14px;
+	outline:0px;
+}
+QComboBox QAbstractItemView::item{
+	height:30px;
+	width:30px;
+	color:#FF666666;
+	padding-left:0px;
+	background-color:#FF2B354C;
+}
+QComboBox QAbstractItemView::item:hover{
+	color:#FFFFFFFF;
+	background-color:#FF2B354C;
+}
+QComboBox QAbstractItemView::item:selected{
+	color:#FFFFFFFF;
+	background-color:#FF2B354C;
+}*/</string>
           </property>
          </widget>
         </item>

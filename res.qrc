@@ -103,7 +103,6 @@
         <file>resource/instance/data_good.png</file>
         <file>resource/instance/data_optimal.png</file>
         <file>resource/instance/GPS.png</file>
-        <file>resource/instance/HighDefinition.png</file>
         <file>resource/instance/home.png</file>
         <file>resource/instance/HorVerScreen.png</file>
         <file>resource/instance/key_hide.png</file>
@@ -147,5 +146,10 @@
         <file>resource/setting/10.png</file>
         <file>resource/setting/11.png</file>
         <file>resource/setting/12.png</file>
+        <file>resource/instance/1.png</file>
+        <file>resource/instance/2.png</file>
+        <file>resource/instance/3.png</file>
+        <file>resource/instance/4.png</file>
+        <file>resource/instance/5.png</file>
     </qresource>
 </RCC>
