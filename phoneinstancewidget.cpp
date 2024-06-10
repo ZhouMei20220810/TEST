@@ -848,7 +848,16 @@ void PhoneInstanceWidget::on_toolButton_10_clicked()
         DataSource* source = m_Player->getDataSource();
         if (source != NULL)
         {
-            source->sendInputAccelerometer(10,10,10);
+            float fx[] = { 18.140408f, -18.2266f, -18.2266f, 13.803864f };
+            float fy[] = { -13.018726f, 12.674904f,14.300858f, -12.225403f };
+            float fz[] = { 14.384073f, 0.493712f, 14.386272f, 13.7585411 };
+
+            //SendAccelerometer(fx[m], fy[m], fz[m]);
+            for (int m = 0; m < 4; m++)
+            {
+                source->sendInputAccelerometer(fx[m], fy[m], fz[m]);
+            }
+            
         }
     }
 }
