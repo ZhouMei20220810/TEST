@@ -924,23 +924,47 @@ void PhoneInstanceWidget::on_toolButton_11_clicked()
         if (source != NULL)
         {
             m_GeoSource = QGeoPositionInfoSource::createDefaultSource(0);
-
-            // 连接信号槽，当位置更新时获取经纬度
-            QObject::connect(m_GeoSource, &QGeoPositionInfoSource::positionUpdated,this,&PhoneInstanceWidget::onPositionUpdated);
-
-            // 开始获取位置信息
-            m_GeoSource->setUpdateInterval(1000); // 设置更新间隔为1000毫秒
-            //source->startUpdates();   
-            m_GeoSource->requestUpdate();
-
-            DataSource* datasource = m_Player->getDataSource();
-            if (datasource != NULL)
+            if (NULL != m_GeoSource)
             {
-                QDateTime dateTime = QDateTime::currentDateTime();
-                int iRet = datasource->sendInputLocation(116.407396, 39.90762, 1000.0, 1, 5.0, 1.0, 10.0, 180.0, QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str());
-                qDebug() << "gps iRet=" << iRet;
-            }
-            
+                // 连接信号槽，当位置更新时获取经纬度
+                QObject::connect(m_GeoSource, &QGeoPositionInfoSource::positionUpdated, this, &PhoneInstanceWidget::onPositionUpdated);
+                // 开始获取位置信息
+                m_GeoSource->setUpdateInterval(1000); // 设置更新间隔为1000毫秒
+                m_GeoSource->startUpdates();
+                QGeoPositionInfoSource::Error err = m_GeoSource->error();
+                switch (err)
+                {
+                case QGeoPositionInfoSource::AccessError:
+                {
+                    MessageTips* tips = new MessageTips("定位权限未打开", this);
+                    tips->show();
+                }
+                    break;
+                case QGeoPositionInfoSource::ClosedError:
+                {
+                    MessageTips* tips = new MessageTips("远程定位后端关闭连接，这种情况发生在用户将位置服务切换为off的情况下,一旦位置服务重新启用，定期更新将恢复。", this);
+                    tips->show();
+                }
+                    break;
+                case QGeoPositionInfoSource::UnknownSourceError:
+                {
+                    MessageTips* tips = new MessageTips("未知错误", this);
+                    tips->show();
+                }
+                    break;
+                case QGeoPositionInfoSource::NoError:
+                    break;
+                case QGeoPositionInfoSource::UpdateTimeoutError:
+                {
+                    MessageTips* tips = new MessageTips("当前位置不能在指定的超时内检索", this);
+                    tips->show();
+                }
+                    break;
+                default:
+                    break;
+                }
+                qDebug()<<"gps error="<<err;
+            }            
         }
     }
 }
