@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{43718D3F-F1BB-3602-8090-84CED9889DC0}</ProjectGuid>
+    <ProjectGuid>{572025F1-6251-3A18-B5F3-84BE12061ABC}</ProjectGuid>
     <RootNamespace>YiShunYun</RootNamespace>
     <Keyword>QtVS_v304</Keyword>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
-    <WindowsTargetPlatformMinVersion>10.0.19041.0</WindowsTargetPlatformMinVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformMinVersion>10.0.22621.0</WindowsTargetPlatformMinVersion>
     <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,11 +40,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <QtInstall>6.4.3_msvc2019_64</QtInstall>
+    <QtInstall>6.5.3_msvc2019_64</QtInstall>
     <QtModules>core;gui;network;qml;quick;widgets;opengl;printsupport;webchannel;webenginecore;positioning;webenginewidgets;webenginequick</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <QtInstall>6.4.3_msvc2019_64</QtInstall>
+    <QtInstall>6.5.3_msvc2019_64</QtInstall>
     <QtModules>core;gui;network;qml;quick;widgets;opengl;printsupport;webchannel;webenginecore;positioning;webenginewidgets;webenginequick</QtModules>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">
@@ -320,17 +320,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\function\1.png" />
+    <None Include="resource\instance\1.png" />
     <None Include="resource\setting\1.png" />
     <None Include="resource\setting\10.png" />
     <None Include="resource\setting\11.png" />
     <None Include="resource\setting\12.png" />
     <None Include="resource\function\2.png" />
+    <None Include="resource\instance\2.png" />
     <None Include="resource\setting\2.png" />
     <None Include="resource\function\3.png" />
+    <None Include="resource\instance\3.png" />
     <None Include="resource\setting\3.png" />
     <None Include="resource\function\4.png" />
+    <None Include="resource\instance\4.png" />
     <None Include="resource\setting\4.png" />
     <None Include="resource\function\5.png" />
+    <None Include="resource\instance\5.png" />
     <None Include="resource\setting\5.png" />
     <None Include="resource\function\6.png" />
     <None Include="resource\setting\6.png" />
@@ -340,7 +345,6 @@
     <None Include="resource\instance\ADB.png" />
     <None Include="resource\instance\ADB_open.png" />
     <None Include="resource\instance\GPS.png" />
-    <None Include="resource\instance\HighDefinition.png" />
     <None Include="resource\instance\HorVerScreen.png" />
     <None Include="resource\instance\Input.png" />
     <None Include="resource\function\PayFinish.png" />
