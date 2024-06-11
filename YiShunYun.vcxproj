@@ -230,6 +230,7 @@
     <ClCompile Include="renewitemwidget.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
     <ClCompile Include="systemsettingwidget.cpp" />
+    <ClCompile Include="tdragdroplistwidget.cpp" />
     <ClCompile Include="toolobject.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
@@ -265,6 +266,7 @@
     <QtMoc Include="renewitemwidget.h" />
     <QtMoc Include="smsloginpage.h" />
     <QtMoc Include="systemsettingwidget.h" />
+    <QtMoc Include="tdragdroplistwidget.h" />
     <QtMoc Include="toolobject.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="uploadfiledialog.h" />

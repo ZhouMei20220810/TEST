@@ -147,8 +147,10 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
 
         // 加载图片并设置为项的装饰角色（一般用于显示图片）
         //QPixmap pixmap(QString(":/resource/instance/%1.png").arg(i + 1)); // 假设你有image1.png到image5.png
-        QIcon icon(QString(":/resource/instance/%1.png").arg(i + 1));
+        //（0：自动，1：高清，2：标清，3：流畅）
+        QIcon icon(QString(":/resource/instance/%1.png").arg(i+1));
         item->setIcon(icon);
+        item->setData(Qt::UserRole, i);
 
         // 将项添加到模型
         model->appendRow(item);
@@ -493,9 +495,10 @@ bool PhoneInstanceWidget::onPlayStart()
 	if (m_Player == NULL) 
 	{
 		do {
-
+            int picQualityIndex = ui->comboBox->itemData(ui->comboBox->currentIndex(), Qt::UserRole).toInt();
+            qDebug() << "select index=" << picQualityIndex;
             //QString strQuality = ui->comboBoxQuality->currentText();//ui->comboBoxQuality->GetCurSel();
-            int picQualityIndex = ui->comboBox->currentIndex();//1;//ui->comboBoxQuality->currentIndex();
+            //int picQualityIndex = ui->comboBox->currentIndex();//1;//ui->comboBoxQuality->currentIndex();
             //PAAS(试玩): BusinessType为0; 主营: BusinessType为1; 百度: BusinessType为2
             int businessType = 1;//m_OptionPlayType->IsSelected() ? 0 : 1;
 

@@ -862,6 +862,11 @@ border-bottom: 1px solid #D7D7DE;
                        <property name="cursor">
                         <cursorShape>PointingHandCursor</cursorShape>
                        </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton:pressed{
+border:none;
+}</string>
+                       </property>
                        <property name="text">
                         <string>新建分组</string>
                        </property>
@@ -898,6 +903,11 @@ border-bottom: 1px solid #D7D7DE;
                        <property name="cursor">
                         <cursorShape>PointingHandCursor</cursorShape>
                        </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton:pressed{
+border:none;
+}</string>
+                       </property>
                        <property name="text">
                         <string>全选</string>
                        </property>
@@ -926,6 +936,11 @@ border-bottom: 1px solid #D7D7DE;
                        </property>
                        <property name="cursor">
                         <cursorShape>PointingHandCursor</cursorShape>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton:pressed{
+border:none;
+}</string>
                        </property>
                        <property name="text">
                         <string>刷新</string>

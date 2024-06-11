@@ -40,6 +40,7 @@ SOURCES += \
     renewitemwidget.cpp \
     smsloginpage.cpp \
     systemsettingwidget.cpp \
+    tdragdroplistwidget.cpp \
     toolobject.cpp \
     updategroupwidget.cpp \
     uploadfiledialog.cpp \
@@ -75,6 +76,7 @@ HEADERS += \
     renewitemwidget.h \
     smsloginpage.h \
     systemsettingwidget.h \
+    tdragdroplistwidget.h \
     toolobject.h \
     updategroupwidget.h \
     uploadfiledialog.h \

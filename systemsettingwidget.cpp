@@ -4,6 +4,9 @@
 #include <QDesktopServices>
 #include <QSettings>
 #include <QDir>
+//#include <QShortcut>
+#define         ICON_WIDTH          40
+#define         ICON_HEIGHT         46
 
 SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     : QWidget(parent)
@@ -83,14 +86,22 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
         }
     });
 
+    /*QShortcut* bossKey = new QShortcut(QKeySequence("Ctrl+Shift+Q"),this);
+    QObject::connect(bossKey, &QShortcut::activated, this, [=](){
+        if (this->isVisible()) {
+            this->hide(); // 隐藏窗口
+        } else {
+            this->showNormal(); // 显示窗口
+        }
+    });*/
+
     InitListWidget();
 }
 
 void SystemSettingWidget::InitListWidget()
 {
     //imageList->resize(365,400);
-    //设置QListWidget的显示模式
-    ui->listWidget->sortItems(Qt::DescendingOrder);
+    //设置QListWidget的显示模式    
     ui->listWidget->setViewMode(QListView::IconMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
@@ -105,12 +116,13 @@ void SystemSettingWidget::InitListWidget()
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->listWidget->setDragEnabled(true);
-    //设置接受拖放
-    ui->listWidget->setSortingEnabled(true);
-    ui->listWidget->viewport()->setAcceptDrops(true);
-    ui->listWidget->setDropIndicatorShown(true);
-    ui->listWidget->setDragDropMode(QAbstractItemView::DragDrop);
-    //ui->listWidget->setDragDropMode(QAbstractItemView::InternalMove);
+    ui->listWidget->setAcceptDrops(true);
+    //设置接受拖放    
+    //ui->listWidget->viewport()->setAcceptDrops(true);
+    //ui->listWidget->setDropIndicatorShown(true);
+    //ui->listWidget->setDragDropMode(QAbstractItemView::DragDrop);
+    ui->listWidget->setDefaultDropAction(Qt::MoveAction);
+    ui->listWidget->setDragDropMode(QAbstractItemView::InternalMove);
 
 
     //设置排序为倒序
@@ -127,28 +139,33 @@ void SystemSettingWidget::InitListWidget()
     //设置拖放模式为移动项目，如果不设置，默认为复制项目
     ui->listWidget->setDragDropMode(QAbstractItemView::InternalMove);*/
 
-    QSize size(40, 46);
     //QToolButton* btn;
-    QLabel* label;
+    //QLabel* label;
     QListWidgetItem* item = NULL;
     QString strIcon;    
+    int iType = 0;
+    ui->listWidget->setIconSize(QSize(ICON_WIDTH, ICON_HEIGHT));
     if (!GlobalData::strToolButtonList.isEmpty())
     {
         QStringList strList = GlobalData::strToolButtonList.split(',');
         for (int i = 0; i < strList.size(); i++)
         {
             item = new QListWidgetItem(ui->listWidget);
-            item->setData(Qt::UserRole, i);
-            item->setSizeHint(size);
+            iType = strList.at(i).toInt();
+            item->setData(Qt::UserRole, iType);
+            item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
+            //item->setText(QString("%1").arg(iType));
             //btn = new QToolButton(this);
-            label = new QLabel(this);
-            strIcon = QString::asprintf(":/resource/setting/%d.png", strList.at(i).toInt());
+            //label = new QLabel(this);
+            strIcon = QString::asprintf(":/resource/setting/%d.png", iType);
             //btn->setIcon(QIcon(strIcon));
             //btn->setIconSize(size);
-            label->setPixmap(QPixmap(strIcon));
-            label->resize(size);
-            ui->listWidget->addItem(item);
-            ui->listWidget->setItemWidget(item, label);
+            //label->setPixmap(QPixmap(strIcon));
+            //label->resize(size);
+            //ui->listWidget->addItem(item);
+            item->setIcon(QIcon(strIcon));
+            ui->listWidget->insertItem(i, item);
+            //ui->listWidget->setItemWidget(item, label);
         }
     }
     else
@@ -157,16 +174,17 @@ void SystemSettingWidget::InitListWidget()
         {
             item = new QListWidgetItem(ui->listWidget);
             item->setData(Qt::UserRole, i);
-            item->setSizeHint(size);
+            item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
             //btn = new QToolButton(this);
-            label = new QLabel(this);
+            //label = new QLabel(this);
             strIcon = QString::asprintf(":/resource/setting/%d.png", i);
             //btn->setIcon(QIcon(strIcon));
             //btn->setIconSize(size);
-            label->setPixmap(QPixmap(strIcon));
-            label->resize(size);
+            //label->setPixmap(QPixmap(strIcon));
+            //label->resize(size);
+            item->setIcon(QIcon(strIcon));
             ui->listWidget->addItem(item);
-            ui->listWidget->setItemWidget(item, label);
+            //ui->listWidget->setItemWidget(item, label);
         }
     }
 }
@@ -356,7 +374,28 @@ void SystemSettingWidget::on_radioButton_13_clicked(bool checked)
 void SystemSettingWidget::on_pushButton_2_clicked()
 {
     //设置排序    
-    ui->listWidget->sortItems(Qt::AscendingOrder);
+    //ui->listWidget->sortItems(Qt::AscendingOrder);
+    //ui->listWidget->setSortingEnabled(true);
+    QListWidgetItem* item = NULL;
+    QString strIcon;
+    ui->listWidget->clear();
+    for (int i = 1; i <= 12; i++)
+    {
+        item = new QListWidgetItem(ui->listWidget);
+        item->setData(Qt::UserRole, i);
+        item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
+        //item->setText(QString("%1").arg(i));
+        //btn = new QToolButton(this);
+        //label = new QLabel(this);
+        strIcon = QString::asprintf(":/resource/setting/%d.png", i);
+        //btn->setIcon(QIcon(strIcon));
+        //btn->setIconSize(size);
+        //label->setPixmap(QPixmap(strIcon));
+        //label->resize(size);
+        item->setIcon(QIcon(strIcon));
+        ui->listWidget->addItem(item);
+        //ui->listWidget->setItemWidget(item, label);
+    }
 }
 
 
