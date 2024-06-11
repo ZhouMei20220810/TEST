@@ -16,6 +16,7 @@
 #include <QSettings>
 #include <QDateTime>
 #include <QStandardItemModel>
+#include <QGeoPositionInfoSource>
 
 int calculateWidth(int fixedHeight)
 {
@@ -122,8 +123,9 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     if (GlobalData::bVerticalPhoneInstance)
     {
         int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
-        int iwidth = calculateWidth(height - 40) + 40;
+        int iwidth = calculateWidth(height);
         resize(iwidth, height);
+        
     }        
     else
     {
@@ -131,7 +133,10 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         int width = calculateWidth(height - 40) + 40;
         resize(height, width);
     }
-
+    /*if (GlobalData::bVerticalPhoneInstance)
+        resize(PHONE_INSTANCE_VERTICAL_WIDTH, PHONE_INSTANCE_VERTICAL_HEIGHT);
+    else
+        resize(PHONE_INSTANCE_HORIZONTAL_WIDTH, PHONE_INSTANCE_HORIZONTAL_HEIGHT);*/
     // 使用QStandardItemModel，因为它支持设置数据的不同角色
     ui->comboBox->setIconSize(QSize(50,50));
     QStandardItemModel* model = new QStandardItemModel(ui->comboBox);
@@ -856,15 +861,45 @@ void PhoneInstanceWidget::on_toolButton_10_clicked()
             float fz[] = { 14.384073f, 0.493712f, 14.386272f, 13.7585411 };
 
             //SendAccelerometer(fx[m], fy[m], fz[m]);
-            for (int m = 0; m < 4; m++)
+            for (int m = 0; m < 1; m++)
             {
-                source->sendInputAccelerometer(fx[m], fy[m], fz[m]);
+                int iRet = source->sendInputAccelerometer(fx[m], fy[m], fz[m]);
+                qDebug() << "摇一摇 iRet=" << iRet;
             }
             
         }
     }
 }
 
+void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info) 
+{
+    if (info.isValid()) {
+        QGeoCoordinate coordinate = info.coordinate();
+        double  dlatitude = coordinate.latitude();
+        double  dLongitude = coordinate.longitude();
+        //qreal latitude = info.attribute(QGeoCoordinate::Latitude);
+        //qreal longitude = info.attribute(QGeoCoordinate::Longitude);
+        qDebug() << "Latitude:" << dlatitude << "Longitude:" << dLongitude;
+
+        if (m_Player != NULL)
+        {
+            DataSource* source = m_Player->getDataSource();
+            if (source != NULL)
+            {
+                /*int sendInputLocation(float longitude,
+                    float latitude,
+                    float altitude,
+                    float floor,
+                    float horizontalaccuracy,
+                    float verticalaccuracy,
+                    float speed,
+                    float direction,
+                    const char* timestamp)*/
+                source->sendInputLocation(116.407396, 39.90762, 1000.0, 1, 5.0, 1.0, 10.0, 180.0, QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str());
+            }
+        }
+    }
+}
 
 void PhoneInstanceWidget::on_toolButton_11_clicked()
 {
@@ -876,8 +911,24 @@ void PhoneInstanceWidget::on_toolButton_11_clicked()
         DataSource* source = m_Player->getDataSource();
         if (source != NULL)
         {
-            QDateTime dateTime = QDateTime::currentDateTime();
-            source->sendInputLocation(100,100,100,1,1,1,1,1,dateTime.toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str());
+            QGeoPositionInfoSource* source = QGeoPositionInfoSource::createDefaultSource(0);
+
+            // 连接信号槽，当位置更新时获取经纬度
+            QObject::connect(source, &QGeoPositionInfoSource::positionUpdated,this,&PhoneInstanceWidget::onPositionUpdated);
+
+            // 开始获取位置信息
+            source->setUpdateInterval(1000); // 设置更新间隔为1000毫秒
+            source->startUpdates();      
+
+            DataSource* datasource = m_Player->getDataSource();
+            if (datasource != NULL)
+            {
+                QDateTime dateTime = QDateTime::currentDateTime();
+                //datasource->sendInputLocation(28.12, 112.59, 0, 1, 1, 1, 1, 1, dateTime.toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str());
+                int iRet = datasource->sendInputLocation(116.407396, 39.90762, 1000.0, 1, 5.0, 1.0, 10.0, 180.0, QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str());
+                qDebug() << "gps iRet=" << iRet;
+            }
+            
         }
     }
 }

@@ -7,6 +7,7 @@
 #include "SWPlayer.h"
 #include "SWDataSourceListener.h"
 #include "videoviewwidget.h"
+#include <QGeoPositionInfo>
 
 namespace Ui {
     class PhoneInstanceWidget;
@@ -89,6 +90,7 @@ private slots:
     void on_toolButton_11_clicked();
     void on_toolButton_12_clicked();
 
+    void onPositionUpdated(const QGeoPositionInfo& info);
 private:
     Ui::PhoneInstanceWidget* ui;
 
@@ -115,6 +117,8 @@ private:
 
     int     m_width;
     int     m_height;
+
+    CPadInfo m_padInfo;
 };
 
 #endif // PHONEINSTANCEWIDGET_H
