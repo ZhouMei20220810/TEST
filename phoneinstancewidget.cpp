@@ -886,13 +886,13 @@ void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info)
         double  dLongitude = coordinate.longitude();
         double  dlatitude = coordinate.latitude();        
         double  dAltitude = coordinate.altitude();
-        double dDirection = info.attribute(QGeoPositionInfo::Attribute::Direction);
-        double dGroundSpeed = info.attribute(QGeoPositionInfo::Attribute::GroundSpeed);
-        double dVerticalSpeed = info.attribute(QGeoPositionInfo::Attribute::VerticalSpeed);
-        double dHorizontalAccuracy = info.attribute(QGeoPositionInfo::Attribute::HorizontalAccuracy);
-        double dVerticalAccuracy = info.attribute(QGeoPositionInfo::Attribute::VerticalAccuracy);
-        double dDirectionAccuracy = info.attribute(QGeoPositionInfo::Attribute::DirectionAccuracy);
-        qDebug() << "Latitude:" << dlatitude << "Longitude:" << dLongitude<<"Altitude"<<dAltitude;
+        double dDirection = info.attribute(QGeoPositionInfo::Direction);
+        double dGroundSpeed = info.attribute(QGeoPositionInfo::GroundSpeed);
+        double dVerticalSpeed = info.attribute(QGeoPositionInfo::VerticalSpeed);
+        double dHorizontalAccuracy = info.attribute(QGeoPositionInfo::HorizontalAccuracy);
+        double dVerticalAccuracy = info.attribute(QGeoPositionInfo::VerticalAccuracy);
+        double dDirectionAccuracy = info.attribute(QGeoPositionInfo::DirectionAccuracy);
+        qDebug() << "Longitude=" << dLongitude << "Latitude=" << dlatitude <<"Altitude="<<dAltitude<<"dHorizontalAccuracy=" << dHorizontalAccuracy<<"dVerticalAccuracy="<< dVerticalAccuracy<<"speed="<<dGroundSpeed<<"Direction="<< dDirection;
         if (m_Player != NULL)
         {
             DataSource* source = m_Player->getDataSource();
