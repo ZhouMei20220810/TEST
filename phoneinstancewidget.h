@@ -8,6 +8,7 @@
 #include "SWDataSourceListener.h"
 #include "videoviewwidget.h"
 #include <QGeoPositionInfo>
+#include <QGeoPositionInfoSource>
 
 namespace Ui {
     class PhoneInstanceWidget;
@@ -119,6 +120,7 @@ private:
     int     m_height;
 
     CPadInfo m_padInfo;
+    QGeoPositionInfoSource* m_GeoSource;
 };
 
 #endif // PHONEINSTANCEWIDGET_H
