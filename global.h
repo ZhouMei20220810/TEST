@@ -4,7 +4,7 @@
 #include <QToolButton>
 #include <QString>
 #include <QSystemTrayIcon>
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080" //"http://192.168.1.6:8080" //"http://120.26.132.153:8080" //"http://192.168.1.6:8080"
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" //"http://192.168.1.6:8080" //"http://120.26.132.153:8080"
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -234,6 +234,19 @@ typedef struct ORDER_INFO
     }
 }S_ORDER_INFO, * PS_ORDER_INFO;
 
+typedef struct PAD_INFO
+{
+    QString     strControlAddr;
+    float       fControlPort;
+    int         iUserID;
+    QString     strSessionID;
+    int         iHWaccel;
+    PAD_INFO()
+    {
+        memset(this, 0, sizeof(PAD_INFO));
+    }
+}S_PAD_INFO,*PS_PAD_INFO;
+
 class GlobalData
 {
 public:
@@ -265,6 +278,8 @@ public:
     static QString  strToolButtonList;
     static bool     bBootstrapAutoStart;
     static bool     bIsTopWindow;
+
+    static bool     bIsSyncOperation; //    同步操作
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;

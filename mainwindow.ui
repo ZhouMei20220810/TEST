@@ -2075,44 +2075,25 @@ padding-left:8px;
                      </widget>
                     </item>
                     <item>
-                     <widget class="QToolButton" name="toolBtnSyncOperation">
-                      <property name="minimumSize">
-                       <size>
-                        <width>86</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>76</width>
-                        <height>28</height>
-                       </size>
-                      </property>
-                      <property name="cursor">
-                       <cursorShape>PointingHandCursor</cursorShape>
-                      </property>
+                     <widget class="QRadioButton" name="radioButtonSyncOperation">
                       <property name="styleSheet">
-                       <string notr="true">QToolButton {border:none;
-color: #505465;
-border-radius:1px;
-padding-left:8px;
+                       <string notr="true">QRadioButton::indicator::unchecked
+{
+border-image:url(:/main/resource/main/radioUncheck.png);
 }
-QToolButton:hover {
-background-color: #FFE7E8EE;
-color: #505465;
-border-radius:1px;
-padding-left:8px;
-}</string>
+QRadioButton::indicator::checked
+{
+border-image:url(:/main/resource/main/radioCheck.png);
+}
+QRadioButton::indicator
+{
+width:16px;
+height:16px;
+}
+</string>
                       </property>
                       <property name="text">
                        <string>同步操作</string>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="res.qrc">
-                        <normaloff>:/main/resource/main/sync.png</normaloff>:/main/resource/main/sync.png</iconset>
-                      </property>
-                      <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>

@@ -24,8 +24,9 @@ void TDragDropListWidget::dropEvent(QDropEvent* event)
 
             int minDist = 15;
             // 寻找最佳的插入位置
+            QRect itemRect;
             for (int row = 0; row < model()->rowCount(); ++row) {
-                QRect itemRect = visualRect(model()->index(row, 0));
+                itemRect = visualRect(model()->index(row, 0));
                 QRect tempRect = QRect(itemRect.left(), itemRect.top(), itemRect.right(), itemRect.bottom());
                 QPoint center = itemRect.center();
                 int dist = qAbs(center.y() - pos.y()); // 计算y轴方向上的距离作为简化示例
@@ -39,6 +40,10 @@ void TDragDropListWidget::dropEvent(QDropEvent* event)
                     minDist = dist;
                     targetRow = row;
                 }
+            }
+            if (pos.x() > itemRect.x() || pos.y() > itemRect.y())
+            {
+                targetRow = model()->rowCount(QModelIndex());
             }
 
             if (targetRow == -1) {

@@ -9,6 +9,9 @@
 #include "videoviewwidget.h"
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
+#include <QListWidget>
+#include "global.h"
+#include <QMap>
 
 namespace Ui {
     class PhoneInstanceWidget;
@@ -32,6 +35,7 @@ protected:
     void onDisconnected(int errcode) override;
     void onDisconnected(int errcode, const char* errmsg) override;
     void onPlayInfo(const char* info) override;
+    void onSensorInput(int inputtype, int state) override;
 
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
@@ -103,9 +107,6 @@ private:
     QString m_strSessionId;
     QString m_strControlIp;
     float   m_fControlPort;
-    QString m_strControlCode;
-    QString m_strDomain;
-    QString m_strControlTactics;
     QString m_strTraceServer;
     double m_dControlPort;
 
@@ -119,8 +120,11 @@ private:
     int     m_width;
     int     m_height;
 
-    CPadInfo m_padInfo;
+    QMap<QString, S_PAD_INFO> m_mapPadInfo;
     QGeoPositionInfoSource* m_GeoSource;
+
+    VideoViewWidget* m_OtherVideoViewWidget;
+    QListWidget* m_listWidget;
 };
 
 #endif // PHONEINSTANCEWIDGET_H

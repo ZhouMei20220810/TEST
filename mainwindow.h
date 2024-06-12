@@ -202,6 +202,9 @@ private slots:
     void on_comboBoxView_currentIndexChanged(int index);
 
     void handleTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+    //同步操作
+    void on_radioButtonSyncOperation_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

@@ -20,7 +20,25 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
 		strUrl = ":/main/resource/main/defaultSceenShot.png";
 	else
 		strUrl = m_strTempFile;
-	ui->label->setPixmap(QPixmap(strUrl).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+	QPixmap pixmap;
+	QImage image(strUrl);
+	if (!image.isNull())
+	{
+		if (!GlobalData::bVerticalPhoneInstance)
+		{
+			QTransform transform;
+			transform.rotate(270);
+			image = image.transformed(transform);
+		}
+	}
+
+	pixmap = QPixmap::fromImage(image);
+	if (pixmap.isNull())
+	{
+		pixmap = QPixmap(strUrl);
+	}
+	
+	ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	//m_strPicturePath = GlobalData::strFileTempDir + "/" + m_PhoneInfo.strInstanceNo + ".png";
 }
 
@@ -117,24 +135,35 @@ void VideoViewWidget::mouseMoveEvent(QMouseEvent *event)
 
 void  VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar frame_len)//data帧数组
 {
+	ui->label->setAutoFillBackground(true);
+
+	//保持原图片的长宽比，且不限制矩形框大小
+	//pixmap2 = pixmap2.scaled(ui->label->size(), Qt::KeepAspectRatio);//自适应/等比例
+
+	ui->label->setStyleSheet("background:black;");  // 标签背景
+	ui->label->setAlignment(Qt::AlignCenter);  // 图片居中
 	//QImage image(data, ui->label->width(), frame_len, ui->label->height(), QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
     //QImage image(data, getSrcWidth(), frame_len, 1005, QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
-    QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_RGBA8888);
-    //QMatrix matrix;
-    //matrix.rotate(-90.0);//旋转-90度
-    //image = image.transformed(matrix, Qt::FastTransformation);
-
-
-	QPixmap pixmap2 = QPixmap::fromImage(image);
-    ui->label->setAutoFillBackground(true);
-
-
-    pixmap2 = pixmap2.scaled(ui->label->size(), Qt::KeepAspectRatio);//自适应/等比例
-
-    ui->label->setStyleSheet("background: black;");  // 标签背景
-    ui->label->setAlignment(Qt::AlignCenter);  // 图片居中
-
-    ui->label->setPixmap(pixmap2);
+	if (!GlobalData::bVerticalPhoneInstance)
+	{
+		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_RGBA8888);
+		if (!image.isNull())
+		{
+			if (!GlobalData::bVerticalPhoneInstance)
+			{
+				QTransform transform;
+				transform.rotate(-90);
+				image = image.transformed(transform);
+			}
+		}		
+		ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size()));//自适应/等比例
+	}
+	else
+	{
+		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_RGBA8888);
+		ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size(), Qt::KeepAspectRatio));//自适应/等比例
+	}
+	
 }
 
 void VideoViewWidget::paintEvent(QPaintEvent *event)

@@ -36,6 +36,8 @@ QString GlobalData::strToolButtonList = "";
 bool GlobalData::bBootstrapAutoStart = false;
 bool GlobalData::bIsTopWindow = false;
 
+bool GlobalData::bIsSyncOperation = false;
+
 QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER+"/";
 QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + INSTANCE_TEMP_DIR;
 

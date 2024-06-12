@@ -2932,3 +2932,17 @@ void MainWindow::handleTrayIconActivated(QSystemTrayIcon::ActivationReason reaso
         this->activateWindow();
     }
 }
+
+void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
+{
+    QStringList strPhoneList = getCheckedPhoneInstance();
+    if (strPhoneList.size() <= 0)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("请先选择云手机后再进行操作", this);
+        tips->show();
+        return;
+    }
+    GlobalData::bIsSyncOperation = checked;
+    qDebug() << "同步=" << GlobalData::bIsSyncOperation;
+}
+

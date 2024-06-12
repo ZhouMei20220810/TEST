@@ -100,6 +100,9 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         }
     }
 
+    m_listWidget = new QListWidget(this);
+    
+
     //setToolBtnVisible(GlobalData::bVerticalPhoneInstance);    
     m_toolObject = new ToolObject(this);
     m_PhoneInfo = sPhoneInfo;
@@ -127,13 +130,15 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
         int iwidth = calculateWidth(height);
         resize(iwidth, height);
-        
+        ui->toolBtnMore->setVisible(false);
     }        
     else
     {
         int height = PHONE_INSTANCE_HORIZONTAL_WIDTH;
         int width = calculateWidth(height - 40) + 40;
         resize(height, width);
+
+        ui->toolBtnMore->setVisible(true);
     }
     /*if (GlobalData::bVerticalPhoneInstance)
         resize(PHONE_INSTANCE_VERTICAL_WIDTH, PHONE_INSTANCE_VERTICAL_HEIGHT);
@@ -220,27 +225,29 @@ void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint6
                         QJsonObject dataObj = obj["data"].toObject();
                         QJsonObject data = dataObj["data"].toObject();
                         m_strSessionId = data["sessionId"].toString();
-                        m_strDomain = data["domain"].toString();
-                        m_strControlTactics = data["controlTactics"].toString();
                         qDebug() << "m_strSessionId = " << m_strSessionId;
-                        qDebug() << "m_strControlCode = " << m_strControlCode;
                         QJsonObject control;
                         QJsonArray controlArray = data["controlList"].toArray();
                         for (int iControl = 0; iControl < controlArray.size(); iControl++)
                         {
                             control = controlArray.at(iControl).toObject();
-                            m_strControlCode = control["controlCode"].toString();
                             
                             if (control["controlInfoList"].isArray())
                             {
                                 QJsonArray controlList = control["controlInfoList"].toArray();
                                 int iSize = controlList.size();
                                 QJsonObject info;
+                                S_PAD_INFO padInfo;
                                 for (int i = 0; i < iSize; i++)
                                 {
                                     info = controlList.at(i).toObject();
                                     m_strControlIp = info["controlIp"].toString();
                                     m_dControlPort = info["controlPort"].toDouble();
+                                    padInfo.strControlAddr = m_strControlIp;
+                                    padInfo.fControlPort = m_dControlPort;
+                                    padInfo.iUserID = GlobalData::id;
+                                    padInfo.strSessionID = m_strSessionId;
+                                    padInfo.iHWaccel = 1;
                                     m_strTraceServer = info["traceServer"].toString();
                                     qDebug() << "m_strControlIp=" << m_strControlIp << "m_dControlPort=" << m_dControlPort << "strTraceServer=" << m_strTraceServer;
                                 }
@@ -691,6 +698,18 @@ void PhoneInstanceWidget::onPlayInfo(const char* info)
     //nbase::ThreadManager::PostTask(kThreadUI, nbase::Bind(&MainForm::OnShowMessage, this, msg));
 }
 
+/**
+     * 传感器输入
+     * @param inputtype     传感器类型:
+     *                         位置数据:201, 加速度:202, 高度计:203, 陀螺仪:204, 磁力计:205,
+     *                         音频输入:211, 视频输入:212, 重力感应:213
+     * @param state          传感器状态，1：开，0：关
+     */
+void PhoneInstanceWidget::onSensorInput(int inputtype, int state)
+{
+    qDebug() << "inputtype=" << inputtype << "state=" << state;
+}
+
 void PhoneInstanceWidget::on_toolBtnMore_clicked()
 {
     bool bVisible = ui->frameTool->isVisible();
@@ -802,15 +821,11 @@ void PhoneInstanceWidget::on_toolButton_2_clicked()
 void PhoneInstanceWidget::on_toolButton_3_clicked()
 {
     //横屏
-    Mutex::Autolock lock(m_Mutex);
-    if (m_Player != NULL)
-    {
-        DataSource* source = m_Player->getDataSource();
-        if (source != NULL)
-        {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_VOLUMEDOWN);
-        }
-    }
+    this->close();
+
+    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
+    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
+    nn->show();
 }
 
 
@@ -868,7 +883,7 @@ void PhoneInstanceWidget::on_toolButton_10_clicked()
             float fz[] = { 14.384073f, 0.493712f, 14.386272f, 13.7585411 };
 
             //SendAccelerometer(fx[m], fy[m], fz[m]);
-            for (int m = 0; m < 1; m++)
+            for (int m = 0; m < 4; m++)
             {
                 int iRet = source->sendInputAccelerometer(fx[m], fy[m], fz[m]);
                 qDebug() << "摇一摇 iRet=" << iRet;
