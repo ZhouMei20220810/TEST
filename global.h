@@ -59,8 +59,8 @@
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
-#define     DOWNLOAD_SCREENSHOT_INTERVAL (6*1000)       //下载截图间隔
-#define     TIMER_INTERVAL          (60*1000)               //正式时间
+#define     DOWNLOAD_SCREENSHOT_INTERVAL (3*1000)       //下载截图间隔
+#define     TIMER_INTERVAL          (6*1000)               //正式时间
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
 #define OPEN_ZHIFUBAO_TEMP_FILE_NAME "ysy.html"
@@ -135,6 +135,7 @@ typedef struct LEVEL_DATA_INFO
 
 QString getMessageByCode(long code);
 std::string sha256(const std::string str);
+int calculateWidth(int fixedHeight);
 
 
 enum ENUM_LOGIN_PAGE_TYPE

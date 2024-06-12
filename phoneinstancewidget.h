@@ -25,6 +25,16 @@ public:
     explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo, QDialog* parent = nullptr);
     ~PhoneInstanceWidget();
     // QWidget interface
+signals:
+    void ReturnSignals();
+    void HomeSignals();
+    void ChangePageSignals();
+    void TouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
+    void dealTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
+public slots:
+    void do_ReturnSignals();
+    void do_HomeSignals();
+    void do_ChangePageSignals();
 protected:
     bool onPlayStart(S_PAD_INFO padInfo);
     void onPlayStop(bool bQuit);

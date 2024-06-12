@@ -18,13 +18,6 @@
 #include <QStandardItemModel>
 #include <QGeoPositionInfoSource>
 
-int calculateWidth(int fixedHeight)
-{
-    const double aspectRatio=9.0/16.0;
-    int calcWidth = static_cast<int>(fixedHeight * aspectRatio);
-    return calcWidth;
-}
-
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent)
     : QDialog(parent)
     , ui(new Ui::PhoneInstanceWidget)
@@ -467,43 +460,63 @@ void PhoneInstanceWidget::on_toolBtnADB_clicked()
     //ADB
 }*/
 
-void PhoneInstanceWidget::on_toolBtnReturn_clicked()
+void PhoneInstanceWidget::do_ReturnSignals()
 {
-	Mutex::Autolock lock(m_Mutex);
-    if(m_Player != NULL)
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
     {
         DataSource* source = m_Player->getDataSource();
-        if(source != NULL)
+        if (source != NULL)
         {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN|SW_ACTION_KEY_UP, KEY_BACK);
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_BACK);
         }
     }
 }
-
-
-void PhoneInstanceWidget::on_toolBtnHome_clicked()
+void PhoneInstanceWidget::do_HomeSignals()
 {
-	Mutex::Autolock lock(m_Mutex);
-    if(m_Player != NULL)
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
     {
         DataSource* source = m_Player->getDataSource();
-        if(source != NULL)
+        if (source != NULL)
         {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN|SW_ACTION_KEY_UP, KEY_HOMEPAGE);
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_HOMEPAGE);
         }
     }
 }
-
-
-void PhoneInstanceWidget::on_toolBtnChangePage_clicked()
+void PhoneInstanceWidget::do_ChangePageSignals()
 {
-	Mutex::Autolock lock(m_Mutex);
+    Mutex::Autolock lock(m_Mutex);
     if (m_Player != NULL) {
         DataSource* source = m_Player->getDataSource();
         if (source != NULL) {
             source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_MENU);
         }
     }
+}
+
+void PhoneInstanceWidget::on_toolBtnReturn_clicked()
+{
+    if (GlobalData::bIsSyncOperation)
+        emit ReturnSignals();
+    else
+        do_ReturnSignals();
+}
+
+void PhoneInstanceWidget::on_toolBtnHome_clicked()
+{
+    if (GlobalData::bIsSyncOperation)
+        emit HomeSignals();
+    else
+        do_HomeSignals();
+}
+
+void PhoneInstanceWidget::on_toolBtnChangePage_clicked()
+{
+    if (GlobalData::bIsSyncOperation)
+        emit ChangePageSignals();
+    else
+        do_ChangePageSignals();
 }
 
 bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
@@ -632,7 +645,8 @@ bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
 			datasource->setBusinessType(businessType);
 
 			m_Player->setDataSource(datasource);
-            connect(ui->videoViewWidget, &VideoViewWidget::syncTouchEventSignals, ui->videoViewWidget, &VideoViewWidget::do_syncTouchEventSignals);
+            connect(ui->videoViewWidget, &VideoViewWidget::syncTouchEventSignals, this, &PhoneInstanceWidget::TouchEventSignals);
+            connect(this, &PhoneInstanceWidget::dealTouchEventSignals, ui->videoViewWidget, &VideoViewWidget::do_syncTouchEventSignals);
             m_Player->setDisplay(ui->videoViewWidget);
             //开始投屏
 			m_Player->start();

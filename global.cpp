@@ -109,6 +109,12 @@ std::string sha256(const std::string str)
     }
     return newString;
 }
+int calculateWidth(int fixedHeight)
+{
+    const double aspectRatio = 9.0 / 16.0;
+    int calcWidth = static_cast<int>(fixedHeight * aspectRatio);
+    return calcWidth;
+}
 QString getMessageByCode(long code)
 {
     QString strMsg;

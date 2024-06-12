@@ -26,6 +26,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+signals:
+    void returnSignals();
+    void homeSignals();
+    void changePageSignals();
+    void paifaTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
@@ -206,6 +211,12 @@ private slots:
     void on_radioButtonSyncOperation_clicked(bool checked);
     //显示实例
     void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
+
+    void do_ReturnSignals();
+    void do_HomeSignals();
+    void do_ChangePageSignals();
+    void do_TouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -260,6 +271,10 @@ private:
 
     QPoint  m_LastPos;
     bool m_bMoving= false;
+
+    //同步操作
+    QListWidget* m_SyncOperListWidget;
+    PhoneInstanceWidget* widget = NULL;
 };
 
 #endif // MAINWINDOW_H
