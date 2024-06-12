@@ -211,12 +211,6 @@ private slots:
     void on_radioButtonSyncOperation_clicked(bool checked);
     //显示实例
     void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
-
-    void do_ReturnSignals();
-    void do_HomeSignals();
-    void do_ChangePageSignals();
-    void do_TouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
-
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
