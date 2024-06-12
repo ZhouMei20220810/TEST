@@ -2945,15 +2945,32 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
 //显示实例
 void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
 {
-    if (NULL == m_PhoneInstanceWidget)
+    if (GlobalData::bIsSyncOperation && GlobalData::mapSyncPhoneList.size() > 1)
     {
-        m_PhoneInstanceWidget = new PhoneInstanceWidget(sPhoneInfo);
+        int iSize = GlobalData::mapSyncPhoneList.size();
+        QMap<int, S_PHONE_INFO>::iterator iter = GlobalData::mapSyncPhoneList.begin();
+        for (; iter != GlobalData::mapSyncPhoneList.end(); iter++)
+        {
+            if (iter->iId == sPhoneInfo.iId)
+            {
+                continue;
+            }
+            qDebug() << "同步实例id=" << iter.value().iId;
+            //HttpGetInstanceSession(iter.value().iId);
+        }
     }
-    if (!GlobalData::bVerticalPhoneInstanceCenter)
+    else
     {
-        m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
+        if (NULL == m_PhoneInstanceWidget)
+        {
+            m_PhoneInstanceWidget = new PhoneInstanceWidget(sPhoneInfo);
+        }
+        if (!GlobalData::bVerticalPhoneInstanceCenter)
+        {
+            m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
+        }
+        m_PhoneInstanceWidget->setModal(true);
+        m_PhoneInstanceWidget->show();
+        m_PhoneInstanceWidget = NULL;
     }
-    m_PhoneInstanceWidget->setModal(true);
-    m_PhoneInstanceWidget->show();
-    m_PhoneInstanceWidget = NULL;
 }

@@ -81,11 +81,18 @@ void VideoViewWidget::mousePressEvent(QMouseEvent *event)
 	x[0] = (int)(videoWidth * percentX);
 	y[0] = (int)(videoHeight * percentY);
 
-	OnTouchEvent(SW_ACTION_DOWN, 1, x, y, force);
+	//OnTouchEvent(SW_ACTION_DOWN, 1, x, y, force);
+	emit syncTouchEventSignals(SW_ACTION_DOWN, 1, x, y, force);
 	clicktype = SW_ACTION_DOWN;
 	
 	QWidget::mousePressEvent(event);
 }
+
+void VideoViewWidget::do_syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[])
+{
+	OnTouchEvent(eventAction, pointerCount, x, y, force);
+}
+
 void VideoViewWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 	int x[1] = { -1 };
@@ -93,7 +100,8 @@ void VideoViewWidget::mouseReleaseEvent(QMouseEvent *event)
 	float force[1] = { 0 };
 	x[0] = -1;
 	y[0] = -1;
-	OnTouchEvent(SW_ACTION_UP, 1, x, y, force);
+	//OnTouchEvent(SW_ACTION_UP, 1, x, y, force);
+	emit syncTouchEventSignals(SW_ACTION_UP, 1, x, y, force);
 	clicktype = SW_ACTION_UP;
 	QWidget::mousePressEvent(event);
 }
@@ -126,7 +134,8 @@ void VideoViewWidget::mouseMoveEvent(QMouseEvent *event)
 		x[0] = (int)(videoWidth * percentX);
 		y[0] = (int)(videoHeight * percentY);
 
-		OnTouchEvent(SW_ACTION_MOVE, 1, x, y, force);
+		//OnTouchEvent(SW_ACTION_MOVE, 1, x, y, force);
+		emit syncTouchEventSignals(SW_ACTION_MOVE, 1, x, y, force);
 		event->accept();
 		return;
 	}

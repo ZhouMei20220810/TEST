@@ -19,6 +19,10 @@ public:
 
     // VideoDisplayWinBase implementation
     void onRenderer();
+signals:
+    void syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
+public slots:
+    void do_syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
 private:
     void  Show_RGB(const uchar* data, uchar Per_port_number, uchar frame_len);
 

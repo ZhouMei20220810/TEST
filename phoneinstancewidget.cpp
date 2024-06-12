@@ -100,9 +100,6 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         }
     }
 
-    m_listWidget = new QListWidget(this);
-    
-
     //setToolBtnVisible(GlobalData::bVerticalPhoneInstance);    
     m_toolObject = new ToolObject(this);
     m_PhoneInfo = sPhoneInfo;
@@ -222,10 +219,13 @@ void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint6
                     //true操作成功
                     if (obj["data"].isObject())
                     {
+                        S_PAD_INFO padInfo;
+                        padInfo.iPhoneId = id;
                         QJsonObject dataObj = obj["data"].toObject();
                         QJsonObject data = dataObj["data"].toObject();
-                        m_strSessionId = data["sessionId"].toString();
-                        qDebug() << "m_strSessionId = " << m_strSessionId;
+                        //m_strSessionId = data["sessionId"].toString();
+                        padInfo.strSessionID = data["sessionId"].toString();
+                        //qDebug() << "m_strSessionId = " << m_strSessionId;
                         QJsonObject control;
                         QJsonArray controlArray = data["controlList"].toArray();
                         for (int iControl = 0; iControl < controlArray.size(); iControl++)
@@ -236,25 +236,23 @@ void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint6
                             {
                                 QJsonArray controlList = control["controlInfoList"].toArray();
                                 int iSize = controlList.size();
-                                QJsonObject info;
-                                S_PAD_INFO padInfo;
+                                QJsonObject info;                                
                                 for (int i = 0; i < iSize; i++)
                                 {
                                     info = controlList.at(i).toObject();
-                                    m_strControlIp = info["controlIp"].toString();
-                                    m_dControlPort = info["controlPort"].toDouble();
-                                    padInfo.strControlAddr = m_strControlIp;
-                                    padInfo.fControlPort = m_dControlPort;
+                                    padInfo.strControlAddr = info["controlIp"].toString();
+                                    padInfo.fControlPort = info["controlPort"].toDouble();
                                     padInfo.iUserID = GlobalData::id;
-                                    padInfo.strSessionID = m_strSessionId;
                                     padInfo.iHWaccel = 1;
-                                    m_strTraceServer = info["traceServer"].toString();
-                                    qDebug() << "m_strControlIp=" << m_strControlIp << "m_dControlPort=" << m_dControlPort << "strTraceServer=" << m_strTraceServer;
+
+                                    m_mapPadInfo.insert(id, padInfo);
+                                    //m_strTraceServer = info["traceServer"].toString();
+                                    //qDebug() << "m_strControlIp=" << m_strControlIp << "m_dControlPort=" << m_dControlPort << "strTraceServer=" << m_strTraceServer;
                                 }
                             }
                         }
                          
-                        onPlayStart();
+                        onPlayStart(padInfo);
                     }
                 }
                 else
@@ -508,7 +506,7 @@ void PhoneInstanceWidget::on_toolBtnChangePage_clicked()
     }
 }
 
-bool PhoneInstanceWidget::onPlayStart()
+bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
 {
 	Mutex::Autolock lock(m_Mutex);
 	if (m_Player == NULL) 
@@ -523,11 +521,11 @@ bool PhoneInstanceWidget::onPlayStart()
 
 			std::string padcode = ui->toolBtnPhoneInstance->text().toStdString();
             std::string packageName = "";//可以为空
-            std::string controlAddr = m_strControlIp.toStdString();//"120.26.132.153";
+            std::string controlAddr = padInfo.strControlAddr.toStdString();//"120.26.132.153";
 
-            int controlPort = m_dControlPort;//端口
+            int controlPort = padInfo.fControlPort;//端口
             int userID = GlobalData::id;
-            std::string sessionID=m_strSessionId.toStdString();
+            std::string sessionID = padInfo.strSessionID.toStdString();
 
 			if (padcode.empty()) {
 				break;
@@ -634,6 +632,7 @@ bool PhoneInstanceWidget::onPlayStart()
 			datasource->setBusinessType(businessType);
 
 			m_Player->setDataSource(datasource);
+            connect(ui->videoViewWidget, &VideoViewWidget::syncTouchEventSignals, ui->videoViewWidget, &VideoViewWidget::do_syncTouchEventSignals);
             m_Player->setDisplay(ui->videoViewWidget);
             //开始投屏
 			m_Player->start();

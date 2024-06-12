@@ -26,7 +26,7 @@ public:
     ~PhoneInstanceWidget();
     // QWidget interface
 protected:
-    bool onPlayStart();
+    bool onPlayStart(S_PAD_INFO padInfo);
     void onPlayStop(bool bQuit);
 
     // SWDataSourceListener implementation
@@ -103,14 +103,6 @@ private:
     QStringList m_strPhoneList;
     ToolObject* m_toolObject;
 
-
-    QString m_strSessionId;
-    QString m_strControlIp;
-    float   m_fControlPort;
-    QString m_strTraceServer;
-    double m_dControlPort;
-
-    //VideoViewWidget* m_Display;
     SWPlayer* m_Player;
     Mutex m_Mutex;
 
@@ -120,11 +112,10 @@ private:
     int     m_width;
     int     m_height;
 
-    QMap<QString, S_PAD_INFO> m_mapPadInfo;
+    QMap<int, S_PAD_INFO> m_mapPadInfo;
     QGeoPositionInfoSource* m_GeoSource;
 
     VideoViewWidget* m_OtherVideoViewWidget;
-    QListWidget* m_listWidget;
 };
 
 #endif // PHONEINSTANCEWIDGET_H

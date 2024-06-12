@@ -236,6 +236,8 @@ typedef struct ORDER_INFO
 
 typedef struct PAD_INFO
 {
+    int         iPhoneId;
+    QString     strInstanceNo;
     QString     strControlAddr;
     float       fControlPort;
     int         iUserID;
@@ -280,6 +282,7 @@ public:
     static bool     bIsTopWindow;
 
     static bool     bIsSyncOperation; //    同步操作
+    static QMap<int, S_PHONE_INFO> mapSyncPhoneList;
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;
