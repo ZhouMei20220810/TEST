@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include "global.h"
-#include "phoneinstancewidget.h"
 
 namespace Ui {
 class PhoneListModeItemWidget;
@@ -16,12 +15,12 @@ class PhoneListModeItemWidget : public QWidget
 public:
     explicit PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent = nullptr);
     ~PhoneListModeItemWidget();
+signals:
+    void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
 
 private:
     Ui::PhoneListModeItemWidget *ui;
     S_PHONE_INFO m_sPhoneInfo;
-
-    PhoneInstanceWidget* m_PhoneInstanceWidget;
     // QWidget interface
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;

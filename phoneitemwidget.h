@@ -10,7 +10,6 @@
 #include <QTimer>
 #include <QCheckBox>
 #include <QLabel>
-#include "phoneinstancewidget.h"
 
 namespace Ui {
 class PhoneItemWidget;
@@ -28,6 +27,8 @@ public:
     bool getCheckBoxStatus();
 
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
+signals:
+    void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
 private slots:
     void httpFinished();//文件接收完成
     void httpReadyRead();//接受数据中
@@ -50,8 +51,6 @@ private:
 
     QLabel* m_LabelAccredit;
     QCheckBox* m_checkBox;
-
-    PhoneInstanceWidget* m_PhoneInstanceWidget;
 };
 
 #endif // PHONEITEMWIDGET_H

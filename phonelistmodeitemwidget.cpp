@@ -12,8 +12,6 @@ PhoneListModeItemWidget::PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget
     setAttribute(Qt::WA_DeleteOnClose, true);
     m_sPhoneInfo = sPhoneInfo;
 
-    m_PhoneInstanceWidget = NULL;
-
     ui->checkBox->setText(sPhoneInfo.strName);
     ui->labelSystem->setText("Android");
 
@@ -35,19 +33,8 @@ PhoneListModeItemWidget::~PhoneListModeItemWidget()
 void PhoneListModeItemWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
-    {        
-        if (NULL == m_PhoneInstanceWidget)
-        {
-            m_PhoneInstanceWidget = new PhoneInstanceWidget(m_sPhoneInfo);
-        }
-        if (!GlobalData::bVerticalPhoneInstanceCenter)
-        {
-            m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
-        }
-
-        m_PhoneInstanceWidget->setModal(true);
-        m_PhoneInstanceWidget->show();
-        m_PhoneInstanceWidget = NULL;
+    {     
+        emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo);
     }
     QWidget::mousePressEvent(event);
 }

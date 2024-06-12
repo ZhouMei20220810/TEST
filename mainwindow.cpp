@@ -283,17 +283,7 @@ void MainWindow::do_ActionBeginControl(bool bChecked)
         return;
     
     S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-    if (NULL == m_PhoneInstanceWidget)
-    {
-        m_PhoneInstanceWidget = new PhoneInstanceWidget(phoneInfo);
-    }
-    if (!GlobalData::bVerticalPhoneInstanceCenter)
-    {
-        m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
-    }
-    m_PhoneInstanceWidget->setModal(true);
-    m_PhoneInstanceWidget->show();
-    m_PhoneInstanceWidget = NULL;    
+    on_ShowPhoneInstanceWidgetSignals(phoneInfo);
 }
 void MainWindow::do_ActionCopyCloudId(bool bChecked)
 {
@@ -599,6 +589,7 @@ QStringList MainWindow::getCheckedPhoneInstance()
     QListWidgetItem* item = NULL;
     PhoneItemWidget* phoneItem = NULL;
     S_PHONE_INFO phoneInfo;
+    GlobalData::mapSyncPhoneList.clear();
     for (int i = 0; i < iCount; i++)
     {
         item = ui->listWidget->item(i);
@@ -609,6 +600,7 @@ QStringList MainWindow::getCheckedPhoneInstance()
             if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty() && phoneItem->getCheckBoxStatus())
             {
                 strPhoneList<< phoneInfo.strInstanceNo;
+                GlobalData::mapSyncPhoneList.insert(phoneInfo.iId, phoneInfo);
             }
         }
     }
@@ -1696,7 +1688,7 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
         }
         else
         {
-            if (doc.isObject())
+            if (doc.isObject())       
             {
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
@@ -2646,6 +2638,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
         strList << phoneInfo.strInstanceNo;
         //重新显示listWidget
         widget = new PhoneItemWidget(phoneInfo, this);
+        connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
         phoneItem = new QListWidgetItem(ui->listWidget);
         phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
         phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -2654,6 +2647,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
 
         //listWidget2
         widget2 = new PhoneListModeItemWidget(phoneInfo, this);
+        connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
         phoneItem = new QListWidgetItem(ui->listWidget2);
         phoneItem->setSizeHint(QSize(100, 30));
         phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -2691,6 +2685,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
 
                 //重新显示listWidget
                 widget = new PhoneItemWidget(phoneInfo,this);
+                connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
                 phoneItem = new QListWidgetItem(ui->listWidget);
                 phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                 phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -2699,6 +2694,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
 
                 //listWidget2
                 widget2 = new PhoneListModeItemWidget(phoneInfo, this);
+                connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
                 phoneItem = new QListWidgetItem(ui->listWidget2);
                 phoneItem->setSizeHint(QSize(100, 30));
                 phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -2946,3 +2942,18 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
     qDebug() << "同步=" << GlobalData::bIsSyncOperation;
 }
 
+//显示实例
+void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
+{
+    if (NULL == m_PhoneInstanceWidget)
+    {
+        m_PhoneInstanceWidget = new PhoneInstanceWidget(sPhoneInfo);
+    }
+    if (!GlobalData::bVerticalPhoneInstanceCenter)
+    {
+        m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
+    }
+    m_PhoneInstanceWidget->setModal(true);
+    m_PhoneInstanceWidget->show();
+    m_PhoneInstanceWidget = NULL;
+}

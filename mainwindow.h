@@ -204,7 +204,8 @@ private slots:
     void handleTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
     //同步操作
     void on_radioButtonSyncOperation_clicked(bool checked);
-
+    //显示实例
+    void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
