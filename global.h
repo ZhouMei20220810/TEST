@@ -89,7 +89,11 @@
 #define          QUEUE_ITEM_HEIGHT          30
 //renew item
 #define          RENEW_ITEM_WIDTH           100
-#define          RENEW_ITEM_HEIGHT          30
+#define          RENEW_ITEM_HEIGHT          20
+//listmode item
+#define          LISTMODE_ITEM_HEGITH       20
+#define          LISTMODE_ITEM_WIDTH        100
+#define          LIST_WIDGET_LISTMODE_ITEM_SPACING          5
 
 #define         PHONE_INSTANCE_SHOW_TOOLBUTTON_NUM           (7)
 

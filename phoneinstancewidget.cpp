@@ -152,7 +152,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         //（0：自动，1：高清，2：标清，3：流畅）
         QIcon icon(QString(":/resource/instance/%1.png").arg(i+1));
         item->setIcon(icon);
-        item->setData(Qt::UserRole, i);
+        //item->setData(Qt::UserRole, i);
 
         // 将项添加到模型
         model->appendRow(item);

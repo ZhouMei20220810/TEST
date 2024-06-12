@@ -539,7 +539,7 @@ void MainWindow::InitPhoneList()
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidget2->setSpacing(ITEM_WIDGET_SPACING);
+    ui->listWidget2->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidget2->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -732,7 +732,7 @@ void MainWindow::InitVipRenewList()
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidgetRenewList->setSpacing(5);
+    ui->listWidgetRenewList->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidgetRenewList->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -747,7 +747,7 @@ void MainWindow::InitActiveCodeRenewList()
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidgetRenew->setSpacing(5);
+    ui->listWidgetRenew->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidgetRenew->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -2650,7 +2650,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
         widget2 = new PhoneListModeItemWidget(phoneInfo, this);
         connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
         phoneItem = new QListWidgetItem(ui->listWidget2);
-        phoneItem->setSizeHint(QSize(100, 30));
+        phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
         phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
         ui->listWidget2->addItem(phoneItem);
         ui->listWidget2->setItemWidget(phoneItem, widget2);
@@ -2697,7 +2697,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
                 widget2 = new PhoneListModeItemWidget(phoneInfo, this);
                 connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
                 phoneItem = new QListWidgetItem(ui->listWidget2);
-                phoneItem->setSizeHint(QSize(100, 30));
+                phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
                 phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
                 ui->listWidget2->addItem(phoneItem);
                 ui->listWidget2->setItemWidget(phoneItem, widget2);

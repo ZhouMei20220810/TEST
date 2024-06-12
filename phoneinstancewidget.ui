@@ -138,7 +138,7 @@ padding-left:0px;
          <widget class="QComboBox" name="comboBox">
           <property name="minimumSize">
            <size>
-            <width>80</width>
+            <width>60</width>
             <height>40</height>
            </size>
           </property>
