@@ -35,6 +35,12 @@ signals:
     void RebootSignals();
     void FactoryDataResetSignals();
     void ScreenshotsSignals();
+    void VolumeUpSignals();
+    void VolumeDownSignals();
+    void HorizontalSignals();
+    void SharkSignals();
+    void GPSSignals();
+    void closePhoneInstanceWidgetSignals();
 public slots:
     void do_ReturnSignals();
     void do_HomeSignals();
@@ -43,6 +49,12 @@ public slots:
     void do_RebootSignals();
     void do_FactoryDataResetSignals();
     void do_ScreenshotsSignals();
+    void do_VolumeUpSignals();
+    void do_VolumeDownSignals();
+    void do_HorizontalSignals();
+    void do_SharkSignals();
+    void do_GPSSignals();
+    void do_closePhoneInstanceWidgetSignals();
 protected:
     bool onPlayStart(S_PAD_INFO padInfo);
     void onPlayStop(bool bQuit);

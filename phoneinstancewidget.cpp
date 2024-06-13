@@ -343,13 +343,16 @@ void PhoneInstanceWidget::on_toolBtnMax_clicked()
     }
 }
 
-
-void PhoneInstanceWidget::on_toolBtnClose_clicked()
+void PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals()
 {
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     setting.setValue("PhoneInstancePoint", QVariant::fromValue(this->pos()));
-    
+
     this->close();
+}
+void PhoneInstanceWidget::on_toolBtnClose_clicked()
+{
+    emit closePhoneInstanceWidgetSignals();
 }
 
 
@@ -793,43 +796,46 @@ void PhoneInstanceWidget::mouseMoveEvent(QMouseEvent *event)
     return QWidget::mouseMoveEvent(event);
 }
 
-void PhoneInstanceWidget::on_toolButton_1_clicked()
+void PhoneInstanceWidget::do_VolumeUpSignals()
 {
     //音量加大
     Mutex::Autolock lock(m_Mutex);
-    if(m_Player != NULL)
+    if (m_Player != NULL)
     {
         DataSource* source = m_Player->getDataSource();
-        if(source != NULL)
+        if (source != NULL)
         {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN|SW_ACTION_KEY_UP, KEY_VOLUMEUP);
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_VOLUMEUP);
         }
     }
+}
+void PhoneInstanceWidget::do_VolumeDownSignals()
+{
+    //音量减小
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            source->sendKeyEvent(SW_ACTION_KEY_DOWN | SW_ACTION_KEY_UP, KEY_VOLUMEDOWN);
+        }
+    }
+}
+
+void PhoneInstanceWidget::on_toolButton_1_clicked()
+{
+    emit VolumeUpSignals();
 }
 
 void PhoneInstanceWidget::on_toolButton_2_clicked()
 {
-    //音量减小
-    Mutex::Autolock lock(m_Mutex);
-    if(m_Player != NULL)
-    {
-        DataSource* source = m_Player->getDataSource();
-        if(source != NULL)
-        {
-            source->sendKeyEvent(SW_ACTION_KEY_DOWN|SW_ACTION_KEY_UP, KEY_VOLUMEDOWN);
-        }
-    }
+    emit VolumeDownSignals();
 }
-
 
 void PhoneInstanceWidget::on_toolButton_3_clicked()
 {
-    //横屏
-    this->close();
-
-    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
-    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
-    nn->show();
+    emit HorizontalSignals();
 }
 
 
@@ -883,27 +889,7 @@ void PhoneInstanceWidget::on_toolButton_9_clicked()
 
 void PhoneInstanceWidget::on_toolButton_10_clicked()
 {
-    qDebug() << "this->width" << this->width() << "this.height=" << this->height();
-	//摇一摇
-    Mutex::Autolock lock(m_Mutex);
-    if (m_Player != NULL)
-    {
-        DataSource* source = m_Player->getDataSource();
-        if (source != NULL)
-        {
-            float fx[] = { 18.140408f, -18.2266f, -18.2266f, 13.803864f };
-            float fy[] = { -13.018726f, 12.674904f,14.300858f, -12.225403f };
-            float fz[] = { 14.384073f, 0.493712f, 14.386272f, 13.7585411 };
-
-            //SendAccelerometer(fx[m], fy[m], fz[m]);
-            for (int m = 0; m < 4; m++)
-            {
-                int iRet = source->sendInputAccelerometer(fx[m], fy[m], fz[m]);
-                qDebug() << "摇一摇 iRet=" << iRet;
-            }
-            
-        }
-    }
+    emit SharkSignals();
 }
 
 void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info) 
@@ -940,8 +926,39 @@ void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info)
         }
     }
 }
+void PhoneInstanceWidget::do_HorizontalSignals()
+{
+    //横屏
+    this->close();
 
-void PhoneInstanceWidget::on_toolButton_11_clicked()
+    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
+    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
+    nn->show();
+}
+void PhoneInstanceWidget::do_SharkSignals()
+{
+    //摇一摇
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            float fx[] = { 18.140408f, -18.2266f, -18.2266f, 13.803864f };
+            float fy[] = { -13.018726f, 12.674904f,14.300858f, -12.225403f };
+            float fz[] = { 14.384073f, 0.493712f, 14.386272f, 13.7585411 };
+
+            //SendAccelerometer(fx[m], fy[m], fz[m]);
+            for (int m = 0; m < 4; m++)
+            {
+                int iRet = source->sendInputAccelerometer(fx[m], fy[m], fz[m]);
+                qDebug() << "摇一摇 iRet=" << iRet;
+            }
+
+        }
+    }
+}
+void PhoneInstanceWidget::do_GPSSignals()
 {
     qDebug() << "this->width" << this->width() << "this.height=" << this->height();
     //gps
@@ -967,19 +984,19 @@ void PhoneInstanceWidget::on_toolButton_11_clicked()
                     MessageTips* tips = new MessageTips("定位权限未打开", this);
                     tips->show();
                 }
-                    break;
+                break;
                 case QGeoPositionInfoSource::ClosedError:
                 {
                     MessageTips* tips = new MessageTips("远程定位后端关闭连接，这种情况发生在用户将位置服务切换为off的情况下,一旦位置服务重新启用，定期更新将恢复。", this);
                     tips->show();
                 }
-                    break;
+                break;
                 case QGeoPositionInfoSource::UnknownSourceError:
                 {
                     MessageTips* tips = new MessageTips("未知错误", this);
                     tips->show();
                 }
-                    break;
+                break;
                 case QGeoPositionInfoSource::NoError:
                     break;
                 case QGeoPositionInfoSource::UpdateTimeoutError:
@@ -987,14 +1004,19 @@ void PhoneInstanceWidget::on_toolButton_11_clicked()
                     MessageTips* tips = new MessageTips("当前位置不能在指定的超时内检索", this);
                     tips->show();
                 }
-                    break;
+                break;
                 default:
                     break;
                 }
-                qDebug()<<"gps error="<<err;
-            }            
+                qDebug() << "gps error=" << err;
+            }
         }
     }
+}
+
+void PhoneInstanceWidget::on_toolButton_11_clicked()
+{
+    emit GPSSignals();
 }
 
 void PhoneInstanceWidget::on_toolButton_12_clicked()

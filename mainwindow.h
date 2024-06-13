@@ -34,6 +34,13 @@ signals:
     void RebootSignals();
     void FactoryDataResetSignals();
     void ScreenshotsSignals();
+    void VolumeUpSignals();
+    void VolumeDownSignals();
+    void HorizontalSignals();
+    void SharkSignals();
+    void GPSSignals();
+
+    void closePhoneInstanceWidgetSignals();
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

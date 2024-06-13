@@ -3000,33 +3000,27 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
         connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ScreenshotsSignals, this, &MainWindow::ScreenshotsSignals);
         connect(this, &MainWindow::ScreenshotsSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ScreenshotsSignals);        
 
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::VolumeUpSignals,this, &MainWindow::VolumeUpSignals);
+        connect(this, &MainWindow::VolumeUpSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_VolumeUpSignals);
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::VolumeDownSignals,this, &MainWindow::VolumeDownSignals);
+        connect(this, &MainWindow::VolumeDownSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_VolumeDownSignals);
+        
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HorizontalSignals, this, &MainWindow::HorizontalSignals);
+        connect(this, &MainWindow::HorizontalSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HorizontalSignals);
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::SharkSignals, this, &MainWindow::SharkSignals);
+        connect(this, &MainWindow::SharkSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_SharkSignals);
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
+        connect(this, &MainWindow::GPSSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_GPSSignals);
+
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, this, &MainWindow::closePhoneInstanceWidgetSignals);
+        connect(this, &MainWindow::closePhoneInstanceWidgetSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
+
         if (iter->iId != sPhoneInfo.iId)
         {            
             item = new QListWidgetItem(m_SyncOperListWidget);
             item->setSizeHint(QSize(iwidth, height));
             item->setData(Qt::UserRole, QVariant::fromValue(*iter));
-            m_SyncOperListWidget->setItemWidget(item, m_PhoneInstanceWidget);
-
-            /*if (NULL == m_PhoneInstanceWidget)
-            {
-                m_PhoneInstanceWidget = new PhoneInstanceWidget(sPhoneInfo);
-            }
-            if (!GlobalData::bVerticalPhoneInstanceCenter)
-            {
-                m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
-            }
-            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
-            connect(this, &MainWindow::paifaTouchEventSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::dealTouchEventSignals);
-
-            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ReturnSignals, this, &MainWindow::returnSignals);
-            connect(this, &MainWindow::returnSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ReturnSignals);
-
-            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HomeSignals, this, &MainWindow::homeSignals);
-            connect(this, &MainWindow::homeSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HomeSignals);
-
-            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
-            connect(this, &MainWindow::changePageSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ChangePageSignals);*/
-            
+            m_SyncOperListWidget->setItemWidget(item, m_PhoneInstanceWidget);            
         }
         else
         {
@@ -3036,8 +3030,8 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
         }
     }
 
-    //m_SyncOperListWidget->move(0, 0);
-    //m_SyncOperListWidget->resize(500,500);
-    m_SyncOperListWidget->setVisible(false);
+    m_SyncOperListWidget->move(0, 0);
+    m_SyncOperListWidget->resize(500,500);
+    m_SyncOperListWidget->setVisible(true);
 
 }
