@@ -2946,94 +2946,41 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
 //显示实例
 void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
 {
-    if (GlobalData::bIsSyncOperation && GlobalData::mapSyncPhoneList.size() > 1)
-    {
-        int iSize = GlobalData::mapSyncPhoneList.size();
-        QMap<int, S_PHONE_INFO>::iterator iter = GlobalData::mapSyncPhoneList.begin();
-        if (m_SyncOperListWidget != NULL)
-            m_SyncOperListWidget->clear();
-        else
-        {
-            m_SyncOperListWidget = new QListWidget(this);
-            m_SyncOperListWidget->setViewMode(QListView::IconMode);
-            //设置QListWidget中单元项的图片大小
-            //ui->imageList->setIconSize(QSize(100,100));
-            //设置QListWidget中单元项的间距
-            m_SyncOperListWidget->setSpacing(ITEM_WIDGET_SPACING);
-            //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-            m_SyncOperListWidget->setResizeMode(QListWidget::Adjust);
-            //设置不能移动
-            m_SyncOperListWidget->setMovement(QListWidget::Static);
-            //设置单选
-            m_SyncOperListWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-        }
-            
-        m_SyncOperListWidget->show();
-        QListWidgetItem* item = NULL;        
-        for (; iter != GlobalData::mapSyncPhoneList.end(); iter++)
-        {
-            if (iter->iId == sPhoneInfo.iId)
-            {
-                if (NULL == m_PhoneInstanceWidget)
-                {
-                    m_PhoneInstanceWidget = new PhoneInstanceWidget(sPhoneInfo);
-                }
-                if (!GlobalData::bVerticalPhoneInstanceCenter)
-                {
-                    m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
-                }
-                connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
-                connect(this, &MainWindow::paifaTouchEventSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::dealTouchEventSignals);
+    GlobalData::mapSyncPhoneList.insert(sPhoneInfo.iId, sPhoneInfo);
+    if (GlobalData::mapSyncPhoneList.size() <= 0)
+        return;
 
-                connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ReturnSignals, this, &MainWindow::returnSignals);
-                connect(this, &MainWindow::returnSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ReturnSignals);
-
-                connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HomeSignals, this, &MainWindow::homeSignals);
-                connect(this, &MainWindow::homeSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HomeSignals);
-
-                connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
-                connect(this, &MainWindow::changePageSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ChangePageSignals);
-                m_PhoneInstanceWidget->setModal(true);
-                m_PhoneInstanceWidget->show();
-                m_PhoneInstanceWidget = NULL;
-                continue;
-            }
-            qDebug() << "同步实例id=" << iter.value().iId;
-            //HttpGetInstanceSession(iter.value().iId);
-            int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
-            int iwidth = calculateWidth(height);
-            item = new QListWidgetItem(m_SyncOperListWidget);
-            item->setSizeHint(QSize(iwidth, height));
-            widget = new PhoneInstanceWidget(*iter);
-            connect(widget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
-            connect(this, &MainWindow::paifaTouchEventSignals, widget, &PhoneInstanceWidget::dealTouchEventSignals);
-
-            connect(widget, &PhoneInstanceWidget::ReturnSignals, this, &MainWindow::returnSignals);
-            connect(this, &MainWindow::returnSignals, widget, &PhoneInstanceWidget::do_ReturnSignals);
-
-            connect(widget, &PhoneInstanceWidget::HomeSignals, this, &MainWindow::homeSignals);
-            connect(this, &MainWindow::homeSignals, widget, &PhoneInstanceWidget::do_HomeSignals);
-
-            connect(widget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
-            connect(this, &MainWindow::changePageSignals, widget, &PhoneInstanceWidget::do_ChangePageSignals);
-            item->setData(Qt::UserRole, QVariant::fromValue(*iter));
-            m_SyncOperListWidget->setItemWidget(item, widget);
-        }
-
-        //m_SyncOperListWidget->move(0, 0);
-        //m_SyncOperListWidget->resize(500,500);
-        m_SyncOperListWidget->setVisible(false);
-    }
+    int iSize = GlobalData::mapSyncPhoneList.size();
+    QMap<int, S_PHONE_INFO>::iterator iter = GlobalData::mapSyncPhoneList.begin();
+    if (m_SyncOperListWidget != NULL)
+        m_SyncOperListWidget->clear();
     else
     {
-        if (NULL == m_PhoneInstanceWidget)
-        {
-            m_PhoneInstanceWidget = new PhoneInstanceWidget(sPhoneInfo);
-        }
-        if (!GlobalData::bVerticalPhoneInstanceCenter)
-        {
-            m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
-        }
+        m_SyncOperListWidget = new QListWidget(this);
+        m_SyncOperListWidget->setViewMode(QListView::IconMode);
+        //设置QListWidget中单元项的图片大小
+        //ui->imageList->setIconSize(QSize(100,100));
+        //设置QListWidget中单元项的间距
+        m_SyncOperListWidget->setSpacing(ITEM_WIDGET_SPACING);
+        //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+        m_SyncOperListWidget->setResizeMode(QListWidget::Adjust);
+        //设置不能移动
+        m_SyncOperListWidget->setMovement(QListWidget::Static);
+        //设置单选
+        m_SyncOperListWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    }
+
+    m_SyncOperListWidget->show();
+    QListWidgetItem* item = NULL;
+    int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
+    int iwidth = calculateWidth(height);
+    for (; iter != GlobalData::mapSyncPhoneList.end(); iter++)
+    {
+        if (!GlobalData::bIsSyncOperation && iter->iId != sPhoneInfo.iId)
+            continue;
+        qDebug() << "同步实例id=" << iter.value().iId;
+        //HttpGetInstanceSession(iter.value().iId);
+        m_PhoneInstanceWidget = new PhoneInstanceWidget(*iter);
         connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
         connect(this, &MainWindow::paifaTouchEventSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::dealTouchEventSignals);
 
@@ -3045,8 +2992,52 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
 
         connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
         connect(this, &MainWindow::changePageSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ChangePageSignals);
-        m_PhoneInstanceWidget->setModal(true);
-        m_PhoneInstanceWidget->show();
-        m_PhoneInstanceWidget = NULL;
+
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::RebootSignals, this, &MainWindow::RebootSignals);
+        connect(this, &MainWindow::RebootSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_RebootSignals);
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::FactoryDataResetSignals, this, &MainWindow::FactoryDataResetSignals);
+        connect(this, &MainWindow::FactoryDataResetSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_FactoryDataResetSignals);
+        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ScreenshotsSignals, this, &MainWindow::ScreenshotsSignals);
+        connect(this, &MainWindow::ScreenshotsSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ScreenshotsSignals);        
+
+        if (iter->iId != sPhoneInfo.iId)
+        {            
+            item = new QListWidgetItem(m_SyncOperListWidget);
+            item->setSizeHint(QSize(iwidth, height));
+            item->setData(Qt::UserRole, QVariant::fromValue(*iter));
+            m_SyncOperListWidget->setItemWidget(item, m_PhoneInstanceWidget);
+
+            /*if (NULL == m_PhoneInstanceWidget)
+            {
+                m_PhoneInstanceWidget = new PhoneInstanceWidget(sPhoneInfo);
+            }
+            if (!GlobalData::bVerticalPhoneInstanceCenter)
+            {
+                m_PhoneInstanceWidget->move(GlobalData::pointPhoneInstance);
+            }
+            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
+            connect(this, &MainWindow::paifaTouchEventSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::dealTouchEventSignals);
+
+            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ReturnSignals, this, &MainWindow::returnSignals);
+            connect(this, &MainWindow::returnSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ReturnSignals);
+
+            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HomeSignals, this, &MainWindow::homeSignals);
+            connect(this, &MainWindow::homeSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HomeSignals);
+
+            connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
+            connect(this, &MainWindow::changePageSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ChangePageSignals);*/
+            
+        }
+        else
+        {
+            m_PhoneInstanceWidget->setModal(true);
+            m_PhoneInstanceWidget->show();
+            m_PhoneInstanceWidget = NULL;
+        }
     }
+
+    //m_SyncOperListWidget->move(0, 0);
+    //m_SyncOperListWidget->resize(500,500);
+    m_SyncOperListWidget->setVisible(false);
+
 }

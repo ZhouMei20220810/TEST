@@ -497,26 +497,17 @@ void PhoneInstanceWidget::do_ChangePageSignals()
 
 void PhoneInstanceWidget::on_toolBtnReturn_clicked()
 {
-    if (GlobalData::bIsSyncOperation)
-        emit ReturnSignals();
-    else
-        do_ReturnSignals();
+    emit ReturnSignals();
 }
 
 void PhoneInstanceWidget::on_toolBtnHome_clicked()
 {
-    if (GlobalData::bIsSyncOperation)
-        emit HomeSignals();
-    else
-        do_HomeSignals();
+    emit HomeSignals();
 }
 
 void PhoneInstanceWidget::on_toolBtnChangePage_clicked()
 {
-    if (GlobalData::bIsSyncOperation)
-        emit ChangePageSignals();
-    else
-        do_ChangePageSignals();
+    emit ChangePageSignals();
 }
 
 bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
@@ -846,12 +837,15 @@ void PhoneInstanceWidget::on_toolButton_4_clicked()
 {
 
 }
-
+void PhoneInstanceWidget::do_ScreenshotsSignals()
+{
+    m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
+}
 
 void PhoneInstanceWidget::on_toolButton_5_clicked()
 {
     //截图
-    m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
+    emit ScreenshotsSignals();
 }
 
 
@@ -860,18 +854,24 @@ void PhoneInstanceWidget::on_toolButton_6_clicked()
 
 }
 
-
-void PhoneInstanceWidget::on_toolButton_7_clicked()
+void PhoneInstanceWidget::do_RebootSignals()
 {
-    //重启
     m_toolObject->HttpPostInstanceReboot(m_strPhoneList);
 }
 
+void PhoneInstanceWidget::on_toolButton_7_clicked()
+{
+    emit RebootSignals();
+}
 
+void PhoneInstanceWidget::do_FactoryDataResetSignals()
+{
+    m_toolObject->HttpPostInstanceReset(m_strPhoneList);
+}
 void PhoneInstanceWidget::on_toolButton_8_clicked()
 {
     //恢复出厂
-    m_toolObject->HttpPostInstanceReset(m_strPhoneList);
+    emit FactoryDataResetSignals();    
 }
 
 

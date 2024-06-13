@@ -10,8 +10,9 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
 {
     ui->setupUi(this);
 
+	m_parent = parent;
 	setStyleSheet("background-color:gray");
-    //ui->label->setText("Hello world");
+    /*//ui->label->setText("Hello world");
 	m_strTempFile = GlobalData::strPictureTempDir +"1.png";
 	
 	QFile file1(m_strTempFile);
@@ -40,6 +41,7 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
 	
 	ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	//m_strPicturePath = GlobalData::strFileTempDir + "/" + m_PhoneInfo.strInstanceNo + ".png";
+	*/
 }
 
 VideoViewWidget::~VideoViewWidget()
@@ -184,8 +186,8 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 		//	return;
 		QWidget::paintEvent(event);
 		QRect rcPaint = event->rect();
-		ui->label->setPixmap(QPixmap(m_strTempFile).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-		ui->label->resize(this->size());
+		//ui->label->setPixmap(QPixmap(m_strTempFile).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+		//ui->label->resize(this->size());
 		int item_w = ui->label->width();// m_rcItem.right - m_rcItem.left;
 		int item_h = ui->label->height();//m_rcItem.bottom - m_rcItem.top;
 		if (item_w != viewWidth || item_h != viewHeight)
@@ -197,68 +199,13 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 		else if (havePic())//paint bitmap
 		{
 			lockFrameBuffer();
-			//int item_w = m_rcItem.right - m_rcItem.left;
-			//int item_h = m_rcItem.bottom - m_rcItem.top;
-			int item_x = ui->label->rect().left();
-			int item_y = ui->label->rect().top();//m_rcItem.top;
-			int source_w = getFrameWidth();
-			int source_h = getFrameHeight();
 
 			char* src_data = (char*)getFrameBuffer();
-
-            Show_RGB((const uchar*)src_data, 20,10);
-
-
-            //ui->label->setPixmap(QPixmap(src_data));
-			//Window* parent_wnd = GetWindow();
-			/*QFile file(GlobalData::strPictureTempDir + "1.png");
-			if (file.open(QIODevice::WriteOnly))
+			if (this->isActiveWindow() && !this->isHidden())
 			{
-				QDataStream stream(&file);
-				stream << src_data;
-				file.flush();
-				file.close();
-			}*/
-			
-
-			if (src_data /*&& parent_wnd */)
-			{
-				//居中
-				item_x += (item_w - source_w) / 2;
-				item_y += (item_h - source_h) / 2;
-				//UiRect rcClient;
-				//::GetClientRect(parent_wnd->GetHWND(), &rcClient);
-				QRect rcClient = ui->label->rect();
-				int width = rcClient.right() - rcClient.left();
-				int height = rcClient.bottom() - rcClient.top();
-
-				//计算实际绘制区域坐标
-				/*int draw_x = max(rcPaint.left(), item_x);
-				draw_x = max(ui->label.left(), draw_x);
-				int draw_y = max(rcPaint.top(), item_y);
-				draw_y = max(ui->label.top(), draw_y);
-				int draw_h = min(rcPaint.bottom() - draw_y, min(item_y + source_h, ui->label.bottom()) - draw_y);
-				draw_h = max(draw_h, 0);
-				int src_x = draw_x - item_x;
-				int src_y = draw_y - item_y;
-				int src_w = min(rcPaint.right() - draw_x, min(item_x + source_w, ui->label.right()) - draw_x);
-				src_w = max(src_w, 0);
-
-				int dest_byte_width = width * 4;
-				int src_byte_width = source_w * 4;
-				int paint_byte_width = src_w * 4;
-				char* dest_data = ui->label //(char*)parent_wnd->GetRenderContext()->GetBits();
-				int bottom = draw_y;// height - draw_y - 1;
-				dest_data += bottom * dest_byte_width + draw_x * 4;
-				//char* src_data = (char*)getFrameBuffer();
-				src_data += src_y * src_byte_width + src_x * 4;
-				for (int i = 0; i < draw_h; ++i)
-				{
-					memcpy(dest_data, src_data, paint_byte_width);
-					dest_data += dest_byte_width;//-=
-					src_data += src_byte_width;
-				}*/
+				Show_RGB((const uchar*)src_data, 20, 10);
 			}
+			
 			/*Window* parent_wnd = GetWindow();
 			if (src_data && parent_wnd)
 			{
@@ -300,19 +247,6 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 
 			unlockFrameBuffer();			
 		}
-
-		////绘制子控件
-		//for (auto it = m_items.begin(); it != m_items.end(); it++)
-		//{
-		//	Control* pControl = *it;
-		//	if (!pControl->IsVisible()) continue;
-		//	UiRect controlPos = pControl->GetPos();
-		//	if (!::IntersectRect(&m_rcPaint, &rcPaint, &controlPos)) continue;
-		//	pControl->AlphaPaint(pRender, rcPaint);
-		//}
-
-		//int64_t t2 = get_time_now_ms();
-		//ALOGV("DoPaint, using time:%d", (int)(t2-t1));
 	}
 	catch (...)
 	{

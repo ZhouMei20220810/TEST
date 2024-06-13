@@ -38,7 +38,7 @@ private:
 
     QNetworkAccessManager* m_manager;
     QNetworkReply* m_reply;
-    QFile* file;
+    QFile* m_File;
     QUrl url;
 
     S_PHONE_INFO m_sPhoneInfo;

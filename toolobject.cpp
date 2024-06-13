@@ -6,7 +6,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include "messagetipsdialog.h"
 #include "messagetips.h"
 
 ToolObject::ToolObject(QObject *parent)
@@ -227,7 +226,7 @@ void ToolObject::HttpPostInstanceReboot(QStringList strList)
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog("实例重启操作成功!");
+                    MessageTips* tips = new MessageTips("实例重启操作成功!");
                     tips->show();
                 }
                 else
@@ -296,7 +295,7 @@ void ToolObject::HttpPostInstanceReset(QStringList strList)
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog("实例重置操作成功!");
+                    MessageTips* tips = new MessageTips("实例重置操作成功!");
                     tips->show();
                 }
                 else

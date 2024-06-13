@@ -31,10 +31,18 @@ signals:
     void ChangePageSignals();
     void TouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
     void dealTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
+
+    void RebootSignals();
+    void FactoryDataResetSignals();
+    void ScreenshotsSignals();
 public slots:
     void do_ReturnSignals();
     void do_HomeSignals();
     void do_ChangePageSignals();
+
+    void do_RebootSignals();
+    void do_FactoryDataResetSignals();
+    void do_ScreenshotsSignals();
 protected:
     bool onPlayStart(S_PAD_INFO padInfo);
     void onPlayStop(bool bQuit);

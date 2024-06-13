@@ -40,6 +40,8 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
     virtual void paintEvent(QPaintEvent *event) override;
+
+    QWidget* m_parent;
 };
 
 #endif // VIDEOVIEWWIDGET_H

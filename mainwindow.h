@@ -31,6 +31,9 @@ signals:
     void homeSignals();
     void changePageSignals();
     void paifaTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
+    void RebootSignals();
+    void FactoryDataResetSignals();
+    void ScreenshotsSignals();
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

@@ -103,11 +103,11 @@ bool PhoneItemWidget::getCheckBoxStatus()
 void PhoneItemWidget::startRequest(QUrl url)
 {
     //初始化文件
-    file = new QFile(m_strTemp);
-    if (!file->open(QIODevice::WriteOnly))
+    m_File = new QFile(m_strTemp);
+    if (!m_File->open(QIODevice::WriteOnly))
     {
-        delete file;
-        file = NULL;
+        delete m_File;
+        m_File = NULL;
     }
     qDebug() << "PhoneItemWidget::startRequest url=" << url << " file=" << m_strTemp;
     m_reply = m_manager->get(QNetworkRequest(url));
@@ -119,20 +119,23 @@ void PhoneItemWidget::startRequest(QUrl url)
 //文件接收完成
 void PhoneItemWidget::httpFinished()
 {
-    if (file)
+    if (m_File)
     {
-        file->close();
+        m_File->flush();
+        //file->close();
         QPixmap pixmap(m_strTemp);
         if (!pixmap.isNull())
         {
-            if (QFile::exists(m_strPicturePath))
+            QFile file(m_strPicturePath);
+            if (file.exists())
             {
-                if (!QFile::remove(m_strPicturePath))
+                if (!file.remove())
                 {
                     qDebug() << "remove fail:" << m_strPicturePath;
                 }                    
             }
-            file->rename(m_strPicturePath);
+            m_File->rename(m_strPicturePath);
+            //file.rename(m_strPicturePath);
             pixmap = QPixmap(m_strPicturePath);
             ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
@@ -144,8 +147,9 @@ void PhoneItemWidget::httpFinished()
             else
                 ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }
-        delete file;
-        file = 0;
+        m_File->close();
+        delete m_File;
+        m_File = NULL;
     }
     m_reply->deleteLater();
     m_reply = 0;
@@ -155,9 +159,9 @@ void PhoneItemWidget::httpFinished()
 //接受数据中
 void PhoneItemWidget::httpReadyRead()
 {
-    if (file) 
+    if (m_File) 
     { 
-        file->write(m_reply->readAll()); 
+        m_File->write(m_reply->readAll()); 
     }
 }
 
