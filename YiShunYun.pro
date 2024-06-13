@@ -141,14 +141,6 @@ DEPENDPATH += $$PWD/include
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/qrencode.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libqrencode.a
 
-win32: LIBS += -L$$PWD/libs/ -lalibabacloud-oss-cpp-sdk
-
-INCLUDEPATH += $$PWD/include
-DEPENDPATH += $$PWD/include
-
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/alibabacloud-oss-cpp-sdk.lib
-else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libalibabacloud-oss-cpp-sdk.a
-
 win32: LIBS += -L$$PWD/libs/ -llibcurl
 
 INCLUDEPATH += $$PWD/include/curl
@@ -173,10 +165,24 @@ DEPENDPATH += $$PWD/include
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/libeay32.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/liblibeay32.a
 
-win32: LIBS += -L$$PWD/libs/ -lswplay_ud
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/ -lswplay_u
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/ -lswplay_ud
 
 INCLUDEPATH += $$PWD/include/SW
 DEPENDPATH += $$PWD/include/SW
 
-win32:!win32-g++: PRE_TARGETDEPS += $$PWD/libs/swplay_ud.lib
-else:win32-g++: PRE_TARGETDEPS += $$PWD/libs/libswplay_ud.a
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/libswplay_u.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/libswplay_ud.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/swplay_u.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/swplay_ud.lib
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/libs/ -lalibabacloud-oss-cpp-sdk
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/libs/ -lalibabacloud-oss-cpp-sdkd
+
+INCLUDEPATH += $$PWD/include/alibabacloud
+DEPENDPATH += $$PWD/include/alibabacloud
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/libalibabacloud-oss-cpp-sdk.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/libalibabacloud-oss-cpp-sdkd.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/libs/alibabacloud-oss-cpp-sdk.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/libs/alibabacloud-oss-cpp-sdkd.lib

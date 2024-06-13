@@ -190,11 +190,11 @@ void  VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar 
 			if (!GlobalData::bVerticalPhoneInstance)
 			{
 				QTransform transform;
-				transform.rotate(-90);
-				image = image.transformed(transform);
+				transform.rotate(-90, Qt::Axis::ZAxis);
+				image = image.transformed(transform,Qt::TransformationMode::SmoothTransformation);
 			}
 		}		
-		ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size()));//自适应/等比例
+		ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size(), Qt::IgnoreAspectRatio));//自适应/等比例
 	}
 	else
 	{
