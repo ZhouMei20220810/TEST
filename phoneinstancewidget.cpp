@@ -935,22 +935,18 @@ void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info)
 }
 void PhoneInstanceWidget::do_HorizontalSignals()
 {
+    int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
+    int width = calculateWidth(height);
     //横屏
     if (GlobalData::bVerticalPhoneInstance)
-    {
-        int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
-        int iwidth = calculateWidth(height);
+    {        
         ui->toolBtnMore->setVisible(false);
-
-        this->setMinimumSize(iwidth, height);
-        this->setMaximumSize(iwidth, height);
+        this->setMinimumSize(width, height);
+        this->setMaximumSize(width, height);
     }
     else
     {
-        int height = PHONE_INSTANCE_HORIZONTAL_WIDTH;
-        int width = calculateWidth(height - 40) + 40;
         ui->toolBtnMore->setVisible(true);
-
         this->setMinimumSize(height, width);
         this->setMaximumSize(height, width);
     }
