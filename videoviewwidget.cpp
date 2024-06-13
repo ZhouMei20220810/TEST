@@ -63,12 +63,25 @@ void VideoViewWidget::mousePressEvent(QMouseEvent *event)
     qDebug() << "Global point.x=" << point.x() << "point.y=" << point.y();
     qDebug() << "Local point.x=" << localPoint.x() << "point.y=" << localPoint.y();
 
-	int mouseX = localPoint.x()-this->rect().left();
-	int mouseY = localPoint.y()-this->rect().top();
+	int mouseX = 0;
+	int mouseY = 0;
+	int viewHeight = 0;
+	int viewWidth = 0;
+	if (GlobalData::bVerticalPhoneInstance)
+	{
+		mouseX = localPoint.x() - this->rect().left();
+		mouseY = localPoint.y() - this->rect().top();
+		viewWidth = this->rect().right() - this->rect().left();
+		viewHeight = this->rect().bottom() - this->rect().top();
+	}
+	else
+	{
+		mouseX = this->rect().bottom() - localPoint.y();
+		mouseY = localPoint.x() - this->rect().left();
 
-	int viewWidth = this->rect().right() -this->rect().left();
-	int viewHeight = this->rect().bottom() - this->rect().top();
-	qDebug() << "viewWidth=" << viewWidth << "viewHeight=" << viewHeight;
+		viewHeight = this->rect().right() - this->rect().left();
+		viewWidth = this->rect().bottom() - this->rect().top();
+	}
 	int videoWidth = getSrcWidth();
 	int videoHeight = getSrcHeight();
 	qDebug() << "videoWidth=" << videoWidth << "videoHeight=" << videoHeight;
@@ -117,11 +130,25 @@ void VideoViewWidget::mouseMoveEvent(QMouseEvent *event)
 			event->ignore();
 			return;
 		}
-		int mouseX = mousePoint.x() - this->rect().left();
-		int mouseY = mousePoint.y() - this->rect().top();
+		int mouseX = 0;
+		int mouseY = 0;
+		int viewHeight = 0;
+		int viewWidth = 0;
+		if (GlobalData::bVerticalPhoneInstance)
+		{
+			mouseX = mousePoint.x() - this->rect().left();
+			mouseY = mousePoint.y() - this->rect().top();
+			viewWidth = this->rect().right() - this->rect().left();
+			viewHeight = this->rect().bottom() - this->rect().top();
+		}
+		else
+		{
+			mouseX = this->rect().bottom() - mousePoint.y();
+			mouseY = mousePoint.x() - this->rect().left();
 
-		int viewWidth = this->rect().right() - this->rect().left();
-		int viewHeight = this->rect().bottom() - this->rect().top();
+			viewHeight = this->rect().right() - this->rect().left();
+			viewWidth = this->rect().bottom() - this->rect().top();
+		}
 
 		int videoWidth = getSrcWidth();
 		int videoHeight = getSrcHeight();
