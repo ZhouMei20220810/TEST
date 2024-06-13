@@ -377,14 +377,19 @@ void PhoneInstanceWidget::InitToolButton(QToolButton* toolBtn)
 
 void PhoneInstanceWidget::setToolBtnVisible(bool bVisible)
 {
-    /*ui->toolBtnMore->setVisible(!bVisible);
-    ui->toolBtnScreenshot->setVisible(bVisible);
-    ui->toolBtnScreenshotsDir->setVisible(bVisible);
-    ui->toolBtnClipboard->setVisible(bVisible);
-    ui->toolBtnShark->setVisible(bVisible);
-    ui->toolBtnRoot->setVisible(bVisible);
-    ui->toolBtnKeyboard->setVisible(bVisible);
-    ui->toolBtnADB->setVisible(bVisible);*/
+    ui->toolBtnMore->setVisible(!bVisible);
+    ui->toolButton_1->setVisible(bVisible);
+    ui->toolButton_2->setVisible(bVisible);
+    ui->toolButton_3->setVisible(bVisible);
+    ui->toolButton_4->setVisible(bVisible);
+    ui->toolButton_5->setVisible(bVisible);
+    ui->toolButton_6->setVisible(bVisible);
+    ui->toolButton_7->setVisible(bVisible);
+    ui->toolButton_8->setVisible(bVisible);
+    ui->toolButton_9->setVisible(bVisible);
+    ui->toolButton_10->setVisible(bVisible);
+    ui->toolButton_11->setVisible(bVisible);
+    ui->toolButton_12->setVisible(bVisible);
 }
 
 /*
@@ -836,12 +841,8 @@ void PhoneInstanceWidget::on_toolButton_2_clicked()
 void PhoneInstanceWidget::on_toolButton_3_clicked()
 {
     //其他窗口不适应关闭新建，需要重新初始化，先发送closePhoneInstanceWidgetSignals信号通知其他同步窗口，给服务器后台同步横屏
-    this->close();
-
-    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
-    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
-    nn->show();
-    //emit HorizontalSignals();
+    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;    
+    emit HorizontalSignals();
 }
 
 
@@ -935,11 +936,24 @@ void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info)
 void PhoneInstanceWidget::do_HorizontalSignals()
 {
     //横屏
-    this->close();
+    if (GlobalData::bVerticalPhoneInstance)
+    {
+        int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
+        int iwidth = calculateWidth(height);
+        ui->toolBtnMore->setVisible(false);
 
-    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
-    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
-    nn->show();
+        this->setMinimumSize(iwidth, height);
+        this->setMaximumSize(iwidth, height);
+    }
+    else
+    {
+        int height = PHONE_INSTANCE_HORIZONTAL_WIDTH;
+        int width = calculateWidth(height - 40) + 40;
+        ui->toolBtnMore->setVisible(true);
+
+        this->setMinimumSize(height, width);
+        this->setMaximumSize(height, width);
+    }
 }
 void PhoneInstanceWidget::do_SharkSignals()
 {
