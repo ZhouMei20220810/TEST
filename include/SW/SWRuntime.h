@@ -15,41 +15,42 @@
 
 class AWE_DECLARE_DATA NotifyMessage{
 public:
-	NotifyMessage(int what, int ext1, int ext2, const char* msg);
-	~NotifyMessage();
+    NotifyMessage(int what, int ext1, int ext2, const char* msg);
+    ~NotifyMessage();
 
+    void setExtData(const char* data);
 public:
-	int what = 0;
-	int ext1 = 0;
-	int ext2 = 0;
-	std::string obj;
-
+    int what = 0;
+    int ext1 = 0;
+    int ext2 = 0;
+    std::string obj;
+    std::string extdata;
 private:
-	DISALLOW_EVIL_CONSTRUCTORS(NotifyMessage);
+    DISALLOW_EVIL_CONSTRUCTORS(NotifyMessage);
 };
 
 class AWE_DECLARE_DATA SWRuntime{
 public:
-	~SWRuntime();
-	void init(int level, const char* filename);
-	void deinit();
+    ~SWRuntime();
+    void init(int level, const char* filename);
+    void deinit();
 
-	Timer* getTimer();
-	uint32_t obtainID();
+    Timer* getTimer();
+    uint32_t obtainID();
 
-	static SWRuntime* getInstance();
+    static SWRuntime* getInstance();
 private:
-	SWRuntime();
+    SWRuntime();
 
-	static SWRuntime _instance;
+    static SWRuntime _instance;
 
-	volatile uint32_t _gid;
+    volatile uint32_t _gid;
 
-	int inited = 0;
+    int inited = 0;
 
-	Timer* mTimer = NULL;
+    Timer* mTimer = NULL;
 
-	DISALLOW_EVIL_CONSTRUCTORS(SWRuntime);
+    DISALLOW_EVIL_CONSTRUCTORS(SWRuntime);
 };
 
 #endif /* SWLOG_H_ */

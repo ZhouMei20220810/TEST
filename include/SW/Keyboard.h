@@ -441,16 +441,16 @@
 
 class AWE_DECLARE_DATA Keyboard{
 public:
-	~Keyboard();
-	static Keyboard* GetInstance();
+    ~Keyboard();
+    static Keyboard* GetInstance();
 
-	int getKeyCode(int ascii);
+    int getKeyCode(int ascii);
 private:
-	Keyboard();
+    Keyboard();
 
-	std::map<int, int> mMapKeyCode;
+    std::map<int, int> mMapKeyCode;
 
-	DISALLOW_EVIL_CONSTRUCTORS(Keyboard);
+    DISALLOW_EVIL_CONSTRUCTORS(Keyboard);
 };
 
 #endif /* KEYBOARD_H_ */

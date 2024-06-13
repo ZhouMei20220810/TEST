@@ -42,16 +42,16 @@ typedef enum android_LogPriority {
  * before using the other macros to change the tag.
  */
 #ifndef SW_LOG_TAG
-#define error "No SW_LOG_TAG"
+//#error "No SW_LOG_TAG"
 #endif
 
 // ---------------------------------------------------------------------
 
 #ifndef __predict_false
 #if defined(__clang__) || defined(__GNUC__)
-#define __predict_false(exp)	__builtin_expect((exp) != 0, 0)
+#define __predict_false(exp)    __builtin_expect((exp) != 0, 0)
 #else
-#define __predict_false(exp)	(!!(exp))
+#define __predict_false(exp)    (!!(exp))
 #endif
 #endif
 
@@ -64,11 +64,11 @@ typedef enum android_LogPriority {
 
 #ifndef ALOGV_IF
 #define ALOGV_IF(cond, ...) \
-		do{\
-			if(__predict_false(cond)){\
-				ALOG(LOG_VERBOSE, SW_LOG_TAG, __VA_ARGS__); \
-			}\
-		}while(0)
+        do{\
+            if(__predict_false(cond)){\
+                ALOG(LOG_VERBOSE, SW_LOG_TAG, __VA_ARGS__); \
+            }\
+        }while(0)
 #endif
 
 /*
@@ -80,11 +80,11 @@ typedef enum android_LogPriority {
 
 #ifndef ALOGD_IF
 #define ALOGD_IF(cond, ...) \
-		do{\
-			if(__predict_false(cond)){\
-				ALOG(LOG_DEBUG, SW_LOG_TAG, __VA_ARGS__); \
-			}\
-		}while(0)
+        do{\
+            if(__predict_false(cond)){\
+                ALOG(LOG_DEBUG, SW_LOG_TAG, __VA_ARGS__); \
+            }\
+        }while(0)
 #endif
 
 /*
@@ -96,11 +96,11 @@ typedef enum android_LogPriority {
 
 #ifndef ALOGI_IF
 #define ALOGI_IF(cond, ...) \
-		do{\
-			if(__predict_false(cond)){\
-				ALOG(LOG_INFO, SW_LOG_TAG, __VA_ARGS__); \
-			}\
-		}while(0)
+        do{\
+            if(__predict_false(cond)){\
+                ALOG(LOG_INFO, SW_LOG_TAG, __VA_ARGS__); \
+            }\
+        }while(0)
 #endif
 
 /*
@@ -112,11 +112,11 @@ typedef enum android_LogPriority {
 
 #ifndef ALOGW_IF
 #define ALOGW_IF(cond, ...) \
-		do{\
-			if(__predict_false(cond)){\
-				ALOG(LOG_WARN, SW_LOG_TAG, __VA_ARGS__); \
-			}\
-		}while(0)
+        do{\
+            if(__predict_false(cond)){\
+                ALOG(LOG_WARN, SW_LOG_TAG, __VA_ARGS__); \
+            }\
+        }while(0)
 #endif
 
 /*
@@ -128,11 +128,11 @@ typedef enum android_LogPriority {
 
 #ifndef ALOGE_IF
 #define ALOGE_IF(cond, ...) \
-		do{\
-			if(__predict_false(cond)){\
-				ALOG(LOG_ERROR, SW_LOG_TAG, __VA_ARGS__); \
-			}\
-		}while(0)
+        do{\
+            if(__predict_false(cond)){\
+                ALOG(LOG_ERROR, SW_LOG_TAG, __VA_ARGS__); \
+            }\
+        }while(0)
 #endif
 
 /*
@@ -144,11 +144,11 @@ typedef enum android_LogPriority {
 
 #ifndef ALOGF_IF
 #define ALOGF_IF(cond, ...) \
-		do{\
-			if(__predict_false(cond)){\
-				ALOG(LOG_FATAL, SW_LOG_TAG, __VA_ARGS__); \
-			}\
-		}while(0)
+        do{\
+            if(__predict_false(cond)){\
+                ALOG(LOG_FATAL, SW_LOG_TAG, __VA_ARGS__); \
+            }\
+        }while(0)
 #endif
 
 // ---------------------------------------------------------------------
@@ -193,14 +193,14 @@ void sw_log_deinit(void);
 AWE_DECLARE(void) __sw_log_write(int prio, const char *tag, const char *fmt, ...);
 AWE_DECLARE(void) __sw_log_assert(const char* file, const char* func, int line, const char* strexpr);
 AWE_DECLARE(void) __sw_log_fatal(const char* file, const char* func, int line,
-		const char* strexpr, long int v1, long int v2);
+        const char* strexpr, long int v1, long int v2);
 
 
 #define DEFINE_AWE_CHECK_OP_IMPL(name, op)                                   \
   static inline void __Check##name##Impl(long int v1, long int v2, const char* __strexpr, \
-	const char* file, const char* func, int line) { 						\
+    const char* file, const char* func, int line) {                         \
     if (__predict_false(!(v1 op v2)))                                       \
-    	__sw_log_fatal(file, func, line, __strexpr, v1, v2);         		\
+        __sw_log_fatal(file, func, line, __strexpr, v1, v2);                 \
   }
 
 DEFINE_AWE_CHECK_OP_IMPL(EQ, ==)
@@ -214,7 +214,7 @@ DEFINE_AWE_CHECK_OP_IMPL(GT, > )
 // Don't use this macro directly in your code, use SW_CHECK_EQ et al below.
 //
 #define AWE_CHECK_OP(name, op, val1, val2) \
-		__Check##name##Impl((val1), (val2), #val1 " " #op " " #val2, __FILE__, __func__, __LINE__)
+        __Check##name##Impl((val1), (val2), #val1 " " #op " " #val2, __FILE__, __func__, __LINE__)
 
 #define AWE_CHECK_EQ(val1, val2) AWE_CHECK_OP(EQ, ==, val1, val2)
 #define AWE_CHECK_NE(val1, val2) AWE_CHECK_OP(NE, !=, val1, val2)

@@ -69,25 +69,25 @@ typedef int32_t     status_t;
 #endif
 
 enum{
-	AWE_OK		= 0,
-	AWE_NOERROR	= 0,
-	AWE_UNKNOWN_ERROR		= (-2147483647-1), // INT32_MIN value
-	AWE_NO_MEMORY			= -12, //-ENOMEM,
-	AWE_INVALID_OPERATION	= -38, //-ENOSYS,
-	AWE_BAD_VALUE			= -22, //-EINVAL,
-	AWE_NAME_NOT_FOUND		= -2, //-ENOENT,
-	AWE_PERMISSION_DENIED	= -1, //-EPERM,
-	AWE_NO_INIT				= -19, //-ENODEV,
-	AWE_ALREADY_EXISTS		= -17, //-EEXIST,
-	AWE_DEAD_OBJECT			= -32, //-EPIPE,
-	AWE_JPARKS_BROKE_IT		= -32, //-EPIPE,
-	AWE_EBUSY				= -16, //-EBUSY
-	AWE_TIMEDOUT			= -110, //-ETIMEDOUT
-	AWE_EAGAIN				= -11, //-EAGAIN
-	AWE_BAD_TYPE			= (AWE_UNKNOWN_ERROR + 1),
-	AWE_BAD_PARAM			= (AWE_UNKNOWN_ERROR + 2),
-	AWE_FAILED_TRANSACTION	= (AWE_UNKNOWN_ERROR + 3),
-	AWE_EOF					= (AWE_UNKNOWN_ERROR + 4),
+    AWE_OK        = 0,
+    AWE_NOERROR    = 0,
+    AWE_UNKNOWN_ERROR        = (-2147483647-1), // INT32_MIN value
+    AWE_NO_MEMORY            = -12, //-ENOMEM,
+    AWE_INVALID_OPERATION    = -38, //-ENOSYS,
+    AWE_BAD_VALUE            = -22, //-EINVAL,
+    AWE_NAME_NOT_FOUND        = -2, //-ENOENT,
+    AWE_PERMISSION_DENIED    = -1, //-EPERM,
+    AWE_NO_INIT                = -19, //-ENODEV,
+    AWE_ALREADY_EXISTS        = -17, //-EEXIST,
+    AWE_DEAD_OBJECT            = -32, //-EPIPE,
+    AWE_JPARKS_BROKE_IT        = -32, //-EPIPE,
+    AWE_EBUSY                = -16, //-EBUSY
+    AWE_TIMEDOUT            = -110, //-ETIMEDOUT
+    AWE_EAGAIN                = -11, //-EAGAIN
+    AWE_BAD_TYPE            = (AWE_UNKNOWN_ERROR + 1),
+    AWE_BAD_PARAM            = (AWE_UNKNOWN_ERROR + 2),
+    AWE_FAILED_TRANSACTION    = (AWE_UNKNOWN_ERROR + 3),
+    AWE_EOF                    = (AWE_UNKNOWN_ERROR + 4),
 };
 
 // Restore define; enumeration is in "android" namespace, so the value defined
@@ -98,20 +98,20 @@ enum{
 
 //module status
 enum {
-	STATUS_NOP			= 0,
-	STATUS_INIT			= 1,
-	STATUS_STARTED		= 1 << 1,
-	STATUS_RESOVLING	= 1 << 2,
-	STATUS_CONNECTING1	= 1 << 3,
-	STATUS_CONNECTED1	= 1 << 4,
-	STATUS_CONNECTING2	= 1 << 5,
-	STATUS_CONNECTED2	= 1 << 6,
-	STATUS_ONLINE		= 1 << 7,
+    STATUS_NOP            = 0,
+    STATUS_INIT            = 1,
+    STATUS_STARTED        = 1 << 1,
+    STATUS_RESOVLING    = 1 << 2,
+    STATUS_CONNECTING1    = 1 << 3,
+    STATUS_CONNECTED1    = 1 << 4,
+    STATUS_CONNECTING2    = 1 << 5,
+    STATUS_CONNECTED2    = 1 << 6,
+    STATUS_ONLINE        = 1 << 7,
 };
 
-#define MODULE_STATUS_RESET(var, s)	var = (s)
-#define MODULE_STATUS_SET(var, s)	((var) |= (s))
-#define MODULE_STATUS_CLR(var, s)	((var) &= (~(s)))
-#define MODULE_STATUS_ISSET(var, s)	((var) & (s))
+#define MODULE_STATUS_RESET(var, s)    var = (s)
+#define MODULE_STATUS_SET(var, s)    ((var) |= (s))
+#define MODULE_STATUS_CLR(var, s)    ((var) &= (~(s)))
+#define MODULE_STATUS_ISSET(var, s)    ((var) & (s))
 
 #endif /* COMMON_H_ */

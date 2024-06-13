@@ -6,20 +6,20 @@
 #ifndef AWE_THREAD_H_
 #define AWE_THREAD_H_
 
-#include <common/common.h>
+#include "common/common.h"
 
 #if defined(_WIN32)
 #include <winsock2.h>
 #include <windows.h>
 #include <process.h>
 /* Windows */
-typedef unsigned long int		os_thread_t;
+typedef unsigned long int        os_thread_t;
 
 #else
 /* Unix */
 #include <pthread.h>
 
-typedef pthread_t	os_thread_t;      /**< native thread */
+typedef pthread_t    os_thread_t;      /**< native thread */
 
 #endif
 
@@ -72,7 +72,7 @@ typedef int (*thread_process)(awe_thread_t *gthread, void *userdata);
  * @param userdata Any data to be passed to the starting function
  */
 status_t awe_thread_create(awe_thread_t** thread, thread_process process,
-								void *userdata);
+                                void *userdata);
 
 void awe_thread_destroy(awe_thread_t *thread);
 
@@ -80,7 +80,7 @@ void awe_thread_destroy(awe_thread_t *thread);
  * Start the thread in thread_process.
  */
 status_t awe_thread_start(awe_thread_t *thread, const char *thread_name, int32_t priority,
-        					size_t stack);
+                            size_t stack);
 
 /**
  * Get the thread ID
@@ -103,7 +103,6 @@ int awe_thread_running(awe_thread_t *thread);
  * function can be called from a different thread.
  */
 status_t awe_thread_request_exit(awe_thread_t *thread);
-
 
 void awe_thread_self_release(awe_thread_t *thread, int flag);
 //------------------------

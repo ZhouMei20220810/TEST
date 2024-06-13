@@ -10,12 +10,12 @@
 #ifdef _WIN32_WINNT
 #undef _WIN32_WINNT
 #endif
-#define _WIN32_WINNT 0x0501     // Windows XP Support
+#define _WIN32_WINNT 0x0601     // Windows XP Support
 
 
 /* Windows */
 //#if defined(WINNT) || defined(_WINNT) || defined(__BORLANDC__) || defined(__MINGW32__)
-//	|| defined(_WIN32_WCE) || defined (_MSC_VER)
+//    || defined(_WIN32_WCE) || defined (_MSC_VER)
 #define _MSWSOCK_
 #include <winsock2.h>
 #include <ws2tcpip.h>
@@ -26,8 +26,8 @@
 //#include <errno.h>
 #include <string.h>
 
-#define socket_close	closesocket
-#define socklen_t		int
+#define socket_close    closesocket
+#define socklen_t        int
 
 #ifdef EWOULDBLOCK
 #undef EWOULDBLOCK
@@ -42,10 +42,10 @@
 #undef EINTR
 #endif
 
-#define EWOULDBLOCK	WSAEWOULDBLOCK
-#define EINPROGRESS	WSAEWOULDBLOCK
-#define EAGAIN		WSAEWOULDBLOCK
-#define EINTR		WSAEINTR
+#define EWOULDBLOCK    WSAEWOULDBLOCK
+#define EINPROGRESS    WSAEWOULDBLOCK
+#define EAGAIN         WSAEWOULDBLOCK
+#define EINTR          WSAEINTR
 
 #if defined(_WIN32_WCE)
 #define NO_STRSTREAM 1
@@ -100,7 +100,7 @@
 //#define SOCKLEN_T int
 //#endif
 
-#include <common/common.h>
+#include "common/common.h"
 
 #define D_NO_SOCKADDR_LEN
 
@@ -111,11 +111,11 @@
 #endif
 
 
-#define AWE_CONN_NETUNREACH		101 //ENETUNREACH
-#define AWE_CONN_HOSTUNREACH	103 //EHOSTUNREACH
-#define AWE_CONN_TIMEDOUT		110 //ETIMEDOUT
-#define AWE_CONN_REFUSED		111 //ECONNREFUSED
-#define AWE_CONN_EINPROGRESS	115	//EINPROGRESS
+#define AWE_CONN_NETUNREACH     101 //ENETUNREACH
+#define AWE_CONN_HOSTUNREACH    103 //EHOSTUNREACH
+#define AWE_CONN_TIMEDOUT       110 //ETIMEDOUT
+#define AWE_CONN_REFUSED        111 //ECONNREFUSED
+#define AWE_CONN_EINPROGRESS    115    //EINPROGRESS
 
 AWE_BEGIN_DECLS
 
@@ -133,9 +133,9 @@ AWE_DECLARE(int) inet_pton(int af, const char *src, void *dst);
 #endif
 
 typedef struct socket_addr{
-	int 		_af; //AF_INET AF_INET6
-	socklen_t	_addrlen;
-	char		_addr[INET6_ADDRSTRLEN];//struct sockaddr*
+    int         _af; //AF_INET AF_INET6
+    socklen_t    _addrlen;
+    char        _addr[INET6_ADDRSTRLEN]; //struct sockaddr*
 }socket_addr;
 
 AWE_DECLARE(int) socket_addrinfo(socket_addr *sa, const char *host, uint16_t port);
@@ -156,9 +156,9 @@ AWE_DECLARE(int) socket_read(int socketNum, void* buffer, size_t size);
 AWE_DECLARE(int) socket_write(int socketNum, const void* buffer, size_t size);
 
 AWE_DECLARE(int) socket_sendto(int socketNum, const void* buffer, size_t bufferSize,
-		const struct sockaddr* addr, socklen_t addrlen);
+        const struct sockaddr* addr, socklen_t addrlen);
 AWE_DECLARE(int) socket_recvfrom(int socketNum, void* buffer, size_t bufferSize,
-		struct sockaddr *fromAddress, socklen_t *addrlen);
+        struct sockaddr *fromAddress, socklen_t *addrlen);
 
 AWE_DECLARE(unsigned) socket_getSendBufferSize(int socketNum);
 AWE_DECLARE(unsigned) socket_getReceiveBufferSize(int socketNum);
@@ -169,18 +169,18 @@ AWE_DECLARE(unsigned) socket_setReceiveBufferTo(int socketNum, unsigned requeste
 AWE_DECLARE(status_t) socket_localHost4(int socketNum, char *buf, int buflen);
 AWE_DECLARE(status_t) socket_localHost6(int socketNum, char *buf, int buflen);
 #define socket_localHost(af, s, b, l) \
-	((af) == AF_INET) ? socket_localHost4(s, b, l) : socket_localHost6(s, b, l)
+    ((af) == AF_INET) ? socket_localHost4(s, b, l) : socket_localHost6(s, b, l)
 
 AWE_DECLARE(status_t) socket_localPort4(int socketNum, uint16_t *port);
 AWE_DECLARE(status_t) socket_localPort6(int socketNum, uint16_t *port);
 #define socket_localPort(af, s, p) \
-	((af) == AF_INET) ? socket_localPort4(s, p) : socket_localPort6(s, p)
+    ((af) == AF_INET) ? socket_localPort4(s, p) : socket_localPort6(s, p)
 
 
 AWE_DECLARE(status_t) socket_inet_ntop4(struct sockaddr* in, char* buf, int buflen, uint16_t* port);
 AWE_DECLARE(status_t) socket_inet_ntop6(struct sockaddr* in, char* buf, int buflen, uint16_t* port);
 #define socket_inet_ntop(af, in, b, l, p) \
-	((af) == AF_INET) ? socket_inet_ntop4(in, b, l, p) : socket_inet_ntop6(in, b, l, p)
+    ((af) == AF_INET) ? socket_inet_ntop4(in, b, l, p) : socket_inet_ntop6(in, b, l, p)
 
 
 AWE_DECLARE(int) socket_connected(int socketNum, int* errcode);

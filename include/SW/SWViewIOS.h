@@ -1,9 +1,10 @@
 //
 //  SWViewIOS.h
 //
+#ifndef SWVIEW_IOS_H__
+#define SWVIEW_IOS_H__
 
 #import <UIKit/UIKit.h>
-
 
 typedef void touchEventHandle(int eventAction, int pointerCount, int x[], int y[], float force[], void* userdata);
 
@@ -20,6 +21,6 @@ typedef void touchEventHandle(int eventAction, int pointerCount, int x[], int y[
 
 - (void) render:(UIImage*)image;
 
-
-
 @end
+
+#endif //SWVIEW_IOS_H__

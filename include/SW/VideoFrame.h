@@ -9,20 +9,20 @@
 struct AVFrame;
 
 typedef union FrameData {
-	int8_t* buffer;
-	AVFrame* avframe;
+    int8_t* buffer;
+    AVFrame* avframe;
 }FrameData;
 
 struct VideoFrame {
-	FrameData frame;
+    FrameData frame;
 
-	AVFrame* swframe;
-	AVFrame* hwframe;
+    AVFrame* swframe;
+    AVFrame* hwframe;
 
-	int64_t pts;
-	int16_t allocated;
-	int16_t iframe;
-	int dectime;
+    int64_t pts;
+    int16_t allocated;
+    int16_t iframe;
+    int dectime;
 };
 
 #endif /* VIDEOFRAME_H_ */
