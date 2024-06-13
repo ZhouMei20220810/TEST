@@ -3005,8 +3005,8 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
         connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::VolumeDownSignals,this, &MainWindow::VolumeDownSignals);
         connect(this, &MainWindow::VolumeDownSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_VolumeDownSignals);
         
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HorizontalSignals, this, &MainWindow::HorizontalSignals);
-        connect(this, &MainWindow::HorizontalSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HorizontalSignals);
+        //connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HorizontalSignals, this, &MainWindow::HorizontalSignals);
+        //connect(this, &MainWindow::HorizontalSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HorizontalSignals);
         connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::SharkSignals, this, &MainWindow::SharkSignals);
         connect(this, &MainWindow::SharkSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_SharkSignals);
         connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
@@ -3030,8 +3030,8 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
         }
     }
 
-    m_SyncOperListWidget->move(0, 0);
-    m_SyncOperListWidget->resize(500,500);
-    m_SyncOperListWidget->setVisible(true);
+    //m_SyncOperListWidget->move(0, 0);
+    //m_SyncOperListWidget->resize(500,500);
+    m_SyncOperListWidget->setVisible(false);
 
 }

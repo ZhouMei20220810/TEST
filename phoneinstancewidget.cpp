@@ -835,7 +835,13 @@ void PhoneInstanceWidget::on_toolButton_2_clicked()
 
 void PhoneInstanceWidget::on_toolButton_3_clicked()
 {
-    emit HorizontalSignals();
+    //其他窗口不适应关闭新建，需要重新初始化，先发送closePhoneInstanceWidgetSignals信号通知其他同步窗口，给服务器后台同步横屏
+    this->close();
+
+    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
+    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
+    nn->show();
+    //emit HorizontalSignals();
 }
 
 

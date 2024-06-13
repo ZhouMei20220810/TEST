@@ -36,7 +36,7 @@ signals:
     void ScreenshotsSignals();
     void VolumeUpSignals();
     void VolumeDownSignals();
-    void HorizontalSignals();
+    //void HorizontalSignals();
     void SharkSignals();
     void GPSSignals();
 
