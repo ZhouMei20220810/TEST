@@ -44,6 +44,32 @@ QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICT
 
 //QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
 
+void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+    QString logText;
+    switch (type) {
+    case QtDebugMsg:
+        logText = QString("Debug: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function);
+        break;
+        // 类似的处理其他类型...
+    case QtCriticalMsg:
+    case QtFatalMsg:
+    case QtWarningMsg:
+    default:
+        // 处理其他日志类型
+        break;
+    }
+
+    // 这里可以写入文件、发送网络请求、显示在界面上等
+    QDate date = QDate::currentDate();
+    QString strDate = QString("/%1log.txt").arg(date.toString("yyyy-MM-dd"));
+    QFile file(QDir::tempPath()+strDate);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Append)) {
+        QTextStream out(&file);
+        out << logText;
+        file.close();
+    }
+}
 
 QString GlobalData::md5(const QString &str) {
     QCryptographicHash hash(QCryptographicHash::Md5);

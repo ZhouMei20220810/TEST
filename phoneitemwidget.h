@@ -34,6 +34,7 @@ private slots:
     void httpReadyRead();//接受数据中
     void updateDataReadProgress(qint64, qint64);//进度条更新
 private:
+    void showLabelImage(QString strImagePath);
     Ui::PhoneItemWidget *ui;
 
     QNetworkAccessManager* m_manager;

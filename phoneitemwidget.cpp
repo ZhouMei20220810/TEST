@@ -19,30 +19,8 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     {
         m_refreshTimer->stop();
 
-        QFile file1(m_strPicturePath);
-        QString strUrl;
-        if (!file1.exists())
-            strUrl = ":/main/resource/main/defaultSceenShot.png";
-        else
-            strUrl = m_strPicturePath;
-        QPixmap pixmap;
-        QImage image(strUrl);
-        if (!image.isNull())
-        {
-            if (!GlobalData::bVerticalScreen)
-            {
-                QTransform transform;
-                transform.rotate(270);
-                image = image.transformed(transform);
-            }
-        }
-
-        pixmap = QPixmap::fromImage(image);
-        if (pixmap.isNull())
-        {
-            pixmap = QPixmap(strUrl);
-        }
-        ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        showLabelImage(m_strPicturePath);
+        
     });
     m_refreshTimer->start(1);// 1ms触发一次
     
@@ -84,6 +62,32 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     //ui->progressBar->show();
 
     ui->label->installEventFilter(this);
+}
+
+void PhoneItemWidget::showLabelImage(QString strImagePath)
+{
+    QFile file1(m_strPicturePath);
+    if (file1.exists())
+    {        
+        QPixmap pixmap;
+        QImage image(m_strPicturePath);
+        if (!image.isNull())
+        {
+            if (!GlobalData::bVerticalScreen)
+            {
+                QTransform transform;
+                transform.rotate(270);
+                image = image.transformed(transform);
+            }
+        }
+
+        pixmap = QPixmap::fromImage(image);
+        if (pixmap.isNull())
+        {
+            pixmap = QPixmap(m_strPicturePath);
+        }
+        ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    }
 }
 
 PhoneItemWidget::~PhoneItemWidget()
@@ -136,14 +140,13 @@ void PhoneItemWidget::httpFinished()
             }
             m_File->rename(m_strPicturePath);
             //file.rename(m_strPicturePath);
-            pixmap = QPixmap(m_strPicturePath);
-            ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            showLabelImage(m_strPicturePath);
         }
         else
         {
             qDebug() << "图片无效,显示默认图片";
             if(QFile::exists(m_strPicturePath))
-                ui->label->setPixmap(QPixmap(m_strPicturePath).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+                showLabelImage(m_strPicturePath);
             else
                 ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         }

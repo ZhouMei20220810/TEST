@@ -140,7 +140,7 @@ typedef struct LEVEL_DATA_INFO
 QString getMessageByCode(long code);
 std::string sha256(const std::string str);
 int calculateWidth(int fixedHeight);
-
+void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
 enum ENUM_LOGIN_PAGE_TYPE
 {

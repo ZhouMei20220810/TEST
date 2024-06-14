@@ -23,7 +23,7 @@ QSystemTrayIcon* g_trayIcon = NULL;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
+    qInstallMessageHandler(customMessageHandler);
     //setAutoStart();
 
     QString strDir = GlobalData::strFileTempDir;

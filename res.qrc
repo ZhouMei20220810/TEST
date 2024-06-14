@@ -56,7 +56,6 @@
         <file>resource/main/border_select.png</file>
         <file>resource/main/shouqi.png</file>
         <file>resource/main/zhangkai.png</file>
-        <file>resource/main/defaultSceenShot.png</file>
         <file>resource/main/renew.png</file>
         <file>resource/main/defaultLevelIcon.png</file>
         <file>resource/main/gvip_bg_normal.png</file>
@@ -70,6 +69,7 @@
         <file>resource/main/radioUncheck.png</file>
         <file>resource/main/buy.png</file>
         <file>resource/main/email.png</file>
+        <file>resource/main/defaultSceenShot.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>
