@@ -138,7 +138,7 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     /* 如果您需要根据您需要UploadId执行列举已上传分片的操作，您需要在调用InitiateMultipartUpload完成初始化分片之后，且在调用CompleteMultipartUpload完成分片上传之前获取uploadId。*/
     const std::string uploadId = uploadIdResult.result().UploadId();
     m_UploadId = uploadId;
-    std::string fileToUpload = filePath.toStdString();//"yourLocalFilename";
+    std::string fileToUpload = filePath.toLocal8Bit().constData();//filePath.toStdString();//"yourLocalFilename";
     int64_t partSize = 100 * 1024;
     PartList partETagList;
     auto fileSize = fileInfo.size();
