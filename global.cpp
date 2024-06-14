@@ -62,7 +62,7 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext& context, con
 
     // 这里可以写入文件、发送网络请求、显示在界面上等
     QDate date = QDate::currentDate();
-    QString strDate = QString("/%1log.txt").arg(date.toString("yyyy-MM-dd"));
+    QString strDate = QString("/YSY_Log_%1.txt").arg(date.toString("yyyy-MM-dd"));
     QFile file(QDir::tempPath()+strDate);
     if (file.open(QIODevice::WriteOnly | QIODevice::Append)) {
         QTextStream out(&file);

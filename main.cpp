@@ -23,7 +23,22 @@ QSystemTrayIcon* g_trayIcon = NULL;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    qInstallMessageHandler(customMessageHandler);
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    GlobalData::enPictrueQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
+    GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
+    GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
+    GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();
+    GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
+    GlobalData::bShowSystemTrayIcon = setting.value("ShowSystemTrayIcon", false).toBool();
+    GlobalData::strToolButtonList = setting.value("ToolButtonList", "").toString();
+    GlobalData::bBootstrapAutoStart = setting.value("BootstrapAutoStart", false).toBool();
+    GlobalData::bIsTopWindow = setting.value("MainWindowTopWindow", false).toBool();
+    int bWriteLogFile = setting.value("WriteLogFile", true).toBool();
+    if (bWriteLogFile)
+    {
+        qInstallMessageHandler(customMessageHandler);
+    }
+    
     //setAutoStart();
 
     QString strDir = GlobalData::strFileTempDir;
@@ -42,16 +57,7 @@ int main(int argc, char *argv[])
 
     SWRuntime::getInstance()->init(ANDROID_LOG_DEFAULT, strDir.toStdString().c_str());
 
-    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-    GlobalData::enPictrueQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
-    GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
-    GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
-    GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();
-    GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
-    GlobalData::bShowSystemTrayIcon = setting.value("ShowSystemTrayIcon", false).toBool();
-    GlobalData::strToolButtonList = setting.value("ToolButtonList","").toString();
-    GlobalData::bBootstrapAutoStart = setting.value("BootstrapAutoStart",false).toBool();   
-    GlobalData::bIsTopWindow = setting.value("MainWindowTopWindow", false).toBool();
+    
 
     if (GlobalData::bShowSystemTrayIcon)
     {

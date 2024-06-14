@@ -12,23 +12,13 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     , ui(new Ui::PhoneItemWidget)
 {
     ui->setupUi(this);
-    setAttribute(Qt::WA_DeleteOnClose,true);
-
-    m_refreshTimer = new QTimer();
-    connect(m_refreshTimer, &QTimer::timeout, this, [this]() 
-    {
-        m_refreshTimer->stop();
-
-        showLabelImage(m_strPicturePath);
-        
-    });
-    m_refreshTimer->start(1);// 1ms触发一次
+    setAttribute(Qt::WA_DeleteOnClose,true); 
     
     m_sPhoneInfo = sPhoneInfo;
     ui->toolBtnName->setText(sPhoneInfo.strName);
     
-    m_strPicturePath = GlobalData::strFileTempDir+"/" + sPhoneInfo.strInstanceNo + ".png";
-    m_strTemp = GlobalData::strFileTempDir + "/" + sPhoneInfo.strInstanceNo + "_bak.png";
+    m_strPicturePath = GlobalData::strFileTempDir + sPhoneInfo.strInstanceNo + ".png";
+    m_strTemp = GlobalData::strFileTempDir + sPhoneInfo.strInstanceNo + "_bak.png";
 
     m_manager = new QNetworkAccessManager(this);
 
@@ -62,6 +52,16 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     //ui->progressBar->show();
 
     ui->label->installEventFilter(this);
+
+    m_refreshTimer = new QTimer();
+    connect(m_refreshTimer, &QTimer::timeout, this, [this]()
+        {
+            m_refreshTimer->stop();
+            qDebug() << "init m_strPicturePath" << m_strPicturePath;
+            showLabelImage(m_strPicturePath);
+
+        });
+    m_refreshTimer->start(1);// 1ms触发一次
 }
 
 void PhoneItemWidget::showLabelImage(QString strImagePath)
@@ -69,22 +69,27 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
     QFile file1(m_strPicturePath);
     if (file1.exists())
     {        
-        QPixmap pixmap;
-        QImage image(m_strPicturePath);
-        if (!image.isNull())
+        qDebug() << "showLabelImage file 存在";
+        QPixmap pixmap(m_strPicturePath);
+        if (!GlobalData::bVerticalScreen)
         {
-            if (!GlobalData::bVerticalScreen)
+            QImage image(m_strPicturePath);
+            if (!image.isNull())
             {
                 QTransform transform;
                 transform.rotate(270);
                 image = image.transformed(transform);
+                pixmap = QPixmap::fromImage(image);
             }
-        }
-
-        pixmap = QPixmap::fromImage(image);
+            else
+            {
+                qDebug() << "image is null. file=" << m_strPicturePath;
+            }
+        }        
         if (pixmap.isNull())
         {
             pixmap = QPixmap(m_strPicturePath);
+            qDebug() << "pixmap is null. file=" << m_strPicturePath;
         }
         ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     }
@@ -140,15 +145,21 @@ void PhoneItemWidget::httpFinished()
             }
             m_File->rename(m_strPicturePath);
             //file.rename(m_strPicturePath);
+            qDebug() << "httpFinished m_strPicturePath" << m_strPicturePath;
             showLabelImage(m_strPicturePath);
         }
         else
         {
-            qDebug() << "图片无效,显示默认图片";
-            if(QFile::exists(m_strPicturePath))
+            if (QFile::exists(m_strPicturePath))
+            {
+                qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
                 showLabelImage(m_strPicturePath);
+            }                
             else
+            {
+                qDebug() << "图片无效,显示默认图片";
                 ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            }
         }
         m_File->close();
         delete m_File;
