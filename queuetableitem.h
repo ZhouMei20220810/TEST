@@ -29,7 +29,7 @@ private:
     std::string m_UploadId;
     QTimer* m_Timer;
 
-    bool uploadFile(const QString& filePath, QStringList strPhoneList);
+    bool uploadFile(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall = 1);
     bool cancelUploadFile(const QString& filePath, QStringList strPhoneList);
 };
 

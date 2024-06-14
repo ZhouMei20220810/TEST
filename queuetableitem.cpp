@@ -95,7 +95,7 @@ void QueueTableItem::on_toolBtnReupload_clicked()
     }
 }
 
-bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList)
+bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall)
 {
     int iSize = strPhoneList.size();
     if (iSize <= 0)
@@ -177,14 +177,9 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
 
     /* 完成分片上传 */
     /* 在执行完成分片上传操作时，需要提供所有有效的partETags。OSS收到提交的partETags后，会逐一验证每个分片的有效性。当所有的数据分片验证通过后，OSS将把这些分片组合成一个完整的文件。*/
-    QString strBody = "{\"callbackUrl\":\"https://www.ysyos.com/api/file/callback/instance\",\"callbackHost\":\"www.ysyos.com\",\"callbackBody\":\"bucket=${bucket}&object=${object}\",\"callbackBodyType\":\"application/x-www-form-urlencoded\"}";
     CompleteMultipartUploadRequest request(BucketName, ObjectName);
     request.setUploadId(uploadId);
     request.setPartList(partETagList);
-    qDebug() << "strBody = " << strBody;
-
-    request.setCallback(GlobalData::QStringToBase64(strBody).toStdString());
-    qDebug() << "64base strBody=" << GlobalData::QStringToBase64(strBody).toStdString();
     std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
     *content << "Thank you for using Aliyun Object Storage Service!";
     QJsonArray listArray;
@@ -196,15 +191,10 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     QJsonObject jsonObj;
     QJsonDocument doc(jsonObj);
     doc.setArray(listArray);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() <<"upload File json:"<< postData;
-    QString callbackBody = QString("bucket=${bucket}");//
-        //.arg(0).arg(GlobalData::id).arg(GlobalData::getFileMd5(filePath)).arg(fileInfo.fileName()).arg(postData);
-    qDebug() << callbackBody;
-
-    
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);    
+    //autoInstall=1自动安装
     QString strJson = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"fileName\":\"%5\",\"mimeType\":\"%6\",\"size\":%7,\"bucket\":\"yishunyun-file\",\"imageInfo\":\"%8\"}")
-        .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName()).arg(GlobalData::getContentType(filePath)).arg(fileInfo.size()).arg(fileInfo.absoluteFilePath());
+        .arg(GlobalData::getFileMd5(filePath)).arg(iIsAutoInstall).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName()).arg(GlobalData::getContentType(filePath)).arg(fileInfo.size()).arg(fileInfo.absoluteFilePath());
     qDebug() << "strJson=" << strJson;
     QJsonDocument DocCallBody;
     QJsonObject obj;
