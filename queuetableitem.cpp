@@ -213,21 +213,10 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     obj.insert("callbackBodyType", "application/json");
     obj.insert("callbackBody", strJson);
     DocCallBody.setObject(obj);
-    //QByteArray postDataCallBody = DocCallBody.toJson(QJsonDocument::Compact);
     QString postDataCallBody = DocCallBody.toJson(QJsonDocument::Compact);
     qDebug() << "postDataCallBody=" << postDataCallBody;
-    //QString strBase64 = GlobalData::QStringToBase64(strJson);
     QString strBase64 = GlobalData::QStringToBase64(postDataCallBody);
-    qDebug() << "strBase64" << strBase64;
-    //base64加密 
-    //ObjectCallbackBuilder builder(ServerName, strBase64.toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::JSON);
-     //std::string value = builder.build();
-     //ObjectCallbackVariableBuilder varBuilder;
-     //varBuilder.addCallbackVariable("x:var1", "value1");
-     //std::string varValue = varBuilder.build();
-     //PutObjectRequest request(BucketName, ObjectName, content);
-     request.MetaData().addHeader("x-oss-callback", strBase64.toStdString());
-     //request.MetaData().addHeader("x-oss-callback-var", varValue);
+    request.MetaData().addHeader("x-oss-callback", strBase64.toStdString());
 
     CompleteMultipartUploadOutcome outcome = client.CompleteMultipartUpload(request);
 
@@ -251,7 +240,6 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
         //成功结果
         qDebug() << "成功：location=" << outcome.result().Location() << "Tag=" << outcome.result().ETag() << "CRC64=" << outcome.result().CRC64();
         qDebug() << "Content = ";
-        //uploadFileCallback(filePath, strPhoneList, 0);
     }
     ui->labelProgressStatus->setText("解析中");
     ui->toolBtnCancel->setVisible(false);
@@ -301,81 +289,4 @@ bool QueueTableItem::cancelUploadFile(const QString& filePath, QStringList strPh
     }
 
     return true;
-}
-
-bool QueueTableItem::uploadFileCallback(QString filePath, QStringList strPhoneList, int iAutoInstall)
-{
-    int iSize = strPhoneList.size();
-    if (iSize <= 0 || filePath.isEmpty())
-        return false;
-    /* 初始化OSS账号信息。*/
-    std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
-    /* 填写Bucket名称，例如examplebucket */
-    std::string BucketName = "yishunyun-file";
-    /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
-    QFileInfo fileInfo(filePath);
-    std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
-    std::string ServerName = HTTP_ALIBABA_OSS_CALLBACK;//"https://example.aliyundoc.com:23450";
-
-    /* 初始化网络等资源。*/
-    //InitializeSdk();
-
-    ClientConfiguration conf;
-    conf.verifySSL = false;
-    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
-    /* 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。*/
-    //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
-    //OssClient client(Endpoint, credentialsProvider, conf);
-
-    std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
-    *content << "Thank you for using Aliyun Object Storage Service!";
-
-    //设置上传回调参数
-    //fileMd5 获取文件md5
-    //autoInstall 是否自动安装
-    //instanceCodes 手机实例
-    //createBy 用户id
-    //std::string callbackBody = "{\"fileMd5\":\"${md5}\",\"autoInstall\":${autoInstall},\"instanceCodes\":${map},\"createBy\":${CacheUtil.getUserInfo()?.userDetailVO?.id}," + "\"mimeType\":\${mimeType},\"size\":\${size}," + "\"imageInfo\":" + "\${\"imageInfo.format\"},\"bucket\":" + "\${bucket},\"fileName\":\${object}}";
-    QJsonArray listArray;
-    for (int i = 0; i < iSize; i++)
-    {
-        listArray.append(strPhoneList.at(i));
-    }
-
-    QJsonObject jsonObj;
-    QJsonDocument doc(jsonObj);
-    doc.setArray(listArray);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
-    QString callbackBody = QString("autoInstall=%1&createBy=%2&fileMd5=%3&fileName=%4&instanceCodes=%5&bucket=${bucket}&object=${object}&size=${size}&mimeType=${mimeType}&size=${size}&imageInfo=${imageInfo}&bucket=${bucket}&etag=${etag}&my_var1=${x:var1}")
-        .arg(0).arg(GlobalData::id).arg(GlobalData::getFileMd5(filePath)).arg(fileInfo.fileName()).arg(postData);
-    qDebug() << callbackBody;
-    ObjectCallbackBuilder builder(ServerName, GlobalData::QStringToBase64(callbackBody).toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::JSON);
-    std::string value = builder.build();
-    ObjectCallbackVariableBuilder varBuilder;
-    varBuilder.addCallbackVariable("x:var1", "value1");
-    std::string varValue = varBuilder.build();
-    PutObjectRequest request(BucketName, ObjectName, content);
-    request.MetaData().addHeader("x-oss-callback", value);
-    request.MetaData().addHeader("x-oss-callback-var", varValue);
-    qDebug() << "default=" << request.MetaData().ContentType();
-    //request.MetaData().setContentType("application/json");
-    request.MetaData().setContentType("application/x-www-form-urlencoded");
-
-    //request.MetaData().setContentType("text/plain");
-    qDebug() << "default=" << request.MetaData().ContentType() << GlobalData::getContentType(filePath);
-
-    //request.MetaData().setContentType("application/json");//("multipart/form-data");
-    auto outcome = client.PutObject(request);
-    if (!outcome.isSuccess()) {
-        /* 异常处理 */
-        qDebug() << "PutObjectRequest fail" <<
-            ",code:" << outcome.error().Code() <<
-            ",message:" << outcome.error().Message() <<
-            ",requestId:" << outcome.error().RequestId();
-        return false;
-    }
-    return true;
-    /* 释放网络等资源。*/
-    //ShutdownSdk();
 }

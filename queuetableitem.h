@@ -31,7 +31,6 @@ private:
 
     bool uploadFile(const QString& filePath, QStringList strPhoneList);
     bool cancelUploadFile(const QString& filePath, QStringList strPhoneList);
-    bool uploadFileCallback(QString filePath, QStringList strPhoneList,int iAutoInstall = 0);
 };
 
 #endif // QUEUETABLEITEM_H
