@@ -18,7 +18,6 @@
 #include "messagetipsdialog.h"
 #include "phoneitemwidget.h"
 #include "phonelistmodeitemwidget.h"
-#include "phoneitemnodatawidget.h"
 #include <QScrollBar>
 #include <QFile>
 #include <QDir>
@@ -2632,6 +2631,7 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
     PhoneListModeItemWidget* widget2 = NULL;
     if (current->parent() != NULL)
     {
+        ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
         //获取节点数据
         S_PHONE_INFO phoneInfo = current->data(0, Qt::UserRole).value<S_PHONE_INFO>();
         qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
@@ -2661,19 +2661,13 @@ void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTre
         qDebug() << "当前选中groupId=" << groupInfo.iGroupId;
         if (groupInfo.iGroupNum <= 0)
         {
-            m_TaskTimer->stop();            
-            PhoneItemNoDataWidget* noData = new PhoneItemNoDataWidget(this);
-            connect(noData, &PhoneItemNoDataWidget::changeStackedWidgetSignal, this, [=] {
-                on_toolBtnBuy_clicked();
-                });
-            QListWidgetItem* phoneItem = new QListWidgetItem(ui->listWidget);
-            phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-            ui->listWidget->addItem(phoneItem);
-            ui->listWidget->setItemWidget(phoneItem, noData);
+            m_TaskTimer->stop();
+            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
             return;
         }
         else
-        {            
+        {   
+            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
             //获取组的所有子节点
             int count = current->childCount();
             QTreeWidgetItem* child = NULL;
@@ -3035,3 +3029,9 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo)
     m_SyncOperListWidget->setVisible(false);
 
 }
+
+void MainWindow::on_btnAddPhone_clicked()
+{
+    on_toolBtnBuy_clicked();
+}
+

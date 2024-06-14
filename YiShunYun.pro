@@ -31,7 +31,6 @@ SOURCES += \
     messagetipsdialog.cpp \
     passwordloginpage.cpp \
     phoneinstancewidget.cpp \
-    phoneitemnodatawidget.cpp \
     phoneitemwidget.cpp \
     phonelistmodeitemwidget.cpp \
     policydialog.cpp \
@@ -67,7 +66,6 @@ HEADERS += \
     messagetipsdialog.h \
     passwordloginpage.h \
     phoneinstancewidget.h \
-    phoneitemnodatawidget.h \
     phoneitemwidget.h \
     phonelistmodeitemwidget.h \
     policydialog.h \
@@ -100,7 +98,6 @@ FORMS += \
     messagetipsdialog.ui \
     passwordloginpage.ui \
     phoneinstancewidget.ui \
-    phoneitemnodatawidget.ui \
     phoneitemwidget.ui \
     phonelistmodeitemwidget.ui \
     policydialog.ui \
