@@ -202,23 +202,31 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
         //.arg(0).arg(GlobalData::id).arg(GlobalData::getFileMd5(filePath)).arg(fileInfo.fileName()).arg(postData);
     qDebug() << callbackBody;
 
-    /* QJsonObject jsonBody;
-     QJsonDocument docBody;
-     jsonBody.insert("callbackUrl", HTTP_ALIBABA_OSS_CALLBACK);
-     jsonBody.insert("callbackHost", "www.ysyos.com");
-     jsonBody.insert("callbackBody")
-     docBody.setObject(jsonBody);
-     QByteArray postData = docBody.toJson(QJsonDocument::Compact);*/
+    
     QString strJson = QString("{\"fileMd5\":\"%1\",\"autoInstall\":%2,\"instanceCodes\":%3,\"createBy\":%4,\"fileName\":\"%5\",\"mimeType\":\"%6\",\"size\":%7,\"bucket\":\"yishunyun-file\",\"imageInfo\":\"%8\"}")
         .arg(GlobalData::getFileMd5(filePath)).arg(0).arg(postData).arg(GlobalData::id).arg(fileInfo.fileName()).arg(GlobalData::getContentType(filePath)).arg(fileInfo.size()).arg(fileInfo.absoluteFilePath());
     qDebug() << "strJson=" << strJson;
-     ObjectCallbackBuilder builder(ServerName, GlobalData::QStringToBase64(strJson).toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::JSON);
-     std::string value = builder.build();
+    QJsonDocument DocCallBody;
+    QJsonObject obj;
+    obj.insert("callbackUrl", "https://www.ysyos.com/api/file/callback/instance");
+    obj.insert("callbackHost", "www.ysyos.com");
+    obj.insert("callbackBodyType", "application/json");
+    obj.insert("callbackBody", strJson);
+    DocCallBody.setObject(obj);
+    //QByteArray postDataCallBody = DocCallBody.toJson(QJsonDocument::Compact);
+    QString postDataCallBody = DocCallBody.toJson(QJsonDocument::Compact);
+    qDebug() << "postDataCallBody=" << postDataCallBody;
+    //QString strBase64 = GlobalData::QStringToBase64(strJson);
+    QString strBase64 = GlobalData::QStringToBase64(postDataCallBody);
+    qDebug() << "strBase64" << strBase64;
+    //base64加密 
+    //ObjectCallbackBuilder builder(ServerName, strBase64.toStdString(), "www.ysyos.com", ObjectCallbackBuilder::Type::JSON);
+     //std::string value = builder.build();
      //ObjectCallbackVariableBuilder varBuilder;
      //varBuilder.addCallbackVariable("x:var1", "value1");
      //std::string varValue = varBuilder.build();
      //PutObjectRequest request(BucketName, ObjectName, content);
-     request.MetaData().addHeader("x-oss-callback", value);
+     request.MetaData().addHeader("x-oss-callback", strBase64.toStdString());
      //request.MetaData().addHeader("x-oss-callback-var", varValue);
 
     CompleteMultipartUploadOutcome outcome = client.CompleteMultipartUpload(request);
