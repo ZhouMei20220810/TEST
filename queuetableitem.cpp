@@ -237,6 +237,13 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
             ",code:" << outcome.error().Code() <<
             ",message:" << outcome.error().Message() <<
             ",requestId:" << outcome.error().RequestId();
+        ui->toolBtnCancel->setVisible(false);
+        ui->toolBtnFinish->setVisible(false);
+        ui->toolBtnDelete->setVisible(true);
+        ui->toolBtnReupload->setVisible(true);
+        ui->labelProgressStatus->setText("已取消");
+        ui->progressBar->setStyleSheet("QProgressBar{text-align:center;background-color: #FFC4C7D0;border: 0px solid #FFC4C7D0;border-radius:2px;}QProgressBar::chunk{background-color:#FFA9ADB6;border-radius:2px;}");
+        ui->progressBar->setValue(80);
         return false;
     }
     else
