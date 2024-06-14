@@ -239,6 +239,7 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     ui->progressBar->setValue(100);
     return true;
 }
+
 bool QueueTableItem::cancelUploadFile(const QString& filePath, QStringList strPhoneList)
 {
     /* 初始化OSS账号信息 */
@@ -278,5 +279,36 @@ bool QueueTableItem::cancelUploadFile(const QString& filePath, QStringList strPh
         return false;
     }
 
+    return true;
+}
+
+//删除文件
+bool QueueTableItem::DeleteFile(const QString& filePath, QStringList strPhoneList)
+{
+    std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
+    /* 填写Bucket名称，例如examplebucket */
+    std::string BucketName = "yishunyun-file";
+    /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
+    QFileInfo fileInfo(filePath);
+    std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
+
+    ClientConfiguration conf;
+    /* 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。*/
+    //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
+    //OssClient client(Endpoint, credentialsProvider, conf);
+    //token验证
+    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
+
+    DeleteObjectRequest request(BucketName, ObjectName);
+
+    auto outcome = client.DeleteObject(request);
+    if (!outcome.isSuccess()) {
+        /* 异常处理。*/
+        std::cout << "DeleteObject fail" <<
+            ",code:" << outcome.error().Code() <<
+            ",message:" << outcome.error().Message() <<
+            ",requestId:" << outcome.error().RequestId() << std::endl;
+        return false;
+    }
     return true;
 }

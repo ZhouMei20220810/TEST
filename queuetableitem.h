@@ -29,8 +29,12 @@ private:
     std::string m_UploadId;
     QTimer* m_Timer;
 
+    //上次到OSS
     bool uploadFile(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall = 1);
+    //取消文件上传
     bool cancelUploadFile(const QString& filePath, QStringList strPhoneList);
+    //删除文件
+    bool DeleteFile(const QString& filePath, QStringList strPhoneList);
 };
 
 #endif // QUEUETABLEITEM_H
