@@ -28,6 +28,7 @@ private:
     QStringList m_strPhoneList;
     std::string m_UploadId;
     QTimer* m_Timer;
+    bool    m_IsAbort;
 
     //…œ¥ŒµΩOSS
     bool uploadFile(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall = 1);
