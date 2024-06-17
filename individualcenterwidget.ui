@@ -95,6 +95,9 @@ background: transparent;
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>2</number>
+        </property>
         <item>
          <widget class="QLabel" name="labelAccount">
           <property name="maximumSize">
@@ -140,6 +143,14 @@ background: transparent;
    </item>
    <item>
     <widget class="QFrame" name="frame_2">
+     <property name="styleSheet">
+      <string notr="true">QFrame:hover {
+background-color: #FFE7E8EE;
+color:#505465;
+border-radius:1px;
+padding-left:0px;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -174,12 +185,7 @@ background: transparent;
 color:#505465;
 border-radius:1px;
 padding-left:0px;
-}
-QToolButton:hover {
-background-color: #FFE7E8EE;
-color:#505465;
-border-radius:1px;
-padding-left:0px;
+background:transparent;
 }</string>
         </property>
         <property name="text">
@@ -221,6 +227,9 @@ padding-left:0px;
           <height>10</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background:transparent;</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -237,6 +246,14 @@ padding-left:0px;
    </item>
    <item>
     <widget class="QFrame" name="frame_3">
+     <property name="styleSheet">
+      <string notr="true">QFrame:hover {
+background-color: #FFE7E8EE;
+color:#505465;
+border-radius:1px;
+padding-left:0px;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -271,12 +288,7 @@ padding-left:0px;
 color:#505465;
 border-radius:1px;
 padding-left:0px;
-}
-QToolButton:hover {
-background-color: #FFE7E8EE;
-color:#505465;
-border-radius:1px;
-padding-left:0px;
+background:transparent;
 }</string>
         </property>
         <property name="text">
@@ -318,6 +330,9 @@ padding-left:0px;
           <height>10</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background:transparent;</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -334,6 +349,14 @@ padding-left:0px;
    </item>
    <item>
     <widget class="QFrame" name="frame_4">
+     <property name="styleSheet">
+      <string notr="true">QFrame:hover {
+background-color: #FFE7E8EE;
+color:#505465;
+border-radius:1px;
+padding-left:0px;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -368,12 +391,7 @@ padding-left:0px;
 color:#505465;
 border-radius:1px;
 padding-left:0px;
-}
-QToolButton:hover {
-background-color: #FFE7E8EE;
-color:#505465;
-border-radius:1px;
-padding-left:0px;
+background:transparent;
 }</string>
         </property>
         <property name="text">
@@ -415,6 +433,9 @@ padding-left:0px;
           <height>10</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background:transparent;</string>
+        </property>
         <property name="text">
          <string/>
         </property>
@@ -431,6 +452,14 @@ padding-left:0px;
    </item>
    <item>
     <widget class="QFrame" name="frame_5">
+     <property name="styleSheet">
+      <string notr="true">QFrame:hover {
+background-color: #FFE7E8EE;
+color:#505465;
+border-radius:1px;
+padding-left:0px;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -465,12 +494,7 @@ padding-left:0px;
 color:#505465;
 border-radius:1px;
 padding-left:0px;
-}
-QToolButton:hover {
-background-color: #FFE7E8EE;
-color:#505465;
-border-radius:1px;
-padding-left:0px;
+background:transparent;
 }</string>
         </property>
         <property name="text">
@@ -511,6 +535,9 @@ padding-left:0px;
           <width>10</width>
           <height>10</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background:transparent;</string>
         </property>
         <property name="text">
          <string/>

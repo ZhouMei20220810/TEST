@@ -23,7 +23,6 @@
 #include <QDir>
 #include "qrencode.h"
 #include <QPainter>
-#include "individualcenterwidget.h"
 #include <QClipboard>
 #include "messagetips.h"
 #include <QThread>
@@ -50,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_createGroupWidget = NULL;
     m_systemSettingWidget = NULL;
     m_SyncOperListWidget = NULL;
+    m_individualCenterWidget = NULL;
 
     m_pCurItem = NULL;
 
@@ -2564,10 +2564,20 @@ void MainWindow::on_btnFinish_clicked()
 void MainWindow::on_toolBtnPhoto_clicked()
 {
     //个人中心
-    QRect rect = ui->toolBtnPhoto->geometry();
-    IndividualCenterWidget* widget = new IndividualCenterWidget(this);
-    widget->move(QPoint(rect.x(), ui->frame_9->height()));
-    widget->show();
+    if (NULL == m_individualCenterWidget)
+    {
+        m_individualCenterWidget = new IndividualCenterWidget(this);
+    }
+    if (m_individualCenterWidget->isVisible())
+    {
+        m_individualCenterWidget->hide();
+    }
+    else
+    {
+        QRect rect = ui->toolBtnPhoto->geometry();
+        m_individualCenterWidget->move(QPoint(rect.x(), ui->frame_9->height()));
+        m_individualCenterWidget->show();
+    }    
 }
 
 

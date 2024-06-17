@@ -13,6 +13,7 @@
 #include "phoneinstancewidget.h"
 #include "creategroupwidget.h"
 #include "systemsettingwidget.h"
+#include "individualcenterwidget.h"
 #include <QSystemTrayIcon>
 #include <QToolButton>
 
@@ -271,6 +272,7 @@ private:
     PhoneInstanceWidget* m_PhoneInstanceWidget;
     CreateGroupWidget* m_createGroupWidget;
     SystemSettingWidget* m_systemSettingWidget;
+    IndividualCenterWidget* m_individualCenterWidget;
 
     QPoint  m_LastPos;
     bool m_bMoving= false;

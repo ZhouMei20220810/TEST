@@ -37,7 +37,7 @@ void IndividualCenterWidget::on_toolBtnIndividualCenter_clicked()
     ForgetPWDialog* forgetPW = new ForgetPWDialog();
     forgetPW->show();
 
-    this->close();
+    this->hide();
 }
 
 void IndividualCenterWidget::on_toolBtnLogout_clicked()
@@ -51,13 +51,13 @@ void IndividualCenterWidget::on_toolBtnBuyHistory_clicked()
     BuyHistoryWidget* widget = new BuyHistoryWidget();
     widget->show();
 
-    this->close();
+    this->hide();
 }
 
 
 void IndividualCenterWidget::on_toolBtnActiveHistory_clicked()
 {
-    this->close();
+    this->hide();
 }
 
 void IndividualCenterWidget::HttpLogout()
@@ -123,7 +123,7 @@ void IndividualCenterWidget::HttpLogout()
                             qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"token="<<strToken;
                         }*/
                     qDebug()<<"注销成功";
-                    this->close();
+                    this->hide();
                 }
                 else
                 {
