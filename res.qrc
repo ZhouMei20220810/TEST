@@ -150,5 +150,6 @@
         <file>resource/instance/3.png</file>
         <file>resource/instance/4.png</file>
         <file>resource/instance/5.png</file>
+        <file>resource/upload/point.png</file>
     </qresource>
 </RCC>

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QListWidget>
+#include <QLabel>
 
 namespace Ui {
 class UploadFileDialog;
@@ -39,6 +40,11 @@ private:
 
     Ui::UploadFileDialog *ui;
     QStringList m_strPhoneList;
+    QLabel* m_LabelPoint;
+
+    // QWidget interface
+protected:
+    virtual void showEvent(QShowEvent *event) override;
 };
 
 #endif // UPLOADFILEDIALOG_H

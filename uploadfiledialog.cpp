@@ -29,6 +29,10 @@ UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     ui->stackedWidget->setCurrentWidget(ui->page);
     InitWidget(ui->listWidgetChooseFile);
 
+    m_LabelPoint = new QLabel(ui->frame_2);
+    m_LabelPoint->resize(10, 10);
+    m_LabelPoint->setPixmap(QPixmap(":/resource/upload/point.png").scaled(QSize(m_LabelPoint->width(), m_LabelPoint->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
     GetOSSInfo();
 }
 
@@ -67,6 +71,8 @@ void UploadFileDialog::on_toolBtnAddUploadFile_clicked()
         ui->stackedWidget->setCurrentWidget(ui->pageChooseFile);
     else
         ui->stackedWidget->setCurrentWidget(ui->page);
+    QRect rect = ui->toolBtnUploadQueue->geometry();
+    m_LabelPoint->move(rect.x() + rect.width() - 5, rect.y() - 5);
 }
 
 
@@ -77,6 +83,8 @@ void UploadFileDialog::on_toolBtnUploadQueue_clicked()
     ui->toolBtnUploadHistory->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
 
     ui->stackedWidget->setCurrentWidget(ui->pageQueue);
+    QRect rect = ui->toolBtnUploadHistory->geometry();
+    m_LabelPoint->move(rect.x()+rect.width()-5, rect.y()-5);
 }
 
 
@@ -87,6 +95,8 @@ void UploadFileDialog::on_toolBtnUploadHistory_clicked()
     ui->toolBtnUploadHistory->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
 
     ui->stackedWidget->setCurrentWidget(ui->pageHistory);
+    QRect rect = ui->toolBtnUploadQueue->geometry();
+    m_LabelPoint->move(rect.x() + rect.width()-5, rect.y()-5);
 }
 
 
@@ -144,6 +154,8 @@ void UploadFileDialog::SelectFile()
 
 void UploadFileDialog::uploadFile()
 {
+    on_toolBtnUploadQueue_clicked();
+
     ui->stackedWidget->setCurrentWidget(ui->pageQueue);
     //初始化列表
     ui->listWidgetQueue->setViewMode(QListWidget::ListMode);
@@ -273,4 +285,11 @@ void UploadFileDialog::GetOSSInfo()
         }
         reply->deleteLater();
         });
+}
+
+
+void UploadFileDialog::showEvent(QShowEvent *event)
+{
+    QRect rect = ui->toolBtnUploadQueue->geometry();
+    m_LabelPoint->move(rect.x() + rect.width()-5, rect.y()-5);
 }
