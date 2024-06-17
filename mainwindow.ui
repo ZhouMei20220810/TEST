@@ -2244,6 +2244,18 @@ padding-left:8px;
                    </property>
                    <item>
                     <widget class="QFrame" name="frame_6">
+                     <property name="minimumSize">
+                      <size>
+                       <width>14</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>14</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
                      <property name="frameShape">
                       <enum>QFrame::StyledPanel</enum>
                      </property>
@@ -2266,96 +2278,6 @@ padding-left:8px;
                       <property name="bottomMargin">
                        <number>0</number>
                       </property>
-                      <item>
-                       <spacer name="verticalSpacer_4">
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>9</width>
-                          <height>206</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="btnContraction">
-                        <property name="minimumSize">
-                         <size>
-                          <width>14</width>
-                          <height>56</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>14</width>
-                          <height>56</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string/>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="res.qrc">
-                          <normaloff>:/main/resource/main/control_contraction.png</normaloff>:/main/resource/main/control_contraction.png</iconset>
-                        </property>
-                        <property name="iconSize">
-                         <size>
-                          <width>14</width>
-                          <height>56</height>
-                         </size>
-                        </property>
-                        <property name="flat">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="btnExpansion">
-                        <property name="minimumSize">
-                         <size>
-                          <width>14</width>
-                          <height>56</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>14</width>
-                          <height>56</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string/>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="res.qrc">
-                          <normaloff>:/main/resource/main/control_expansion.png</normaloff>:/main/resource/main/control_expansion.png</iconset>
-                        </property>
-                        <property name="iconSize">
-                         <size>
-                          <width>14</width>
-                          <height>56</height>
-                         </size>
-                        </property>
-                        <property name="flat">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="verticalSpacer_5">
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>9</width>
-                          <height>207</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
                      </layout>
                     </widget>
                    </item>

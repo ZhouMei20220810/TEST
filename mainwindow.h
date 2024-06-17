@@ -14,6 +14,7 @@
 #include "creategroupwidget.h"
 #include "systemsettingwidget.h"
 #include <QSystemTrayIcon>
+#include <QToolButton>
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +48,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
 
     virtual void closeEvent(QCloseEvent *event) override;
+	virtual void showEvent(QShowEvent *event) override;
 private:
     //分组接口
     void HttpQueryAllGroup();//查询全部分组
@@ -150,8 +152,7 @@ private slots:
     void on_lineEditBuyNumber_textChanged(const QString &arg1);
 
 	//显示/隐藏分组
-    void on_btnContraction_clicked();
-    void on_btnExpansion_clicked();
+    void do_ContractionOrExpansion(bool bChecked);
 	//展开/收起功能
     void on_toolBtnDropFunction_clicked();
     void on_toolBtnExpansionFunction_clicked();
@@ -281,6 +282,9 @@ private:
     //同步操作
     QListWidget* m_SyncOperListWidget;
     PhoneInstanceWidget* widget = NULL;
+
+    QToolButton* m_toolBtnContraction;
+    bool         m_IsContraction;
 };
 
 #endif // MAINWINDOW_H
