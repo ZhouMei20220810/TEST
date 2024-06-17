@@ -93,6 +93,11 @@ MainWindow::MainWindow(QWidget *parent)
     if (NULL != g_trayIcon)
     {
         QMenu* menu = new QMenu();
+        menu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255,255,255,1);width:200; padding-left:20px; } \
+        QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
+
         QAction* pActionExit = new QAction("退出");
         QObject::connect(pActionExit, &QAction::triggered, QApplication::instance(), &QApplication::quit);
         menu->addAction(pActionExit);
@@ -398,6 +403,10 @@ void MainWindow::InitGroupMenu()
 {
     //组右键菜单
     m_menu = new QMenu(ui->treeWidget);
+    m_menu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255,255,255,1);width:200; padding-left:20px; } \
+        QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
     QAction* pActionDeleteGroup = new QAction("删除分组");
     QAction* pActionEditGroupName = new QAction("编辑分组名称");
     connect(pActionDeleteGroup, &QAction::triggered, this, &MainWindow::do_DeleteGroupAction);
@@ -409,6 +418,10 @@ void MainWindow::InitPhoneMenu()
 {
     //手机右键菜单
     m_PhoneMenu = new QMenu(ui->treeWidget);
+    //m_PhoneMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255,255,255,1);width:200; padding-left:20px; } \
+        QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
     pActionBeginControl = new QAction("开始控制", ui->treeWidget);
     pActionCopyCloudId = new QAction("复制云号", ui->treeWidget);
     pActionRename = new QAction("重命名", ui->treeWidget);
@@ -558,6 +571,10 @@ void MainWindow::InitPhoneList()
 void MainWindow::InitBatchOperatorMenu()
 {
     m_BatchOperMenu = new QMenu(this);
+    //m_BatchOperMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255,255,255,1);width:200; padding-left:20px; } \
+        QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
     pActionBatchReboot = new QAction("批量重启", this);
     pActionBatchUploadFile = new QAction("批量上传文件", this);
     pActionBatchFactoryReset = new QAction("批量恢复出厂", this);
