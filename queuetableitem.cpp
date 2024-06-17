@@ -2,12 +2,6 @@
 #include "ui_queuetableitem.h"
 #include <QFileInfo>
 #include "global.h"
-#include <QHttpMultiPart>
-#include <QHttpPart>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -95,22 +89,26 @@ void QueueTableItem::on_toolBtnReupload_clicked()
     }
 }
 
+void ProgressCallback(size_t increment, int64_t transfered, int64_t total, void* userData)
+{
+    // increment表示本次回调发送的数据大小。
+    // transfered表示已上传的数据大小。
+    // total表示上传文件的总大小。
+    qDebug()<< "ProgressCallback[" << userData << "] => " <<increment << " ," << transfered << "," << total;
+}
+
 bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall)
 {
     int iSize = strPhoneList.size();
     if (iSize <= 0)
         return false;
 
-    /* 初始化OSS账号信息 */
+    
     ui->progressBar->setValue(50);
     ui->labelProgressStatus->setText("上传中");
-    std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
-    /* 填写Bucket名称，例如examplebucket */
-    std::string BucketName = "yishunyun-file";
-    /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
+
     QFileInfo fileInfo(filePath);
     std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
-    std::string ServerName = HTTP_ALIBABA_OSS_CALLBACK;
     ClientConfiguration conf;
     conf.verifySSL = false;
     /* 设置连接池数，默认为16个 */
@@ -124,10 +122,10 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
     //OssClient client(Endpoint, credentialsProvider, conf);
     //token验证
-    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
+    OssClient client(GlobalData::Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
     //OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), conf);
 
-    InitiateMultipartUploadRequest initUploadRequest(BucketName, ObjectName);
+    InitiateMultipartUploadRequest initUploadRequest(GlobalData::BucketName, ObjectName);
     /*（可选）请参见如下示例设置存储类型 */
     //initUploadRequest.MetaData().addHeader("x-oss-storage-class", "Standard");
 
@@ -157,7 +155,7 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
         std::shared_ptr<std::iostream> content = std::make_shared<std::fstream>(fileToUpload, std::ios::in | std::ios::binary);
         content->seekg(skipBytes, std::ios::beg);
 
-        UploadPartRequest uploadPartRequest(BucketName, ObjectName, content);
+        UploadPartRequest uploadPartRequest(GlobalData::BucketName, ObjectName, content);
         uploadPartRequest.setContentLength(size);
         uploadPartRequest.setUploadId(uploadId);
         uploadPartRequest.setPartNumber(i);
@@ -177,9 +175,11 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
 
     /* 完成分片上传 */
     /* 在执行完成分片上传操作时，需要提供所有有效的partETags。OSS收到提交的partETags后，会逐一验证每个分片的有效性。当所有的数据分片验证通过后，OSS将把这些分片组合成一个完整的文件。*/
-    CompleteMultipartUploadRequest request(BucketName, ObjectName);
+    CompleteMultipartUploadRequest request(GlobalData::BucketName, ObjectName);
     request.setUploadId(uploadId);
     request.setPartList(partETagList);
+    TransferProgress progressCallback = { ProgressCallback , nullptr };
+    request.setTransferProgress(progressCallback);
     std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
     *content << "Thank you for using Aliyun Object Storage Service!";
     QJsonArray listArray;
@@ -229,7 +229,6 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
     {
         //成功结果
         qDebug() << "成功：location=" << outcome.result().Location() << "Tag=" << outcome.result().ETag() << "CRC64=" << outcome.result().CRC64();
-        qDebug() << "Content = ";
     }
     ui->labelProgressStatus->setText("解析中");
     ui->toolBtnCancel->setVisible(false);
@@ -242,32 +241,22 @@ bool QueueTableItem::uploadFile(const QString& filePath, QStringList strPhoneLis
 
 bool QueueTableItem::cancelUploadFile(const QString& filePath, QStringList strPhoneList)
 {
-    /* 初始化OSS账号信息 */
-
-    std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
-    /* 填写Bucket名称，例如examplebucket */
-    std::string BucketName = "yishunyun-file";
-    /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
     QFileInfo fileInfo(filePath);
     std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
-    std::string ServerName = HTTP_ALIBABA_OSS_CALLBACK;
     /* 填写UploadId。UploadId来源于调用InitiateMultipartUpload完成初始化分片之后的返回结果。*/
     std::string UploadId = m_UploadId;
 
     ClientConfiguration conf;
-    /* 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。*/
-    //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
-    //OssClient client(Endpoint, credentialsProvider, conf);
-    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
+    conf.verifySSL = false;
+    OssClient client(GlobalData::Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
+     /*InitiateMultipartUploadRequest initUploadRequest(BucketName, ObjectName);
 
-    InitiateMultipartUploadRequest initUploadRequest(BucketName, ObjectName);
-
-    /* 初始化分片上传事件 */
-    auto uploadIdResult = client.InitiateMultipartUpload(initUploadRequest);
-    auto uploadId = uploadIdResult.result().UploadId();
-    qDebug() << "m_uploadId=" << m_UploadId << "   uploadId=" << UploadId;
+    //初始化分片上传事件 
+    InitiateMultipartUploadOutcome uploadIdResult = client.InitiateMultipartUpload(initUploadRequest);
+    std::string uploadId = uploadIdResult.result().UploadId();
+    qDebug() << "m_uploadId=" << m_UploadId << "   uploadId=" << UploadId;*/
     /* 取消分片上传 */
-    AbortMultipartUploadRequest  abortUploadRequest(BucketName, ObjectName, UploadId);
+    AbortMultipartUploadRequest  abortUploadRequest(GlobalData::BucketName, ObjectName, UploadId);
     auto outcome = client.AbortMultipartUpload(abortUploadRequest);
 
     if (!outcome.isSuccess()) {
@@ -285,22 +274,17 @@ bool QueueTableItem::cancelUploadFile(const QString& filePath, QStringList strPh
 //删除文件
 bool QueueTableItem::DeleteFile(const QString& filePath, QStringList strPhoneList)
 {
-    std::string Endpoint = HTTP_ALIBABA_OSS_ENDPOINT;//"yourEndpoint";
-    /* 填写Bucket名称，例如examplebucket */
-    std::string BucketName = "yishunyun-file";
-    /* 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。 */
     QFileInfo fileInfo(filePath);
-    std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt";
+    std::string ObjectName = fileInfo.fileName().toStdString();//"exampledir/exampleobject.txt"; 
 
     ClientConfiguration conf;
     /* 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。*/
     //auto credentialsProvider = std::make_shared<EnvironmentVariableCredentialsProvider>();
     //OssClient client(Endpoint, credentialsProvider, conf);
     //token验证
-    OssClient client(Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
+    OssClient client(GlobalData::Endpoint, GlobalData::strAccessKeyId.toStdString(), GlobalData::strAccessKeySecret.toStdString(), GlobalData::strSecurityToken.toStdString(), conf);
 
-    DeleteObjectRequest request(BucketName, ObjectName);
-
+    DeleteObjectRequest request(GlobalData::BucketName, ObjectName);
     auto outcome = client.DeleteObject(request);
     if (!outcome.isSuccess()) {
         /* 异常处理。*/

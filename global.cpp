@@ -42,6 +42,8 @@ QMap<int, S_PHONE_INFO> GlobalData::mapSyncPhoneList;
 QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER+"/";
 QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + INSTANCE_TEMP_DIR;
 
+std::string GlobalData::Endpoint = "https://oss-cn-beijing.aliyuncs.com"; //去掉https,否则https会报认证问题
+std::string GlobalData::BucketName = "yishunyun-file";
 //QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
 
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
