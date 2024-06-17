@@ -99,15 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
         g_trayIcon->setContextMenu(menu);
     }
     connect(g_trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::handleTrayIconActivated);
-    this->setContextMenuPolicy(Qt::PreventContextMenu);
-
-    m_toolBtnContraction = new QToolButton(this);
-    QString strStyleSheet = QString("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/control_contraction.png);}");
-    m_toolBtnContraction->setStyleSheet(strStyleSheet);
-    m_toolBtnContraction->setFixedSize(QSize(14, 56));
-    m_toolBtnContraction->setCursor(QCursor(Qt::PointingHandCursor));
-    connect(m_toolBtnContraction, &QToolButton::clicked, this, &MainWindow::do_ContractionOrExpansion);
-    m_IsContraction = true;
+    this->setContextMenuPolicy(Qt::PreventContextMenu);    
 }
 
 MainWindow::~MainWindow()
@@ -495,6 +487,13 @@ void MainWindow::InitCloudPhoneTab()
     //隐藏切换竖屏按钮
     ui->toolBtnChangeVerScreen->setVisible(false);
 
+    m_toolBtnContraction = new QToolButton(this);
+    QString strStyleSheet = QString("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/control_contraction.png);}");
+    m_toolBtnContraction->setStyleSheet(strStyleSheet);
+    m_toolBtnContraction->setFixedSize(QSize(14, 56));
+    m_toolBtnContraction->setCursor(QCursor(Qt::PointingHandCursor));
+    connect(m_toolBtnContraction, &QToolButton::clicked, this, &MainWindow::do_ContractionOrExpansion);
+    m_IsContraction = true;
 }
 
 //激活码
