@@ -1891,19 +1891,6 @@ void MainWindow::on_btnPhotoUrl_clicked()
 
 }
 
-
-void MainWindow::on_btnCustomerService_clicked()
-{
-
-}
-
-
-void MainWindow::on_btnSetting_clicked()
-{
-
-}
-
-
 void MainWindow::on_btnMin_clicked()
 {
     this->showMinimized();

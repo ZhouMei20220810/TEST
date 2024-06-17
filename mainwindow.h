@@ -121,8 +121,8 @@ private slots:
 
     //菜单栏
     void on_btnPhotoUrl_clicked();
-    void on_btnCustomerService_clicked();
-    void on_btnSetting_clicked();
+    void on_toolBtnSetting_clicked();
+    void on_toolBtnCustomer_clicked();
     void on_btnMin_clicked();
     void on_btnMax_clicked();
     void on_btnClose_clicked();    
@@ -210,10 +210,6 @@ private slots:
     void do_ActionBatchReboot(bool bChecked);
     void do_ActionBatchUploadFile(bool bChecked);
     void do_ActionBatchFactoryReset(bool bChecked);
-
-    void on_toolBtnSetting_clicked();
-
-    void on_toolBtnCustomer_clicked();
 
     void on_comboBoxView_currentIndexChanged(int index);
 
