@@ -403,10 +403,10 @@ void MainWindow::InitGroupMenu()
 {
     //组右键菜单
     m_menu = new QMenu(ui->treeWidget);
-    m_menu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255,255,255,1);width:200; padding-left:20px; } \
-        QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
-        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
-        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
+    m_menu->setStyleSheet("QMenu{ background-color:#FFFFFF;font-size:14px;border:1px solid rgba(255,255,255,1);padding-left:20px; } \
+        QMenu::item{ min-width:150px; font-size:12px; color:#505465;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
     QAction* pActionDeleteGroup = new QAction("删除分组");
     QAction* pActionEditGroupName = new QAction("编辑分组名称");
     connect(pActionDeleteGroup, &QAction::triggered, this, &MainWindow::do_DeleteGroupAction);
@@ -418,6 +418,10 @@ void MainWindow::InitPhoneMenu()
 {
     //手机右键菜单
     m_PhoneMenu = new QMenu(ui->treeWidget);
+    m_PhoneMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;font-size:14px;border:1px solid rgba(255,255,255,1);} \
+        QMenu::item{ min-width:50px; font-size:12px;height:20; color:#505465;background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;height:20;border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
     //m_PhoneMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255,255,255,1);width:200; padding-left:20px; } \
         QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
         QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
@@ -571,10 +575,10 @@ void MainWindow::InitPhoneList()
 void MainWindow::InitBatchOperatorMenu()
 {
     m_BatchOperMenu = new QMenu(this);
-    //m_BatchOperMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255,255,255,1);width:200; padding-left:20px; } \
-        QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
-        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
-        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
+    m_BatchOperMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;font-size:14px;border:1px solid rgba(255,255,255,1);padding-left:20px;} \
+        QMenu::item{ min-width:150px; font-size:12px;height:20; color:#505465;background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;height:20;border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
     pActionBatchReboot = new QAction("批量重启", this);
     pActionBatchUploadFile = new QAction("批量上传文件", this);
     pActionBatchFactoryReset = new QAction("批量恢复出厂", this);
