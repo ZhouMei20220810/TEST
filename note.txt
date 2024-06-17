@@ -16,3 +16,9 @@ m_menu->setStyleSheet("QMenu{ background-color:#FFFFFF;border:1px solid rgba(255
         QMenu::item{ min-width:50px; font-size:12px; color:#505465;width:200;height:20; background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
         QMenu::item:selected{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
         QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;width:200;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
+
+QMEnu有子菜单不会间隔很开。        
+m_BatchOperMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;font-size:14px;border:1px solid rgba(255,255,255,1);padding-left:20px;} \
+        QMenu::item{ min-width:150px; font-size:12px;height:20; color:#505465;background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
+        QMenu::item:selected{ background:#F5F7FB;font-weight:bold;height:20;border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
+        QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
