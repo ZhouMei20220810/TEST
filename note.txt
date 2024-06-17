@@ -1,0 +1,12 @@
+1.1菜单栏QMenuBar样式表
+QMenuBar样式表，设置菜单栏字体颜色、背景色、选中背景色的样式表QSS:
+"QMenuBar{background-color:transparent;}"/*设置背景色，跟随背景色*/                           
+"QMenuBar::selected{background-color:transparent;}"/*设置菜单栏选中背景色*/
+"QMenuBar::item{font-size:12px;font-family:Microsoft YaHei;color:rgba(255,255,255,1);}"/*设置菜单栏字体为白色，透明度为1（取值范围0.0-255）*/
+
+1.2菜单QMenu样式表
+QMenu样式表，设置菜单栏字体颜色、背景色、选项背景色、选项选中背景色的样式QSS:(QMenu的鼠标滑过状态就是选中样式selected，而不是hover)
+"QMenu {background-color:rgba(17,24,47,1);border:1px solid rgba(82,130,164,1);}\
+ QMenu::item {min-width:50px;font-size: 12px;color: rgb(225,225,225);background:rgba(75,120,154,0.5);border:1px solid rgba(82,130,164,1);padding:1px 1px;margin:1px 1px;}\
+ QMenu::item:selected {background:rgba(82,130,164,1);border:1px solid rgba(82,130,164,1);}  /*选中或者说鼠标滑过状态*/\
+ QMenu::item:pressed {background:rgba(82,130,164,0.4);border:1px solid rgba(82,130,164,1);/*摁下状态*/}";
