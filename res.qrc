@@ -151,5 +151,11 @@
         <file>resource/instance/4.png</file>
         <file>resource/instance/5.png</file>
         <file>resource/upload/point.png</file>
+        <file>resource/individual/1.png</file>
+        <file>resource/individual/2.png</file>
+        <file>resource/individual/3.png</file>
+        <file>resource/individual/4.png</file>
+        <file>resource/individual/Enter.png</file>
+        <file>resource/individual/photo.png</file>
     </qresource>
 </RCC>

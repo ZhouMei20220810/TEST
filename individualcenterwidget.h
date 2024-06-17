@@ -1,13 +1,13 @@
 #ifndef INDIVIDUALCENTERWIDGET_H
 #define INDIVIDUALCENTERWIDGET_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
 class IndividualCenterWidget;
 }
 
-class IndividualCenterWidget : public QWidget
+class IndividualCenterWidget : public QDialog
 {
     Q_OBJECT
 

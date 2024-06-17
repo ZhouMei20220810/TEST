@@ -10,14 +10,18 @@
 #include "buyhistorywidget.h"
 
 IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
-    : QWidget(parent)
+    : QDialog(parent)
     , ui(new Ui::IndividualCenterWidget)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);
 
+    //QFontMetrics fontWidth(ui->labelAccount->font());
+    //QString strElideNote = fontWidth.elidedText(GlobalData::strAccount, Qt::ElideRight, 38);
+    //ui->labelAccount->setText(strElideNote);
     ui->labelAccount->setText(GlobalData::strAccount);
+    ui->labelAccount->setToolTip(GlobalData::strAccount);
     ui->labelID->setText(QString("%1").arg(GlobalData::id));
 
 }

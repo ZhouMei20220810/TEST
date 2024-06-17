@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>164</width>
-    <height>166</height>
+    <width>178</width>
+    <height>200</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,10 +18,16 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="leftMargin">
-    <number>0</number>
+    <number>16</number>
+   </property>
+   <property name="topMargin">
+    <number>16</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>16</number>
+   </property>
+   <property name="bottomMargin">
+    <number>16</number>
    </property>
    <item>
     <widget class="QFrame" name="frame">
@@ -32,10 +38,16 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>16</number>
+      </property>
       <property name="leftMargin">
-       <number>9</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
        <number>0</number>
       </property>
       <property name="bottomMargin">
@@ -45,14 +57,14 @@
        <widget class="QToolButton" name="toolBtnPhoto">
         <property name="minimumSize">
          <size>
-          <width>24</width>
-          <height>24</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>24</width>
-          <height>24</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
         <property name="cursor">
@@ -63,7 +75,7 @@
 border: none; 
 border-radius: 999px; 
 background: transparent;
-background-image: url(:/main/resource/main/default_photoUrl.png);
+/*background-image: url(:/resource/individual/photo.png);*/
 }</string>
         </property>
         <property name="text">
@@ -71,12 +83,12 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/main/resource/main/photo_border.png</normaloff>:/main/resource/main/photo_border.png</iconset>
+          <normaloff>:/resource/individual/photo.png</normaloff>:/resource/individual/photo.png</iconset>
         </property>
         <property name="iconSize">
          <size>
-          <width>24</width>
-          <height>24</height>
+          <width>36</width>
+          <height>36</height>
          </size>
         </property>
        </widget>
@@ -88,11 +100,17 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>38</height>
+            <height>19</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">border:none;</string>
+           <string notr="true">border:none;color:#505465;</string>
           </property>
           <property name="text">
            <string>account</string>
@@ -101,6 +119,15 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
         </item>
         <item>
          <widget class="QLabel" name="labelID">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>13</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#A9ADB6;</string>
+          </property>
           <property name="text">
            <string>TextLabel</string>
           </property>
@@ -112,103 +139,391 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="toolBtnIndividualCenter">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
+    <widget class="QFrame" name="frame_2">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QToolButton" name="toolBtnIndividualCenter">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {border:none;
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }</string>
-     </property>
-     <property name="text">
-      <string>重置密码                      &gt;</string>
-     </property>
+        </property>
+        <property name="text">
+         <string>  重置密码</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/individual/1.png</normaloff>:/resource/individual/1.png</iconset>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="minimumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="res.qrc">:/resource/individual/Enter.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="toolBtnBuyHistory">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
+    <widget class="QFrame" name="frame_3">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QToolButton" name="toolBtnBuyHistory">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {border:none;
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }</string>
-     </property>
-     <property name="text">
-      <string>购买记录                      &gt;</string>
-     </property>
+        </property>
+        <property name="text">
+         <string>  购买记录 </string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/individual/2.png</normaloff>:/resource/individual/2.png</iconset>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>36</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="minimumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="res.qrc">:/resource/individual/Enter.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="toolBtnActiveHistory">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
+    <widget class="QFrame" name="frame_4">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QToolButton" name="toolBtnActiveHistory">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {border:none;
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }</string>
-     </property>
-     <property name="text">
-      <string>激活码记录                   &gt;</string>
-     </property>
+        </property>
+        <property name="text">
+         <string>  激活码记录</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/individual/3.png</normaloff>:/resource/individual/3.png</iconset>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>27</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="minimumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="res.qrc">:/resource/individual/Enter.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="toolBtnLogout">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-      </font>
+    <widget class="QFrame" name="frame_5">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QToolButton {border:none;
-color: rgb(204, 204, 204);
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QToolButton" name="toolBtnLogout">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton {border:none;
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
-color: rgb(255, 255, 255);
+color:#505465;
 border-radius:1px;
-padding-left:8px;
+padding-left:0px;
 }</string>
-     </property>
-     <property name="text">
-      <string>退出登录                      &gt;</string>
-     </property>
+        </property>
+        <property name="text">
+         <string>  退出登录</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/individual/4.png</normaloff>:/resource/individual/4.png</iconset>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="minimumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="pixmap">
+         <pixmap resource="res.qrc">:/resource/individual/Enter.png</pixmap>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

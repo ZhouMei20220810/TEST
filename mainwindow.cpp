@@ -2564,8 +2564,9 @@ void MainWindow::on_btnFinish_clicked()
 void MainWindow::on_toolBtnPhoto_clicked()
 {
     //个人中心
-    IndividualCenterWidget* widget = new IndividualCenterWidget();
-    widget->move(QCursor::pos());
+    QRect rect = ui->toolBtnPhoto->geometry();
+    IndividualCenterWidget* widget = new IndividualCenterWidget(this);
+    widget->move(QPoint(rect.x(), ui->frame_9->height()));
     widget->show();
 }
 
