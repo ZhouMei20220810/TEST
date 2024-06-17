@@ -19,6 +19,7 @@ public:
 private:
     void InitListWidget();
 
+    void getLoggedInUserInfo();
 private slots:
     void on_toolBtnGeneralSetting_clicked();
 	void on_toolBtnUISetting_clicked();

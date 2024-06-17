@@ -4,6 +4,7 @@
 #include <QDesktopServices>
 #include <QSettings>
 #include <QDir>
+#include <QProcess>
 //#include <QShortcut>
 #define         ICON_WIDTH          40
 #define         ICON_HEIGHT         46
@@ -96,6 +97,7 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     });*/
 
     InitListWidget();
+    getLoggedInUserInfo();
 }
 
 void SystemSettingWidget::InitListWidget()
@@ -408,4 +410,25 @@ void SystemSettingWidget::on_radioButton_clicked(bool checked)
 void SystemSettingWidget::on_radioButton_2_clicked(bool checked)
 {
     m_bCloseMainWindowExit = true;
+}
+
+void SystemSettingWidget::getLoggedInUserInfo()
+{
+    QProcess process;
+
+    // 获取当前登录的用户名
+    process.start("whoami");
+    process.waitForFinished(); // 等待命令执行完成
+    QString userName = process.readAllStandardOutput();
+    userName = userName.trimmed(); // 去除可能的空白字符
+
+    // 获取计算机名
+    process.start("hostname");
+    process.waitForFinished(); // 等待命令执行完成
+    QString computerName = process.readAllStandardOutput();
+    computerName = computerName.trimmed(); // 去除可能的空白字符
+
+    qDebug() << "Logged in user:" << userName;
+    qDebug() << "Computer name:" << computerName;
+    ui->labelLoginDevice->setText("当前登录设备:"+ computerName);
 }

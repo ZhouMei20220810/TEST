@@ -1172,7 +1172,7 @@ font-size:13px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_10">
+               <widget class="QLabel" name="labelLoginDevice">
                 <property name="text">
                  <string>当前登录设备：ThinkPad E550</string>
                 </property>
