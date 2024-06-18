@@ -2613,6 +2613,10 @@ void MainWindow::on_toolBtnPhoto_clicked()
         m_individualCenterWidget = new IndividualCenterWidget(this);
         connect(m_individualCenterWidget, &IndividualCenterWidget::logoutSignals, this, [=]()
             {
+                if (m_TaskTimer->isActive())
+                {
+                    m_TaskTimer->stop();
+                }
                 this->close();
                 emit logoutSignals();
             });
