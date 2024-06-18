@@ -22,3 +22,19 @@ m_BatchOperMenu->setStyleSheet("QMenu{ background-color:#FFFFFF;font-size:14px;b
         QMenu::item{ min-width:150px; font-size:12px;height:20; color:#505465;background:rgba(255,255,255,0.5); border:0px solid rgba(82,130,164,1); padding:1px 1px; margin:1px 1px; }\
         QMenu::item:selected{ background:#F5F7FB;font-weight:bold;height:20;border:0px solid rgba(82,130,164,1); }  /*选中或者说鼠标滑过状态*/\
         QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
+        
+给窗口绘制阴影背景
+1、首先窗口必须是透明的setAttribute(Qt::WA_TranslucentBackground, true); 
+2、ui->centralwidget与实际边框需要有距离，即centralwidget的Layout属性layoutLeftMargin、LayoutTopMargin、LayoutRightMargin、LayoutbottomMargin需设置值，值太小绘制出来的阴影效果越差，为1，看到的是实线，才能看出透明阴影效果
+//确认this->ui->centralwidget确实存在并且是您想要添加阴影效果的部件。有时候，如果UI文件中centralwidget的背景被设置为非透明或者有其他覆盖层，可能会遮挡阴影效果。
+//父部件的透明属性：确保centralwidget的父部件（即窗口本身）已经正确设置了透明属性。虽然您已经设置了setAttribute(Qt::WA_TranslucentBackground, true);，但还需确认这个设置能正常生效，没有其他设置与之冲突。
+3、setWindowFlag(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, true);
+4、 QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(15);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::red);//阴影颜色
+    this->ui->centralwidget->setGraphicsEffect(shadow);
+    
+5、QGraphicsDropShadowEffect上述示例适用于一般的窗口应用，对于特定的Qt控件（如QListWidget）实现阴影，原理类似，但需针对具体的控件进行调整。
