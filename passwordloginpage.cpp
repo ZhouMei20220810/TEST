@@ -172,6 +172,7 @@ void PasswordLoginPage::on_btnLogin_clicked()
 
                             //去掉父窗口
                             MainWindow* mainWindow = new MainWindow();
+                            connect(mainWindow, &MainWindow::logoutSignals, this, &PasswordLoginPage::logoutSignals);
                             mainWindow->show();
                         }
                     }

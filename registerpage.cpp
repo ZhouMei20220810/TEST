@@ -186,6 +186,7 @@ void RegisterPage::on_btnRegister_clicked()
                             qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"photoUrl="<<strPhotoUrl<<"token="<<strToken;
 
                             MainWindow* mainWindow = new MainWindow();
+                            connect(mainWindow, &MainWindow::logoutSignals, this, &RegisterPage::logoutSignals);
                             mainWindow->show();
                             /*YsyMainWindow* mainWindow = new YsyMainWindow();
                             mainWindow->show();*/

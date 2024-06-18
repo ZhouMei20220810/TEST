@@ -18,6 +18,7 @@ public:
     ~RegisterPage();
 signals:
     void showPageType(ENUM_LOGIN_PAGE_TYPE type);
+    void logoutSignals();
 private slots:
     void on_btnRegister_clicked();
 

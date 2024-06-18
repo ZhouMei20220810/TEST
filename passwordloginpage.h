@@ -20,6 +20,7 @@ signals:
     void showPageType(ENUM_LOGIN_PAGE_TYPE type);
     void showLoginWindow(ENUM_LOGIN_STATUS enStatus);
     void closeWindowSignals();
+    void logoutSignals();
 private slots:
     //void on_btnReturn_clicked();
 

@@ -14,7 +14,8 @@ class IndividualCenterWidget : public QDialog
 public:
     explicit IndividualCenterWidget(QWidget *parent = nullptr);
     ~IndividualCenterWidget();
-
+signals:
+    void logoutSignals();
 private slots:
     void on_toolBtnIndividualCenter_clicked();
 

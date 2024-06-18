@@ -17,6 +17,7 @@ public:
 signals:
     void showPageType(ENUM_LOGIN_PAGE_TYPE type);
     void closeWindowSignals();
+    void logoutSignals();
 private slots:
     void on_btnPasswordLogin_clicked();
 

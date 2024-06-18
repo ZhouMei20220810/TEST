@@ -34,7 +34,10 @@ LoginWindow::LoginWindow(QWidget *parent)
     });
     connect(m_smsLoginPage, &SMSLoginPage::closeWindowSignals, this, [=]()
         {
-            this->close();
+            this->hide();
+        });
+    connect(m_smsLoginPage, &SMSLoginPage::logoutSignals, this, [=]() {
+        this->show();
         });
 
     /*connect(m_registerPage, &RegisterPage::showPageType, this, [=](ENUM_LOGIN_PAGE_TYPE type)
@@ -65,7 +68,10 @@ LoginWindow::LoginWindow(QWidget *parent)
             });
     connect(m_passwordLoginPage, &PasswordLoginPage::closeWindowSignals, this, [=]()
         {
-            this->close();
+            this->hide();
+        });
+    connect(m_passwordLoginPage, &PasswordLoginPage::logoutSignals, this, [=]() {
+        this->show();
         });
 }
 
@@ -97,6 +103,9 @@ void LoginWindow::showPage(ENUM_LOGIN_PAGE_TYPE type)
             {
                 this->show();
                 showPage(type);
+            });
+        connect(m_registerPage, &RegisterPage::logoutSignals, this, [=]() {
+            this->show();
             });
         m_registerPage->show();
     }        

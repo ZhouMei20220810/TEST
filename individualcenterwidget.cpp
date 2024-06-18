@@ -124,6 +124,7 @@ void IndividualCenterWidget::HttpLogout()
                         }*/
                     qDebug()<<"注销成功";
                     this->hide();
+                    emit logoutSignals();
                 }
                 else
                 {

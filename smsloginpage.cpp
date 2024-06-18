@@ -189,8 +189,8 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
 
                             //去掉父窗口
                             MainWindow* mainWindow = new MainWindow();
+                            connect(mainWindow, &MainWindow::logoutSignals, this, &SMSLoginPage::logoutSignals);
                             mainWindow->show();
-
                         }
                     }
                     else

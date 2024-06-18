@@ -2611,6 +2611,11 @@ void MainWindow::on_toolBtnPhoto_clicked()
     if (NULL == m_individualCenterWidget)
     {
         m_individualCenterWidget = new IndividualCenterWidget(this);
+        connect(m_individualCenterWidget, &IndividualCenterWidget::logoutSignals, this, [=]()
+            {
+                this->close();
+                emit logoutSignals();
+            });
     }
     if (m_individualCenterWidget->isVisible())
     {

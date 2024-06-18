@@ -29,6 +29,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 signals:
+    void logoutSignals();
+
     void returnSignals();
     void homeSignals();
     void changePageSignals();
