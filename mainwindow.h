@@ -221,6 +221,8 @@ private slots:
     void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
     void on_btnAddPhone_clicked();
 
+    void on_btnVipServerPolicy_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

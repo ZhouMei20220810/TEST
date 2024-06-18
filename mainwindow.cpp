@@ -32,6 +32,7 @@
 #include "factorydataresetdialog.h"
 #include <QDesktopServices>
 #include "messagetips.h"
+#include "policydialog.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -3073,3 +3074,12 @@ void MainWindow::showEvent(QShowEvent *event)
     QRect rect = ui->groupWidget->geometry();
     m_toolBtnContraction->move(rect.x() + rect.width()+ui->frame->width(), (rect.height() - m_toolBtnContraction->height()) / 2);
 }
+
+void MainWindow::on_btnVipServerPolicy_clicked()
+{
+    //VIP服务协议
+    PolicyDialog* policy = new PolicyDialog("会员服务协议","https://www.ysyos.com/deal/VipPrivacy.html");
+    //policy->show();
+    policy->exec();
+}
+

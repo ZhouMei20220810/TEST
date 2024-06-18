@@ -3286,7 +3286,7 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>80</width>
+                     <width>1282</width>
                      <height>234</height>
                     </rect>
                    </property>
@@ -3939,15 +3939,21 @@ border-image:url(:/main/resource/main/border_select.png);
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_8">
-                 <property name="layoutDirection">
-                  <enum>Qt::LeftToRight</enum>
+                <widget class="QPushButton" name="btnVipServerPolicy">
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">color:#F96D6F;</string>
+                  <string notr="true">QPushButton{color:#F96D6F;}
+QPushButton:pressed{
+border:none;
+}</string>
                  </property>
                  <property name="text">
                   <string>《VIP会员服务协议》</string>
+                 </property>
+                 <property name="flat">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
