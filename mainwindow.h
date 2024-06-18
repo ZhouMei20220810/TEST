@@ -223,11 +223,15 @@ private slots:
 
     void on_btnVipServerPolicy_clicked();
 
+    void on_btnRefreshQrCode_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
     //会员数据列表
-    S_LEVEL_DATA_INFO m_curLevelDataInfo;
+    S_LEVEL_DATA_INFO   m_curLevelDataInfo;
+    int                 m_iBuyNum;
+    QString             m_strPayRelateId;
 	//手机列表数据
     QMap<int, S_PHONE_INFO> m_mapPhoneInfo;
     QPoint m_dragPosition;
@@ -244,6 +248,8 @@ private:
     QStringList m_listInstanceNo;
 
     QTimer* m_Timer;
+    QTimer* m_PayTimer;
+    int     m_iPayCount = 0;
 
     //组列表
     QMenu* m_menu;

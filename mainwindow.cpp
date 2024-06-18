@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_individualCenterWidget = NULL;
 
     m_pCurItem = NULL;
+    m_PayTimer = NULL;
+    m_Timer = NULL;
 
     m_toolObject = new ToolObject(this);
     connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this,[=]
@@ -65,6 +67,22 @@ MainWindow::MainWindow(QWidget *parent)
         });
 
     ui->labelAccount->setText(GlobalData::strAccount);
+
+    m_PayTimer = new QTimer();
+    connect(m_PayTimer, &QTimer::timeout, this, [=]() {
+        if (m_iPayCount > 0)
+        {
+            ui->labelTimer->setText(QString::asprintf("%ds",m_iPayCount));
+            m_iPayCount--;
+        }
+        else
+        {
+            ui->labelTimer->setText(QString::asprintf("%ds", m_iPayCount));
+            ui->labelPayTimeoutTip->setVisible(true);
+            ui->btnRefreshQrCode->setVisible(true);
+            m_PayTimer->stop();
+        }
+        });
 
     m_TaskTimer = new QTimer();
     connect(m_TaskTimer, &QTimer::timeout, this, &MainWindow::do_timeoutRefreshPicture);
@@ -1604,6 +1622,10 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                             ui->labelQrCode->setPixmap(QPixmap(GlobalData::strQrcode).scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
                             //正常情况
                             ui->stackedWidget->setCurrentWidget(ui->pageQrCode);
+                            ui->labelPayTimeoutTip->setVisible(false);
+                            ui->btnRefreshQrCode->setVisible(false);
+                            m_iPayCount = 59;
+                            m_PayTimer->start(1000);
                         }
                     }                    
                 }
@@ -2274,7 +2296,7 @@ void MainWindow::on_btnBeginPay_clicked()
     renewItemWidget* widget = NULL;
     bool bChecked = false;
     S_PHONE_INFO phoneInfo;
-    QString strRelateId = "";
+    m_strPayRelateId = "";
     for(int i = 0; i < iCount; i++)
     {
         item = ui->listWidgetRenewList->item(i);
@@ -2286,23 +2308,23 @@ void MainWindow::on_btnBeginPay_clicked()
             {
                 phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
                 qDebug()<<"选中iRow="<<i <<";No="<<phoneInfo.strInstanceNo;
-                if (strRelateId.isEmpty())
+                if (m_strPayRelateId.isEmpty())
                 {
-                    strRelateId = QString::asprintf("%d", phoneInfo.iId);
+                    m_strPayRelateId = QString::asprintf("%d", phoneInfo.iId);
                 }
                 else
                 {
-                    strRelateId += QString::asprintf(",%d", phoneInfo.iId);
+                    m_strPayRelateId += QString::asprintf(",%d", phoneInfo.iId);
                 }
             }
         }
     }
 
-    qDebug() <<"strRelateId=" << strRelateId;
+    qDebug() <<"m_strPayRelateId=" << m_strPayRelateId;
     QString strBuyNum = ui->lineEditBuyNumber->text();
-    int iNum = strBuyNum.toInt();
+    m_iBuyNum = strBuyNum.toInt();
 
-    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, iNum, 1, strRelateId);
+    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
 }
 
 //level item 
@@ -3081,5 +3103,12 @@ void MainWindow::on_btnVipServerPolicy_clicked()
     PolicyDialog* policy = new PolicyDialog("会员服务协议","https://www.ysyos.com/deal/VipPrivacy.html");
     //policy->show();
     policy->exec();
+}
+
+
+void MainWindow::on_btnRefreshQrCode_clicked()
+{
+    //刷新支付
+    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
 }
 
