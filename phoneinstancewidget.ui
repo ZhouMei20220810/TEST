@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>439</width>
-    <height>426</height>
+    <height>466</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -426,206 +426,151 @@ height:40
        <number>0</number>
       </property>
       <item>
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+       <widget class="QToolButton" name="toolButton_31">
+        <property name="text">
+         <string>...</string>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/setting/1.png</normaloff>:/resource/setting/1.png</iconset>
+        </property>
+        <property name="iconSize">
          <size>
-          <width>20</width>
+          <width>40</width>
           <height>40</height>
          </size>
         </property>
-       </spacer>
+       </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnScreenshot_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>截图</string>
+       <widget class="QToolButton" name="toolButton_32">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>40</height>
+         </size>
         </property>
         <property name="text">
-         <string>截图</string>
+         <string/>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/instance/screenshots.png</normaloff>:/resource/instance/screenshots.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <normaloff>:/resource/setting/2.png</normaloff>:/resource/setting/2.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnScreenshotsDir_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
+       <widget class="QToolButton" name="toolButton_33">
         <property name="text">
-         <string>截图
-目录</string>
+         <string>...</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/instance/screenshotsDir.png</normaloff>:/resource/instance/screenshotsDir.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <normaloff>:/resource/setting/3.png</normaloff>:/resource/setting/3.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnClipboard_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>剪贴板</string>
-        </property>
+       <widget class="QToolButton" name="toolButton_34">
         <property name="text">
-         <string>剪贴板</string>
+         <string>...</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/instance/clipboard.png</normaloff>:/resource/instance/clipboard.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <normaloff>:/resource/setting/4.png</normaloff>:/resource/setting/4.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnShark_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>重启</string>
-        </property>
+       <widget class="QToolButton" name="toolButton_35">
         <property name="text">
-         <string>摇一摇</string>
+         <string>...</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/instance/shake.png</normaloff>:/resource/instance/shake.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <normaloff>:/resource/setting/5.png</normaloff>:/resource/setting/5.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnRoot_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
+       <widget class="QToolButton" name="toolButton_36">
         <property name="text">
-         <string>Root</string>
+         <string>...</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/instance/Root.png</normaloff>:/resource/instance/Root.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <normaloff>:/resource/setting/6.png</normaloff>:/resource/setting/6.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnKeyboard_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
+       <widget class="QToolButton" name="toolButton_37">
         <property name="text">
-         <string>硬键盘</string>
+         <string>...</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/instance/key_show.png</normaloff>:/resource/instance/key_show.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <normaloff>:/resource/setting/7.png</normaloff>:/resource/setting/7.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnADB_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
+       <widget class="QToolButton" name="toolButton_42">
         <property name="text">
-         <string>ADB
-调试</string>
+         <string>...</string>
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/instance/ADB.png</normaloff>:/resource/instance/ADB.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <normaloff>:/resource/setting/12.png</normaloff>:/resource/setting/12.png</iconset>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer_3">
+       <widget class="QToolButton" name="toolButton_38">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/setting/8.png</normaloff>:/resource/setting/8.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_39">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/setting/9.png</normaloff>:/resource/setting/9.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_40">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/setting/10.png</normaloff>:/resource/setting/10.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_41">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="res.qrc">
+          <normaloff>:/resource/setting/11.png</normaloff>:/resource/setting/11.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -843,19 +788,6 @@ height:40
        </widget>
       </item>
       <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>313</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <widget class="QToolButton" name="toolBtnMore">
         <property name="minimumSize">
          <size>
@@ -880,6 +812,19 @@ height:40
          <enum>Qt::ToolButtonTextUnderIcon</enum>
         </property>
        </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnReturn">
