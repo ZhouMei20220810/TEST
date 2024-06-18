@@ -93,7 +93,8 @@
 #define          LISTMODE_ITEM_WIDTH        100
 #define          LIST_WIDGET_LISTMODE_ITEM_SPACING          5
 
-#define         PHONE_INSTANCE_SHOW_TOOLBUTTON_NUM           (7)
+#define         PHONE_INSTANCE_VER_DEFAULT_TOOL_NUM          (7)
+#define         PHONE_INSTANCE_HOR_DEFAULT_TOOL_NUM          (5)
 
 typedef struct LEVEL_INFO
 {

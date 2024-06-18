@@ -30,6 +30,31 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     m_GeoSource = NULL;
     
     ui->frameTool->setVisible(false);    
+    InitToolButton(ui->toolButton_1);
+    InitToolButton(ui->toolButton_2);
+    InitToolButton(ui->toolButton_3);
+    InitToolButton(ui->toolButton_4);
+    InitToolButton(ui->toolButton_5);
+    InitToolButton(ui->toolButton_6);
+    InitToolButton(ui->toolButton_7);
+    InitToolButton(ui->toolButton_8);
+    InitToolButton(ui->toolButton_9);
+    InitToolButton(ui->toolButton_10);
+    InitToolButton(ui->toolButton_11);
+    InitToolButton(ui->toolButton_12);
+
+    InitToolButton(ui->toolButton_31);
+    InitToolButton(ui->toolButton_32);
+    InitToolButton(ui->toolButton_33);
+    InitToolButton(ui->toolButton_34);
+    InitToolButton(ui->toolButton_35);
+    InitToolButton(ui->toolButton_36);
+    InitToolButton(ui->toolButton_37);
+    InitToolButton(ui->toolButton_38);
+    InitToolButton(ui->toolButton_39);
+    InitToolButton(ui->toolButton_40);
+    InitToolButton(ui->toolButton_41);
+    InitToolButton(ui->toolButton_42);
 
     do_HorizontalSignals();
 
@@ -893,76 +918,52 @@ void PhoneInstanceWidget::do_HorizontalSignals()
     int width = calculateWidth(height);
     //横屏
     if (GlobalData::bVerticalPhoneInstance)
-    {        
-        InitToolButton(ui->toolButton_1);
-        InitToolButton(ui->toolButton_2);
-        InitToolButton(ui->toolButton_3);
-        InitToolButton(ui->toolButton_4);
-        InitToolButton(ui->toolButton_5);
-        InitToolButton(ui->toolButton_6);
-        InitToolButton(ui->toolButton_7);
-        InitToolButton(ui->toolButton_8);
-        InitToolButton(ui->toolButton_9);
-        InitToolButton(ui->toolButton_10);
-        InitToolButton(ui->toolButton_11);
-        InitToolButton(ui->toolButton_12);
+    {
         ui->toolBtnMore->setVisible(false);
         if (!GlobalData::strToolButtonList.isEmpty())
         {
             QStringList strList = GlobalData::strToolButtonList.split(',');
             int iToolIndex = 0;
-            for (int i = 0; i < PHONE_INSTANCE_SHOW_TOOLBUTTON_NUM; i++)
+            for (int i = 0; i < PHONE_INSTANCE_VER_DEFAULT_TOOL_NUM; i++)
             {
                 iToolIndex = strList.at(i).toInt();
                 switch (iToolIndex)
                 {
                 case 1:
                     ui->toolButton_1->setVisible(true);
-                    //ui->toolButton_1->setParent(ui->frame_2);
                     break;
                 case 2:
                     ui->toolButton_2->setVisible(true);
-                    //ui->toolButton_2->setParent(ui->frame_2);
                     break;
                 case 3:
                     ui->toolButton_3->setVisible(true);
-                    //ui->toolButton_3->setParent(ui->frame_2);
                     break;
                 case 4:
                     ui->toolButton_4->setVisible(true);
-                    //ui->toolButton_4->setParent(ui->frame_2);
                     break;
                 case 5:
                     ui->toolButton_5->setVisible(true);
-                    //ui->toolButton_5->setParent(ui->frame_2);
                     break;
                 case 6:
                     ui->toolButton_6->setVisible(true);
-                    //ui->toolButton_6->setParent(ui->frame_2);
                     break;
                 case 7:
                     ui->toolButton_7->setVisible(true);
-                    //ui->toolButton_7->setParent(ui->frame_2);
                     break;
                 case 8:
                     ui->toolButton_8->setVisible(true);
-                    //ui->toolButton_8->setParent(ui->frame_2);
                     break;
                 case 9:
                     ui->toolButton_9->setVisible(true);
-                    //ui->toolButton_9->setParent(ui->frame_2);
                     break;
                 case 10:
                     ui->toolButton_10->setVisible(true);
-                    //ui->toolButton_10->setParent(ui->frame_2);
                     break;
                 case 11:
                     ui->toolButton_11->setVisible(true);
-                    //ui->toolButton_11->setParent(ui->frame_2);
                     break;
                 case 12:
                     ui->toolButton_12->setVisible(true);
-                    //ui->toolButton_12->setParent(ui->frame_2);
                     break;
                 default:
                     break;
@@ -974,82 +975,114 @@ void PhoneInstanceWidget::do_HorizontalSignals()
     }
     else
     {
-        InitToolButton(ui->toolButton_31);
-        InitToolButton(ui->toolButton_32);
-        InitToolButton(ui->toolButton_33);
-        InitToolButton(ui->toolButton_34);
-        InitToolButton(ui->toolButton_35);
-        InitToolButton(ui->toolButton_36);
-        InitToolButton(ui->toolButton_37);
-        InitToolButton(ui->toolButton_38);
-        InitToolButton(ui->toolButton_39);
-        InitToolButton(ui->toolButton_40);
-        InitToolButton(ui->toolButton_41);
-        InitToolButton(ui->toolButton_42);
         ui->toolBtnMore->setVisible(true);
         QStringList strList = GlobalData::strToolButtonList.split(',');
         int iSize = strList.size();
         int iToolIndex = 0;
-        for (int i = 5; i < iSize; i++)
+        for (int i = 0; i < iSize; i++)
         {
             iToolIndex = strList.at(i).toInt();
-            switch (iToolIndex)
+            if (i < PHONE_INSTANCE_HOR_DEFAULT_TOOL_NUM)
             {
-            case 1:
-                ui->toolButton_31->setVisible(true);
-                ui->toolButton_1->setVisible(false);
-                break;
-            case 2:
-                ui->toolButton_32->setVisible(true);
-                ui->toolButton_2->setVisible(false);
-                break;
-            case 3:
-                ui->toolButton_33->setVisible(true);
-                ui->toolButton_3->setVisible(false);
-                break;
-            case 4:
-                ui->toolButton_34->setVisible(true);
-                ui->toolButton_4->setVisible(false);
-                break;
-            case 5:
-                ui->toolButton_35->setVisible(true);
-                ui->toolButton_5->setVisible(false);
-                break;
-            case 6:
-                ui->toolButton_36->setVisible(true);
-                ui->toolButton_6->setVisible(false);
-                break;
-            case 7:
-                ui->toolButton_37->setVisible(true);
-                ui->toolButton_7->setVisible(false);
-                break;
-            case 8:
-                ui->toolButton_38->setVisible(true);
-                ui->toolButton_8->setVisible(false);
-                break;
-            case 9:
-                ui->toolButton_39->setVisible(true);
-                ui->toolButton_9->setVisible(false);
-                break;
-            case 10:
-                ui->toolButton_40->setVisible(true);
-                ui->toolButton_10->setVisible(false);
-                break;
-            case 11:
-                ui->toolButton_41->setVisible(true);
-                ui->toolButton_11->setVisible(false);
-                break;
-            case 12:
-                ui->toolButton_42->setVisible(true);
-                ui->toolButton_12->setVisible(false);
-                break;
-            default:
-                break;
+                switch (iToolIndex)
+                {
+                case 1:
+                    ui->toolButton_1->setVisible(true);
+                    break;
+                case 2:
+                    ui->toolButton_2->setVisible(true);
+                    break;
+                case 3:
+                    ui->toolButton_3->setVisible(true);
+                    break;
+                case 4:
+                    ui->toolButton_4->setVisible(true);
+                    break;
+                case 5:
+                    ui->toolButton_5->setVisible(true);
+                    break;
+                case 6:
+                    ui->toolButton_6->setVisible(true);
+                    break;
+                case 7:
+                    ui->toolButton_7->setVisible(true);
+                    break;
+                case 8:
+                    ui->toolButton_8->setVisible(true);
+                    break;
+                case 9:
+                    ui->toolButton_9->setVisible(true);
+                    break;
+                case 10:
+                    ui->toolButton_10->setVisible(true);
+                    break;
+                case 11:
+                    ui->toolButton_11->setVisible(true);
+                    break;
+                case 12:
+                    ui->toolButton_12->setVisible(true);
+                    break;
+                default:
+                    break;
+                }
             }
+            else
+            {
+                switch (iToolIndex)
+                {
+                case 1:
+                    ui->toolButton_31->setVisible(true);
+                    ui->toolButton_1->setVisible(false);
+                    break;
+                case 2:
+                    ui->toolButton_32->setVisible(true);
+                    ui->toolButton_2->setVisible(false);
+                    break;
+                case 3:
+                    ui->toolButton_33->setVisible(true);
+                    ui->toolButton_3->setVisible(false);
+                    break;
+                case 4:
+                    ui->toolButton_34->setVisible(true);
+                    ui->toolButton_4->setVisible(false);
+                    break;
+                case 5:
+                    ui->toolButton_35->setVisible(true);
+                    ui->toolButton_5->setVisible(false);
+                    break;
+                case 6:
+                    ui->toolButton_36->setVisible(true);
+                    ui->toolButton_6->setVisible(false);
+                    break;
+                case 7:
+                    ui->toolButton_37->setVisible(true);
+                    ui->toolButton_7->setVisible(false);
+                    break;
+                case 8:
+                    ui->toolButton_38->setVisible(true);
+                    ui->toolButton_8->setVisible(false);
+                    break;
+                case 9:
+                    ui->toolButton_39->setVisible(true);
+                    ui->toolButton_9->setVisible(false);
+                    break;
+                case 10:
+                    ui->toolButton_40->setVisible(true);
+                    ui->toolButton_10->setVisible(false);
+                    break;
+                case 11:
+                    ui->toolButton_41->setVisible(true);
+                    ui->toolButton_11->setVisible(false);
+                    break;
+                case 12:
+                    ui->toolButton_42->setVisible(true);
+                    ui->toolButton_12->setVisible(false);
+                    break;
+                default:
+                    break;
+                }
+            }            
         }
-        //vBox->addStretch();
-        //vBox->addSpacing();
-        //ui->frameTool->setLayout(vBox);
         this->setMinimumSize(height, width);
         this->setMaximumSize(height, width);
     }
