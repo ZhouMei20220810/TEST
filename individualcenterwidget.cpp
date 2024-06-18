@@ -35,6 +35,7 @@ void IndividualCenterWidget::on_toolBtnIndividualCenter_clicked()
 {
     //个人中心,修改密码
     ForgetPWDialog* forgetPW = new ForgetPWDialog();
+    forgetPW->setModal(true);
     forgetPW->show();
 
     this->hide();
@@ -49,6 +50,7 @@ void IndividualCenterWidget::on_toolBtnLogout_clicked()
 void IndividualCenterWidget::on_toolBtnBuyHistory_clicked()
 {
     BuyHistoryWidget* widget = new BuyHistoryWidget();
+    widget->setModal(true);
     widget->show();
 
     this->hide();

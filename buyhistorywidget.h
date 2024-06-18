@@ -1,14 +1,14 @@
 #ifndef BUYHISTORYWIDGET_H
 #define BUYHISTORYWIDGET_H
 
-#include <QWidget>
+#include <QDialog>
 #include "global.h"
 
 namespace Ui {
 class BuyHistoryWidget;
 }
 
-class BuyHistoryWidget : public QWidget
+class BuyHistoryWidget : public QDialog
 {
     Q_OBJECT
 
