@@ -85,8 +85,7 @@
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>
-      </ProgramDataBaseFileName>
+      <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -204,6 +203,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Logoutdialog.cpp" />
+    <ClCompile Include="addactivecodedialog.cpp" />
     <ClCompile Include="buyhistoryitemwidget.cpp" />
     <ClCompile Include="buyhistorywidget.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
@@ -215,12 +215,7 @@
     <ClCompile Include="levelchildwidget.cpp" />
     <ClCompile Include="levelitemwidget.cpp" />
     <ClCompile Include="loginwindow.cpp" />
-    <QtMoc Include="main.cpp">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </QtMoc>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="messagetips.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
@@ -245,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Logoutdialog.h" />
+    <QtMoc Include="addactivecodedialog.h" />
     <QtMoc Include="buyhistoryitemwidget.h" />
     <QtMoc Include="buyhistorywidget.h" />
     <QtMoc Include="creategroupwidget.h" />
@@ -296,6 +292,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Logoutdialog.ui" />
+    <QtUic Include="addactivecodedialog.ui" />
     <QtUic Include="buyhistoryitemwidget.ui" />
     <QtUic Include="buyhistorywidget.ui" />
     <QtUic Include="creategroupwidget.ui" />
@@ -325,18 +322,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resource\function\1.png" />
+    <None Include="resource\individual\1.png" />
     <None Include="resource\instance\1.png" />
     <None Include="resource\setting\1.png" />
     <None Include="resource\setting\10.png" />
     <None Include="resource\setting\11.png" />
     <None Include="resource\setting\12.png" />
     <None Include="resource\function\2.png" />
+    <None Include="resource\individual\2.png" />
     <None Include="resource\instance\2.png" />
     <None Include="resource\setting\2.png" />
     <None Include="resource\function\3.png" />
+    <None Include="resource\individual\3.png" />
     <None Include="resource\instance\3.png" />
     <None Include="resource\setting\3.png" />
     <None Include="resource\function\4.png" />
+    <None Include="resource\individual\4.png" />
     <None Include="resource\instance\4.png" />
     <None Include="resource\setting\4.png" />
     <None Include="resource\function\5.png" />
@@ -349,6 +350,7 @@
     <None Include="resource\setting\9.png" />
     <None Include="resource\instance\ADB.png" />
     <None Include="resource\instance\ADB_open.png" />
+    <None Include="resource\individual\Enter.png" />
     <None Include="resource\instance\GPS.png" />
     <None Include="resource\instance\HorVerScreen.png" />
     <None Include="resource\instance\Input.png" />
@@ -371,13 +373,11 @@
     <None Include="resource\main\border_select.png" />
     <None Include="resource\main\buy.png" />
     <None Include="resource\main\buyNum.png" />
-    <None Include="resource\main\buy_hover.png" />
     <None Include="resource\main\buy_normal.png" />
     <None Include="resource\main\buy_select.png" />
     <None Include="resource\upload\cancelUpload.png" />
     <None Include="resource\instance\change.png" />
     <None Include="resource\main\changeScreen.png" />
-    <None Include="resource\main\checked.png" />
     <None Include="resource\instance\clipboard.png" />
     <None Include="resource\instance\clipboardDelete.png" />
     <None Include="resource\instance\clipboardLock.png" />
@@ -398,6 +398,7 @@
     <None Include="resource\main\defaultLevelIcon.png" />
     <None Include="resource\main\defaultSceenShot.png" />
     <None Include="resource\main\default_photoUrl.png" />
+    <None Include="resource\main\delete.png" />
     <None Include="resource\main\email.png" />
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />
@@ -422,7 +423,6 @@
     <None Include="resource\main\listMode_normal.png" />
     <None Include="resource\main\listMode_select.png" />
     <None Include="resource\login\logo.png" />
-    <None Include="resource\main\logo.png" />
     <None Include="resource\main\macroscheme.png" />
     <None Include="resource\login\main_logo.png" />
     <None Include="resource\instance\max.png" />
@@ -435,7 +435,9 @@
     <None Include="resource\login\option_select.png" />
     <None Include="resource\main\packup.png" />
     <None Include="resource\login\passsword.png" />
+    <None Include="resource\individual\photo.png" />
     <None Include="resource\main\photo_border.png" />
+    <None Include="resource\upload\point.png" />
     <None Include="resource\main\previewMode_normal.png" />
     <None Include="resource\main\previewMode_select.png" />
     <None Include="resource\main\radioCheck.png" />
@@ -453,8 +455,8 @@
     <None Include="resource\instance\shake.png" />
     <None Include="resource\main\shouqi.png" />
     <None Include="resource\function\sub.png" />
+    <None Include="resource\main\titleLogo.png" />
     <None Include="resource\instance\topWindow.png" />
-    <None Include="resource\main\uncheck.png" />
     <None Include="resource\upload\upload.png" />
     <None Include="resource\upload\uploadDel.png" />
     <None Include="resource\upload\uploadFinish.png" />

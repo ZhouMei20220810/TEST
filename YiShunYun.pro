@@ -14,6 +14,7 @@ CONFIG += c++17
 
 SOURCES += \
     Logoutdialog.cpp \
+    addactivecodedialog.cpp \
     buyhistoryitemwidget.cpp \
     buyhistorywidget.cpp \
     creategroupwidget.cpp \
@@ -50,6 +51,7 @@ SOURCES += \
 
 HEADERS += \
     Logoutdialog.h \
+    addactivecodedialog.h \
     buyhistoryitemwidget.h \
     buyhistorywidget.h \
     creategroupwidget.h \
@@ -85,6 +87,7 @@ HEADERS += \
 
 FORMS += \
     Logoutdialog.ui \
+    addactivecodedialog.ui \
     buyhistoryitemwidget.ui \
     buyhistorywidget.ui \
     creategroupwidget.ui \
