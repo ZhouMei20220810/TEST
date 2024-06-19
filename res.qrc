@@ -66,6 +66,7 @@
         <file>resource/main/buy.png</file>
         <file>resource/main/email.png</file>
         <file>resource/main/defaultSceenShot.png</file>
+        <file>resource/main/titleLogo.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

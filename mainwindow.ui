@@ -62,13 +62,13 @@ border-radius:0px;
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
-        <number>10</number>
+        <number>12</number>
        </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
        <property name="topMargin">
-        <number>0</number>
+        <number>44</number>
        </property>
        <property name="rightMargin">
         <number>0</number>
@@ -76,25 +76,6 @@ border-radius:0px;
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="QToolButton" name="toolBtnCloudPhone">
          <property name="minimumSize">
@@ -105,7 +86,7 @@ border-radius:0px;
          </property>
          <property name="font">
           <font>
-           <pointsize>10</pointsize>
+           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="cursor">
@@ -114,27 +95,30 @@ border-radius:0px;
          <property name="styleSheet">
           <string notr="true">QToolButton {
 border:none;
+color:#6296FF;
+font-size:12px;
 background:transparent;
-background-image: url(:/main/resource/main/cloudPhone_select.png);
-}
-QToolButton:hover  {
-border:none;
-background:transparent;
-background-image: url(:/main/resource/main/cloudPhone_select.png)
 }
 QToolButton:pressed  {
 border:none;
 background:transparent;
-background-image: url(:/main/resource/main/cloudPhone_select.png)
-}
-QToolButton:clicked  {
-border:none;
-background:transparent;
-background-image: url(:/main/resource/main/cloudPhone_select.png)
 }</string>
          </property>
          <property name="text">
-          <string/>
+          <string>云手机</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/main/resource/main/cloudPhone_select.png</normaloff>:/main/resource/main/cloudPhone_select.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -156,26 +140,29 @@ background-image: url(:/main/resource/main/cloudPhone_select.png)
           <string notr="true">QToolButton {
 border:none;
 background:transparent;
-background-image: url(:/main/resource/main/activeCode_normal.png);
-}
-QToolButton:hover  {
-border:none;
-background:transparent;
-background-image: url(:/main/resource/main/activeCode_select.png)
+color:#BCC5E2;
 }
 QToolButton:pressed  {
 border:none;
 background:transparent;
-background-image: url(:/main/resource/main/activeCode_select.png)
-}
-QToolButton:clicked  {
-border:none;
-background:transparent;
-background-image: url(:/main/resource/main/activeCode_select.png)
+color:#6296FF;
 }</string>
          </property>
          <property name="text">
-          <string/>
+          <string>激活码</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/main/resource/main/activeCode_normal.png</normaloff>:/main/resource/main/activeCode_normal.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -197,26 +184,29 @@ background-image: url(:/main/resource/main/activeCode_select.png)
           <string notr="true">QToolButton {
 border:none;
 background:transparent;
-background-image: url(:/main/resource/main/buy_normal.png);
-}
-QToolButton:hover  {
-border:none;
-background:transparent;
-background-image: url(:/main/resource/main/buy_select.png)
+color:#BCC5E2;
 }
 QToolButton:pressed  {
 border:none;
 background:transparent;
-background-image: url(:/main/resource/main/buy_select.png)
-}
-QToolButton:clicked  {
-border:none;
-background:transparent;
-background-image: url(:/main/resource/main/buy_select.png)
+color:#6296FF;
 }</string>
          </property>
          <property name="text">
-          <string/>
+          <string>购买</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res.qrc">
+           <normaloff>:/main/resource/main/buy_normal.png</normaloff>:/main/resource/main/buy_normal.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>40</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -299,11 +289,13 @@ background: transparent;
 border:none;
 border-radius:1px;
 padding-left:8px;
+color:#505465
 }
 QToolButton:hover {
 background: transparent;
 border-radius:1px;
 padding-left:8px;
+color:#505465;
 }</string>
            </property>
            <property name="text">
@@ -311,7 +303,7 @@ padding-left:8px;
            </property>
            <property name="icon">
             <iconset resource="res.qrc">
-             <normaloff>:/main/resource/main/aboutlogo.png</normaloff>:/main/resource/main/aboutlogo.png</iconset>
+             <normaloff>:/main/resource/main/titleLogo.png</normaloff>:/main/resource/main/titleLogo.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -3286,7 +3278,7 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>1282</width>
+                     <width>80</width>
                      <height>234</height>
                     </rect>
                    </property>

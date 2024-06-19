@@ -1875,17 +1875,13 @@ void MainWindow::on_toolBtnCloudPhone_clicked()
         return;
     }
     m_toolBtnContraction->setVisible(true);
-    ui->toolBtnCloudPhone->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/cloudPhone_select.png);}");
-    ui->toolBtnActiveCode->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/activeCode_normal.png);}");
-    ui->toolBtnBuy->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/buy_normal.png);}");
-
-
-    //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color:#6296FF;font-size:12px;background:transparent;}QToolButton:pressed{border:none;background:transparent;}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;background:transparent;color:#BCC5E2;}QToolButton:pressed{border:none;background:transparent;color:#6296FF;}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;background:transparent;color:#BCC5E2;}QToolButton:pressed{border:none;background:transparent;color:#6296FF;}");
+    ui->toolBtnCloudPhone->setIcon(QIcon(":/main/resource/main/cloudPhone_select.png"));
+    ui->toolBtnActiveCode->setIcon(QIcon(":/main/resource/main/activeCode_normal.png"));
+    ui->toolBtnBuy->setIcon(QIcon(":/main/resource/main/buy_normal.png"));
     ui->stackedWidget->setCurrentWidget(ui->page);
-
 }
 
 //激活码
@@ -1896,13 +1892,13 @@ void MainWindow::on_toolBtnActiveCode_clicked()
         return;
     }
     m_toolBtnContraction->setVisible(false);
-    ui->toolBtnCloudPhone->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/cloudPhone_normal.png);}");
-    ui->toolBtnActiveCode->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/activeCode_select.png);}");
-    ui->toolBtnBuy->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/buy_normal.png);}");
-    //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color:#6296FF;font-size:12px;background:transparent;}QToolButton:pressed{border:none;background:transparent;}");
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;background:transparent;color:#BCC5E2;}QToolButton:pressed{border:none;background:transparent;color:#6296FF;}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;background:transparent;color:#BCC5E2;}QToolButton:pressed{border:none;background:transparent;color:#6296FF;}");
 
+    ui->toolBtnCloudPhone->setIcon(QIcon(":/main/resource/main/cloudPhone_normal.png"));
+    ui->toolBtnActiveCode->setIcon(QIcon(":/main/resource/main/activeCode_select.png"));
+    ui->toolBtnBuy->setIcon(QIcon(":/main/resource/main/buy_normal.png"));
     ui->stackedWidget->setCurrentWidget(ui->pageActiveCode);
 }
 
@@ -1914,12 +1910,12 @@ void MainWindow::on_toolBtnBuy_clicked()
         return;
     }
     m_toolBtnContraction->setVisible(false);
-    ui->toolBtnCloudPhone->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/cloudPhone_normal.png);}");
-    ui->toolBtnActiveCode->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/activeCode_normal.png);}");
-    ui->toolBtnBuy->setStyleSheet("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/buy_select.png);}");
-    //ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);background-color: rgb(41, 105, 205);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    //ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
-    //ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;color: rgb(204, 204, 204);border-radius:3px;}QToolButton:hover {color: rgb(255, 255, 255);background-color: rgb(41, 105, 205);}");
+    ui->toolBtnBuy->setStyleSheet("QToolButton{border:none;color:#6296FF;font-size:12px;background:transparent;}QToolButton:pressed{border:none;background:transparent;}");
+    ui->toolBtnActiveCode->setStyleSheet("QToolButton{border:none;background:transparent;color:#BCC5E2;}QToolButton:pressed{border:none;background:transparent;color:#6296FF;}");
+    ui->toolBtnCloudPhone->setStyleSheet("QToolButton{border:none;background:transparent;color:#BCC5E2;}QToolButton:pressed{border:none;background:transparent;color:#6296FF;}");
+    ui->toolBtnCloudPhone->setIcon(QIcon(":/main/resource/main/cloudPhone_normal.png"));
+    ui->toolBtnActiveCode->setIcon(QIcon(":/main/resource/main/activeCode_normal.png"));
+    ui->toolBtnBuy->setIcon(QIcon(":/main/resource/main/buy_select.png"));
 
     ui->stackedWidget->setCurrentWidget(ui->pageBuy);
 }
@@ -2471,33 +2467,92 @@ void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
     str=str.asprintf("%.2f", iBuyNum*m_curLevelDataInfo.fActivityPrice);
     ui->labelPayMoney->setText(str);
 }
+QPoint MainWindow::calculateEdge(const QPoint& pos)
+{
+    // 简化的示例，根据鼠标点击位置判断是否在窗口边缘
+    int borderWidth = 10;//style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
+    QRect rect = contentsRect();
+    rect.adjust(borderWidth, borderWidth, -borderWidth, -borderWidth);
 
+    if (pos.x() < borderWidth) {
+        if (pos.y() < borderWidth) return QPoint(1, 1); // 左上
+        else if (pos.y() > rect.bottom()) return QPoint(1, -1); // 左下
+        else return QPoint(1, 0); // 左边
+    }
+    else if (pos.x() > rect.right()) {
+        if (pos.y() < borderWidth) return QPoint(-1, 1); // 右上
+        else if (pos.y() > rect.bottom()) return QPoint(-1, -1); // 右下
+        else return QPoint(-1, 0); // 右边
+    }
+    else if (pos.y() < borderWidth) {
+        return QPoint(0, 1); // 顶部
+    }
+    else if (pos.y() > rect.bottom()) {
+        return QPoint(0, -1); // 底部
+    }
+    return QPoint(-1, -1); // 不在边缘
+}
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    if(event->button() == Qt::LeftButton)
-    {
-        m_LastPos = event->globalPosition().toPoint()-this->pos();
-        m_bMoving = true;
+    if (event->button() == Qt::LeftButton) {
+        initialMousePos = event->globalPos() - frameGeometry().topLeft();
+        pressPos = event->globalPos(); // 记录鼠标按下时的全局坐标
+        edge = calculateEdge(event->pos()); // 判断是否在窗口边缘，以便决定是移动还是拉伸
+        isMoving = edge == QPoint(-1, -1); // 如果不在边缘，则为移动
+        isResizing = !isMoving; // 否则为拉伸
     }
-    return QWidget::mousePressEvent(event);
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-
-    m_bMoving = false;
+    isMoving = false;
+    isResizing = false;
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
+void MainWindow::mouseMoveEvent(QMouseEvent* event)
 {
-    QPoint globalPosition = event->globalPosition().toPoint();
-    if(m_bMoving && (event->buttons()&Qt::LeftButton)
-        && (globalPosition-m_LastPos-pos()).manhattanLength() > QApplication::startDragDistance()) //控制移动的距离，多少距离执行拖拽
-    {
-        move(globalPosition-m_LastPos);
-        m_LastPos = globalPosition-pos();
+    if (isMoving) {
+        move(event->globalPos() - initialMousePos); // 根据鼠标移动距离调整窗口位置
     }
-    return QWidget::mouseMoveEvent(event);
+    else if (isResizing) {
+        QPoint currentPos = event->globalPos();
+        QRect geometry = frameGeometry();
+
+        // 计算宽度和高度的变化，确保增量与鼠标移动方向一致
+        int deltaX = 0, deltaY = 0;
+        if (edge.x() == 1) { // 左边
+            deltaX = -(currentPos.x() - pressPos.x());
+        }
+        else if (edge.x() == -1) { // 右边
+            deltaX = currentPos.x() - pressPos.x();
+        }
+        if (edge.y() == 1) { // 顶部
+            deltaY = -(currentPos.y() - pressPos.y());
+        }
+        else if (edge.y() == -1) { // 底部
+            deltaY = currentPos.y() - pressPos.y();
+        }
+
+        // 根据边缘信息调整窗口大小
+        if (edge.x() != 0) {
+            geometry.setWidth(geometry.width() + deltaX);
+        }
+        if (edge.y() != 0) {
+            geometry.setHeight(geometry.height() + deltaY);
+        }
+
+        // 计算窗口新位置，保持鼠标按下点相对窗口的位置不变
+        QPoint oldCenter = frameGeometry().center();
+        QPoint newCenter = oldCenter + QPoint(deltaX / 2, deltaY / 2);
+        QPoint deltaCenter = newCenter - oldCenter; // 窗口中心的偏移
+        QPoint newPosition = this->pos() + deltaCenter; // 窗口左上角的新位置
+        move(newPosition);
+
+        // 更新窗口大小
+        resize(geometry.size());
+
+        pressPos = event->globalPos(); // 更新记录的鼠标位置，以当前鼠标位置为准
+    }
 }
 
 void MainWindow::do_ContractionOrExpansion(bool bChecked)
