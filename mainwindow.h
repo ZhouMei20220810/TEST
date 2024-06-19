@@ -144,10 +144,10 @@ private slots:
     void on_btnGroupRefresh_clicked();
 
     void on_btnActiveCode_clicked();
-
-    void on_toolBtnAdd_clicked();
-
-    void on_toolButtonRenew_clicked();
+    void on_btnAddActiveCode_clicked();
+    void on_btnRenewActiveCode_clicked();
+	void on_toolBtnClearList_clicked();
+    void on_toolBtnAddActiveCode_clicked();
 
     void on_toolBtnBuyPhone_clicked();
 

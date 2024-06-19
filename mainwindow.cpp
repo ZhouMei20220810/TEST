@@ -52,12 +52,12 @@ MainWindow::MainWindow(QWidget *parent)
     shadow->setBlurRadius(5);//阴影模糊半径
     shadow->setXOffset(0);//水平偏移
     shadow->setYOffset(0); //垂直偏移
-    shadow->setColor(Qt::red);//阴影颜色
+    shadow->setColor(Qt::gray);//阴影颜色
     ui->centralwidget->setGraphicsEffect(shadow);
 
     this->setMouseTracking(true);
     ui->centralwidget->setMouseTracking(true);
-    ui->frame->setMouseTracking(true);
+    //ui->frame->setMouseTracking(true);
     dir = NONE;
     m_oldSize = this->size();
     m_globalPoint = this->pos();
@@ -520,9 +520,6 @@ void MainWindow::InitCloudPhoneTab()
     ui->treeWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     //ui->treeWidget->setCheckBoxes(true);
 
-    //隐藏续费列表
-    ui->frameActiveCodeRenew->setHidden(true);
-
     //隐藏展开功能按钮
     ui->toolBtnExpansionFunction->setVisible(false);
 
@@ -552,7 +549,7 @@ void MainWindow::InitCloudPhoneTab()
 //激活码
 void MainWindow::InitActiveCodeTab()
 {
-
+    InitActiveCodeRenewList();
 }
 
 //购买
@@ -2164,100 +2161,12 @@ void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
     });
 }
 
-void MainWindow::on_btnActiveCode_clicked()
-{
-    QString strActiveCode = ui->lineEditActiveCode->text();
-    if(strActiveCode.isEmpty())
-    {
-        MessageTipsDialog* tips = new MessageTipsDialog("激活码不能为空!",this);
-        tips->show();
-        return;
-    }
-    qDebug()<<"点击激活" << strActiveCode;
-
-    //查看是否是激活码续费
-    int iCount = ui->listWidgetRenew->count();
-    QListWidgetItem* item = NULL;
-    renewItemWidget* widget = NULL;
-    bool bChecked = false;
-    S_PHONE_INFO phoneInfo;
-    QString strRelateId = "";
-    for(int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidgetRenew->item(i);
-        if(item != NULL)
-        {
-            widget = static_cast<renewItemWidget*>(ui->listWidgetRenew->itemWidget(item));
-            bChecked = widget->getCheckBoxStatus();
-            if(bChecked)
-            {
-                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-                qDebug()<<"选中iRow="<<i <<";No="<<phoneInfo.strInstanceNo;
-                if (strRelateId.isEmpty())
-                {
-                    strRelateId = QString::asprintf("%d", phoneInfo.iId);
-                }
-                else
-                {
-                    strRelateId += QString::asprintf(",%d", phoneInfo.iId);
-                }
-            }
-        }
-    }
-
-    qDebug() <<"strRelateId=" << strRelateId;
-
-    //relateId
-    HttpPostActivateCode(strActiveCode, 1);
-}
-
-
-void MainWindow::on_toolBtnAdd_clicked()
-{
-    //新增云手机激活
-    ui->toolBtnAdd->setStyleSheet("QToolButton {border:none;color: #1E2133;	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
-    ui->toolButtonRenew->setStyleSheet("QToolButton{color: #1E2133;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
-
-    ui->frameActiveCodeRenew->setHidden(true);
-}
-
-
-void MainWindow::on_toolButtonRenew_clicked()
-{
-    ui->toolButtonRenew->setStyleSheet("QToolButton {border:none;color: #1E2133;	background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
-    ui->toolBtnAdd->setStyleSheet("QToolButton{color: #1E2133;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
-    //云手机续时激活
-    ui->frameActiveCodeRenew->setHidden(false);
-
-    //加载数据并显示
-    ui->listWidgetRenew->clear();
-    int iCount = m_mapPhoneInfo.size();
-    if (iCount > 0)
-    {
-        //初始化续费列表
-        QListWidgetItem* renewListItem = NULL;
-        renewItemWidget* widget = NULL;
-        QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
-        for (; iter != m_mapPhoneInfo.end(); iter++)
-        {
-            renewListItem = new QListWidgetItem(ui->listWidgetRenew);
-            renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
-            renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-            widget = new renewItemWidget(*iter, this);
-            ui->listWidgetRenew->addItem(renewListItem);
-            ui->listWidgetRenew->setItemWidget(renewListItem, widget);
-        }
-    }
-}
-
-
 void MainWindow::on_toolBtnBuyPhone_clicked()
 {
     ui->toolBtnBuyPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);background-color:#FF9092A4;border-radius:1px;padding-left:8px;}QToolButton:hover{color:rgb(255,255,255);background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     ui->toolBtnRenewPhone->setStyleSheet("QToolButton {border:none;color: rgb(204, 204, 204);border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: rgb(255, 255, 255);border-radius:1px;padding-left:8px;}");
     ui->frame_Renew->setHidden(true);
 }
-
 
 void MainWindow::on_toolBtnRenewPhone_clicked()
 {
@@ -3454,3 +3363,97 @@ void MainWindow::on_btnRefreshQrCode_clicked()
     HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
 }
 
+void MainWindow::on_btnAddActiveCode_clicked()
+{
+    ui->btnAddActiveCode->setStyleSheet("QPushButton {border:none;color: #407AFF;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:bold;font-size:16px;}");
+    ui->labelAddActiveCode->setStyleSheet("background-color:#407AFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
+    ui->btnRenewActiveCode->setStyleSheet("QPushButton:hover{border:none;color: #407AFF;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:bold;font-size:16px;}QPushButton{color: #A9ADB6;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:0;font-size:16px;}");
+    ui->labelRenewActiveCode->setStyleSheet("background-color:#FFFFFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
+}
+
+
+void MainWindow::on_btnRenewActiveCode_clicked()
+{
+    ui->btnRenewActiveCode->setStyleSheet("QPushButton {border:none;color: #407AFF;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:bold;font-size:16px;}");
+    ui->labelRenewActiveCode->setStyleSheet("background-color:#407AFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
+    ui->btnAddActiveCode->setStyleSheet("QPushButton:hover{border:none;color: #407AFF;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:bold;font-size:16px;}QPushButton{color: #A9ADB6;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:0;font-size:16px;}");
+    ui->labelAddActiveCode->setStyleSheet("background-color:#FFFFFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
+}
+
+
+void MainWindow::on_toolBtnClearList_clicked()
+{
+    ui->listWidgetRenew->clear();
+}
+
+
+void MainWindow::on_toolBtnAddActiveCode_clicked()
+{
+    //添加新增的激活码到ui->listWidgetRenew;
+    //加载数据并显示
+    ui->listWidgetRenew->clear();
+    int iCount = m_mapPhoneInfo.size();
+    if (iCount > 0)
+    {
+        //初始化续费列表
+        QListWidgetItem* renewListItem = NULL;
+        renewItemWidget* widget = NULL;
+        QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
+        for (; iter != m_mapPhoneInfo.end(); iter++)
+        {
+            renewListItem = new QListWidgetItem(ui->listWidgetRenew);
+            renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
+            renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            widget = new renewItemWidget(*iter, this);
+            ui->listWidgetRenew->addItem(renewListItem);
+            ui->listWidgetRenew->setItemWidget(renewListItem, widget);
+        }
+    }
+}
+
+void MainWindow::on_btnActiveCode_clicked()
+{
+    /*QString strActiveCode = ui->lineEditActiveCode->text();
+    if(strActiveCode.isEmpty())
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("激活码不能为空!",this);
+        tips->show();
+        return;
+    }
+    qDebug()<<"点击激活" << strActiveCode;*/
+
+    //查看是否是激活码续费
+    int iCount = ui->listWidgetRenew->count();
+    QListWidgetItem* item = NULL;
+    renewItemWidget* widget = NULL;
+    bool bChecked = false;
+    S_PHONE_INFO phoneInfo;
+    QString strRelateId = "";
+    for(int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenew->item(i);
+        if(item != NULL)
+        {
+            widget = static_cast<renewItemWidget*>(ui->listWidgetRenew->itemWidget(item));
+            bChecked = widget->getCheckBoxStatus();
+            if(bChecked)
+            {
+                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                qDebug()<<"选中iRow="<<i <<";No="<<phoneInfo.strInstanceNo;
+                if (strRelateId.isEmpty())
+                {
+                    strRelateId = QString::asprintf("%d", phoneInfo.iId);
+                }
+                else
+                {
+                    strRelateId += QString::asprintf(",%d", phoneInfo.iId);
+                }
+            }
+        }
+    }
+
+    qDebug() <<"strRelateId=" << strRelateId;
+
+    //relateId
+    //HttpPostActivateCode(strActiveCode, 1);
+}
