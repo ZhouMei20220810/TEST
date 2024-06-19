@@ -2509,7 +2509,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     isResizing = false;
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent* event)
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (isMoving) {
         move(event->globalPos() - initialMousePos); // 根据鼠标移动距离调整窗口位置
@@ -2517,41 +2517,18 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
     else if (isResizing) {
         QPoint currentPos = event->globalPos();
         QRect geometry = frameGeometry();
-
-        // 计算宽度和高度的变化，确保增量与鼠标移动方向一致
-        int deltaX = 0, deltaY = 0;
-        if (edge.x() == 1) { // 左边
-            deltaX = -(currentPos.x() - pressPos.x());
+        if (edge.x() >= 0) { // 如果是左右边缘
+            geometry.setWidth(geometry.width() + currentPos.x() - pressPos.x());
         }
-        else if (edge.x() == -1) { // 右边
-            deltaX = currentPos.x() - pressPos.x();
+        if (edge.y() >= 0) { // 如果是上下边缘
+            geometry.setHeight(geometry.height() + currentPos.y() - pressPos.y());
         }
-        if (edge.y() == 1) { // 顶部
-            deltaY = -(currentPos.y() - pressPos.y());
-        }
-        else if (edge.y() == -1) { // 底部
-            deltaY = currentPos.y() - pressPos.y();
-        }
-
-        // 根据边缘信息调整窗口大小
-        if (edge.x() != 0) {
-            geometry.setWidth(geometry.width() + deltaX);
-        }
-        if (edge.y() != 0) {
-            geometry.setHeight(geometry.height() + deltaY);
-        }
-
-        // 计算窗口新位置，保持鼠标按下点相对窗口的位置不变
-        QPoint oldCenter = frameGeometry().center();
-        QPoint newCenter = oldCenter + QPoint(deltaX / 2, deltaY / 2);
-        QPoint deltaCenter = newCenter - oldCenter; // 窗口中心的偏移
-        QPoint newPosition = this->pos() + deltaCenter; // 窗口左上角的新位置
-        move(newPosition);
-
-        // 更新窗口大小
+        QPoint windowCenter = mapToGlobal(rect().center());
+        QPoint newCenter = windowCenter + (currentPos - pressPos);
+        move(newCenter - rect().center()); // 使窗口中心点跟随鼠标移动
+        //move(geometry.topLeft()); // 移动窗口以保持鼠标点击点相对位置不变
         resize(geometry.size());
-
-        pressPos = event->globalPos(); // 更新记录的鼠标位置，以当前鼠标位置为准
+        pressPos = currentPos; // 更新记录的鼠标位置
     }
 }
 
