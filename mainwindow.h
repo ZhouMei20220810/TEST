@@ -20,7 +20,17 @@
 namespace Ui {
 class MainWindow;
 }
-
+enum Direction {
+    UP = 0,
+    DOWN = 1,
+    LEFT,
+    RIGHT,
+    LEFTTOP,
+    LEFTBOTTOM,
+    RIGHTBOTTOM,
+    RIGHTTOP,
+    NONE
+};
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -293,14 +303,18 @@ private:
 
     QToolButton* m_toolBtnContraction;
     bool         m_IsContraction;
-    
 
-    QPoint calculateEdge(const QPoint& pos);
-    bool isMoving = false; // 是否正在移动窗口
-    bool isResizing = false; // 是否正在进行窗口调整大小操作
-    QPoint pressPos; // 鼠标按下时的屏幕坐标
-    QPoint initialMousePos;
-    QPoint edge; // 记录拉伸边缘的信息
+    //拉伸
+    //QPoint clickPos;
+    bool isLeftPressDown = false;
+    QPoint dragPosition;
+    Direction dir = NONE;
+    void CalculateBorderIndex(QMouseEvent* ev);
+    bool m_bCanResize = false;
+    bool m_bResizeIng = false;
+    QSize  m_oldSize;
+    QPoint m_globalPoint;
+    //bool m_IsHide = false;
 };
 
 #endif // MAINWINDOW_H

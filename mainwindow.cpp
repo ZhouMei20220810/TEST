@@ -33,6 +33,7 @@
 #include <QDesktopServices>
 #include "messagetips.h"
 #include "policydialog.h"
+#include <QGraphicsDropShadowEffect>
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -42,9 +43,25 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 	setWindowFlag(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, true);
     setAttribute(Qt::WA_DeleteOnClose,true);
 	setAttribute(Qt::WA_Hover, true);
     setWindowFlag(Qt::WindowStaysOnTopHint, GlobalData::bIsTopWindow);
+    //this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::red);//阴影颜色
+    ui->centralwidget->setGraphicsEffect(shadow);
+
+    this->setMouseTracking(true);
+    ui->centralwidget->setMouseTracking(true);
+    ui->frame->setMouseTracking(true);
+    dir = NONE;
+    m_oldSize = this->size();
+    m_globalPoint = this->pos();
+    this->setCursor(QCursor(Qt::ArrowCursor));
 
     m_PhoneInstanceWidget = NULL;
     m_createGroupWidget = NULL;
@@ -2467,69 +2484,353 @@ void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
     str=str.asprintf("%.2f", iBuyNum*m_curLevelDataInfo.fActivityPrice);
     ui->labelPayMoney->setText(str);
 }
-QPoint MainWindow::calculateEdge(const QPoint& pos)
-{
-    // 简化的示例，根据鼠标点击位置判断是否在窗口边缘
-    int borderWidth = 10;//style()->pixelMetric(QStyle::PM_DefaultFrameWidth);
-    QRect rect = contentsRect();
-    rect.adjust(borderWidth, borderWidth, -borderWidth, -borderWidth);
+void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
+    static QPoint rightTop;
+    static QPoint leftBottom;
+    static QPoint leftTop;
+    static QPoint rightBottom;
 
-    if (pos.x() < borderWidth) {
-        if (pos.y() < borderWidth) return QPoint(1, 1); // 左上
-        else if (pos.y() > rect.bottom()) return QPoint(1, -1); // 左下
-        else return QPoint(1, 0); // 左边
+    int MOUSE_GAP = 10;
+
+    if (!m_bResizeIng)
+    {
+        //右下角
+        if (ev->x() > this->width() - MOUSE_GAP && ev->y() > this->height() - MOUSE_GAP)
+        {
+            //qDebug() << "右下";
+            this->setCursor(Qt::SizeFDiagCursor);
+            dir = RIGHTBOTTOM;
+        }
+        //右上
+        else if (ev->x() > this->width() - MOUSE_GAP && ev->x() > MOUSE_GAP && ev->y() < MOUSE_GAP)
+        {
+            //qDebug() << "右上";
+            this->setCursor(Qt::SizeBDiagCursor);
+            dir = RIGHTTOP;
+        }
+        //左上
+        else if (ev->x() < MOUSE_GAP && ev->y() < MOUSE_GAP)
+        {
+            //qDebug() << "左上";
+            this->setCursor(Qt::SizeFDiagCursor);
+            dir = LEFTTOP;
+        }
+        //左下
+        else if (ev->x() < MOUSE_GAP && ev->y() > this->height() - MOUSE_GAP)
+        {
+            //qDebug() << "左下";
+            this->setCursor(Qt::SizeBDiagCursor);
+            dir = LEFTBOTTOM;
+        }
+        //左
+        else if (ev->x() < MOUSE_GAP)
+        {
+            //qDebug() << "左";
+            this->setCursor(Qt::SizeHorCursor);
+            dir = LEFT;
+        }
+        //右边
+        else if (ev->x() > this->width() - MOUSE_GAP && ev->y() < this->height() - MOUSE_GAP)
+        {
+            //qDebug() << "右";
+            this->setCursor(Qt::SizeHorCursor);
+            dir = RIGHT;
+        }
+        //上边
+        else if (ev->x() > MOUSE_GAP && ev->y() < MOUSE_GAP)
+        {
+            //qDebug() << "上";
+            this->setCursor(Qt::SizeVerCursor);
+            dir = UP;
+        }
+        //下边
+        else if (ev->y() > this->height() - MOUSE_GAP)
+        {
+            //qDebug() << "下";
+            this->setCursor(Qt::SizeVerCursor);
+            dir = DOWN;
+        }
+        else
+        {
+            //qDebug() << "其他";
+            this->setCursor(Qt::ArrowCursor);
+            dir = NONE;
+        }
     }
-    else if (pos.x() > rect.right()) {
-        if (pos.y() < borderWidth) return QPoint(-1, 1); // 右上
-        else if (pos.y() > rect.bottom()) return QPoint(-1, -1); // 右下
-        else return QPoint(-1, 0); // 右边
+
+    if (m_bCanResize && dir != NONE)
+    {
+        //qDebug() << "可以改变尺寸";
+        if (dir == RIGHT)
+        {
+            if (m_globalPoint.x() < ev->globalPos().x() && ev->globalPos().x() > rightTop.x())
+            {
+                m_bResizeIng = true;
+                //qDebug() << "向右拉大";
+                this->resize(m_oldSize.width() + (ev->globalX() - m_globalPoint.x()), this->height());
+            }
+            else if (ev->globalPos().x() < m_globalPoint.x())
+            {
+                m_bResizeIng = true;
+                //qDebug() << "向右拉小";
+                this->resize(m_oldSize.width() - (m_globalPoint.x() - ev->globalX()), this->height());
+            }
+        }
+        else if (dir == DOWN)
+        {
+            if (ev->globalY() > m_globalPoint.y() && ev->globalY() > this->y() + this->height())
+            {
+                //qDebug() << "向下拉大";
+                m_bResizeIng = true;
+                this->resize(this->width(), this->height() + ev->globalY() - m_globalPoint.y());
+            }
+            else if (ev->globalY() < m_globalPoint.y())
+            {
+                //qDebug() << "向下拉小";
+                m_bResizeIng = true;
+                this->resize(this->width(), this->height() - (m_globalPoint.y() - ev->globalY()));
+            }
+        }
+        else if (dir == LEFT)
+        {
+            if (m_globalPoint.x() > ev->globalX() && leftTop.x() > ev->globalX())
+            {
+                m_bResizeIng = true;
+                //qDebug() << "向左拉大";
+                this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
+                this->move(this->x() - (m_globalPoint.x() - ev->globalPos().x()), this->y());
+            }
+            else if (m_globalPoint.x() < ev->globalX())
+            {
+                if (this->width() != this->minimumWidth())
+                {
+                    m_bResizeIng = true;
+                    //qDebug() << "向左拉小";
+                    this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
+                    this->move(rightTop.x() - this->width(), this->y());
+                }
+            }
+        }
+        else if (dir == UP)
+        {
+            if (m_globalPoint.y() > ev->globalY() && ev->globalY() < this->y())
+            {
+                m_bResizeIng = true;
+                //qDebug() << "向上拉大";
+
+                this->resize(this->width(), this->height() + (m_globalPoint.y() - ev->globalY()));
+                this->move(this->x(), this->y() - (m_globalPoint.y() - ev->globalY()));
+            }
+            else if (m_globalPoint.y() < ev->globalY())
+            {
+                m_bResizeIng = true;
+                //qDebug() << "向上拉小";
+                this->resize(this->width(), this->height() - (ev->globalY() - m_globalPoint.y()));
+                this->move(this->x(), leftBottom.y() - this->height());
+            }
+        }
+        else if (dir == RIGHTBOTTOM)
+        {
+            //拉大
+            if (ev->globalX() > m_globalPoint.x() || ev->globalY() > m_globalPoint.y())
+            {
+                if (ev->globalX() > rightBottom.x())
+                {
+                    m_bResizeIng = true;
+                    //qDebug() << "RIGHTBOTTOM 拉大 x";
+                    this->resize(m_oldSize.width() + (ev->globalX() - m_globalPoint.x()), this->height());
+                }
+                if (ev->globalY() > rightBottom.y())
+                {
+                    //qDebug() << "RIGHTBOTTOM 拉大 y";
+                    m_bResizeIng = true;
+                    this->resize(this->width(), this->height() + ev->globalY() - m_globalPoint.y());
+                }
+            }
+            //缩小
+            else if (ev->globalX() < m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
+            {
+                m_bResizeIng = true;
+                qDebug() << "右下拉小";
+                this->resize(m_oldSize.width() - (m_globalPoint.x() - ev->globalX()), this->height());
+                this->resize(this->width(), this->height() - (m_globalPoint.y() - ev->globalY()));
+            }
+        }
+        else if (dir == RIGHTTOP)
+        {
+            if (ev->globalX() > m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
+            {
+                qDebug() << "右上拉大";
+                if (ev->globalX() > rightTop.x())
+                {
+                    m_bResizeIng = true;
+                    this->resize(m_oldSize.width() + (ev->globalX() - m_globalPoint.x()), this->height());
+                }
+                if (ev->globalY() < rightTop.y())
+                {
+                    m_bResizeIng = true;
+                    this->resize(this->width(), this->height() + (m_globalPoint.y() - ev->globalY()));
+                    this->move(leftTop.x(), this->y() - (m_globalPoint.y() - ev->globalY()));
+                }
+
+            }
+            else if (ev->globalX() < m_globalPoint.x() || ev->globalY() > m_globalPoint.y())
+            {
+                m_bResizeIng = true;
+                qDebug() << "右上拉小";
+
+                this->resize(this->width(), this->height() - (ev->globalY() - m_globalPoint.y()));
+                this->resize(m_oldSize.width() - (m_globalPoint.x() - ev->globalX()), this->height());
+                this->move(leftTop.x(), leftBottom.y() - this->height());
+            }
+        }
+        else if (dir == LEFT)
+        {
+            if (ev->globalX() < m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
+            {
+                qDebug() << "左上拉大";
+                if (ev->globalX() < leftTop.x())
+                {
+                    m_bResizeIng = true;
+                    this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
+                    this->move(this->x() - (m_globalPoint.x() - ev->globalPos().x()), leftTop.y());
+                }
+                if (ev->globalY() < leftTop.y())
+                {
+                    m_bResizeIng = true;
+                    this->resize(this->width(), this->height() + (m_globalPoint.y() - ev->globalY()));
+                    this->move(this->x(), this->y() - (m_globalPoint.y() - ev->globalY()));
+                }
+            }
+            else if (ev->globalX() > m_globalPoint.x() || ev->globalY() > m_globalPoint.y())
+            {
+                m_bResizeIng = true;
+                qDebug() << "左上拉小";
+                this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
+                this->move(rightTop.x() - this->width(), this->y());
+
+                if (ev->globalY() > leftTop.y())
+                {
+                    qDebug() << ev->globalY() << leftTop.y();
+                    this->resize(this->width(), this->height() - (ev->globalY() - m_globalPoint.y()));
+                    this->move(this->x(), leftBottom.y() - this->height());
+                }
+            }
+        }
+        else if (dir == LEFTBOTTOM)
+        {
+            if (ev->globalX() < m_globalPoint.x() || ev->globalY() > m_globalPoint.y())
+            {
+                qDebug() << "左下拉大";
+                if (ev->globalX() < leftTop.x())
+                {
+                    m_bResizeIng = true;
+                    this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
+                    this->move(this->x() - (m_globalPoint.x() - ev->globalPos().x()), this->y());
+                }
+                if (ev->globalY() > leftBottom.y())
+                {
+                    m_bResizeIng = true;
+                    this->resize(this->width(), this->height() + ev->globalY() - m_globalPoint.y());
+                }
+            }
+            else if (ev->globalX() > m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
+            {
+                m_bResizeIng = true;
+                qDebug() << "左下拉小";
+
+                this->resize(this->width(), this->height() - (m_globalPoint.y() - ev->globalY()));
+                this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
+                this->move(rightTop.x() - this->width(), this->y());
+            }
+        }
     }
-    else if (pos.y() < borderWidth) {
-        return QPoint(0, 1); // 顶部
-    }
-    else if (pos.y() > rect.bottom()) {
-        return QPoint(0, -1); // 底部
-    }
-    return QPoint(-1, -1); // 不在边缘
+
+    leftTop = this->pos();
+    leftBottom.setX(this->pos().x());
+    leftBottom.setY(this->y() + this->height());
+    rightTop.setX(this->x() + this->width());
+    rightTop.setY(this->y());
+    rightBottom.setX(this->x() + this->width());
+    rightBottom.setY(this->y() + this->height());
+    m_oldSize = this->size();
+    m_globalPoint = ev->globalPos();
 }
+
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-        initialMousePos = event->globalPos() - frameGeometry().topLeft();
-        pressPos = event->globalPos(); // 记录鼠标按下时的全局坐标
-        edge = calculateEdge(event->pos()); // 判断是否在窗口边缘，以便决定是移动还是拉伸
-        isMoving = edge == QPoint(-1, -1); // 如果不在边缘，则为移动
-        isResizing = !isMoving; // 否则为拉伸
+    switch (event->button()) {
+    case Qt::LeftButton:
+        isLeftPressDown = true;
+        if (dir != NONE) {
+            this->mouseGrabber();
+            m_bCanResize = true;
+        }
+        else {
+            dragPosition = event->globalPos() - this->frameGeometry().topLeft();
+        }
+        break;
+    case Qt::RightButton:
+        //this->close();
+        break;
+    default:
+        QMainWindow::mousePressEvent(event);
     }
+
+    /*if (event->button() == Qt::LeftButton)
+    {
+        m_LastPos = event->globalPosition().toPoint()-this->pos();
+        m_bMoving = true;
+    }*/
+    //return QWidget::mousePressEvent(event);
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-    isMoving = false;
-    isResizing = false;
+    if (event->button() == Qt::LeftButton) {
+        //qDebug() << "mouseReleaseEvent LeftButton";
+        isLeftPressDown = false;
+        if (dir != NONE) {
+            this->releaseMouse();
+            this->setCursor(QCursor(Qt::ArrowCursor));
+            dir = NONE;
+            m_bCanResize = false;
+            m_bResizeIng = false;
+        }
+        if (!window()->isMaximized())
+        {
+            //更新按钮图片
+            //ui->toolButton3->setIcon(QIcon(":/res/b3.png"));
+        }
+        else
+        {
+            //ui->toolButton3->setIcon(QIcon(":/res/b5.png"));
+        }
+    }
+    //m_bMoving = false;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    if (isMoving) {
-        move(event->globalPos() - initialMousePos); // 根据鼠标移动距离调整窗口位置
-    }
-    else if (isResizing) {
-        QPoint currentPos = event->globalPos();
-        QRect geometry = frameGeometry();
-        if (edge.x() >= 0) { // 如果是左右边缘
-            geometry.setWidth(geometry.width() + currentPos.x() - pressPos.x());
+    /*QPoint globalPosition = event->globalPosition().toPoint();
+    if(m_bMoving && (event->buttons()&Qt::LeftButton)
+        && (globalPosition-m_LastPos-pos()).manhattanLength() > QApplication::startDragDistance()) //控制移动的距离，多少距离执行拖拽
+    {
+        move(globalPosition-m_LastPos);
+        m_LastPos = globalPosition-pos();
+    }*/
+
+    CalculateBorderIndex(event);
+
+    if (isLeftPressDown) {
+        if (dir == NONE) {
+            if (!(window()->isMaximized())) {
+                move(event->globalPos() - dragPosition);
+                event->accept();
+            }
         }
-        if (edge.y() >= 0) { // 如果是上下边缘
-            geometry.setHeight(geometry.height() + currentPos.y() - pressPos.y());
-        }
-        QPoint windowCenter = mapToGlobal(rect().center());
-        QPoint newCenter = windowCenter + (currentPos - pressPos);
-        move(newCenter - rect().center()); // 使窗口中心点跟随鼠标移动
-        //move(geometry.topLeft()); // 移动窗口以保持鼠标点击点相对位置不变
-        resize(geometry.size());
-        pressPos = currentPos; // 更新记录的鼠标位置
     }
+    QMainWindow::mouseMoveEvent(event);
 }
 
 void MainWindow::do_ContractionOrExpansion(bool bChecked)
