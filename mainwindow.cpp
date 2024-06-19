@@ -34,6 +34,8 @@
 #include "messagetips.h"
 #include "policydialog.h"
 #include <QGraphicsDropShadowEffect>
+#include "addactivecodedialog.h"
+#include "activecodeitem.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -805,7 +807,8 @@ void MainWindow::InitActiveCodeRenewList()
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidgetRenew->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    //ui->listWidgetRenew->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    ui->listWidgetRenew->setSpacing(0);//去掉上下左右空格
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidgetRenew->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -910,6 +913,7 @@ void MainWindow::ShowGroupInfo()
 
     m_SubPhoneMenu->clear();
     m_BatchOperSubMenu->clear();
+    ui->comboBoxGroupName->clear();
     QTreeWidgetItem* item = NULL;
     QTreeWidgetItem* child = NULL;
     QMap<int, S_GROUP_INFO>::iterator iter = m_mapGroupInfo.begin();
@@ -934,6 +938,7 @@ void MainWindow::ShowGroupInfo()
         connect(pAction, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
         m_SubPhoneMenu->addAction(pAction);
         m_BatchOperSubMenu->addAction(pAction);
+        ui->comboBoxGroupName->addItem(iter->strGroupName);
         if (iter->iGroupNum > 0)
         {
             qDebug() << "查询手机列表";
@@ -2100,8 +2105,11 @@ void MainWindow::on_btnGroupRefresh_clicked()
 }
 
 //激活码接口
-void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
+void MainWindow::HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId)
 {
+    if (strActiveCodeList.size() <= 0)
+        return;
+
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_POST_ACTIVE_CODE;
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
@@ -2117,7 +2125,12 @@ void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
     request.setUrl(url);
     QJsonDocument doc;
     QJsonObject obj;
-    obj.insert("code", strCode);
+    QJsonArray jsonArray;
+    for (const QString& strActiveCode : strActiveCodeList)
+    {
+        jsonArray.append(QJsonValue(strActiveCode));
+    }
+    obj.insert("codes", jsonArray);
     obj.insert("relateId", iRelateId);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
@@ -2145,7 +2158,8 @@ void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
                 QString strMessage = obj["message"].toString();
                 bool data = obj["data"].toBool();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
+                emit activeCodeStatusSignals(strMessage);
+                /*if (HTTP_SUCCESS_CODE == iCode)
                 {
                     MessageTipsDialog* tips = new MessageTipsDialog("激活成功", this);
                     tips->show();
@@ -2154,7 +2168,7 @@ void MainWindow::HttpPostActivateCode(QString strCode, int iRelateId)
                 {
                     MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
-                }
+                }*/
             }
         }
         reply->deleteLater();
@@ -3389,26 +3403,28 @@ void MainWindow::on_toolBtnClearList_clicked()
 
 void MainWindow::on_toolBtnAddActiveCode_clicked()
 {
-    //添加新增的激活码到ui->listWidgetRenew;
-    //加载数据并显示
-    ui->listWidgetRenew->clear();
-    int iCount = m_mapPhoneInfo.size();
-    if (iCount > 0)
-    {
-        //初始化续费列表
-        QListWidgetItem* renewListItem = NULL;
-        renewItemWidget* widget = NULL;
-        QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
-        for (; iter != m_mapPhoneInfo.end(); iter++)
+    AddActiveCodeDialog* dialog = new AddActiveCodeDialog();
+    connect(dialog, &AddActiveCodeDialog::addActiveCodeSignals, this, [this](QStringList strActiveCodeList)
         {
-            renewListItem = new QListWidgetItem(ui->listWidgetRenew);
-            renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
-            renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-            widget = new renewItemWidget(*iter, this);
-            ui->listWidgetRenew->addItem(renewListItem);
-            ui->listWidgetRenew->setItemWidget(renewListItem, widget);
-        }
-    }
+            int iCount = strActiveCodeList.size();
+            if (iCount > 0)
+            {
+                ActiveCodeItem* widget = NULL;
+                QListWidgetItem* item = NULL;
+                for(int i = 0 ; i < iCount;i++)
+                {
+                    item = new QListWidgetItem(ui->listWidgetRenew);
+                    item->setSizeHint(QSize(RENEW_ITEM_WIDTH, 30));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+
+                    widget = new ActiveCodeItem(strActiveCodeList.at(i),this);
+                    connect(this, &MainWindow::activeCodeStatusSignals, widget, &ActiveCodeItem::do_activeCodeStatusSignals);
+                    ui->listWidgetRenew->addItem(item);
+                    ui->listWidgetRenew->setItemWidget(item, widget);
+                }
+            }
+        });
+    dialog->setModal(true);
+    dialog->exec();
 }
 
 void MainWindow::on_btnActiveCode_clicked()
@@ -3425,35 +3441,28 @@ void MainWindow::on_btnActiveCode_clicked()
     //查看是否是激活码续费
     int iCount = ui->listWidgetRenew->count();
     QListWidgetItem* item = NULL;
-    renewItemWidget* widget = NULL;
-    bool bChecked = false;
+    ActiveCodeItem* widget = NULL;
+    QString strActiceCode="";
+    QString strPostActiveCode="";
     S_PHONE_INFO phoneInfo;
     QString strRelateId = "";
-    for(int i = 0; i < iCount; i++)
+    QStringList strActiveCodeList;
+    strActiveCodeList.clear();
+    for (int i = 0; i < iCount; i++)
     {
         item = ui->listWidgetRenew->item(i);
-        if(item != NULL)
+        if (item != NULL)
         {
-            widget = static_cast<renewItemWidget*>(ui->listWidgetRenew->itemWidget(item));
-            bChecked = widget->getCheckBoxStatus();
-            if(bChecked)
+            widget = static_cast<ActiveCodeItem*>(ui->listWidgetRenew->itemWidget(item));
+            strActiceCode = widget->getActiveCode();
+            if (!strActiceCode.isEmpty())
             {
-                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-                qDebug()<<"选中iRow="<<i <<";No="<<phoneInfo.strInstanceNo;
-                if (strRelateId.isEmpty())
-                {
-                    strRelateId = QString::asprintf("%d", phoneInfo.iId);
-                }
-                else
-                {
-                    strRelateId += QString::asprintf(",%d", phoneInfo.iId);
-                }
+                strActiveCodeList << strActiceCode;
             }
         }
     }
-
-    qDebug() <<"strRelateId=" << strRelateId;
+    //qDebug() <<"strPostActiveCode=" << strPostActiveCode;
 
     //relateId
-    //HttpPostActivateCode(strActiveCode, 1);
+    HttpPostActivateCode(strActiveCodeList, 1);
 }

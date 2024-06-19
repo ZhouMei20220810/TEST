@@ -203,6 +203,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Logoutdialog.cpp" />
+    <ClCompile Include="activecodeitem.cpp" />
     <ClCompile Include="addactivecodedialog.cpp" />
     <ClCompile Include="buyhistoryitemwidget.cpp" />
     <ClCompile Include="buyhistorywidget.cpp" />
@@ -240,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Logoutdialog.h" />
+    <QtMoc Include="activecodeitem.h" />
     <QtMoc Include="addactivecodedialog.h" />
     <QtMoc Include="buyhistoryitemwidget.h" />
     <QtMoc Include="buyhistorywidget.h" />
@@ -292,6 +294,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Logoutdialog.ui" />
+    <QtUic Include="activecodeitem.ui" />
     <QtUic Include="addactivecodedialog.ui" />
     <QtUic Include="buyhistoryitemwidget.ui" />
     <QtUic Include="buyhistorywidget.ui" />

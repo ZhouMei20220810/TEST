@@ -55,6 +55,7 @@ signals:
     void GPSSignals();
 
     void closePhoneInstanceWidgetSignals();
+    void activeCodeStatusSignals(QString strStatus);
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
@@ -86,7 +87,7 @@ private:
     //关闭订单
     void HttpCloseOrder(QString strOutTradeNo);
     //激活码接口
-    void HttpPostActivateCode(QString strCode, int iRelateId);
+    void HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId);
 
     //注销
     void HttpLogout();

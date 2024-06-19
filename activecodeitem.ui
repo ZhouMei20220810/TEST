@@ -107,10 +107,10 @@
          <item>
           <widget class="QLabel" name="labelActiveCode">
            <property name="styleSheet">
-            <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;}</string>
+            <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;background-color:#F5F7FB;}</string>
            </property>
            <property name="text">
-            <string>激活码（0）</string>
+            <string/>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -123,10 +123,10 @@
       <item>
        <widget class="QLabel" name="labelActiveStatus">
         <property name="styleSheet">
-         <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;}</string>
+         <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;background-color:#F5F7FB;}</string>
         </property>
         <property name="text">
-         <string>激活状态(成功:0失败：0)</string>
+         <string/>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

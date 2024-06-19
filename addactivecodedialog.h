@@ -14,9 +14,16 @@ class AddActiveCodeDialog : public QDialog
 public:
     explicit AddActiveCodeDialog(QWidget *parent = nullptr);
     ~AddActiveCodeDialog();
+    
+signals:
+    void addActiveCodeSignals(QStringList strActiveCodeList);
+private slots:
+    void on_btnClose_clicked();
+
+    void on_btnOk_clicked();
 
 private:
-    Ui::AddActiveCodeDialog *ui;
+    Ui::AddActiveCodeDialog *ui;    
 };
 
 #endif // ADDACTIVECODEDIALOG_H

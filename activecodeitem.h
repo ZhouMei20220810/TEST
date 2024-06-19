@@ -15,8 +15,12 @@ public:
     explicit ActiveCodeItem(QString strActiveCode,QWidget *parent = nullptr);
     ~ActiveCodeItem();
 
+    QString getActiveCode();
+public slots:
+    void do_activeCodeStatusSignals(QString strStatus);
 private:
     Ui::ActiveCodeItem *ui;
+    QString m_strActiveCode;
 };
 
 #endif // ACTIVECODEITEM_H

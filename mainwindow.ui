@@ -3025,7 +3025,50 @@ border-top: 1px solid #D7D7DE;
                  <number>24</number>
                 </property>
                 <item>
-                 <widget class="QComboBox" name="comboBoxGroupName"/>
+                 <widget class="QComboBox" name="comboBoxGroupName">
+                  <property name="styleSheet">
+                   <string notr="true">QComboBox{
+background-color:#E7E8EE;
+border:none;
+height:28px;
+width:100px;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:30px;width:15px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
+} 
+QComboBox QAbstractItemView
+{
+	background:#FFFFFFFF;
+	border:1px solid rgba(228,228,228,1);
+	border-radius:0px 0px 5px 5px;
+	font-size:14px;
+	outline:0px;
+}
+QComboBox QAbstractItemView::item{
+	height:36px;
+	color:#FF666666;
+	padding-left:9px;
+	background-color:#FFFFFFFF;
+}
+QComboBox QAbstractItemView::item:hover{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}
+QComboBox QAbstractItemView::item:selected{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}</string>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <spacer name="horizontalSpacer_8">

@@ -298,7 +298,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="btnClose">
         <property name="minimumSize">
          <size>
           <width>24</width>
@@ -357,10 +357,13 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
-       <widget class="QPlainTextEdit" name="plainTextEdit">
+       <widget class="QPlainTextEdit" name="editActiveCode">
         <property name="styleSheet">
-         <string notr="true">border:1px;</string>
+         <string notr="true">border: 1px solid #D7D7DE;</string>
         </property>
        </widget>
       </item>
@@ -378,6 +381,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLabel" name="label_2">
+        <property name="styleSheet">
+         <string notr="true">color:#A9ADB6;</string>
+        </property>
         <property name="text">
          <string>注：每行一个激活码</string>
         </property>
@@ -390,7 +396,7 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>178</width>
+          <width>102</width>
           <height>20</height>
          </size>
         </property>
@@ -398,6 +404,9 @@
       </item>
       <item>
        <widget class="QLabel" name="labelActiveCount">
+        <property name="styleSheet">
+         <string notr="true">color:#F96D6F;</string>
+        </property>
         <property name="text">
          <string>(总数：0)</string>
         </property>
@@ -405,6 +414,18 @@
       </item>
       <item>
        <widget class="QPushButton" name="btnOk">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border: 1px solid #D7D7DE;color:#505465;</string>
+        </property>
         <property name="text">
          <string>确定</string>
         </property>
