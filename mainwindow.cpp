@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     dir = NONE;
     m_oldSize = this->size();
     m_globalPoint = this->pos();
-    this->setCursor(QCursor(Qt::ArrowCursor));
+    //this->setCursor(QCursor(Qt::ArrowCursor));
 
     m_PhoneInstanceWidget = NULL;
     m_createGroupWidget = NULL;
