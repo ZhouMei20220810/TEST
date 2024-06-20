@@ -510,7 +510,7 @@ void MainWindow::do_ActionMoveGroup(bool bChecked)
 }
 void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 {
-    ui->stackedWidget->setCurrentWidget(ui->pageBuy);
+    on_toolBtnBuy_clicked();
     //手机续费
     on_toolBtnRenewPhone_clicked();
 }
@@ -3667,6 +3667,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
     QStringList strList;
     strList.clear();
     ui->listWidget->clear();
+    ui->listWidget2->clear();
     if (checked)
     {
         int iSelCount = 0;
