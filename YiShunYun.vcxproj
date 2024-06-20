@@ -82,11 +82,10 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <ObjectFileName>release\</ObjectFileName>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>
-      </ProgramDataBaseFileName>
+      <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -100,7 +99,7 @@
       <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
       <LinkIncremental>false</LinkIncremental>
       <OptimizeReferences>true</OptimizeReferences>
@@ -233,6 +232,7 @@
     <ClCompile Include="smsloginpage.cpp" />
     <ClCompile Include="systemsettingwidget.cpp" />
     <ClCompile Include="tdragdroplistwidget.cpp" />
+    <ClCompile Include="tdragdroptreewidget.cpp" />
     <ClCompile Include="toolobject.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
@@ -270,6 +270,7 @@
     <QtMoc Include="smsloginpage.h" />
     <QtMoc Include="systemsettingwidget.h" />
     <QtMoc Include="tdragdroplistwidget.h" />
+    <QtMoc Include="tdragdroptreewidget.h" />
     <QtMoc Include="toolobject.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="uploadfiledialog.h" />

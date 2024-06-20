@@ -599,6 +599,9 @@ void MainWindow::InitCloudPhoneTab()
     //ui->treeWidget->setHeaderLabels("分组列表");
     //隐藏表头
     ui->treeWidget->setHeaderHidden(true);
+    ui->treeWidget->setDragEnabled(true);
+    ui->treeWidget->setAcceptDrops(true);
+    ui->treeWidget->setDragDropMode(QAbstractItemView::InternalMove);
 
     //设置复选框
     //ui->treeWidget->setSelectionMode(QAbstractItemView::MultiSelection);

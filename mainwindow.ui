@@ -967,7 +967,7 @@ border:none;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTreeWidget" name="treeWidget">
+                   <widget class="TDragDropTreeWidget" name="treeWidget">
                     <property name="maximumSize">
                      <size>
                       <width>278</width>
@@ -4737,6 +4737,13 @@ QPushButton:disabled
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TDragDropTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header location="global">tdragdroptreewidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>

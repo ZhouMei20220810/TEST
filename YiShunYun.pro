@@ -43,6 +43,7 @@ SOURCES += \
     smsloginpage.cpp \
     systemsettingwidget.cpp \
     tdragdroplistwidget.cpp \
+    tdragdroptreewidget.cpp \
     toolobject.cpp \
     updategroupwidget.cpp \
     uploadfiledialog.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     smsloginpage.h \
     systemsettingwidget.h \
     tdragdroplistwidget.h \
+    tdragdroptreewidget.h \
     toolobject.h \
     updategroupwidget.h \
     uploadfiledialog.h \
