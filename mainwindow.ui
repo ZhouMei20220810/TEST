@@ -888,30 +888,44 @@ border:none;
                       </spacer>
                      </item>
                      <item>
-                      <widget class="QPushButton" name="btnAllSelect">
-                       <property name="maximumSize">
-                        <size>
-                         <width>48</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                       <property name="cursor">
-                        <cursorShape>PointingHandCursor</cursorShape>
-                       </property>
+                      <widget class="QCheckBox" name="checkBoxGroup">
                        <property name="styleSheet">
-                        <string notr="true">QPushButton:pressed{
-border:none;
-}</string>
+                        <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
                        </property>
                        <property name="text">
                         <string>全选</string>
-                       </property>
-                       <property name="icon">
-                        <iconset>
-                         <normaloff>resource/main/allSelect.png</normaloff>resource/main/allSelect.png</iconset>
-                       </property>
-                       <property name="flat">
-                        <bool>true</bool>
                        </property>
                       </widget>
                      </item>
@@ -3400,8 +3414,8 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>100</width>
-                     <height>30</height>
+                     <width>1272</width>
+                     <height>234</height>
                     </rect>
                    </property>
                   </widget>

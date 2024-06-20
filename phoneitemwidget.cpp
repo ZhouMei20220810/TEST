@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QImage>
 #include <QTransform>
+#include <QMouseEvent>
 //#include <QMatrix>
 
 PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
@@ -192,16 +193,27 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::MouseButtonPress)
         {
-            emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo);
-            return true;
-        }
+            QMouseEvent* e = static_cast<QMouseEvent*>(event);
+            switch (e->button()) 
+            {
+            case Qt::LeftButton:
+            {
+                emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo, false);
+                return true;
+            }                
+                break;
+            case Qt::RightButton:
+                emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo,true);
+                return true;
+            default:
+                QWidget::eventFilter(watched, event);
+            }
+        }        
         else
         {
             return false;
         }
     }
-    else
-    {
-        return QWidget::eventFilter(watched, event);
-    }    
+
+    return QWidget::eventFilter(watched, event);  
 }

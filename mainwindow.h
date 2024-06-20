@@ -143,6 +143,8 @@ private slots:
 
     void on_btnCreateGroup_clicked();
     void on_btnGroupRefresh_clicked();
+    void on_checkBoxGroup_clicked(bool checked);
+    void checkAllChildren(QTreeWidgetItem* parent,bool checked);
 
     void on_btnActiveCode_clicked();
     void on_btnAddActiveCode_clicked();
@@ -231,12 +233,12 @@ private slots:
     //同步操作
     void on_radioButtonSyncOperation_clicked(bool checked);
     //显示实例
-    void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
+    void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo,bool bShowMenu);
     void on_btnAddPhone_clicked();
 
     void on_btnVipServerPolicy_clicked();
 
-    void on_btnRefreshQrCode_clicked();
+    void on_btnRefreshQrCode_clicked();    
 
 private:
     Ui::MainWindow *ui;
@@ -269,6 +271,7 @@ private:
 
     QMenu* m_PhoneMenu;
     QMenu* m_SubPhoneMenu;
+    S_PHONE_INFO m_CurSelMenuPhoneInfo;
     
     QMenu* m_BatchOperMenu;
     QMenu* m_BatchOperSubMenu;

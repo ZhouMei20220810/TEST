@@ -32,9 +32,18 @@ PhoneListModeItemWidget::~PhoneListModeItemWidget()
 
 void PhoneListModeItemWidget::mousePressEvent(QMouseEvent *event)
 {
-    if(event->button() == Qt::LeftButton)
-    {     
-        emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo);
+
+    switch (event->button())
+    {
+    case Qt::LeftButton:
+    {
+        emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo, false);
     }
-    QWidget::mousePressEvent(event);
+    break;
+    case Qt::RightButton:
+        emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo, true);
+    default:
+        QWidget::mousePressEvent(event);;
+    }
+    
 }

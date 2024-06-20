@@ -28,7 +28,7 @@ public:
 
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
 signals:
-    void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
+    void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
 private slots:
     void httpFinished();//文件接收完成
     void httpReadyRead();//接受数据中

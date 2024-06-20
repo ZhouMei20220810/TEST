@@ -16,7 +16,7 @@ public:
     explicit PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent = nullptr);
     ~PhoneListModeItemWidget();
 signals:
-    void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo);
+    void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo,bool bShowMenu);
 
 private:
     Ui::PhoneListModeItemWidget *ui;
