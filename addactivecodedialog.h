@@ -22,6 +22,8 @@ private slots:
 
     void on_btnOk_clicked();
 
+    void on_editActiveCode_textChanged();
+
 private:
     Ui::AddActiveCodeDialog *ui;    
 };

@@ -27,14 +27,36 @@ void AddActiveCodeDialog::on_btnOk_clicked()
 {
     this->accept();
 
-    QString str=ui->editActiveCode->toPlainText();
-    qDebug()<<"str= "<< str;
     QStringList strActiveCodeList;
     QTextDocument* doc = ui->editActiveCode->document();
-    for(int i = 0 ; i < doc->blockCount(); i++)
+    QString strActiveCode="";
+    for(int i = 0;i< doc->blockCount(); i++)
     {
-        strActiveCodeList<<doc->findBlockByNumber(i).text();
+        strActiveCode = doc->findBlockByNumber(i).text();
+        if(!strActiveCode.isEmpty())
+        {
+            strActiveCodeList<< strActiveCode;
+        }
+
     }
     emit addActiveCodeSignals(strActiveCodeList);
+}
+
+
+void AddActiveCodeDialog::on_editActiveCode_textChanged()
+{
+    int lines = 0;//ui->editActiveCode->document()->lineCount();
+    QTextDocument* doc = ui->editActiveCode->document();
+    QString strActiveCode="";
+    for(int i = 0;i< doc->blockCount(); i++)
+    {
+        strActiveCode = doc->findBlockByNumber(i).text();
+        if(!strActiveCode.isEmpty())
+        {
+            lines++;
+        }
+
+    }
+    ui->labelActiveCount->setText(QString("(总数：%1)").arg(lines));
 }
 

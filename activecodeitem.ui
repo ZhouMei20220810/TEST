@@ -107,7 +107,7 @@
          <item>
           <widget class="QLabel" name="labelActiveCode">
            <property name="styleSheet">
-            <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;background-color:#F5F7FB;}</string>
+            <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;background-color:#F5F7FB;}</string>
            </property>
            <property name="text">
             <string/>
@@ -123,7 +123,7 @@
       <item>
        <widget class="QLabel" name="labelActiveStatus">
         <property name="styleSheet">
-         <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;background-color:#F5F7FB;}</string>
+         <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;background-color:#F5F7FB;}</string>
         </property>
         <property name="text">
          <string/>

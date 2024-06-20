@@ -3026,6 +3026,9 @@ border-top: 1px solid #D7D7DE;
                 </property>
                 <item>
                  <widget class="QComboBox" name="comboBoxGroupName">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QComboBox{
 background-color:#E7E8EE;
@@ -3085,6 +3088,9 @@ QComboBox QAbstractItemView::item:selected{
                 </item>
                 <item>
                  <widget class="QToolButton" name="toolBtnClearList">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QToolButton {border:none;
 color: #FFFFFF;
@@ -3113,6 +3119,9 @@ max-width:100px;
                 </item>
                 <item>
                  <widget class="QToolButton" name="toolBtnAddActiveCode">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QToolButton {border:none;
 color: #FFFFFF;
@@ -3151,6 +3160,9 @@ max-width:100px;
                     <pointsize>10</pointsize>
                     <bold>true</bold>
                    </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
                    <string notr="true"> QPushButton {
@@ -3388,8 +3400,8 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>80</width>
-                     <height>234</height>
+                     <width>100</width>
+                     <height>30</height>
                     </rect>
                    </property>
                   </widget>
