@@ -28,7 +28,14 @@ PhoneListModeItemWidget::~PhoneListModeItemWidget()
 {
     delete ui;
 }
-
+void PhoneListModeItemWidget::setCheckBoxStatus(bool bCheck)
+{
+    ui->checkBox->setChecked(bCheck);
+}
+bool PhoneListModeItemWidget::getCheckBoxStatus()
+{
+    return ui->checkBox->isChecked();
+}
 void PhoneListModeItemWidget::setPhoneName(QString strPhoneName)
 {
     ui->checkBox->setText(strPhoneName);

@@ -15,7 +15,8 @@ class PhoneListModeItemWidget : public QWidget
 public:
     explicit PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget *parent = nullptr);
     ~PhoneListModeItemWidget();
-
+    void setCheckBoxStatus(bool bCheck);
+    bool getCheckBoxStatus();
     void setPhoneName(QString strPhoneName);
 signals:
     void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo,bool bShowMenu);

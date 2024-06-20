@@ -3144,23 +3144,49 @@ void MainWindow::on_checkBoxRenew_clicked(bool checked)
 void MainWindow::on_btnCancelSelect_clicked()
 {
     //取消选择
-    int iCount = ui->listWidget->count();
-    if (iCount <= 0)
+    if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageIconMode)
     {
-        return;
-    }
-
-    QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
-    for (int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidget->item(i);
-        if (item != NULL)
+        int iCount = ui->listWidget->count();
+        if (iCount <= 0)
         {
-            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
-            if (phoneItem != NULL)
+            return;
+        }
+
+        QListWidgetItem* item = NULL;
+        PhoneItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
+        {
+            item = ui->listWidget->item(i);
+            if (item != NULL)
             {
-                phoneItem->setCheckBoxStatus(false);
+                phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+                if (phoneItem != NULL)
+                {
+                    phoneItem->setCheckBoxStatus(false);
+                }
+            }
+        }
+    }
+    else if(ui->stackedWidgetPhoneItem->currentWidget() == ui->pageListMode)
+    {
+        int iCount = ui->listWidget2->count();
+        if (iCount <= 0)
+        {
+            return;
+        }
+
+        QListWidgetItem* item = NULL;
+        PhoneListModeItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
+        {
+            item = ui->listWidget2->item(i);
+            if (item != NULL)
+            {
+                phoneItem = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(item));
+                if (phoneItem != NULL)
+                {
+                    phoneItem->setCheckBoxStatus(false);
+                }
             }
         }
     }
@@ -3169,23 +3195,49 @@ void MainWindow::on_btnCancelSelect_clicked()
 void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
 {
     //全选
-    int iCount = ui->listWidget->count();
-    if (iCount <= 0)
+    if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageIconMode)
     {
-        return;
-    }
-
-    QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
-    for (int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidget->item(i);
-        if (item != NULL)
+        int iCount = ui->listWidget->count();
+        if (iCount <= 0)
         {
-            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
-            if (phoneItem != NULL)
+            return;
+        }
+
+        QListWidgetItem* item = NULL;
+        PhoneItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
+        {
+            item = ui->listWidget->item(i);
+            if (item != NULL)
             {
-                phoneItem->setCheckBoxStatus(checked);
+                phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+                if (phoneItem != NULL)
+                {
+                    phoneItem->setCheckBoxStatus(checked);
+                }
+            }
+        }
+    }
+    else if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageListMode)
+    {
+        int iCount = ui->listWidget2->count();
+        if (iCount <= 0)
+        {
+            return;
+        }
+
+        QListWidgetItem* item = NULL;
+        PhoneListModeItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
+        {
+            item = ui->listWidget2->item(i);
+            if (item != NULL)
+            {
+                phoneItem = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(item));
+                if (phoneItem != NULL)
+                {
+                    phoneItem->setCheckBoxStatus(checked);
+                }
             }
         }
     }
@@ -3195,23 +3247,49 @@ void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
 void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
 {
     //反选
-    int iCount = ui->listWidget->count();
-    if (iCount <= 0)
+    if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageIconMode)
     {
-        return;
-    }
-
-    QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
-    for (int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidget->item(i);
-        if (item != NULL)
+        int iCount = ui->listWidget->count();
+        if (iCount <= 0)
         {
-            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
-            if (phoneItem != NULL)
+            return;
+        }
+
+        QListWidgetItem* item = NULL;
+        PhoneItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
+        {
+            item = ui->listWidget->item(i);
+            if (item != NULL)
             {
-                phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
+                phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+                if (phoneItem != NULL)
+                {
+                    phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
+                }
+            }
+        }
+    }
+    else if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageListMode)
+    {
+        int iCount = ui->listWidget2->count();
+        if (iCount <= 0)
+        {
+            return;
+        }
+
+        QListWidgetItem* item = NULL;
+        PhoneListModeItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
+        {
+            item = ui->listWidget2->item(i);
+            if (item != NULL)
+            {
+                phoneItem = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(item));
+                if (phoneItem != NULL)
+                {
+                    phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
+                }
             }
         }
     }
