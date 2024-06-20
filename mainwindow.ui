@@ -3049,6 +3049,7 @@ background-color:#E7E8EE;
 border:none;
 height:28px;
 width:100px;
+color:#505465;
 }
 
 QComboBox::down-arrow {

@@ -419,10 +419,16 @@ void MainWindow::do_ActionCopyCloudId(bool bChecked)
 
     S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();*/
     QClipboard* clipboard = QApplication::clipboard();
-    clipboard->setText(m_CurSelMenuPhoneInfo.strInstanceNo);
+    if (NULL != clipboard)
+    {
+        clipboard->setText(m_CurSelMenuPhoneInfo.strInstanceNo);
+    }    
 
     MessageTips* tips = new MessageTips("复制成功", this);
-    tips->show();
+    if (NULL != tips)
+    {
+        tips->show();
+    }    
 }
 void MainWindow::do_ActionRename(bool bChecked)
 {
