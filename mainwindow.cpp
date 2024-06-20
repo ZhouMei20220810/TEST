@@ -230,13 +230,95 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode && data)
                 {
+                    //phoneid=id;
+                    QTreeWidgetItemIterator it(ui->treeWidget);
+                    //遍历所有选中项的迭代器
+                    QTreeWidgetItem* item = NULL;
+                    S_PHONE_INFO phoneInfo;                    
+                    bool bFind = false;
+                    QTreeWidgetItem* child = NULL;
+                    int count = 0;
+                    int i=0;                    
+                    while (*it)
+                    {
+                        item = *it;
+                        qDebug() << item->text(0);
+                        //获取组的所有子节点
+                        count = item->childCount();                        
+                        for (i = 0; i < count; ++i)
+                        {
+                            child = item->child(i);
+                            phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();  
+                            if (phoneInfo.iId == iId)
+                            {
+                                phoneInfo.strName = strName;
+                                child->setData(0, Qt::UserRole, QVariant::fromValue(phoneInfo));
+                                child->setText(0, strName);
+                                bFind = true;
+                                break;
+                            }
+                        }
+                        if (bFind)
+                        {
+                            break;
+                        }
+                        ++it;
+                    }
+                                  
+                    int iListCount = 0;
+                    int iRow = 0;
+                    QListWidgetItem* phoneItem = NULL;                    
+                    //重新显示listWidget
+                    if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageIconMode)
+                    {
+                        PhoneItemWidget* widget = NULL;
+                        iListCount = ui->listWidget->count();
+                        for (iRow = 0; iRow < iListCount; iRow++)
+                        {
+                            phoneItem = ui->listWidget->item(iRow);
+                            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
+                            if (phoneInfo.iId == iId)
+                            {
+                                phoneInfo.strName = strName;
+                                phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+                                widget = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(phoneItem));
+                                if (widget != NULL)
+                                {
+                                    widget->setPhoneName(strName);                                    
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    else if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageListMode)
+                    {
+                        PhoneListModeItemWidget* widget2 = NULL;
+                        //listWidget2
+                        iListCount = ui->listWidget2->count();
+                        for (iRow = 0; iRow < iListCount; iRow++)
+                        {
+                            phoneItem = ui->listWidget2->item(iRow);
+                            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
+                            if (phoneInfo.iId == iId)
+                            {
+                                phoneInfo.strName = strName;
+                                phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+                                widget2 = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(phoneItem));
+                                if (widget2 != NULL)
+                                {
+                                    widget2->setPhoneName(strName);
+                                }
+                                break;
+                            }
+                        }
+                    }
                     /*if (m_pCurItem != NULL)
                     {
                         m_pCurItem->setText(0, strName);
                     }*/
                     //MessageTipsDialog* tips = new MessageTipsDialog("实例重命名成功!", this);
                     //tips->show();
-                    HttpQueryAllGroup();//否则改名后要遍历树节点去更改名称
+                    //HttpQueryAllGroup();//否则改名后要遍历树节点去更改名称
                 }
                 else
                 {
@@ -416,11 +498,11 @@ void MainWindow::do_ActionMoveGroup(bool bChecked)
         qDebug() << "当前选中 分组名称" << groupInfo.strGroupName;
     }
 
-    m_pCurItem = ui->treeWidget->currentItem();
+    /*m_pCurItem = ui->treeWidget->currentItem();
     if (m_pCurItem == NULL)
         return;
 
-    //S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+    S_PHONE_INFO phoneInfo = m_pCurItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();*/
 
     QStringList strList;
     strList << QString("%1").arg(m_CurSelMenuPhoneInfo.iId);

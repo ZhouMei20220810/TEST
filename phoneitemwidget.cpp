@@ -65,6 +65,11 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     m_refreshTimer->start(1);// 1ms触发一次
 }
 
+void PhoneItemWidget::setPhoneName(QString strPhoneName)
+{
+    ui->toolBtnName->setText(strPhoneName);
+}
+
 void PhoneItemWidget::showLabelImage(QString strImagePath)
 {
     QFile file1(m_strPicturePath);

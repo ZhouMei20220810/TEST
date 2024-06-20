@@ -25,6 +25,7 @@ public:
     void startRequest(QUrl url);
     void setCheckBoxStatus(bool bCheck);
     bool getCheckBoxStatus();
+    void setPhoneName(QString strPhoneName);
 
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
 signals:

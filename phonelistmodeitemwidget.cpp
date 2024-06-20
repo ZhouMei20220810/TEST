@@ -29,6 +29,10 @@ PhoneListModeItemWidget::~PhoneListModeItemWidget()
     delete ui;
 }
 
+void PhoneListModeItemWidget::setPhoneName(QString strPhoneName)
+{
+    ui->checkBox->setText(strPhoneName);
+}
 
 void PhoneListModeItemWidget::mousePressEvent(QMouseEvent *event)
 {
