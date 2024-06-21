@@ -130,7 +130,7 @@ private:
 
     void AddIconModeListWidgetItem(S_PHONE_INFO phoneInfo);
     void AddListModeListWidgetItem(S_PHONE_INFO phoneInfo);
-    void BianliTreeWidgetSelectItem();
+    void BianliTreeWidgetSelectItem(QTreeWidgetItem* item);
 private slots:
     //工具栏
     void on_toolBtnCloudPhone_clicked();

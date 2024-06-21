@@ -3015,7 +3015,7 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
                 m_TaskTimer->stop();
             }
             
-            BianliTreeWidgetSelectItem();
+            BianliTreeWidgetSelectItem(item);
             if (m_listInstanceNo.size() > 0)
             {
                 m_TaskTimer->start(TIMER_INTERVAL);
@@ -3025,7 +3025,7 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
         else
         {
             ui->listWidget2->clear();
-            BianliTreeWidgetSelectItem();
+            BianliTreeWidgetSelectItem(item);
         }
     }
 }
@@ -3787,7 +3787,7 @@ void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
     ui->listWidget2->setItemWidget(phoneItem, widget2);
 }
 
-void MainWindow::BianliTreeWidgetSelectItem()
+void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
 {
     QTreeWidgetItemIterator iter(ui->treeWidget);
     QTreeWidgetItem* item = NULL;
@@ -3800,8 +3800,30 @@ void MainWindow::BianliTreeWidgetSelectItem()
     {
         qDebug() << (*iter)->text(0);
         iChildCount = (*iter)->childCount();
-            
+        
         item = *iter;
+        //显示当前选中项的所有子项
+        if (item == currentItem)
+        {
+            for (i = 0; i < iChildCount; ++i)
+            {
+                child = item->child(i);
+                checkState = child->checkState(0);
+                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+                phoneInfo.bChecked = (checkState == Qt::Checked ? true : false);
+                if (m_isIconMode)
+                {
+                    m_listInstanceNo << phoneInfo.strInstanceNo;
+                    AddIconModeListWidgetItem(phoneInfo);
+                }
+                else
+                {
+                    AddListModeListWidgetItem(phoneInfo);
+                }
+            }
+            iter++;
+            continue;
+        }
         qDebug() << item->text(0);
         //获取组的所有子节点
         for (i = 0; i < iChildCount; ++i)
@@ -3842,7 +3864,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
             m_TaskTimer->stop();
         }
 
-        BianliTreeWidgetSelectItem();
+        BianliTreeWidgetSelectItem(item);
         if (m_listInstanceNo.size() > 0)
         {
             m_TaskTimer->start(TIMER_INTERVAL);
@@ -3852,7 +3874,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     else
     {
         ui->listWidget2->clear();
-        BianliTreeWidgetSelectItem();
+        BianliTreeWidgetSelectItem(item);
     }
 }
 
