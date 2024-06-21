@@ -306,6 +306,7 @@ private:
     PhoneInstanceWidget* widget = NULL;
 
     QToolButton* m_toolBtnContraction;
+    QToolButton* m_toolBtnExpansion;
     bool         m_IsContraction;
 
     //拉伸
