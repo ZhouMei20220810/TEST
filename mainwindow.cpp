@@ -59,7 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setMouseTracking(true);
     ui->centralwidget->setMouseTracking(true);
-    //ui->frame->setMouseTracking(true);
+    ui->frame->setMouseTracking(true);
+    ui->frame_9->setMouseTracking(true);
     dir = NONE;
     m_oldSize = this->size();
     m_globalPoint = this->pos();
@@ -2765,8 +2766,13 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
             this->mouseGrabber();
             m_bCanResize = true;
         }
-        else {
-            dragPosition = event->globalPos() - this->frameGeometry().topLeft();
+        else 
+        {
+            if (event->pos().x() >= ui->frame->width() && event->pos().y() >= 0 && event->pos().x() <= this->width() && event->pos().y() <= ui->frame_9->height())
+            {
+                m_bMoving = true;
+                dragPosition = event->globalPos() - this->frameGeometry().topLeft();
+            }
         }
         break;
     case Qt::RightButton:
@@ -2775,13 +2781,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     default:
         QMainWindow::mousePressEvent(event);
     }
-
-    /*if (event->button() == Qt::LeftButton)
-    {
-        m_LastPos = event->globalPosition().toPoint()-this->pos();
-        m_bMoving = true;
-    }*/
-    //return QWidget::mousePressEvent(event);
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
@@ -2789,6 +2788,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         //qDebug() << "mouseReleaseEvent LeftButton";
         isLeftPressDown = false;
+        m_bMoving = false;
         if (dir != NONE) {
             this->releaseMouse();
             this->setCursor(QCursor(Qt::ArrowCursor));
@@ -2818,17 +2818,29 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         move(globalPosition-m_LastPos);
         m_LastPos = globalPosition-pos();
     }*/
-
+    QPoint globalPosition = event->globalPosition().toPoint();
+    if (m_bMoving)
+    {
+        if ((event->buttons() & Qt::LeftButton)
+            && (!window()->isMaximized())
+            && (globalPosition - m_LastPos - pos()).manhattanLength() > QApplication::startDragDistance())
+        {
+            move(event->globalPos() - dragPosition);
+            event->accept();
+        }
+        return QMainWindow::mouseMoveEvent(event);
+    }
+    
     CalculateBorderIndex(event);
 
-    if (isLeftPressDown) {
+    /*if (isLeftPressDown) {
         if (dir == NONE) {
             if (!(window()->isMaximized())) {
                 move(event->globalPos() - dragPosition);
                 event->accept();
             }
         }
-    }
+    }*/
     QMainWindow::mouseMoveEvent(event);
 }
 
