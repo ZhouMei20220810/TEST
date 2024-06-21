@@ -2489,7 +2489,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
     static QPoint leftTop;
     static QPoint rightBottom;
 
-    int MOUSE_GAP = 10;
+    int MOUSE_GAP = 5;
 
     if (!m_bResizeIng)
     {
@@ -2842,7 +2842,7 @@ void MainWindow::do_ContractionOrExpansion(bool bChecked)
         strStyleSheet = QString("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/control_expansion.png);}");
         m_toolBtnContraction->setStyleSheet(strStyleSheet);
         //m_toolBtnContraction->setIcon(QIcon(":/main/resource/main/control_expansion.png"));
-        m_toolBtnContraction->move(rect.x()+ ui->frame->width(), (rect.height() - m_toolBtnContraction->height()) / 2);
+        m_toolBtnContraction->move(rect.x()+ ui->frame->width()+5, (rect.height() - m_toolBtnContraction->height()) / 2);
         m_IsContraction = !m_IsContraction;
         return;
     }
@@ -2850,7 +2850,7 @@ void MainWindow::do_ContractionOrExpansion(bool bChecked)
     strStyleSheet = QString("QToolButton {border:none;background:transparent;background-image: url(:/main/resource/main/control_contraction.png);}");
     m_toolBtnContraction->setStyleSheet(strStyleSheet);
     //m_toolBtnContraction->setIcon(QIcon(":/main/resource/main/control_contraction.png"));        
-    m_toolBtnContraction->move(rect.x() + rect.width()+ui->frame->width(), (rect.height() - m_toolBtnContraction->height()) / 2);
+    m_toolBtnContraction->move(rect.x() + rect.width()+ui->frame->width()+5, (rect.height() - m_toolBtnContraction->height()) / 2);
     m_IsContraction = !m_IsContraction;
 }
 
@@ -3621,7 +3621,7 @@ void MainWindow::on_btnAddPhone_clicked()
 void MainWindow::showEvent(QShowEvent *event)
 {
     QRect rect = ui->groupWidget->geometry();
-    m_toolBtnContraction->move(rect.x() + rect.width()+ui->frame->width(), (rect.height() - m_toolBtnContraction->height()) / 2);
+    m_toolBtnContraction->move(rect.x() + rect.width()+ui->frame->width() + 5, (rect.height() - m_toolBtnContraction->height()) / 2);
 }
 
 void MainWindow::on_btnVipServerPolicy_clicked()
