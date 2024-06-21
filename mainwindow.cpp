@@ -2909,8 +2909,8 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     int i = ui->comboBoxView->itemData(iIndex).toInt();
     GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
     GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
-
-    on_treeWidget_currentItemChanged(m_pCurItem, NULL);
+    
+    on_treeWidget_itemPressed(m_pCurItem, NULL);
 }
 
 
@@ -2924,8 +2924,8 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     int i = ui->comboBoxView->itemData(iIndex).toInt();
     GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
     GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
-
-    on_treeWidget_currentItemChanged(m_pCurItem, NULL);    
+    
+    on_treeWidget_itemPressed(m_pCurItem, NULL);
 }
 
 
@@ -3004,7 +3004,7 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
             }
         }            
     }
-    else if (qApp->mouseButtons() == Qt::LeftButton)
+    else
     {
         if (m_isIconMode)
         {
@@ -3052,119 +3052,6 @@ void MainWindow::do_timeoutRefreshPicture()
     
 }
 
-void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
-{
-    if(current == NULL)
-        return;
-    m_pCurItem = current;
-
-    S_PHONE_INFO phoneInfo;
-    PhoneItemWidget* widget = NULL;
-    QListWidgetItem* phoneItem = NULL;
-    PhoneListModeItemWidget* widget2 = NULL;
-    if (current->parent() != NULL)
-    {        
-        //获取节点数据
-        S_PHONE_INFO phoneInfo = current->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-        qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
-
-        if (m_isIconMode)
-        {
-            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
-            m_listInstanceNo << phoneInfo.strInstanceNo;
-            //重新显示listWidget
-            widget = new PhoneItemWidget(phoneInfo, this);
-            connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-            phoneItem = new QListWidgetItem(ui->listWidget);
-            phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-            phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-            ui->listWidget->addItem(phoneItem);
-            ui->listWidget->setItemWidget(phoneItem, widget);
-        }
-        else
-        {
-            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageListMode);
-            //listWidget2
-            widget2 = new PhoneListModeItemWidget(phoneInfo, this);
-            connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-            phoneItem = new QListWidgetItem(ui->listWidget2);
-            phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
-            phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-            ui->listWidget2->addItem(phoneItem);
-            ui->listWidget2->setItemWidget(phoneItem, widget2);
-        }
-    }
-    else
-    {
-        S_GROUP_INFO groupInfo = current->data(0, Qt::UserRole).value<S_GROUP_INFO>();
-        qDebug() << "当前选中groupId=" << groupInfo.iGroupId;
-        if (groupInfo.iGroupNum <= 0)
-        {
-            m_TaskTimer->stop();
-            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
-            return;
-        }
-        else
-        {
-            if (m_isIconMode)
-            {
-                ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
-            }
-            else
-            {
-                ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageListMode);
-            }
-            //获取组的所有子节点
-            int count = current->childCount();
-            QTreeWidgetItem* child = NULL;
-            for (int i = 0; i < count; ++i)
-            {
-                child = current->child(i);
-                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-
-                if (m_isIconMode)
-                {
-                    m_listInstanceNo << phoneInfo.strInstanceNo;
-                    qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
-
-                    //重新显示listWidget
-                    widget = new PhoneItemWidget(phoneInfo, this);
-                    connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-                    phoneItem = new QListWidgetItem(ui->listWidget);
-                    phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-                    phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-                    ui->listWidget->addItem(phoneItem);
-                    ui->listWidget->setItemWidget(phoneItem, widget);
-                }
-                else
-                {
-                    //listWidget2
-                    widget2 = new PhoneListModeItemWidget(phoneInfo, this);
-                    connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-                    phoneItem = new QListWidgetItem(ui->listWidget2);
-                    phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
-                    phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-                    ui->listWidget2->addItem(phoneItem);
-                    ui->listWidget2->setItemWidget(phoneItem, widget2);
-                }                
-            }
-        }
-    }
-
-    //生成截图
-    if (m_listInstanceNo.size() > 0)
-    {
-        m_TaskTimer->start(TIMER_INTERVAL);        
-        this->m_toolObject->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
-    }
-    else
-    {
-        if (m_TaskTimer->isActive())
-        {
-            m_TaskTimer->stop();
-        }        
-    }
-}
 
 void MainWindow::on_checkBoxRenew_clicked(bool checked)
 {
@@ -3366,7 +3253,7 @@ void MainWindow::on_toolBtnListMode_clicked()
                 phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
 
                 widget2 = new PhoneListModeItemWidget(phoneInfo, this);
-                widget2->setCheckBoxStatus(phoneInfo.bChecked);
+                widget2->setCheckBoxStatus(((PhoneItemWidget*)ui->listWidget->itemWidget(item))->getCheckBoxStatus());
                 connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
                 phoneItem = new QListWidgetItem(ui->listWidget2);
                 phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
@@ -3409,7 +3296,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
 
                 //重新显示listWidget
                 widget = new PhoneItemWidget(phoneInfo, this);
-                widget->setCheckBoxStatus(phoneInfo.bChecked);
+                widget->setCheckBoxStatus(((PhoneListModeItemWidget*)ui->listWidget2->itemWidget(item))->getCheckBoxStatus());
                 connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
                 phoneItem = new QListWidgetItem(ui->listWidget);
                 phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
@@ -3507,7 +3394,7 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
         GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
     }    
     qDebug() << "click i=" << i << "new width=" << GlobalData::iPhoneItemWidth << "new height=" << GlobalData::iPhoneItemHeight;
-    on_treeWidget_currentItemChanged(m_pCurItem, NULL);
+    on_treeWidget_itemPressed(m_pCurItem, NULL);
 }
 
 
@@ -3819,15 +3706,14 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                 if (child == NULL)
                     continue;
                 iSelCount++;
-                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();                
+                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();   
+                phoneInfo.bChecked = checked;
                 //重新显示listWidget
                 if (m_isIconMode)
                 {
                     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
                     strList << phoneInfo.strInstanceNo;
-                    qDebug() << "刷新预览图 树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
-
-                    widget = new PhoneItemWidget(phoneInfo, this);
+                    widget = new PhoneItemWidget(phoneInfo, this);                    
                     connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
                     phoneItem = new QListWidgetItem(ui->listWidget);
                     phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
@@ -3880,7 +3766,6 @@ void MainWindow::AddIconModeListWidgetItem(S_PHONE_INFO phoneInfo)
 {
     QListWidgetItem* phoneItem = NULL;
     PhoneItemWidget* widget = new PhoneItemWidget(phoneInfo, this);
-    widget->setCheckBoxStatus(phoneInfo.bChecked);
     connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
     phoneItem = new QListWidgetItem(ui->listWidget);
     phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
@@ -3894,7 +3779,6 @@ void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
     QListWidgetItem* phoneItem = NULL;
     PhoneListModeItemWidget* widget2 = NULL;
     widget2 = new PhoneListModeItemWidget(phoneInfo, this);
-    widget2->setCheckBoxStatus(phoneInfo.bChecked);
     connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
     phoneItem = new QListWidgetItem(ui->listWidget2);
     phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
@@ -3941,6 +3825,34 @@ void MainWindow::BianliTreeWidgetSelectItem()
         }
 
         iter++;
+    }
+}
+
+
+void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+    //点击复选框响应事件
+    qDebug()<<"点击复选框响应事件";
+    if (m_isIconMode)
+    {
+        ui->listWidget->clear();
+        m_listInstanceNo.clear();
+        if (m_TaskTimer->isActive())
+        {
+            m_TaskTimer->stop();
+        }
+
+        BianliTreeWidgetSelectItem();
+        if (m_listInstanceNo.size() > 0)
+        {
+            m_TaskTimer->start(TIMER_INTERVAL);
+            this->m_toolObject->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
+        }
+    }
+    else
+    {
+        ui->listWidget2->clear();
+        BianliTreeWidgetSelectItem();
     }
 }
 

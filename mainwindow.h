@@ -208,7 +208,6 @@ private slots:
 
     //一分钟响应一次
     void do_timeoutRefreshPicture();
-    void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
     void on_checkBoxRenew_clicked(bool checked);
 
@@ -241,6 +240,8 @@ private slots:
     void on_btnVipServerPolicy_clicked();
 
     void on_btnRefreshQrCode_clicked();
+
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;

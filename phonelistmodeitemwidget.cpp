@@ -13,6 +13,7 @@ PhoneListModeItemWidget::PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget
     m_sPhoneInfo = sPhoneInfo;
 
     ui->checkBox->setText(sPhoneInfo.strName);
+    ui->checkBox->setChecked(sPhoneInfo.bChecked);
     ui->labelSystem->setText("Android");
 
     QDateTime curDateTime = QDateTime::currentDateTime();
