@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-    GlobalData::enPictrueQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_SPEED).toInt();
+    GlobalData::enPictrueQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_DEFINITION).toInt();
     GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
     GlobalData::bVerticalPhoneInstanceCenter = setting.value("PhoneInstanceCenter", true).toBool();
     GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();

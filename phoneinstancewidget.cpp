@@ -113,11 +113,12 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     else
         resize(PHONE_INSTANCE_HORIZONTAL_WIDTH, PHONE_INSTANCE_HORIZONTAL_HEIGHT);*/
     // 使用QStandardItemModel，因为它支持设置数据的不同角色
-    ui->comboBox->setIconSize(QSize(50,50));
+    ui->comboBox->setIconSize(QSize(27,45));
     QStandardItemModel* model = new QStandardItemModel(ui->comboBox);
     QStandardItem* item = NULL;
     // 添加图片和文本到下拉列表的每一项
-    for (int i = 0; i < 5; ++i)
+    //（0：自动，1：高清，2：标清，3：流畅）
+    for (int i = 0; i < 4; ++i)
     {
         // 创建QStandardItem
         item = new QStandardItem;
@@ -138,9 +139,10 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
 
     // 设置模型到组合框
     ui->comboBox->setModel(model);
-
     // 可以设置当前索引，以便初始显示的项
-    ui->comboBox->setCurrentIndex(0);
+    //ui->comboBox->setCurrentIndex(0);
+    //同步设置界面
+    ui->comboBox->setCurrentIndex(GlobalData::enPictrueQuality);
 
     HttpGetInstanceSession(sPhoneInfo.iId);
 }
@@ -503,10 +505,8 @@ bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
 	if (m_Player == NULL) 
 	{
 		do {
-            int picQualityIndex = ui->comboBox->itemData(ui->comboBox->currentIndex(), Qt::UserRole).toInt();
+            int picQualityIndex = ui->comboBox->currentIndex();//ui->comboBox->itemData(ui->comboBox->currentIndex(), Qt::UserRole).toInt();
             qDebug() << "select index=" << picQualityIndex;
-            //QString strQuality = ui->comboBoxQuality->currentText();//ui->comboBoxQuality->GetCurSel();
-            //int picQualityIndex = ui->comboBox->currentIndex();//1;//ui->comboBoxQuality->currentIndex();
             //PAAS(试玩): BusinessType为0; 主营: BusinessType为1; 百度: BusinessType为2
             int businessType = 1;//m_OptionPlayType->IsSelected() ? 0 : 1;
 

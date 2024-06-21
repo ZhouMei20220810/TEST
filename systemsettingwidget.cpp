@@ -10,7 +10,7 @@
 #define         ICON_HEIGHT         46
 
 SystemSettingWidget::SystemSettingWidget(QWidget *parent)
-    : QWidget(parent)
+    : QDialog(parent)
     , ui(new Ui::SystemSettingWidget)
 {
     ui->setupUi(this);
@@ -29,9 +29,6 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
         break;
     case TYPE_QUALITY_TOPSPEED:
         ui->radioButton_6->setChecked(true);
-        break;
-    case TYPE_QUALITY_HIGH_SPEED:
-        ui->radioButton_7->setChecked(true);
         break;
     case TYPE_QUALITY_NORMAL:
         ui->radioButton_8->setChecked(true);
@@ -73,7 +70,6 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     m_qualityGroup = new QButtonGroup(this);
     m_qualityGroup->addButton(ui->radioButton_5, TYPE_QUALITY_AUTO);
     m_qualityGroup->addButton(ui->radioButton_6, TYPE_QUALITY_TOPSPEED);
-    m_qualityGroup->addButton(ui->radioButton_7, TYPE_QUALITY_HIGH_SPEED);
     m_qualityGroup->addButton(ui->radioButton_8, TYPE_QUALITY_NORMAL);
     m_qualityGroup->addButton(ui->radioButton_9, TYPE_QUALITY_HIGH_DEFINITION);
     connect(m_qualityGroup,&QButtonGroup::buttonToggled,this,[this](QAbstractButton* button, bool checked)
@@ -297,6 +293,8 @@ void SystemSettingWidget::on_btnSave_clicked()
     //保存
     MessageTips* tips = new MessageTips("数据已保存",this);
     tips->show();
+
+    this->accept();
 }
 
 

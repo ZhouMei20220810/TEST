@@ -469,7 +469,7 @@ padding-left:16px;
           </property>
           <property name="icon">
            <iconset resource="res.qrc">
-            <normaloff>:/main/resource/main/generalSetting.png</normaloff>:/main/resource/main/generalSetting.png</iconset>
+            <normaloff>:/resource/setting/setting.png</normaloff>:/resource/setting/setting.png</iconset>
           </property>
           <property name="toolButtonStyle">
            <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -1866,19 +1866,6 @@ font-size:13px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_7">
-                <property name="cursor">
-                 <cursorShape>PointingHandCursor</cursorShape>
-                </property>
-                <property name="text">
-                 <string>高速</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QRadioButton" name="radioButton_8">
                 <property name="cursor">
                  <cursorShape>PointingHandCursor</cursorShape>
@@ -1895,6 +1882,9 @@ font-size:13px;</string>
                 </property>
                 <property name="text">
                  <string>高清</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>

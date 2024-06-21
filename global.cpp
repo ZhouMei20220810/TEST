@@ -26,7 +26,7 @@ int GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
 
 bool GlobalData::bVerticalScreen = true;
 
-ENUM_PICTURE_QUALITY GlobalData::enPictrueQuality = TYPE_QUALITY_HIGH_SPEED;
+ENUM_PICTURE_QUALITY GlobalData::enPictrueQuality = TYPE_QUALITY_HIGH_DEFINITION;
 bool GlobalData::bVerticalPhoneInstance = true;
 bool GlobalData::bVerticalPhoneInstanceCenter = true;
 QPoint GlobalData::pointPhoneInstance = QPoint(0, 0);

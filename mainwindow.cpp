@@ -1106,7 +1106,7 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     qDebug() << "strTime=" << strTime;
                     phoneItem->setText(0, strLevelName+" " + iter->strName );
                     phoneItem->setText(1, strTime);
-                    phoneItem->setCheckState(0, Qt::Checked);
+                    phoneItem->setCheckState(0, Qt::Unchecked);
                     item->addChild(phoneItem);
                 }
                 break;
@@ -3037,7 +3037,7 @@ void MainWindow::do_timeoutRefreshPicture()
 
 void MainWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    if(current == previous || current == NULL)
+    if(current == NULL)
         return;
     m_pCurItem = current;
 
@@ -3450,6 +3450,7 @@ void MainWindow::on_toolBtnSetting_clicked()
     //系统设置
     if(NULL == m_systemSettingWidget)
         m_systemSettingWidget = new SystemSettingWidget();
+    m_systemSettingWidget->setModal(true);
     m_systemSettingWidget->show();
     connect(m_systemSettingWidget, &SystemSettingWidget::destroyed, this, [this]() {
         m_systemSettingWidget = NULL;
@@ -3791,6 +3792,9 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
             for (int i = 0; i < count; ++i)
             {
                 child = item->child(i);
+                if (child == NULL)
+                    continue;
+                iSelCount++;
                 phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();                
                 //重新显示listWidget
                 if (ui->stackedWidgetPhoneItem->currentWidget() == ui->pageIconMode)
@@ -3816,9 +3820,8 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                     phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
                     ui->listWidget2->addItem(phoneItem);
                     ui->listWidget2->setItemWidget(phoneItem, widget2);
-                }                
+                }               
             }
-            iSelCount++;
                            
             ++it;
         }

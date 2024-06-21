@@ -3,12 +3,13 @@
 
 #include <QWidget>
 #include <QButtonGroup>
+#include <QDialog>
 #include "global.h"
 namespace Ui {
 class SystemSettingWidget;
 }
 
-class SystemSettingWidget : public QWidget
+class SystemSettingWidget : public QDialog
 {
     Q_OBJECT
 
