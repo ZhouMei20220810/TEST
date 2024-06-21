@@ -61,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->centralwidget->setMouseTracking(true);
     ui->frame->setMouseTracking(true);
     ui->frame_9->setMouseTracking(true);
+    ui->groupWidget->setMouseTracking(true);
+    ui->stackedWidget->setMouseTracking(true);
     dir = NONE;
     m_oldSize = this->size();
     m_globalPoint = this->pos();
