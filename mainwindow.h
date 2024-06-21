@@ -127,6 +127,10 @@ private:
     void loadVipType(S_LEVEL_INFO levelInfo);
 
     void startDownload(QString strUrl);
+
+    void AddIconModeListWidgetItem(S_PHONE_INFO phoneInfo);
+    void AddListModeListWidgetItem(S_PHONE_INFO phoneInfo);
+    void BianliTreeWidgetSelectItem();
 private slots:
     //工具栏
     void on_toolBtnCloudPhone_clicked();
@@ -186,8 +190,6 @@ private slots:
 
     void on_toolBtnPhoto_clicked();
 
-    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
-
     //组菜单
     void do_DeleteGroupAction(bool bChecked);
     void do_EditGroupNameAction(bool bChecked);
@@ -238,7 +240,7 @@ private slots:
 
     void on_btnVipServerPolicy_clicked();
 
-    void on_btnRefreshQrCode_clicked();    
+    void on_btnRefreshQrCode_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -320,6 +322,8 @@ private:
     QSize  m_oldSize;
     QPoint m_globalPoint;
     //bool m_IsHide = false;
+
+    bool m_isIconMode;
 };
 
 #endif // MAINWINDOW_H

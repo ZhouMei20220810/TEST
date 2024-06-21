@@ -184,6 +184,7 @@ typedef struct GROUP_INFO
 
 typedef struct PHONE_INFO
 {
+    bool    bChecked;
     int     iId;
     int     iType;              //系统类型 安卓8，安卓10，
     int     iLevel;             //级别
