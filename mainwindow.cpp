@@ -3803,7 +3803,7 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
         
         item = *iter;
         //显示当前选中项的所有子项
-        if (item == currentItem)
+        if (item->isSelected())
         {
             for (i = 0; i < iChildCount; ++i)
             {
