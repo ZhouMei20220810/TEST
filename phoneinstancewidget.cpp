@@ -230,6 +230,7 @@ void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint6
                 }
                 else
                 {
+                    strMessage = QString("%1(%2)").arg(obj["error"].toString()).arg(obj["status"].toInt());
                     MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
                 }

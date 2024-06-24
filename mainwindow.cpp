@@ -3176,10 +3176,12 @@ void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
 
 void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
 {
+    int iCheckCount = 0;
+    int iCount = 0;
     //反选
     if (m_isIconMode)
     {
-        int iCount = ui->listWidget->count();
+        iCount = ui->listWidget->count();
         if (iCount <= 0)
         {
             return;
@@ -3195,6 +3197,10 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
                 phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
                 if (phoneItem != NULL)
                 {
+                    if(!phoneItem->getCheckBoxStatus())
+                    {
+                        iCheckCount++;
+                    }
                     phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
                 }
             }
@@ -3202,7 +3208,7 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
     }
     else
     {
-        int iCount = ui->listWidget2->count();
+        iCount = ui->listWidget2->count();
         if (iCount <= 0)
         {
             return;
@@ -3218,11 +3224,17 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
                 phoneItem = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(item));
                 if (phoneItem != NULL)
                 {
+                    if(!phoneItem->getCheckBoxStatus())
+                    {
+                        iCheckCount++;
+                    }
                     phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
                 }
             }
         }
     }
+
+    ui->checkBoxAllSelect->setChecked(iCheckCount == iCount?true:false);
 }
 
 void MainWindow::on_toolBtnListMode_clicked()
@@ -3279,8 +3291,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
     QListWidgetItem* item = NULL;
     S_PHONE_INFO phoneInfo;
     QListWidgetItem* phoneItem = NULL;
-    QStringList strList;
-    strList.clear();
+    m_listInstanceNo.clear();
     int iCount = ui->listWidget2->count();
     if (iCount > 0)
     {
@@ -3291,7 +3302,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
             {
                 phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
 
-                strList << phoneInfo.strInstanceNo;
+                m_listInstanceNo << phoneInfo.strInstanceNo;
                 qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
 
                 //重新显示listWidget
@@ -3308,11 +3319,10 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
     }
     ui->listWidget2->clear();
 
-    m_listInstanceNo = strList;
-    if (strList.size() > 0)
+    if (m_listInstanceNo.size() > 0)
     {
         m_TaskTimer->start(TIMER_INTERVAL);
-        this->m_toolObject->HttpPostInstanceScreenshotRefresh(strList);
+        this->m_toolObject->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
     }
 }
 
