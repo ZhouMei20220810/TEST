@@ -3855,26 +3855,22 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     //点击复选框响应事件
     qDebug()<<"点击复选框响应事件";
-    if (m_isIconMode)
+    if (item->parent() == NULL)
     {
-        ui->listWidget->clear();
-        m_listInstanceNo.clear();
-        if (m_TaskTimer->isActive())
+        qDebug() << "父节点";
+        Qt::CheckState check = item->checkState(0);
+        int count = item->childCount();
+        QTreeWidgetItem* child = NULL;
+        for (int i = 0; i < count; ++i)
         {
-            m_TaskTimer->stop();
+            child = item->child(i);
+            if (child != NULL)
+            {
+                child->setCheckState(0, check);
+            }
         }
+    }
 
-        BianliTreeWidgetSelectItem(item);
-        if (m_listInstanceNo.size() > 0)
-        {
-            m_TaskTimer->start(TIMER_INTERVAL);
-            this->m_toolObject->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
-        }
-    }
-    else
-    {
-        ui->listWidget2->clear();
-        BianliTreeWidgetSelectItem(item);
-    }
+    on_treeWidget_itemPressed(item, column);
 }
 

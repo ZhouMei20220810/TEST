@@ -346,7 +346,6 @@
     <None Include="resource\instance\4.png" />
     <None Include="resource\setting\4.png" />
     <None Include="resource\function\5.png" />
-    <None Include="resource\instance\5.png" />
     <None Include="resource\setting\5.png" />
     <None Include="resource\function\6.png" />
     <None Include="resource\setting\6.png" />
@@ -456,6 +455,7 @@
     <None Include="resource\instance\screenshots.png" />
     <None Include="resource\instance\screenshotsDir.png" />
     <None Include="resource\instance\screenshotsDirSpecial.png" />
+    <None Include="resource\setting\setting.png" />
     <None Include="resource\main\setting_normal.png" />
     <None Include="resource\instance\shake.png" />
     <None Include="resource\main\shouqi.png" />
