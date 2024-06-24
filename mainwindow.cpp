@@ -648,6 +648,8 @@ void MainWindow::InitCloudPhoneTab()
     m_toolBtnExpansion->setVisible(!m_IsContraction);    
 
     m_isIconMode = true;
+ 
+    m_iCheckCount = 0;
 }
 
 //激活码
@@ -3005,10 +3007,11 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
         }            
     }
     else
-    {
+    {        
         if (m_isIconMode)
-        {
+        {            
             ui->listWidget->clear();
+            m_iCheckCount = 0;
             m_listInstanceNo.clear();
             if (m_TaskTimer->isActive())
             {
@@ -3025,6 +3028,7 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
         else
         {
             ui->listWidget2->clear();
+            m_iCheckCount = 0;
             BianliTreeWidgetSelectItem(item);
         }
     }
@@ -3176,7 +3180,6 @@ void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
 
 void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
 {
-    int iCheckCount = 0;
     int iCount = 0;
     //反选
     if (m_isIconMode)
@@ -3197,10 +3200,6 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
                 phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
                 if (phoneItem != NULL)
                 {
-                    if(!phoneItem->getCheckBoxStatus())
-                    {
-                        iCheckCount++;
-                    }
                     phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
                 }
             }
@@ -3224,17 +3223,11 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
                 phoneItem = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(item));
                 if (phoneItem != NULL)
                 {
-                    if(!phoneItem->getCheckBoxStatus())
-                    {
-                        iCheckCount++;
-                    }
                     phoneItem->setCheckBoxStatus(!phoneItem->getCheckBoxStatus());
                 }
             }
         }
     }
-
-    ui->checkBoxAllSelect->setChecked(iCheckCount == iCount?true:false);
 }
 
 void MainWindow::on_toolBtnListMode_clicked()
@@ -3250,6 +3243,7 @@ void MainWindow::on_toolBtnListMode_clicked()
         m_TaskTimer->stop();
     }
     ui->listWidget2->clear();
+    m_iCheckCount = 0;
     PhoneListModeItemWidget* widget2 = NULL;
     QListWidgetItem* item = NULL;
     S_PHONE_INFO phoneInfo;
@@ -3267,6 +3261,7 @@ void MainWindow::on_toolBtnListMode_clicked()
                 widget2 = new PhoneListModeItemWidget(phoneInfo, this);
                 widget2->setCheckBoxStatus(((PhoneItemWidget*)ui->listWidget->itemWidget(item))->getCheckBoxStatus());
                 connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
+                connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
                 phoneItem = new QListWidgetItem(ui->listWidget2);
                 phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
                 phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -3275,7 +3270,7 @@ void MainWindow::on_toolBtnListMode_clicked()
             }
         }
     }
-    ui->listWidget->clear();
+    ui->listWidget->clear();    
 }
 
 void MainWindow::on_toolBtnPreviewMode_clicked()
@@ -3285,7 +3280,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
 
     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
     m_isIconMode = true;
-
+    m_iCheckCount = 0;
     ui->listWidget->clear();
     PhoneItemWidget* widget = NULL;
     QListWidgetItem* item = NULL;
@@ -3309,6 +3304,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
                 widget = new PhoneItemWidget(phoneInfo, this);
                 widget->setCheckBoxStatus(((PhoneListModeItemWidget*)ui->listWidget2->itemWidget(item))->getCheckBoxStatus());
                 connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
+                connect(widget, &PhoneItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
                 phoneItem = new QListWidgetItem(ui->listWidget);
                 phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                 phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -3690,11 +3686,12 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
 
     QStringList strList;
     strList.clear();
+    m_iCheckCount = 0;
     ui->listWidget->clear();
     ui->listWidget2->clear();
+    int iSelCount = 0;
     if (checked)
     {
-        int iSelCount = 0;
         //获取所有选中项的迭代器
         QTreeWidgetItemIterator it(ui->treeWidget);
         //遍历所有选中项的迭代器
@@ -3725,6 +3722,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                     strList << phoneInfo.strInstanceNo;
                     widget = new PhoneItemWidget(phoneInfo, this);                    
                     connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
+                    connect(widget, &PhoneItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
                     phoneItem = new QListWidgetItem(ui->listWidget);
                     phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
                     phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -3737,6 +3735,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                     //listWidget2
                     widget2 = new PhoneListModeItemWidget(phoneInfo, this);
                     connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
+                    connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
                     phoneItem = new QListWidgetItem(ui->listWidget2);
                     phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
                     phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -3755,6 +3754,15 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
         }
 
     }
+
+    int iCount = 0;
+    if (m_isIconMode)
+        iCount = ui->listWidget->count();
+    else
+        iCount = ui->listWidget2->count();
+
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(iSelCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((iSelCount == iCount&&iCount !=0) ? true : false);
 
     //生成截图
     m_listInstanceNo = strList;
@@ -3777,6 +3785,7 @@ void MainWindow::AddIconModeListWidgetItem(S_PHONE_INFO phoneInfo)
     QListWidgetItem* phoneItem = NULL;
     PhoneItemWidget* widget = new PhoneItemWidget(phoneInfo, this);
     connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
+    connect(widget, &PhoneItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
     phoneItem = new QListWidgetItem(ui->listWidget);
     phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
     phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -3790,6 +3799,7 @@ void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
     PhoneListModeItemWidget* widget2 = NULL;
     widget2 = new PhoneListModeItemWidget(phoneInfo, this);
     connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
+    connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
     phoneItem = new QListWidgetItem(ui->listWidget2);
     phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
     phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -3820,7 +3830,11 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                 child = item->child(i);
                 checkState = child->checkState(0);
                 phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-                phoneInfo.bChecked = (checkState == Qt::Checked ? true : false);
+                if (checkState == Qt::Checked)
+                {
+                    phoneInfo.bChecked = true;
+                    m_iCheckCount++;
+                }
                 if (m_isIconMode)
                 {
                     m_listInstanceNo << phoneInfo.strInstanceNo;
@@ -3843,7 +3857,11 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
             if (checkState == Qt::Checked || child->isSelected())
             {            
                 phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();                
-                phoneInfo.bChecked = (checkState == Qt::Checked ? true : false);
+                if (checkState == Qt::Checked)
+                {
+                    phoneInfo.bChecked = true;
+                    m_iCheckCount++;
+                }
                 if (m_isIconMode)
                 {
                     m_listInstanceNo << phoneInfo.strInstanceNo;
@@ -3858,6 +3876,14 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
 
         iter++;
     }
+
+    int iCount = 0;
+    if (m_isIconMode)
+        iCount = ui->listWidget->count();
+    else
+        iCount = ui->listWidget2->count();
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount != 0) ? true : false);
 }
 
 
@@ -3867,7 +3893,6 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     qDebug()<<"点击复选框响应事件";
     if (item->parent() == NULL)
     {
-        qDebug() << "父节点";
         Qt::CheckState check = item->checkState(0);
         int count = item->childCount();
         QTreeWidgetItem* child = NULL;
@@ -3884,3 +3909,27 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     on_treeWidget_itemPressed(item, column);
 }
 
+void MainWindow::do_stateChanged(int state)
+{
+    qDebug() << "state=" << state;
+    switch (state)
+    {
+    case Qt::Checked:
+            m_iCheckCount++;
+        break;
+    case Qt::Unchecked:
+        if(m_iCheckCount > 0)
+            m_iCheckCount--;
+        break;
+    default:
+        break;
+    }
+    int iCount = 0;
+    if (m_isIconMode)
+        iCount = ui->listWidget->count();
+    else
+        iCount = ui->listWidget2->count();
+    
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount!=0) ? true : false);
+}

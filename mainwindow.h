@@ -236,6 +236,8 @@ private slots:
     //显示实例
     void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo,bool bShowMenu);
     void on_btnAddPhone_clicked();
+    //统计
+    void do_stateChanged(int state);
 
     void on_btnVipServerPolicy_clicked();
 
@@ -325,6 +327,7 @@ private:
     //bool m_IsHide = false;
 
     bool m_isIconMode;
+    int  m_iCheckCount;
 };
 
 #endif // MAINWINDOW_H

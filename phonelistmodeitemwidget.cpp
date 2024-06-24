@@ -22,7 +22,8 @@ PhoneListModeItemWidget::PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget
     QString strTime;
     strTime = strTime.asprintf("%d天%d小时", mseconds / (1000 * 60 * 60 * 24), (mseconds / (1000 * 60 * 60)) % 24);
     ui->labelTime->setText(strTime);
-    //ui->labelStatus->setText(sPhoneInfo.)
+   
+    connect(ui->checkBox, &QCheckBox::stateChanged, this, &PhoneListModeItemWidget::stateChanged);
 }
 
 PhoneListModeItemWidget::~PhoneListModeItemWidget()

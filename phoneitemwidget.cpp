@@ -35,6 +35,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     vBox->addLayout(hBox);
     vBox->addStretch();
     m_checkBox->setChecked(sPhoneInfo.bChecked);
+    connect(m_checkBox, &QCheckBox::stateChanged, this, &PhoneItemWidget::stateChanged);
     //未下载时先隐藏进度条
     //ui->progressBar->hide();
 

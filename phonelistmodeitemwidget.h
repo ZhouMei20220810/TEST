@@ -20,7 +20,7 @@ public:
     void setPhoneName(QString strPhoneName);
 signals:
     void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo,bool bShowMenu);
-
+    void stateChanged(int state);
 private:
     Ui::PhoneListModeItemWidget *ui;
     S_PHONE_INFO m_sPhoneInfo;
