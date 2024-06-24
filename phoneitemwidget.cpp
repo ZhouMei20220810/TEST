@@ -34,6 +34,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     hBox->addWidget(m_checkBox);
     vBox->addLayout(hBox);
     vBox->addStretch();
+    m_checkBox->setCursor(Qt::PointingHandCursor);
     m_checkBox->setChecked(sPhoneInfo.bChecked);
     connect(m_checkBox, &QCheckBox::stateChanged, this, &PhoneItemWidget::stateChanged);
     //未下载时先隐藏进度条
@@ -75,8 +76,7 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
 {
     QFile file1(m_strPicturePath);
     if (file1.exists())
-    {        
-        qDebug() << "showLabelImage file 存在";
+    {
         QPixmap pixmap(m_strPicturePath);
         if (!GlobalData::bVerticalScreen)
         {
@@ -100,11 +100,14 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
         }
         ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     }
+    else
+    {
+        qDebug() << "showLabelImage fail. file not exists." << m_strPicturePath;
+    }
 }
 
 PhoneItemWidget::~PhoneItemWidget()
 {
-    qDebug()<<"delete PhoneItemWidget";
     delete ui;
 }
 
@@ -125,7 +128,6 @@ void PhoneItemWidget::startRequest(QUrl url)
         delete m_File;
         m_File = NULL;
     }
-    qDebug() << "PhoneItemWidget::startRequest url=" << url << " file=" << m_strTemp;
     m_reply = m_manager->get(QNetworkRequest(url));
     connect(m_reply, &QNetworkReply::readyRead, this, &PhoneItemWidget::httpReadyRead);
     connect(m_reply, &QNetworkReply::finished, this, &PhoneItemWidget::httpFinished);
@@ -150,9 +152,11 @@ void PhoneItemWidget::httpFinished()
                     qDebug() << "remove fail:" << m_strPicturePath;
                 }                    
             }
-            m_File->rename(m_strPicturePath);
+            if (!m_File->rename(m_strPicturePath))
+            {
+                qDebug() << "rename fail: "<< m_strPicturePath;
+            }
             //file.rename(m_strPicturePath);
-            qDebug() << "httpFinished m_strPicturePath" << m_strPicturePath;
             showLabelImage(m_strPicturePath);
         }
         else
@@ -161,7 +165,7 @@ void PhoneItemWidget::httpFinished()
             {
                 qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
                 showLabelImage(m_strPicturePath);
-            }                
+            }
             else
             {
                 qDebug() << "图片无效,显示默认图片";

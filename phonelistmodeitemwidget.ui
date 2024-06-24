@@ -73,6 +73,9 @@
       </property>
       <item>
        <widget class="QCheckBox" name="checkBox">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true"> QCheckBox {
      spacing: 5px;

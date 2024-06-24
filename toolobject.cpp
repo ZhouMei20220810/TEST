@@ -27,7 +27,7 @@ void ToolObject::HttpPostInstanceScreenshot(QStringList strList)
     //创建请求对象
     QNetworkRequest request;
     QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
+    //qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
@@ -42,7 +42,7 @@ void ToolObject::HttpPostInstanceScreenshot(QStringList strList)
     //doc.setObject(listArray);
     doc.setArray(listArray);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
+    //qDebug() << postData;
     //发出GET请求
     QNetworkReply* reply = manager->post(request, postData);
     //连接请求完成的信号
@@ -113,7 +113,7 @@ void ToolObject::HttpPostInstanceScreenshotRefresh(QStringList strList)
     //创建请求对象
     QNetworkRequest request;
     QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
+    //qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
@@ -128,14 +128,14 @@ void ToolObject::HttpPostInstanceScreenshotRefresh(QStringList strList)
     //doc.setObject(listArray);
     doc.setArray(listArray);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
+    //qDebug() << postData;
     //发出GET请求
     QNetworkReply* reply = manager->post(request, postData);
     //连接请求完成的信号
     connect(reply, &QNetworkReply::finished, this, [=] {
         //读取响应数据
         QByteArray response = reply->readAll();
-        qDebug() << response;
+        //qDebug() << response;
 
         QJsonParseError parseError;
         QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
