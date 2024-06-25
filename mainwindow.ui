@@ -47,6 +47,9 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
       <property name="styleSheet">
        <string notr="true">QFrame {
 color: rgb(255, 255, 255);
@@ -247,6 +250,9 @@ color:#6296FF;
           <width>16777215</width>
           <height>44</height>
          </size>
+        </property>
+        <property name="mouseTracking">
+         <bool>true</bool>
         </property>
         <property name="styleSheet">
          <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;background-color:white}</string>
@@ -763,6 +769,9 @@ subcontrol-origin: margin;
 </string>
            </property>
            <widget class="QWidget" name="page">
+            <property name="mouseTracking">
+             <bool>true</bool>
+            </property>
             <layout class="QHBoxLayout" name="horizontalLayout_20">
              <property name="spacing">
               <number>0</number>
@@ -797,6 +806,9 @@ subcontrol-origin: margin;
                    <width>280</width>
                    <height>16777215</height>
                   </size>
+                 </property>
+                 <property name="mouseTracking">
+                  <bool>true</bool>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">background-color: #FFECECF2;\nborder-radius:0px;\nborder: 1px solid #D7D7DE;</string>
@@ -974,6 +986,9 @@ border:none;
                       <height>16777215</height>
                      </size>
                     </property>
+                    <property name="mouseTracking">
+                     <bool>true</bool>
+                    </property>
                     <property name="styleSheet">
                      <string notr="true">QTreeView
 {
@@ -1038,6 +1053,9 @@ QTreeView::item{border-right: 0px solid #ffffff; border-bottom: 0px solid #fffff
                      <width>16777215</width>
                      <height>24</height>
                     </size>
+                   </property>
+                   <property name="mouseTracking">
+                    <bool>true</bool>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">QFrame {
@@ -1115,6 +1133,9 @@ border-radius:0px;
                  </item>
                  <item>
                   <widget class="QFrame" name="frame_8">
+                   <property name="mouseTracking">
+                    <bool>true</bool>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QFrame {
 background-color: #FF#F5F6FA;
@@ -1503,6 +1524,9 @@ QPushButton:disabled
                  </item>
                  <item>
                   <widget class="QFrame" name="frame_3">
+                   <property name="mouseTracking">
+                    <bool>true</bool>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">QFrame {
 color: rgb(255, 255, 255);
@@ -1768,6 +1792,9 @@ padding-left:8px;
                  </item>
                  <item>
                   <widget class="QFrame" name="frame_7">
+                   <property name="mouseTracking">
+                    <bool>true</bool>
+                   </property>
                    <property name="styleSheet">
                     <string notr="true">color: #FF505465;
 background-color: #FF#F5F6FA;
@@ -2251,6 +2278,9 @@ padding-left:8px;
                    <property name="spacing">
                     <number>0</number>
                    </property>
+                   <property name="rightMargin">
+                    <number>30</number>
+                   </property>
                    <item>
                     <widget class="QFrame" name="frame_6">
                      <property name="minimumSize">
@@ -2264,6 +2294,9 @@ padding-left:8px;
                        <width>14</width>
                        <height>16777215</height>
                       </size>
+                     </property>
+                     <property name="mouseTracking">
+                      <bool>true</bool>
                      </property>
                      <property name="frameShape">
                       <enum>QFrame::StyledPanel</enum>
@@ -2292,6 +2325,9 @@ padding-left:8px;
                    </item>
                    <item>
                     <widget class="QStackedWidget" name="stackedWidgetPhoneItem">
+                     <property name="mouseTracking">
+                      <bool>true</bool>
+                     </property>
                      <widget class="QWidget" name="pageIconMode">
                       <layout class="QVBoxLayout" name="verticalLayout_15">
                        <property name="spacing">
@@ -2311,6 +2347,9 @@ padding-left:8px;
                        </property>
                        <item>
                         <widget class="QListWidget" name="listWidget">
+                         <property name="mouseTracking">
+                          <bool>true</bool>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true">border:none</string>
                          </property>
@@ -3415,8 +3454,8 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>80</width>
-                     <height>234</height>
+                     <width>100</width>
+                     <height>30</height>
                     </rect>
                    </property>
                   </widget>

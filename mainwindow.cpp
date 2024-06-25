@@ -47,7 +47,6 @@ MainWindow::MainWindow(QWidget *parent)
 	setWindowFlag(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground, true);
     setAttribute(Qt::WA_DeleteOnClose,true);
-	setAttribute(Qt::WA_Hover, true);
     setWindowFlag(Qt::WindowStaysOnTopHint, GlobalData::bIsTopWindow);
     //this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
@@ -59,14 +58,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setMouseTracking(true);
     ui->centralwidget->setMouseTracking(true);
-    ui->frame->setMouseTracking(true);
-    ui->frame_9->setMouseTracking(true);
-    ui->groupWidget->setMouseTracking(true);
-    ui->stackedWidget->setMouseTracking(true);
+    //ui->frame->setMouseTracking(true);
+    //ui->frame_9->setMouseTracking(true);
+    //ui->frame_2->setMouseTracking(true);
     dir = NONE;
     m_oldSize = this->size();
     m_globalPoint = this->pos();
-    //this->setCursor(QCursor(Qt::ArrowCursor));
+    this->setCursor(QCursor(Qt::ArrowCursor));
 
     m_PhoneInstanceWidget = NULL;
     m_createGroupWidget = NULL;
@@ -1093,29 +1091,26 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                 {
                     iterFind = m_mapLevelList.find(iter->iLevel);
                     strLevelName = "";
-                    for (int i = 0; i < 10; i++)
+                    if (iterFind != m_mapLevelList.end())
                     {
-                        if (iterFind != m_mapLevelList.end())
-                        {
-                            strLevelName = iterFind->strLevelName;
-                        }
+                        strLevelName = iterFind->strLevelName;
+                    }
 
-                        qDebug() << "phone = " << iter->strName;
-                        phoneItem = new QTreeWidgetItem(item);
-                        qDebug() << "phone id" << iter->iId << " name=" << iter->strName;
-                        phoneItem->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
-                        phoneItem->setIcon(0, QIcon(":/main/resource/main/defaultLevelIcon.png"));
+                    qDebug() << "phone = " << iter->strName;
+                    phoneItem = new QTreeWidgetItem(item);
+                    qDebug() << "phone id" << iter->iId << " name=" << iter->strName;
+                    phoneItem->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
+                    phoneItem->setIcon(0, QIcon(":/main/resource/main/defaultLevelIcon.png"));
 
-                        expireTime = QDateTime::fromString(iter->strExpireTime, "yyyy-MM-dd hh:mm:ss");
-                        mseconds = expireTime.toMSecsSinceEpoch() - curDateTime.toMSecsSinceEpoch();
+                    expireTime = QDateTime::fromString(iter->strExpireTime, "yyyy-MM-dd hh:mm:ss");
+                    mseconds = expireTime.toMSecsSinceEpoch() - curDateTime.toMSecsSinceEpoch();
 
-                        strTime = strTime.asprintf("%d天%d小时", mseconds / (1000 * 60 * 60 * 24), (mseconds / (1000 * 60 * 60)) % 24);
-                        qDebug() << "strTime=" << strTime;
-                        phoneItem->setText(0, strLevelName + " " + iter->strName);
-                        phoneItem->setText(1, strTime);
-                        phoneItem->setCheckState(0, Qt::Unchecked);
-                        item->addChild(phoneItem);
-                    }                    
+                    strTime = strTime.asprintf("%d天%d小时", mseconds / (1000 * 60 * 60 * 24), (mseconds / (1000 * 60 * 60)) % 24);
+                    qDebug() << "strTime=" << strTime;
+                    phoneItem->setText(0, strLevelName + " " + iter->strName);
+                    phoneItem->setText(1, strTime);
+                    phoneItem->setCheckState(0, Qt::Unchecked);
+                    item->addChild(phoneItem);
                 }
                 break;
             }
@@ -2521,62 +2516,49 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
         //右下角
         if (ev->x() > this->width() - MOUSE_GAP && ev->y() > this->height() - MOUSE_GAP)
         {
-            //qDebug() << "右下";
+            // 右下角
             this->setCursor(Qt::SizeFDiagCursor);
             dir = RIGHTBOTTOM;
         }
-        //右上
-        else if (ev->x() > this->width() - MOUSE_GAP && ev->x() > MOUSE_GAP && ev->y() < MOUSE_GAP)
+        else if (ev->x() > this->width() - MOUSE_GAP && ev->y() > MOUSE_GAP && ev->y() < this->height() - MOUSE_GAP)
         {
-            //qDebug() << "右上";
-            this->setCursor(Qt::SizeBDiagCursor);
-            dir = RIGHTTOP;
-        }
-        //左上
-        else if (ev->x() < MOUSE_GAP && ev->y() < MOUSE_GAP)
-        {
-            //qDebug() << "左上";
-            this->setCursor(Qt::SizeFDiagCursor);
-            dir = LEFTTOP;
-        }
-        //左下
-        else if (ev->x() < MOUSE_GAP && ev->y() > this->height() - MOUSE_GAP)
-        {
-            //qDebug() << "左下";
-            this->setCursor(Qt::SizeBDiagCursor);
-            dir = LEFTBOTTOM;
-        }
-        //左
-        else if (ev->x() < MOUSE_GAP)
-        {
-            //qDebug() << "左";
-            this->setCursor(Qt::SizeHorCursor);
-            dir = LEFT;
-        }
-        //右边
-        else if (ev->x() > this->width() - MOUSE_GAP && ev->y() < this->height() - MOUSE_GAP)
-        {
-            //qDebug() << "右";
+            // 右边
             this->setCursor(Qt::SizeHorCursor);
             dir = RIGHT;
         }
-        //上边
         else if (ev->x() > MOUSE_GAP && ev->y() < MOUSE_GAP)
         {
-            //qDebug() << "上";
+            // 上边
             this->setCursor(Qt::SizeVerCursor);
             dir = UP;
         }
-        //下边
-        else if (ev->y() > this->height() - MOUSE_GAP)
+        else if (ev->x() < MOUSE_GAP && ev->y() > MOUSE_GAP && ev->y() < this->height() - MOUSE_GAP)
         {
-            //qDebug() << "下";
+            // 左边
+            this->setCursor(Qt::SizeHorCursor);
+            dir = LEFT;
+        }
+        else if (ev->x() < MOUSE_GAP && ev->y() < this->height() - MOUSE_GAP)
+        {
+            // 左上角
+            this->setCursor(Qt::SizeBDiagCursor);
+            dir = LEFTTOP;
+        }
+        else if (ev->x() < this->width() - MOUSE_GAP && ev->y() > this->height() - MOUSE_GAP)
+        {
+            // 下边
             this->setCursor(Qt::SizeVerCursor);
             dir = DOWN;
         }
+        else if (ev->x() > MOUSE_GAP && ev->y() > this->height() - MOUSE_GAP)
+        {
+            // 右下角
+            this->setCursor(Qt::SizeFDiagCursor);
+            dir = RIGHTBOTTOM;
+        }
         else
         {
-            //qDebug() << "其他";
+            // 其他位置
             this->setCursor(Qt::ArrowCursor);
             dir = NONE;
         }
@@ -2584,19 +2566,19 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
 
     if (m_bCanResize && dir != NONE)
     {
-        //qDebug() << "可以改变尺寸";
+        qDebug() << "可以改变尺寸";
         if (dir == RIGHT)
         {
             if (m_globalPoint.x() < ev->globalPos().x() && ev->globalPos().x() > rightTop.x())
             {
                 m_bResizeIng = true;
-                //qDebug() << "向右拉大";
+                qDebug() << "向右拉大";
                 this->resize(m_oldSize.width() + (ev->globalX() - m_globalPoint.x()), this->height());
             }
             else if (ev->globalPos().x() < m_globalPoint.x())
             {
                 m_bResizeIng = true;
-                //qDebug() << "向右拉小";
+                qDebug() << "向右拉小";
                 this->resize(m_oldSize.width() - (m_globalPoint.x() - ev->globalX()), this->height());
             }
         }
@@ -2604,13 +2586,13 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
         {
             if (ev->globalY() > m_globalPoint.y() && ev->globalY() > this->y() + this->height())
             {
-                //qDebug() << "向下拉大";
+                qDebug() << "向下拉大";
                 m_bResizeIng = true;
                 this->resize(this->width(), this->height() + ev->globalY() - m_globalPoint.y());
             }
             else if (ev->globalY() < m_globalPoint.y())
             {
-                //qDebug() << "向下拉小";
+                qDebug() << "向下拉小";
                 m_bResizeIng = true;
                 this->resize(this->width(), this->height() - (m_globalPoint.y() - ev->globalY()));
             }
@@ -2620,7 +2602,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             if (m_globalPoint.x() > ev->globalX() && leftTop.x() > ev->globalX())
             {
                 m_bResizeIng = true;
-                //qDebug() << "向左拉大";
+                qDebug() << "向左拉大";
                 this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
                 this->move(this->x() - (m_globalPoint.x() - ev->globalPos().x()), this->y());
             }
@@ -2629,7 +2611,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
                 if (this->width() != this->minimumWidth())
                 {
                     m_bResizeIng = true;
-                    //qDebug() << "向左拉小";
+                    qDebug() << "向左拉小";
                     this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
                     this->move(rightTop.x() - this->width(), this->y());
                 }
@@ -2640,7 +2622,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             if (m_globalPoint.y() > ev->globalY() && ev->globalY() < this->y())
             {
                 m_bResizeIng = true;
-                //qDebug() << "向上拉大";
+                qDebug() << "向上拉大";
 
                 this->resize(this->width(), this->height() + (m_globalPoint.y() - ev->globalY()));
                 this->move(this->x(), this->y() - (m_globalPoint.y() - ev->globalY()));
@@ -2648,7 +2630,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             else if (m_globalPoint.y() < ev->globalY())
             {
                 m_bResizeIng = true;
-                //qDebug() << "向上拉小";
+                qDebug() << "向上拉小";
                 this->resize(this->width(), this->height() - (ev->globalY() - m_globalPoint.y()));
                 this->move(this->x(), leftBottom.y() - this->height());
             }
@@ -2661,12 +2643,12 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
                 if (ev->globalX() > rightBottom.x())
                 {
                     m_bResizeIng = true;
-                    //qDebug() << "RIGHTBOTTOM 拉大 x";
+                    qDebug() << "RIGHTBOTTOM 拉大 x";
                     this->resize(m_oldSize.width() + (ev->globalX() - m_globalPoint.x()), this->height());
                 }
                 if (ev->globalY() > rightBottom.y())
                 {
-                    //qDebug() << "RIGHTBOTTOM 拉大 y";
+                    qDebug() << "RIGHTBOTTOM 拉大 y";
                     m_bResizeIng = true;
                     this->resize(this->width(), this->height() + ev->globalY() - m_globalPoint.y());
                 }
@@ -2813,24 +2795,15 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
         //qDebug() << "mouseReleaseEvent LeftButton";
         isLeftPressDown = false;
         m_bMoving = false;
-        if (dir != NONE) {
+        //if (dir != NONE) 
+        {
             this->releaseMouse();
             this->setCursor(QCursor(Qt::ArrowCursor));
             dir = NONE;
             m_bCanResize = false;
             m_bResizeIng = false;
         }
-        if (!window()->isMaximized())
-        {
-            //更新按钮图片
-            //ui->toolButton3->setIcon(QIcon(":/res/b3.png"));
-        }
-        else
-        {
-            //ui->toolButton3->setIcon(QIcon(":/res/b5.png"));
-        }
     }
-    //m_bMoving = false;
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
@@ -2843,6 +2816,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         m_LastPos = globalPosition-pos();
     }*/
     QPoint globalPosition = event->globalPosition().toPoint();
+    qDebug() << "mouseMoveEvent globalPosition x="<< globalPosition.x()<<"globalPosition y="<< globalPosition.y();
     if (m_bMoving)
     {
         if ((event->buttons() & Qt::LeftButton)
@@ -3037,8 +3011,8 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
 //一分钟响应一次
 void MainWindow::do_timeoutRefreshPicture()
 {
-    QDateTime dateTime = QDateTime::currentDateTime();
-    qDebug() << dateTime.toString("yyyy-MM-dd HH:mm:ss");    
+    //QDateTime dateTime = QDateTime::currentDateTime();
+    //qDebug() << dateTime.toString("yyyy-MM-dd HH:mm:ss");    
     //请求刷新函数
     //qDebug() << "请求生成图片函数";
     //获取选中分组的所有手机
@@ -3890,7 +3864,7 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     //点击复选框响应事件
-    qDebug()<<"点击复选框响应事件";
+    //qDebug()<<"点击复选框响应事件";
     if (item->parent() == NULL)
     {
         Qt::CheckState check = item->checkState(0);
@@ -3911,7 +3885,6 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 
 void MainWindow::do_stateChanged(int state)
 {
-    qDebug() << "state=" << state;
     switch (state)
     {
     case Qt::Checked:
