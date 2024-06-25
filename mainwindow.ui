@@ -238,7 +238,7 @@ color:#6296FF;
        <number>0</number>
       </property>
       <item>
-       <widget class="QMouseFrame" name="frame_9">
+       <widget class="QFrame" name="frame_9">
         <property name="minimumSize">
          <size>
           <width>0</width>
