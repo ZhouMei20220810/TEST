@@ -36,6 +36,10 @@ SOURCES += \
     phoneitemwidget.cpp \
     phonelistmodeitemwidget.cpp \
     policydialog.cpp \
+    qmouseframe.cpp \
+    qmouselistwidget.cpp \
+    qmousetreewidget.cpp \
+    qmousewidget.cpp \
     qmovewidget.cpp \
     queuetableitem.cpp \
     registerpage.cpp \
@@ -74,6 +78,10 @@ HEADERS += \
     phoneitemwidget.h \
     phonelistmodeitemwidget.h \
     policydialog.h \
+    qmouseframe.h \
+    qmouselistwidget.h \
+    qmousetreewidget.h \
+    qmousewidget.h \
     qmovewidget.h \
     queuetableitem.h \
     registerpage.h \

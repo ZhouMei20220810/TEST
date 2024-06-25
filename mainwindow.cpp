@@ -648,6 +648,8 @@ void MainWindow::InitCloudPhoneTab()
     m_isIconMode = true;
  
     m_iCheckCount = 0;
+
+    ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
 }
 
 //激活码
@@ -3853,9 +3855,18 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
 
     int iCount = 0;
     if (m_isIconMode)
+    {
         iCount = ui->listWidget->count();
+        if (0 == iCount)
+            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
+        else
+            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
+    }        
     else
+    {
         iCount = ui->listWidget2->count();
+        ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageListMode);
+    }
     ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
     ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount != 0) ? true : false);
 }

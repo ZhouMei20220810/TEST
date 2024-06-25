@@ -702,6 +702,9 @@ QPushButton:hover {
          </property>
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
            <property name="styleSheet">
             <string notr="true">QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
                              background: none;
@@ -979,7 +982,7 @@ border:none;
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTreeWidget" name="treeWidget">
+                   <widget class="QMouseTreeWidget" name="treeWidget">
                     <property name="maximumSize">
                      <size>
                       <width>278</width>
@@ -2279,7 +2282,7 @@ padding-left:8px;
                     <number>0</number>
                    </property>
                    <property name="rightMargin">
-                    <number>30</number>
+                    <number>0</number>
                    </property>
                    <item>
                     <widget class="QFrame" name="frame_6">
@@ -2346,7 +2349,7 @@ padding-left:8px;
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QListWidget" name="listWidget">
+                        <widget class="QMouseListWidget" name="listWidget">
                          <property name="mouseTracking">
                           <bool>true</bool>
                          </property>
@@ -2357,7 +2360,7 @@ padding-left:8px;
                        </item>
                       </layout>
                      </widget>
-                     <widget class="QWidget" name="pageIconNoData">
+                     <widget class="QMouseWidget" name="pageIconNoData">
                       <layout class="QVBoxLayout" name="verticalLayout_19">
                        <property name="spacing">
                         <number>0</number>
@@ -2607,7 +2610,7 @@ background:transparent;</string>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QListWidget" name="listWidget2">
+                        <widget class="QMouseListWidget" name="listWidget2">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
@@ -3033,14 +3036,17 @@ border:none;</string>
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="listWidgetRenew">
+              <widget class="QMouseListWidget" name="listWidgetRenew">
+               <property name="mouseTracking">
+                <bool>true</bool>
+               </property>
                <property name="styleSheet">
                 <string notr="true">border:none;background-color:#F5F7FB;</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_16">
+              <widget class="QMouseFrame" name="frame_16">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -3052,6 +3058,9 @@ border:none;</string>
                  <width>16777215</width>
                  <height>50</height>
                 </size>
+               </property>
+               <property name="mouseTracking">
+                <bool>true</bool>
                </property>
                <property name="styleSheet">
                 <string notr="true">QFrame {
@@ -3270,15 +3279,27 @@ QPushButton:disabled
             </layout>
            </widget>
            <widget class="QWidget" name="pageBuy">
+            <property name="mouseTracking">
+             <bool>true</bool>
+            </property>
             <layout class="QVBoxLayout" name="verticalLayout_11">
+             <property name="spacing">
+              <number>0</number>
+             </property>
              <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
               <number>0</number>
              </property>
              <property name="rightMargin">
               <number>0</number>
              </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
-              <widget class="QFrame" name="frame_12">
+              <widget class="QMouseFrame" name="frame_12">
                <property name="styleSheet">
                 <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;}</string>
                </property>
@@ -3393,12 +3414,15 @@ padding-left:8px;
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_10">
+              <widget class="QMouseFrame" name="frame_10">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
                  <height>254</height>
                 </size>
+               </property>
+               <property name="mouseTracking">
+                <bool>true</bool>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -3409,6 +3433,9 @@ padding-left:8px;
                <layout class="QHBoxLayout" name="horizontalLayout_21">
                 <item>
                  <widget class="QScrollArea" name="scrollArea">
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QScrollArea{
 border: 0px solid;
@@ -3454,9 +3481,12 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>100</width>
-                     <height>30</height>
+                     <width>1272</width>
+                     <height>234</height>
                     </rect>
+                   </property>
+                   <property name="mouseTracking">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </widget>
@@ -3466,6 +3496,9 @@ subcontrol-origin: margin;
              </item>
              <item>
               <widget class="QFrame" name="frame_11">
+               <property name="mouseTracking">
+                <bool>true</bool>
+               </property>
                <property name="styleSheet">
                 <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;}</string>
                </property>
@@ -3493,7 +3526,13 @@ subcontrol-origin: margin;
                 </property>
                 <item>
                  <widget class="QStackedWidget" name="stackedWidget_2">
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
                   <widget class="QWidget" name="page_EmptyMeal">
+                   <property name="mouseTracking">
+                    <bool>true</bool>
+                   </property>
                    <layout class="QVBoxLayout" name="verticalLayout_9">
                     <property name="leftMargin">
                      <number>0</number>
@@ -3535,6 +3574,9 @@ subcontrol-origin: margin;
                           <width>240</width>
                           <height>168</height>
                          </size>
+                        </property>
+                        <property name="mouseTracking">
+                         <bool>true</bool>
                         </property>
                         <property name="styleSheet">
                          <string notr="true">border:none;</string>
@@ -3583,6 +3625,9 @@ subcontrol-origin: margin;
                     </item>
                     <item>
                      <widget class="QLabel" name="label_16">
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">color:#4A4A4A;border:none;</string>
                       </property>
@@ -3596,6 +3641,9 @@ subcontrol-origin: margin;
                     </item>
                     <item>
                      <widget class="QLabel" name="label_18">
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">color:#ADAFB5;border:none;</string>
                       </property>
@@ -3623,6 +3671,9 @@ subcontrol-origin: margin;
                    </layout>
                   </widget>
                   <widget class="QWidget" name="page_Meal">
+                   <property name="mouseTracking">
+                    <bool>true</bool>
+                   </property>
                    <layout class="QVBoxLayout" name="verticalLayout_10">
                     <property name="leftMargin">
                      <number>0</number>
@@ -3637,12 +3688,18 @@ subcontrol-origin: margin;
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QWidget" name="widget" native="true">
+                     <widget class="QMouseWidget" name="widget" native="true">
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <layout class="QVBoxLayout" name="verticalLayout_7">
                        <item>
                         <layout class="QHBoxLayout" name="horizontalLayout_12">
                          <item>
                           <widget class="QLabel" name="label_2">
+                           <property name="mouseTracking">
+                            <bool>true</bool>
+                           </property>
                            <property name="styleSheet">
                             <string notr="true">border:none;</string>
                            </property>
@@ -3672,7 +3729,10 @@ subcontrol-origin: margin;
                           <number>30</number>
                          </property>
                          <item>
-                          <widget class="QListWidget" name="listWidgetVIP">
+                          <widget class="QMouseListWidget" name="listWidgetVIP">
+                           <property name="mouseTracking">
+                            <bool>true</bool>
+                           </property>
                            <property name="styleSheet">
                             <string notr="true">border:none</string>
                            </property>
@@ -3685,6 +3745,9 @@ subcontrol-origin: margin;
                              <width>300</width>
                              <height>0</height>
                             </size>
+                           </property>
+                           <property name="mouseTracking">
+                            <bool>true</bool>
                            </property>
                            <property name="styleSheet">
                             <string notr="true">border:none;</string>
@@ -3718,6 +3781,9 @@ subcontrol-origin: margin;
                                 <width>0</width>
                                 <height>30</height>
                                </size>
+                              </property>
+                              <property name="mouseTracking">
+                               <bool>true</bool>
                               </property>
                               <property name="styleSheet">
                                <string notr="true">border:none;</string>
@@ -3851,7 +3917,7 @@ subcontrol-origin: margin;
                              </widget>
                             </item>
                             <item>
-                             <widget class="QListWidget" name="listWidgetRenewList">
+                             <widget class="QMouseListWidget" name="listWidgetRenewList">
                               <property name="styleSheet">
                                <string notr="true">border:none</string>
                               </property>
@@ -3870,6 +3936,9 @@ subcontrol-origin: margin;
                             <font>
                              <pointsize>10</pointsize>
                             </font>
+                           </property>
+                           <property name="mouseTracking">
+                            <bool>true</bool>
                            </property>
                            <property name="styleSheet">
                             <string notr="true">border:none;</string>
@@ -4045,29 +4114,27 @@ border-image:url(:/main/resource/main/border_select.png);
               </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_14">
-               <property name="spacing">
-                <number>5</number>
+              <widget class="QMouseFrame" name="frame_23">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
                </property>
-               <property name="leftMargin">
-                <number>16</number>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="topMargin">
-                <number>0</number>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
-               <property name="rightMargin">
-                <number>16</number>
-               </property>
-               <property name="bottomMargin">
-                <number>16</number>
-               </property>
-               <item>
-                <widget class="QCheckBox" name="checkBox">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"> QCheckBox {
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QCheckBox" name="checkBox">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true"> QCheckBox {
      spacing: 5px;
  }
 
@@ -4100,201 +4167,222 @@ border-image:url(:/main/resource/main/border_select.png);
      image: url(:/login/resource/login/option_select.png);
  }
 </string>
-                 </property>
-                 <property name="text">
-                  <string>请先阅读</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnVipServerPolicy">
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton{color:#F96D6F;}
+                  </property>
+                  <property name="text">
+                   <string>请先阅读</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnVipServerPolicy">
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton{color:#F96D6F;}
 QPushButton:pressed{
 border:none;
 }</string>
-                 </property>
-                 <property name="text">
-                  <string>《VIP会员服务协议》</string>
-                 </property>
-                 <property name="flat">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_13">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_6">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>购买数量</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnDecrese">
-                 <property name="minimumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="res.qrc">
-                   <normaloff>:/func/resource/function/sub.png</normaloff>:/func/resource/function/sub.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="flat">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEditBuyNumber">
-                 <property name="minimumSize">
-                  <size>
-                   <width>24</width>
-                   <height>18</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>24</width>
-                   <height>18</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>1</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnAdd">
-                 <property name="minimumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="res.qrc">
-                   <normaloff>:/func/resource/function/add.png</normaloff>:/func/resource/function/add.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="flat">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_7">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>需支付：</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_19">
-                 <property name="styleSheet">
-                  <string notr="true">color:#F96D6F;</string>
-                 </property>
-                 <property name="text">
-                  <string>￥</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="labelPayMoney">
-                 <property name="styleSheet">
-                  <string notr="true">color:#F96D6F;</string>
-                 </property>
-                 <property name="text">
-                  <string>88.80</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnBeginPay">
-                 <property name="minimumSize">
-                  <size>
-                   <width>80</width>
-                   <height>32</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>80</width>
-                   <height>32</height>
-                  </size>
-                 </property>
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"> QPushButton {
+                  </property>
+                  <property name="text">
+                   <string>《VIP会员服务协议》</string>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_5">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>726</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="text">
+                   <string>购买数量</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnDecrese">
+                  <property name="minimumSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="res.qrc">
+                    <normaloff>:/func/resource/function/sub.png</normaloff>:/func/resource/function/sub.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEditBuyNumber">
+                  <property name="minimumSize">
+                   <size>
+                    <width>24</width>
+                    <height>18</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>24</width>
+                    <height>18</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnAdd">
+                  <property name="minimumSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="res.qrc">
+                    <normaloff>:/func/resource/function/add.png</normaloff>:/func/resource/function/add.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>20</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_7">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="text">
+                   <string>需支付：</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_19">
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:#F96D6F;</string>
+                  </property>
+                  <property name="text">
+                   <string>￥</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="labelPayMoney">
+                  <property name="mouseTracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">color:#F96D6F;</string>
+                  </property>
+                  <property name="text">
+                   <string>88.80</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnBeginPay">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true"> QPushButton {
      border: 2px solid #555764;
      border-radius:2px;
 	 background-color: #FF555764;
@@ -4320,17 +4408,21 @@ QPushButton:hover
      border-color: navy; /* make the default button prominent */
  }
 </string>
-                 </property>
-                 <property name="text">
-                  <string>确定支付</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+                  </property>
+                  <property name="text">
+                   <string>确定支付</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </item>
             </layout>
            </widget>
            <widget class="QWidget" name="pageQrCode">
+            <property name="mouseTracking">
+             <bool>true</bool>
+            </property>
             <layout class="QVBoxLayout" name="verticalLayout_13">
              <item>
               <spacer name="verticalSpacer_8">
@@ -4362,6 +4454,9 @@ QPushButton:hover
                </item>
                <item>
                 <widget class="QFrame" name="frame_13">
+                 <property name="mouseTracking">
+                  <bool>true</bool>
+                 </property>
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -4376,6 +4471,9 @@ QPushButton:hover
                       <pointsize>11</pointsize>
                       <bold>true</bold>
                      </font>
+                    </property>
+                    <property name="mouseTracking">
+                     <bool>true</bool>
                     </property>
                     <property name="styleSheet">
                      <string notr="true">color:#FF6705;font-weight:bold;</string>
@@ -4417,6 +4515,9 @@ QPushButton:hover
                         <height>100</height>
                        </size>
                       </property>
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <property name="text">
                        <string>TextLabel</string>
                       </property>
@@ -4454,6 +4555,9 @@ QPushButton:hover
                     </item>
                     <item>
                      <widget class="QLabel" name="label_20">
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <property name="text">
                        <string>二维码将在</string>
                       </property>
@@ -4461,6 +4565,9 @@ QPushButton:hover
                     </item>
                     <item>
                      <widget class="QLabel" name="labelTimer">
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true">color:#F96D6F;</string>
                       </property>
@@ -4471,6 +4578,9 @@ QPushButton:hover
                     </item>
                     <item>
                      <widget class="QLabel" name="label_22">
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <property name="text">
                        <string>后失效</string>
                       </property>
@@ -4508,6 +4618,9 @@ QPushButton:hover
                     </item>
                     <item>
                      <widget class="QLabel" name="label_23">
+                      <property name="mouseTracking">
+                       <bool>true</bool>
+                      </property>
                       <property name="text">
                        <string>请用支付宝扫描上方二维码完成支付</string>
                       </property>
@@ -4776,6 +4889,30 @@ QPushButton:disabled
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QMouseListWidget</class>
+   <extends>QListWidget</extends>
+   <header location="global">qmouselistwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QMouseTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header location="global">qmousetreewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QMouseFrame</class>
+   <extends>QFrame</extends>
+   <header location="global">qmouseframe.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QMouseWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">qmousewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>
