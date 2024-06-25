@@ -3515,7 +3515,7 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         }
         else
         {
-            m_PhoneInstanceWidget->setModal(true);
+            m_PhoneInstanceWidget->setModal(false);
             m_PhoneInstanceWidget->show();
             m_PhoneInstanceWidget = NULL;
         }
@@ -3931,4 +3931,3 @@ void MainWindow::on_btnAddPhone_2_clicked()
 {
     on_toolBtnBuy_clicked();
 }
-
