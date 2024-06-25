@@ -16,6 +16,9 @@
     <height>30</height>
    </size>
   </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -48,6 +51,9 @@
        <width>16777215</width>
        <height>20</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -118,6 +124,9 @@
       </item>
       <item>
        <widget class="QLabel" name="labelTime">
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
         <property name="styleSheet">
          <string notr="true">border:none;</string>
         </property>
@@ -128,6 +137,9 @@
       </item>
       <item>
        <widget class="QLabel" name="labelSystem">
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
         <property name="styleSheet">
          <string notr="true">border:none;</string>
         </property>
@@ -138,6 +150,9 @@
       </item>
       <item>
        <widget class="QLabel" name="labelStatus">
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
         <property name="styleSheet">
          <string notr="true">border:none;</string>
         </property>
