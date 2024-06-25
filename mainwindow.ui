@@ -238,7 +238,7 @@ color:#6296FF;
        <number>0</number>
       </property>
       <item>
-       <widget class="QFrame" name="frame_9">
+       <widget class="QMouseFrame" name="frame_9">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -1044,7 +1044,7 @@ QTreeView::item{border-right: 0px solid #ffffff; border-bottom: 0px solid #fffff
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_8">
                  <item>
-                  <widget class="QFrame" name="frame_4">
+                  <widget class="QMouseFrame" name="frame_4">
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -1135,7 +1135,7 @@ border-radius:0px;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="frame_8">
+                  <widget class="QMouseFrame" name="frame_8">
                    <property name="mouseTracking">
                     <bool>true</bool>
                    </property>
@@ -1526,7 +1526,7 @@ QPushButton:disabled
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="frame_3">
+                  <widget class="QMouseFrame" name="frame_3">
                    <property name="mouseTracking">
                     <bool>true</bool>
                    </property>
@@ -1794,7 +1794,7 @@ padding-left:8px;
                   </widget>
                  </item>
                  <item>
-                  <widget class="QFrame" name="frame_7">
+                  <widget class="QMouseFrame" name="frame_7">
                    <property name="mouseTracking">
                     <bool>true</bool>
                    </property>
@@ -1881,7 +1881,7 @@ QPushButton:disabled
                      <widget class="QCheckBox" name="checkBoxAllSelect">
                       <property name="minimumSize">
                        <size>
-                        <width>48</width>
+                        <width>75</width>
                         <height>20</height>
                        </size>
                       </property>
@@ -1924,7 +1924,7 @@ QPushButton:disabled
 </string>
                       </property>
                       <property name="text">
-                       <string>全选</string>
+                       <string>全选(0/0)</string>
                       </property>
                      </widget>
                     </item>
@@ -2285,7 +2285,7 @@ padding-left:8px;
                     <number>0</number>
                    </property>
                    <item>
-                    <widget class="QFrame" name="frame_6">
+                    <widget class="QMouseFrame" name="frame_6">
                      <property name="minimumSize">
                       <size>
                        <width>14</width>
@@ -2331,7 +2331,7 @@ padding-left:8px;
                      <property name="mouseTracking">
                       <bool>true</bool>
                      </property>
-                     <widget class="QWidget" name="pageIconMode">
+                     <widget class="QMouseWidget" name="pageIconMode">
                       <layout class="QVBoxLayout" name="verticalLayout_15">
                        <property name="spacing">
                         <number>0</number>
@@ -2383,7 +2383,7 @@ padding-left:8px;
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QFrame" name="frame_19">
+                          <widget class="QMouseFrame" name="frame_19">
                            <property name="minimumSize">
                             <size>
                              <width>207</width>
@@ -2498,7 +2498,7 @@ background:transparent;</string>
                        </item>
                       </layout>
                      </widget>
-                     <widget class="QWidget" name="pageListMode">
+                     <widget class="QMouseWidget" name="pageListMode">
                       <property name="styleSheet">
                        <string notr="true">color:#505465;</string>
                       </property>
@@ -2519,7 +2519,7 @@ background:transparent;</string>
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QFrame" name="frame_17">
+                        <widget class="QMouseFrame" name="frame_17">
                          <property name="minimumSize">
                           <size>
                            <width>0</width>
@@ -2627,7 +2627,7 @@ background:transparent;</string>
                      <widget class="QMouseWidget" name="pageListNoData">
                       <layout class="QVBoxLayout" name="verticalLayout_23">
                        <item>
-                        <widget class="QFrame" name="frame_24">
+                        <widget class="QMouseFrame" name="frame_24">
                          <property name="minimumSize">
                           <size>
                            <width>207</width>
@@ -2771,7 +2771,7 @@ background:transparent;</string>
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="pageActiveCode">
+           <widget class="QMouseWidget" name="pageActiveCode">
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <property name="spacing">
               <number>0</number>
@@ -2789,7 +2789,7 @@ background:transparent;</string>
               <number>0</number>
              </property>
              <item>
-              <widget class="QFrame" name="frame_14">
+              <widget class="QMouseFrame" name="frame_14">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -2828,7 +2828,7 @@ background:transparent;</string>
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QFrame" name="frame_20">
+                 <widget class="QMouseFrame" name="frame_20">
                   <property name="minimumSize">
                    <size>
                     <width>124</width>
@@ -2938,7 +2938,7 @@ border:none;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QFrame" name="frame_21">
+                 <widget class="QMouseFrame" name="frame_21">
                   <property name="minimumSize">
                    <size>
                     <width>124</width>
@@ -3066,7 +3066,7 @@ border:none;</string>
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_18">
+              <widget class="QMouseFrame" name="frame_18">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -3105,7 +3105,7 @@ border:none;</string>
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QFrame" name="frame_22">
+                 <widget class="QMouseFrame" name="frame_22">
                   <property name="minimumSize">
                    <size>
                     <width>300</width>
@@ -3415,7 +3415,7 @@ QPushButton:disabled
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="pageBuy">
+           <widget class="QMouseWidget" name="pageBuy">
             <property name="mouseTracking">
              <bool>true</bool>
             </property>
@@ -3632,7 +3632,7 @@ subcontrol-origin: margin;
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_11">
+              <widget class="QMouseFrame" name="frame_11">
                <property name="mouseTracking">
                 <bool>true</bool>
                </property>
@@ -3666,7 +3666,7 @@ subcontrol-origin: margin;
                   <property name="mouseTracking">
                    <bool>true</bool>
                   </property>
-                  <widget class="QWidget" name="page_EmptyMeal">
+                  <widget class="QMouseWidget" name="page_EmptyMeal">
                    <property name="mouseTracking">
                     <bool>true</bool>
                    </property>
@@ -3807,7 +3807,7 @@ subcontrol-origin: margin;
                     </item>
                    </layout>
                   </widget>
-                  <widget class="QWidget" name="page_Meal">
+                  <widget class="QMouseWidget" name="page_Meal">
                    <property name="mouseTracking">
                     <bool>true</bool>
                    </property>
@@ -3876,7 +3876,7 @@ subcontrol-origin: margin;
                           </widget>
                          </item>
                          <item>
-                          <widget class="QFrame" name="frame_Renew">
+                          <widget class="QMouseFrame" name="frame_Renew">
                            <property name="minimumSize">
                             <size>
                              <width>300</width>
@@ -3912,7 +3912,7 @@ subcontrol-origin: margin;
                              <number>0</number>
                             </property>
                             <item>
-                             <widget class="QFrame" name="frame_15">
+                             <widget class="QMouseFrame" name="frame_15">
                               <property name="minimumSize">
                                <size>
                                 <width>0</width>
@@ -4556,7 +4556,7 @@ QPushButton:hover
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="pageQrCode">
+           <widget class="QMouseWidget" name="pageQrCode">
             <property name="mouseTracking">
              <bool>true</bool>
             </property>
@@ -4590,7 +4590,7 @@ QPushButton:hover
                 </spacer>
                </item>
                <item>
-                <widget class="QFrame" name="frame_13">
+                <widget class="QMouseFrame" name="frame_13">
                  <property name="mouseTracking">
                   <bool>true</bool>
                  </property>
