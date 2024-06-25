@@ -225,6 +225,10 @@
     <ClCompile Include="phoneitemwidget.cpp" />
     <ClCompile Include="phonelistmodeitemwidget.cpp" />
     <ClCompile Include="policydialog.cpp" />
+    <ClCompile Include="qmouseframe.cpp" />
+    <ClCompile Include="qmouselistwidget.cpp" />
+    <ClCompile Include="qmousetreewidget.cpp" />
+    <ClCompile Include="qmousewidget.cpp" />
     <ClCompile Include="qmovewidget.cpp" />
     <ClCompile Include="queuetableitem.cpp" />
     <ClCompile Include="registerpage.cpp" />
@@ -263,6 +267,10 @@
     <QtMoc Include="phoneitemwidget.h" />
     <QtMoc Include="phonelistmodeitemwidget.h" />
     <QtMoc Include="policydialog.h" />
+    <QtMoc Include="qmouseframe.h" />
+    <QtMoc Include="qmouselistwidget.h" />
+    <QtMoc Include="qmousetreewidget.h" />
+    <QtMoc Include="qmousewidget.h" />
     <QtMoc Include="qmovewidget.h" />
     <QtMoc Include="queuetableitem.h" />
     <QtMoc Include="registerpage.h" />

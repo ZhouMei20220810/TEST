@@ -3246,6 +3246,10 @@ void MainWindow::on_toolBtnListMode_clicked()
             }
         }
     }
+    else
+    {
+
+    }
     ui->listWidget->clear();    
 }
 
@@ -3288,6 +3292,10 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
                 ui->listWidget->setItemWidget(phoneItem, widget);
             }
         }
+    }
+    else
+    {
+        ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
     }
     ui->listWidget2->clear();
 
@@ -3729,6 +3737,10 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
             return;
         }
 
+    }
+    else
+    {
+        ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
     }
 
     int iCount = 0;
