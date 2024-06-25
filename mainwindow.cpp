@@ -3248,7 +3248,7 @@ void MainWindow::on_toolBtnListMode_clicked()
     }
     else
     {
-
+        ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageListNoData);
     }
     ui->listWidget->clear();    
 }
@@ -3733,14 +3733,14 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
         if (iSelCount <= 0)
         {
             m_TaskTimer->stop();
-            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
+            ui->stackedWidgetPhoneItem->setCurrentWidget(m_isIconMode?ui->pageIconNoData: ui->pageListNoData);
             return;
         }
 
     }
     else
     {
-        ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
+        ui->stackedWidgetPhoneItem->setCurrentWidget(m_isIconMode ? ui->pageIconNoData : ui->pageListNoData);
     }
 
     int iCount = 0;
@@ -3869,15 +3869,12 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
     if (m_isIconMode)
     {
         iCount = ui->listWidget->count();
-        if (0 == iCount)
-            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
-        else
-            ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
+        ui->stackedWidgetPhoneItem->setCurrentWidget(0 == iCount?ui->pageIconNoData: ui->pageIconMode);
     }        
     else
     {
         iCount = ui->listWidget2->count();
-        ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageListMode);
+        ui->stackedWidgetPhoneItem->setCurrentWidget(0 == iCount ? ui->pageListNoData : ui->pageListMode);
     }
     ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
     ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount != 0) ? true : false);
@@ -3929,3 +3926,9 @@ void MainWindow::do_stateChanged(int state)
     ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
     ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount!=0) ? true : false);
 }
+
+void MainWindow::on_btnAddPhone_2_clicked()
+{
+    on_toolBtnBuy_clicked();
+}
+
