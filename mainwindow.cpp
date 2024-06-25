@@ -2810,15 +2810,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    /*QPoint globalPosition = event->globalPosition().toPoint();
-    if(m_bMoving && (event->buttons()&Qt::LeftButton)
-        && (globalPosition-m_LastPos-pos()).manhattanLength() > QApplication::startDragDistance()) //控制移动的距离，多少距离执行拖拽
-    {
-        move(globalPosition-m_LastPos);
-        m_LastPos = globalPosition-pos();
-    }*/
     QPoint globalPosition = event->globalPosition().toPoint();
-    qDebug() << "mouseMoveEvent globalPosition x="<< globalPosition.x()<<"globalPosition y="<< globalPosition.y();
     if (m_bMoving)
     {
         if ((event->buttons() & Qt::LeftButton)

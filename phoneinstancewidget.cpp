@@ -757,8 +757,12 @@ void PhoneInstanceWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        m_LastPos = event->globalPosition().toPoint()-this->pos();
-        m_bMoving = true;
+        if ((event->pos().x() >= 0 && event->pos().y() >= 0 && event->pos().x() <= ui->frame->width() && event->pos().y() <= ui->frame->height())
+        || (event->pos().x() >= ui->frame->width() && event->pos().y() >= 0 && event->pos().x() <= (ui->frame->width()+ui->frame_2->width()) && event->pos().y() <= ui->frame_2->height()))
+        {
+            m_bMoving = true;
+            m_LastPos = event->globalPos() - this->frameGeometry().topLeft();
+        }
     }
     return QWidget::mousePressEvent(event);
 }
