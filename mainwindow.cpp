@@ -2464,29 +2464,32 @@ void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
             }
         }
 
-
-        //初始化续费列表listWidgetRenewList
-        //加载数据并显示
-        ui->listWidgetRenewList->clear();
-        int iCount = m_mapPhoneInfo.size();
-        if (iCount > 0)
+        //判断是否可见
+        if (ui->frame_Renew->isVisible())
         {
-            //初始化续费列表
-            QListWidgetItem* renewListItem = NULL;
-            renewItemWidget* widget = NULL;
-            QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
-            for (; iter != m_mapPhoneInfo.end(); iter++)
+            //初始化续费列表listWidgetRenewList
+            //加载数据并显示
+            ui->listWidgetRenewList->clear();
+            int iCount = m_mapPhoneInfo.size();
+            if (iCount > 0)
             {
-                qDebug() << "phone level id=" << iter->iLevel;
-                if (iter->iLevel == levelInfo.iLevelId)
+                //初始化续费列表
+                QListWidgetItem* renewListItem = NULL;
+                renewItemWidget* widget = NULL;
+                QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
+                for (; iter != m_mapPhoneInfo.end(); iter++)
                 {
-                    renewListItem = new QListWidgetItem(ui->listWidgetRenewList);
-                    renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
-                    renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-                    widget = new renewItemWidget(*iter, this);
-                    ui->listWidgetRenewList->addItem(renewListItem);
-                    ui->listWidgetRenewList->setItemWidget(renewListItem, widget);
-                }                
+                    qDebug() << "phone level id=" << iter->iLevel;
+                    if (iter->iLevel == levelInfo.iLevelId)
+                    {
+                        renewListItem = new QListWidgetItem(ui->listWidgetRenewList);
+                        renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
+                        renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                        widget = new renewItemWidget(*iter, this);
+                        ui->listWidgetRenewList->addItem(renewListItem);
+                        ui->listWidgetRenewList->setItemWidget(renewListItem, widget);
+                    }
+                }
             }
         }
     }
