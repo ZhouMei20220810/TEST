@@ -944,7 +944,9 @@ void PhoneInstanceWidget::on_toolButton_4_clicked()
 }
 void PhoneInstanceWidget::do_ScreenshotsSignals()
 {
-    m_strDownloadFileName = GlobalData::strPhoneInstanceScreenshotDir + "/" + m_PhoneInfo.strName + "_" + m_PhoneInfo.strInstanceNo+".png";
+    QDateTime dateTime = QDateTime::currentDateTime();
+    QString strTime = dateTime.toString("MMddhhmmss");
+    m_strDownloadFileName = GlobalData::strPhoneInstanceScreenshotDir + "/" + m_PhoneInfo.strName + "_" + m_PhoneInfo.strInstanceNo+"_"+ strTime + ".png";
     m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
 }
 
