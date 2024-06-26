@@ -6,6 +6,7 @@
 #include <QMimeType>
 #include <QFileInfo>
 #include <QDir>
+#include <QCoreApplication>
 
 int GlobalData::id = 10;
 QString GlobalData::strMaxExpirationDate = "";
@@ -41,6 +42,7 @@ QMap<int, S_PHONE_INFO> GlobalData::mapSyncPhoneList;
 
 QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER+"/";
 QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + INSTANCE_TEMP_DIR;
+QString GlobalData::strPhoneInstanceScreenshotDir = QCoreApplication::applicationDirPath()+"/screenshots";
 
 std::string GlobalData::Endpoint = "https://oss-cn-beijing.aliyuncs.com"; //去掉https,否则https会报认证问题
 std::string GlobalData::BucketName = "yishunyun-file";

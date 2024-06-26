@@ -18,6 +18,7 @@
 #include <QStandardItemModel>
 #include <QGeoPositionInfoSource>
 #include <QVBoxLayout>
+#include <QDesktopServices>
 
 PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent)
     : QDialog(parent)
@@ -836,11 +837,12 @@ void PhoneInstanceWidget::on_toolButton_4_clicked()
 }
 void PhoneInstanceWidget::do_ScreenshotsSignals()
 {
+    QString strFileName = GlobalData::strPhoneInstanceScreenshotDir + "/" + m_PhoneInfo.strName + "_" + m_PhoneInfo.strInstanceNo;
     m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
 }
 
 void PhoneInstanceWidget::on_toolButton_5_clicked()
-{
+{    
     //截图
     emit ScreenshotsSignals();
 }
@@ -848,7 +850,15 @@ void PhoneInstanceWidget::on_toolButton_5_clicked()
 
 void PhoneInstanceWidget::on_toolButton_6_clicked()
 {
-
+    //截图目录
+    QUrl url(QString("file:///") + GlobalData::strPhoneInstanceScreenshotDir);
+    if (QDesktopServices::openUrl(url)) {
+        // 成功打开目录
+    }
+    else {
+        // 打开目录失败
+        qDebug() << "open fail." << GlobalData::strPhoneInstanceScreenshotDir;
+    }
 }
 
 void PhoneInstanceWidget::do_RebootSignals()

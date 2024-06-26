@@ -57,6 +57,14 @@ int main(int argc, char *argv[])
 
     SWRuntime::getInstance()->init(ANDROID_LOG_DEFAULT, strDir.toStdString().c_str());
 
+    GlobalData::strPhoneInstanceScreenshotDir = QCoreApplication::applicationDirPath() + "/screenshots";
+    strDir = GlobalData::strPhoneInstanceScreenshotDir;
+    if (!dir.exists(strDir))
+    {
+        if (!dir.mkdir(strDir))
+            qDebug() << "failed:" << strDir;
+    }
+
     
 
     if (GlobalData::bShowSystemTrayIcon)
