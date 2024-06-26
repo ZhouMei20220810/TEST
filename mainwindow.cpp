@@ -650,6 +650,24 @@ void MainWindow::InitCloudPhoneTab()
     m_iCheckCount = 0;
 
     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
+	connect(ui->listWidget, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+	connect(ui->listWidget2, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->listWidgetRenew, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->listWidgetRenewList, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->listWidgetVIP, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->treeWidget, &QMouseTreeWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_3, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_4, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_6, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_7, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_8, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_14, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_16, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->frame_12, &QMouseFrame::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->pageIconNoData, &QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->pageListNoData, &QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->pageQrCode, &QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->page_EmptyMeal,&QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
 }
 
 //激活码
@@ -2933,6 +2951,7 @@ void MainWindow::on_toolBtnPhoto_clicked()
     if (NULL == m_individualCenterWidget)
     {
         m_individualCenterWidget = new IndividualCenterWidget(this);
+        m_individualCenterWidget->setWindowModality(Qt::NonModal);
         connect(m_individualCenterWidget, &IndividualCenterWidget::logoutSignals, this, [=]()
             {
                 if (m_TaskTimer->isActive())
@@ -2945,10 +2964,12 @@ void MainWindow::on_toolBtnPhoto_clicked()
     }
     if (m_individualCenterWidget->isVisible())
     {
+        GlobalData::bHideIndividualCenterWidget = false;
         m_individualCenterWidget->hide();
     }
     else
     {
+        GlobalData::bHideIndividualCenterWidget = true;
         QRect rect = ui->toolBtnPhoto->geometry();
         m_individualCenterWidget->move(QPoint(rect.x(), ui->frame_9->height()));
         m_individualCenterWidget->show();
@@ -3922,4 +3943,13 @@ void MainWindow::do_stateChanged(int state)
 void MainWindow::on_btnAddPhone_2_clicked()
 {
     on_toolBtnBuy_clicked();
+}
+
+void MainWindow::do_hideIndividualCenterWidgetSignals()
+{
+    if (m_individualCenterWidget && m_individualCenterWidget->isVisible())
+    {
+        GlobalData::bHideIndividualCenterWidget = false;
+        m_individualCenterWidget->hide();
+    }
 }

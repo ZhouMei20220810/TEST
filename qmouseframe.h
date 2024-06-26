@@ -9,7 +9,8 @@ class QMouseFrame : public QFrame
     Q_OBJECT
 public:
     QMouseFrame(QWidget* parent=nullptr);
-
+signals:
+    void hideIndividualCenterWidgetSignals();
     // QWidget interface
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) override;

@@ -46,6 +46,8 @@ std::string GlobalData::Endpoint = "https://oss-cn-beijing.aliyuncs.com"; //åŽ»æ
 std::string GlobalData::BucketName = "yishunyun-file";
 //QString GlobalData::apiurl = FORMAL_SERVER_DOMAIN_NAME_URL;
 
+bool GlobalData::bHideIndividualCenterWidget = false;
+
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     QString logText;

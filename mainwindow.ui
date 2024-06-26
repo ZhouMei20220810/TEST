@@ -833,7 +833,7 @@ subcontrol-origin: margin;
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QFrame" name="frame_5">
+                   <widget class="QMouseFrame" name="frame_5">
                     <property name="minimumSize">
                      <size>
                       <width>278</width>
@@ -3066,7 +3066,7 @@ border:none;</string>
               </widget>
              </item>
              <item>
-              <widget class="QMouseFrame" name="frame_18">
+              <widget class="QFrame" name="frame_18">
                <property name="minimumSize">
                 <size>
                  <width>0</width>

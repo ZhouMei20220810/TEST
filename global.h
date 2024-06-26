@@ -299,5 +299,7 @@ public:
 
     static std::string Endpoint;
     static std::string BucketName;
+
+    static bool bHideIndividualCenterWidget;
 };
 #endif // GLOBAL_H

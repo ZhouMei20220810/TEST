@@ -247,6 +247,7 @@ private slots:
 
     void on_btnAddPhone_2_clicked();
 
+    void do_hideIndividualCenterWidgetSignals();
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

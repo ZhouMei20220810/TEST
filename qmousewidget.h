@@ -9,6 +9,8 @@ class QMouseWidget:public QWidget
 public:
     QMouseWidget(QWidget* parent=nullptr);
     // QWidget interface
+signals:
+    void hideIndividualCenterWidgetSignals();
 protected:
     virtual void mouseMoveEvent(QMouseEvent *event) override;
 };
