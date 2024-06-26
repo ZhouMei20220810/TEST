@@ -72,8 +72,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     connect(ui->toolButton_41, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_11_clicked);
     connect(ui->toolButton_42, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
 
-    //setToolBtnVisible(GlobalData::bVerticalPhoneInstance);    
-    m_toolObject = new ToolObject(this);
+    //setToolBtnVisible(GlobalData::bVerticalPhoneInstance);       
     m_PhoneInfo = sPhoneInfo;
     m_strPhoneList.clear();
     m_strPhoneList << sPhoneInfo.strInstanceNo;//同步操作时，同时传入所有选中的item
@@ -81,10 +80,40 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
 
     ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);
 
+    m_manager = new QNetworkAccessManager(this);
+    m_toolObject = new ToolObject(this);
+    m_getScreenshotsTimer = NULL;
+    m_getScreenshotsTimer = new QTimer();
+    connect(m_getScreenshotsTimer, &QTimer::timeout, this, [=]()
+        {
+            m_getScreenshotsTimer->stop();
+            this->m_toolObject->HttpPostInstanceScreenshot(m_strPhoneList);
+        });
+    connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this, [=]() {
+        qDebug() << "刷新成功,间隔一秒钟下载图片";
+        m_getScreenshotsTimer->start(DOWNLOAD_SCREENSHOT_INTERVAL);
+        });
+    connect(m_toolObject, &ToolObject::getScreenshortSignals, this, [=](QMap<QString, S_TASK_INFO> mapScreenshotTask) 
+        {
+        if (mapScreenshotTask.size() <= 0)
+            return;
+
+        QMap<QString, S_TASK_INFO>::iterator iter = mapScreenshotTask.begin();
+        for (; iter != mapScreenshotTask.end(); iter++)
+        {
+            qDebug() << "download url=" << iter->strUrl;
+            if (iter->strUrl.isEmpty())
+            {
+                MessageTips* tips = new MessageTips("截图失败", this);
+                tips->show();
+                continue;
+            }
+            startRequest(iter->strUrl);
+        }
+
+        });
+
     m_Player = NULL;
-    //m_Display = new VideoViewWidget(this);
-    //m_Display->move(0, 100);
-    //m_Display->resize(ui->labelPhone->size());
 
     QString strUUID = GlobalData::strAccount;
     QString strPadCode = sPhoneInfo.strInstanceNo;
@@ -148,6 +177,85 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     HttpGetInstanceSession(sPhoneInfo.iId);
 }
 
+void PhoneInstanceWidget::startRequest(QUrl url)
+{
+    //初始化文件
+    m_File = new QFile(m_strDownloadFileName);
+    if (!m_File->open(QIODevice::WriteOnly))
+    {
+        delete m_File;
+        m_File = NULL;
+    }
+    m_reply = m_manager->get(QNetworkRequest(url));
+    connect(m_reply, &QNetworkReply::readyRead, this, &PhoneInstanceWidget::httpReadyRead);
+    connect(m_reply, &QNetworkReply::finished, this, &PhoneInstanceWidget::httpFinished);
+    connect(m_reply, &QNetworkReply::downloadProgress, this, &PhoneInstanceWidget::updateDataReadProgress);
+}
+//文件接收完成
+void PhoneInstanceWidget::httpFinished()
+{
+    if (m_File)
+    {
+        m_File->flush();
+        MessageTips* tips = new MessageTips("截图成功", this);
+        tips->show();
+        //qDebug() << "download finish." << m_strDownloadFileName;
+        //file->close();
+        /*QPixmap pixmap(m_strDownloadFileName);
+        if (!pixmap.isNull())
+        {
+            QFile file(m_strPicturePath);
+            if (file.exists())
+            {
+                if (!file.remove())
+                {
+                    qDebug() << "remove fail:" << m_strPicturePath;
+                }
+            }
+            if (!m_File->rename(m_strPicturePath))
+            {
+                qDebug() << "rename fail: " << m_strPicturePath;
+            }
+            //file.rename(m_strPicturePath);
+            showLabelImage(m_strPicturePath);
+        }
+        else
+        {
+            if (QFile::exists(m_strPicturePath))
+            {
+                qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
+                showLabelImage(m_strPicturePath);
+            }
+            else
+            {
+                qDebug() << "图片无效,显示默认图片";
+                ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            }
+        }*/
+        m_File->close();
+        delete m_File;
+        m_File = NULL;
+    }
+    m_reply->deleteLater();
+    m_reply = 0;
+
+}
+
+//接受数据中
+void PhoneInstanceWidget::httpReadyRead()
+{
+    if (m_File)
+    {
+        m_File->write(m_reply->readAll());
+    }
+}
+
+//进度条更新
+void PhoneInstanceWidget::updateDataReadProgress(qint64 byteRead, qint64 totalBytes)
+{
+    //ui->progressBar->setMaximum(totalBytes);
+    //ui->progressBar->setValue(byteRead);
+}
 void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint64 i64OnlineTime, QString strPadCode*/
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -247,7 +355,10 @@ PhoneInstanceWidget::~PhoneInstanceWidget()
     {
         m_GeoSource->stopUpdates();
     }
-
+    if (m_getScreenshotsTimer->isActive())
+    {
+        m_getScreenshotsTimer->stop();
+    }
 	Mutex::Autolock lock(m_Mutex);
 	onPlayStop(true);
     delete ui;
@@ -683,12 +794,8 @@ void PhoneInstanceWidget::onDisconnected(int errcode, const char* errmsg)
 
 void PhoneInstanceWidget::onPlayInfo(const char* info)
 {
-    QString strTips = QString("onPlayInfo:%1").arg(info);
-    qDebug() << strTips;
-    //MessageTips* tips = new MessageTips(strTips);
-    //tips->show();
-    //std::wstring msg = nbase::StringPrintf(L"%s", info);
-    //nbase::ThreadManager::PostTask(kThreadUI, nbase::Bind(&MainForm::OnShowMessage, this, msg));
+    //QString strTips = QString("onPlayInfo:%1").arg(info);
+    //qDebug() << strTips;
 }
 
 /**
@@ -700,7 +807,7 @@ void PhoneInstanceWidget::onPlayInfo(const char* info)
      */
 void PhoneInstanceWidget::onSensorInput(int inputtype, int state)
 {
-    qDebug() << "inputtype=" << inputtype << "state=" << state;
+    //qDebug() << "inputtype=" << inputtype << "state=" << state;
 }
 
 void PhoneInstanceWidget::on_toolBtnMore_clicked()
@@ -837,7 +944,7 @@ void PhoneInstanceWidget::on_toolButton_4_clicked()
 }
 void PhoneInstanceWidget::do_ScreenshotsSignals()
 {
-    QString strFileName = GlobalData::strPhoneInstanceScreenshotDir + "/" + m_PhoneInfo.strName + "_" + m_PhoneInfo.strInstanceNo;
+    m_strDownloadFileName = GlobalData::strPhoneInstanceScreenshotDir + "/" + m_PhoneInfo.strName + "_" + m_PhoneInfo.strInstanceNo+".png";
     m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
 }
 

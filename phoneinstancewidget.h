@@ -12,6 +12,9 @@
 #include <QListWidget>
 #include "global.h"
 #include <QMap>
+#include <QTimer>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
 
 namespace Ui {
     class PhoneInstanceWidget;
@@ -76,7 +79,11 @@ private:
     void setToolBtnVisible(bool bVisible);
 
     void HttpGetInstanceSession(int id);
+    void startRequest(QUrl url);
 private slots:
+    void httpFinished();//文件接收完成
+    void httpReadyRead();//接受数据中
+    void updateDataReadProgress(qint64, qint64);//进度条更新
     void on_toolBtnPhoneInstance_clicked();
     void on_toolBtnPictureQuality_clicked();
     void on_toolBtnTopLevel_clicked();
@@ -146,6 +153,12 @@ private:
     QGeoPositionInfoSource* m_GeoSource;
 
     VideoViewWidget* m_OtherVideoViewWidget;
+
+    QTimer* m_getScreenshotsTimer;
+    QNetworkAccessManager* m_manager;
+    QNetworkReply* m_reply;
+    QFile* m_File;
+    QString m_strDownloadFileName;
 };
 
 #endif // PHONEINSTANCEWIDGET_H
