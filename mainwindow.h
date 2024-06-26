@@ -203,6 +203,7 @@ private slots:
     void do_ActionFactoryDataReset(bool bChecked);
     void do_ActionUploadFile(bool bChecked);
     void do_ActionMoveGroup(bool bChecked);
+    void do_ActionBatchMoveGroup(bool bChecked);
     void do_ActionRenewCloudPhone(bool bChecked);
     void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
 
@@ -223,7 +224,7 @@ private slots:
 
     void on_toolBtnBatchOperation_clicked(bool checked);
 
-    QStringList getCheckedPhoneInstance();
+    QStringList getCheckedPhoneInstance(bool IsPhoneId = false);
     void do_ActionBatchReboot(bool bChecked);
     void do_ActionBatchUploadFile(bool bChecked);
     void do_ActionBatchFactoryReset(bool bChecked);

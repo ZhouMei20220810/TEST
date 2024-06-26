@@ -517,6 +517,20 @@ void MainWindow::do_ActionMoveGroup(bool bChecked)
     strList << QString("%1").arg(m_CurSelMenuPhoneInfo.iId);
     HttpPostInstanceSetGroup(groupInfo.iGroupId, strList);
 }
+void MainWindow::do_ActionBatchMoveGroup(bool bChecked)
+{
+    QAction* pAction = qobject_cast<QAction*>(sender());
+    S_GROUP_INFO groupInfo;
+    if (pAction != NULL)
+    {
+        groupInfo = pAction->data().value<S_GROUP_INFO>();
+        qDebug() << "当前选中 分组名称" << groupInfo.strGroupName;
+    }
+
+    //获取当前列表所有选中的项
+    QStringList strPhoneList = getCheckedPhoneInstance(true);
+    HttpPostInstanceSetGroup(groupInfo.iGroupId, strPhoneList);
+}
 void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 {
     on_toolBtnBuy_clicked();
@@ -668,6 +682,7 @@ void MainWindow::InitCloudPhoneTab()
     connect(ui->pageListNoData, &QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
     connect(ui->pageQrCode, &QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
     connect(ui->page_EmptyMeal,&QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->widget, &QMouseWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
 }
 
 //激活码
@@ -761,9 +776,11 @@ void MainWindow::InitComboBox()
     ui->comboBoxView->addItem("视图30%",30);
 }
 
-QStringList MainWindow::getCheckedPhoneInstance()
+QStringList MainWindow::getCheckedPhoneInstance(bool IsPhoneId)
 {
+    QStringList strPhoneIdList;
     QStringList strPhoneList;
+    strPhoneIdList.clear();
     strPhoneList.clear();
     int iCount = ui->listWidget->count();
     if (iCount <= 0)
@@ -782,11 +799,14 @@ QStringList MainWindow::getCheckedPhoneInstance()
             phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
             if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty() && phoneItem->getCheckBoxStatus())
             {
+                strPhoneIdList << QString("%1").arg(phoneInfo.iId);
                 strPhoneList<< phoneInfo.strInstanceNo;
                 GlobalData::mapSyncPhoneList.insert(phoneInfo.iId, phoneInfo);
             }
         }
     }
+    if (IsPhoneId)
+        return strPhoneIdList;
     return strPhoneList;
 }
 
@@ -1041,6 +1061,7 @@ void MainWindow::ShowGroupInfo()
     QMap<int, S_GROUP_INFO>::iterator iter = m_mapGroupInfo.begin();
     QString strNewGroupName;
     QAction* pAction = NULL;
+    QAction* pBatchAction = NULL;
     for( ; iter != m_mapGroupInfo.end(); iter++)
     {
         item = new QTreeWidgetItem(ui->treeWidget);
@@ -1058,8 +1079,11 @@ void MainWindow::ShowGroupInfo()
         pAction = new QAction(iter->strGroupName, ui->treeWidget);
         pAction->setData(QVariant::fromValue(*iter));
         connect(pAction, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
+        pBatchAction = new QAction(iter->strGroupName, this);
+        pBatchAction->setData(QVariant::fromValue(*iter));
+        connect(pBatchAction, &QAction::triggered, this, &MainWindow::do_ActionBatchMoveGroup);
         m_SubPhoneMenu->addAction(pAction);
-        m_BatchOperSubMenu->addAction(pAction);
+        m_BatchOperSubMenu->addAction(pBatchAction);
         ui->comboBoxGroupName->addItem(iter->strGroupName);
         if (iter->iGroupNum > 0)
         {
@@ -3953,3 +3977,4 @@ void MainWindow::do_hideIndividualCenterWidgetSignals()
         m_individualCenterWidget->hide();
     }
 }
+
