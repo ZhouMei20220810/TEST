@@ -13,64 +13,180 @@ TCustomDragDropListWidget::TCustomDragDropListWidget(QWidget *parent):QListWidge
     setDefaultDropAction(Qt::MoveAction);
     setDropIndicatorShown(true);
     setMouseTracking(true);
+
+    /*for (int i = 0; i < PHONE_INSTANCE_TOOL_COUNT; i++)
+    {
+        m_arrayList[i] = i + 1;
+    } */   
+    QListWidgetItem* item = NULL;
+    int iType = 0;
+    QString strIcon;
+    if (!GlobalData::strToolButtonList.isEmpty())
+    {
+        QStringList strList = GlobalData::strToolButtonList.split(',');
+        for (int i = 0; i < strList.size(); i++)
+        {
+            item = new QListWidgetItem(this);
+            iType = strList.at(i).toInt();
+            item->setData(Qt::UserRole, iType);
+            item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
+            //item->setText(QString("%1").arg(iType));
+            //btn = new QToolButton(this);
+            //label = new QLabel(this);
+            strIcon = QString::asprintf(":/resource/setting/%d.png", iType);
+            //btn->setIcon(QIcon(strIcon));
+            //btn->setIconSize(size);
+            //label->setPixmap(QPixmap(strIcon));
+            //label->resize(size);
+            //ui->listWidget->addItem(item);
+            item->setIcon(QIcon(strIcon));
+            m_arrayList[i] = iType;
+            this->insertItem(i, item);
+            //ui->listWidget->setItemWidget(item, label);
+        }
+    }
+    else
+    {
+        ResetArray();
+        for (int i = 1; i <= PHONE_INSTANCE_TOOL_COUNT; i++)
+        {
+            item = new QListWidgetItem(this);
+            item->setData(Qt::UserRole, i);
+            item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
+            //btn = new QToolButton(this);
+            //label = new QLabel(this);
+            strIcon = QString::asprintf(":/resource/setting/%d.png", i);
+            //btn->setIcon(QIcon(strIcon));
+            //btn->setIconSize(size);
+            //label->setPixmap(QPixmap(strIcon));
+            //label->resize(size);
+            item->setIcon(QIcon(strIcon));
+            this->addItem(item);
+            //ui->listWidget->setItemWidget(item, label);
+        }
+    }
+}
+
+void TCustomDragDropListWidget::ResetArray()
+{
+    for (int i = 0; i < PHONE_INSTANCE_TOOL_COUNT; i++)
+    {
+        m_arrayList[i] = i + 1;
+    }
+}
+
+void TCustomDragDropListWidget::insertIntoArray(int arr[], int& size, int value, int position)
+{
+    // 确保插入位置合法
+    if (position < 0 || position > size) {
+        qDebug()<< "插入位置不合法！";
+        return;
+    }
+
+    // 数组已满，无法插入新元素
+    if (size == sizeof(arr) / sizeof(arr[0])) {
+        qDebug() << "数组已满，无法插入新元素！";
+        return;
+    }
+
+    // 将数组中position之后的所有元素向右移动一位
+    for (int i = size; i > position; --i) 
+    {
+        arr[i] = arr[i - 1];
+    }
+
+    // 在指定位置插入新值
+    arr[position] = value;
+    ++size; // 增大数组的有效大小
 }
 
 void TCustomDragDropListWidget::dropEvent(QDropEvent* event)
 {
-    // 获取鼠标所在项的索引
-    QModelIndex index = indexAt(event->pos());
     if (!event->source() || event->source() != this || !event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
         return QListWidget::dropEvent(event);
     }
 
-    // 计算放置位置 
+    // 计算放置位置
     QModelIndex targetIndex;
     bool foundGap = false;
     for (int i = 0; i < count(); ++i) {
         QRect itemRect = visualRect(model()->index(i, 0));
-        //加入边框边距
-        itemRect.setX(itemRect.x() - 15);
-        itemRect.setY(itemRect.y() - 15);
+        itemRect.adjust(-15, -15, 0, 0); // 考虑边框边距调整矩形
         if (itemRect.contains(event->pos())) {
-            // 鼠标直接位于某项上
             targetIndex = model()->index(i, 0);
             break;
-        }
-        else if (i > 0) {
+        } else if (i > 0) {
             QRect prevRect = visualRect(model()->index(i - 1, 0));
+            prevRect.adjust(-15, -15, 0, 0); // 同样调整上一个项目的矩形
             if (event->pos().y() > prevRect.bottom() && event->pos().y() < itemRect.top()) {
-                // 鼠标位于两个项之间
-                targetIndex = model()->index(i, 0); // 插入到下一个项之前
+                targetIndex = model()->index(i, 0);
                 foundGap = true;
                 break;
             }
         }
     }
 
-    if (!foundGap && event->pos().y() < visualRect(model()->index(0, 0)).top()) {
-        // 鼠标在所有项之上
-        targetIndex = model()->index(0, 0);
-    }
-    else if (!foundGap) {
+    if (!foundGap) {
+        if (event->pos().y() < visualRect(model()->index(0, 0)).top()) {
+            targetIndex = model()->index(0, 0);
+        } else {
         // 鼠标在所有项之下
         if(!targetIndex.isValid())
             targetIndex = model()->index(count(), 0);
+        }
     }
 
     // 移动项
     QListWidgetItem* item = currentItem();
-    if (item) 
-    {
-        int originalRow = row(item);
-        int srcRow = targetIndex.row();
-        qDebug() << "originalRow=" << originalRow << "srcRow=" << srcRow;
-        // 为了安全地移动项，先处理插入再移除
-        if (originalRow != srcRow) 
+    if (item) {
+        int srcRow = row(item);
+        int destRow = targetIndex.row();
+        if (destRow < 0)
         {
-            takeItem(originalRow); // 现在可以安全移除原始位置的项
-            insertItem(targetIndex.row(), item);
-            setCurrentItem(item);
+            destRow = count() - 1;
         }
+        //过滤同一个选项移动
+        if (destRow != srcRow)
+        {
+            int iData = item->data(Qt::UserRole).toInt();
+            //不是交换位置，而是插入一个数
+            int srcType = m_arrayList[srcRow];
+            int j = PHONE_INSTANCE_TOOL_COUNT - 1;
+            if (destRow < srcRow)
+            {
+                for (int i = PHONE_INSTANCE_TOOL_COUNT - 1; i >= destRow; --i)
+                {
+                    if (m_arrayList[i] == srcType)
+                    {
+                        continue;
+                    }
+                    m_arrayList[j] = m_arrayList[j - 1];
+                    j--;
+                }
+                m_arrayList[destRow] = srcType;
+            }
+            else
+            {
+                srcType = m_arrayList[srcRow];
+                for (int i = srcRow; i < destRow; i++)
+                {
+                    m_arrayList[i] = m_arrayList[i+1];
+                }
+                m_arrayList[destRow] = srcType;
+            }
+        }
+        this->clear();
+        QString strIcon;
+        for (int i = 0; i < PHONE_INSTANCE_TOOL_COUNT; i++)
+        {
+            item = new QListWidgetItem(this);
+            item->setData(Qt::UserRole, m_arrayList[i]);
+            item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
+            strIcon = QString::asprintf(":/resource/setting/%d.png", m_arrayList[i]);
+            item->setIcon(QIcon(strIcon));
+            this->insertItem(i, item);
+        }
+                
     }
 
     event->acceptProposedAction();

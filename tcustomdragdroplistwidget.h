@@ -3,6 +3,7 @@
 
 #include <QListWidget>
 #include <QObject>
+#include "global.h"
 
 class TCustomDragDropListWidget : public QListWidget
 {
@@ -10,9 +11,13 @@ class TCustomDragDropListWidget : public QListWidget
 public:
     TCustomDragDropListWidget(QWidget *parent = nullptr);
 
+    void ResetArray();
     // QWidget interface
 protected:
     virtual void dropEvent(QDropEvent* event) override;
+private:
+    void insertIntoArray(int arr[], int& size, int value, int position);
+    int m_arrayList[PHONE_INSTANCE_TOOL_COUNT];
 };
 
 #endif // TCUSTOMDRAGDROPLISTWIDGET_H
