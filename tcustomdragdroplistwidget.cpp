@@ -15,47 +15,6 @@ TCustomDragDropListWidget::TCustomDragDropListWidget(QWidget *parent):QListWidge
     setMouseTracking(true);
 }
 
-
-void TCustomDragDropListWidget::mousePressEvent(QMouseEvent *event)
-{
-	QListWidget::mousePressEvent(event);
-}
-
-void TCustomDragDropListWidget::mouseReleaseEvent(QMouseEvent *event)
-{
-    QPoint globalPos = event->globalPos();  
-    QPoint widgetPos = event->pos();               
-    QModelIndex index = indexAt(event->pos());
-    if (index.isValid()) {
-        QRect itemRect = visualRect(index);
-
-        QPoint relativePos = event->pos() - itemRect.topLeft();
-
-        qDebug() << "release:" << globalPos;
-        qDebug() << "release:" << widgetPos;
-        qDebug() << "release :" << relativePos;
-    }
-
-    QListWidget::mouseReleaseEvent(event);
-}
-
-void TCustomDragDropListWidget::mouseMoveEvent(QMouseEvent *event)
-{
-    QPoint globalPos = event->globalPos();
-    QPoint widgetPos = event->pos();     
-    QModelIndex index = indexAt(event->pos());
-    if (index.isValid()) {
-        QRect itemRect = visualRect(index);
-        QPoint relativePos = event->pos() - itemRect.topLeft();
-
-        qDebug() << "mouse move(globalPos):" << globalPos;
-        qDebug() << "mouse move(widgetPos):" << widgetPos;
-        qDebug() << "mouse move(relativePos):" << relativePos;
-    }
-
-    QListWidget::mouseMoveEvent(event);
-}
-
 void TCustomDragDropListWidget::dropEvent(QDropEvent* event)
 {
     // 获取鼠标所在项的索引

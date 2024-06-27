@@ -12,10 +12,6 @@ public:
 
     // QWidget interface
 protected:
-    virtual void mousePressEvent(QMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QMouseEvent *event) override;
-    virtual void mouseMoveEvent(QMouseEvent *event) override;
-
     virtual void dropEvent(QDropEvent* event) override;
 };
 
