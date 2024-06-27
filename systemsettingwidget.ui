@@ -2093,7 +2093,7 @@ font-size:13px;</string>
             </widget>
            </item>
            <item>
-            <widget class="TDragDropListWidget" name="listWidget">
+            <widget class="TCustomDragDropListWidget" name="listWidget">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -2340,9 +2340,9 @@ QPushButton:hover
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TDragDropListWidget</class>
+   <class>TCustomDragDropListWidget</class>
    <extends>QListWidget</extends>
-   <header location="global">tdragdroplistwidget.h</header>
+   <header location="global">tcustomdragdroplistwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources>
