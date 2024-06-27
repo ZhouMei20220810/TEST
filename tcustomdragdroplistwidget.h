@@ -12,6 +12,7 @@ public:
     TCustomDragDropListWidget(QWidget *parent = nullptr);
 
     void ResetArray();
+    QString SaveToolsOrder();
     // QWidget interface
 protected:
     virtual void dropEvent(QDropEvent* event) override;

@@ -48,30 +48,45 @@ TCustomDragDropListWidget::TCustomDragDropListWidget(QWidget *parent):QListWidge
     else
     {
         ResetArray();
-        for (int i = 1; i <= PHONE_INSTANCE_TOOL_COUNT; i++)
+    }
+}
+QString TCustomDragDropListWidget::SaveToolsOrder()
+{
+    QListWidgetItem* item = NULL;
+    int iCount = count();
+    int iType = 0;
+    QString strToolList = "";
+    for (int i = 0; i < iCount; i++)
+    {
+        item = this->item(i);
+        iType = item->data(Qt::UserRole).toInt();
+        if (strToolList.isEmpty())
         {
-            item = new QListWidgetItem(this);
-            item->setData(Qt::UserRole, i);
-            item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
-            //btn = new QToolButton(this);
-            //label = new QLabel(this);
-            strIcon = QString::asprintf(":/resource/setting/%d.png", i);
-            //btn->setIcon(QIcon(strIcon));
-            //btn->setIconSize(size);
-            //label->setPixmap(QPixmap(strIcon));
-            //label->resize(size);
-            item->setIcon(QIcon(strIcon));
-            this->addItem(item);
-            //ui->listWidget->setItemWidget(item, label);
+            strToolList = QString::asprintf("%d", iType);
+        }
+        else
+        {
+            strToolList += QString::asprintf(",%d", iType);
         }
     }
+    return strToolList;
 }
 
 void TCustomDragDropListWidget::ResetArray()
 {
+    QListWidgetItem* item = NULL;
+    QString strIcon;
+    clear();
     for (int i = 0; i < PHONE_INSTANCE_TOOL_COUNT; i++)
     {
         m_arrayList[i] = i + 1;
+
+        item = new QListWidgetItem(this);
+        item->setData(Qt::UserRole, i+1);
+        item->setSizeHint(QSize(ICON_WIDTH, ICON_HEIGHT));
+        strIcon = QString::asprintf(":/resource/setting/%d.png", i+1);
+        item->setIcon(QIcon(strIcon));
+        this->insertItem(i, item);
     }
 }
 
@@ -154,19 +169,15 @@ void TCustomDragDropListWidget::dropEvent(QDropEvent* event)
             int j = PHONE_INSTANCE_TOOL_COUNT - 1;
             if (destRow < srcRow)
             {
-                for (int i = PHONE_INSTANCE_TOOL_COUNT - 1; i >= destRow; --i)
+                for (int i = srcRow; i > destRow; --i)
                 {
-                    if (m_arrayList[i] == srcType)
-                    {
-                        continue;
-                    }
-                    m_arrayList[j] = m_arrayList[j - 1];
-                    j--;
+                    m_arrayList[i] = m_arrayList[i - 1];
                 }
                 m_arrayList[destRow] = srcType;
             }
             else
             {
+                destRow--;
                 srcType = m_arrayList[srcRow];
                 for (int i = srcRow; i < destRow; i++)
                 {
