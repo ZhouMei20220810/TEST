@@ -81,9 +81,9 @@ private:
     void HttpGetInstanceSession(int id);
     void startRequest(QUrl url);
 private slots:
-    void httpFinished();//ÎÄ¼ş½ÓÊÕÍê³É
-    void httpReadyRead();//½ÓÊÜÊı¾İÖĞ
-    void updateDataReadProgress(qint64, qint64);//½ø¶ÈÌõ¸üĞÂ
+    void httpFinished();//æ–‡ä»¶æ¥æ”¶å®Œæˆ
+    void httpReadyRead();//æ¥å—æ•°æ®ä¸­
+    void updateDataReadProgress(qint64, qint64);//è¿›åº¦æ¡æ›´æ–°
     void on_toolBtnPhoneInstance_clicked();
     void on_toolBtnPictureQuality_clicked();
     void on_toolBtnTopLevel_clicked();

@@ -1053,40 +1053,40 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                 iToolIndex = strList.at(i).toInt();
                 switch (iToolIndex)
                 {
-                case 1:
+                case TYPE_VOLUMN_ADD:
                     ui->toolButton_1->setVisible(true);
                     break;
-                case 2:
+                case TYPE_VOLUMN_SUB:
                     ui->toolButton_2->setVisible(true);
                     break;
-                case 3:
+                case TYPE_HOR_VER_SCREEN:
                     ui->toolButton_3->setVisible(true);
                     break;
-                case 4:
+                case TYPE_CLIPBOARD:
                     ui->toolButton_4->setVisible(true);
                     break;
-                case 5:
+                case TYPE_SCREENSHOTS:
                     ui->toolButton_5->setVisible(true);
                     break;
-                case 6:
+                case TYPE_SCREENSHOTS_DIR:
                     ui->toolButton_6->setVisible(true);
                     break;
-                case 7:
+                case TYPE_RESTART:
                     ui->toolButton_7->setVisible(true);
                     break;
-                case 8:
+                case TYPE_RESET_FACTORY_DATA:
                     ui->toolButton_8->setVisible(true);
                     break;
-                case 9:
+                case TYPE_ROOT:
                     ui->toolButton_9->setVisible(true);
                     break;
-                case 10:
+                case TYPE_SHARK:
                     ui->toolButton_10->setVisible(true);
                     break;
-                case 11:
+                case TYPE_GPS:
                     ui->toolButton_11->setVisible(true);
                     break;
-                case 12:
+                case TYPE_CHANGE_KEYBOARD:
                     ui->toolButton_12->setVisible(true);
                     break;
                 default:
@@ -1110,40 +1110,40 @@ void PhoneInstanceWidget::do_HorizontalSignals()
             {
                 switch (iToolIndex)
                 {
-                case 1:
+                case TYPE_VOLUMN_ADD:
                     ui->toolButton_1->setVisible(true);
                     break;
-                case 2:
+                case TYPE_VOLUMN_SUB:
                     ui->toolButton_2->setVisible(true);
                     break;
-                case 3:
+                case TYPE_HOR_VER_SCREEN:
                     ui->toolButton_3->setVisible(true);
                     break;
-                case 4:
+                case TYPE_CLIPBOARD:
                     ui->toolButton_4->setVisible(true);
                     break;
-                case 5:
+                case TYPE_SCREENSHOTS:
                     ui->toolButton_5->setVisible(true);
                     break;
-                case 6:
+                case TYPE_SCREENSHOTS_DIR:
                     ui->toolButton_6->setVisible(true);
                     break;
-                case 7:
+                case TYPE_RESTART:
                     ui->toolButton_7->setVisible(true);
                     break;
-                case 8:
+                case TYPE_RESET_FACTORY_DATA:
                     ui->toolButton_8->setVisible(true);
                     break;
-                case 9:
+                case TYPE_ROOT:
                     ui->toolButton_9->setVisible(true);
                     break;
-                case 10:
+                case TYPE_SHARK:
                     ui->toolButton_10->setVisible(true);
                     break;
-                case 11:
+                case TYPE_GPS:
                     ui->toolButton_11->setVisible(true);
                     break;
-                case 12:
+                case TYPE_CHANGE_KEYBOARD:
                     ui->toolButton_12->setVisible(true);
                     break;
                 default:
@@ -1154,51 +1154,51 @@ void PhoneInstanceWidget::do_HorizontalSignals()
             {
                 switch (iToolIndex)
                 {
-                case 1:
+                case TYPE_VOLUMN_ADD:
                     ui->toolButton_31->setVisible(true);
                     ui->toolButton_1->setVisible(false);
                     break;
-                case 2:
+                case TYPE_VOLUMN_SUB:
                     ui->toolButton_32->setVisible(true);
                     ui->toolButton_2->setVisible(false);
                     break;
-                case 3:
+                case TYPE_HOR_VER_SCREEN:
                     ui->toolButton_33->setVisible(true);
                     ui->toolButton_3->setVisible(false);
                     break;
-                case 4:
+                case TYPE_CLIPBOARD:
                     ui->toolButton_34->setVisible(true);
                     ui->toolButton_4->setVisible(false);
                     break;
-                case 5:
+                case TYPE_SCREENSHOTS:
                     ui->toolButton_35->setVisible(true);
                     ui->toolButton_5->setVisible(false);
                     break;
-                case 6:
+                case TYPE_SCREENSHOTS_DIR:
                     ui->toolButton_36->setVisible(true);
                     ui->toolButton_6->setVisible(false);
                     break;
-                case 7:
+                case TYPE_RESTART:
                     ui->toolButton_37->setVisible(true);
                     ui->toolButton_7->setVisible(false);
                     break;
-                case 8:
+                case TYPE_RESET_FACTORY_DATA:
                     ui->toolButton_38->setVisible(true);
                     ui->toolButton_8->setVisible(false);
                     break;
-                case 9:
+                case TYPE_ROOT:
                     ui->toolButton_39->setVisible(true);
                     ui->toolButton_9->setVisible(false);
                     break;
-                case 10:
+                case TYPE_SHARK:
                     ui->toolButton_40->setVisible(true);
                     ui->toolButton_10->setVisible(false);
                     break;
-                case 11:
+                case TYPE_GPS:
                     ui->toolButton_41->setVisible(true);
                     ui->toolButton_11->setVisible(false);
                     break;
-                case 12:
+                case TYPE_CHANGE_KEYBOARD:
                     ui->toolButton_42->setVisible(true);
                     ui->toolButton_12->setVisible(false);
                     break;
