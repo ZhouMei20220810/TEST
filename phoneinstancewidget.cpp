@@ -840,12 +840,13 @@ void PhoneInstanceWidget::do_HorizontalSignals()
 
     vBox = new QVBoxLayout(this);
     vBox->setContentsMargins(0, 0, 0, 0);
-    vBox->setSpacing(10);
+    vBox->setSpacing(5);
     vBox->addWidget(m_tBtnHide);
 
     vBox2 = new QVBoxLayout(this);
     vBox2->setContentsMargins(0, 0, 0, 0);
-    vBox2->setSpacing(10);
+    vBox2->setSpacing(5);
+
     //横屏
     if (GlobalData::bVerticalPhoneInstance)
     {        

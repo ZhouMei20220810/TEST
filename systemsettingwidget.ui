@@ -782,7 +782,7 @@ font-size:13px;</string>
               <item>
                <widget class="QLabel" name="label_16">
                 <property name="text">
-                 <string>当前版本：v1.0.6</string>
+                 <string>当前版本：v1.0.7</string>
                 </property>
                </widget>
               </item>
@@ -1641,7 +1641,7 @@ border-radius:2px;</string>
                  <string notr="true">color:#A9ADB6;</string>
                 </property>
                 <property name="text">
-                 <string>当前版本：V1.0.6</string>
+                 <string>当前版本：V1.0.7</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
