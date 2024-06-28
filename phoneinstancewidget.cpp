@@ -645,49 +645,6 @@ void PhoneInstanceWidget::on_toolBtnMore_clicked()
     ui->frameTool->move(ui->videoViewWidget->width()-ui->frameTool->width()-2, 50);
     ui->frameTool->setVisible(!bVisible);
 }
-/*
-
-void PhoneInstanceWidget::on_toolBtnScreenshot_2_clicked()
-{
-    on_toolBtnScreenshot_clicked();
-}
-
-
-void PhoneInstanceWidget::on_toolBtnScreenshotsDir_2_clicked()
-{
-    on_toolBtnScreenshotsDir_clicked();
-}
-
-
-void PhoneInstanceWidget::on_toolBtnClipboard_2_clicked()
-{
-    on_toolBtnClipboard_clicked();
-}
-
-
-void PhoneInstanceWidget::on_toolBtnShark_2_clicked()
-{
-    on_toolBtnShark_clicked();
-}
-
-
-void PhoneInstanceWidget::on_toolBtnRoot_2_clicked()
-{
-    on_toolBtnRoot_clicked();
-}
-
-
-void PhoneInstanceWidget::on_toolBtnKeyboard_2_clicked()
-{
-    on_toolBtnKeyboard_clicked();
-}
-
-
-void PhoneInstanceWidget::on_toolBtnADB_2_clicked()
-{
-    on_toolBtnADB_clicked();
-}*/
-
 
 void PhoneInstanceWidget::mousePressEvent(QMouseEvent *event)
 {
