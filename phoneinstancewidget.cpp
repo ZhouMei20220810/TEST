@@ -944,14 +944,16 @@ void PhoneInstanceWidget::do_HorizontalSignals()
     int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
     int width = calculateWidth(height);
     QListWidgetItem* item = NULL;
-    QSize size(TOOLBUTTON_WIDTH, TOOLBUTTON_HEIGHT);
+    //QSize size(TOOLBUTTON_WIDTH, TOOLBUTTON_HEIGHT);
+
     QSize moreSize(24,24);
+    QSize size(40, 57);
     ui->listWidget->clear();
     ui->listWidget_2->clear();
     //横屏
     if (GlobalData::bVerticalPhoneInstance)
     {
-        ui->listWidget->setMinimumHeight(PHONE_INSTANCE_VER_DEFAULT_TOOL_NUM*TOOLBUTTON_HEIGHT);
+        ui->listWidget->setMinimumHeight(PHONE_INSTANCE_VER_DEFAULT_TOOL_NUM*TOOLBUTTON_HEIGHT + 3 * (57 - 40));
         if (!GlobalData::strToolButtonList.isEmpty())
         {
             QStringList strList = GlobalData::strToolButtonList.split(',');
@@ -968,85 +970,112 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                 case TYPE_VOLUMN_UP:
                     m_tBtnVolumnUp = new QToolButton(this);
                     connect(m_tBtnVolumnUp, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeUpSignals);
-                    m_tBtnVolumnUp->setIcon(QIcon(":/resource/setting/1.png"));
-                    m_tBtnVolumnUp->setIconSize(size);
+                    m_tBtnVolumnUp->setIcon(QIcon(":/resource/instance/volumeAdd.png"));
+                    m_tBtnVolumnUp->setIconSize(moreSize);
+                    m_tBtnVolumnUp->setText("音量+");
+                    m_tBtnVolumnUp->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnVolumnUp);
                     break;
                 case TYPE_VOLUMN_DOWN:
                     m_tBtnVolumnDown = new QToolButton(this);
                     connect(m_tBtnVolumnDown, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeDownSignals);
-                    m_tBtnVolumnDown->setIcon(QIcon(":/resource/setting/2.png"));
-                    m_tBtnVolumnDown->setIconSize(size);
+                    m_tBtnVolumnDown->setIcon(QIcon(":/resource/instance/volumeSub.png"));
+                    m_tBtnVolumnDown->setIconSize(moreSize);
+                    m_tBtnVolumnDown->setText("音量-");
+                    m_tBtnVolumnDown->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnVolumnDown);
                     break;
                 case TYPE_HOR_VER_SCREEN:
                     m_tBtnHorVerScreen = new QToolButton(this);
                     connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_3_clicked);
-                    m_tBtnHorVerScreen->setIcon(QIcon(":/resource/setting/3.png"));
-                    m_tBtnHorVerScreen->setIconSize(size);
+                    m_tBtnHorVerScreen->setIcon(QIcon(":/resource/instance/HorVerScreen.png"));
+                    m_tBtnHorVerScreen->setIconSize(moreSize);
+                    m_tBtnHorVerScreen->setText("横竖屏");
+                    m_tBtnHorVerScreen->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnHorVerScreen);
                     break;
                 case TYPE_CLIPBOARD:
                     m_tBtnClipboard = new QToolButton(this);
                     connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_4_clicked);
-                    m_tBtnClipboard->setIcon(QIcon(":/resource/setting/4.png"));
-                    m_tBtnClipboard->setIconSize(size);
+                    m_tBtnClipboard->setIcon(QIcon(":/resource/instance/clipboard.png"));
+                    m_tBtnClipboard->setIconSize(moreSize);
+                    m_tBtnClipboard->setText("剪贴板");
+                    m_tBtnClipboard->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnClipboard);
                     break;
                 case TYPE_SCREENSHOTS:
                     m_tBtnScreenshots = new QToolButton(this);
                     connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::ScreenshotsSignals);
-                    m_tBtnScreenshots->setIcon(QIcon(":/resource/setting/5.png"));
-                    m_tBtnScreenshots->setIconSize(size);
+                    m_tBtnScreenshots->setIcon(QIcon(":/resource/instance/screenshots.png"));
+                    m_tBtnScreenshots->setIconSize(moreSize);
+                    m_tBtnScreenshots->setText("截图");
+                    m_tBtnScreenshots->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnScreenshots);
                     break;
                 case TYPE_SCREENSHOTS_DIR:
                     m_tBtnScreenshotsFolder = new QToolButton(this);
                     connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_6_clicked);
-                    m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/setting/6.png"));
+                    m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/instance/screenshotsDir.png"));
                     m_tBtnScreenshotsFolder->setIconSize(size);
+                    item->setSizeHint(size);
+                    m_tBtnScreenshotsFolder->setText("截图\n目录");
+                    m_tBtnScreenshotsFolder->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnScreenshotsFolder);
                     break;
                 case TYPE_RESTART:
                     m_tBtnRestart = new QToolButton(this);
                     connect(m_tBtnRestart, &QToolButton::clicked, this, &PhoneInstanceWidget::RebootSignals);
-                    m_tBtnRestart->setIcon(QIcon(":/resource/setting/7.png"));
-                    m_tBtnRestart->setIconSize(size);
+                    m_tBtnRestart->setIcon(QIcon(":/resource/instance/restart.png"));
+                    m_tBtnRestart->setIconSize(moreSize);
+                    m_tBtnRestart->setText("重启");
+                    m_tBtnRestart->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnRestart);
                     break;
                 case TYPE_RESET_FACTORY_DATA:
                     m_tBtnResetFactoryData = new QToolButton(this);
                     connect(m_tBtnResetFactoryData, &QToolButton::clicked, this, &PhoneInstanceWidget::FactoryDataResetSignals);
-                    m_tBtnResetFactoryData->setIcon(QIcon(":/resource/setting/8.png"));
-                    m_tBtnResetFactoryData->setIconSize(size);
+                    m_tBtnResetFactoryData->setIcon(QIcon(":/resource/instance/factoryDataReset.png"));
+                    m_tBtnResetFactoryData->setIconSize(moreSize);
+                    item->setSizeHint(size);
+                    m_tBtnResetFactoryData->setText("恢复\n出厂");
+                    m_tBtnResetFactoryData->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnResetFactoryData);
                     break;
                 case TYPE_ROOT:
                     m_tBtnRoot = new QToolButton(this);
                     connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_9_clicked);
-                    m_tBtnRoot->setIcon(QIcon(":/resource/setting/9.png"));
-                    m_tBtnRoot->setIconSize(size);
+                    m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
+                    m_tBtnRoot->setIconSize(moreSize);
+                    m_tBtnRoot->setText("Root");
+                    m_tBtnRoot->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnRoot);
                     break;
                 case TYPE_SHARK:
                     m_tBtnShark = new QToolButton(this);
                     connect(m_tBtnShark, &QToolButton::clicked, this, &PhoneInstanceWidget::SharkSignals);
-                    m_tBtnShark->setIcon(QIcon(":/resource/setting/10.png"));
-                    m_tBtnShark->setIconSize(size);
+                    m_tBtnShark->setIcon(QIcon(":/resource/instance/shake.png"));
+                    m_tBtnShark->setIconSize(moreSize);
+                    m_tBtnShark->setText("摇一摇");
+                    m_tBtnShark->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnShark);
                     break;
                 case TYPE_GPS:
                     m_tBtnGPS = new QToolButton(this);
                     connect(m_tBtnGPS, &QToolButton::clicked, this, &PhoneInstanceWidget::GPSSignals);
-                    m_tBtnGPS->setIcon(QIcon(":/resource/setting/11.png"));
-                    m_tBtnGPS->setIconSize(size);
+                    m_tBtnGPS->setIcon(QIcon(":/resource/instance/GPS.png"));
+                    m_tBtnGPS->setIconSize(moreSize);
+                    m_tBtnGPS->setText("GPS");
+                    m_tBtnGPS->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnGPS);
                     break;
                 case TYPE_CHANGE_KEYBOARD:
                     m_tBtnChangeKeyBoard = new QToolButton(this);
                     connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
-                    m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/setting/12.png"));
-                    m_tBtnChangeKeyBoard->setIconSize(size);
+                    m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/instance/key_show.png"));
+                    m_tBtnChangeKeyBoard->setIconSize(moreSize);
+                    item->setSizeHint(size);
+                    m_tBtnChangeKeyBoard->setText("切换\n键盘");
+                    m_tBtnChangeKeyBoard->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnChangeKeyBoard);
                     break;
                 default:
@@ -1059,8 +1088,8 @@ void PhoneInstanceWidget::do_HorizontalSignals()
     }
     else
     {
-        ui->listWidget->setMinimumHeight((PHONE_INSTANCE_HOR_DEFAULT_TOOL_NUM+1)*TOOLBUTTON_HEIGHT);
-        ui->listWidget_2->setMinimumHeight((PHONE_INSTANCE_TOOL_COUNT- PHONE_INSTANCE_HOR_DEFAULT_TOOL_NUM)*TOOLBUTTON_HEIGHT);
+        ui->listWidget->setMinimumHeight((PHONE_INSTANCE_HOR_DEFAULT_TOOL_NUM+1)*TOOLBUTTON_HEIGHT + 3 * (57 - 40));
+        ui->listWidget_2->setMinimumHeight((PHONE_INSTANCE_TOOL_COUNT- PHONE_INSTANCE_HOR_DEFAULT_TOOL_NUM)*TOOLBUTTON_HEIGHT+3*(57-40));
         QStringList strList = GlobalData::strToolButtonList.split(',');
         int iSize = strList.size();
         int iToolIndex = 0;
@@ -1080,85 +1109,112 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                 case TYPE_VOLUMN_UP:
                     m_tBtnVolumnUp = new QToolButton(this);
                     connect(m_tBtnVolumnUp, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeUpSignals);
-                    m_tBtnVolumnUp->setIcon(QIcon(":/resource/setting/1.png"));
-                    m_tBtnVolumnUp->setIconSize(size);
+                    m_tBtnVolumnUp->setIcon(QIcon(":/resource/instance/volumeAdd.png"));
+                    m_tBtnVolumnUp->setIconSize(moreSize);
+                    m_tBtnVolumnUp->setText("音量+");
+                    m_tBtnVolumnUp->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnVolumnUp);
                     break;
                 case TYPE_VOLUMN_DOWN:
                     m_tBtnVolumnDown = new QToolButton(this);
                     connect(m_tBtnVolumnDown, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeDownSignals);
-                    m_tBtnVolumnDown->setIcon(QIcon(":/resource/setting/2.png"));
-                    m_tBtnVolumnDown->setIconSize(size);
+                    m_tBtnVolumnDown->setIcon(QIcon(":/resource/instance/volumeSub.png"));
+                    m_tBtnVolumnDown->setIconSize(moreSize);
+                    m_tBtnVolumnDown->setText("音量-");
+                    m_tBtnVolumnDown->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnVolumnDown);
                     break;
                 case TYPE_HOR_VER_SCREEN:
                     m_tBtnHorVerScreen = new QToolButton(this);
                     connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_3_clicked);
-                    m_tBtnHorVerScreen->setIcon(QIcon(":/resource/setting/3.png"));
-                    m_tBtnHorVerScreen->setIconSize(size);
+                    m_tBtnHorVerScreen->setIcon(QIcon(":/resource/instance/HorVerScreen.png"));
+                    m_tBtnHorVerScreen->setIconSize(moreSize);
+                    m_tBtnHorVerScreen->setText("横竖屏");
+                    m_tBtnHorVerScreen->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnHorVerScreen);
                     break;
                 case TYPE_CLIPBOARD:
                     m_tBtnClipboard = new QToolButton(this);
                     connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_4_clicked);
-                    m_tBtnClipboard->setIcon(QIcon(":/resource/setting/4.png"));
-                    m_tBtnClipboard->setIconSize(size);
+                    m_tBtnClipboard->setIcon(QIcon(":/resource/instance/clipboard.png"));
+                    m_tBtnClipboard->setIconSize(moreSize);
+                    m_tBtnClipboard->setText("剪贴板");
+                    m_tBtnClipboard->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnClipboard);
                     break;
                 case TYPE_SCREENSHOTS:
                     m_tBtnScreenshots = new QToolButton(this);
                     connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::ScreenshotsSignals);
-                    m_tBtnScreenshots->setIcon(QIcon(":/resource/setting/5.png"));
-                    m_tBtnScreenshots->setIconSize(size);
+                    m_tBtnScreenshots->setIcon(QIcon(":/resource/instance/screenshots.png"));
+                    m_tBtnScreenshots->setIconSize(moreSize);
+                    m_tBtnScreenshots->setText("截图");
+                    m_tBtnScreenshots->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnScreenshots);
                     break;
                 case TYPE_SCREENSHOTS_DIR:
                     m_tBtnScreenshotsFolder = new QToolButton(this);
                     connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_6_clicked);
-                    m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/setting/6.png"));
+                    m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/instance/screenshotsDir.png"));
                     m_tBtnScreenshotsFolder->setIconSize(size);
+                    item->setSizeHint(size);
+                    m_tBtnScreenshotsFolder->setText("截图\n目录");
+                    m_tBtnScreenshotsFolder->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnScreenshotsFolder);
                     break;
                 case TYPE_RESTART:
                     m_tBtnRestart = new QToolButton(this);
                     connect(m_tBtnRestart, &QToolButton::clicked, this, &PhoneInstanceWidget::RebootSignals);
-                    m_tBtnRestart->setIcon(QIcon(":/resource/setting/7.png"));
-                    m_tBtnRestart->setIconSize(size);
+                    m_tBtnRestart->setIcon(QIcon(":/resource/instance/restart.png"));
+                    m_tBtnRestart->setIconSize(moreSize);
+                    m_tBtnRestart->setText("重启");
+                    m_tBtnRestart->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnRestart);
                     break;
                 case TYPE_RESET_FACTORY_DATA:
                     m_tBtnResetFactoryData = new QToolButton(this);
                     connect(m_tBtnResetFactoryData, &QToolButton::clicked, this, &PhoneInstanceWidget::FactoryDataResetSignals);
-                    m_tBtnResetFactoryData->setIcon(QIcon(":/resource/setting/8.png"));
-                    m_tBtnResetFactoryData->setIconSize(size);
+                    m_tBtnResetFactoryData->setIcon(QIcon(":/resource/instance/factoryDataReset.png"));
+                    m_tBtnResetFactoryData->setIconSize(moreSize);
+                    item->setSizeHint(size);
+                    m_tBtnResetFactoryData->setText("恢复\n出厂");
+                    m_tBtnResetFactoryData->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnResetFactoryData);
                     break;
                 case TYPE_ROOT:
                     m_tBtnRoot = new QToolButton(this);
                     connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_9_clicked);
-                    m_tBtnRoot->setIcon(QIcon(":/resource/setting/9.png"));
-                    m_tBtnRoot->setIconSize(size);
+                    m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
+                    m_tBtnRoot->setIconSize(moreSize);
+                    m_tBtnRoot->setText("Root");
+                    m_tBtnRoot->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnRoot);
                     break;
                 case TYPE_SHARK:
                     m_tBtnShark = new QToolButton(this);
                     connect(m_tBtnShark, &QToolButton::clicked, this, &PhoneInstanceWidget::SharkSignals);
-                    m_tBtnShark->setIcon(QIcon(":/resource/setting/10.png"));
-                    m_tBtnShark->setIconSize(size);
+                    m_tBtnShark->setIcon(QIcon(":/resource/instance/shake.png"));
+                    m_tBtnShark->setIconSize(moreSize);
+                    m_tBtnShark->setText("摇一摇");
+                    m_tBtnShark->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnShark);
                     break;
                 case TYPE_GPS:
                     m_tBtnGPS = new QToolButton(this);
                     connect(m_tBtnGPS, &QToolButton::clicked, this, &PhoneInstanceWidget::GPSSignals);
-                    m_tBtnGPS->setIcon(QIcon(":/resource/setting/11.png"));
-                    m_tBtnGPS->setIconSize(size);
+                    m_tBtnGPS->setIcon(QIcon(":/resource/instance/GPS.png"));
+                    m_tBtnGPS->setIconSize(moreSize);
+                    m_tBtnGPS->setText("GPS");
+                    m_tBtnGPS->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnGPS);
                     break;
                 case TYPE_CHANGE_KEYBOARD:
                     m_tBtnChangeKeyBoard = new QToolButton(this);
                     connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
-                    m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/setting/12.png"));
-                    m_tBtnChangeKeyBoard->setIconSize(size);
+                    m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/instance/key_show.png"));
+                    m_tBtnChangeKeyBoard->setIconSize(moreSize);
+                    item->setSizeHint(size);
+                    m_tBtnChangeKeyBoard->setText("切换\n键盘");
+                    m_tBtnChangeKeyBoard->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget->setItemWidget(item, m_tBtnChangeKeyBoard);
                     break;
                 default:
@@ -1177,85 +1233,112 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                 case TYPE_VOLUMN_UP:
                     m_tBtnVolumnUp = new QToolButton(this);
                     connect(m_tBtnVolumnUp, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeUpSignals);
-                    m_tBtnVolumnUp->setIcon(QIcon(":/resource/setting/1.png"));
-                    m_tBtnVolumnUp->setIconSize(size);
+                    m_tBtnVolumnUp->setIcon(QIcon(":/resource/instance/volumeAdd.png"));
+                    m_tBtnVolumnUp->setIconSize(moreSize);
+                    m_tBtnVolumnUp->setText("音量+");
+                    m_tBtnVolumnUp->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnVolumnUp);
                     break;
                 case TYPE_VOLUMN_DOWN:
                     m_tBtnVolumnDown = new QToolButton(this);
                     connect(m_tBtnVolumnDown, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeDownSignals);
-                    m_tBtnVolumnDown->setIcon(QIcon(":/resource/setting/2.png"));
-                    m_tBtnVolumnDown->setIconSize(size);
+                    m_tBtnVolumnDown->setIcon(QIcon(":/resource/instance/volumeSub.png"));
+                    m_tBtnVolumnDown->setIconSize(moreSize);
+                    m_tBtnVolumnDown->setText("音量-");
+                    m_tBtnVolumnDown->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnVolumnDown);
                     break;
                 case TYPE_HOR_VER_SCREEN:
                     m_tBtnHorVerScreen = new QToolButton(this);
                     connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_3_clicked);
-                    m_tBtnHorVerScreen->setIcon(QIcon(":/resource/setting/3.png"));
-                    m_tBtnHorVerScreen->setIconSize(size);
+                    m_tBtnHorVerScreen->setIcon(QIcon(":/resource/instance/HorVerScreen.png"));
+                    m_tBtnHorVerScreen->setIconSize(moreSize);
+                    m_tBtnHorVerScreen->setText("横竖屏");
+                    m_tBtnHorVerScreen->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnHorVerScreen);
                     break;
                 case TYPE_CLIPBOARD:
                     m_tBtnClipboard = new QToolButton(this);
                     connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_4_clicked);
-                    m_tBtnClipboard->setIcon(QIcon(":/resource/setting/4.png"));
-                    m_tBtnClipboard->setIconSize(size);
+                    m_tBtnClipboard->setIcon(QIcon(":/resource/instance/clipboard.png"));
+                    m_tBtnClipboard->setIconSize(moreSize);
+                    m_tBtnClipboard->setText("剪贴板");
+                    m_tBtnClipboard->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnClipboard);
                     break;
                 case TYPE_SCREENSHOTS:
                     m_tBtnScreenshots = new QToolButton(this);
                     connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::ScreenshotsSignals);
-                    m_tBtnScreenshots->setIcon(QIcon(":/resource/setting/5.png"));
-                    m_tBtnScreenshots->setIconSize(size);
+                    m_tBtnScreenshots->setIcon(QIcon(":/resource/instance/screenshots.png"));
+                    m_tBtnScreenshots->setIconSize(moreSize);
+                    m_tBtnScreenshots->setText("截图");
+                    m_tBtnScreenshots->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnScreenshots);
                     break;
                 case TYPE_SCREENSHOTS_DIR:
                     m_tBtnScreenshotsFolder = new QToolButton(this);
                     connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_6_clicked);
-                    m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/setting/6.png"));
+                    m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/instance/screenshotsDir.png"));
                     m_tBtnScreenshotsFolder->setIconSize(size);
+                    item->setSizeHint(size);
+                    m_tBtnScreenshotsFolder->setText("截图\n目录");
+                    m_tBtnScreenshotsFolder->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnScreenshotsFolder);
                     break;
                 case TYPE_RESTART:
                     m_tBtnRestart = new QToolButton(this);
                     connect(m_tBtnRestart, &QToolButton::clicked, this, &PhoneInstanceWidget::RebootSignals);
-                    m_tBtnRestart->setIcon(QIcon(":/resource/setting/7.png"));
-                    m_tBtnRestart->setIconSize(size);
+                    m_tBtnRestart->setIcon(QIcon(":/resource/instance/restart.png"));
+                    m_tBtnRestart->setIconSize(moreSize);
+                    m_tBtnRestart->setText("重启");
+                    m_tBtnRestart->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnRestart);
                     break;
                 case TYPE_RESET_FACTORY_DATA:
                     m_tBtnResetFactoryData = new QToolButton(this);
                     connect(m_tBtnResetFactoryData, &QToolButton::clicked, this, &PhoneInstanceWidget::FactoryDataResetSignals);
-                    m_tBtnResetFactoryData->setIcon(QIcon(":/resource/setting/8.png"));
-                    m_tBtnResetFactoryData->setIconSize(size);
+                    m_tBtnResetFactoryData->setIcon(QIcon(":/resource/instance/factoryDataReset.png"));
+                    m_tBtnResetFactoryData->setIconSize(moreSize);
+                    item->setSizeHint(size);
+                    m_tBtnResetFactoryData->setText("恢复\n出厂");
+                    m_tBtnResetFactoryData->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnResetFactoryData);
                     break;
                 case TYPE_ROOT:
                     m_tBtnRoot = new QToolButton(this);
                     connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_9_clicked);
-                    m_tBtnRoot->setIcon(QIcon(":/resource/setting/9.png"));
-                    m_tBtnRoot->setIconSize(size);
+                    m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
+                    m_tBtnRoot->setIconSize(moreSize);
+                    m_tBtnRoot->setText("Root");
+                    m_tBtnRoot->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnRoot);
                     break;
                 case TYPE_SHARK:
                     m_tBtnShark = new QToolButton(this);
                     connect(m_tBtnShark, &QToolButton::clicked, this, &PhoneInstanceWidget::SharkSignals);
-                    m_tBtnShark->setIcon(QIcon(":/resource/setting/10.png"));
-                    m_tBtnShark->setIconSize(size);
+                    m_tBtnShark->setIcon(QIcon(":/resource/instance/shake.png"));
+                    m_tBtnShark->setIconSize(moreSize);
+                    m_tBtnShark->setText("摇一摇");
+                    m_tBtnShark->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnShark);
                     break;
                 case TYPE_GPS:
                     m_tBtnGPS = new QToolButton(this);
                     connect(m_tBtnGPS, &QToolButton::clicked, this, &PhoneInstanceWidget::GPSSignals);
-                    m_tBtnGPS->setIcon(QIcon(":/resource/setting/11.png"));
-                    m_tBtnGPS->setIconSize(size);
+                    m_tBtnGPS->setIcon(QIcon(":/resource/instance/GPS.png"));
+                    m_tBtnGPS->setIconSize(moreSize);
+                    m_tBtnGPS->setText("GPS");
+                    m_tBtnGPS->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnGPS);
                     break;
                 case TYPE_CHANGE_KEYBOARD:
                     m_tBtnChangeKeyBoard = new QToolButton(this);
                     connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
-                    m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/setting/12.png"));
-                    m_tBtnChangeKeyBoard->setIconSize(size);
+                    m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/instance/key_show.png"));
+                    m_tBtnChangeKeyBoard->setIconSize(moreSize);
+                    item->setSizeHint(size);
+                    m_tBtnChangeKeyBoard->setText("切换\n键盘");
+                    m_tBtnChangeKeyBoard->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
                     ui->listWidget_2->setItemWidget(item, m_tBtnChangeKeyBoard);
                     break;
                 default:

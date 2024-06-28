@@ -155,5 +155,6 @@
         <file>resource/individual/Enter.png</file>
         <file>resource/individual/photo.png</file>
         <file>resource/setting/setting.png</file>
+        <file>resource/instance/restart.png</file>
     </qresource>
 </RCC>
