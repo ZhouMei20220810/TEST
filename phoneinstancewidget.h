@@ -15,6 +15,7 @@
 #include <QTimer>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
+#include <QVBoxLayout>
 
 namespace Ui {
     class PhoneInstanceWidget;
@@ -92,10 +93,6 @@ private slots:
 
     void on_toolBtnMore_clicked();
 
-    void on_toolBtnReturn_clicked();
-    void on_toolBtnHome_clicked();
-    void on_toolBtnChangePage_clicked();
-
     void on_toolButton_3_clicked();
     void on_toolButton_4_clicked();
     void on_toolButton_6_clicked();
@@ -144,7 +141,14 @@ private:
     QToolButton* m_tBtnGPS;
     QToolButton* m_tBtnChangeKeyBoard;
 
+    QToolButton* m_tBtnHide;
     QToolButton* m_tBtnMoreTool;
+    QToolButton* m_tBtnRetrun;
+    QToolButton* m_tBtnHome;
+    QToolButton* m_tBtnChangeMenu;
+
+    QVBoxLayout* vBox;
+    QVBoxLayout* vBox2;
 };
 
 #endif // PHONEINSTANCEWIDGET_H
