@@ -75,9 +75,6 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
-    void InitToolButton(QToolButton* toolBtn);
-    void setToolBtnVisible(bool bVisible);
-
     void HttpGetInstanceSession(int id);
     void startRequest(QUrl url);
 private slots:
@@ -119,21 +116,15 @@ private slots:
     void on_toolBtnKeyboard_2_clicked();
     void on_toolBtnADB_2_clicked();*/
 
-    void on_toolButton_1_clicked();
-    void on_toolButton_2_clicked();
     void on_toolButton_3_clicked();
     void on_toolButton_4_clicked();
-    void on_toolButton_5_clicked();
     void on_toolButton_6_clicked();
-    void on_toolButton_7_clicked();
-    void on_toolButton_8_clicked();
     void on_toolButton_9_clicked();
-    void on_toolButton_10_clicked();
-    void on_toolButton_11_clicked();
     void on_toolButton_12_clicked();
 
     void onPositionUpdated(const QGeoPositionInfo& info);
 private:
+    void InitToolButtonList();
     Ui::PhoneInstanceWidget* ui;
 
     S_PHONE_INFO m_PhoneInfo;
@@ -172,6 +163,8 @@ private:
     QToolButton* m_tBtnShark;
     QToolButton* m_tBtnGPS;
     QToolButton* m_tBtnChangeKeyBoard;
+
+    QToolButton* m_tBtnMoreTool;
 };
 
 #endif // PHONEINSTANCEWIDGET_H
