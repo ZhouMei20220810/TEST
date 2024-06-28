@@ -90,31 +90,11 @@ private slots:
     void on_toolBtnShow_clicked();
     void on_toolBtnHide_clicked();
 
-    /*void on_toolBtnSignal_clicked();
-    void on_toolBtnVerOrHor_clicked();
-    void on_toolBtnScreenshot_clicked();
-    void on_toolBtnAddVolume_clicked();
-    void on_toolBtnSubVolume_clicked();
-    void on_toolBtnClipboard_clicked();
-    void on_toolBtnInput_clicked();
-    void on_toolBtnScreenshotsDir_clicked();
-    void on_toolBtnShark_clicked();
-    void on_toolBtnRoot_clicked();
-    void on_toolBtnKeyboard_clicked();
-    void on_toolBtnADB_clicked();*/
     void on_toolBtnMore_clicked();
 
     void on_toolBtnReturn_clicked();
     void on_toolBtnHome_clicked();
     void on_toolBtnChangePage_clicked();
-
-    /*void on_toolBtnScreenshot_2_clicked();
-    void on_toolBtnScreenshotsDir_2_clicked();
-    void on_toolBtnClipboard_2_clicked();
-    void on_toolBtnShark_2_clicked();
-    void on_toolBtnRoot_2_clicked();
-    void on_toolBtnKeyboard_2_clicked();
-    void on_toolBtnADB_2_clicked();*/
 
     void on_toolButton_3_clicked();
     void on_toolButton_4_clicked();

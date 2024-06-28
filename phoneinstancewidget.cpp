@@ -160,39 +160,6 @@ void PhoneInstanceWidget::httpFinished()
         m_File->flush();
         MessageTips* tips = new MessageTips("截图成功", this);
         tips->show();
-        //qDebug() << "download finish." << m_strDownloadFileName;
-        //file->close();
-        /*QPixmap pixmap(m_strDownloadFileName);
-        if (!pixmap.isNull())
-        {
-            QFile file(m_strPicturePath);
-            if (file.exists())
-            {
-                if (!file.remove())
-                {
-                    qDebug() << "remove fail:" << m_strPicturePath;
-                }
-            }
-            if (!m_File->rename(m_strPicturePath))
-            {
-                qDebug() << "rename fail: " << m_strPicturePath;
-            }
-            //file.rename(m_strPicturePath);
-            showLabelImage(m_strPicturePath);
-        }
-        else
-        {
-            if (QFile::exists(m_strPicturePath))
-            {
-                qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
-                showLabelImage(m_strPicturePath);
-            }
-            else
-            {
-                qDebug() << "图片无效,显示默认图片";
-                ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-            }
-        }*/
         m_File->close();
         delete m_File;
         m_File = NULL;
@@ -422,82 +389,6 @@ void PhoneInstanceWidget::on_toolBtnHide_clicked()
     ui->toolBtnShow->setVisible(true);
     ui->frame_2->setVisible(false);
 }
-
-/*
-void PhoneInstanceWidget::on_toolBtnSignal_clicked()
-{
-    //信号
-}
-
-void PhoneInstanceWidget::on_toolBtnVerOrHor_clicked()
-{
-    this->close();
-
-    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;
-    PhoneInstanceWidget* nn = new PhoneInstanceWidget(m_PhoneInfo);
-    nn->show();
-}
-
-
-void PhoneInstanceWidget::on_toolBtnScreenshot_clicked()
-{
-    //截图
-    //只需要截图，不需要获取当前页面
-    this->m_toolObject->HttpPostInstanceScreenshot(m_strPhoneList);
-}
-
-
-void PhoneInstanceWidget::on_toolBtnAddVolume_clicked()
-{
-    //音量调大
-}
-
-
-void PhoneInstanceWidget::on_toolBtnSubVolume_clicked()
-{
-    //音量调小
-}
-
-
-void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
-{
-    //剪贴板
-}
-
-void PhoneInstanceWidget::on_toolBtnInput_clicked()
-{
-    //输入协助
-}
-
-
-void PhoneInstanceWidget::on_toolBtnScreenshotsDir_clicked()
-{
-    //截图目录
-}
-
-
-void PhoneInstanceWidget::on_toolBtnShark_clicked()
-{
-    //摇一摇
-}
-
-
-void PhoneInstanceWidget::on_toolBtnRoot_clicked()
-{
-    //root
-}
-
-
-void PhoneInstanceWidget::on_toolBtnKeyboard_clicked()
-{
-    //硬键盘
-}
-
-
-void PhoneInstanceWidget::on_toolBtnADB_clicked()
-{
-    //ADB
-}*/
 
 void PhoneInstanceWidget::do_ReturnSignals()
 {
