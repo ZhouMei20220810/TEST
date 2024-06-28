@@ -159,6 +159,19 @@ private:
     QNetworkReply* m_reply;
     QFile* m_File;
     QString m_strDownloadFileName;
+
+    QToolButton* m_tBtnVolumnUp;
+    QToolButton* m_tBtnVolumnDown;
+    QToolButton* m_tBtnHorVerScreen;
+    QToolButton* m_tBtnClipboard;
+    QToolButton* m_tBtnScreenshots;
+    QToolButton* m_tBtnScreenshotsFolder;
+    QToolButton* m_tBtnRestart;
+    QToolButton* m_tBtnResetFactoryData;
+    QToolButton* m_tBtnRoot;
+    QToolButton* m_tBtnShark;
+    QToolButton* m_tBtnGPS;
+    QToolButton* m_tBtnChangeKeyBoard;
 };
 
 #endif // PHONEINSTANCEWIDGET_H

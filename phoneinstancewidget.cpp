@@ -31,6 +31,34 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     m_GeoSource = NULL;
     
     ui->frameTool->setVisible(false);    
+    m_tBtnVolumnUp = new QToolButton(this);
+    m_tBtnVolumnDown = new QToolButton(this);
+    m_tBtnHorVerScreen = new QToolButton(this);
+    m_tBtnClipboard = new QToolButton(this);
+    m_tBtnScreenshots = new QToolButton(this);
+    m_tBtnScreenshotsFolder = new QToolButton(this);
+    m_tBtnRestart = new QToolButton(this);
+    m_tBtnResetFactoryData = new QToolButton(this);
+    m_tBtnRoot = new QToolButton(this);
+    m_tBtnShark = new QToolButton(this);
+    m_tBtnGPS = new QToolButton(this);
+    m_tBtnChangeKeyBoard = new QToolButton(this);
+    connect(m_tBtnVolumnUp, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_1_clicked);
+    connect(m_tBtnVolumnDown, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_2_clicked);
+    connect(m_tBtnHorVerScreen, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_3_clicked);
+    connect(m_tBtnClipboard, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_4_clicked);
+    connect(m_tBtnScreenshots, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_5_clicked);
+    connect(m_tBtnScreenshotsFolder, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_6_clicked);
+    connect(m_tBtnRestart, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_7_clicked);
+    connect(m_tBtnResetFactoryData, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_8_clicked);
+    connect(m_tBtnRoot, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_9_clicked);
+    connect(m_tBtnShark, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_10_clicked);
+    connect(m_tBtnGPS, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_11_clicked);
+    connect(m_tBtnChangeKeyBoard, &QToolButton::triggered, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
+
+
+
+
     InitToolButton(ui->toolButton_1);
     InitToolButton(ui->toolButton_2);
     InitToolButton(ui->toolButton_3);
