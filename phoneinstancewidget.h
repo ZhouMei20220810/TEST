@@ -149,6 +149,9 @@ private:
 
     QVBoxLayout* vBox;
     QVBoxLayout* vBox2;
+
+    QPoint      m_leftTopPoint;
+    QSize       m_remmberSize;
 };
 
 #endif // PHONEINSTANCEWIDGET_H

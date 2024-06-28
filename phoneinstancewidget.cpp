@@ -309,9 +309,9 @@ void PhoneInstanceWidget::on_toolBtnPictureQuality_clicked()
 void PhoneInstanceWidget::on_toolBtnTopLevel_clicked()
 {
     //切换窗口状态
-    if (window()->isMaximized()) {
+    /*if (window()->isMaximized()) {
         return;
-    }
+    }*/
     // 获取当前窗口状态
     Qt::WindowFlags flags = window()->windowFlags();
 
@@ -353,12 +353,17 @@ void PhoneInstanceWidget::on_toolBtnMax_clicked()
         ui->toolBtnMax->setIcon(QIcon(":/resource/instance/max.png"));        
         QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);margin-bottom:3px;}QToolButton:hover {color: rgb(255, 255, 255);}");
         ui->toolBtnMax->setStyleSheet(styleSheet);
-        this->showNormal();
+        //this->showNormal();
+        move(m_leftTopPoint);
+        resize(m_remmberSize);
     }
     else {
         ui->toolBtnMax->setIcon(QIcon(":/resource/instance/restore.png"));
         QString styleSheet = QString("QToolButton{border:none;color: rgb(204, 204, 204);margin-bottom:2px;}QToolButton:hover {color: rgb(255, 255, 255);}");
         ui->toolBtnMax->setStyleSheet(styleSheet);
+        m_leftTopPoint = this->pos();
+        m_remmberSize = this->size();
+        this->geometry();
         this->showMaximized();
     }
 }
@@ -1363,3 +1368,4 @@ void PhoneInstanceWidget::on_toolButton_12_clicked()
     //键盘KEY_KEYBOARD
     qDebug() << "this->width" << this->width() << "this.height=" << this->height();
 }
+
