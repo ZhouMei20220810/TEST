@@ -13,7 +13,7 @@ class VIPItemWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit VIPItemWidget(S_LEVEL_DATA_INFO levelInfo,QWidget *parent = nullptr);
+    explicit VIPItemWidget(S_LEVEL_DATA_INFO levelInfo,QString strLevelName,QWidget *parent = nullptr);
     ~VIPItemWidget();
 
     void setLabelCheckStatus(bool bCheck);
@@ -27,6 +27,7 @@ private:
 
     S_LEVEL_DATA_INFO m_levelInfo;
     QToolButton* m_toolBtn;
+    QString m_strLevelName;
 };
 
 #endif // VIPITEMWIDGET_H

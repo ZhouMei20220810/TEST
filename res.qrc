@@ -53,8 +53,6 @@
         <file>resource/main/shouqi.png</file>
         <file>resource/main/zhangkai.png</file>
         <file>resource/main/renew.png</file>
-        <file>resource/main/gvip_bg_normal.png</file>
-        <file>resource/main/gvip_bg_select.png</file>
         <file>resource/main/close.png</file>
         <file>resource/main/about.png</file>
         <file>resource/main/generalSetting.png</file>
@@ -72,6 +70,26 @@
         <file>resource/main/QVIP.png</file>
         <file>resource/main/VIP.png</file>
         <file>resource/main/XVIP.png</file>
+        <file>resource/buy/GVIP_bg_normal.png</file>
+        <file>resource/buy/GVIP_bg_select.png</file>
+        <file>resource/buy/GVIP_level_bg_normal.png</file>
+        <file>resource/buy/GVIP_level_bg_select.png</file>
+        <file>resource/buy/KVIP_bg_normal.png</file>
+        <file>resource/buy/KVIP_bg_select.png</file>
+        <file>resource/buy/KVIP_level_bg_normal.png</file>
+        <file>resource/buy/KVIP_level_bg_select.png</file>
+        <file>resource/buy/QVIP_bg_normal.png</file>
+        <file>resource/buy/QVIP_bg_select.png</file>
+        <file>resource/buy/QVIP_level_bg_normal.png</file>
+        <file>resource/buy/QVIP_level_bg_select.png</file>
+        <file>resource/buy/VIP_bg_normal.png</file>
+        <file>resource/buy/VIP_bg_select.png</file>
+        <file>resource/buy/VIP_level_bg_normal.png</file>
+        <file>resource/buy/VIP_level_bg_select.png</file>
+        <file>resource/buy/XVIP_bg_normal.png</file>
+        <file>resource/buy/XVIP_bg_select.png</file>
+        <file>resource/buy/XVIP_level_bg_normal.png</file>
+        <file>resource/buy/XVIP_level_bg_select.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

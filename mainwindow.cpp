@@ -1095,7 +1095,7 @@ void MainWindow::ShowGroupInfo()
         if (iter->iGroupNum > 0)
         {
             qDebug() << "查询手机列表";
-            HttpGetMyPhoneInstance(iter->iGroupId, 1, 10, 0);
+            HttpGetMyPhoneInstance(iter->iGroupId, 1, 1000, 0);
         }        
 
         /*child = new QTreeWidgetItem(item);
@@ -1925,7 +1925,9 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                         QJsonObject data = obj["data"].toObject();
                         int iCurrent = data["current"].toInt();
                         int iPages = data["pages"].toInt();
-
+                        int iSize = data["size"].toInt();
+                        int iTotal = data["total"].toInt();
+                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages<<"iSize="<<iSize;
                         QJsonArray records = data["records"].toArray();
                         if (records.size() > 0)
                         {
@@ -2460,7 +2462,7 @@ void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
             ui->listWidgetVIP->addItem(vipItem);
 
             qDebug() << "vip=" << iter->iMemberId;
-            vipWidget = new VIPItemWidget(*iter, this);
+            vipWidget = new VIPItemWidget(*iter,levelInfo.strLevelName, this);
             connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
             ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
 

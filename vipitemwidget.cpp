@@ -2,7 +2,7 @@
 #include "ui_vipitemwidget.h"
 #include "global.h"
 
-VIPItemWidget::VIPItemWidget(S_LEVEL_DATA_INFO levelInfo, QWidget *parent)
+VIPItemWidget::VIPItemWidget(S_LEVEL_DATA_INFO levelInfo, QString strLevelName, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::VIPItemWidget)
 {
@@ -10,8 +10,11 @@ VIPItemWidget::VIPItemWidget(S_LEVEL_DATA_INFO levelInfo, QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     this->resize(ITEM_WIDGET_VIP_WIDTH,ITEM_WIDGET_VIP_HEIGHT);
     m_levelInfo = levelInfo;
+    m_strLevelName = strLevelName;
     m_toolBtn = new QToolButton(this);
-    m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_normal.png"));
+    QString strIcon = QString(":/main/resource/buy/%1_bg_normal.png").arg(strLevelName);
+    //m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_normal.png"));
+    m_toolBtn->setIcon(QIcon(strIcon));
     m_toolBtn->setIconSize(QSize(ITEM_WIDGET_VIP_WIDTH-2, ITEM_WIDGET_VIP_HEIGHT));
     connect(m_toolBtn, &QToolButton::clicked, this, &VIPItemWidget::on_toolButton_clicked);
 
@@ -52,14 +55,16 @@ VIPItemWidget::~VIPItemWidget()
 
 void VIPItemWidget::setLabelCheckStatus(bool bCheck)
 {
+    QString strIcon;
     if (bCheck)
     {
-        m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_select.png"));
+        strIcon= QString(":/main/resource/buy/%1_bg_select.png").arg(m_strLevelName);
     }
     else
     {
-        m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_normal.png"));
+        strIcon = QString(":/main/resource/buy/%1_bg_normal.png").arg(m_strLevelName);        
     }
+    m_toolBtn->setIcon(QIcon(strIcon));
     //ui->labelCheck->setVisible(bCheck);
     //ui->toolButton->setStyleSheet("QToolButton{background-color:#FFE6DDE5;border:4px;border-color:red;}");
     //qDebug() << "VIPItemWidget labelCheck status<<" << bCheck;
@@ -68,7 +73,9 @@ void VIPItemWidget::setLabelCheckStatus(bool bCheck)
 void VIPItemWidget::on_toolButton_clicked()
 {
     //ui->labelCheck->setVisible(true);
-    m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_select.png"));    
+    //m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_select.png"));    
+    QString strIcon= QString(":/main/resource/buy/%1_bg_select.png").arg(m_strLevelName);
+    m_toolBtn->setIcon(QIcon(strIcon));
     qDebug() << "select vip type=" << m_levelInfo.iMemberId;
     emit selectVIPTypeSignals(m_levelInfo);
 }
