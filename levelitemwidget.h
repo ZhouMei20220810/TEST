@@ -25,7 +25,7 @@ signals:
 private:
     Ui::LevelItemWidget *ui;
     S_LEVEL_INFO m_levelInfo;
-    QLabel* m_labelCheck;
+
     levelChildWidget* m_childWidget;
     // QObject interface
 private slots:

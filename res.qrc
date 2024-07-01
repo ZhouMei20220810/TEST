@@ -16,9 +16,6 @@
     </qresource>
     <qresource prefix="/main">
         <file>resource/main/control_contraction.png</file>
-        <file>resource/main/level_enhancenment.png</file>
-        <file>resource/main/level_normal.png</file>
-        <file>resource/main/level_Premier.png</file>
         <file>resource/main/control_expansion.png</file>
         <file>resource/main/activeCode_normal.png</file>
         <file>resource/main/activeCode_select.png</file>
@@ -47,7 +44,6 @@
         <file>resource/main/packup.png</file>
         <file>resource/main/macroscheme.png</file>
         <file>resource/main/addPhone.png</file>
-        <file>resource/main/levelCheck.png</file>
         <file>resource/main/border_normal.png</file>
         <file>resource/main/border_select.png</file>
         <file>resource/main/shouqi.png</file>
