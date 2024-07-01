@@ -262,7 +262,7 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
                             {
                                 phoneInfo.strName = strName;
                                 child->setData(0, Qt::UserRole, QVariant::fromValue(phoneInfo));
-                                child->setText(0, strName);
+                                child->setText(0, m_mapLevelList.find(phoneInfo.iLevel).value().strLevelName+" "+strName);
                                 bFind = true;
                                 break;
                             }
