@@ -53,7 +53,6 @@
         <file>resource/main/shouqi.png</file>
         <file>resource/main/zhangkai.png</file>
         <file>resource/main/renew.png</file>
-        <file>resource/main/defaultLevelIcon.png</file>
         <file>resource/main/gvip_bg_normal.png</file>
         <file>resource/main/gvip_bg_select.png</file>
         <file>resource/main/close.png</file>
@@ -68,6 +67,11 @@
         <file>resource/main/defaultSceenShot.png</file>
         <file>resource/main/titleLogo.png</file>
         <file>resource/main/delete.png</file>
+        <file>resource/main/GVIP.png</file>
+        <file>resource/main/KVIP.png</file>
+        <file>resource/main/QVIP.png</file>
+        <file>resource/main/VIP.png</file>
+        <file>resource/main/XVIP.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>
