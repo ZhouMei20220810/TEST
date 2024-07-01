@@ -122,6 +122,12 @@ MainWindow::MainWindow(QWidget *parent)
     //初始化Tab购买
     InitBuyTab();
 
+    //第一版暂时屏蔽功能
+    ui->frame_4->setVisible(false);
+    ui->frame_8->setVisible(false);
+    ui->toolBtnMacroscheme->setVisible(false);
+    ui->toolBtnAppInstall->setVisible(false);
+
     if (!GlobalData::bCloseMainWindowExit && NULL == g_trayIcon)
     {
         g_trayIcon = new QSystemTrayIcon(QIcon(":/main/resource/main/aboutlogo.png"));
@@ -2914,9 +2920,10 @@ void MainWindow::on_toolBtnDropFunction_clicked()
 void MainWindow::on_toolBtnExpansionFunction_clicked()
 {
     //展开功能
+    //第一版暂时屏蔽功能
     ui->frame_3->setVisible(true);
-    ui->frame_4->setVisible(true);
-    ui->frame_8->setVisible(true);
+    //ui->frame_4->setVisible(true);
+    //ui->frame_8->setVisible(true);
 
     ui->toolBtnDropFunction->setVisible(true);
     ui->toolBtnExpansionFunction->setVisible(false);
