@@ -19,6 +19,7 @@
 #include <QGeoPositionInfoSource>
 #include <QVBoxLayout>
 #include <QDesktopServices>
+#include <QSettings>
 #define         TOOLBUTTON_WIDTH            (40)
 #define         TOOLBUTTON_HEIGHT           (40)
 
@@ -133,6 +134,13 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     //ui->comboBox->setCurrentIndex(0);
     //同步设置界面
     ui->comboBox->setCurrentIndex(GlobalData::enPictrueQuality);
+
+    if (!GlobalData::bVerticalPhoneInstanceCenter)
+    {
+        QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+        GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();
+        this->move(GlobalData::pointPhoneInstance);
+    }
 
     HttpGetInstanceSession(sPhoneInfo.iId);
 }

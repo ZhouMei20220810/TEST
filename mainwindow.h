@@ -302,7 +302,7 @@ private:
     QTreeWidgetItem* m_pCurItem;
     ToolObject* m_toolObject;
 
-    PhoneInstanceWidget* m_PhoneInstanceWidget;
+    PhoneInstanceWidget* m_MainPhoneInstanceWidget;
     CreateGroupWidget* m_createGroupWidget;
     SystemSettingWidget* m_systemSettingWidget;
     IndividualCenterWidget* m_individualCenterWidget;
@@ -312,7 +312,6 @@ private:
 
     //同步操作
     QListWidget* m_SyncOperListWidget;
-    PhoneInstanceWidget* widget = NULL;
 
     QToolButton* m_toolBtnContraction;
     QToolButton* m_toolBtnExpansion;

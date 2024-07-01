@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_globalPoint = this->pos();
     this->setCursor(QCursor(Qt::ArrowCursor));
 
-    m_PhoneInstanceWidget = NULL;
+    m_MainPhoneInstanceWidget = NULL;
     m_createGroupWidget = NULL;
     m_systemSettingWidget = NULL;
     m_SyncOperListWidget = NULL;
@@ -3486,6 +3486,14 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
 //显示实例
 void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu)
 {
+    if (NULL != m_MainPhoneInstanceWidget)
+    {     
+        emit closePhoneInstanceWidgetSignals();
+        //m_MainPhoneInstanceWidget->close();
+        delete m_MainPhoneInstanceWidget;
+        m_MainPhoneInstanceWidget = NULL;
+    }
+
     if (bShowMenu)
     {
         m_CurSelMenuPhoneInfo = sPhoneInfo;
@@ -3522,59 +3530,64 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
     QListWidgetItem* item = NULL;
     int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
     int iwidth = calculateWidth(height);
+    PhoneInstanceWidget* phoneWidget = NULL;
     for (; iter != GlobalData::mapSyncPhoneList.end(); iter++)
     {
         if (!GlobalData::bIsSyncOperation && iter->iId != sPhoneInfo.iId)
             continue;
         qDebug() << "同步实例id=" << iter.value().iId;
         //HttpGetInstanceSession(iter.value().iId);
-        m_PhoneInstanceWidget = new PhoneInstanceWidget(*iter);
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
-        connect(this, &MainWindow::paifaTouchEventSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::dealTouchEventSignals);
+        phoneWidget = new PhoneInstanceWidget(*iter);
+        connect(phoneWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
+        connect(this, &MainWindow::paifaTouchEventSignals, phoneWidget, &PhoneInstanceWidget::dealTouchEventSignals);
 
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ReturnSignals, this, &MainWindow::returnSignals);
-        connect(this, &MainWindow::returnSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ReturnSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::ReturnSignals, this, &MainWindow::returnSignals);
+        connect(this, &MainWindow::returnSignals, phoneWidget, &PhoneInstanceWidget::do_ReturnSignals);
 
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HomeSignals, this, &MainWindow::homeSignals);
-        connect(this, &MainWindow::homeSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HomeSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::HomeSignals, this, &MainWindow::homeSignals);
+        connect(this, &MainWindow::homeSignals, phoneWidget, &PhoneInstanceWidget::do_HomeSignals);
 
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
-        connect(this, &MainWindow::changePageSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ChangePageSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
+        connect(this, &MainWindow::changePageSignals, phoneWidget, &PhoneInstanceWidget::do_ChangePageSignals);
 
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::RebootSignals, this, &MainWindow::RebootSignals);
-        connect(this, &MainWindow::RebootSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_RebootSignals);
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::FactoryDataResetSignals, this, &MainWindow::FactoryDataResetSignals);
-        connect(this, &MainWindow::FactoryDataResetSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_FactoryDataResetSignals);
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::ScreenshotsSignals, this, &MainWindow::ScreenshotsSignals);
-        connect(this, &MainWindow::ScreenshotsSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_ScreenshotsSignals);        
+        connect(phoneWidget, &PhoneInstanceWidget::RebootSignals, this, &MainWindow::RebootSignals);
+        connect(this, &MainWindow::RebootSignals, phoneWidget, &PhoneInstanceWidget::do_RebootSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::FactoryDataResetSignals, this, &MainWindow::FactoryDataResetSignals);
+        connect(this, &MainWindow::FactoryDataResetSignals, phoneWidget, &PhoneInstanceWidget::do_FactoryDataResetSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::ScreenshotsSignals, this, &MainWindow::ScreenshotsSignals);
+        connect(this, &MainWindow::ScreenshotsSignals, phoneWidget, &PhoneInstanceWidget::do_ScreenshotsSignals);
 
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::VolumeUpSignals,this, &MainWindow::VolumeUpSignals);
-        connect(this, &MainWindow::VolumeUpSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_VolumeUpSignals);
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::VolumeDownSignals,this, &MainWindow::VolumeDownSignals);
-        connect(this, &MainWindow::VolumeDownSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_VolumeDownSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::VolumeUpSignals,this, &MainWindow::VolumeUpSignals);
+        connect(this, &MainWindow::VolumeUpSignals, phoneWidget, &PhoneInstanceWidget::do_VolumeUpSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::VolumeDownSignals,this, &MainWindow::VolumeDownSignals);
+        connect(this, &MainWindow::VolumeDownSignals, phoneWidget, &PhoneInstanceWidget::do_VolumeDownSignals);
         
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::HorizontalSignals, this, &MainWindow::HorizontalSignals);
-        connect(this, &MainWindow::HorizontalSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_HorizontalSignals);
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::SharkSignals, this, &MainWindow::SharkSignals);
-        connect(this, &MainWindow::SharkSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_SharkSignals);
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
-        connect(this, &MainWindow::GPSSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_GPSSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::HorizontalSignals, this, &MainWindow::HorizontalSignals);
+        connect(this, &MainWindow::HorizontalSignals, phoneWidget, &PhoneInstanceWidget::do_HorizontalSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::SharkSignals, this, &MainWindow::SharkSignals);
+        connect(this, &MainWindow::SharkSignals, phoneWidget, &PhoneInstanceWidget::do_SharkSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
+        connect(this, &MainWindow::GPSSignals, phoneWidget, &PhoneInstanceWidget::do_GPSSignals);
 
-        connect(m_PhoneInstanceWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, this, &MainWindow::closePhoneInstanceWidgetSignals);
-        connect(this, &MainWindow::closePhoneInstanceWidgetSignals, m_PhoneInstanceWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, this, &MainWindow::closePhoneInstanceWidgetSignals);
+        connect(this, &MainWindow::closePhoneInstanceWidgetSignals, phoneWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
 
         if (iter->iId != sPhoneInfo.iId)
         {            
             item = new QListWidgetItem(m_SyncOperListWidget);
             item->setSizeHint(QSize(iwidth, height));
             item->setData(Qt::UserRole, QVariant::fromValue(*iter));
-            m_SyncOperListWidget->setItemWidget(item, m_PhoneInstanceWidget);            
+            m_SyncOperListWidget->setItemWidget(item, phoneWidget);
         }
         else
         {
-            m_PhoneInstanceWidget->setModal(false);
-            m_PhoneInstanceWidget->show();
-            m_PhoneInstanceWidget = NULL;
+            m_MainPhoneInstanceWidget = phoneWidget;
+            connect(m_MainPhoneInstanceWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, this, [this]() {                
+                delete m_MainPhoneInstanceWidget;
+                m_MainPhoneInstanceWidget = NULL;
+                });
+            m_MainPhoneInstanceWidget->setModal(false);
+            m_MainPhoneInstanceWidget->show();
         }
     }
 

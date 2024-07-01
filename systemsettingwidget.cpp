@@ -16,7 +16,6 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     setWindowFlags(Qt::FramelessWindowHint);    
     m_enQuality = GlobalData::enPictrueQuality;
     m_bVerticalScreen = GlobalData::bVerticalPhoneInstance;
-    m_bPhoneInstanceCenter = GlobalData::bVerticalPhoneInstanceCenter;
     m_bCloseMainWindowExit = GlobalData::bCloseMainWindowExit;
     m_bShowTrayIcon = GlobalData::bShowSystemTrayIcon;
     ui->checkBox_3->setChecked(m_bShowTrayIcon);
@@ -45,7 +44,7 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
         ui->radioButton_10->setChecked(true);
     }
 
-    if (m_bPhoneInstanceCenter)
+    if (GlobalData::bVerticalPhoneInstanceCenter)
     {
         ui->radioButton_13->setChecked(true);
     }
