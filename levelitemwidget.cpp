@@ -8,15 +8,32 @@ LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-    this->resize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT);
+    QSize size(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT);
+    this->resize(size);
 
     m_levelInfo = levelInfo;
 
-    QString strStyleSheet = QString("QToolButton{background-image: url(:/main/resource/buy/%1_level_bg_normal.png);border: none;}").arg(levelInfo.strLevelName);
-    ui->toolButtonBG->setStyleSheet(strStyleSheet);
+    m_toolBtn = new QToolButton(this);
+    QString strIcon = QString(":/main/resource/buy/%1_level_bg_normal.png").arg(levelInfo.strLevelName);
+    //m_toolBtn->setIcon(QIcon(":/main/resource/main/gvip_bg_normal.png"));
+    m_toolBtn->resize(size);
+    m_toolBtn->setIcon(QIcon(strIcon));
+    m_toolBtn->setIconSize(QSize(ITEM_WIDGET_LEVEL_WIDTH - 2, ITEM_WIDGET_LEVEL_HEIGHT));
+    connect(m_toolBtn, &QToolButton::clicked, this, &LevelItemWidget::on_toolButtonBG_clicked);
 
-    m_childWidget = new levelChildWidget(levelInfo,ui->toolButtonBG);
-    m_childWidget->show();
+    ui->labelVersion->setParent(m_toolBtn);
+    ui->labelFunction->setParent(m_toolBtn);
+    ui->frame->setParent(m_toolBtn);
+
+    QVBoxLayout* vBox = new QVBoxLayout();
+    vBox->addWidget(ui->labelVersion);
+    vBox->addWidget(ui->labelFunction);
+    vBox->addWidget(ui->frame);
+    vBox->setContentsMargins(24,24,24,24);
+    m_toolBtn->setLayout(vBox);
+
+    ui->labelVersion->setText(levelInfo.strLevelName);
+    ui->labelFunction->setText(levelInfo.strLevelRemark);
 }
 
 LevelItemWidget::~LevelItemWidget()
@@ -32,24 +49,24 @@ S_LEVEL_INFO LevelItemWidget::getLevelInfo()
 
 void LevelItemWidget::setLabelCheckStatus(bool bCheck)
 {
-    QString strStyleSheet;
+    QString strIcon;
     if (bCheck)
     {
-        strStyleSheet = QString("QToolButton{background-image: url(:/main/resource/buy/%1_level_bg_select.png);border: none;}").arg(m_levelInfo.strLevelName);
+        strIcon = QString(":/main/resource/buy/%1_level_bg_select.png").arg(m_levelInfo.strLevelName);
     }
     else
     {
-        strStyleSheet = QString("QToolButton{background-image: url(:/main/resource/buy/%1_level_bg_normal.png);border: none;}").arg(m_levelInfo.strLevelName);
+        strIcon = QString(":/main/resource/buy/%1_level_bg_normal.png").arg(m_levelInfo.strLevelName);
     }
-    ui->toolButtonBG->setStyleSheet(strStyleSheet);
+    m_toolBtn->setIcon(QIcon(strIcon));
 
     qDebug()<<"LevelItemWidget labelCheck status="<<bCheck;
 }
 
 void LevelItemWidget::on_toolButtonBG_clicked()
 {
-    QString strStyleSheet = QString("QToolButton{background-image: url(:/main/resource/buy/%1_level_bg_select.png);border: none;}").arg(m_levelInfo.strLevelName);
-    ui->toolButtonBG->setStyleSheet(strStyleSheet);
+    QString strIcon = QString(":/main/resource/buy/%1_level_bg_select.png").arg(m_levelInfo.strLevelName);
+    m_toolBtn->setIcon(QIcon(strIcon));
     
     emit selectLevelTypeSignals(m_levelInfo);
 }

@@ -4,7 +4,7 @@
 #include <QToolButton>
 #include <QString>
 #include <QSystemTrayIcon>
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080" //"http://192.168.1.6:8080"  //    
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" //"http://120.26.132.153:8080"       
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -78,8 +78,8 @@
 #define         PHONE_INSTANCE_HORIZONTAL_HEIGHT      520 //横屏高度
 #define         ITEM_WIDGET_SPACING             15
 //level item
-#define         ITEM_WIDGET_LEVEL_WIDTH         416
-#define         ITEM_WIDGET_LEVEL_HEIGHT        202
+#define         ITEM_WIDGET_LEVEL_WIDTH         400
+#define         ITEM_WIDGET_LEVEL_HEIGHT        160
 #define         ITEM_LEVEL_LABELCHECK_WIDTH     36
 #define         ITEM_LEVEL_LABELCHECK_HEIGHT    36
 //queue item

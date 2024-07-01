@@ -24,7 +24,6 @@ SOURCES += \
     forgetpwdialog.cpp \
     global.cpp \
     individualcenterwidget.cpp \
-    levelchildwidget.cpp \
     levelitemwidget.cpp \
     main.cpp \
     loginwindow.cpp \
@@ -66,7 +65,6 @@ HEADERS += \
     forgetpwdialog.h \
     global.h \
     individualcenterwidget.h \
-    levelchildwidget.h \
     levelitemwidget.h \
     loginwindow.h \
     mainwindow.h \
@@ -105,7 +103,6 @@ FORMS += \
     factorydataresetdialog.ui \
     forgetpwdialog.ui \
     individualcenterwidget.ui \
-    levelchildwidget.ui \
     levelitemwidget.ui \
     loginwindow.ui \
     mainwindow.ui \
