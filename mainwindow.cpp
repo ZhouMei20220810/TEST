@@ -1065,7 +1065,8 @@ void MainWindow::ShowGroupInfo()
     for( ; iter != m_mapGroupInfo.end(); iter++)
     {
         item = new QTreeWidgetItem(ui->treeWidget);
-        strNewGroupName = QString("%1(%2)").arg(iter->strGroupName).arg(iter->iGroupNum);
+        //strNewGroupName = QString("%1(%2)").arg(iter->strGroupName).arg(iter->iGroupNum);
+        strNewGroupName = QString("%1(%2)").arg(iter->strGroupName).arg(0);
         item->setText(0, strNewGroupName);
         //存储GroupId
         qDebug() << "写入iGroupId=" << iter->iGroupId;
@@ -1127,6 +1128,8 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
             // 在这里处理根节点
             // 例如：
             sGroupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
+            //只显示未过期的设备，修改父窗口的值
+            item->setText(0, QString("%1(%2)").arg(sGroupInfo.strGroupName).arg(mapPhoneInfo.size()));
             if (iGroupId == sGroupInfo.iGroupId)
             {
                 QMap<int, S_LEVEL_INFO>::iterator iterFind; 
