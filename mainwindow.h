@@ -122,6 +122,7 @@ private:
     void InitVipList();
     void InitVipRenewList();
     
+    void calcNeedPayMoney();
 
     //初始化vip列表
     void loadVipType(S_LEVEL_INFO levelInfo);
@@ -167,8 +168,8 @@ private slots:
     //vip item
     void do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo);
 
-    void on_btnDecrese_clicked();
-    void on_btnAdd_clicked();
+    void on_toolBtnSub_clicked();
+    void on_toolBtnAdd_clicked();
     void on_lineEditBuyNumber_textChanged(const QString &arg1);
 
 	//显示/隐藏分组

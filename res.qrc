@@ -86,6 +86,9 @@
         <file>resource/buy/XVIP_bg_select.png</file>
         <file>resource/buy/XVIP_level_bg_normal.png</file>
         <file>resource/buy/XVIP_level_bg_select.png</file>
+        <file>resource/buy/add.png</file>
+        <file>resource/buy/buyNumberTips.png</file>
+        <file>resource/buy/sub.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

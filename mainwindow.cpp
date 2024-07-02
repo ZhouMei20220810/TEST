@@ -715,6 +715,10 @@ void MainWindow::InitBuyTab()
 
     //默认显示
     ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
+
+    QRegularExpression regExp("[0-9]*");
+    QValidator* validator = new QRegularExpressionValidator(regExp, this);
+    ui->lineEditBuyNumber->setValidator(validator);
 }
 
 //初始化列表
@@ -2472,7 +2476,7 @@ void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
                 m_curLevelDataInfo = *iter;
                 vipWidget->setLabelCheckStatus(true);
                 //更新支付金额
-                ui->labelPayMoney->setText(QString::asprintf("%.2f",m_curLevelDataInfo.fActivityPrice));
+                calcNeedPayMoney();
             }
         }
 
@@ -2517,9 +2521,7 @@ void MainWindow::do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo)
 {
     m_curLevelDataInfo = levelInfo;
     qDebug() << "click do_selectVIPTypeSignals memberId=" << levelInfo.iMemberId;
-    QString str;
-    str = str.asprintf("%.2f", levelInfo.fActivityPrice);
-    ui->labelPayMoney->setText(str);
+    calcNeedPayMoney();
 
     //设置显示
     VIPItemWidget* vipItemWidget = NULL;
@@ -2539,7 +2541,8 @@ void MainWindow::do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo)
     }
 }
 
-void MainWindow::on_btnDecrese_clicked()
+
+void MainWindow::on_toolBtnSub_clicked()
 {
     //减少
     QString strBuyNum = ui->lineEditBuyNumber->text();
@@ -2550,7 +2553,7 @@ void MainWindow::on_btnDecrese_clicked()
 }
 
 
-void MainWindow::on_btnAdd_clicked()
+void MainWindow::on_toolBtnAdd_clicked()
 {
     //增加
     QString strBuyNum = ui->lineEditBuyNumber->text();
@@ -2559,14 +2562,31 @@ void MainWindow::on_btnAdd_clicked()
     ui->lineEditBuyNumber->setText(strBuyNum);
 }
 
-
+void MainWindow::calcNeedPayMoney()
+{
+    int iBuyNum = ui->lineEditBuyNumber->text().toInt();
+    QString str;
+    str = str.asprintf("%.2f", iBuyNum * m_curLevelDataInfo.fActivityPrice);
+    QStringList strValueList = str.split('.');
+    if (strValueList.size() > 1)
+    {
+        ui->labelPayMoneyInteger->setText(strValueList.at(0));
+        ui->labelPayMoney->setText(QString(".%1").arg(strValueList.at(1)));
+    }
+}
 void MainWindow::on_lineEditBuyNumber_textChanged(const QString &arg1)
 {
     //文本框值改变
     int iBuyNum = arg1.toInt();//ui->lineEditBuyNumber->text().toInt();
-    QString str;
-    str=str.asprintf("%.2f", iBuyNum*m_curLevelDataInfo.fActivityPrice);
-    ui->labelPayMoney->setText(str);
+    if (iBuyNum > 200)
+    {
+        MessageTips* tips = new MessageTips("单次限购200台");
+        tips->show();
+        ui->lineEditBuyNumber->setText("200");
+        iBuyNum = 200;
+        //return;
+    }
+    calcNeedPayMoney();
 }
 void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
     static QPoint rightTop;
