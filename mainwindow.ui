@@ -3555,7 +3555,13 @@ padding-left:8px;
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>254</height>
+                 <height>220</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>200</height>
                 </size>
                </property>
                <property name="mouseTracking">
@@ -3619,7 +3625,7 @@ subcontrol-origin: margin;
                      <x>0</x>
                      <y>0</y>
                      <width>1272</width>
-                     <height>234</height>
+                     <height>200</height>
                     </rect>
                    </property>
                    <property name="mouseTracking">
