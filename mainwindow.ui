@@ -2871,6 +2871,9 @@ background:transparent;</string>
                        <height>21</height>
                       </size>
                      </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
                      <property name="styleSheet">
                       <string notr="true">QPushButton {border:none;
 color: #407AFF;
@@ -2974,6 +2977,9 @@ border:none;</string>
                        <width>80</width>
                        <height>21</height>
                       </size>
+                     </property>
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
                      </property>
                      <property name="styleSheet">
                       <string notr="true">QPushButton:hover {border:none;
@@ -3403,7 +3409,7 @@ QPushButton:disabled
 </string>
                   </property>
                   <property name="text">
-                   <string>确定激活</string>
+                   <string>激活云手机</string>
                   </property>
                   <property name="flat">
                    <bool>true</bool>
@@ -3478,6 +3484,9 @@ QPushButton:disabled
                     <pointsize>10</pointsize>
                    </font>
                   </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">QToolButton {border:none;
 color: #1E2133;
@@ -3515,6 +3524,9 @@ padding-left:8px;
                    <font>
                     <pointsize>10</pointsize>
                    </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">QToolButton {border:none;
