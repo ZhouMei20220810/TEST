@@ -10,12 +10,6 @@
     <height>768</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>0</width>
-    <height>0</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -3580,21 +3574,6 @@ padding-left:8px;
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_21">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
                 <item>
                  <widget class="QScrollArea" name="scrollArea">
                   <property name="mouseTracking">
@@ -3645,8 +3624,8 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>1290</width>
-                     <height>218</height>
+                     <width>1272</width>
+                     <height>200</height>
                     </rect>
                    </property>
                    <property name="mouseTracking">
@@ -3855,9 +3834,6 @@ subcontrol-origin: margin;
                      <widget class="QMouseWidget" name="widget" native="true">
                       <property name="mouseTracking">
                        <bool>true</bool>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;}</string>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_7">
                        <item>
