@@ -22,6 +22,8 @@ public:
 signals:
     void selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
 private:
+    void startDownload(QString strUrl);
+
     Ui::LevelItemWidget *ui;
     S_LEVEL_INFO m_levelInfo;
 

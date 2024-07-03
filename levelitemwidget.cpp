@@ -1,6 +1,7 @@
 #include "levelitemwidget.h"
 #include "ui_levelitemwidget.h"
 #include "global.h"
+#include "filedownloader.h"
 
 LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
     : QWidget(parent)
@@ -34,12 +35,56 @@ LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
 
     ui->labelVersion->setText(levelInfo.strLevelName);
     ui->labelFunction->setText(levelInfo.strLevelRemark);
+
+    QString url = levelInfo.strColorIcon;
+    QString strFileName = url.right(url.size() - url.lastIndexOf('/') - 1);
+    
+    QString strTmp = GlobalData::strPictureTempDir + strFileName;
+    qDebug() << "url=" << url << "strTmp=" << strTmp;
+    //ui->labelVersion->setPixmap(QPixmap(strTmp));
+    startDownload(url);
+    int width = ui->labelVersion->width();
+    int height = ui->labelVersion->height();
+    QFile file(strTmp);
+    if(file.exists())
+        ui->labelVersion->setPixmap(QPixmap(strTmp).scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
 LevelItemWidget::~LevelItemWidget()
 {
     qDebug()<<"delete LevelItemWidget";
     delete ui;
+}
+
+void LevelItemWidget::startDownload(QString strUrl)
+{
+    FileDownloader* downloader = new FileDownloader(this);
+    connect(downloader, &FileDownloader::downloadFinished, this, [this](bool success, QString errorMessage)
+        {
+            if (success)
+            {
+                QString url = m_levelInfo.strColorIcon;
+                QString strFileName = url.right(url.size() - url.lastIndexOf('/') - 1);
+                QString strTmp = GlobalData::strPictureTempDir + strFileName;
+                qDebug() << "url=" << url << "strTmp=" << strTmp;
+                //ui->labelVersion->setPixmap(QPixmap(strTmp));
+                //startDownload(url);
+                int width = ui->labelVersion->width();
+                int height = ui->labelVersion->height();
+                QFile file(strTmp);
+                if (file.exists())
+                {
+                    ui->labelVersion->setPixmap(QPixmap(strTmp).scaled(QSize(width, height), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                }
+            }
+            else
+            {
+                qDebug() << "errorMessage = " << errorMessage;
+            }
+                            
+        });
+    downloader->setUrl(strUrl, "xxx.png");
+    downloader->start();
 }
 
 S_LEVEL_INFO LevelItemWidget::getLevelInfo()
