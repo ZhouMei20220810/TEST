@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     GlobalData::strToolButtonList = setting.value("ToolButtonList", "").toString();
     GlobalData::bBootstrapAutoStart = setting.value("BootstrapAutoStart", false).toBool();
     GlobalData::bIsTopWindow = setting.value("MainWindowTopWindow", false).toBool();
+    GlobalData::bIsPageMode = setting.value("PageMode", false).toBool();
     int bWriteLogFile = setting.value("WriteLogFile", false).toBool();
     if (bWriteLogFile)
     {

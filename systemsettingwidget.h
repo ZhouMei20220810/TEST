@@ -46,6 +46,9 @@ private slots:
 
     void on_radioButton_clicked(bool checked);
     void on_radioButton_2_clicked(bool checked);
+    void on_radioButton_3_clicked(bool checked);
+    void on_radioButton_4_clicked(bool checked);
+
 private:
     Ui::SystemSettingWidget *ui;
 
@@ -55,6 +58,7 @@ private:
     bool            m_bPhoneInstanceCenter;
     bool            m_bCloseMainWindowExit;
     bool            m_bShowTrayIcon;
+    bool            m_bIsPageMode;
 };
 
 #endif // SYSTEMSETTINGWIDGET_H

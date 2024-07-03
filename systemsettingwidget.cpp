@@ -18,6 +18,7 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     m_bVerticalScreen = GlobalData::bVerticalPhoneInstance;
     m_bCloseMainWindowExit = GlobalData::bCloseMainWindowExit;
     m_bShowTrayIcon = GlobalData::bShowSystemTrayIcon;
+    m_bIsPageMode = GlobalData::bIsPageMode;
     ui->checkBox_3->setChecked(m_bShowTrayIcon);
     switch (m_enQuality)
     {
@@ -60,7 +61,14 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     {
         ui->radioButton->setChecked(true);
     }
-
+    if (m_bIsPageMode)
+    {
+        ui->radioButton_4->setChecked(true);
+    }
+    else
+    {
+        ui->radioButton_3->setChecked(true);
+    }
     ui->checkBox->setChecked(GlobalData::bBootstrapAutoStart);
     ui->checkBox_2->setChecked(GlobalData::bIsTopWindow);
 
@@ -179,12 +187,13 @@ void SystemSettingWidget::on_btnSave_clicked()
     GlobalData::bVerticalPhoneInstanceCenter = m_bPhoneInstanceCenter;
     GlobalData::bCloseMainWindowExit = m_bCloseMainWindowExit;
     GlobalData::bShowSystemTrayIcon = m_bShowTrayIcon;
+    GlobalData::bIsPageMode = m_bIsPageMode;
     setting.setValue("PictureQuality", m_enQuality);    
     setting.setValue("VerticalScreen", m_bVerticalScreen);
     setting.setValue("PhoneInstanceCenter", m_bPhoneInstanceCenter);
     setting.setValue("CloseMainWindowExit", m_bCloseMainWindowExit);
     setting.setValue("ShowSystemTrayIcon", m_bShowTrayIcon);
-    
+    setting.setValue("PageMode", m_bIsPageMode);
 
     //获取工具栏按钮设置
         
@@ -323,3 +332,15 @@ void SystemSettingWidget::getLoggedInUserInfo()
     qDebug() << "Computer name:" << computerName;
     ui->labelLoginDevice->setText("当前登录设备:"+ computerName);
 }
+
+void SystemSettingWidget::on_radioButton_3_clicked(bool checked)
+{
+    m_bIsPageMode = false;
+}
+
+
+void SystemSettingWidget::on_radioButton_4_clicked(bool checked)
+{
+    m_bIsPageMode = true;
+}
+

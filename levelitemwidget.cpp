@@ -79,7 +79,7 @@ void LevelItemWidget::startDownload(QString strUrl)
             }
             else
             {
-                qDebug() << "errorMessage = " << errorMessage;
+                qDebug() <<"download="<< m_levelInfo.strColorIcon<< "errorMessage = " << errorMessage;
             }
                             
         });

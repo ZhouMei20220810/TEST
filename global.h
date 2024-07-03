@@ -305,6 +305,7 @@ public:
     static QString  strToolButtonList;
     static bool     bBootstrapAutoStart;
     static bool     bIsTopWindow;
+    static bool     bIsPageMode;
 
     static bool     bIsSyncOperation; //    同步操作
     static QMap<int, S_PHONE_INFO> mapSyncPhoneList;

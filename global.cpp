@@ -36,6 +36,7 @@ bool GlobalData::bShowSystemTrayIcon = true;
 QString GlobalData::strToolButtonList = "";
 bool GlobalData::bBootstrapAutoStart = false;
 bool GlobalData::bIsTopWindow = false;
+bool GlobalData::bIsPageMode = false;
 
 bool GlobalData::bIsSyncOperation = false;
 QMap<int, S_PHONE_INFO> GlobalData::mapSyncPhoneList;
