@@ -127,6 +127,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->frame_8->setVisible(false);
     ui->toolBtnMacroscheme->setVisible(false);
     ui->toolBtnAppInstall->setVisible(false);
+    //暂时屏蔽翻页功能
+    ui->frame_PageMode->setVisible(false);
 
     if (!GlobalData::bCloseMainWindowExit && NULL == g_trayIcon)
     {
