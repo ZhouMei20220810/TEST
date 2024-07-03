@@ -395,7 +395,7 @@
     <None Include="resource\main\aboutlogo.png" />
     <None Include="resource\main\activeCode_normal.png" />
     <None Include="resource\main\activeCode_select.png" />
-    <None Include="resource\function\add.png" />
+    <None Include="resource\buy\add.png" />
     <None Include="resource\main\addPhone.png" />
     <None Include="resource\main\allSelect.png" />
     <None Include="resource\main\appInstaller.png" />
@@ -405,6 +405,7 @@
     <None Include="resource\main\border_select.png" />
     <None Include="resource\main\buy.png" />
     <None Include="resource\main\buyNum.png" />
+    <None Include="resource\buy\buyNumberTips.png" />
     <None Include="resource\main\buy_normal.png" />
     <None Include="resource\main\buy_select.png" />
     <None Include="resource\upload\cancelUpload.png" />
@@ -481,7 +482,7 @@
     <None Include="resource\main\setting_normal.png" />
     <None Include="resource\instance\shake.png" />
     <None Include="resource\main\shouqi.png" />
-    <None Include="resource\function\sub.png" />
+    <None Include="resource\buy\sub.png" />
     <None Include="resource\main\titleLogo.png" />
     <None Include="resource\instance\topWindow.png" />
     <None Include="resource\upload\upload.png" />

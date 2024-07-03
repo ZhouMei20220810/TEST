@@ -918,12 +918,10 @@ void MainWindow::InitLevelList()
         levelInfo.strColorIcon = iterData->strColorIcon;
         levelInfo.strAshIcon = iterData->strAshIcon;
         levelItem = new LevelItemWidget(levelInfo, ui->scrollArea);
-        levelItem->resize(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));
+        //levelItem->setFixedSize(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));
         connect(levelItem, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
         horizontalLayout->addWidget(levelItem);
     }
-
-    ui->scrollAreaWidgetContents->setLayout(horizontalLayout);
 }
 void MainWindow::InitVipList()
 {
@@ -940,24 +938,6 @@ void MainWindow::InitVipList()
     ui->listWidgetVIP->setMovement(QListWidget::Static);
     //设置单选
     ui->listWidgetVIP->setSelectionMode(QAbstractItemView::SingleSelection);
-
-
-
-    //imageList->resize(365,400);
-    //设置QListWidget的显示模式
-    ui->listWidgetLevel->setViewMode(QListView::IconMode);
-    //设置QListWidget中单元项的图片大小
-    //ui->imageList->setIconSize(QSize(100,100));
-    //设置QListWidget中单元项的间距
-    ui->listWidgetLevel->setSpacing(ITEM_WIDGET_SPACING);
-    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-    ui->listWidgetLevel->setResizeMode(QListWidget::Adjust);
-    //设置不能移动
-    ui->listWidgetLevel->setMovement(QListWidget::Static);
-    //设置单选
-    ui->listWidgetLevel->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->listWidgetLevel->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui->listWidgetLevel->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 }
 
 void MainWindow::InitVipRenewList()
