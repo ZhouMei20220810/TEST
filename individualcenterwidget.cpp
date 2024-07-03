@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include "messagetips.h"
 #include "buyhistorywidget.h"
+#include "authorizationmanagedialog.h"
 
 IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
     : QDialog(parent)
@@ -56,9 +57,12 @@ void IndividualCenterWidget::on_toolBtnBuyHistory_clicked()
     this->hide();
 }
 
-
-void IndividualCenterWidget::on_toolBtnActiveHistory_clicked()
+void IndividualCenterWidget::on_toolBtnAuthorizationManage_clicked()
 {
+    AuthorizationManageDialog* dialog = new AuthorizationManageDialog();
+    dialog->setModal(true);
+    dialog->show();
+
     this->hide();
 }
 

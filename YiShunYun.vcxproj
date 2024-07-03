@@ -205,6 +205,7 @@
     <ClCompile Include="Logoutdialog.cpp" />
     <ClCompile Include="activecodeitem.cpp" />
     <ClCompile Include="addactivecodedialog.cpp" />
+    <ClCompile Include="authorizationmanagedialog.cpp" />
     <ClCompile Include="buyhistoryitemwidget.cpp" />
     <ClCompile Include="buyhistorywidget.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
@@ -246,6 +247,7 @@
     <QtMoc Include="Logoutdialog.h" />
     <QtMoc Include="activecodeitem.h" />
     <QtMoc Include="addactivecodedialog.h" />
+    <QtMoc Include="authorizationmanagedialog.h" />
     <QtMoc Include="buyhistoryitemwidget.h" />
     <QtMoc Include="buyhistorywidget.h" />
     <QtMoc Include="creategroupwidget.h" />
@@ -302,6 +304,7 @@
     <QtUic Include="Logoutdialog.ui" />
     <QtUic Include="activecodeitem.ui" />
     <QtUic Include="addactivecodedialog.ui" />
+    <QtUic Include="authorizationmanagedialog.ui" />
     <QtUic Include="buyhistoryitemwidget.ui" />
     <QtUic Include="buyhistorywidget.ui" />
     <QtUic Include="creategroupwidget.ui" />
@@ -457,6 +460,7 @@
     <None Include="resource\main\min_normal.png" />
     <None Include="resource\instance\more.png" />
     <None Include="resource\main\newGroup.png" />
+    <None Include="resource\main\next.png" />
     <None Include="resource\login\option_normal.png" />
     <None Include="resource\login\option_select.png" />
     <None Include="resource\main\packup.png" />
@@ -466,6 +470,7 @@
     <None Include="resource\upload\point.png" />
     <None Include="resource\main\previewMode_normal.png" />
     <None Include="resource\main\previewMode_select.png" />
+    <None Include="resource\main\previous.png" />
     <None Include="resource\main\radioCheck.png" />
     <None Include="resource\main\radioUncheck.png" />
     <None Include="resource\instance\reback.png" />

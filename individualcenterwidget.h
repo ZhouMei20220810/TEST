@@ -23,7 +23,7 @@ private slots:
 
     void on_toolBtnBuyHistory_clicked();
 
-    void on_toolBtnActiveHistory_clicked();
+    void on_toolBtnAuthorizationManage_clicked();
 
 private:
     //注销
