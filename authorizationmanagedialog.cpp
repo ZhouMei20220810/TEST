@@ -2,6 +2,49 @@
 #include "ui_authorizationmanagedialog.h"
 #include "policydialog.h"
 #include "messagetipsdialog.h"
+#include <QRandomGenerator>
+#include <QPainter>
+#define  PICTURE_CODE_WIDTH     90
+#define  PICTURE_CODE_HEIGHT    28
+
+// 生成随机字符串
+QString AuthorizationManageDialog::generateRandomCode(int length/* = 4*/)
+{
+    const QString possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    QString code;
+    QRandomGenerator generator;
+    for (int i = 0; i < length; ++i) {
+        code.append(possibleChars.at(generator.generate() % possibleChars.size()));
+    }
+    return code;
+}
+
+// 生成验证码图像
+QPixmap AuthorizationManageDialog::generateCaptchaImage(const QString& code)
+{
+    QPixmap captcha(PICTURE_CODE_WIDTH, PICTURE_CODE_HEIGHT);
+    captcha.fill(Qt::white);
+
+    QPainter painter(&captcha);
+    QFont font("Arial", 30);
+    painter.setFont(font);
+
+    QColor textColor;
+    for (int i = 0; i < code.length(); ++i) {
+        textColor.setHsv((i * 150) % 360, 255, 150); // 随机颜色
+        painter.setPen(textColor);
+        painter.drawText(20 + i * 40, 30, code.at(i)); // 分散字符以避免被轻易识别
+    }
+
+    // 可以增加噪声线或点以提高安全性
+    for (int i = 0; i < 100; ++i) {
+        painter.drawLine(QPoint(QRandomGenerator::global()->bounded(0, 200), QRandomGenerator::global()->bounded(0, 50)),
+            QPoint(QRandomGenerator::global()->bounded(0, 200), QRandomGenerator::global()->bounded(0, 50)));
+    }
+
+    painter.end();
+    return captcha;
+}
 
 AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
     : QDialog(parent)
@@ -11,6 +54,13 @@ AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
 
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+
+    // 生成验证码字符串
+    QString code = generateRandomCode();
+    qDebug() << "code = " << code;
+    // 生成验证码图像
+    QPixmap captchaImg = generateCaptchaImage(code);
+    ui->labelPictureCode->setPixmap(captchaImg);//(captchaImg.scaled(QSize(PICTURE_CODE_WIDTH, PICTURE_CODE_HEIGHT), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 AuthorizationManageDialog::~AuthorizationManageDialog()
@@ -74,6 +124,7 @@ void AuthorizationManageDialog::on_btnUserPolicy_clicked()
 
 void AuthorizationManageDialog::on_btnOk_clicked()
 {
+    //确定
     bool bCheck = ui->checkBoxPolicy->isChecked();
     if(!bCheck)
     {
@@ -86,6 +137,14 @@ void AuthorizationManageDialog::on_btnOk_clicked()
 
 void AuthorizationManageDialog::on_btnCancel_clicked()
 {
+    //取消
     this->close();
+}
+
+
+void AuthorizationManageDialog::on_toolBtnRefresh_clicked()
+{
+    //刷新
+
 }
 

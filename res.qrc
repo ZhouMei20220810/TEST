@@ -183,5 +183,6 @@
         <file>resource/author/Authorized_select.png</file>
         <file>resource/author/BeAuthorized_normal.png</file>
         <file>resource/author/BeAuthorized_select.png</file>
+        <file>resource/author/refresh.png</file>
     </qresource>
 </RCC>

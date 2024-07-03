@@ -32,7 +32,12 @@ private slots:
 
     void on_btnCancel_clicked();
 
+    void on_toolBtnRefresh_clicked();
+
 private:
+    QString generateRandomCode(int length = 4);
+    QPixmap generateCaptchaImage(const QString& code);
+
     Ui::AuthorizationManageDialog *ui;
 };
 
