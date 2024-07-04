@@ -354,9 +354,27 @@ color:#505465;
            </property>
            <property name="styleSheet">
             <string notr="true">QToolButton {
-border: none; 
-border-radius: 999px; 
-background: transparent;
+border:none;
+background:transparent;
+color:#FF407AFF;
+background-image: url(:/main/resource/main/default_photoUrl.png);
+}
+QToolButton:hover  {
+border:none;
+background:transparent;
+color:#FF407AFF;
+background-image: url(:/main/resource/main/default_photoUrl.png);
+}
+QToolButton:pressed  {
+border:none;
+background:transparent;
+color:#FF407AFF;
+background-image: url(:/main/resource/main/default_photoUrl.png);
+}
+QToolButton:clicked  {
+border:none;
+background:transparent;
+color:#FF407AFF;
 background-image: url(:/main/resource/main/default_photoUrl.png);
 }</string>
            </property>

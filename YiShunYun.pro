@@ -16,6 +16,7 @@ SOURCES += \
     Logoutdialog.cpp \
     activecodeitem.cpp \
     addactivecodedialog.cpp \
+    authorizationitem.cpp \
     authorizationmanagedialog.cpp \
     buyhistoryitemwidget.cpp \
     buyhistorywidget.cpp \
@@ -58,6 +59,7 @@ HEADERS += \
     Logoutdialog.h \
     activecodeitem.h \
     addactivecodedialog.h \
+    authorizationitem.h \
     authorizationmanagedialog.h \
     buyhistoryitemwidget.h \
     buyhistorywidget.h \
@@ -99,6 +101,7 @@ FORMS += \
     Logoutdialog.ui \
     activecodeitem.ui \
     addactivecodedialog.ui \
+    authorizationitem.ui \
     authorizationmanagedialog.ui \
     buyhistoryitemwidget.ui \
     buyhistorywidget.ui \

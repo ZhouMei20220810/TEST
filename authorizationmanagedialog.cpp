@@ -4,6 +4,8 @@
 #include "messagetips.h"
 #include <QRandomGenerator>
 #include <QPainter>
+#include "authorizationitem.h"
+#include "global.h"
 #define  PICTURE_CODE_WIDTH     90
 #define  PICTURE_CODE_HEIGHT    28
 
@@ -26,15 +28,18 @@ QPixmap AuthorizationManageDialog::generateCaptchaImage(const QString& code)
     captcha.fill(QColor(215, 215, 222));
 
     QPainter painter(&captcha);
-    QFont font("Arial", 15);
+    QFont font("Arial", 12);
     painter.setFont(font);
 
     QColor textColor;
+    int iVerOffset = 0;
     for (int i = 0; i < code.length(); ++i) {
         textColor.setHsv((i * 150) % 360, 255, 150); // 随机颜色
-        painter.setPen(textColor);        
-        //painter.drawText(20 + i * 40, 30, code.at(i)); // 分散字符以避免被轻易识别
-        painter.drawText(5 + i * 20, 28, code.at(i)); // 分散字符以避免被轻易识别
+        painter.setPen(textColor);     
+        //添加垂直随机偏移量
+        iVerOffset = QRandomGenerator::global()->bounded(-5, 5);
+        //绘制字符，同时应用水平和垂直偏移
+        painter.drawText(10 + i * 17, 20+iVerOffset, code.at(i)); // 分散字符以避免被轻易识别
     }
 
     // 可以增加噪声线或点以提高安全性
@@ -47,6 +52,33 @@ QPixmap AuthorizationManageDialog::generateCaptchaImage(const QString& code)
     return captcha;
 }
 
+void AuthorizationManageDialog::InitListWidget()
+{
+    ui->listWidgetAuthorized->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetAuthorized->setSpacing(5);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetAuthorized->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetAuthorized->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetAuthorized->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    ui->listWidgetBeAuthorized->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetBeAuthorized->setSpacing(5);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetBeAuthorized->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetBeAuthorized->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetBeAuthorized->setSelectionMode(QAbstractItemView::SingleSelection);
+}
+
 AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AuthorizationManageDialog)
@@ -55,13 +87,46 @@ AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
 
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    ui->toolBtnRefresh->setVisible(false);
 
+    ui->labelPictureCode->installEventFilter(this);
+
+    InitListWidget();
+    RefreshPictureCode();
+
+    //获取已授权记录,假数据
+    QListWidgetItem* item=NULL;
+    authorizationItem* itemWidget = NULL;
+    for(int i = 0;i<10;i++)
+    {
+        item = new QListWidgetItem(ui->listWidgetAuthorized);
+        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
+        //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+        itemWidget = new authorizationItem(this);
+        ui->listWidgetAuthorized->insertItem(i, item);
+        ui->listWidgetAuthorized->setItemWidget(item, itemWidget);
+    }
+
+    for (int i = 0; i < 2; i++)
+    {
+        item = new QListWidgetItem(ui->listWidgetBeAuthorized);
+        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
+        //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+        itemWidget = new authorizationItem(this);
+        ui->listWidgetBeAuthorized->insertItem(i, item);
+        ui->listWidgetBeAuthorized->setItemWidget(item, itemWidget);
+    }
+}
+
+void AuthorizationManageDialog::RefreshPictureCode()
+{
     // 生成验证码字符串
     m_strPictureCode = generateRandomCode();
     qDebug() << "Piccode = " << m_strPictureCode;
     // 生成验证码图像
     QPixmap captchaImg = generateCaptchaImage(m_strPictureCode);
-    ui->labelPictureCode->setPixmap(captchaImg);//(captchaImg.scaled(QSize(PICTURE_CODE_WIDTH, PICTURE_CODE_HEIGHT), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->labelPictureCode->setPixmap(captchaImg.scaled(QSize(PICTURE_CODE_WIDTH, PICTURE_CODE_HEIGHT), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
 }
 
 AuthorizationManageDialog::~AuthorizationManageDialog()
@@ -81,6 +146,7 @@ void AuthorizationManageDialog::on_toolBtnAddAuthorization_clicked()
     ui->toolBtnAuthorized->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:1px;padding-left:16px;}QToolButton:hover {background-color: #FFFFFFFF;color: #505465;border-radius:0px;padding-left:16px;}");
     ui->toolBtnBeAuthorized->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:1px;padding-left:16px;}QToolButton:hover {background-color: #FFFFFFFF;color: #505465;border-radius:0px;padding-left:16px;}");
 
+    ui->toolBtnRefresh->setVisible(false);
     ui->stackedWidget->setCurrentWidget(ui->pageAddAuthorization);
 
 }
@@ -92,6 +158,7 @@ void AuthorizationManageDialog::on_toolBtnAuthorized_clicked()
     ui->toolBtnAddAuthorization->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:1px;padding-left:16px;}QToolButton:hover {background-color: #FFFFFFFF;color: #505465;border-radius:0px;padding-left:16px;}");
     ui->toolBtnBeAuthorized->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:1px;padding-left:16px;}QToolButton:hover {background-color: #FFFFFFFF;color: #505465;border-radius:0px;padding-left:16px;}");
 
+    ui->toolBtnRefresh->setVisible(true);
     ui->stackedWidget->setCurrentWidget(ui->pageAuthorized);
 }
 
@@ -102,7 +169,8 @@ void AuthorizationManageDialog::on_toolBtnBeAuthorized_clicked()
     ui->toolBtnAuthorized->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:1px;padding-left:16px;}QToolButton:hover {background-color: #FFFFFFFF;color: #505465;border-radius:0px;padding-left:16px;}");
     ui->toolBtnAddAuthorization->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:1px;padding-left:16px;}QToolButton:hover {background-color: #FFFFFFFF;color: #505465;border-radius:0px;padding-left:16px;}");
 
-    ui->stackedWidget->setCurrentWidget(ui->pageAuthorized);
+    ui->toolBtnRefresh->setVisible(true);
+    ui->stackedWidget->setCurrentWidget(ui->pageBeAuthorized);
 }
 
 
@@ -163,7 +231,33 @@ void AuthorizationManageDialog::on_btnCancel_clicked()
 
 void AuthorizationManageDialog::on_toolBtnRefresh_clicked()
 {
-    //刷新
+    //刷新,重新拉取授权记录
 
 }
 
+
+
+bool AuthorizationManageDialog::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched== ui->labelPictureCode)
+    {
+        if(event->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent* e = static_cast<QMouseEvent*>(event);
+            switch (e->button())
+            {
+            case Qt::LeftButton:
+                RefreshPictureCode();
+                return true;
+                break;
+            default:
+                break;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return QDialog::eventFilter(watched, event);
+}

@@ -35,12 +35,18 @@ private slots:
     void on_toolBtnRefresh_clicked();
 
 private:
+    void InitListWidget();
     QString generateRandomCode(int length = 4);
     QPixmap generateCaptchaImage(const QString& code);
+    void RefreshPictureCode();
 
     Ui::AuthorizationManageDialog *ui;
 
     QString m_strPictureCode;
+
+    // QObject interface
+public:
+    virtual bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // AUTHORIZATIONMANAGEDIALOG_H
