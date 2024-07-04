@@ -474,6 +474,7 @@ void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
 }
 void MainWindow::do_ActionNewPhone(bool bChecked)
 {
+    //更换云机
 }
 void MainWindow::do_ActionFactoryDataReset(bool bChecked)
 {

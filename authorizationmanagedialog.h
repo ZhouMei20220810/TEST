@@ -39,6 +39,8 @@ private:
     QPixmap generateCaptchaImage(const QString& code);
 
     Ui::AuthorizationManageDialog *ui;
+
+    QString m_strPictureCode;
 };
 
 #endif // AUTHORIZATIONMANAGEDIALOG_H

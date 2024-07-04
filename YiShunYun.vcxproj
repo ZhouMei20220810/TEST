@@ -360,6 +360,12 @@
     <None Include="resource\setting\9.png" />
     <None Include="resource\instance\ADB.png" />
     <None Include="resource\instance\ADB_open.png" />
+    <None Include="resource\author\AddAuthorized_normal.png" />
+    <None Include="resource\author\AddAuthorized_select.png" />
+    <None Include="resource\author\Authorized_normal.png" />
+    <None Include="resource\author\Authorized_select.png" />
+    <None Include="resource\author\BeAuthorized_normal.png" />
+    <None Include="resource\author\BeAuthorized_select.png" />
     <None Include="resource\individual\Enter.png" />
     <None Include="resource\instance\GPS.png" />
     <None Include="resource\main\GVIP.png" />
@@ -474,6 +480,7 @@
     <None Include="resource\main\radioCheck.png" />
     <None Include="resource\main\radioUncheck.png" />
     <None Include="resource\instance\reback.png" />
+    <None Include="resource\author\refresh.png" />
     <None Include="resource\main\refresh.png" />
     <None Include="resource\main\renew.png" />
     <QtRcc Include="res.qrc" />

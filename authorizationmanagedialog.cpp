@@ -1,7 +1,7 @@
 #include "authorizationmanagedialog.h"
 #include "ui_authorizationmanagedialog.h"
 #include "policydialog.h"
-#include "messagetipsdialog.h"
+#include "messagetips.h"
 #include <QRandomGenerator>
 #include <QPainter>
 #define  PICTURE_CODE_WIDTH     90
@@ -12,9 +12,9 @@ QString AuthorizationManageDialog::generateRandomCode(int length/* = 4*/)
 {
     const QString possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     QString code;
-    QRandomGenerator generator;
+    QRandomGenerator* generator = QRandomGenerator::global();
     for (int i = 0; i < length; ++i) {
-        code.append(possibleChars.at(generator.generate() % possibleChars.size()));
+        code.append(possibleChars.at(generator->generate() % possibleChars.size()));
     }
     return code;
 }
@@ -23,24 +23,25 @@ QString AuthorizationManageDialog::generateRandomCode(int length/* = 4*/)
 QPixmap AuthorizationManageDialog::generateCaptchaImage(const QString& code)
 {
     QPixmap captcha(PICTURE_CODE_WIDTH, PICTURE_CODE_HEIGHT);
-    captcha.fill(Qt::white);
+    captcha.fill(QColor(215, 215, 222));
 
     QPainter painter(&captcha);
-    QFont font("Arial", 30);
+    QFont font("Arial", 15);
     painter.setFont(font);
 
     QColor textColor;
     for (int i = 0; i < code.length(); ++i) {
         textColor.setHsv((i * 150) % 360, 255, 150); // 随机颜色
-        painter.setPen(textColor);
-        painter.drawText(20 + i * 40, 30, code.at(i)); // 分散字符以避免被轻易识别
+        painter.setPen(textColor);        
+        //painter.drawText(20 + i * 40, 30, code.at(i)); // 分散字符以避免被轻易识别
+        painter.drawText(5 + i * 20, 28, code.at(i)); // 分散字符以避免被轻易识别
     }
 
     // 可以增加噪声线或点以提高安全性
-    for (int i = 0; i < 100; ++i) {
-        painter.drawLine(QPoint(QRandomGenerator::global()->bounded(0, 200), QRandomGenerator::global()->bounded(0, 50)),
-            QPoint(QRandomGenerator::global()->bounded(0, 200), QRandomGenerator::global()->bounded(0, 50)));
-    }
+    /*for (int i = 0; i < 50; ++i) {
+        painter.drawLine(QPoint(QRandomGenerator::global()->bounded(0, PICTURE_CODE_WIDTH), QRandomGenerator::global()->bounded(0, PICTURE_CODE_HEIGHT)),
+            QPoint(QRandomGenerator::global()->bounded(0, PICTURE_CODE_WIDTH), QRandomGenerator::global()->bounded(0, PICTURE_CODE_HEIGHT)));
+    }*/
 
     painter.end();
     return captcha;
@@ -56,10 +57,10 @@ AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
     setWindowFlags(Qt::FramelessWindowHint);
 
     // 生成验证码字符串
-    QString code = generateRandomCode();
-    qDebug() << "code = " << code;
+    m_strPictureCode = generateRandomCode();
+    qDebug() << "Piccode = " << m_strPictureCode;
     // 生成验证码图像
-    QPixmap captchaImg = generateCaptchaImage(code);
+    QPixmap captchaImg = generateCaptchaImage(m_strPictureCode);
     ui->labelPictureCode->setPixmap(captchaImg);//(captchaImg.scaled(QSize(PICTURE_CODE_WIDTH, PICTURE_CODE_HEIGHT), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
@@ -125,13 +126,31 @@ void AuthorizationManageDialog::on_btnUserPolicy_clicked()
 void AuthorizationManageDialog::on_btnOk_clicked()
 {
     //确定
-    bool bCheck = ui->checkBoxPolicy->isChecked();
-    if(!bCheck)
+    QString strAuthCode = ui->lineEditAuthorCode->text();
+    if (strAuthCode.isEmpty())
     {
-        MessageTipsDialog* dialog = new MessageTipsDialog("请先阅读并勾选",this);
+        MessageTips* dialog = new MessageTips("授权码不能为空", this);
         dialog->show();
         return;
     }
+
+    QString strInputCode = ui->lineEditPictureCode->text();
+    if (strInputCode != m_strPictureCode)
+    {
+        MessageTips* dialog = new MessageTips("验证码不一致", this);
+        dialog->show();
+        return;
+    }
+
+    bool bCheck = ui->checkBoxPolicy->isChecked();
+    if(!bCheck)
+    {
+        MessageTips* dialog = new MessageTips("请先阅读并勾选",this);
+        dialog->show();
+        return;
+    }
+
+    //添加授权操作
 }
 
 
