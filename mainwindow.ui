@@ -3076,13 +3076,13 @@ background:transparent;</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_20">
                    <property name="spacing">
-                    <number>18</number>
+                    <number>0</number>
                    </property>
                    <property name="leftMargin">
                     <number>0</number>
                    </property>
                    <property name="topMargin">
-                    <number>11</number>
+                    <number>0</number>
                    </property>
                    <property name="rightMargin">
                     <number>0</number>
@@ -3095,7 +3095,13 @@ background:transparent;</string>
                      <property name="minimumSize">
                       <size>
                        <width>80</width>
-                       <height>21</height>
+                       <height>46</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>46</height>
                       </size>
                      </property>
                      <property name="cursor">
@@ -3117,52 +3123,58 @@ font-size:16px;
                     </widget>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_33">
-                     <property name="spacing">
-                      <number>0</number>
+                    <widget class="QFrame" name="frame_31">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>4</height>
+                      </size>
                      </property>
-                     <item>
-                      <spacer name="horizontalSpacer_26">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="labelAddActiveCode">
-                       <property name="styleSheet">
-                        <string notr="true">background-color:#407AFF;
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>4</height>
+                      </size>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_37">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="labelAddActiveCode">
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#407AFF;
 max-height:4px;
 max-width:64px;
 min-height:4px;
 min-width:64px;
 border:none;</string>
-                       </property>
-                       <property name="text">
-                        <string/>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_34">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
                    </item>
                   </layout>
                  </widget>
@@ -3183,13 +3195,13 @@ border:none;</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_21">
                    <property name="spacing">
-                    <number>18</number>
+                    <number>0</number>
                    </property>
                    <property name="leftMargin">
                     <number>0</number>
                    </property>
                    <property name="topMargin">
-                    <number>11</number>
+                    <number>0</number>
                    </property>
                    <property name="rightMargin">
                     <number>0</number>
@@ -3202,7 +3214,13 @@ border:none;</string>
                      <property name="minimumSize">
                       <size>
                        <width>80</width>
-                       <height>21</height>
+                       <height>46</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>46</height>
                       </size>
                      </property>
                      <property name="cursor">
@@ -3232,52 +3250,58 @@ font-size:16px;
                     </widget>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_34">
-                     <property name="spacing">
-                      <number>0</number>
+                    <widget class="QFrame" name="frame_32">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>4</height>
+                      </size>
                      </property>
-                     <item>
-                      <spacer name="horizontalSpacer_35">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="labelRenewActiveCode">
-                       <property name="styleSheet">
-                        <string notr="true">background-color:#FFFFFFFF;
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>4</height>
+                      </size>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_33">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QLabel" name="labelRenewActiveCode">
+                        <property name="styleSheet">
+                         <string notr="true">background-color:#FFFFFFFF;
 max-height:4px;
 max-width:64px;
 min-height:4px;
 min-width:64px;
 border:none;</string>
-                       </property>
-                       <property name="text">
-                        <string/>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_36">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
+                        </property>
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
                    </item>
                   </layout>
                  </widget>
