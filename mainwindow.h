@@ -55,7 +55,7 @@ signals:
     void GPSSignals();
 
     void closePhoneInstanceWidgetSignals();
-    void activeCodeStatusSignals(QString strStatus);
+    void activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus);
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
@@ -87,7 +87,8 @@ private:
     //关闭订单
     void HttpCloseOrder(QString strOutTradeNo);
     //激活码接口
-    void HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId);
+    //void HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId);
+    void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
 
     //注销
     void HttpLogout();
@@ -132,6 +133,8 @@ private:
     void AddIconModeListWidgetItem(S_PHONE_INFO phoneInfo);
     void AddListModeListWidgetItem(S_PHONE_INFO phoneInfo);
     void BianliTreeWidgetSelectItem(QTreeWidgetItem* item);
+
+    void DeleteActiveItemByStatus(ENUM_ACTIVE_CODE_STATUS enType);
 private slots:
     //工具栏
     void on_toolBtnCloudPhone_clicked();
@@ -220,9 +223,6 @@ private slots:
 
     void on_checkBoxAllSelect_clicked(bool checked);
     void on_checkBoxFanSelect_clicked(bool checked);
-
-    void on_checkBoxRenewHeader_clicked(bool checked);
-
     void on_toolBtnBatchOperation_clicked(bool checked);
 
     QStringList getCheckedPhoneInstance(bool IsPhoneId = false);
@@ -250,6 +250,14 @@ private slots:
     void on_btnAddPhone_2_clicked();
 
     void do_hideIndividualCenterWidgetSignals();
+
+    void on_toolBtnClearRenewList_clicked();
+    void on_toolBtnAddRenewActiveCode_clicked();
+    void on_btnOkRenewActiveCode_clicked();
+    void on_toolBtnRemoveSuccessItem_clicked();
+    void on_toolBtnRemoveFailedItem_clicked();
+    void on_checkBoxActiveCodeRenew_clicked(bool checked);
+    void on_toolBtnLevelVIP_clicked();
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

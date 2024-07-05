@@ -26,7 +26,7 @@ ActiveCodeItem::~ActiveCodeItem()
     delete ui;
 }
 
-void ActiveCodeItem::do_activeCodeStatusSignals(QString strStatus)
+void ActiveCodeItem::do_activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus)
 {
     ui->labelActiveStatus->setText(strStatus);
 }

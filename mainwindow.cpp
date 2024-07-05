@@ -36,6 +36,8 @@
 #include <QGraphicsDropShadowEffect>
 #include "addactivecodedialog.h"
 #include "activecodeitem.h"
+#include "activecoderenewitem.h"
+#include "customtoolbutton.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -113,6 +115,9 @@ MainWindow::MainWindow(QWidget *parent)
         m_Timer->stop();
         this->m_toolObject->HttpPostInstanceScreenshot(m_listInstanceNo);
         });
+
+    //加载等级列表
+    HttpLevelList();
 
     HttpQueryAllGroup();
     //初始化Tab云手机
@@ -675,7 +680,8 @@ void MainWindow::InitCloudPhoneTab()
     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
 	connect(ui->listWidget, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
 	connect(ui->listWidget2, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
-    connect(ui->listWidgetRenew, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->listWidgetActiveCode, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
+    connect(ui->listWidgetRenewActiveCode, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
     connect(ui->listWidgetRenewList, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
     connect(ui->listWidgetVIP, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
     connect(ui->treeWidget, &QMouseTreeWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
@@ -704,9 +710,7 @@ void MainWindow::InitActiveCodeTab()
 void MainWindow::InitBuyTab()
 {
     //隐藏微信支付
-    ui->toolBtnPayWechat->setVisible(false);
-    //加载等级列表
-    HttpLevelList();
+    ui->toolBtnPayWechat->setVisible(false);    
     //加载等级数据
     HttpMemberLevelListData();
     
@@ -906,7 +910,7 @@ void MainWindow::InitLevelList()
     QHBoxLayout* horizontalLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
     horizontalLayout->setSpacing(50);
 
-    S_LEVEL_INFO levelInfo;
+    /*S_LEVEL_INFO levelInfo;
     QMap<int, QMap<int, S_LEVEL_DATA_INFO>>::iterator iter = m_mapLevel.begin();
     QMap<int, S_LEVEL_DATA_INFO> data;
     QMap<int, S_LEVEL_DATA_INFO>::iterator iterData;
@@ -924,7 +928,34 @@ void MainWindow::InitLevelList()
         //levelItem->setFixedSize(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));
         connect(levelItem, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
         horizontalLayout->addWidget(levelItem);
+    }    */
+
+
+    //初始化激活页面等级按钮
+    //int会员等级
+    QMap<int, S_LEVEL_INFO>::iterator iterLevelList = m_mapLevelList.begin();
+    QHBoxLayout* horLevel = new QHBoxLayout(ui->frameLevelTab);
+    CustomToolButton* toolBtn;
+    QSize size(50,30);
+    for (; iterLevelList != m_mapLevelList.end(); iterLevelList++)
+    {
+        //激活码续费ToolBtn
+        toolBtn = new CustomToolButton(this);
+        toolBtn->setText(iterLevelList->strLevelName);
+        toolBtn->resize(size);
+        toolBtn->setData(Qt::UserRole,QVariant::fromValue(*iterLevelList));
+        toolBtn->setStyleSheet("QToolButton {border:none;color: #1E2133;border-radius:1px;padding-left:8px;}QToolButton:hover{background-color: #FFE7E8EE;color:#1E2133;border-radius:1px;padding-left:8px;}");
+        connect(toolBtn, &QToolButton::clicked, this, &MainWindow::on_toolBtnLevelVIP_clicked);
+        horLevel->addWidget(toolBtn);
+
+        //购买页面等级列表
+        levelItem = new LevelItemWidget(*iterLevelList, ui->scrollArea);
+        //levelItem->setFixedSize(QSize(ITEM_WIDGET_LEVEL_WIDTH, ITEM_WIDGET_LEVEL_HEIGHT));
+        connect(levelItem, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
+        horizontalLayout->addWidget(levelItem);
     }
+    horLevel->addStretch();
+    ui->frameLevelTab->setLayout(horLevel);
 }
 void MainWindow::InitVipList()
 {
@@ -960,18 +991,31 @@ void MainWindow::InitVipRenewList()
 
 void MainWindow::InitActiveCodeRenewList()
 {
-    ui->listWidgetRenew->setViewMode(QListView::ListMode);
+    ui->listWidgetActiveCode->setViewMode(QListView::ListMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    //ui->listWidgetRenew->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
-    ui->listWidgetRenew->setSpacing(0);//去掉上下左右空格
+    //ui->listWidgetActiveCode->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    ui->listWidgetActiveCode->setSpacing(0);//去掉上下左右空格
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-    ui->listWidgetRenew->setResizeMode(QListWidget::Adjust);
+    ui->listWidgetActiveCode->setResizeMode(QListWidget::Adjust);
     //设置不能移动
-    ui->listWidgetRenew->setMovement(QListWidget::Static);
+    ui->listWidgetActiveCode->setMovement(QListWidget::Static);
     //设置单选
-    ui->listWidgetRenew->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->listWidgetActiveCode->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    ui->listWidgetRenewActiveCode->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    //ui->listWidgetActiveCode->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    ui->listWidgetRenewActiveCode->setSpacing(0);//去掉上下左右空格
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetRenewActiveCode->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetRenewActiveCode->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetRenewActiveCode->setSelectionMode(QAbstractItemView::SingleSelection);
 }
 void MainWindow::HttpQueryAllGroup()//查询全部分组
 {
@@ -1536,8 +1580,9 @@ void MainWindow::HttpLevelList()
                             info.bIsEnabled = objData["isEnabled"].toBool();
                             info.strLevelRemark = objData["remark"].toString();
                             qDebug() << "等级" << info.iLevelId << " name=" << info.strLevelName;
-                            m_mapLevelList.insert(info.iLevelId,info);
+                            m_mapLevelList.insert(info.iLevelId,info);                            
                         }
+                        InitLevelList();
                     }
                 }
                 else
@@ -1630,7 +1675,7 @@ void MainWindow::HttpMemberLevelListData()
                         }
 
                         //初始化界面数据
-                        InitLevelList();
+                        //InitLevelList();
                     }
                 }
                 else
@@ -2266,6 +2311,7 @@ void MainWindow::on_btnCreateGroup_clicked()
 }
 
 //激活码接口
+/*
 void MainWindow::HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId)
 {
     if (strActiveCodeList.size() <= 0)
@@ -2287,13 +2333,18 @@ void MainWindow::HttpPostActivateCode(QStringList strActiveCodeList, int iRelate
     QJsonDocument doc;
     QJsonObject obj;
     QJsonArray jsonArray;
+    QJsonObject rootObject;
+    
     for (const QString& strActiveCode : strActiveCodeList)
     {
-        jsonArray.append(QJsonValue(strActiveCode));
+        obj.insert("code", strActiveCode);
+        //obj.insert("relateId", iRelateId);
+        jsonArray.append(obj);
     }
-    obj.insert("codes", jsonArray);
-    obj.insert("relateId", iRelateId);
-    doc.setObject(obj);
+
+
+    rootObject.insert("activateList", jsonArray);
+    doc.setObject(rootObject);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     //发出GET请求
     QNetworkReply* reply = manager->post(request, postData);
@@ -2316,24 +2367,119 @@ void MainWindow::HttpPostActivateCode(QStringList strActiveCodeList, int iRelate
             {
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
+                qDebug() << "response = " << response;
                 QString strMessage = obj["message"].toString();
-                bool data = obj["data"].toBool();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                emit activeCodeStatusSignals(strMessage);
-                /*if (HTTP_SUCCESS_CODE == iCode)
+                if (obj["data"].isArray())
                 {
-                    MessageTipsDialog* tips = new MessageTipsDialog("激活成功", this);
-                    tips->show();
+                    QJsonArray dataArray = obj["data"].toArray();
+                    int iSize = dataArray.size();
+                    QString strCode;
+                    bool bSuccess = false;
+                    for (int i = 0; i < iSize; i++)
+                    {
+                        strCode = dataArray[i].toString();
+                        bSuccess = dataArray[i].toBool();
+                        qDebug() << "strCode =" << strCode << "bSuccess=" << bSuccess;
+                        emit activeCodeStatusSignals(strMessage);
+                    }
+                    //
                 }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }*/
             }
         }
         reply->deleteLater();
     });
+}
+*/
+
+//激活码接口
+void MainWindow::HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode)
+{
+    if (mapActiveCode.size() <= 0)
+        return;
+
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_ACTIVE_CODE;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    QJsonArray jsonArray;
+    QJsonObject rootObject;
+
+    QMap<int, S_ACTIVE_CODE_INFO>::iterator iter = mapActiveCode.begin();
+    //for (const QString& strActiveCode : strActiveCodeList)
+    for(;iter != mapActiveCode.end(); iter++)
+    {
+        obj.insert("code", iter->strRenewActiveCode);
+        if (iter->iRelateId != 0)
+        {
+            obj.insert("relateId", iter->iRelateId);
+        }        
+        //obj.insert("relateId", iRelateId);
+        jsonArray.append(obj);
+    }
+
+
+    rootObject.insert("activateList", jsonArray);
+    doc.setObject(rootObject);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                qDebug() << "response = " << response;
+                QString strMessage = obj["message"].toString();
+                if (obj["data"].isArray())
+                {
+                    QJsonArray dataArray = obj["data"].toArray();
+                    int iSize = dataArray.size();
+                    QString strCode;
+                    bool bSuccess = false;
+                    QJsonObject obj;
+                    for (int i = 0; i < iSize; i++)
+                    {
+                        obj = dataArray[i].toObject();
+                        strCode = obj["code"].toString();
+                        bSuccess = obj["isSuccess"].toBool();
+                        qDebug() << "strCode =" << strCode << "bSuccess=" << bSuccess;
+                        if (bSuccess)
+                            strMessage = "成功";
+                        else
+                            strMessage = "失败";
+                        emit activeCodeStatusSignals(strCode,bSuccess,strMessage);
+                    }
+                    //
+                }
+            }
+        }
+        reply->deleteLater();
+        });
 }
 
 void MainWindow::on_toolBtnBuyPhone_clicked()
@@ -3397,24 +3543,6 @@ void MainWindow::startDownload(QString strUrl)
     downloader->start();
 }
 
-void MainWindow::on_checkBoxRenewHeader_clicked(bool checked)
-{
-    //选中状态
-    int iCount = ui->listWidgetRenew->count();
-    QListWidgetItem* item = NULL;
-    renewItemWidget* widget = NULL;
-    for(int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidgetRenew->item(i);
-        if(item != NULL)
-        {
-            widget = static_cast<renewItemWidget*>(ui->listWidgetRenew->itemWidget(item));
-            widget->setCheckBoxStatus(checked);
-        }
-    }
-}
-
-
 void MainWindow::on_toolBtnBatchOperation_clicked(bool checked)
 {
     QStringList strPhoneList = getCheckedPhoneInstance();
@@ -3659,6 +3787,8 @@ void MainWindow::on_btnAddActiveCode_clicked()
     ui->labelAddActiveCode->setStyleSheet("background-color:#407AFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
     ui->btnRenewActiveCode->setStyleSheet("QPushButton:hover{border:none;color: #407AFF;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:bold;font-size:16px;}QPushButton{color: #A9ADB6;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:0;font-size:16px;}");
     ui->labelRenewActiveCode->setStyleSheet("background-color:#FFFFFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
+
+    ui->stackedWidgetActiveCode->setCurrentWidget(ui->pageActive);
 }
 
 
@@ -3668,12 +3798,14 @@ void MainWindow::on_btnRenewActiveCode_clicked()
     ui->labelRenewActiveCode->setStyleSheet("background-color:#407AFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
     ui->btnAddActiveCode->setStyleSheet("QPushButton:hover{border:none;color: #407AFF;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:bold;font-size:16px;}QPushButton{color: #A9ADB6;background-color:#FFFFFFFF;border-radius:1px;padding-left:0px;font-weight:0;font-size:16px;}");
     ui->labelAddActiveCode->setStyleSheet("background-color:#FFFFFF;max-height:4px;max-width:64px;min-height:4px;min-width:64px;border:none;");
+
+    ui->stackedWidgetActiveCode->setCurrentWidget(ui->pageRenewActive);
 }
 
 
 void MainWindow::on_toolBtnClearList_clicked()
 {
-    ui->listWidgetRenew->clear();
+    ui->listWidgetActiveCode->clear();
 }
 
 
@@ -3689,13 +3821,13 @@ void MainWindow::on_toolBtnAddActiveCode_clicked()
                 QListWidgetItem* item = NULL;
                 for(int i = 0 ; i < iCount;i++)
                 {
-                    item = new QListWidgetItem(ui->listWidgetRenew);
+                    item = new QListWidgetItem(ui->listWidgetActiveCode);
                     item->setSizeHint(QSize(RENEW_ITEM_WIDTH, 30));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
 
                     widget = new ActiveCodeItem(strActiveCodeList.at(i),this);
                     connect(this, &MainWindow::activeCodeStatusSignals, widget, &ActiveCodeItem::do_activeCodeStatusSignals);
-                    ui->listWidgetRenew->addItem(item);
-                    ui->listWidgetRenew->setItemWidget(item, widget);
+                    ui->listWidgetActiveCode->addItem(item);
+                    ui->listWidgetActiveCode->setItemWidget(item, widget);
                 }
             }
         });
@@ -3714,33 +3846,46 @@ void MainWindow::on_btnActiveCode_clicked()
     }
     qDebug()<<"点击激活" << strActiveCode;*/
 
-    //查看是否是激活码续费
-    int iCount = ui->listWidgetRenew->count();
+    //激活码
+    int iCount = ui->listWidgetActiveCode->count();
     QListWidgetItem* item = NULL;
     ActiveCodeItem* widget = NULL;
     QString strActiceCode="";
     QString strPostActiveCode="";
     S_PHONE_INFO phoneInfo;
     QString strRelateId = "";
-    QStringList strActiveCodeList;
-    strActiveCodeList.clear();
+    QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode;
+    //QStringList strActiveCodeList;
+   // strActiveCodeList.clear();
+    S_ACTIVE_CODE_INFO activeInfo;
     for (int i = 0; i < iCount; i++)
     {
-        item = ui->listWidgetRenew->item(i);
+        item = ui->listWidgetActiveCode->item(i);
         if (item != NULL)
         {
-            widget = static_cast<ActiveCodeItem*>(ui->listWidgetRenew->itemWidget(item));
+            widget = static_cast<ActiveCodeItem*>(ui->listWidgetActiveCode->itemWidget(item));
             strActiceCode = widget->getActiveCode();
             if (!strActiceCode.isEmpty())
             {
-                strActiveCodeList << strActiceCode;
+                activeInfo.iRelateId = 0;
+                activeInfo.strRenewActiveCode = strActiceCode;
+                mapActiveCode.insert(i, activeInfo);
+                //strActiveCodeList << strActiceCode;
             }
         }
+    }
+
+    if (mapActiveCode.size() <= 0)
+    {
+        MessageTipsDialog* tips = new MessageTipsDialog("激活码列表不能为空!", this);
+        tips->show();
+        return;
     }
     //qDebug() <<"strPostActiveCode=" << strPostActiveCode;
 
     //relateId
-    HttpPostActivateCode(strActiveCodeList, 1);
+    //HttpPostActivateCode(strActiveCodeList, 1);
+    HttpPostActivateCode(mapActiveCode);
 }
 
 void MainWindow::on_btnGroupRefresh_clicked()
@@ -4038,3 +4183,226 @@ void MainWindow::do_hideIndividualCenterWidgetSignals()
     }
 }
 
+
+void MainWindow::on_toolBtnClearRenewList_clicked()
+{
+    ui->listWidgetRenewActiveCode->clear();
+}
+
+
+void MainWindow::on_toolBtnAddRenewActiveCode_clicked()
+{
+    if (ui->listWidgetRenewActiveCode->count() <= 0)
+    {
+        MessageTips* tips = new MessageTips("暂无可续费设备", this);
+        tips->show();
+        return;
+    }
+
+    //是否有勾选项
+    bool bSelectItem = false;
+    int iCount = ui->listWidgetRenewActiveCode->count();
+    QListWidgetItem* item = NULL;
+    ActiveCodeRenewItem* widget = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenewActiveCode->item(i);
+        if (item != NULL)
+        {
+            widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
+            if (widget != NULL)
+            {
+                if(widget->getCheckBoxStatus())
+                {
+                    bSelectItem = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    if(!bSelectItem)
+    {
+        MessageTips* tips = new MessageTips("请先勾选需续费的设备", this);
+        tips->show();
+        return;
+    }
+
+    AddActiveCodeDialog* dialog = new AddActiveCodeDialog();
+    connect(dialog, &AddActiveCodeDialog::addActiveCodeSignals, this, [this](QStringList strActiveCodeList)
+            {
+                int iCount = strActiveCodeList.size();
+                if (iCount > 0)
+                {
+                    ActiveCodeRenewItem* widget = NULL;
+                    QListWidgetItem* item = NULL;
+                    int iCodeIndex = 0;
+                    int iListCount = ui->listWidgetRenewActiveCode->count();
+                    int iSelCount = 0;
+                    for(int i = 0 ; i < iListCount;i++)
+                    {
+                        item = ui->listWidgetRenewActiveCode->item(i);
+                        if (item != NULL)
+                        {
+                            widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
+                            if(widget != NULL && widget->getCheckBoxStatus())
+                            {
+                                iSelCount++;
+                                if(iCodeIndex < iCount)
+                                {
+                                    widget->setRenewActiveCode(strActiveCodeList.at(iCodeIndex));
+                                    iCodeIndex++;
+                                }
+                            }
+                        }
+                    }
+                    if(iSelCount == iCount)
+                    {
+                        MessageTipsDialog* dialog = new MessageTipsDialog("刚好");
+                        dialog->show();
+                    }
+                    else if(iSelCount > iCount)
+                    {
+                        MessageTipsDialog* dialog = new MessageTipsDialog("激活码少了");
+                        dialog->show();
+                    }
+                    else
+                    {
+                        MessageTipsDialog* dialog = new MessageTipsDialog("添加的激活码超过续时设备的总数,超出的部分不会添加到列表中.");
+                        dialog->show();
+                    }
+                }
+            });
+    dialog->setModal(true);
+    dialog->exec();
+}
+
+
+void MainWindow::on_btnOkRenewActiveCode_clicked()
+{
+    //激活码续费,选中才能续费
+    int iCount = ui->listWidgetRenewActiveCode->count();
+    QListWidgetItem* item = NULL;
+    ActiveCodeRenewItem* widget = NULL;
+    bool bChecked = false;
+    S_PHONE_INFO phoneInfo;
+    
+    //激活码与设备匹配项
+    QMap<int, S_ACTIVE_CODE_INFO> mapDeviceToActiveCode;
+    S_ACTIVE_CODE_INFO activeCodeInfo;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenewActiveCode->item(i);
+        if (item == NULL)
+            continue;
+        widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
+        if (widget == NULL)
+            continue;
+        bChecked = widget->getCheckBoxStatus();
+        if (bChecked)
+        {
+            phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            //过滤空的激活码
+            if (!widget->getRenewActiveCode().isEmpty())
+            {
+                activeCodeInfo.iRelateId = phoneInfo.iId;
+                activeCodeInfo.strRenewActiveCode = widget->getRenewActiveCode();
+                mapDeviceToActiveCode.insert(phoneInfo.iId, activeCodeInfo);
+            }
+        }
+    }
+
+    if (mapDeviceToActiveCode.size() <= 0)
+    {
+        MessageTips* tips = new MessageTips("请先填写续费激活码", this);
+        tips->show();
+        return;
+    }
+
+    HttpPostActivateCode(mapDeviceToActiveCode);
+}
+
+void MainWindow::DeleteActiveItemByStatus(ENUM_ACTIVE_CODE_STATUS enType)
+{
+    int iCount = ui->listWidgetRenewActiveCode->count();
+    QListWidgetItem* item = NULL;
+    ActiveCodeRenewItem* widget = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenewActiveCode->item(i);
+        if (item == NULL)
+            continue;
+        widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
+        if (widget != NULL && (widget->getStatus() == enType))
+        {
+            ui->listWidgetRenewActiveCode->takeItem(i);
+        }
+    }
+}
+void MainWindow::on_toolBtnRemoveSuccessItem_clicked()
+{
+    DeleteActiveItemByStatus(TYPE_SUCCESS);
+}
+
+
+void MainWindow::on_toolBtnRemoveFailedItem_clicked()
+{
+    DeleteActiveItemByStatus(TYPE_FAILED);
+}
+
+
+void MainWindow::on_checkBoxActiveCodeRenew_clicked(bool checked)
+{
+    //选中状态
+    int iCount = ui->listWidgetRenewActiveCode->count();
+    QListWidgetItem* item = NULL;
+    ActiveCodeRenewItem* widget = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenewActiveCode->item(i);
+        if (item != NULL)
+        {
+            widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
+            if (widget != NULL)
+            {
+                widget->setCheckBoxStatus(checked);
+            }
+        }
+    }
+}
+
+void MainWindow::on_toolBtnLevelVIP_clicked()
+{
+    //默认显示第一个
+    CustomToolButton* toolBtn = qobject_cast<CustomToolButton*>(sender());
+    if(toolBtn == NULL)
+        return;
+    S_LEVEL_INFO levelInfo = toolBtn->data(Qt::UserRole).value<S_LEVEL_INFO>();
+    ui->listWidgetRenewActiveCode->clear();
+    //加载数据
+    qDebug() << "select level id=" << levelInfo.iLevelId;
+    //初始化续费列表listWidgetRenewList
+    //加载数据并显示
+    int iCount = m_mapPhoneInfo.size();
+    if (iCount > 0)
+    {
+        //初始化续费列表
+        QListWidgetItem* item = NULL;
+        ActiveCodeRenewItem* widget = NULL;
+        QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
+        for (; iter != m_mapPhoneInfo.end(); iter++)
+        {
+            if (iter->iLevel == levelInfo.iLevelId)
+            {
+                item = new QListWidgetItem(ui->listWidgetRenewActiveCode);
+                item->setData(Qt::UserRole, QVariant::fromValue(*iter));
+                item->setSizeHint(QSize(RENEW_ITEM_WIDTH, 30));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+                widget = new ActiveCodeRenewItem(*iter, this);
+                widget->setCheckBoxStatus(ui->checkBoxActiveCodeRenew->isChecked());
+                connect(this, &MainWindow::activeCodeStatusSignals, widget, &ActiveCodeRenewItem::do_activeCodeStatusSignals);
+                ui->listWidgetRenewActiveCode->addItem(item);
+                ui->listWidgetRenewActiveCode->setItemWidget(item, widget);
+            }
+        }
+    }
+}

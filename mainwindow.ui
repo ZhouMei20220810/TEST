@@ -3767,19 +3767,20 @@ QPushButton:disabled
                      <widget class="QCheckBox" name="checkBoxActiveCodeRenew">
                       <property name="minimumSize">
                        <size>
-                        <width>20</width>
-                        <height>20</height>
+                        <width>0</width>
+                        <height>0</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>20</width>
-                        <height>20</height>
+                        <width>16777215</width>
+                        <height>16777215</height>
                        </size>
                       </property>
                       <property name="styleSheet">
                        <string notr="true"> QCheckBox {
      spacing: 5px;
+color:#505465;font-size:13px;font-weight:bold;
  }
 
  QCheckBox::indicator {
@@ -3813,127 +3814,21 @@ QPushButton:disabled
 </string>
                       </property>
                       <property name="text">
-                       <string/>
+                       <string>设备名称</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QMouseFrame" name="frame_36">
-                      <property name="minimumSize">
-                       <size>
-                        <width>300</width>
-                        <height>0</height>
-                       </size>
+                     <widget class="QLabel" name="labelActiveCodeNum_2">
+                      <property name="styleSheet">
+                       <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;}</string>
                       </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>300</width>
-                        <height>16777215</height>
-                       </size>
+                      <property name="text">
+                       <string>激活码（0）</string>
                       </property>
-                      <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
                       </property>
-                      <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
-                      </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_40">
-                       <property name="spacing">
-                        <number>0</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="labelActiveCodeNum_3">
-                         <property name="minimumSize">
-                          <size>
-                           <width>300</width>
-                           <height>0</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>300</width>
-                           <height>16777215</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;}</string>
-                         </property>
-                         <property name="text">
-                          <string>设备名称</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QMouseFrame" name="frame_35">
-                      <property name="minimumSize">
-                       <size>
-                        <width>300</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>300</width>
-                        <height>30</height>
-                       </size>
-                      </property>
-                      <property name="mouseTracking">
-                       <bool>true</bool>
-                      </property>
-                      <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
-                      </property>
-                      <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_24">
-                       <property name="spacing">
-                        <number>0</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="labelActiveCodeNum_2">
-                         <property name="styleSheet">
-                          <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;}</string>
-                         </property>
-                         <property name="text">
-                          <string>激活码（0）</string>
-                         </property>
-                         <property name="alignment">
-                          <set>Qt::AlignCenter</set>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
                      </widget>
                     </item>
                     <item>

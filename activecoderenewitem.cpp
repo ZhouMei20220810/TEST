@@ -7,8 +7,7 @@ ActiveCodeRenewItem::ActiveCodeRenewItem(S_PHONE_INFO phoneInfo, QWidget *parent
 {
     ui->setupUi(this);
     m_phoneInfo = phoneInfo;
-    m_bSuccessed = false;
-
+    m_iStatus = -1;
     ui->checkBox->setText(phoneInfo.strName);
 }
 
@@ -29,7 +28,7 @@ bool ActiveCodeRenewItem::getCheckBoxStatus()
 
 void ActiveCodeRenewItem::setRenewActiveCode(QString strRenewActiveCode)
 {
-    m_bSuccessed = false;
+    m_iStatus = -1;
     ui->labelRenewActiveCode->setText(strRenewActiveCode);
 }
 
@@ -46,15 +45,20 @@ void ActiveCodeRenewItem::do_UpdateRenewActiveCodeSignals(int iPhoneId,QString s
     }
 }
 
-void ActiveCodeRenewItem::do_UpdateActiveCodeStatusSignals(QString strRenewAcitiveCode,bool bSuccess)
+void ActiveCodeRenewItem::do_activeCodeStatusSignals(QString strRenewAcitiveCode,bool bSuccess,QString strStatus)
 {
     QString labelRenewActiveCode = ui->labelRenewActiveCode->text();
     if (!labelRenewActiveCode.isEmpty())
     {
         if (labelRenewActiveCode == strRenewAcitiveCode)
         {
-            m_bSuccessed = bSuccess;
-            ui->labelStatus->setText(bSuccess ? "success" : "failed");
+            m_iStatus = bSuccess?0:1;
+            ui->labelStatus->setText(strStatus);
         }
     }
+}
+
+int ActiveCodeRenewItem::getStatus()
+{
+    return m_iStatus;
 }

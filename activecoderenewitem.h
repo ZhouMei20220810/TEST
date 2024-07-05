@@ -21,13 +21,15 @@ public:
 
     void setRenewActiveCode(QString strRenewActiveCode);
     QString getRenewActiveCode();
+
+    int getStatus();
 public slots:
     void do_UpdateRenewActiveCodeSignals(int iPhoneId, QString strRenewActiveCode);
-    void do_UpdateActiveCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess);
+    void do_activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus);
 private:
     Ui::ActiveCodeRenewItem *ui;
     S_PHONE_INFO m_phoneInfo;
-    bool         m_bSuccessed;
+    int             m_iStatus;
 };
 
 #endif // ACTIVECODERENEWITEM_H

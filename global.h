@@ -144,7 +144,12 @@ QString getMessageByCode(long code);
 std::string sha256(const std::string str);
 int calculateWidth(int fixedHeight);
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);
-
+enum ENUM_ACTIVE_CODE_STATUS
+{
+    TYPE_INIT = -1,
+    TYPE_SUCCESS = 0,
+    TYPE_FAILED = 1
+};
 enum ENUM_LOGIN_PAGE_TYPE
 {
     TYPE_PASSWORDLOGIN_PAGE = 0,
@@ -273,6 +278,15 @@ typedef struct PAD_INFO
         memset(this, 0, sizeof(PAD_INFO));
     }
 }S_PAD_INFO,*PS_PAD_INFO;
+typedef struct ACTIVE_CODE_INFO
+{
+    int         iRelateId;//PhoneId
+    QString     strRenewActiveCode;//续费激活码
+    ACTIVE_CODE_INFO()
+    {
+        memset(this, 0, sizeof(ACTIVE_CODE_INFO));
+    }
+}S_ACTIVE_CODE_INFO,*PS_ACTIVE_CODE_INFO;
 
 class GlobalData
 {
