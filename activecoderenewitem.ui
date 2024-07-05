@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ActiveCodeRenewItem</class>
+ <widget class="QWidget" name="ActiveCodeRenewItem">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>698</width>
+    <height>34</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QCheckBox" name="checkBox">
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"> QCheckBox {
+     spacing: 5px;
+ }
+
+ QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelPhoneName">
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:none;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelRenewActiveCode">
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:none;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelStatus">
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border:none;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
