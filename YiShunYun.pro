@@ -15,6 +15,7 @@ CONFIG += c++17
 SOURCES += \
     Logoutdialog.cpp \
     activecodeitem.cpp \
+    activecoderenewitem.cpp \
     addactivecodedialog.cpp \
     authorizationitem.cpp \
     authorizationmanagedialog.cpp \
@@ -58,6 +59,7 @@ SOURCES += \
 HEADERS += \
     Logoutdialog.h \
     activecodeitem.h \
+    activecoderenewitem.h \
     addactivecodedialog.h \
     authorizationitem.h \
     authorizationmanagedialog.h \
@@ -100,6 +102,7 @@ HEADERS += \
 FORMS += \
     Logoutdialog.ui \
     activecodeitem.ui \
+    activecoderenewitem.ui \
     addactivecodedialog.ui \
     authorizationitem.ui \
     authorizationmanagedialog.ui \
