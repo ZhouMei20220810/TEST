@@ -170,6 +170,8 @@ private slots:
     void do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
     //vip item
     void do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo);
+    //refresh vip Item
+    void do_refreshMemberListSignals(int iLevelId,QMap<int, S_LEVEL_DATA_INFO> mapData);
 
     void on_toolBtnSub_clicked();
     void on_toolBtnAdd_clicked();

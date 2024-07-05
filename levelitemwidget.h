@@ -21,8 +21,10 @@ public:
 
 signals:
     void selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
+    void refreshMemberListSignals(int iLevelId, QMap<int, S_LEVEL_DATA_INFO> mapData);
 private:
     void startDownload(QString strUrl);
+    void HttpMemberListByLevelId();
 
     Ui::LevelItemWidget *ui;
     S_LEVEL_INFO m_levelInfo;
@@ -31,6 +33,9 @@ private:
     // QObject interface
 private slots:
     void on_toolButtonBG_clicked();
+
+private:
+    QMap<int, S_LEVEL_DATA_INFO> m_mapData;
 };
 
 #endif // LEVELITEMWIDGET_H

@@ -21,7 +21,8 @@
 //会员列表
 #define HTTP_LEVEL_LIST             "/api/level/list"       
 //会员相关接口
-#define HTTP_MEMBER_LEVEL_LIST_DATA "/api/member/data"      //获取会员等级列表
+#define HTTP_MEMBER_LEVEL_LIST_DATA "/api/member/data"      //获取会员等级列表(全量)
+#define HTTP_MEMBER_LIST_BY_LEVELID "/api/member/list"      //获取会员等级列表通过levelId
 
 //订单接口
 #define HTTP_CREATE_ORDER           "/api/order/create"     //创建订单

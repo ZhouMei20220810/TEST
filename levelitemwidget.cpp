@@ -2,6 +2,10 @@
 #include "ui_levelitemwidget.h"
 #include "global.h"
 #include "filedownloader.h"
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "messagetips.h"
 
 LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
     : QWidget(parent)
@@ -112,7 +116,92 @@ void LevelItemWidget::on_toolButtonBG_clicked()
 {
     QString strIcon = QString(":/main/resource/buy/%1_level_bg_select.png").arg(m_levelInfo.strLevelName);
     m_toolBtn->setIcon(QIcon(strIcon));
-    
+    HttpMemberListByLevelId();
     emit selectLevelTypeSignals(m_levelInfo);
 }
 
+
+//会员相关接口
+void LevelItemWidget::HttpMemberListByLevelId()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_MEMBER_LIST_BY_LEVELID;
+    strUrl += QString("?level=%1&page=%2&pageSize=%3").arg(m_levelInfo.iLevelId).arg(1).arg(100);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    QJsonObject dataObj = obj["data"].toObject();
+                    int iTotal = dataObj["total"].toInt();
+                    int iSize = dataObj["size"].toInt();
+                    int iCurrent = dataObj["current"].toInt();
+
+                    if (dataObj["records"].isArray())
+                    {
+                        QJsonArray recordArray = dataObj["records"].toArray();
+                        m_mapData.clear();
+                        S_LEVEL_DATA_INFO sLevelData;
+                        QJsonObject member;
+                        for (int i = 0; i < recordArray.size(); i++)
+                        {
+                            member = recordArray[i].toObject();
+                            sLevelData.iMemberId = member["id"].toInt();
+                            sLevelData.strMemberName = member["name"].toString();
+                            sLevelData.iLevelId = member["level"].toInt();
+                            sLevelData.fPrice = member["price"].toDouble();
+                            sLevelData.fActivityPrice = member["activityPrice"].toDouble();
+                            sLevelData.strUrl = member["url"].toString();
+                            sLevelData.strRemark = member["remark"].toString();
+                            sLevelData.strInstanceLevel = member["instanceLevel"].toString();
+                            sLevelData.iUseDay = member["useDay"].toInt();
+                            sLevelData.strLevelName = member["levelName"].toString();
+                            sLevelData.strColorIcon = member["colorIcon"].toString();
+                            sLevelData.strAshIcon = member["ashIcon"].toString();
+                            sLevelData.strLevelRemark = member["levelRemark"].toString();
+                            m_mapData.insert(sLevelData.iMemberId, sLevelData);                                
+                        }
+                        emit refreshMemberListSignals(m_levelInfo.iLevelId,m_mapData);
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
