@@ -22,6 +22,7 @@ SOURCES += \
     buyhistoryitemwidget.cpp \
     buyhistorywidget.cpp \
     creategroupwidget.cpp \
+    customtoolbutton.cpp \
     factorydataresetdialog.cpp \
     filedownloader.cpp \
     forgetpwdialog.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     buyhistoryitemwidget.h \
     buyhistorywidget.h \
     creategroupwidget.h \
+    customtoolbutton.h \
     factorydataresetdialog.h \
     filedownloader.h \
     forgetpwdialog.h \

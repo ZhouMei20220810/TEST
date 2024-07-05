@@ -8,6 +8,8 @@ ActiveCodeRenewItem::ActiveCodeRenewItem(S_PHONE_INFO phoneInfo, QWidget *parent
     ui->setupUi(this);
     m_phoneInfo = phoneInfo;
     m_bSuccessed = false;
+
+    ui->checkBox->setText(phoneInfo.strName);
 }
 
 ActiveCodeRenewItem::~ActiveCodeRenewItem()
@@ -52,7 +54,7 @@ void ActiveCodeRenewItem::do_UpdateActiveCodeStatusSignals(QString strRenewAciti
         if (labelRenewActiveCode == strRenewAcitiveCode)
         {
             m_bSuccessed = bSuccess;
-            ui->labelStatus->setText(bSuccess ? "³É¹¦" : "Ê§°Ü");
+            ui->labelStatus->setText(bSuccess ? "success" : "failed");
         }
     }
 }
