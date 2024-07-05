@@ -1187,10 +1187,10 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
             // 在这里处理根节点
             // 例如：
             sGroupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
-            //只显示未过期的设备，修改父窗口的值
-            item->setText(0, QString("%1(%2)").arg(sGroupInfo.strGroupName).arg(mapPhoneInfo.size()));
+            //只显示未过期的设备，修改父窗口的值            
             if (iGroupId == sGroupInfo.iGroupId)
             {
+                item->setText(0, QString("%1(%2)").arg(sGroupInfo.strGroupName).arg(mapPhoneInfo.size()));
                 QMap<int, S_LEVEL_INFO>::iterator iterFind; 
                 QMap<int, S_PHONE_INFO>::iterator iter = mapPhoneInfo.begin();
                 for (; iter != mapPhoneInfo.end(); iter++)
