@@ -206,6 +206,7 @@
     <ClCompile Include="activecodeitem.cpp" />
     <ClCompile Include="activecoderenewitem.cpp" />
     <ClCompile Include="addactivecodedialog.cpp" />
+    <ClCompile Include="addauthorizationdialog.cpp" />
     <ClCompile Include="authorizationitem.cpp" />
     <ClCompile Include="authorizationmanagedialog.cpp" />
     <ClCompile Include="buyhistoryitemwidget.cpp" />
@@ -236,6 +237,7 @@
     <ClCompile Include="queuetableitem.cpp" />
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="renewitemwidget.cpp" />
+    <ClCompile Include="replacecloudphonedialog.cpp" />
     <ClCompile Include="smsloginpage.cpp" />
     <ClCompile Include="systemsettingwidget.cpp" />
     <ClCompile Include="tcustomdragdroplistwidget.cpp" />
@@ -251,6 +253,7 @@
     <QtMoc Include="activecodeitem.h" />
     <QtMoc Include="activecoderenewitem.h" />
     <QtMoc Include="addactivecodedialog.h" />
+    <QtMoc Include="addauthorizationdialog.h" />
     <QtMoc Include="authorizationitem.h" />
     <QtMoc Include="authorizationmanagedialog.h" />
     <QtMoc Include="buyhistoryitemwidget.h" />
@@ -280,6 +283,7 @@
     <QtMoc Include="queuetableitem.h" />
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="renewitemwidget.h" />
+    <QtMoc Include="replacecloudphonedialog.h" />
     <QtMoc Include="smsloginpage.h" />
     <QtMoc Include="systemsettingwidget.h" />
     <QtMoc Include="tcustomdragdroplistwidget.h" />
@@ -311,6 +315,7 @@
     <QtUic Include="activecodeitem.ui" />
     <QtUic Include="activecoderenewitem.ui" />
     <QtUic Include="addactivecodedialog.ui" />
+    <QtUic Include="addauthorizationdialog.ui" />
     <QtUic Include="authorizationitem.ui" />
     <QtUic Include="authorizationmanagedialog.ui" />
     <QtUic Include="buyhistoryitemwidget.ui" />
@@ -331,6 +336,7 @@
     <QtUic Include="queuetableitem.ui" />
     <QtUic Include="registerpage.ui" />
     <QtUic Include="renewitemwidget.ui" />
+    <QtUic Include="replacecloudphonedialog.ui" />
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="systemsettingwidget.ui" />
     <QtUic Include="updategroupwidget.ui" />
@@ -448,6 +454,7 @@
     <None Include="resource\main\defaultSceenShot.png" />
     <None Include="resource\main\default_photoUrl.png" />
     <None Include="resource\main\delete.png" />
+    <None Include="resource\main\deleteActiveItem.png" />
     <None Include="resource\main\email.png" />
     <None Include="resource\function\emptyMeal.png" />
     <None Include="resource\main\expand.png" />

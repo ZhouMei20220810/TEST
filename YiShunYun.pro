@@ -17,6 +17,7 @@ SOURCES += \
     activecodeitem.cpp \
     activecoderenewitem.cpp \
     addactivecodedialog.cpp \
+    addauthorizationdialog.cpp \
     authorizationitem.cpp \
     authorizationmanagedialog.cpp \
     buyhistoryitemwidget.cpp \
@@ -47,6 +48,7 @@ SOURCES += \
     queuetableitem.cpp \
     registerpage.cpp \
     renewitemwidget.cpp \
+    replacecloudphonedialog.cpp \
     smsloginpage.cpp \
     systemsettingwidget.cpp \
     tcustomdragdroplistwidget.cpp \
@@ -62,6 +64,7 @@ HEADERS += \
     activecodeitem.h \
     activecoderenewitem.h \
     addactivecodedialog.h \
+    addauthorizationdialog.h \
     authorizationitem.h \
     authorizationmanagedialog.h \
     buyhistoryitemwidget.h \
@@ -91,6 +94,7 @@ HEADERS += \
     queuetableitem.h \
     registerpage.h \
     renewitemwidget.h \
+    replacecloudphonedialog.h \
     smsloginpage.h \
     systemsettingwidget.h \
     tcustomdragdroplistwidget.h \
@@ -106,6 +110,7 @@ FORMS += \
     activecodeitem.ui \
     activecoderenewitem.ui \
     addactivecodedialog.ui \
+    addauthorizationdialog.ui \
     authorizationitem.ui \
     authorizationmanagedialog.ui \
     buyhistoryitemwidget.ui \
@@ -126,6 +131,7 @@ FORMS += \
     queuetableitem.ui \
     registerpage.ui \
     renewitemwidget.ui \
+    replacecloudphonedialog.ui \
     smsloginpage.ui \
     systemsettingwidget.ui \
     updategroupwidget.ui \

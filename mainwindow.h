@@ -213,6 +213,8 @@ private slots:
     void do_ActionMoveGroup(bool bChecked);
     void do_ActionBatchMoveGroup(bool bChecked);
     void do_ActionRenewCloudPhone(bool bChecked);
+    void do_ActionAuthorization(bool bChecked);
+    void do_ActionReplaceCloudPhone(bool bChecked);
     void on_treeWidget_itemPressed(QTreeWidgetItem *item, int column);
 
     //一分钟响应一次
@@ -310,6 +312,8 @@ private:
     QAction* pActionUploadFile;
     //QAction* pActionMoveGroup;
     QAction* pActionRenewCloudPhone;
+    QAction* pActionAuthorization;
+    QAction* pActionReplaceCloudPhone;
 
     QAction* pActionBatchReboot;
     QAction* pActionBatchUploadFile;

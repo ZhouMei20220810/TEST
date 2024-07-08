@@ -38,6 +38,8 @@
 #include "activecodeitem.h"
 #include "activecoderenewitem.h"
 #include "customtoolbutton.h"
+#include "addauthorizationdialog.h"
+#include "replacecloudphonedialog.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -554,6 +556,21 @@ void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
     //手机续费
     on_toolBtnRenewPhone_clicked();
 }
+
+void MainWindow::do_ActionAuthorization(bool bChecked)
+{
+    //授权
+    AddAuthorizationDialog* dialog = new AddAuthorizationDialog();
+    dialog->exec();
+}
+
+void MainWindow::do_ActionReplaceCloudPhone(bool bChecked)
+{
+    //更换云机
+    ReplaceCloudPhoneDialog* dialog = new ReplaceCloudPhoneDialog();
+    dialog->exec();
+}
+
 void MainWindow::InitGroupMenu()
 {
     //组右键菜单
@@ -590,6 +607,8 @@ void MainWindow::InitPhoneMenu()
     pActionUploadFile = new QAction("上传文件", ui->treeWidget);
     //pActionMoveGroup = new QAction("移动分组", ui->treeWidget);    
     pActionRenewCloudPhone = new QAction("续费云手机", ui->treeWidget);
+    pActionAuthorization = new QAction("授权", ui->treeWidget);
+    pActionReplaceCloudPhone = new QAction("更换云机",ui->treeWidget);
     connect(pActionBeginControl, &QAction::triggered, this, &MainWindow::do_ActionBeginControl);
     connect(pActionCopyCloudId, &QAction::triggered, this, &MainWindow::do_ActionCopyCloudId);
     connect(pActionRename, &QAction::triggered, this, &MainWindow::do_ActionRename);
@@ -599,6 +618,8 @@ void MainWindow::InitPhoneMenu()
     connect(pActionUploadFile, &QAction::triggered, this, &MainWindow::do_ActionUploadFile);
     //connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
     connect(pActionRenewCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRenewCloudPhone);
+    connect(pActionAuthorization, &QAction::triggered, this, &MainWindow::do_ActionAuthorization);
+    connect(pActionReplaceCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionReplaceCloudPhone);
     m_PhoneMenu->addAction(pActionBeginControl);
     m_PhoneMenu->addAction(pActionCopyCloudId);
     m_PhoneMenu->addAction(pActionRename);
@@ -611,6 +632,8 @@ void MainWindow::InitPhoneMenu()
     //m_PhoneMenu->addAction(pActionMoveGroup);
     m_PhoneMenu->addSeparator();
     m_PhoneMenu->addAction(pActionRenewCloudPhone);
+    m_PhoneMenu->addAction(pActionAuthorization);
+    m_PhoneMenu->addAction(pActionReplaceCloudPhone);
 }
 
 //云手机
