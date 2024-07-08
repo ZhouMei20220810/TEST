@@ -41,6 +41,9 @@
 
 extern QSystemTrayIcon* g_trayIcon;
 
+#define         LEVEL_TYPE_TOOLBUTTON_WIDTH        (80)
+#define         LEVEL_TYPE_TOOLBUTTON_HEIGHT       (32)
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -913,19 +916,20 @@ void MainWindow::InitLevelList()
     //初始化激活页面等级按钮
     //int会员等级
     QMap<int, S_LEVEL_INFO>::iterator iterLevelList = m_mapLevelList.begin();
-    QHBoxLayout* horLevel = new QHBoxLayout(ui->frameLevelTab);
+    m_hBoxLevelTypeToolBtn = new QHBoxLayout(ui->frameLevelTab);
     CustomToolButton* toolBtn;
-    QSize size(50,30);
+    QSize size(LEVEL_TYPE_TOOLBUTTON_WIDTH, LEVEL_TYPE_TOOLBUTTON_HEIGHT);
     for (; iterLevelList != m_mapLevelList.end(); iterLevelList++)
     {
         //激活码续费ToolBtn
         toolBtn = new CustomToolButton(this);
         toolBtn->setText(iterLevelList->strLevelName);
-        toolBtn->resize(size);
+        //toolBtn->resize(size);
+        toolBtn->setFixedSize(size);
         toolBtn->setData(Qt::UserRole,QVariant::fromValue(*iterLevelList));
-        toolBtn->setStyleSheet("QToolButton {border:none;color: #1E2133;border-radius:1px;padding-left:8px;}QToolButton:hover{background-color: #FFE7E8EE;color:#1E2133;border-radius:1px;padding-left:8px;}");
+        toolBtn->setStyleSheet("QToolButton {border:none;background-color:#F4F6FA;color:#A9ADB6;border-top-left-radius:2px;border-top-right-radius:2px;padding-left:0px;font-size:14px;}QToolButton:hover{background-color:#E6E9F2;color:#505465;border-top-left-radius:2px;border-top-right-radius:2px;padding-left:0px;font-size:14px;}");
         connect(toolBtn, &QToolButton::clicked, this, &MainWindow::on_toolBtnLevelVIP_clicked);
-        horLevel->addWidget(toolBtn);
+        m_hBoxLevelTypeToolBtn->addWidget(toolBtn);
 
         //购买页面等级列表
         levelItem = new LevelItemWidget(*iterLevelList, ui->scrollArea);
@@ -936,8 +940,10 @@ void MainWindow::InitLevelList()
         //connect(levelItem, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
         horizontalLayout->addWidget(levelItem);
     }
-    horLevel->addStretch();
-    ui->frameLevelTab->setLayout(horLevel);
+    m_hBoxLevelTypeToolBtn->addStretch();
+    m_hBoxLevelTypeToolBtn->setContentsMargins(24, 8, 0, 0);
+    m_hBoxLevelTypeToolBtn->setSpacing(4);
+    ui->frameLevelTab->setLayout(m_hBoxLevelTypeToolBtn);
 }
 void MainWindow::InitVipList()
 {
@@ -2451,12 +2457,11 @@ void MainWindow::HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCod
                         bSuccess = obj["isSuccess"].toBool();
                         qDebug() << "strCode =" << strCode << "bSuccess=" << bSuccess;
                         if (bSuccess)
-                            strMessage = "成功";
+                            strMessage = "激活成功";
                         else
-                            strMessage = "失败";
+                            strMessage = "激活码不存在";
                         emit activeCodeStatusSignals(strCode,bSuccess,strMessage);
                     }
-                    //
                 }
             }
         }
@@ -4323,12 +4328,12 @@ void MainWindow::on_toolBtnAddRenewActiveCode_clicked()
                             }
                         }
                     }
-                    if(iSelCount == iCount)
+                    /*if (iSelCount == iCount)
                     {
                         MessageTipsDialog* dialog = new MessageTipsDialog("刚好");
                         dialog->show();
                     }
-                    else if(iSelCount > iCount)
+                    else */if(iSelCount > iCount)
                     {
                         MessageTipsDialog* dialog = new MessageTipsDialog("激活码少了");
                         dialog->show();
@@ -4394,7 +4399,7 @@ void MainWindow::DeleteActiveItemByStatus(ENUM_ACTIVE_CODE_STATUS enType)
     int iCount = ui->listWidgetRenewActiveCode->count();
     QListWidgetItem* item = NULL;
     ActiveCodeRenewItem* widget = NULL;
-    for (int i = 0; i < iCount; i++)
+    for (int i = iCount-1; i >= 0; i--)
     {
         item = ui->listWidgetRenewActiveCode->item(i);
         if (item == NULL)
@@ -4408,12 +4413,14 @@ void MainWindow::DeleteActiveItemByStatus(ENUM_ACTIVE_CODE_STATUS enType)
 }
 void MainWindow::on_toolBtnRemoveSuccessItem_clicked()
 {
+    //删除成功项
     DeleteActiveItemByStatus(TYPE_SUCCESS);
 }
 
 
 void MainWindow::on_toolBtnRemoveFailedItem_clicked()
 {
+    //更改失败项状态
     DeleteActiveItemByStatus(TYPE_FAILED);
 }
 
@@ -4444,6 +4451,27 @@ void MainWindow::on_toolBtnLevelVIP_clicked()
     CustomToolButton* toolBtn = qobject_cast<CustomToolButton*>(sender());
     if(toolBtn == NULL)
         return;
+    int iLayoutCount = m_hBoxLevelTypeToolBtn->count();
+    QWidget* widget = NULL;
+    QToolButton* tBtn = NULL;
+    for (int i = 0; i < iLayoutCount; i++)
+    {
+        widget = m_hBoxLevelTypeToolBtn->itemAt(i)->widget();
+        if (widget== NULL)
+        {
+            continue;
+        }
+        tBtn = qobject_cast<QToolButton*>(widget);
+        if (tBtn == toolBtn)
+        {
+            tBtn->setStyleSheet("QToolButton{background-color:#E6E9F2;color:#505465;border-top-left-radius:2px;border-top-right-radius:2px;padding-left:0px;font-size:14px;}");
+        }
+        else
+        {
+            tBtn->setStyleSheet("QToolButton {border:none;background-color:#F4F6FA;color:#A9ADB6;border-top-left-radius:2px;border-top-right-radius:2px;padding-left:0px;font-size:14px;}QToolButton:hover{background-color:#E6E9F2;color:#505465;border-top-left-radius:2px;border-top-right-radius:2px;padding-left:0px;font-size:14px;}");
+        }
+    }
+    
     S_LEVEL_INFO levelInfo = toolBtn->data(Qt::UserRole).value<S_LEVEL_INFO>();
     ui->listWidgetRenewActiveCode->clear();
     //加载数据

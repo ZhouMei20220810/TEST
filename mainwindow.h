@@ -342,6 +342,8 @@ private:
 
     bool m_isIconMode;
     int  m_iCheckCount;
+
+    QHBoxLayout* m_hBoxLevelTypeToolBtn; //激活码续费level布局
 };
 
 #endif // MAINWINDOW_H
