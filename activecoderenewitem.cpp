@@ -45,22 +45,32 @@ void ActiveCodeRenewItem::do_UpdateRenewActiveCodeSignals(int iPhoneId,QString s
     }
 }
 
-void ActiveCodeRenewItem::do_activeCodeStatusSignals(QString strRenewAcitiveCode,bool bSuccess,QString strStatus)
+void ActiveCodeRenewItem::do_activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus)
 {
-    QString labelRenewActiveCode = ui->labelRenewActiveCode->text();
-    if (!labelRenewActiveCode.isEmpty())
+    QString strRenewActiveCode = ui->labelRenewActiveCode->text();
+    if (strRenewActiveCode.isEmpty())
     {
-        qDebug() << "strRenewAcitiveCode=" << strRenewAcitiveCode << "strStatus=" << strStatus;
-        //if (labelRenewActiveCode == strRenewAcitiveCode)
-        {
-            if (!bSuccess)
-                ui->labelStatus->setStyleSheet("border:none;background:transparent;color:#F96D6F");
-            else
-                ui->labelStatus->setStyleSheet("border:none;background:transparent;color:#505465");
-            m_iStatus = bSuccess?0:1;
-            ui->labelStatus->setText(strStatus);
-        }
+        return;
     }
+    QMap<QString, bool>::iterator iterFind = mapActiveCodeStatus.find(strRenewActiveCode);
+    if (iterFind != mapActiveCodeStatus.end())
+    {
+        bool bSuccess = iterFind.value();
+        QString strMessage,strStyleSheet;
+        if (bSuccess)
+        {
+            strMessage = "激活成功";
+            strStyleSheet = "border:none;background:transparent;color:#505465";
+        }            
+        else
+        {
+            strStyleSheet = "border:none;background:transparent;color:#F96D6F";
+            strMessage = "激活码不存在";
+        }
+        m_iStatus = bSuccess ? 0 : 1;
+        ui->labelStatus->setStyleSheet(strStyleSheet);
+        ui->labelStatus->setText(strMessage);            
+    }    
 }
 
 int ActiveCodeRenewItem::getStatus()

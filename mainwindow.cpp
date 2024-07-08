@@ -2481,18 +2481,15 @@ void MainWindow::HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCod
                     QString strCode;
                     bool bSuccess = false;
                     QJsonObject obj;
+                    QMap<QString, bool> mapStatus;
                     for (int i = 0; i < iSize; i++)
                     {
                         obj = dataArray[i].toObject();
                         strCode = obj["code"].toString();
-                        bSuccess = obj["isSuccess"].toBool();
-                        qDebug() << "strCode =" << strCode << "bSuccess=" << bSuccess;
-                        if (bSuccess)
-                            strMessage = "激活成功";
-                        else
-                            strMessage = "激活码不存在";
-                        emit activeCodeStatusSignals(strCode,bSuccess,strMessage);
+                        bSuccess = obj["isSuccess"].toBool();                        
+                        mapStatus.insert(strCode, bSuccess);                        
                     }
+                    emit activeCodeStatusSignals(mapStatus);
                 }
             }
         }

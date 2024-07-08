@@ -17,7 +17,7 @@ public:
 
     QString getActiveCode();
 public slots:
-    void do_activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus);
+    void do_activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
 private:
     Ui::ActiveCodeItem *ui;
     QString m_strActiveCode;

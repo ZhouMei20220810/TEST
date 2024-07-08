@@ -26,7 +26,29 @@ ActiveCodeItem::~ActiveCodeItem()
     delete ui;
 }
 
-void ActiveCodeItem::do_activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus)
+void ActiveCodeItem::do_activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus)
 {
-    ui->labelActiveStatus->setText(strStatus);
+    QString strRenewActiveCode = ui->labelActiveCode->text();
+    if (strRenewActiveCode.isEmpty())
+    {
+        return;
+    }
+    QMap<QString, bool>::iterator iterFind = mapActiveCodeStatus.find(strRenewActiveCode);
+    if (iterFind != mapActiveCodeStatus.end())
+    {
+        bool bSuccess = iterFind.value();
+        QString strMessage, strStyleSheet;
+        if (bSuccess)
+        {
+            strMessage = "激活成功";
+            strStyleSheet = "border:none;background:transparent;color:#505465";
+        }
+        else
+        {
+            strStyleSheet = "border:none;background:transparent;color:#F96D6F";
+            strMessage = "激活码不存在";
+        }
+        ui->labelActiveStatus->setStyleSheet(strStyleSheet);
+        ui->labelActiveStatus->setText(strMessage);
+    }
 }

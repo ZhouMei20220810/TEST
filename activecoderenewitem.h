@@ -27,7 +27,7 @@ signals:
     void deleteActiveItemSignals(S_PHONE_INFO phoneInfo);
 public slots:
     void do_UpdateRenewActiveCodeSignals(int iPhoneId, QString strRenewActiveCode);
-    void do_activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus);
+    void do_activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
 private slots:
     void on_toolBtnDel_clicked();
 

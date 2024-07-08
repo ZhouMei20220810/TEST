@@ -55,7 +55,7 @@ signals:
     void GPSSignals();
 
     void closePhoneInstanceWidgetSignals();
-    void activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus);
+    void activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
