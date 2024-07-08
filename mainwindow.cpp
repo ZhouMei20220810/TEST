@@ -1213,6 +1213,33 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
     }
 }
 
+//显示续费列表数据
+void MainWindow::ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> mapPhoneInfo)
+{
+    if (mapPhoneInfo.size() <= 0)
+        return;
+
+    ui->listWidgetRenewActiveCode->clear();
+    QListWidgetItem* item = NULL;
+    ActiveCodeRenewItem* widget = NULL;
+    QMap<int, S_PHONE_INFO>::iterator iter = mapPhoneInfo.begin();
+    for (; iter != mapPhoneInfo.end(); iter++)
+    {
+        if (iter->iLevel == iLevelId)
+        {
+            item = new QListWidgetItem(ui->listWidgetRenewActiveCode);
+            item->setData(Qt::UserRole, QVariant::fromValue(*iter));
+            item->setSizeHint(QSize(RENEW_ITEM_WIDTH, 30));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            widget = new ActiveCodeRenewItem(*iter, this);
+            widget->setCheckBoxStatus(ui->checkBoxActiveCodeRenew->isChecked());
+            connect(this, &MainWindow::activeCodeStatusSignals, widget, &ActiveCodeRenewItem::do_activeCodeStatusSignals);
+            connect(widget, &ActiveCodeRenewItem::deleteActiveItemSignals, this, &MainWindow::do_deleteActiveItemSignals);
+            ui->listWidgetRenewActiveCode->addItem(item);
+            ui->listWidgetRenewActiveCode->setItemWidget(item, widget);
+        }
+    }
+}
+
 //显示任务
 void MainWindow::ShowTaskInfo()
 {
@@ -1923,7 +1950,7 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
     strUrl += HTTP_GET_MY_PHONE_INSTANCE;
     //level不传值,返回该 组下面所有的level
     if(iLevel != 0)
-        strUrl += QString::asprintf("?groupId=%d&level=%d&page=%d&pageSize=%d", iGroupId, iLevel, iPage, iPageSize);
+        strUrl += QString::asprintf("?level=%d&page=%d&pageSize=%d", iLevel, iPage, iPageSize);
     else
         strUrl += QString::asprintf("?groupId=%d&page=%d&pageSize=%d", iGroupId, iPage, iPageSize);
     qDebug() << "strUrl = " << strUrl;
@@ -1992,7 +2019,11 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                                 m_mapPhoneInfo.insert(i, phoneInfo);
                                 qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType<<"level="<< phoneInfo.iLevel;
                             }
-                            ShowPhoneInfo(iGroupId, m_mapPhoneInfo);
+                            if(iLevel != 0)
+                                ShowActiveCodeItemInfo(iLevel, m_mapPhoneInfo);
+                            else
+                                ShowPhoneInfo(iGroupId, m_mapPhoneInfo);
+                            
                         }
                     }
                 }
@@ -4473,6 +4504,8 @@ void MainWindow::on_toolBtnLevelVIP_clicked()
     }
     
     S_LEVEL_INFO levelInfo = toolBtn->data(Qt::UserRole).value<S_LEVEL_INFO>();
+    m_ActiveRenewLevelType = levelInfo.iLevelId;
+
     ui->listWidgetRenewActiveCode->clear();
     //加载数据
     qDebug() << "select level id=" << levelInfo.iLevelId;
@@ -4495,9 +4528,40 @@ void MainWindow::on_toolBtnLevelVIP_clicked()
                 widget = new ActiveCodeRenewItem(*iter, this);
                 widget->setCheckBoxStatus(ui->checkBoxActiveCodeRenew->isChecked());
                 connect(this, &MainWindow::activeCodeStatusSignals, widget, &ActiveCodeRenewItem::do_activeCodeStatusSignals);
+                connect(widget, &ActiveCodeRenewItem::deleteActiveItemSignals, this, &MainWindow::do_deleteActiveItemSignals);
                 ui->listWidgetRenewActiveCode->addItem(item);
                 ui->listWidgetRenewActiveCode->setItemWidget(item, widget);
             }
         }
     }
 }
+
+void MainWindow::do_deleteActiveItemSignals(S_PHONE_INFO phoneInfo)
+{
+    int iCount = ui->listWidgetRenewActiveCode->count();
+    QListWidgetItem* item = NULL;
+    ActiveCodeRenewItem* widget = NULL;
+    S_PHONE_INFO pi;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetRenewActiveCode->item(i);
+        if (item != NULL)
+        {
+            pi = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            if (pi.iId = phoneInfo.iId)
+            {
+                ui->listWidgetRenewActiveCode->takeItem(i);
+                break;
+            }
+        }
+    }
+}
+void MainWindow::on_btnRefreshRenewList_clicked()
+{
+    if (m_ActiveRenewLevelType <= 0)
+        return;
+    //刷新续费列表
+    qDebug() << "查询手机列表 m_ActiveRenewLevelType="<< m_ActiveRenewLevelType;
+    HttpGetMyPhoneInstance(0, 1, 1000, m_ActiveRenewLevelType);
+}
+

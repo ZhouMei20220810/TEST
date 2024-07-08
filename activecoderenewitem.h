@@ -23,9 +23,14 @@ public:
     QString getRenewActiveCode();
 
     int getStatus();
+signals:
+    void deleteActiveItemSignals(S_PHONE_INFO phoneInfo);
 public slots:
     void do_UpdateRenewActiveCodeSignals(int iPhoneId, QString strRenewActiveCode);
     void do_activeCodeStatusSignals(QString strRenewAcitiveCode, bool bSuccess, QString strStatus);
+private slots:
+    void on_toolBtnDel_clicked();
+
 private:
     Ui::ActiveCodeRenewItem *ui;
     S_PHONE_INFO m_phoneInfo;

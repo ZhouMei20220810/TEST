@@ -3758,27 +3758,45 @@ QPushButton:disabled
                      <number>0</number>
                     </property>
                     <property name="rightMargin">
-                     <number>0</number>
+                     <number>40</number>
                     </property>
                     <property name="bottomMargin">
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QCheckBox" name="checkBoxActiveCodeRenew">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>0</height>
-                       </size>
+                     <widget class="QFrame" name="frame_35">
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
                       </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
                       </property>
-                      <property name="styleSheet">
-                       <string notr="true"> QCheckBox {
+                      <layout class="QHBoxLayout" name="horizontalLayout_39">
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <property name="leftMargin">
+                        <number>24</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QCheckBox" name="checkBoxActiveCodeRenew">
+                         <property name="maximumSize">
+                          <size>
+                           <width>24</width>
+                           <height>24</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">QCheckBox {
      spacing: 5px;
 color:#505465;font-size:13px;font-weight:bold;
  }
@@ -3810,12 +3828,27 @@ color:#505465;font-size:13px;font-weight:bold;
 
  QCheckBox::indicator:checked:pressed {
      image: url(:/login/resource/login/option_select.png);
- }
-</string>
-                      </property>
-                      <property name="text">
-                       <string>设备名称</string>
-                      </property>
+ }</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_4">
+                         <property name="styleSheet">
+                          <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;}</string>
+                         </property>
+                         <property name="text">
+                          <string>云手机名称(0)</string>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
                      </widget>
                     </item>
                     <item>
@@ -3902,6 +3935,51 @@ border-top: 1px solid #D7D7DE;
                      <number>24</number>
                     </property>
                     <item>
+                     <widget class="QPushButton" name="btnRefreshRenewList">
+                      <property name="styleSheet">
+                       <string notr="true"> QPushButton {
+     border: 1px solid #C4C7D0;
+     border-radius:2px;
+	 background-color: #FFFFFF;
+ 	 color:#505465;
+	min-width:100px;
+	min-height:30px;
+	max-width:100px;
+	max-height:30px;
+ }
+QPushButton:hover
+{
+	border: 1px solid #C4C7D0;
+	background-color: #FFFFFF;
+	color:#505465;
+}
+ QPushButton:pressed {
+     border: 1px solid #C4C7D0;
+     border-radius: 2px;
+	background-color: #FFFFFF;
+	color:#505465;
+ }
+QPushButton:disabled
+{
+ background-color: #FFFFFF;
+ color:#505465;
+}
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }
+</string>
+                      </property>
+                      <property name="text">
+                       <string>刷新</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
                      <spacer name="horizontalSpacer_26">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
@@ -3953,8 +4031,9 @@ max-width:100px;
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: #FFFFFF;
-background-color: #407AFF;
+background-color: #596380;
 border-radius:2px;
+font-weight:bold;
 padding-left:0px;
 font-weight:bold;
 font-size:14px;
@@ -3977,8 +4056,9 @@ max-width:100px;
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: #FFFFFF;
-background-color: #407AFF;
+background-color: #596380;
 border-radius:2px;
+font-weight:bold;
 padding-left:0px;
 font-weight:bold;
 font-size:14px;

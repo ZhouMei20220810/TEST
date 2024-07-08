@@ -73,9 +73,11 @@ private:
     //显示树内容
     void ShowGroupInfo();
     //实例列表
-    void ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> m_mapPhoneInfo);
+    void ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInfo);
     //显示任务
     void ShowTaskInfo();
+    //激活码续费列表
+    void ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> mapPhoneInfo);
 
     //会员级别接口
     void HttpLevelList();
@@ -260,6 +262,9 @@ private slots:
     void on_toolBtnRemoveFailedItem_clicked();
     void on_checkBoxActiveCodeRenew_clicked(bool checked);
     void on_toolBtnLevelVIP_clicked();
+
+    void do_deleteActiveItemSignals(S_PHONE_INFO phoneInfo);
+    void on_btnRefreshRenewList_clicked();
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -344,6 +349,7 @@ private:
     int  m_iCheckCount;
 
     QHBoxLayout* m_hBoxLevelTypeToolBtn; //激活码续费level布局
+    int          m_ActiveRenewLevelType;
 };
 
 #endif // MAINWINDOW_H

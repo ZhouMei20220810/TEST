@@ -91,6 +91,7 @@
         <file>resource/buy/sub.png</file>
         <file>resource/main/previous.png</file>
         <file>resource/main/next.png</file>
+        <file>resource/main/deleteActiveItem.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

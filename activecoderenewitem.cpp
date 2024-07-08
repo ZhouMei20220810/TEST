@@ -50,8 +50,13 @@ void ActiveCodeRenewItem::do_activeCodeStatusSignals(QString strRenewAcitiveCode
     QString labelRenewActiveCode = ui->labelRenewActiveCode->text();
     if (!labelRenewActiveCode.isEmpty())
     {
-        if (labelRenewActiveCode == strRenewAcitiveCode)
+        qDebug() << "strRenewAcitiveCode=" << strRenewAcitiveCode << "strStatus=" << strStatus;
+        //if (labelRenewActiveCode == strRenewAcitiveCode)
         {
+            if (!bSuccess)
+                ui->labelStatus->setStyleSheet("border:none;background:transparent;color:#F96D6F");
+            else
+                ui->labelStatus->setStyleSheet("border:none;background:transparent;color:#505465");
             m_iStatus = bSuccess?0:1;
             ui->labelStatus->setText(strStatus);
         }
@@ -61,4 +66,9 @@ void ActiveCodeRenewItem::do_activeCodeStatusSignals(QString strRenewAcitiveCode
 int ActiveCodeRenewItem::getStatus()
 {
     return m_iStatus;
+}
+void ActiveCodeRenewItem::on_toolBtnDel_clicked()
+{
+    //删除项
+    emit deleteActiveItemSignals(m_phoneInfo);
 }
