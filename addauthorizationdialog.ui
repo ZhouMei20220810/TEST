@@ -667,16 +667,16 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEditAuthorCode">
+          <widget class="QLineEdit" name="lineEditDay">
            <property name="minimumSize">
             <size>
-             <width>168</width>
+             <width>186</width>
              <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>168</width>
+             <width>186</width>
              <height>28</height>
             </size>
            </property>
@@ -695,7 +695,7 @@ padding-left:10px;</string>
             <enum>QLineEdit::Normal</enum>
            </property>
            <property name="placeholderText">
-            <string>请输入授权码</string>
+            <string>单次授权不得超过x天</string>
            </property>
           </widget>
          </item>
@@ -765,16 +765,16 @@ padding-left:10px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEditAuthorCode_2">
+          <widget class="QLineEdit" name="lineEditPhoneNum">
            <property name="minimumSize">
             <size>
-             <width>168</width>
+             <width>186</width>
              <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>168</width>
+             <width>186</width>
              <height>28</height>
             </size>
            </property>
@@ -793,7 +793,7 @@ padding-left:10px;</string>
             <enum>QLineEdit::Normal</enum>
            </property>
            <property name="placeholderText">
-            <string>请输入授权码</string>
+            <string>请输入被授权方手机号</string>
            </property>
           </widget>
          </item>
@@ -822,6 +822,9 @@ padding-left:10px;</string>
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <property name="spacing">
+          <number>6</number>
+         </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -863,35 +866,63 @@ padding-left:10px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEditAuthorCode_3">
+          <widget class="QComboBox" name="comboBoxMethod">
            <property name="minimumSize">
             <size>
-             <width>168</width>
+             <width>186</width>
              <height>28</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>168</width>
+             <width>186</width>
              <height>28</height>
             </size>
            </property>
            <property name="font">
             <font>
-             <pointsize>10</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">border:none;
-color:#FF4A4A4A;
-background-color: #FFE7E8EE;
-padding-left:10px;</string>
-           </property>
-           <property name="echoMode">
-            <enum>QLineEdit::Normal</enum>
-           </property>
-           <property name="placeholderText">
-            <string>请输入授权码</string>
+            <string notr="true">QComboBox{
+background-color:#E7E8EE;
+border:none;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:30px;width:15px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
+} 
+QComboBox QAbstractItemView
+{
+	background:#FFFFFFFF;
+	border:1px solid rgba(228,228,228,1);
+	border-radius:0px 0px 5px 5px;
+	font-size:14px;
+	outline:0px;
+}
+QComboBox QAbstractItemView::item{
+	height:36px;
+	color:#FF666666;
+	padding-left:9px;
+	background-color:#FFFFFFFF;
+}
+QComboBox QAbstractItemView::item:hover{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}
+QComboBox QAbstractItemView::item:selected{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}</string>
            </property>
           </widget>
          </item>
@@ -913,6 +944,49 @@ padding-left:10px;</string>
       </item>
       <item>
        <widget class="QFrame" name="frame_9">
+        <property name="styleSheet">
+         <string notr="true">QCheckBox::indicator {
+     width: 16px;
+     height: 16px;
+ }
+
+ QCheckBox::indicator:unchecked {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:hover {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:unchecked:pressed {
+     image: url(:/login/resource/login/option_normal.png);
+ }
+
+ QCheckBox::indicator:checked {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:hover {
+     image: url(:/login/resource/login/option_select.png);
+ }
+
+ QCheckBox::indicator:checked:pressed {
+     image: url(:/login/resource/login/option_select.png);
+ }
+QRadioButton::indicator::unchecked
+{
+border-image:url(:/main/resource/main/radioUncheck.png);
+}
+QRadioButton::indicator::checked
+{
+border-image:url(:/main/resource/main/radioCheck.png);
+}
+QRadioButton::indicator
+{
+width:16px;
+height:16px;
+}</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -961,17 +1035,53 @@ padding-left:10px;</string>
           </widget>
          </item>
          <item>
-          <widget class="QRadioButton" name="radioButtonReadOnly">
-           <property name="text">
-            <string>仅浏览</string>
+          <widget class="QFrame" name="frame_11">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButtonControl">
-           <property name="text">
-            <string>控制云手机</string>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
            </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <property name="spacing">
+             <number>40</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QRadioButton" name="radioButtonReadOnly">
+              <property name="text">
+               <string>仅浏览</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="radioButtonControl">
+              <property name="text">
+               <string>控制云手机</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
          <item>
