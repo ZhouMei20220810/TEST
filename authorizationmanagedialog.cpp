@@ -177,7 +177,7 @@ void AuthorizationManageDialog::on_toolBtnBeAuthorized_clicked()
 void AuthorizationManageDialog::on_btnAuthorPolicy_clicked()
 {
     //易舜授权协议
-    PolicyDialog* policy = new PolicyDialog("用户使用协议","https://www.ysyos.com/deal/Authorization.html",this);
+    PolicyDialog* policy = new PolicyDialog("易舜授权协议","https://www.ysyos.com/deal/Authorization.html",this);
     //policy->show();
     policy->exec();
 }

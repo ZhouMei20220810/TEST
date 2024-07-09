@@ -482,10 +482,7 @@ void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
     strList << m_CurSelMenuPhoneInfo.strInstanceNo;
     this->m_toolObject->HttpPostInstanceReboot(strList);
 }
-void MainWindow::do_ActionNewPhone(bool bChecked)
-{
-    //更换云机
-}
+
 void MainWindow::do_ActionFactoryDataReset(bool bChecked)
 {
     /*m_pCurItem = ui->treeWidget->currentItem();
@@ -560,7 +557,7 @@ void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 void MainWindow::do_ActionAuthorization(bool bChecked)
 {
     //授权
-    AddAuthorizationDialog* dialog = new AddAuthorizationDialog();
+    AddAuthorizationDialog* dialog = new AddAuthorizationDialog(m_CurSelMenuPhoneInfo);
     dialog->exec();
 }
 
@@ -602,7 +599,6 @@ void MainWindow::InitPhoneMenu()
     pActionCopyCloudId = new QAction("复制云号", ui->treeWidget);
     pActionRename = new QAction("重命名", ui->treeWidget);
     pActionRestartCloudPhone = new QAction("重启云手机", ui->treeWidget);
-    pActionNewPhone = new QAction("更换云机", ui->treeWidget);
     pActionFactoryDataReset = new QAction("恢复出厂设置", ui->treeWidget);
     pActionUploadFile = new QAction("上传文件", ui->treeWidget);
     //pActionMoveGroup = new QAction("移动分组", ui->treeWidget);    
@@ -613,7 +609,6 @@ void MainWindow::InitPhoneMenu()
     connect(pActionCopyCloudId, &QAction::triggered, this, &MainWindow::do_ActionCopyCloudId);
     connect(pActionRename, &QAction::triggered, this, &MainWindow::do_ActionRename);
     connect(pActionRestartCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRestartCloudPhone);
-    connect(pActionNewPhone, &QAction::triggered, this, &MainWindow::do_ActionNewPhone);
     connect(pActionFactoryDataReset, &QAction::triggered, this, &MainWindow::do_ActionFactoryDataReset);
     connect(pActionUploadFile, &QAction::triggered, this, &MainWindow::do_ActionUploadFile);
     //connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
@@ -625,7 +620,6 @@ void MainWindow::InitPhoneMenu()
     m_PhoneMenu->addAction(pActionRename);
     m_PhoneMenu->addAction(pActionRestartCloudPhone);
     m_PhoneMenu->addSeparator();
-    m_PhoneMenu->addAction(pActionNewPhone);
     m_PhoneMenu->addAction(pActionFactoryDataReset);
     m_PhoneMenu->addAction(pActionUploadFile);
     m_SubPhoneMenu = m_PhoneMenu->addMenu("移动分组");
