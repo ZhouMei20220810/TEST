@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>472</width>
+    <width>508</width>
     <height>35</height>
    </rect>
   </property>
@@ -39,7 +39,7 @@
      </property>
      <property name="maximumSize">
       <size>
-       <width>118</width>
+       <width>16777215</width>
        <height>16777215</height>
       </size>
      </property>
@@ -55,28 +55,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="labelAuthorType">
-     <property name="minimumSize">
-      <size>
-       <width>118</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>118</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background:transparent;</string>
-     </property>
-     <property name="text">
-      <string>授权类型</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QLabel" name="labelExpirationTime">
      <property name="minimumSize">
       <size>
@@ -86,7 +64,7 @@
      </property>
      <property name="maximumSize">
       <size>
-       <width>118</width>
+       <width>16777215</width>
        <height>16777215</height>
       </size>
      </property>
@@ -108,7 +86,7 @@
      </property>
      <property name="maximumSize">
       <size>
-       <width>118</width>
+       <width>16777215</width>
        <height>16777215</height>
       </size>
      </property>

@@ -2,6 +2,7 @@
 #define AUTHORIZATIONITEM_H
 
 #include <QWidget>
+#include "global.h"
 
 namespace Ui {
 class authorizationItem;
@@ -12,7 +13,7 @@ class authorizationItem : public QWidget
     Q_OBJECT
 
 public:
-    explicit authorizationItem(QWidget *parent = nullptr);
+    explicit authorizationItem(S_AUTHOR_INFO authInfo,QWidget *parent = nullptr);
     ~authorizationItem();
 
 private slots:

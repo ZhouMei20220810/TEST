@@ -1182,13 +1182,6 @@ QPushButton:disabled
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>授权类型</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QLabel" name="label_8">
               <property name="text">
                <string>到期时间</string>
@@ -1250,31 +1243,12 @@ QPushButton:disabled
               </property>
               <property name="maximumSize">
                <size>
-                <width>118</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
               <property name="text">
                <string>云手机</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_11">
-              <property name="minimumSize">
-               <size>
-                <width>118</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>118</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>授权类型</string>
               </property>
              </widget>
             </item>
@@ -1288,7 +1262,7 @@ QPushButton:disabled
               </property>
               <property name="maximumSize">
                <size>
-                <width>118</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -1307,7 +1281,7 @@ QPushButton:disabled
               </property>
               <property name="maximumSize">
                <size>
-                <width>118</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>

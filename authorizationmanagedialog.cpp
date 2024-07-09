@@ -6,6 +6,12 @@
 #include <QPainter>
 #include "authorizationitem.h"
 #include "global.h"
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonArray>
+
 #define  PICTURE_CODE_WIDTH     90
 #define  PICTURE_CODE_HEIGHT    28
 
@@ -92,30 +98,7 @@ AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
     ui->labelPictureCode->installEventFilter(this);
 
     InitListWidget();
-    RefreshPictureCode();
-
-    //获取已授权记录,假数据
-    QListWidgetItem* item=NULL;
-    authorizationItem* itemWidget = NULL;
-    for(int i = 0;i<10;i++)
-    {
-        item = new QListWidgetItem(ui->listWidgetAuthorized);
-        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
-        //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-        itemWidget = new authorizationItem(this);
-        ui->listWidgetAuthorized->insertItem(i, item);
-        ui->listWidgetAuthorized->setItemWidget(item, itemWidget);
-    }
-
-    for (int i = 0; i < 2; i++)
-    {
-        item = new QListWidgetItem(ui->listWidgetBeAuthorized);
-        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
-        //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-        itemWidget = new authorizationItem(this);
-        ui->listWidgetBeAuthorized->insertItem(i, item);
-        ui->listWidgetBeAuthorized->setItemWidget(item, itemWidget);
-    }
+    RefreshPictureCode();       
 }
 
 void AuthorizationManageDialog::RefreshPictureCode()
@@ -160,6 +143,8 @@ void AuthorizationManageDialog::on_toolBtnAuthorized_clicked()
 
     ui->toolBtnRefresh->setVisible(true);
     ui->stackedWidget->setCurrentWidget(ui->pageAuthorized);
+
+    HttpGetAuthorizedListInfo(1,1000);
 }
 
 
@@ -171,6 +156,8 @@ void AuthorizationManageDialog::on_toolBtnBeAuthorized_clicked()
 
     ui->toolBtnRefresh->setVisible(true);
     ui->stackedWidget->setCurrentWidget(ui->pageBeAuthorized);
+
+    HttpGetBeAuthorizedListInfo(1,1000);
 }
 
 
@@ -219,8 +206,63 @@ void AuthorizationManageDialog::on_btnOk_clicked()
     }
 
     //添加授权操作
+    HttpPostAddAuthCode(strAuthCode);
 }
+void AuthorizationManageDialog::HttpPostAddAuthCode(QString strAuthCode)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_ADD_AUTH_CODE;
+    strUrl += QString("%1").arg(strAuthCode);
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
 
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isObject())
+                    {
+                        qDebug() << "添加授权码";
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
 
 void AuthorizationManageDialog::on_btnCancel_clicked()
 {
@@ -232,7 +274,13 @@ void AuthorizationManageDialog::on_btnCancel_clicked()
 void AuthorizationManageDialog::on_toolBtnRefresh_clicked()
 {
     //刷新,重新拉取授权记录
+    ui->stackedWidget->setCurrentWidget(ui->pageBeAuthorized);
 
+    
+    if (ui->stackedWidget->currentWidget() == ui->pageBeAuthorized)
+        HttpGetBeAuthorizedListInfo(1, 1000);
+    else
+        HttpGetAuthorizedListInfo(1, 1000);
 }
 
 
@@ -260,4 +308,217 @@ bool AuthorizationManageDialog::eventFilter(QObject *watched, QEvent *event)
         }
     }
     return QDialog::eventFilter(watched, event);
+}
+
+void AuthorizationManageDialog::HttpGetAuthorizedListInfo(int iPage,int iPageSize)
+{
+    //已授权列表
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_AUTHORIZATION_LIST;
+    //level不传值,返回该 组下面所有的level
+    strUrl += QString::asprintf("?page=%d&pageSize=%d", iPage, iPageSize);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject data = obj["data"].toObject();
+                        int iCurrent = data["current"].toInt();
+                        int iPages = data["pages"].toInt();
+                        int iSize = data["size"].toInt();
+                        int iTotal = data["total"].toInt();
+                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
+                        QJsonArray records = data["records"].toArray();
+                        if (records.size() > 0)
+                        {
+                            int iRecordsSize = records.size();
+                            QJsonObject recordObj;
+                            //获取我的手机实例数据，暂未存储
+                            S_AUTHOR_INFO authInfo;
+                            QMap<int, S_AUTHOR_INFO> map;
+                            for (int i = 0; i < iRecordsSize; i++)
+                            {
+                                recordObj = records[i].toObject();
+                                authInfo.strAuthCode = recordObj["authCode"].toString();
+                                authInfo.iAuthUserId = recordObj["authUserId"].toInt();
+                                authInfo.iCreateBy = recordObj["createBy"].toInt();
+                                authInfo.strCreateTime = recordObj["createTime"].toString();
+                                authInfo.iInstanceId = recordObj["instanceId"].toInt();
+                                authInfo.strInstanceName = recordObj["instanceName"].toString();
+                                authInfo.strInstanceNo = recordObj["instanceNo"].toString();
+                                authInfo.iStatus = recordObj["status"].toInt();
+                                authInfo.iUseDay = recordObj["useDay"].toInt();
+                                //m_mapPhoneInfo.insert(i, phoneInfo);
+                                map.insert(i, authInfo);
+                            }
+                            LoadAuthorizedList(map);
+
+                        }
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
+void AuthorizationManageDialog::LoadAuthorizedList(QMap<int, S_AUTHOR_INFO> map)
+{
+    //获取已授权记录,假数据
+    QListWidgetItem* item = NULL;
+    authorizationItem* itemWidget = NULL;
+    QMap<int, S_AUTHOR_INFO>::iterator iter = map.begin();
+    for (; iter != map.end(); iter++)
+    {
+        item = new QListWidgetItem(ui->listWidgetAuthorized);
+        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
+        //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+        itemWidget = new authorizationItem(*iter,this);
+        ui->listWidgetAuthorized->addItem(item);
+        ui->listWidgetAuthorized->setItemWidget(item, itemWidget);
+    }
+}
+
+void AuthorizationManageDialog::HttpGetBeAuthorizedListInfo(int iPage,int iPageSize)
+{
+    //已授权列表
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_BE_AUTHORIZATION_LIST;
+    //level不传值,返回该 组下面所有的level
+    strUrl += QString::asprintf("?page=%d&pageSize=%d", iPage, iPageSize);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject data = obj["data"].toObject();
+                        int iCurrent = data["current"].toInt();
+                        int iPages = data["pages"].toInt();
+                        int iSize = data["size"].toInt();
+                        int iTotal = data["total"].toInt();
+                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
+                        QJsonArray records = data["records"].toArray();
+                        if (records.size() > 0)
+                        {
+                            int iRecordsSize = records.size();
+                            QJsonObject recordObj;
+                            //获取我的手机实例数据，暂未存储
+                            S_AUTHOR_INFO authInfo;
+                            QMap<int, S_AUTHOR_INFO> map;
+                            for (int i = 0; i < iRecordsSize; i++)
+                            {
+                                recordObj = records[i].toObject();
+                                authInfo.strAuthCode = recordObj["authCode"].toString();
+                                authInfo.iAuthUserId = recordObj["authUserId"].toInt();
+                                authInfo.iCreateBy = recordObj["createBy"].toInt();
+                                authInfo.strCreateTime = recordObj["createTime"].toString();
+                                authInfo.iInstanceId = recordObj["instanceId"].toInt();
+                                authInfo.strInstanceName = recordObj["instanceName"].toString();
+                                authInfo.strInstanceNo = recordObj["instanceNo"].toString();
+                                authInfo.iStatus = recordObj["status"].toInt();
+                                authInfo.iUseDay = recordObj["useDay"].toInt();
+                                //m_mapPhoneInfo.insert(i, phoneInfo);
+                                map.insert(i, authInfo);
+                            }
+                            LoadBeAuthorizedList(map);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
+void AuthorizationManageDialog::LoadBeAuthorizedList(QMap<int, S_AUTHOR_INFO> map)
+{
+    ui->listWidgetBeAuthorized->clear();
+    QMap<int, S_AUTHOR_INFO>::iterator iter = map.begin();
+    authorizationItem* itemWidget = NULL;
+    QListWidgetItem* item = NULL;
+    for (; iter != map.end(); iter++)
+    {
+        item = new QListWidgetItem(ui->listWidgetBeAuthorized);
+        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
+        //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+        itemWidget = new authorizationItem(*iter,this);
+        ui->listWidgetBeAuthorized->addItem(item);
+        ui->listWidgetBeAuthorized->setItemWidget(item, itemWidget);
+    }
 }

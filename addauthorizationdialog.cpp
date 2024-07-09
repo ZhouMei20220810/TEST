@@ -111,19 +111,20 @@ void AddAuthorizationDialog::on_btnOk_clicked()
         return;
     }
 
+    QDateTime ExpireTime = QDateTime::currentDateTime().addDays(iDay);
     //根据单选弹框
     if(ui->radioButtonAccount->isChecked())
     {
-        HttpPostAuthAccountByPhone(m_bIsReadOnly, m_phoneInfo.iId, iDay, strPhone);
+        HttpPostAuthAccountByPhone(m_bIsReadOnly, m_phoneInfo.iId, ExpireTime.toMSecsSinceEpoch(), strPhone);
     }
     else
     {
         //生成授权码
-        HttpPostGeneratorAuthCode(m_bIsReadOnly, m_phoneInfo.iId, iDay);
+        HttpPostGeneratorAuthCode(m_bIsReadOnly, m_phoneInfo.iId, ExpireTime.toMSecsSinceEpoch());
     }
 }
 
-void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, int iUserInstanceId, int iUseDay)
+void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, qint64 iUserInstanceId, qint64 iExpireTime)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_POST_GENERATOR_AUTH_CODE;
@@ -145,7 +146,7 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, int iUs
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("grantControl", strGrantControl);
-    obj.insert("useDay", iUseDay);
+    obj.insert("expireTime", iExpireTime);
     obj.insert("userInstanceId",iUserInstanceId);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
@@ -213,7 +214,7 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, int iUs
 }
 
 
-void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, int iUseDay, QString strPhoneNum)
+void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, qint64 iExpireTime, QString strPhoneNum)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_POST_AUTH_ACCOUNT_BY_PHONE;
@@ -235,7 +236,7 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("grantControl", strGrantControl);
-    obj.insert("useDay", iUseDay);
+    obj.insert("expireTime", iExpireTime);
     obj.insert("userInstanceId", iUserInstanceId);
     obj.insert("mobile",strPhoneNum);
     doc.setObject(obj);

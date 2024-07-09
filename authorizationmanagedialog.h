@@ -2,6 +2,7 @@
 #define AUTHORIZATIONMANAGEDIALOG_H
 
 #include <QDialog>
+#include "global.h"
 
 namespace Ui {
 class AuthorizationManageDialog;
@@ -36,6 +37,13 @@ private slots:
 
 private:
     void InitListWidget();
+    void HttpPostAddAuthCode(QString strAuthCode);
+
+    void HttpGetAuthorizedListInfo(int iPage, int iPageSize);
+    void LoadAuthorizedList(QMap<int, S_AUTHOR_INFO> map);
+    void HttpGetBeAuthorizedListInfo(int iPage, int iPageSize);
+    void LoadBeAuthorizedList(QMap<int, S_AUTHOR_INFO> map);
+
     QString generateRandomCode(int length = 4);
     QPixmap generateCaptchaImage(const QString& code);
     void RefreshPictureCode();
@@ -43,7 +51,6 @@ private:
     Ui::AuthorizationManageDialog *ui;
 
     QString m_strPictureCode;
-
     // QObject interface
 public:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;

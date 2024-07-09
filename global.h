@@ -54,7 +54,12 @@
 #define HTTP_CLOUD_PHONE_SERVER         "https://platform.armvm.com"
 #define HTTP_CLOUD_PHONE_GET_INSTANCE   "/auth/device/connect.html?s=da67906d06e8d334d1c8308fbba8af67&appkey=4a8311be034943cfaa6a357fdc9f0461&auth_ver=2&nonce=1576737589993" //实例申请
 
-
+//授权管理
+#define HTTP_GET_AUTHORIZATION_LIST     "/api/auth/list"        //已授权列表
+#define HTTP_GET_BE_AUTHORIZATION_LIST  "/api/auth/other/list"  //被授权列表
+#define HTTP_POST_GENERATOR_AUTH_CODE   "/api/auth/generate"    //生成授权码
+#define HTTP_POST_AUTH_ACCOUNT_BY_PHONE "/api/auth/auth"        //通过账号授权
+#define HTTP_POST_ADD_AUTH_CODE         "/api/auth/auth/" //根据授权码授权
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
@@ -141,6 +146,7 @@ typedef struct LEVEL_DATA_INFO
 #define         ITEM_WIDGET_VIP_HEIGHT          120
 #define         ITEM_WIDGET_VIP_COUNT           5//列表总数
 
+QString getAuthStatusString(int iStatus);
 QString getMessageByCode(long code);
 std::string sha256(const std::string str);
 int calculateWidth(int fixedHeight);
@@ -290,6 +296,23 @@ typedef struct ACTIVE_CODE_INFO
         memset(this, 0, sizeof(ACTIVE_CODE_INFO));
     }
 }S_ACTIVE_CODE_INFO,*PS_ACTIVE_CODE_INFO;
+
+typedef struct AUTHOR_INFO
+{
+    int             iAuthUserId;
+    int             iCreateBy;
+    int             iInstanceId;
+    int             iStatus;//授权状态 0.未使用 1.已使用
+    int             iUseDay;
+    QString         strAuthCode;
+    QString         strCreateTime;
+    QString         strInstanceName;
+    QString         strInstanceNo;
+    AUTHOR_INFO()
+    {
+        memset(this, 0, sizeof(AUTHOR_INFO));
+    }
+}S_AUTHOR_INFO,*PS_AUTHOR_INFO;
 
 class GlobalData
 {

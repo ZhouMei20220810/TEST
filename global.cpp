@@ -148,6 +148,22 @@ int calculateWidth(int fixedHeight)
     int calcWidth = static_cast<int>(fixedHeight * aspectRatio);
     return calcWidth;
 }
+QString getAuthStatusString(int iStatus)
+{
+    QString strStatus="";
+    switch (iStatus)
+    {
+    case 0:
+        strStatus = "未使用";
+        break;
+    case 1:
+        strStatus = "已使用";
+        break;
+    default:
+        break;
+    }
+    return strStatus;
+}
 QString getMessageByCode(long code)
 {
     QString strMsg;

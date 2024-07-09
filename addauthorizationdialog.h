@@ -42,8 +42,8 @@ private slots:
 
     void on_btnCancelAuthAccount_2_clicked();
 private:
-    void HttpPostGeneratorAuthCode(bool bIsReadOnly,int iUserInstanceId, int iUseDay);
-    void HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, int iUseDay,QString strPhoneNum);
+    void HttpPostGeneratorAuthCode(bool bIsReadOnly,qint64 iUserInstanceId, qint64 iExpireTime);
+    void HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, qint64 iExpireTime,QString strPhoneNum);
 private:
     Ui::AddAuthorizationDialog *ui;
 
