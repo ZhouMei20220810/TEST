@@ -5,6 +5,12 @@
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 #include "policydialog.h"
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "messagetips.h"
 
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *parent)
     : QDialog(parent)
@@ -92,9 +98,15 @@ void AddAuthorizationDialog::on_btnOk_clicked()
         dialog->show();
         return;
     }
-    if (iDay <= 0)
+    if (iDay > 999)
     {
-        MessageTipsDialog* dialog = new MessageTipsDialog("请输入正确天数", this);
+        MessageTipsDialog* dialog = new MessageTipsDialog("授权最大值999天", this);
+        dialog->show();
+        return;
+    }
+    if (iDay < 1)
+    {
+        MessageTipsDialog* dialog = new MessageTipsDialog("授权最小值1天", this);
         dialog->show();
         return;
     }
@@ -128,32 +140,98 @@ void AddAuthorizationDialog::on_btnOk_clicked()
     }
     else
     {
-        ui->labelName->setText(m_phoneInfo.strName);
-        if (ui->radioButtonReadOnly->isChecked())
-        {
-            ui->labelQuanxian->setText("仅观看");
-        }
-        else
-        {
-            ui->labelQuanxian->setText("可操控");
-        }
-
-        if (m_phoneInfo.bUsed)
-        {
-            ui->labelUseStatus->setText("已使用");
-        }
-        else
-        {
-            ui->labelUseStatus->setText("未使用");
-        }
-
-        ui->labelUseDay->setText(ui->lineEditDay->text() + "天");
-
-        ui->label->setText("授权信息");
-        ui->stackedWidget->setCurrentWidget(ui->pageCode);
+        //生成授权码
+        HttpPostGeneratorAuthCode(m_bIsReadOnly, GlobalData::id, iDay);        
     }
 }
 
+void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, int iUserInstanceId, int iUseDay)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_GENERATOR_AUTH_CODE;
+
+    QString strGrantControl = "CONTROL";
+    if (bIsReadOnly)
+        strGrantControl = "WATCH";
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("grantControl", strGrantControl);
+    obj.insert("useDay", iUseDay);
+    obj.insert("userInstanceId",iUserInstanceId);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                QString strData = obj["data"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << strData << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    ui->labelName->setText(m_phoneInfo.strName);
+                    if (ui->radioButtonReadOnly->isChecked())
+                    {
+                        ui->labelQuanxian->setText("仅观看");
+                    }
+                    else
+                    {
+                        ui->labelQuanxian->setText("可操控");
+                    }
+
+                    if (m_phoneInfo.bUsed)
+                    {
+                        ui->labelUseStatus->setText("已使用");
+                    }
+                    else
+                    {
+                        ui->labelUseStatus->setText("未使用");
+                    }
+
+                    ui->labelUseDay->setText(ui->lineEditDay->text() + "天");
+
+                    ui->label->setText("授权信息");
+                    ui->label_18->setText("授权码："+ strData);
+                    ui->stackedWidget->setCurrentWidget(ui->pageCode);
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
 
 void AddAuthorizationDialog::on_toolBtnTips_clicked()
 {
