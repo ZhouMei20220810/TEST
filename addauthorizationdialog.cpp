@@ -81,10 +81,10 @@ void AddAuthorizationDialog::on_btnOk_clicked()
         return;
     }
 
-    QString strPhoneName = ui->lineEditPhoneNum->text();
+    QString strPhone = ui->lineEditPhoneNum->text();
     int iAuthDay = ui->lineEditDay->text().toInt();
-    qDebug()<<"instance="<<m_phoneInfo.strInstanceNo<<"strPhoneName="<<strPhoneName<<"iDay="<<iAuthDay<<"readonly="<<m_bIsReadOnly<<"accountAuth="<<m_bIsAccountAuth;
-    if(m_bIsAccountAuth && strPhoneName.isEmpty())
+    qDebug()<<"instance="<<m_phoneInfo.strInstanceNo<<"strPhone="<<strPhone<<"iDay="<<iAuthDay<<"readonly="<<m_bIsReadOnly<<"accountAuth="<<m_bIsAccountAuth;
+    if(m_bIsAccountAuth && strPhone.isEmpty())
     {
         MessageTipsDialog* dialog = new MessageTipsDialog("指定账号授权，账号不能为空", this);
         dialog->show();
@@ -114,29 +114,7 @@ void AddAuthorizationDialog::on_btnOk_clicked()
     //根据单选弹框
     if(ui->radioButtonAccount->isChecked())
     {
-        ui->labelName_2->setText(m_phoneInfo.strName);
-        if (ui->radioButtonReadOnly->isChecked())
-        {
-            ui->labelQuanxian_2->setText("仅观看");
-        }
-        else
-        {
-            ui->labelQuanxian_2->setText("可操控");
-        }
-
-        if (m_phoneInfo.bUsed)
-        {
-            ui->labelUseStatus_2->setText("已使用");
-        }
-        else
-        {
-            ui->labelUseStatus_2->setText("未使用");
-        }
-        
-        ui->labelUseDay_2->setText(ui->lineEditDay->text() + "天");
-
-        ui->label->setText("授权信息");
-        ui->stackedWidget->setCurrentWidget(ui->pageAccount);
+        HttpPostAuthAccountByPhone(m_bIsReadOnly, GlobalData::id, iDay, strPhone);
     }
     else
     {
@@ -233,6 +211,94 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, int iUs
         });
 }
 
+
+void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, int iUseDay, QString strPhoneNum)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_AUTH_ACCOUNT_BY_PHONE;
+
+    QString strGrantControl = "CONTROL";
+    if (bIsReadOnly)
+        strGrantControl = "WATCH";
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("grantControl", strGrantControl);
+    obj.insert("useDay", iUseDay);
+    obj.insert("userInstanceId", iUserInstanceId);
+    obj.insert("authPhoneNum",strPhoneNum);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                QString strData = obj["data"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << strData << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    ui->labelName_2->setText(m_phoneInfo.strName);
+                    if (ui->radioButtonReadOnly->isChecked())
+                    {
+                        ui->labelQuanxian_2->setText("仅观看");
+                    }
+                    else
+                    {
+                        ui->labelQuanxian_2->setText("可操控");
+                    }
+
+                    if (m_phoneInfo.bUsed)
+                    {
+                        ui->labelUseStatus_2->setText("已使用");
+                    }
+                    else
+                    {
+                        ui->labelUseStatus_2->setText("未使用");
+                    }
+
+                    ui->labelUseDay_2->setText(ui->lineEditDay->text() + "天");
+
+                    ui->label->setText("授权信息");
+                    ui->stackedWidget->setCurrentWidget(ui->pageAccount);
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
 void AddAuthorizationDialog::on_toolBtnTips_clicked()
 {
     //打开温馨提示
