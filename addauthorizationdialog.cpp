@@ -114,12 +114,12 @@ void AddAuthorizationDialog::on_btnOk_clicked()
     //根据单选弹框
     if(ui->radioButtonAccount->isChecked())
     {
-        HttpPostAuthAccountByPhone(m_bIsReadOnly, GlobalData::id, iDay, strPhone);
+        HttpPostAuthAccountByPhone(m_bIsReadOnly, m_phoneInfo.iId, iDay, strPhone);
     }
     else
     {
         //生成授权码
-        HttpPostGeneratorAuthCode(m_bIsReadOnly, GlobalData::id, iDay);        
+        HttpPostGeneratorAuthCode(m_bIsReadOnly, m_phoneInfo.iId, iDay);
     }
 }
 
@@ -240,6 +240,7 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
     obj.insert("mobile",strPhoneNum);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << "postData=" << postData;
     //发出GET请求
     QNetworkReply* reply = manager->post(request, postData);
     //连接请求完成的信号
