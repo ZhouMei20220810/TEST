@@ -34,6 +34,14 @@ private slots:
 
     void on_btnAuthorPolicy_clicked();
 
+    void on_btnCancel_3_clicked();
+
+    void on_btnCancelAuthAccount_3_clicked();
+
+    void on_btnCancel_2_clicked();
+
+    void on_btnCancelAuthAccount_2_clicked();
+
 private:
     Ui::AddAuthorizationDialog *ui;
 
@@ -41,6 +49,7 @@ private:
     bool m_bIsReadOnly;
     S_PHONE_INFO m_phoneInfo;
     QButtonGroup* m_btnGroup;
+    int m_iDay;
 };
 
 #endif // ADDAUTHORIZATIONDIALOG_H
