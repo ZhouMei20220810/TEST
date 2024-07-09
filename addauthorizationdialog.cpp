@@ -193,8 +193,9 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, int iUs
                     {
                         ui->labelUseStatus->setText("未使用");
                     }
-
-                    ui->labelUseDay->setText(ui->lineEditDay->text() + "天");
+                    QDateTime currentTime = QDateTime::currentDateTime();
+                    QDateTime newDateTime = currentTime.addDays(ui->lineEditDay->text().toInt());
+                    ui->labelUseDay->setText(newDateTime.toString("yyyy-MM-dd hh:mm:ss"));
 
                     ui->label->setText("授权信息");
                     ui->label_18->setText("授权码："+ strData);
@@ -236,7 +237,7 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
     obj.insert("grantControl", strGrantControl);
     obj.insert("useDay", iUseDay);
     obj.insert("userInstanceId", iUserInstanceId);
-    obj.insert("authPhoneNum",strPhoneNum);
+    obj.insert("mobile",strPhoneNum);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     //发出GET请求
@@ -284,7 +285,9 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
                         ui->labelUseStatus_2->setText("未使用");
                     }
 
-                    ui->labelUseDay_2->setText(ui->lineEditDay->text() + "天");
+                    QDateTime currentTime = QDateTime::currentDateTime();
+                    QDateTime newDateTime = currentTime.addDays(ui->lineEditDay->text().toInt());
+                    ui->labelUseDay_2->setText(newDateTime.toString("yyyy-MM-dd hh:mm:ss"));
 
                     ui->label->setText("授权信息");
                     ui->stackedWidget->setCurrentWidget(ui->pageAccount);
