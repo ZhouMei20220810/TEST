@@ -416,12 +416,14 @@
     <None Include="resource\instance\Zhankai.png" />
     <None Include="resource\main\about.png" />
     <None Include="resource\main\aboutlogo.png" />
+    <None Include="resource\author\account.png" />
     <None Include="resource\main\activeCode_normal.png" />
     <None Include="resource\main\activeCode_select.png" />
     <None Include="resource\buy\add.png" />
     <None Include="resource\main\addPhone.png" />
     <None Include="resource\main\allSelect.png" />
     <None Include="resource\main\appInstaller.png" />
+    <None Include="resource\author\authCode.png" />
     <None Include="resource\login\back.png" />
     <None Include="resource\main\batchOper.png" />
     <None Include="resource\main\border_normal.png" />

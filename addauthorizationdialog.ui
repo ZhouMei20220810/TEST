@@ -729,7 +729,7 @@ padding-left:10px;</string>
                 <enum>QLineEdit::Normal</enum>
                </property>
                <property name="placeholderText">
-                <string>单次授权不得超过x天</string>
+                <string>单次授权不得超过999天</string>
                </property>
               </widget>
              </item>
@@ -2061,7 +2061,7 @@ QPushButton:hover
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
+               <layout class="QVBoxLayout" name="verticalLayout_3">
                 <property name="spacing">
                  <number>5</number>
                 </property>
@@ -2093,17 +2093,90 @@ font-weight:bold;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_18">
-                  <property name="styleSheet">
-                   <string notr="true">font-size:12px;
+                 <widget class="QFrame" name="frame_13">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <spacer name="horizontalSpacer_9">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>261</width>
+                       <height>15</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_18">
+                     <property name="styleSheet">
+                      <string notr="true">font-size:12px;
 color:#FF616A;</string>
-                  </property>
-                  <property name="text">
-                   <string>授权码：1223434</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
+                     </property>
+                     <property name="text">
+                      <string>授权码：</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QToolButton" name="toolBtnAuthCode">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">font-size:12px;
+color:#FF616A;border:none;</string>
+                     </property>
+                     <property name="text">
+                      <string>123</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_8">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>261</width>
+                       <height>15</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
                  </widget>
                 </item>
                </layout>
@@ -2114,6 +2187,9 @@ color:#FF616A;</string>
           </item>
           <item>
            <widget class="QFrame" name="frame_26">
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -2131,7 +2207,7 @@ color:#FF616A;</string>
               <number>30</number>
              </property>
              <property name="rightMargin">
-              <number>183</number>
+              <number>70</number>
              </property>
              <property name="bottomMargin">
               <number>63</number>

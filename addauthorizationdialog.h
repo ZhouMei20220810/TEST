@@ -41,6 +41,8 @@ private slots:
     void on_btnCancel_2_clicked();
 
     void on_btnCancelAuthAccount_2_clicked();
+    void on_toolBtnAuthCode_clicked();
+
 private:
     void HttpPostGeneratorAuthCode(bool bIsReadOnly,qint64 iUserInstanceId, qint64 iExpireTime);
     void HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, qint64 iExpireTime,QString strPhoneNum);

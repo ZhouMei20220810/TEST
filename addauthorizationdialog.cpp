@@ -11,6 +11,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "messagetips.h"
+#include <QClipboard>
 
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *parent)
     : QDialog(parent)
@@ -384,5 +385,16 @@ void AddAuthorizationDialog::on_btnCancelAuthAccount_2_clicked()
 {
     //取消授权，向服务器发送请求
 
+}
+
+
+void AddAuthorizationDialog::on_toolBtnAuthCode_clicked()
+{
+    //复制授权码到剪贴板
+    QClipboard* clipboard = QApplication::clipboard();
+    clipboard->setText(ui->toolBtnAuthCode->text());
+
+    MessageTips* tips = new MessageTips("已复制授权号至剪贴板", this);
+    tips->show();
 }
 
