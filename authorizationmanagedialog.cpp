@@ -190,7 +190,7 @@ void AuthorizationManageDialog::on_btnOk_clicked()
     }
 
     QString strInputCode = ui->lineEditPictureCode->text();
-    if (strInputCode != m_strPictureCode)
+    if (strInputCode.compare(m_strPictureCode,Qt::CaseInsensitive) != 0)
     {
         MessageTips* dialog = new MessageTips("验证码不一致", this);
         dialog->show();
