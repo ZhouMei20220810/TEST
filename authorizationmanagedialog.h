@@ -39,9 +39,8 @@ private:
     void InitListWidget();
     void HttpPostAddAuthCode(QString strAuthCode);
 
-    void HttpGetAuthorizedListInfo(int iPage, int iPageSize);
+    void HttpGetAuthorizedListInfo(bool bIsAuth,int iPage, int iPageSize);
     void LoadAuthorizedList(QMap<int, S_AUTHOR_INFO> map);
-    void HttpGetBeAuthorizedListInfo(int iPage, int iPageSize);
     void LoadBeAuthorizedList(QMap<int, S_AUTHOR_INFO> map);
 
     QString generateRandomCode(int length = 4);
