@@ -40,13 +40,13 @@ void ActiveCodeItem::do_activeCodeStatusSignals(QMap<QString, bool> mapActiveCod
         QString strMessage, strStyleSheet;
         if (bSuccess)
         {
-            strMessage = "¼¤»î³É¹¦";
+            strMessage = "æ¿€æ´»æˆåŠŸ";
             strStyleSheet = "border:none;background:transparent;color:#505465";
         }
         else
         {
             strStyleSheet = "border:none;background:transparent;color:#F96D6F";
-            strMessage = "¼¤»îÂë²»´æÔÚ";
+            strMessage = "æ¿€æ´»ç ä¸å­˜åœ¨";
         }
         ui->labelActiveStatus->setStyleSheet(strStyleSheet);
         ui->labelActiveStatus->setText(strMessage);
