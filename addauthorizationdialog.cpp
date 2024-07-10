@@ -59,6 +59,20 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
     {
         ui->stackedWidget->setCurrentWidget(ui->pageAccount);
     }
+
+    switch (phoneInfo.iType)
+    {
+    case EN_AUTHORIZATION:
+        ui->btnCancelAuthCode->setEnabled(true);
+        ui->btnCancelAuthAccount->setEnabled(true);
+        break;
+    case EN_BE_AUTHORIZATION:
+        ui->btnCancelAuthCode->setEnabled(false);
+        ui->btnCancelAuthAccount->setEnabled(false);
+        break;
+    default:
+        break;
+    }
 }
 
 AddAuthorizationDialog::~AddAuthorizationDialog()
@@ -198,14 +212,14 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, qint64 
                         ui->labelQuanxian->setText("可操控");
                     }
 
-                    if (m_phoneInfo.bUsed)
+                    /*if (m_phoneInfo.bUsed)
                     {
                         ui->labelUseStatus->setText("已使用");
                     }
                     else
                     {
                         ui->labelUseStatus->setText("未使用");
-                    }
+                    }*/
                     QDateTime currentTime = QDateTime::currentDateTime();
                     QDateTime newDateTime = currentTime.addDays(ui->lineEditDay->text().toInt());
                     ui->labelUseDay->setText(newDateTime.toString("yyyy-MM-dd hh:mm:ss"));
@@ -292,14 +306,14 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
                         ui->labelQuanxian_2->setText("可操控");
                     }
 
-                    if (m_phoneInfo.bUsed)
+                    /*if (m_phoneInfo.bUsed)
                     {
                         ui->labelUseStatus_2->setText("已使用");
                     }
                     else
                     {
                         ui->labelUseStatus_2->setText("未使用");
-                    }
+                    }*/
 
                     QDateTime currentTime = QDateTime::currentDateTime();
                     QDateTime newDateTime = currentTime.addDays(ui->lineEditDay->text().toInt());
@@ -419,28 +433,10 @@ void AddAuthorizationDialog::on_btnCancel_3_clicked()
     this->close();
 }
 
-
-void AddAuthorizationDialog::on_btnCancelAuthAccount_3_clicked()
-{
-    //取消授权，向服务器发送请求
-
-}
-
-
 void AddAuthorizationDialog::on_btnCancel_2_clicked()
 {
     this->close();
 }
-
-
-void AddAuthorizationDialog::on_btnCancelAuthAccount_2_clicked()
-{
-    ToolObject* toolObject = new ToolObject(this);
-    //取消授权，向服务器发送请求
-    qDebug() << "取消授权id=" << m_iInstanceId;
-    toolObject->HttpPostCancelAuth(m_iInstanceId);
-}
-
 
 void AddAuthorizationDialog::on_toolBtnAuthCode_clicked()
 {
@@ -450,5 +446,24 @@ void AddAuthorizationDialog::on_toolBtnAuthCode_clicked()
 
     MessageTips* tips = new MessageTips("已复制授权号至剪贴板", this);
     tips->show();
+}
+
+
+void AddAuthorizationDialog::on_btnCancelAuthCode_clicked()
+{
+    ToolObject* toolObject = new ToolObject(this);
+    //取消授权，向服务器发送请求
+    qDebug() << "取消授权id=" << m_iInstanceId;
+    toolObject->HttpPostCancelAuth(m_iInstanceId);
+}
+
+
+void AddAuthorizationDialog::on_btnCancelAuthAccount_clicked()
+{
+    //取消授权，向服务器发送请求
+    ToolObject* toolObject = new ToolObject(this);
+    //取消授权，向服务器发送请求
+    qDebug() << "取消授权id=" << m_iInstanceId;
+    toolObject->HttpPostCancelAuth(m_iInstanceId);
 }
 

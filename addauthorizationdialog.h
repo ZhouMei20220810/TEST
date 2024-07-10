@@ -36,13 +36,10 @@ private slots:
     void on_btnAuthorPolicy_clicked();
 
     void on_btnCancel_3_clicked();
-
-    void on_btnCancelAuthAccount_3_clicked();
-
     void on_btnCancel_2_clicked();
-
-    void on_btnCancelAuthAccount_2_clicked();
     void on_toolBtnAuthCode_clicked();
+    void on_btnCancelAuthCode_clicked();
+    void on_btnCancelAuthAccount_clicked();
 
 private:
     void InitAuthCodePage(S_AUTHOR_INFO authInfo);

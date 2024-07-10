@@ -375,6 +375,10 @@ void AuthorizationManageDialog::HttpGetAuthorizedListInfo(bool bIsAuth, int iPag
                             for (int i = 0; i < iRecordsSize; i++)
                             {
                                 recordObj = records[i].toObject();
+                                if(bIsAuth)
+                                    authInfo.iType = EN_AUTHORIZATION;
+                                else
+                                    authInfo.iType = EN_BE_AUTHORIZATION;
                                 authInfo.strAuthCode = recordObj["authCode"].toString();
                                 authInfo.iAuthUserId = recordObj["authUserId"].toInt();
                                 authInfo.iCreateBy = recordObj["createBy"].toInt();

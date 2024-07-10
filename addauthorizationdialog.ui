@@ -1843,7 +1843,7 @@ QPushButton:hover
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnCancelAuthAccount_3">
+              <widget class="QPushButton" name="btnCancelAuthAccount">
                <property name="minimumSize">
                 <size>
                  <width>80</width>
@@ -2498,7 +2498,7 @@ QPushButton:hover
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="btnCancelAuthAccount_2">
+              <widget class="QPushButton" name="btnCancelAuthCode">
                <property name="minimumSize">
                 <size>
                  <width>80</width>

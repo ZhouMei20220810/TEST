@@ -92,6 +92,8 @@
         <file>resource/main/previous.png</file>
         <file>resource/main/next.png</file>
         <file>resource/main/deleteActiveItem.png</file>
+        <file>resource/main/BeAuthorized.png</file>
+        <file>resource/main/Authorized.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

@@ -215,14 +215,19 @@ typedef struct GROUP_INFO
     }
 }S_GROUP_INFO,*PS_GROUP_INFO;
 
+enum ENUM_AUTHORIZATION_TYPE
+{
+    EN_AUTHORIZATION = 1,       //已授权
+    EN_BE_AUTHORIZATION = 2     //被授权
+};
 
 typedef struct PHONE_INFO
 {
     bool    bChecked;
-    bool    bUsed;              //是否使用
+    bool    bIsAuth;            //是否授权    
     int     iAuthStatus;        //是否授权
     int     iId;
-    int     iType;              //系统类型 安卓8，安卓10，
+    int     iType;              //1:已授权;2:被授权
     int     iLevel;             //级别
     QString strInstanceNo;      //外部实例编号
     QString strCreateTime;      //创建时间
@@ -230,6 +235,7 @@ typedef struct PHONE_INFO
     QString strExpireTime;      //到期时间
     QString strName;            //实例名称
     QString strServerToken;     //第三方serverToken
+    QString strGrantControl;    // 控制权限
     PHONE_INFO()
     {
         memset(this, 0, sizeof(PHONE_INFO));
@@ -300,6 +306,7 @@ typedef struct ACTIVE_CODE_INFO
 
 typedef struct AUTHOR_INFO
 {
+    int             iType;          //1:已授权;2:被授权
     int             iAuthUserId;
     int             iCreateBy;
     int             iInstanceId;
