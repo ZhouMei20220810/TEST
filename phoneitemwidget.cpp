@@ -27,13 +27,23 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     m_checkBox = new QCheckBox(ui->label);
     m_checkBox->setStyleSheet("QCheckBox{spacing:0px;background:transparent;}QCheckBox::indicator{width: 16px;height: 16px;}QCheckBox::indicator:unchecked{ image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}");    
     m_LabelAccredit->setStyleSheet("QLabel{background:transparent;border:none;}");
+    if (m_sPhoneInfo.bIsAuth)
+    {
+        if (m_sPhoneInfo.iType == EN_AUTHORIZATION)
+            m_LabelAccredit->setPixmap(QPixmap(":/main/resource/main/Authorized.png"));
+        else
+            m_LabelAccredit->setPixmap(QPixmap(":/main/resource/main/BeAuthorized.png"));
+    }
+    
     QVBoxLayout* vBox = new QVBoxLayout(ui->label);    
     QHBoxLayout* hBox = new QHBoxLayout(ui->label);
     hBox->addWidget(m_LabelAccredit);
     hBox->addStretch();
     hBox->addWidget(m_checkBox);
+    hBox->setContentsMargins(0, 0, 0, 0);
     vBox->addLayout(hBox);
     vBox->addStretch();
+    vBox->setContentsMargins(0, 8, 8, 0);
     m_checkBox->setCursor(Qt::PointingHandCursor);
     m_checkBox->setChecked(sPhoneInfo.bChecked);
     connect(m_checkBox, &QCheckBox::stateChanged, this, &PhoneItemWidget::stateChanged);

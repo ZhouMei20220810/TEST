@@ -240,36 +240,46 @@ void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint6
                         padInfo.iPhoneId = id;
                         QJsonObject dataObj = obj["data"].toObject();
                         QJsonObject data = dataObj["data"].toObject();
-                        //m_strSessionId = data["sessionId"].toString();
-                        padInfo.strSessionID = data["sessionId"].toString();
-                        //qDebug() << "m_strSessionId = " << m_strSessionId;
-                        QJsonObject control;
-                        QJsonArray controlArray = data["controlList"].toArray();
-                        for (int iControl = 0; iControl < controlArray.size(); iControl++)
+                        int iServerCode = dataObj["code"].toInt();
+                        QString strMessage = dataObj["message"].toString();
+                        if (iServerCode != HTTP_SUCCESS_CODE)
                         {
-                            control = controlArray.at(iControl).toObject();
-                            
-                            if (control["controlInfoList"].isArray())
+                            MessageTips* tips = new MessageTips(strMessage, this);
+                            tips->show();
+                        }
+                        else
+                        {
+                            //m_strSessionId = data["sessionId"].toString();
+                            padInfo.strSessionID = data["sessionId"].toString();
+                            //qDebug() << "m_strSessionId = " << m_strSessionId;
+                            QJsonObject control;
+                            QJsonArray controlArray = data["controlList"].toArray();
+                            for (int iControl = 0; iControl < controlArray.size(); iControl++)
                             {
-                                QJsonArray controlList = control["controlInfoList"].toArray();
-                                int iSize = controlList.size();
-                                QJsonObject info;                                
-                                for (int i = 0; i < iSize; i++)
-                                {
-                                    info = controlList.at(i).toObject();
-                                    padInfo.strControlAddr = info["controlIp"].toString();
-                                    padInfo.fControlPort = info["controlPort"].toDouble();
-                                    padInfo.iUserID = GlobalData::id;
-                                    padInfo.iHWaccel = 1;
+                                control = controlArray.at(iControl).toObject();
 
-                                    m_mapPadInfo.insert(id, padInfo);
-                                    //m_strTraceServer = info["traceServer"].toString();
-                                    //qDebug() << "m_strControlIp=" << m_strControlIp << "m_dControlPort=" << m_dControlPort << "strTraceServer=" << m_strTraceServer;
+                                if (control["controlInfoList"].isArray())
+                                {
+                                    QJsonArray controlList = control["controlInfoList"].toArray();
+                                    int iSize = controlList.size();
+                                    QJsonObject info;
+                                    for (int i = 0; i < iSize; i++)
+                                    {
+                                        info = controlList.at(i).toObject();
+                                        padInfo.strControlAddr = info["controlIp"].toString();
+                                        padInfo.fControlPort = info["controlPort"].toDouble();
+                                        padInfo.iUserID = GlobalData::id;
+                                        padInfo.iHWaccel = 1;
+
+                                        m_mapPadInfo.insert(id, padInfo);
+                                        //m_strTraceServer = info["traceServer"].toString();
+                                        //qDebug() << "m_strControlIp=" << m_strControlIp << "m_dControlPort=" << m_dControlPort << "strTraceServer=" << m_strTraceServer;
+                                    }
                                 }
                             }
-                        }
-                         
-                        onPlayStart(padInfo);
+
+                            onPlayStart(padInfo);
+                        }                        
                     }
                 }
                 else

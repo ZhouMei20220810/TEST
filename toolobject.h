@@ -21,9 +21,12 @@ public:
 
     //取消授权
     void HttpPostCancelAuth(int iPhoneId);
+    //授权详情
+    void HttpPostAuthDetail(int iPhoneId);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
+    void ShowAuthDetailSignals(S_AUTHOR_INFO authInfo);
 private:
     QMap<QString, S_TASK_INFO> m_mapScreenshotTask;
 };

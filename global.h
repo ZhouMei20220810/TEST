@@ -61,6 +61,7 @@
 #define HTTP_POST_AUTH_ACCOUNT_BY_PHONE "/api/auth/auth"        //通过账号授权
 #define HTTP_POST_ADD_AUTH_CODE         "/api/auth/auth/"       //根据授权码授权
 #define HTTP_POST_CANCEL_AUTH           "/api/auth/delete/"     //取消授权
+#define HTTP_POST_AUTH_DETAIL           "/api/auth/detail/"     //授权详情
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"

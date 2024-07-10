@@ -92,6 +92,12 @@ MainWindow::MainWindow(QWidget *parent)
         m_mapTask = mapScreenshotTask;
         ShowTaskInfo();
         });
+    connect(m_toolObject, &ToolObject::ShowAuthDetailSignals, this, [=](S_AUTHOR_INFO authInfo)
+        {
+            AddAuthorizationDialog* dialog = new AddAuthorizationDialog(m_CurSelMenuPhoneInfo);
+            dialog->InitWidget(authInfo);
+            dialog->exec();
+        });
 
     ui->labelAccount->setText(GlobalData::strAccount);
 
@@ -556,9 +562,18 @@ void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 
 void MainWindow::do_ActionAuthorization(bool bChecked)
 {
-    //授权
-    AddAuthorizationDialog* dialog = new AddAuthorizationDialog(m_CurSelMenuPhoneInfo);
-    dialog->exec();
+    if (m_CurSelMenuPhoneInfo.bIsAuth)
+    {
+        qDebug() << "已授权id" << m_CurSelMenuPhoneInfo.iId;
+        m_toolObject->HttpPostAuthDetail(m_CurSelMenuPhoneInfo.iId);
+    }
+    else
+    {
+        //授权
+        AddAuthorizationDialog* dialog = new AddAuthorizationDialog(m_CurSelMenuPhoneInfo);
+        dialog->exec();
+    }
+    
 }
 
 void MainWindow::do_ActionReplaceCloudPhone(bool bChecked)
@@ -2023,6 +2038,7 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                             S_PHONE_INFO phoneInfo;
                             for (int i = 0; i < iRecordsSize; i++)
                             {
+                                memset(&phoneInfo, 0, sizeof(S_PHONE_INFO));
                                 recordObj = records[i].toObject();
                                 phoneInfo.strCreateTime = recordObj["createTime"].toString();
                                 phoneInfo.strCurrentTime = recordObj["current"].toString();
@@ -2033,6 +2049,8 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                                 phoneInfo.strInstanceNo = recordObj["no"].toString();
                                 phoneInfo.strServerToken = recordObj["serverToken"].toString();
                                 phoneInfo.iType = recordObj["type"].toInt();
+                                phoneInfo.strGrantControl = recordObj["grantControl"].toString();
+                                phoneInfo.bIsAuth = recordObj["isAuth"].toBool();
                                 m_mapPhoneInfo.insert(i, phoneInfo);
                                 qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType<<"level="<< phoneInfo.iLevel;
                             }
