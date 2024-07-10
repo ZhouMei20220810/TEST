@@ -309,6 +309,7 @@ typedef struct AUTHOR_INFO
     QString         strCreateTime;
     QString         strInstanceName;
     QString         strInstanceNo;
+    QString         strGrantControl; 
     AUTHOR_INFO()
     {
         memset(this, 0, sizeof(AUTHOR_INFO));

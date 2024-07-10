@@ -381,6 +381,7 @@ void AuthorizationManageDialog::HttpGetAuthorizedListInfo(int iPage,int iPageSiz
                                 authInfo.strInstanceNo = recordObj["instanceNo"].toString();
                                 authInfo.iStatus = recordObj["status"].toInt();
                                 authInfo.strExpireTime = recordObj["expireTime"].toString();
+                                authInfo.strGrantControl = recordObj["grantControl"].toString();
                                 map.insert(i, authInfo);
                             }                            
                         }
@@ -487,6 +488,7 @@ void AuthorizationManageDialog::HttpGetBeAuthorizedListInfo(int iPage,int iPageS
                                 authInfo.strInstanceNo = recordObj["instanceNo"].toString();
                                 authInfo.iStatus = recordObj["status"].toInt();
                                 authInfo.strExpireTime = recordObj["expireTime"].toString();
+                                authInfo.strGrantControl = recordObj["grantControl"].toString();
                                 map.insert(i, authInfo);
                             }                            
                         }

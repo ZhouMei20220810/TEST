@@ -323,14 +323,14 @@ void AddAuthorizationDialog::InitAuthCodePage(S_AUTHOR_INFO authInfo)
 {
     m_iInstanceId = authInfo.iInstanceId;
     ui->labelName->setText(authInfo.strInstanceName);
-    /*if (ui->radioButtonReadOnly->isChecked())
+    if (authInfo.strGrantControl.compare("WATCH", Qt::CaseInsensitive) == 0)
     {
-        ui->labelQuanxian->setText("仅观看");
+        ui->labelQuanxian->setText("仅浏览");
     }
     else
     {
-        ui->labelQuanxian->setText("可操控");
-    }*/
+        ui->labelQuanxian->setText("控制云手机");
+    }
     ui->labelUseStatus->setText(getAuthStatusString(authInfo.iStatus));
     ui->labelUseDay->setText(authInfo.strExpireTime);
 
@@ -345,6 +345,14 @@ void AddAuthorizationDialog::InitAccountPage(S_AUTHOR_INFO authInfo)
     ui->labelUseStatus_2->setText(getAuthStatusString(authInfo.iStatus));
     //ui->labelQuanxian_2->setText();
     ui->labelUseDay_2->setText(authInfo.strExpireTime);
+    if (authInfo.strGrantControl.compare("WATCH", Qt::CaseInsensitive) == 0)
+    {
+        ui->labelQuanxian_2->setText("仅浏览");
+    }
+    else
+    {
+        ui->labelQuanxian_2->setText("控制云手机");
+    }
     
     ui->label->setText("授权信息");
     ui->stackedWidget->setCurrentWidget(ui->pageAccount);
