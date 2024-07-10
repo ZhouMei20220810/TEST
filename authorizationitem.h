@@ -21,6 +21,7 @@ private slots:
 
 private:
     Ui::authorizationItem *ui;
+    S_AUTHOR_INFO           m_authInfo;
 };
 
 #endif // AUTHORIZATIONITEM_H

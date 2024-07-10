@@ -12,6 +12,7 @@
 #include <QJsonArray>
 #include "messagetips.h"
 #include <QClipboard>
+#include "toolobject.h"
 
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *parent)
     : QDialog(parent)
@@ -52,7 +53,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
     }
     else if(phoneInfo.iAuthStatus == 1)//已授权
     {
-        ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
+        ui->stackedWidget->setCurrentWidget(ui->pageCode);
     }
     else if(phoneInfo.iAuthStatus == 2)//被授权
     {
@@ -63,6 +64,15 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
 AddAuthorizationDialog::~AddAuthorizationDialog()
 {
     delete ui;
+}
+
+void AddAuthorizationDialog::InitWidget(S_AUTHOR_INFO authInfo)
+{
+    //授权码为空，则账号授权
+    if (authInfo.strAuthCode.isEmpty())
+        InitAccountPage(authInfo); 
+    else
+        InitAuthCodePage(authInfo);
 }
 
 void AddAuthorizationDialog::on_btnClose_clicked()
@@ -177,6 +187,7 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, qint64 
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << strData << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
+                    m_iInstanceId = m_phoneInfo.iId;
                     ui->labelName->setText(m_phoneInfo.strName);
                     if (ui->radioButtonReadOnly->isChecked())
                     {
@@ -269,6 +280,8 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << strData << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
+                    //刚生成授权码直接从界面获取值显示，避免UI等待
+                    m_iInstanceId = m_phoneInfo.iId;
                     ui->labelName_2->setText(m_phoneInfo.strName);
                     if (ui->radioButtonReadOnly->isChecked())
                     {
@@ -304,6 +317,37 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
         }
         reply->deleteLater();
         });
+}
+
+void AddAuthorizationDialog::InitAuthCodePage(S_AUTHOR_INFO authInfo)
+{
+    m_iInstanceId = authInfo.iInstanceId;
+    ui->labelName->setText(authInfo.strInstanceName);
+    /*if (ui->radioButtonReadOnly->isChecked())
+    {
+        ui->labelQuanxian->setText("仅观看");
+    }
+    else
+    {
+        ui->labelQuanxian->setText("可操控");
+    }*/
+    ui->labelUseStatus->setText(getAuthStatusString(authInfo.iStatus));
+    ui->labelUseDay->setText(authInfo.strExpireTime);
+
+    ui->label->setText("授权信息");
+    ui->toolBtnAuthCode->setText(authInfo.strAuthCode);
+    ui->stackedWidget->setCurrentWidget(ui->pageCode);
+}
+void AddAuthorizationDialog::InitAccountPage(S_AUTHOR_INFO authInfo)
+{
+    m_iInstanceId = authInfo.iInstanceId;
+    ui->labelName_2->setText(authInfo.strInstanceName);
+    ui->labelUseStatus_2->setText(getAuthStatusString(authInfo.iStatus));
+    //ui->labelQuanxian_2->setText();
+    ui->labelUseDay_2->setText(authInfo.strExpireTime);
+    
+    ui->label->setText("授权信息");
+    ui->stackedWidget->setCurrentWidget(ui->pageAccount);
 }
 void AddAuthorizationDialog::on_toolBtnTips_clicked()
 {
@@ -383,8 +427,10 @@ void AddAuthorizationDialog::on_btnCancel_2_clicked()
 
 void AddAuthorizationDialog::on_btnCancelAuthAccount_2_clicked()
 {
+    ToolObject* toolObject = new ToolObject(this);
     //取消授权，向服务器发送请求
-
+    qDebug() << "取消授权id=" << m_iInstanceId;
+    toolObject->HttpPostCancelAuth(m_iInstanceId);
 }
 
 

@@ -308,3 +308,51 @@ void ToolObject::HttpPostInstanceReset(QStringList strList)
         reply->deleteLater();
     });
 }
+
+
+void ToolObject::HttpPostCancelAuth(int iPhoneId)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_CANCEL_AUTH;
+    strUrl += QString("%1").arg(iPhoneId);
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                
+                MessageTips* tips = new MessageTips(strMessage);
+                tips->show();
+            }
+        }
+        reply->deleteLater();
+        });
+}

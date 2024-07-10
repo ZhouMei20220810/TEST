@@ -362,13 +362,13 @@ void AuthorizationManageDialog::HttpGetAuthorizedListInfo(int iPage,int iPageSiz
                         int iTotal = data["total"].toInt();
                         qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
                         QJsonArray records = data["records"].toArray();
+                        QMap<int, S_AUTHOR_INFO> map;
                         if (records.size() > 0)
                         {
                             int iRecordsSize = records.size();
                             QJsonObject recordObj;
                             //获取我的手机实例数据，暂未存储
-                            S_AUTHOR_INFO authInfo;
-                            QMap<int, S_AUTHOR_INFO> map;
+                            S_AUTHOR_INFO authInfo;                            
                             for (int i = 0; i < iRecordsSize; i++)
                             {
                                 recordObj = records[i].toObject();
@@ -376,17 +376,15 @@ void AuthorizationManageDialog::HttpGetAuthorizedListInfo(int iPage,int iPageSiz
                                 authInfo.iAuthUserId = recordObj["authUserId"].toInt();
                                 authInfo.iCreateBy = recordObj["createBy"].toInt();
                                 authInfo.strCreateTime = recordObj["createTime"].toString();
-                                authInfo.iInstanceId = recordObj["instanceId"].toInt();
+                                authInfo.iInstanceId = recordObj["userInstanceId"].toInt();
                                 authInfo.strInstanceName = recordObj["instanceName"].toString();
                                 authInfo.strInstanceNo = recordObj["instanceNo"].toString();
                                 authInfo.iStatus = recordObj["status"].toInt();
-                                authInfo.iUseDay = recordObj["useDay"].toInt();
-                                //m_mapPhoneInfo.insert(i, phoneInfo);
+                                authInfo.strExpireTime = recordObj["expireTime"].toString();
                                 map.insert(i, authInfo);
-                            }
-                            LoadAuthorizedList(map);
-
+                            }                            
                         }
+                        LoadAuthorizedList(map);
                     }
                 }
                 else
@@ -402,6 +400,7 @@ void AuthorizationManageDialog::HttpGetAuthorizedListInfo(int iPage,int iPageSiz
 
 void AuthorizationManageDialog::LoadAuthorizedList(QMap<int, S_AUTHOR_INFO> map)
 {
+    ui->listWidgetAuthorized->clear();
     //获取已授权记录,假数据
     QListWidgetItem* item = NULL;
     authorizationItem* itemWidget = NULL;
@@ -469,13 +468,13 @@ void AuthorizationManageDialog::HttpGetBeAuthorizedListInfo(int iPage,int iPageS
                         int iTotal = data["total"].toInt();
                         qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
                         QJsonArray records = data["records"].toArray();
+                        QMap<int, S_AUTHOR_INFO> map;
                         if (records.size() > 0)
                         {
                             int iRecordsSize = records.size();
                             QJsonObject recordObj;
                             //获取我的手机实例数据，暂未存储
-                            S_AUTHOR_INFO authInfo;
-                            QMap<int, S_AUTHOR_INFO> map;
+                            S_AUTHOR_INFO authInfo;                            
                             for (int i = 0; i < iRecordsSize; i++)
                             {
                                 recordObj = records[i].toObject();
@@ -487,12 +486,11 @@ void AuthorizationManageDialog::HttpGetBeAuthorizedListInfo(int iPage,int iPageS
                                 authInfo.strInstanceName = recordObj["instanceName"].toString();
                                 authInfo.strInstanceNo = recordObj["instanceNo"].toString();
                                 authInfo.iStatus = recordObj["status"].toInt();
-                                authInfo.iUseDay = recordObj["useDay"].toInt();
-                                //m_mapPhoneInfo.insert(i, phoneInfo);
+                                authInfo.strExpireTime = recordObj["expireTime"].toString();
                                 map.insert(i, authInfo);
-                            }
-                            LoadBeAuthorizedList(map);
+                            }                            
                         }
+                        LoadBeAuthorizedList(map);
                     }
                 }
                 else

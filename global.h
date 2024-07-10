@@ -59,7 +59,8 @@
 #define HTTP_GET_BE_AUTHORIZATION_LIST  "/api/auth/other/list"  //被授权列表
 #define HTTP_POST_GENERATOR_AUTH_CODE   "/api/auth/generate"    //生成授权码
 #define HTTP_POST_AUTH_ACCOUNT_BY_PHONE "/api/auth/auth"        //通过账号授权
-#define HTTP_POST_ADD_AUTH_CODE         "/api/auth/auth/" //根据授权码授权
+#define HTTP_POST_ADD_AUTH_CODE         "/api/auth/auth/"       //根据授权码授权
+#define HTTP_POST_CANCEL_AUTH           "/api/auth/delete/"     //取消授权
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
@@ -303,7 +304,7 @@ typedef struct AUTHOR_INFO
     int             iCreateBy;
     int             iInstanceId;
     int             iStatus;//授权状态 0.未使用 1.已使用
-    int             iUseDay;
+    QString         strExpireTime;
     QString         strAuthCode;
     QString         strCreateTime;
     QString         strInstanceName;

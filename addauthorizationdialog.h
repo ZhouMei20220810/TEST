@@ -17,6 +17,7 @@ public:
     explicit AddAuthorizationDialog(S_PHONE_INFO phoneInfo,QWidget *parent = nullptr);
     ~AddAuthorizationDialog();
 
+    void InitWidget(S_AUTHOR_INFO authInfo);
 private slots:
     void on_btnClose_clicked();
 
@@ -44,6 +45,8 @@ private slots:
     void on_toolBtnAuthCode_clicked();
 
 private:
+    void InitAuthCodePage(S_AUTHOR_INFO authInfo);
+    void InitAccountPage(S_AUTHOR_INFO authInfo);
     void HttpPostGeneratorAuthCode(bool bIsReadOnly,qint64 iUserInstanceId, qint64 iExpireTime);
     void HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, qint64 iExpireTime,QString strPhoneNum);
 private:
@@ -54,6 +57,7 @@ private:
     S_PHONE_INFO m_phoneInfo;
     QButtonGroup* m_btnGroup;
     int m_iDay;
+    int m_iInstanceId;
 };
 
 #endif // ADDAUTHORIZATIONDIALOG_H

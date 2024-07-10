@@ -18,6 +18,9 @@ public:
     void HttpPostInstanceReboot(QStringList strList);
     //实例重置
     void HttpPostInstanceReset(QStringList strList);
+
+    //取消授权
+    void HttpPostCancelAuth(int iPhoneId);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
