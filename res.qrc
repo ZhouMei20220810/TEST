@@ -190,5 +190,6 @@
         <file>resource/author/oper.png</file>
         <file>resource/author/authCode.png</file>
         <file>resource/author/account.png</file>
+        <file>resource/individual/5.png</file>
     </qresource>
 </RCC>

@@ -19,7 +19,7 @@ BuyHistoryWidget::BuyHistoryWidget(QWidget *parent)
 
     m_mapOrderInfo.clear();
     //获取我的订单
-    HttpGetMyOrder(1, 10);
+    HttpGetMyOrder(1, 1000);
 }
 
 BuyHistoryWidget::~BuyHistoryWidget()

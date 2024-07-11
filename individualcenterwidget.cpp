@@ -9,6 +9,7 @@
 #include "messagetips.h"
 #include "buyhistorywidget.h"
 #include "authorizationmanagedialog.h"
+#include "activecodehistorydialog.h"
 
 IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
     : QDialog(parent)
@@ -143,3 +144,11 @@ void IndividualCenterWidget::HttpLogout()
         reply->deleteLater();
     });
 }
+
+void IndividualCenterWidget::on_toolBtnActiveCodeHistory_clicked()
+{
+    //激活码记录
+    ActiveCodeHistoryDialog* dialog = new ActiveCodeHistoryDialog();
+    dialog->exec();
+}
+

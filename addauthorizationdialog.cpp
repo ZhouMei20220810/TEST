@@ -20,6 +20,10 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+
+    //百度暂不支持PC端选择是否只读或可控,屏蔽界面选择
+    ui->frame_9->setVisible(false);
+
     m_bIsAccountAuth = false;
     m_bIsReadOnly = true;
     m_phoneInfo = phoneInfo;

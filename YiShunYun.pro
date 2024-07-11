@@ -14,6 +14,8 @@ CONFIG += c++17
 
 SOURCES += \
     Logoutdialog.cpp \
+    activecodehistorydialog.cpp \
+    activecodehistoryitem.cpp \
     activecodeitem.cpp \
     activecoderenewitem.cpp \
     addactivecodedialog.cpp \
@@ -61,6 +63,8 @@ SOURCES += \
 
 HEADERS += \
     Logoutdialog.h \
+    activecodehistorydialog.h \
+    activecodehistoryitem.h \
     activecodeitem.h \
     activecoderenewitem.h \
     addactivecodedialog.h \
@@ -107,6 +111,8 @@ HEADERS += \
 
 FORMS += \
     Logoutdialog.ui \
+    activecodehistorydialog.ui \
+    activecodehistoryitem.ui \
     activecodeitem.ui \
     activecoderenewitem.ui \
     addactivecodedialog.ui \

@@ -26,6 +26,8 @@ private slots:
 
     void on_toolBtnAuthorizationManage_clicked();
 
+    void on_toolBtnActiveCodeHistory_clicked();
+
 private:
     //注销
     void HttpLogout();

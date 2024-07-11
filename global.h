@@ -63,6 +63,8 @@
 #define HTTP_POST_CANCEL_AUTH           "/api/auth/delete/"     //取消授权
 #define HTTP_POST_AUTH_DETAIL           "/api/auth/detail/"     //授权详情
 
+#define HTTP_POST_ACTIVECODE_LIST       "/api/cdkey/list"       //激活码列表
+
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
 #define     DOWNLOAD_SCREENSHOT_INTERVAL (3*1000)       //下载截图间隔
@@ -304,6 +306,30 @@ typedef struct ACTIVE_CODE_INFO
         memset(this, 0, sizeof(ACTIVE_CODE_INFO));
     }
 }S_ACTIVE_CODE_INFO,*PS_ACTIVE_CODE_INFO;
+
+typedef struct ACTIVE_CODE_DETAIL_INFO
+{
+    int         id;                     //序号?
+    QString     strAccount;             //用户uid
+    QString     strBatchCode;           //批次号
+    QString     strActiveCode;          //激活码code
+    QString     strCreateTime;          //创建时间
+    QString     strExpireTime;          //到期时间
+    QString     strInstanceCreateTime;  //实例绑定时间
+    QString     strInstanceExpireTime;  //实例到期时间
+    bool        bIsBind;                //是否绑定成功
+    bool        bIsUse;                 //是否使用
+    int         iLevel;                 //实例级别
+    QString     strMobile;              //用户手机号
+    QString     strInstanceNo;          //实例编号
+    int         iRelateId;              //关联id,有代表续费，没有是购买
+    int         iUseDay;                //使用天数
+    int         iType;                  //1:购买,2:续费
+    ACTIVE_CODE_DETAIL_INFO()
+    {
+        memset(this, 0, sizeof(ACTIVE_CODE_DETAIL_INFO));
+    }
+}S_ACTIVE_CODE_DETAIL_INFO,*PS_ACTIVE_CODE_DETAIL_INFO;
 
 typedef struct AUTHOR_INFO
 {

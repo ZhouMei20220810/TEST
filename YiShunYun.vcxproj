@@ -203,6 +203,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Logoutdialog.cpp" />
+    <ClCompile Include="activecodehistorydialog.cpp" />
     <ClCompile Include="activecodeitem.cpp" />
     <ClCompile Include="activecoderenewitem.cpp" />
     <ClCompile Include="addactivecodedialog.cpp" />
@@ -250,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Logoutdialog.h" />
+    <QtMoc Include="activecodehistorydialog.h" />
     <QtMoc Include="activecodeitem.h" />
     <QtMoc Include="activecoderenewitem.h" />
     <QtMoc Include="addactivecodedialog.h" />
@@ -312,6 +314,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Logoutdialog.ui" />
+    <QtUic Include="activecodehistorydialog.ui" />
     <QtUic Include="activecodeitem.ui" />
     <QtUic Include="activecoderenewitem.ui" />
     <QtUic Include="addactivecodedialog.ui" />
@@ -366,6 +369,7 @@
     <None Include="resource\instance\4.png" />
     <None Include="resource\setting\4.png" />
     <None Include="resource\function\5.png" />
+    <None Include="resource\individual\5.png" />
     <None Include="resource\setting\5.png" />
     <None Include="resource\function\6.png" />
     <None Include="resource\setting\6.png" />
