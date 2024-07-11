@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QProcess>
 #include <QSettings>
+#include <QDir>
 
 UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *parent)
     : QDialog(parent)
@@ -83,8 +84,8 @@ void UpdateSoftwareDialog::downloadFinished()
             file.close();
             qDebug() << "Downloaded successfully!" << m_outputFile;
             QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-            setting.setValue("UpdateMsiPath", m_outputFile);
-            setting.setValue("UpdateExe", QCoreApplication::applicationFilePath());
+            setting.setValue("UpdateMsiPath", QDir::toNativeSeparators(m_outputFile));
+            setting.setValue("UpdateExe", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
             callUpdateApp();
         }
         else {
