@@ -376,8 +376,10 @@
     <None Include="resource\instance\ADB_open.png" />
     <None Include="resource\author\AddAuthorized_normal.png" />
     <None Include="resource\author\AddAuthorized_select.png" />
+    <None Include="resource\main\Authorized.png" />
     <None Include="resource\author\Authorized_normal.png" />
     <None Include="resource\author\Authorized_select.png" />
+    <None Include="resource\main\BeAuthorized.png" />
     <None Include="resource\author\BeAuthorized_normal.png" />
     <None Include="resource\author\BeAuthorized_select.png" />
     <None Include="resource\individual\Enter.png" />

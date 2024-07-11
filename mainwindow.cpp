@@ -95,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_toolObject, &ToolObject::ShowAuthDetailSignals, this, [=](S_AUTHOR_INFO authInfo)
         {
             AddAuthorizationDialog* dialog = new AddAuthorizationDialog(m_CurSelMenuPhoneInfo);
+            connect(dialog, &AddAuthorizationDialog::notifyMainWindowRefreshGroupListSignals, this, &MainWindow::on_btnGroupRefresh_clicked);
             dialog->InitWidget(authInfo);
             dialog->exec();
         });
@@ -562,6 +563,10 @@ void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 
 void MainWindow::do_ActionAuthorization(bool bChecked)
 {
+    if (!m_CurSelMenuPhoneInfo.bIsAuth && m_CurSelMenuPhoneInfo.iType == EN_BE_AUTHORIZATION)
+    {
+        return;
+    }
     if (m_CurSelMenuPhoneInfo.bIsAuth)
     {
         qDebug() << "已授权id" << m_CurSelMenuPhoneInfo.iId;
@@ -571,6 +576,7 @@ void MainWindow::do_ActionAuthorization(bool bChecked)
     {
         //授权
         AddAuthorizationDialog* dialog = new AddAuthorizationDialog(m_CurSelMenuPhoneInfo);
+        connect(dialog, &AddAuthorizationDialog::notifyMainWindowRefreshGroupListSignals, this, &MainWindow::on_btnGroupRefresh_clicked);
         dialog->exec();
     }
     

@@ -12,7 +12,6 @@
 #include <QJsonArray>
 #include "messagetips.h"
 #include <QClipboard>
-#include "toolobject.h"
 
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *parent)
     : QDialog(parent)
@@ -24,7 +23,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
     m_bIsAccountAuth = false;
     m_bIsReadOnly = true;
     m_phoneInfo = phoneInfo;
-
+    m_toolObject = new ToolObject(this);
     QRegularExpression regExp("[0-9]*");
     QValidator* validator = new QRegularExpressionValidator(regExp, this);
     ui->lineEditDay->setValidator(validator);
@@ -147,6 +146,7 @@ void AddAuthorizationDialog::on_btnOk_clicked()
         //生成授权码
         HttpPostGeneratorAuthCode(m_bIsReadOnly, m_phoneInfo.iId, ExpireTime.toMSecsSinceEpoch());
     }
+    emit notifyMainWindowRefreshGroupListSignals();
 }
 
 void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, qint64 iUserInstanceId, qint64 iExpireTime)
@@ -371,13 +371,6 @@ void AddAuthorizationDialog::InitAccountPage(S_AUTHOR_INFO authInfo)
     ui->label->setText("授权信息");
     ui->stackedWidget->setCurrentWidget(ui->pageAccount);
 }
-void AddAuthorizationDialog::on_toolBtnTips_clicked()
-{
-    //打开温馨提示
-    MessageTipsDialog* dialog = new MessageTipsDialog("温馨提示：\n授权码的泄露可能会导致你的手机以及云手机内登录的游戏出现风险，谨慎\n保管好。若不慎泄露请尽快在设置-->授权管理中取消云手机授权",this);
-    dialog->show();
-}
-
 
 void AddAuthorizationDialog::on_radioButtonAccount_clicked(bool checked)
 {
@@ -450,20 +443,19 @@ void AddAuthorizationDialog::on_toolBtnAuthCode_clicked()
 
 
 void AddAuthorizationDialog::on_btnCancelAuthCode_clicked()
-{
-    ToolObject* toolObject = new ToolObject(this);
+{    
     //取消授权，向服务器发送请求
     qDebug() << "取消授权id=" << m_iInstanceId;
-    toolObject->HttpPostCancelAuth(m_iInstanceId);
+    m_toolObject->HttpPostCancelAuth(m_iInstanceId);  
+    emit notifyMainWindowRefreshGroupListSignals();
+    connect(m_toolObject, &ToolObject::closeAuthDialogOrGroupRefreshSignals, this, [=]() {
+        this->close();
+        });
 }
 
 
 void AddAuthorizationDialog::on_btnCancelAuthAccount_clicked()
 {
-    //取消授权，向服务器发送请求
-    ToolObject* toolObject = new ToolObject(this);
-    //取消授权，向服务器发送请求
-    qDebug() << "取消授权id=" << m_iInstanceId;
-    toolObject->HttpPostCancelAuth(m_iInstanceId);
+    on_btnCancelAuthCode_clicked();
 }
 

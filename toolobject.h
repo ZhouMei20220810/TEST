@@ -27,6 +27,7 @@ signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
     void ShowAuthDetailSignals(S_AUTHOR_INFO authInfo);
+    void closeAuthDialogOrGroupRefreshSignals();
 private:
     QMap<QString, S_TASK_INFO> m_mapScreenshotTask;
 };

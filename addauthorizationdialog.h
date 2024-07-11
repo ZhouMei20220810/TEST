@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "global.h"
 #include <QButtonGroup>
+#include "toolobject.h"
 
 namespace Ui {
 class AddAuthorizationDialog;
@@ -18,12 +19,12 @@ public:
     ~AddAuthorizationDialog();
 
     void InitWidget(S_AUTHOR_INFO authInfo);
+signals:
+    void notifyMainWindowRefreshGroupListSignals();
 private slots:
     void on_btnClose_clicked();
 
     void on_btnOk_clicked();
-
-    void on_toolBtnTips_clicked();
 
     void on_radioButtonAccount_clicked(bool checked);
 
@@ -55,6 +56,7 @@ private:
     QButtonGroup* m_btnGroup;
     int m_iDay;
     int m_iInstanceId;
+    ToolObject* m_toolObject;
 };
 
 #endif // ADDAUTHORIZATIONDIALOG_H

@@ -351,6 +351,7 @@ void ToolObject::HttpPostCancelAuth(int iPhoneId)
                 
                 MessageTips* tips = new MessageTips(strMessage);
                 tips->show();
+                emit closeAuthDialogOrGroupRefreshSignals();
             }
         }
         reply->deleteLater();
