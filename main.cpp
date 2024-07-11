@@ -8,6 +8,7 @@
 #include <QSettings>
 #include <QMenu>
 #include <QAction>
+#include "toolobject.h"
 
 QSystemTrayIcon* g_trayIcon = NULL;
 
@@ -40,6 +41,9 @@ int main(int argc, char *argv[])
         qInstallMessageHandler(customMessageHandler);
     }
     
+	//软件更新检测
+    ToolObject toolObj;
+    toolObj.HttpPostCheckAppVersion();
     //setAutoStart();
 
     QString strDir = GlobalData::strFileTempDir;

@@ -224,6 +224,7 @@
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="messagecenterdialog.cpp" />
     <ClCompile Include="messagetips.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
@@ -245,6 +246,7 @@
     <ClCompile Include="tcustomdragdroplistwidget.cpp" />
     <ClCompile Include="toolobject.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
+    <ClCompile Include="updatesoftwaredialog.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
     <ClCompile Include="uploadfileitemwidget.cpp" />
     <ClCompile Include="videoviewwidget.cpp" />
@@ -272,6 +274,7 @@
     <QtMoc Include="levelitemwidget.h" />
     <QtMoc Include="loginwindow.h" />
     <QtMoc Include="mainwindow.h" />
+    <QtMoc Include="messagecenterdialog.h" />
     <QtMoc Include="messagetips.h" />
     <QtMoc Include="messagetipsdialog.h" />
     <QtMoc Include="passwordloginpage.h" />
@@ -293,6 +296,7 @@
     <QtMoc Include="tcustomdragdroplistwidget.h" />
     <QtMoc Include="toolobject.h" />
     <QtMoc Include="updategroupwidget.h" />
+    <QtMoc Include="updatesoftwaredialog.h" />
     <QtMoc Include="uploadfiledialog.h" />
     <QtMoc Include="uploadfileitemwidget.h" />
     <QtMoc Include="videoviewwidget.h" />
@@ -333,6 +337,7 @@
     <QtUic Include="levelitemwidget.ui" />
     <QtUic Include="loginwindow.ui" />
     <QtUic Include="mainwindow.ui" />
+    <QtUic Include="messagecenterdialog.ui" />
     <QtUic Include="messagetipsdialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
     <QtUic Include="phoneinstancewidget.ui" />
@@ -346,6 +351,7 @@
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="systemsettingwidget.ui" />
     <QtUic Include="updategroupwidget.ui" />
+    <QtUic Include="updatesoftwaredialog.ui" />
     <QtUic Include="uploadfiledialog.ui" />
     <QtUic Include="uploadfileitemwidget.ui" />
     <QtUic Include="videoviewwidget.ui" />

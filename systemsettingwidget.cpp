@@ -20,6 +20,9 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     m_bShowTrayIcon = GlobalData::bShowSystemTrayIcon;
     m_bIsPageMode = GlobalData::bIsPageMode;
     ui->checkBox_3->setChecked(m_bShowTrayIcon);
+    //更新软件版本
+    ui->labelVersion->setText(QString("当前版本: ")+CURRENT_APP_VERSION);
+    ui->labelVersion2->setText(QString("当前版本: ")+CURRENT_APP_VERSION);
     switch (m_enQuality)
     {
     case TYPE_QUALITY_AUTO:

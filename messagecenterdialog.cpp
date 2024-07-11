@@ -6,6 +6,8 @@ MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     , ui(new Ui::MessageCenterDialog)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
+    setWindowFlags(Qt::FramelessWindowHint);
 }
 
 MessageCenterDialog::~MessageCenterDialog()

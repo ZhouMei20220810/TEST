@@ -7,6 +7,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "messagetips.h"
+#include <QEventLoop>
+#include "updatesoftwaredialog.h"
 
 ToolObject::ToolObject(QObject *parent)
     : QObject{parent}
@@ -424,4 +426,108 @@ void ToolObject::HttpPostAuthDetail(int iPhoneId)
         }
         reply->deleteLater();
         });
+}
+
+//版本检测
+void ToolObject::HttpPostCheckAppVersion()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_CHECK_UPDATE_APP;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    //QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    //request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("type", "versionCodePC");
+    //obj.insert("pageSize", iPageSize);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, "");
+    QEventLoop              loop;    
+    //连接请求完成的信号    
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isArray())
+                    {
+                        QJsonArray dataArray = obj["data"].toArray();
+                        int iSize = dataArray.size();
+                        S_VERSION_INFO versionInfo;
+                        QJsonObject obj;
+                        bool bDownloadUpdate = false;
+                        for (int i = 0; i < iSize; i++)
+                        {
+                            obj = dataArray[i].toObject();
+                            versionInfo.strType = obj["type"].toString();
+                            if (versionInfo.strType.compare("versionCodePC") != 0)
+                            {
+                                continue;
+                            }
+                            versionInfo.strVersion = "v1.0.11";//obj["k"].toString();
+                            versionInfo.iIsFurcedUpdate = obj["v1"].toInt();
+                            versionInfo.strDownloadUrl = obj["v2"].toString();
+                            versionInfo.strV3 = obj["v3"].toString();
+                            versionInfo.strV4 = obj["v4"].toString();
+                            versionInfo.strV5 = obj["v5"].toString();
+                            if (versionInfo.iIsFurcedUpdate == 1)//强制更新
+                            {
+                                //不需要判断版本，直接更新
+                                qDebug() << "强制更新";
+                                UpdateSoftwareDialog* dialog = new UpdateSoftwareDialog(versionInfo);
+                                dialog->exec();
+                            }
+                            else
+                            {
+                                int iRet = versionInfo.strVersion.compare(CURRENT_APP_VERSION, Qt::CaseInsensitive);
+                                if (iRet <= 0)
+                                {
+                                    //版本相同，不需要更新
+                                    bDownloadUpdate = true;
+                                    UpdateSoftwareDialog* dialog = new UpdateSoftwareDialog(versionInfo);
+                                    dialog->exec();
+                                }
+                                else
+                                {
+                                    bDownloadUpdate = false;                                    
+                                }
+                                //弹出提示框是否更新
+                            }
+                            qDebug() << "type=" << versionInfo.strType << "version=" << versionInfo.strVersion << "v1（1：强制，0:不强制）=" << versionInfo.iIsFurcedUpdate << "下载地址=" << versionInfo.strDownloadUrl;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
 }

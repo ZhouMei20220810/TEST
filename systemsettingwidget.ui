@@ -780,9 +780,9 @@ font-size:13px;</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_16">
+               <widget class="QLabel" name="labelVersion">
                 <property name="text">
-                 <string>当前版本：v1.0.11</string>
+                 <string>当前版本：v0.0.0</string>
                 </property>
                </widget>
               </item>
@@ -1630,7 +1630,7 @@ border-radius:2px;</string>
                </layout>
               </item>
               <item>
-               <widget class="QLabel" name="label_24">
+               <widget class="QLabel" name="labelVersion2">
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
@@ -1641,7 +1641,7 @@ border-radius:2px;</string>
                  <string notr="true">color:#A9ADB6;</string>
                 </property>
                 <property name="text">
-                 <string>当前版本：V1.0.11</string>
+                 <string>当前版本：V0.0.0</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>

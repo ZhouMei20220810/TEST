@@ -57,6 +57,7 @@ SOURCES += \
     tcustomdragdroplistwidget.cpp \
     toolobject.cpp \
     updategroupwidget.cpp \
+    updatesoftwaredialog.cpp \
     uploadfiledialog.cpp \
     uploadfileitemwidget.cpp \
     videoviewwidget.cpp \
@@ -106,6 +107,7 @@ HEADERS += \
     tcustomdragdroplistwidget.h \
     toolobject.h \
     updategroupwidget.h \
+    updatesoftwaredialog.h \
     uploadfiledialog.h \
     uploadfileitemwidget.h \
     videoviewwidget.h \
@@ -144,6 +146,7 @@ FORMS += \
     smsloginpage.ui \
     systemsettingwidget.ui \
     updategroupwidget.ui \
+    updatesoftwaredialog.ui \
     uploadfiledialog.ui \
     uploadfileitemwidget.ui \
     videoviewwidget.ui \

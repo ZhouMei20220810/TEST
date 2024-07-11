@@ -23,6 +23,8 @@ public:
     void HttpPostCancelAuth(int iPhoneId);
     //授权详情
     void HttpPostAuthDetail(int iPhoneId);
+    //版本检测
+    void HttpPostCheckAppVersion();
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);

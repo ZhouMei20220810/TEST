@@ -4,6 +4,7 @@
 #include <QToolButton>
 #include <QString>
 #include <QSystemTrayIcon>
+#define CURRENT_APP_VERSION         "v1.0.3"
 #define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" //"http://120.26.132.153:8080"       
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
@@ -64,6 +65,8 @@
 #define HTTP_POST_AUTH_DETAIL           "/api/auth/detail/"     //授权详情
 
 #define HTTP_POST_ACTIVECODE_LIST       "/api/cdkey/list"       //激活码列表
+
+#define HTTP_POST_CHECK_UPDATE_APP      "/api/dict/list"        //数据字典，检测更新
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
@@ -349,6 +352,21 @@ typedef struct AUTHOR_INFO
         memset(this, 0, sizeof(AUTHOR_INFO));
     }
 }S_AUTHOR_INFO,*PS_AUTHOR_INFO;
+
+typedef struct VERSION_INFO
+{
+    QString strType;
+    QString strVersion;         //k版本
+    int     iIsFurcedUpdate;    //1：强制更新；0：不强制
+    QString strDownloadUrl;     //下载地址
+    QString strV3;
+    QString strV4;
+    QString strV5;
+    VERSION_INFO()
+    {
+        memset(this, 0, sizeof(VERSION_INFO));
+    }
+}S_VERSION_INFO,*PS_VERSION_INFO;
 
 class GlobalData
 {
