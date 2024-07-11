@@ -204,6 +204,7 @@
   <ItemGroup>
     <ClCompile Include="Logoutdialog.cpp" />
     <ClCompile Include="activecodehistorydialog.cpp" />
+    <ClCompile Include="activecodehistoryitem.cpp" />
     <ClCompile Include="activecodeitem.cpp" />
     <ClCompile Include="activecoderenewitem.cpp" />
     <ClCompile Include="addactivecodedialog.cpp" />
@@ -252,6 +253,7 @@
   <ItemGroup>
     <QtMoc Include="Logoutdialog.h" />
     <QtMoc Include="activecodehistorydialog.h" />
+    <QtMoc Include="activecodehistoryitem.h" />
     <QtMoc Include="activecodeitem.h" />
     <QtMoc Include="activecoderenewitem.h" />
     <QtMoc Include="addactivecodedialog.h" />
@@ -315,6 +317,7 @@
   <ItemGroup>
     <QtUic Include="Logoutdialog.ui" />
     <QtUic Include="activecodehistorydialog.ui" />
+    <QtUic Include="activecodehistoryitem.ui" />
     <QtUic Include="activecodeitem.ui" />
     <QtUic Include="activecoderenewitem.ui" />
     <QtUic Include="addactivecodedialog.ui" />

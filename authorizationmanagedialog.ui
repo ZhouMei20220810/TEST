@@ -1162,6 +1162,21 @@ QPushButton:disabled
        </widget>
        <widget class="QWidget" name="pageAuthorized">
         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QFrame" name="frame_6">
            <property name="styleSheet">
@@ -1179,6 +1194,9 @@ QPushButton:disabled
               <property name="text">
                <string>云手机</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -1186,12 +1204,18 @@ QPushButton:disabled
               <property name="text">
                <string>到期时间</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
                <string>操作</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -1209,6 +1233,21 @@ QPushButton:disabled
        </widget>
        <widget class="QWidget" name="pageBeAuthorized">
         <layout class="QVBoxLayout" name="verticalLayout_5">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QFrame" name="frame_7">
            <property name="styleSheet">
@@ -1250,6 +1289,9 @@ QPushButton:disabled
               <property name="text">
                <string>云手机</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -1269,6 +1311,9 @@ QPushButton:disabled
               <property name="text">
                <string>到期时间</string>
               </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
              </widget>
             </item>
             <item>
@@ -1287,6 +1332,9 @@ QPushButton:disabled
               </property>
               <property name="text">
                <string>操作</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>

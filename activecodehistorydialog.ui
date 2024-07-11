@@ -301,41 +301,6 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="toolBtnClearBuyHistory">
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QToolButton {border:none;
-color:  rgb(255, 255, 255);
-border-radius:1px;
-padding-left:8px;
-}
-QToolButton:hover {
-color: rgb(255, 255, 255);
-border-radius:1px;
-padding-left:8px;
-}</string>
-        </property>
-        <property name="text">
-         <string>清空购买记录</string>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="styleSheet">
-         <string notr="true">color:white;</string>
-        </property>
-        <property name="text">
-         <string>|</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="btnClose">
         <property name="minimumSize">
          <size>
