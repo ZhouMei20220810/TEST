@@ -2,6 +2,8 @@
 #include "ui_updatesoftwaredialog.h"
 #include <QNetworkReply>
 #include <QFile>
+#include <QProcess>
+#include <QSettings>
 
 UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *parent)
     : QDialog(parent)
@@ -80,6 +82,10 @@ void UpdateSoftwareDialog::downloadFinished()
             file.write(m_reply->readAll());
             file.close();
             qDebug() << "Downloaded successfully!" << m_outputFile;
+            QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+            setting.setValue("UpdateMsiPath", m_outputFile);
+            setting.setValue("UpdateExe", QCoreApplication::applicationFilePath());
+            callUpdateApp();
         }
         else {
             qDebug() << "Failed to save the file!";
@@ -91,4 +97,28 @@ void UpdateSoftwareDialog::downloadFinished()
 
     m_reply->deleteLater();
     m_networkManager->deleteLater();
+}
+
+void UpdateSoftwareDialog::callUpdateApp()
+{
+    // msiexec命令格式用于静默安装
+    /*QString command = "msiexec /i \"";
+    command.append(msiFilePath); // 添加MSI文件的完整路径
+    command.append("\" /qn"); // /qn 参数表示静默安装，无界面
+    */
+    QString command = QCoreApplication::applicationDirPath() + "/Update.exe";
+    qDebug() << "command=" << command;
+    // 使用QProcess执行命令
+    QProcess process;
+    process.start(command);
+    process.waitForFinished(-1); // 等待进程结束，-1表示无限制等待时间
+
+    // 检查进程退出代码以确定安装是否成功
+    int exitCode = process.exitCode();
+    if (exitCode == 0) {
+        qDebug() << "MSI installed successfully.";
+    }
+    else {
+        qDebug() << "MSI installation failed with exit code:" << exitCode;
+    }
 }

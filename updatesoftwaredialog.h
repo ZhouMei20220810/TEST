@@ -29,6 +29,8 @@ private slots:
 
     void downloadFinished();
 private:
+    void callUpdateApp();
+private:
     Ui::UpdateSoftwareDialog *ui;
     QProgressBar* m_progressBar;
     QNetworkAccessManager* m_networkManager;
