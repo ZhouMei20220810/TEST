@@ -585,7 +585,7 @@ void MainWindow::do_ActionAuthorization(bool bChecked)
 void MainWindow::do_ActionReplaceCloudPhone(bool bChecked)
 {
     //更换云机
-    ReplaceCloudPhoneDialog* dialog = new ReplaceCloudPhoneDialog();
+    ReplaceCloudPhoneDialog* dialog = new ReplaceCloudPhoneDialog(m_CurSelMenuPhoneInfo,m_mapLevelList);
     dialog->exec();
 }
 
