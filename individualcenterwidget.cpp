@@ -60,6 +60,7 @@ void IndividualCenterWidget::on_toolBtnBuyHistory_clicked()
 void IndividualCenterWidget::on_toolBtnAuthorizationManage_clicked()
 {
     AuthorizationManageDialog* dialog = new AuthorizationManageDialog();
+    connect(dialog, &AuthorizationManageDialog::notifyMainWindowRefreshGroupListSignals, this, &IndividualCenterWidget::notifyMainWindowRefreshGroupListSignals);
     dialog->setModal(true);
     dialog->show();
 

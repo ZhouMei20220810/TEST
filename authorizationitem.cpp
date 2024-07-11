@@ -38,6 +38,7 @@ void authorizationItem::on_toolBtnOper_clicked()
     S_PHONE_INFO phoneInfo;
     //phoneInfo.iType = m_authInfo.iType;
     AddAuthorizationDialog* dialog = new AddAuthorizationDialog(phoneInfo);
+    connect(dialog, &AddAuthorizationDialog::notifyMainWindowRefreshGroupListSignals, this, &authorizationItem::notifyMainWindowRefreshGroupListSignals);
     dialog->InitWidget(m_authInfo);
     dialog->exec();
 }

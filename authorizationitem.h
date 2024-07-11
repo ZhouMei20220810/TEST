@@ -15,7 +15,8 @@ class authorizationItem : public QWidget
 public:
     explicit authorizationItem(S_AUTHOR_INFO authInfo,QWidget *parent = nullptr);
     ~authorizationItem();
-
+signals:
+    void notifyMainWindowRefreshGroupListSignals();
 private slots:
     void on_toolBtnOper_clicked();
 

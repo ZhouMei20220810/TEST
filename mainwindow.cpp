@@ -3309,6 +3309,7 @@ void MainWindow::on_toolBtnPhoto_clicked()
     if (NULL == m_individualCenterWidget)
     {
         m_individualCenterWidget = new IndividualCenterWidget(this);
+        connect(m_individualCenterWidget, &IndividualCenterWidget::notifyMainWindowRefreshGroupListSignals, this, &MainWindow::on_btnGroupRefresh_clicked);
         m_individualCenterWidget->setWindowModality(Qt::NonModal);
         connect(m_individualCenterWidget, &IndividualCenterWidget::logoutSignals, this, [=]()
             {

@@ -422,6 +422,7 @@ void AuthorizationManageDialog::LoadAuthorizedList(QMap<int, S_AUTHOR_INFO> map)
         item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
         //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
         itemWidget = new authorizationItem(*iter,this);
+        connect(itemWidget, &authorizationItem::notifyMainWindowRefreshGroupListSignals, this, &AuthorizationManageDialog::notifyMainWindowRefreshGroupListSignals);
         ui->listWidgetAuthorized->addItem(item);
         ui->listWidgetAuthorized->setItemWidget(item, itemWidget);
     }
@@ -439,6 +440,7 @@ void AuthorizationManageDialog::LoadBeAuthorizedList(QMap<int, S_AUTHOR_INFO> ma
         item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
         //item->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
         itemWidget = new authorizationItem(*iter,this);
+        connect(itemWidget, &authorizationItem::notifyMainWindowRefreshGroupListSignals, this, &AuthorizationManageDialog::notifyMainWindowRefreshGroupListSignals);
         ui->listWidgetBeAuthorized->addItem(item);
         ui->listWidgetBeAuthorized->setItemWidget(item, itemWidget);
     }

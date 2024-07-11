@@ -15,7 +15,8 @@ class AuthorizationManageDialog : public QDialog
 public:
     explicit AuthorizationManageDialog(QWidget *parent = nullptr);
     ~AuthorizationManageDialog();
-
+signals:
+    void notifyMainWindowRefreshGroupListSignals();
 private slots:
     void on_btnClose_clicked();
 
