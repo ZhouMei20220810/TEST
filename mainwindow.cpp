@@ -1054,6 +1054,7 @@ void MainWindow::HttpQueryAllGroup()//查询全部分组
     QUrl url(strUrl);
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    qDebug() << "strToken=" << strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
@@ -1630,10 +1631,14 @@ void MainWindow::HttpLevelList()
                             {
                                 startDownload(info.strAshIcon);
                             }*/
-                            info.bIsEnabled = objData["isEnabled"].toBool();
+                            //isEnabled true能用;false禁用
+                            info.bIsEnabled = objData["isEnable"].toBool();
                             info.strLevelRemark = objData["remark"].toString();
                             qDebug() << "等级" << info.iLevelId << " name=" << info.strLevelName;
-                            m_mapLevelList.insert(info.iLevelId,info);                            
+                            if (info.bIsEnabled)
+                            {
+                                m_mapLevelList.insert(info.iLevelId, info);
+                            }                                                       
                         }
                         InitLevelList();
                     }
@@ -2647,7 +2652,7 @@ void MainWindow::do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo)
 
 void MainWindow::do_refreshMemberListSignals(int iLevelId, QMap<int, S_LEVEL_DATA_INFO> mapData)
 {
-    qDebug() << "click do_selectLevelTypeSignals level Type=" << iLevelId;
+    qDebug() << "click do_refreshMemberListSignals level Type=" << iLevelId;
     //获取QScrollBar的所有列表
     QList<LevelItemWidget*> levelItemList = ui->scrollAreaWidgetContents->findChildren<LevelItemWidget*>();
     foreach(LevelItemWidget * levelItem, levelItemList)
