@@ -82,10 +82,6 @@
         <file>resource/buy/VIP_bg_select.png</file>
         <file>resource/buy/VIP_level_bg_normal.png</file>
         <file>resource/buy/VIP_level_bg_select.png</file>
-        <file>resource/buy/XVIP_bg_normal.png</file>
-        <file>resource/buy/XVIP_bg_select.png</file>
-        <file>resource/buy/XVIP_level_bg_normal.png</file>
-        <file>resource/buy/XVIP_level_bg_select.png</file>
         <file>resource/buy/add.png</file>
         <file>resource/buy/buyNumberTips.png</file>
         <file>resource/buy/sub.png</file>
@@ -94,6 +90,10 @@
         <file>resource/main/deleteActiveItem.png</file>
         <file>resource/main/BeAuthorized.png</file>
         <file>resource/main/Authorized.png</file>
+        <file>resource/buy/BVIP_bg_normal.png</file>
+        <file>resource/buy/BVIP_bg_select.png</file>
+        <file>resource/buy/BVIP_level_bg_normal.png</file>
+        <file>resource/buy/BVIP_level_bg_select.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

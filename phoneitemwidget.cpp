@@ -16,7 +16,10 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose,true); 
     
     m_sPhoneInfo = sPhoneInfo;
-    ui->toolBtnName->setText(sPhoneInfo.strName);
+    if (sPhoneInfo.strName.isEmpty())
+        ui->toolBtnName->setText(sPhoneInfo.strInstanceNo);
+    else
+        ui->toolBtnName->setText(sPhoneInfo.strName);
     
     m_strPicturePath = GlobalData::strFileTempDir + sPhoneInfo.strInstanceNo + ".png";
     m_strTemp = GlobalData::strFileTempDir + sPhoneInfo.strInstanceNo + "_bak.png";

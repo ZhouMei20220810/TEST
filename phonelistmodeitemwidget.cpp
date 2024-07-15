@@ -11,8 +11,10 @@ PhoneListModeItemWidget::PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     m_sPhoneInfo = sPhoneInfo;
-
-    ui->checkBox->setText(sPhoneInfo.strName);
+    if (sPhoneInfo.strName.isEmpty())
+        ui->checkBox->setText(sPhoneInfo.strInstanceNo);
+    else
+        ui->checkBox->setText(sPhoneInfo.strName);
     ui->checkBox->setChecked(sPhoneInfo.bChecked);
     ui->labelSystem->setText("Android");
 

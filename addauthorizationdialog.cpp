@@ -40,8 +40,10 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
     m_btnGroup = new QButtonGroup(this);
     m_btnGroup->addButton(ui->radioButtonAccount);
     m_btnGroup->addButton(ui->radioButtonAuthorCode);
-
-    ui->labelPhoneName->setText(phoneInfo.strName);
+    if (phoneInfo.strName.isEmpty())
+        ui->labelPhoneName->setText(phoneInfo.strInstanceNo);
+    else
+        ui->labelPhoneName->setText(phoneInfo.strName);
     ui->labelPhoneInstance->setText(phoneInfo.strInstanceNo);
 
     QDateTime curDateTime = QDateTime::currentDateTime();
@@ -210,7 +212,10 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, qint64 
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     m_iInstanceId = m_phoneInfo.iId;
-                    ui->labelName->setText(m_phoneInfo.strName);
+                    if (m_phoneInfo.strName.isEmpty())
+                        ui->labelName->setText(m_phoneInfo.strInstanceNo);
+                    else
+                        ui->labelName->setText(m_phoneInfo.strName);
                     if (ui->radioButtonReadOnly->isChecked())
                     {
                         ui->labelQuanxian->setText("仅观看");
@@ -304,7 +309,10 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
                 {
                     //刚生成授权码直接从界面获取值显示，避免UI等待
                     m_iInstanceId = m_phoneInfo.iId;
-                    ui->labelName_2->setText(m_phoneInfo.strName);
+                    if (m_phoneInfo.strName.isEmpty())
+                        ui->labelName_2->setText(m_phoneInfo.strInstanceNo);
+                    else
+                        ui->labelName_2->setText(m_phoneInfo.strName);
                     if (ui->radioButtonReadOnly->isChecked())
                     {
                         ui->labelQuanxian_2->setText("仅观看");

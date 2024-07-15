@@ -171,7 +171,10 @@ void ReplaceCloudPhoneDialog::ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo
         checkBox = new QCheckBox(this);
         checkBox->setStyleSheet(strStyleSheet);
         checkBox->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
-        checkBox->setText(iter->strName);
+        if (iter->strName.isEmpty())
+            checkBox->setText(iter->strInstanceNo);
+        else
+            checkBox->setText(iter->strName);
         checkBox->setFixedSize(200, LISTMODE_ITEM_HEGITH);
         //widget2 = new PhoneListModeItemWidget(phoneInfo, this);
         //connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);

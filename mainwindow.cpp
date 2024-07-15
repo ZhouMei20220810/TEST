@@ -1229,7 +1229,6 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                         strLevelName = iterFind->strLevelName;
                     }
 
-                    qDebug() << "phone = " << iter->strName;
                     phoneItem = new QTreeWidgetItem(item);
                     qDebug() << "phone id" << iter->iId << " name=" << iter->strName;
                     phoneItem->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
@@ -1240,7 +1239,10 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
 
                     strTime = strTime.asprintf("%d天%d小时", mseconds / (1000 * 60 * 60 * 24), (mseconds / (1000 * 60 * 60)) % 24);
                     qDebug() << "strTime=" << strTime;
-                    phoneItem->setText(0, strLevelName + " " + iter->strName);
+                    if(iter->strName.isEmpty())
+                        phoneItem->setText(0, strLevelName + " " + iter->strInstanceNo);
+                    else
+                        phoneItem->setText(0, strLevelName + " " + iter->strName);
                     phoneItem->setText(1, strTime);
                     phoneItem->setCheckState(0, Qt::Unchecked);
                     item->addChild(phoneItem);

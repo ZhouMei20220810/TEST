@@ -8,7 +8,10 @@ ActiveCodeRenewItem::ActiveCodeRenewItem(S_PHONE_INFO phoneInfo, QWidget *parent
     ui->setupUi(this);
     m_phoneInfo = phoneInfo;
     m_iStatus = -1;
-    ui->checkBox->setText(phoneInfo.strName);
+    if (phoneInfo.strName.isEmpty())
+        ui->checkBox->setText(phoneInfo.strInstanceNo);
+    else
+        ui->checkBox->setText(phoneInfo.strName);
 }
 
 ActiveCodeRenewItem::~ActiveCodeRenewItem()
