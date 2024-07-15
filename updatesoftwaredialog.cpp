@@ -5,6 +5,7 @@
 #include <QProcess>
 #include <QSettings>
 #include <QDir>
+#include <QGraphicsDropShadowEffect>
 
 UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *parent)
     : QDialog(parent)
@@ -13,6 +14,14 @@ UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::gray);//阴影颜色
+    this->setGraphicsEffect(shadow);
+
     m_versionInfo = versionInfo;
 
     if (versionInfo.iIsFurcedUpdate)
@@ -32,6 +41,8 @@ void UpdateSoftwareDialog::on_toolBtnUpdate_clicked()
     //1、下载文件
     //2、安装文件
     //3、重启应用
+    ui->toolBtnUpdate->setEnabled(false);
+    ui->toolBtnUpdate->setText("正在更新");
     startDownload(m_versionInfo.strDownloadUrl, ui->progressBar);
 }
 
@@ -123,3 +134,4 @@ void UpdateSoftwareDialog::callUpdateApp()
         qDebug() << "MSI installation failed with exit code:" << exitCode;
     }
 }
+
