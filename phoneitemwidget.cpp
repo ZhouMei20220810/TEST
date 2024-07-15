@@ -112,6 +112,24 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
     }
     else
     {
+        QString strDefaultImage = ":/main/resource/main/defaultSceenShot.png";
+        QPixmap pixmap(strDefaultImage);
+        if (!GlobalData::bVerticalScreen)
+        {
+            QImage image(strDefaultImage);
+            if (!image.isNull())
+            {
+                QTransform transform;
+                transform.rotate(270);
+                image = image.transformed(transform);
+                pixmap = QPixmap::fromImage(image);
+            }
+            else
+            {
+                qDebug() << "image is null. file=" << m_strPicturePath;
+            }
+        }
+        ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
         qDebug() << "showLabelImage fail. file not exists." << m_strPicturePath;
     }
 }
