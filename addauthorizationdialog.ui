@@ -845,11 +845,17 @@ padding-left:10px;</string>
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="frame_8">
+           <widget class="QFrame" name="frame_15">
             <property name="minimumSize">
              <size>
               <width>0</width>
               <height>50</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>58</height>
              </size>
             </property>
             <property name="frameShape">
@@ -858,9 +864,9 @@ padding-left:10px;</string>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
              <property name="spacing">
-              <number>5</number>
+              <number>7</number>
              </property>
              <property name="leftMargin">
               <number>0</number>
@@ -876,15 +882,21 @@ padding-left:10px;</string>
              </property>
              <item>
               <widget class="QFrame" name="frame_16">
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>30</height>
+                </size>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
                </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_16">
+               <layout class="QVBoxLayout" name="verticalLayout_5">
                 <property name="spacing">
-                 <number>9</number>
+                 <number>0</number>
                 </property>
                 <property name="leftMargin">
                  <number>0</number>
@@ -900,6 +912,12 @@ padding-left:10px;</string>
                 </property>
                 <item>
                  <widget class="QRadioButton" name="radioButtonAuthorCode">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="font">
                    <font>
                     <pointsize>11</pointsize>
@@ -918,50 +936,14 @@ padding-left:10px;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="lineEditPhoneNum_2">
-                  <property name="enabled">
-                   <bool>true</bool>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>186</width>
-                    <height>28</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>186</width>
-                    <height>28</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true">border:none;
-color:#ADAFB5;
-background-color: #E6E9F2;
-padding-left:10px;</string>
-                  </property>
-                  <property name="echoMode">
-                   <enum>QLineEdit::Normal</enum>
-                  </property>
-                  <property name="placeholderText">
-                   <string>生成授权码</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_5">
+                 <spacer name="verticalSpacer_2">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
-                    <width>37</width>
-                    <height>17</height>
+                    <width>20</width>
+                    <height>32</height>
                    </size>
                   </property>
                  </spacer>
@@ -970,52 +952,16 @@ padding-left:10px;</string>
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_15">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>50</height>
-                </size>
+              <widget class="QPlainTextEdit" name="plainTextEdit">
+               <property name="styleSheet">
+                <string notr="true">color:#A9ADB6;border:none</string>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>58</height>
-                </size>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+               <property name="plainText">
+                <string>温馨提示：授权给其他人可能会导致你的手机以及云手机内登录的游戏出现风险，请核对好被授权人信息后谨慎授权。若不慎泄露授权码或误授权请尽快在设置--&gt;授权管理中取消云手机授权</string>
                </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="leftMargin">
-                 <number>136</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QPlainTextEdit" name="plainTextEdit">
-                  <property name="styleSheet">
-                   <string notr="true">color:#A9ADB6;border:none</string>
-                  </property>
-                  <property name="plainText">
-                   <string>温馨提示：授权给其他人可能会导致你的手机以及云手机内登录的游戏出现风险，请核对好被授权人信息后谨慎授权。若不慎泄露授权码或误授权请尽快在设置--&gt;授权管理中取消云手机授权</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
               </widget>
              </item>
             </layout>
