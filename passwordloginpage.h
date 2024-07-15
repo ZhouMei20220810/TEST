@@ -33,6 +33,7 @@ private slots:
     void on_btnForgetPW_clicked();
 
     void on_checkBoxAutoLogin_clicked(bool checked);
+    void on_toolButton_clicked(bool checked);
 
 private:
     Ui::PasswordLoginPage *ui;

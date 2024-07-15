@@ -218,3 +218,15 @@ void PasswordLoginPage::on_checkBoxAutoLogin_clicked(bool checked)
     }
 }
 
+void PasswordLoginPage::on_toolButton_clicked(bool checked)
+{
+    if(checked)
+    {
+        ui->lineEditPassword->setEchoMode(QLineEdit::Normal);
+    }
+    else
+    {
+        ui->lineEditPassword->setEchoMode(QLineEdit::Password);
+    }
+}
+
