@@ -15,6 +15,7 @@
 
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
+#define         KILL_PROCESS_NAME           "YiShunYun.exe"
 
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
@@ -116,7 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
     //杀掉当前进程
     ui->progressBar->setValue(10);
     ProcessKiller killer;
-    killer.killTheProcess("YiShunYun.exe");
+    killer.killTheProcess(KILL_PROCESS_NAME);
     ui->progressBar->setValue(30);
     m_Timer = new QTimer(this);
     m_Timer->start(2000);
@@ -147,7 +148,7 @@ int installMsiSilently(const QString& msiFilePath,const QString& strExeFolder)
     command.append(msiFilePath); // 添加MSI文件的完整路径
     //command.append("\""); // /qn 参数表示非静默安装，有界面
     command.append("\" /qn"); // /qn 参数表示静默安装，无界面
-    command.append("/norestart"); // /qn 确保不会发生重启
+    command.append(" /norestart"); // /qn 确保不会发生重启
     command.append(QString(" TARGETDIR=\"%1\"").arg(strExeFolder));
     qDebug() << "command=" << command;
     QString strBatFile = QDir::tempPath() + "/update.bat";
@@ -196,7 +197,7 @@ void MainWindow::InstallApp()
     qDebug() << "folder = " << strExeFolder;
     if(strMsi.isEmpty())
     {
-        QMessageBox::warning(NULL,"错误提示","当前没有可更新程序");
+        qDebug() << "not found file." << strMsi;
         return;
     }
     ui->progressBar->setValue(100);
