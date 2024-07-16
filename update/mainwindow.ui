@@ -338,8 +338,8 @@
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../res.qrc">
-           <normaloff>:/login/resource/login/close.png</normaloff>:/login/resource/login/close.png</iconset>
+          <iconset resource="res.qrc">
+           <normaloff>:/resource/close.png</normaloff>:/resource/close.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -594,7 +594,7 @@ QToolButton:hover
   </widget>
  </widget>
  <resources>
-  <include location="../res.qrc"/>
+  <include location="res.qrc"/>
  </resources>
  <connections/>
 </ui>

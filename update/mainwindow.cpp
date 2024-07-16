@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QDir>
+#include "messagetipsdialog.h"
 
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
@@ -109,6 +110,9 @@ MainWindow::MainWindow(QWidget *parent)
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
 
+    //自动重启
+    ui->toolBtnUpdate->setVisible(false);
+
     //杀掉当前进程
     ui->progressBar->setValue(10);
     ProcessKiller killer;
@@ -129,7 +133,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_toolBtnCancel_clicked()
 {
-    this->close();
+    MessageTipsDialog* dialog = new MessageTipsDialog("程序正在安装,中断可能导致软件不可用,请确定是否退出");
+    if(QDialog::Accepted == dialog->exec())
+    {
+        this->close();
+    }
 }
 
 int installMsiSilently(const QString& msiFilePath,const QString& strExeFolder)
