@@ -352,7 +352,10 @@ void AddAuthorizationDialog::HttpPostAuthAccountByPhone(bool bIsReadOnly, int iU
 void AddAuthorizationDialog::InitAuthCodePage(S_AUTHOR_INFO authInfo)
 {
     m_iInstanceId = authInfo.iInstanceId;
-    ui->labelName->setText(authInfo.strInstanceName);
+    if (authInfo.strInstanceName.isEmpty())
+        ui->labelName->setText(authInfo.strInstanceNo);
+    else
+        ui->labelName->setText(authInfo.strInstanceName);
     if (authInfo.strGrantControl.compare("WATCH", Qt::CaseInsensitive) == 0)
     {
         ui->labelQuanxian->setText("仅浏览");
@@ -371,7 +374,10 @@ void AddAuthorizationDialog::InitAuthCodePage(S_AUTHOR_INFO authInfo)
 void AddAuthorizationDialog::InitAccountPage(S_AUTHOR_INFO authInfo)
 {
     m_iInstanceId = authInfo.iInstanceId;
-    ui->labelName_2->setText(authInfo.strInstanceName);
+    if (authInfo.strInstanceName.isEmpty())
+        ui->labelName_2->setText(authInfo.strInstanceNo);
+    else
+        ui->labelName_2->setText(authInfo.strInstanceName);
     ui->labelUseStatus_2->setText(getAuthStatusString(authInfo.iStatus));
     //ui->labelQuanxian_2->setText();
     ui->labelUseDay_2->setText(authInfo.strExpireTime);

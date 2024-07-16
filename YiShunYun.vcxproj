@@ -392,6 +392,10 @@
     <None Include="resource\main\Authorized.png" />
     <None Include="resource\author\Authorized_normal.png" />
     <None Include="resource\author\Authorized_select.png" />
+    <None Include="resource\buy\BVIP_bg_normal.png" />
+    <None Include="resource\buy\BVIP_bg_select.png" />
+    <None Include="resource\buy\BVIP_level_bg_normal.png" />
+    <None Include="resource\buy\BVIP_level_bg_select.png" />
     <None Include="resource\main\BeAuthorized.png" />
     <None Include="resource\author\BeAuthorized_normal.png" />
     <None Include="resource\author\BeAuthorized_select.png" />
@@ -424,10 +428,6 @@
     <None Include="resource\buy\VIP_level_bg_normal.png" />
     <None Include="resource\buy\VIP_level_bg_select.png" />
     <None Include="resource\main\XVIP.png" />
-    <None Include="resource\buy\XVIP_bg_normal.png" />
-    <None Include="resource\buy\XVIP_bg_select.png" />
-    <None Include="resource\buy\XVIP_level_bg_normal.png" />
-    <None Include="resource\buy\XVIP_level_bg_select.png" />
     <None Include="resource\instance\Zhankai.png" />
     <None Include="resource\main\about.png" />
     <None Include="resource\main\aboutlogo.png" />

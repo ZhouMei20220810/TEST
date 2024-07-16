@@ -10,7 +10,10 @@ authorizationItem::authorizationItem(S_AUTHOR_INFO authInfo,QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose, true);
     m_authInfo = authInfo;
 
-    ui->labelPhone->setText(authInfo.strInstanceName);
+    if(authInfo.strInstanceName.isEmpty())
+        ui->labelPhone->setText(authInfo.strInstanceNo);
+    else
+        ui->labelPhone->setText(authInfo.strInstanceName);
     QDateTime currentDataTime = QDateTime::fromString(authInfo.strCreateTime);
     ui->labelExpirationTime->setText(authInfo.strExpireTime);
     //ui->labelActiveStatus->setText(getAuthStatusString(authInfo.iStatus));
