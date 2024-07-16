@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QListWidget>
 #include <QLabel>
+#include "global.h"
 
 namespace Ui {
 class UploadFileDialog;
@@ -31,6 +32,11 @@ private slots:
 
     void do_deleteFileItemSignal(QString strFilePath);
 private:
+    //http上传文件历史
+    void HttpGetUploadFileHistory(int iPage, int iPageSize);
+    //显示数据
+    void LoadUploadFileHistory(QMap<int, S_UPLOADD_FILE_INFO> map);
+
     void InitWidget(QListWidget* listWidget);
 
     void SelectFile();

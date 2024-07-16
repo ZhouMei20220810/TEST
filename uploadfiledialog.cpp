@@ -11,6 +11,8 @@
 #include <QNetworkReply>
 #include <QJsonParseError>
 #include <QJsonObject>
+#include <QJsonArray>
+#include <QGraphicsDropShadowEffect>
 
 UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     : QDialog(parent)
@@ -19,8 +21,14 @@ UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
     //透明背景
-    //setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_TranslucentBackground, true);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::gray);//阴影颜色
+    this->setGraphicsEffect(shadow);
 
     m_strPhoneList = strList;
 
@@ -28,6 +36,28 @@ UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
 
     ui->stackedWidget->setCurrentWidget(ui->page);
     InitWidget(ui->listWidgetChooseFile);
+
+    //初始化列表
+    ui->listWidgetQueue->setViewMode(QListWidget::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetQueue->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetQueue->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetQueue->setMovement(QListWidget::Static);
+
+    //初始化列表
+    ui->listWidgetHistory->setViewMode(QListWidget::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetHistory->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetHistory->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetHistory->setMovement(QListWidget::Static);
 
     m_LabelPoint = new QLabel(ui->frame_2);
     m_LabelPoint->resize(10, 10);
@@ -97,8 +127,127 @@ void UploadFileDialog::on_toolBtnUploadHistory_clicked()
     ui->stackedWidget->setCurrentWidget(ui->pageHistory);
     QRect rect = ui->toolBtnUploadQueue->geometry();
     m_LabelPoint->move(rect.x() + rect.width()-5, rect.y()-5);
+
+    //获取文件历史记录
+    HttpGetUploadFileHistory(1,1000);
 }
 
+//获取上传文件历史记录
+void UploadFileDialog::HttpGetUploadFileHistory(int iPage, int iPageSize)
+{
+    //已授权列表
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_UPLOAD_FILE_HISTORY;
+    //level不传值,返回该 组下面所有的level
+    strUrl += QString::asprintf("?page=%d&pageSize=%d", iPage, iPageSize);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject data = obj["data"].toObject();
+                        int iCurrent = data["current"].toInt();
+                        int iPages = data["pages"].toInt();
+                        int iSize = data["size"].toInt();
+                        int iSearchCount = data["searchCount"].toInt();
+                        int iTotal = data["total"].toInt();
+                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
+                        QJsonArray records = data["records"].toArray();
+                        QMap<int, S_UPLOADD_FILE_INFO> map;
+                        if (records.size() > 0)
+                        {
+                            int iRecordsSize = records.size();
+                            QJsonObject recordObj;
+                            //获取我的手机实例数据，暂未存储
+                            S_UPLOADD_FILE_INFO uploadFileInfo;
+                            for (int i = 0; i < iRecordsSize; i++)
+                            {
+                                recordObj = records[i].toObject();
+                                uploadFileInfo.strBucket = recordObj["bucket"].toString();
+                                uploadFileInfo.iCreateBy = recordObj["createBy"].toInt();
+                                uploadFileInfo.id = recordObj["id"].toInt();
+                                uploadFileInfo.strCreateTime = recordObj["createTime"].toString();
+                                uploadFileInfo.strFileMd5 = recordObj["fileMd5"].toString();
+                                uploadFileInfo.strFileName = recordObj["fileName"].toString();
+                                uploadFileInfo.iStatus = recordObj["status"].toInt();
+                                uploadFileInfo.iSize = recordObj["size"].toInt();
+                                map.insert(i, uploadFileInfo);
+                            }
+                        }
+                        LoadUploadFileHistory(map);
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
+//显示数据
+void UploadFileDialog::LoadUploadFileHistory(QMap<int, S_UPLOADD_FILE_INFO> map)
+{
+    ui->listWidgetHistory->clear();
+    if (map.size() <= 0)
+        return;
+    QListWidgetItem* item = NULL;
+    QListWidgetItem* queueItem = NULL;
+    QString strFilePath;
+    QueueTableItem* widget = NULL;
+    QMap<int, S_UPLOADD_FILE_INFO>::iterator iter = map.begin();
+    for (; iter != map.end(); iter++)
+    {
+        //item = ui->listWidgetChooseFile->item(i);
+        //if (item != NULL)
+        {
+            strFilePath = item->data(Qt::UserRole).toString();
+            queueItem = new QListWidgetItem(ui->listWidgetHistory);
+            queueItem->setData(Qt::UserRole, strFilePath);
+            queueItem->setSizeHint(QSize(QUEUE_ITEM_WIDTH, QUEUE_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+            //tableitem* widget = new tableitem(dataObj,this);
+            widget = new QueueTableItem(m_strPhoneList, strFilePath, this);
+            ui->listWidgetHistory->addItem(queueItem);
+            ui->listWidgetHistory->setItemWidget(queueItem, widget);
+        }
+    }
+}
 
 void UploadFileDialog::on_toolBtnSelectFile_2_clicked()
 {
@@ -156,17 +305,7 @@ void UploadFileDialog::uploadFile()
 {
     on_toolBtnUploadQueue_clicked();
 
-    ui->stackedWidget->setCurrentWidget(ui->pageQueue);
-    //初始化列表
-    ui->listWidgetQueue->setViewMode(QListWidget::ListMode);
-    //设置QListWidget中单元项的图片大小
-    //ui->imageList->setIconSize(QSize(100,100));
-    //设置QListWidget中单元项的间距
-    ui->listWidgetQueue->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
-    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-    ui->listWidgetQueue->setResizeMode(QListWidget::Adjust);
-    //设置不能移动
-    ui->listWidgetQueue->setMovement(QListWidget::Static);
+    ui->stackedWidget->setCurrentWidget(ui->pageQueue);    
 
     //获取上传列表
     int iUploadCount = ui->listWidgetChooseFile->count();
