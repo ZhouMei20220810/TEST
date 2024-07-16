@@ -2,6 +2,11 @@
 #include "ui_replacecloudphonedialog.h"
 #include "messagetips.h"
 #include <QCheckBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QJsonParseError>
+#include <QJsonObject>
+#include <QJsonArray>
 
 ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList,QWidget *parent)
     : QDialog(parent)
@@ -43,12 +48,154 @@ void ReplaceCloudPhoneDialog::on_btnClose_clicked()
 void ReplaceCloudPhoneDialog::on_btnOk_clicked()
 {
     qDebug()<<"确定更换";
+    //QVector<int> vector;
+    //行-手机id
+    QMap<int, int> map;    
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {        
+        MessageTips* tips = new MessageTips("数据列表为空", this);
+        tips->show();
+        return;
+    }
+
+    QCheckBox* checkBox = NULL;
+    QListWidgetItem* item = NULL;
+    S_PHONE_INFO phoneInfo;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            checkBox = qobject_cast<QCheckBox*>(ui->listWidget->itemWidget(item));
+            if (checkBox != NULL && checkBox->isChecked())
+            {
+                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                map.insert(i, phoneInfo.iId);
+            }
+        }
+    }
+    if (map.size() <= 0)
+    {
+        MessageTips* tips = new MessageTips("暂无勾选数据", this);
+        tips->show();
+        return;
+    }
+    HttpPostReplaceInstance(map);
 }
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QJsonParseError>
-#include <QJsonObject>
-#include <QJsonArray>
+
+void ReplaceCloudPhoneDialog::HttpPostReplaceInstance(QMap<int, int> mapId)
+{
+    int iSize = mapId.size();
+    if (iSize <= 0)
+        return;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_REPLACE_INSTANCE;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    //QJsonObject jsonObj;
+    //jsonObj["groupId"] = iGroupId;
+
+    QJsonArray listArray;
+    //for (int i = 0; i < iSize; i++)
+    QMap<int, int>::iterator iter= mapId.begin();
+    for(;iter != mapId.end();iter++)
+    {
+        listArray.append(iter.value());
+    }
+    //doc.setObject(listArray);
+    //jsonObj["idList"] = listArray;
+    //doc.setArray(listArray);
+    QJsonDocument doc(listArray);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    QJsonArray dataArray = obj["data"].toArray();
+                    QJsonObject data;
+                    int iSize = dataArray.size();
+                    S_REPLACE_INFO replaceInfo;
+                    //行
+                    QMap<int, S_REPLACE_INFO> map;
+                    QMap<int, int>::const_iterator iterId = mapId.begin();
+                    for (int i = 0; i < iSize; i++)
+                    {
+                        data = dataArray[i].toObject();
+                        replaceInfo.id = data["id"].toInt();
+                        replaceInfo.iInstanceId = data["instanceId"].toInt();
+                        replaceInfo.iType = data["type"].toInt();
+                        replaceInfo.iCreateBy = data["createBy"].toInt();
+                        replaceInfo.strCreateTime = data["createTime"].toString();
+                        replaceInfo.strRemark = data["remark"].toString();
+                        replaceInfo.bIsSuccess = data["isSuccess"].toBool();
+                        //服务器返回的数据按请求的数据返回，没有返回与手机相关的信息
+                        map.insert(iterId.key(), replaceInfo);
+                    }
+                    LoadReplaceInstanceStatus(map);
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+void ReplaceCloudPhoneDialog::LoadReplaceInstanceStatus(QMap<int, S_REPLACE_INFO> map)
+{
+    if (map.size() <= 0)
+        return;
+    QMap<int, S_REPLACE_INFO>::iterator iter = map.begin();
+    QListWidgetItem* item = NULL;
+    QCheckBox* checkBox = NULL;
+    QString strText;
+    for (; iter != map.end(); iter++)
+    {
+        strText = "";
+        item = ui->listWidget->item(iter.key());
+        if (item != NULL)
+        {
+            checkBox = static_cast<QCheckBox*>(ui->listWidget->itemWidget(item));
+            strText = checkBox->text()+"   "+iter->strRemark;
+            checkBox->setText(strText);
+        }
+    }
+}
 
 void ReplaceCloudPhoneDialog::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel)
 {
@@ -175,7 +322,7 @@ void ReplaceCloudPhoneDialog::ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo
             checkBox->setText(iter->strInstanceNo);
         else
             checkBox->setText(iter->strName);
-        checkBox->setFixedSize(200, LISTMODE_ITEM_HEGITH);
+        checkBox->setFixedSize(340, LISTMODE_ITEM_HEGITH);
         //widget2 = new PhoneListModeItemWidget(phoneInfo, this);
         //connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
         //connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);

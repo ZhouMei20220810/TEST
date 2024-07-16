@@ -352,9 +352,15 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QFrame" name="frame_3">
+       <property name="minimumSize">
+        <size>
+         <width>360</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
-         <width>180</width>
+         <width>360</width>
          <height>16777215</height>
         </size>
        </property>
@@ -455,25 +461,25 @@
 </string>
              </property>
              <property name="text">
-              <string>0/0</string>
+              <string>名称</string>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_2">
+            <spacer name="horizontalSpacer_4">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>71</width>
+               <width>122</width>
                <height>20</height>
               </size>
              </property>
             </spacer>
            </item>
            <item>
-            <widget class="QLabel" name="label_5">
+            <widget class="QLabel" name="label_6">
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -484,18 +490,43 @@
               <string notr="true">color:#4A4A4A</string>
              </property>
              <property name="text">
-              <string>名称</string>
+              <string>状态</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>122</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </widget>
         </item>
         <item>
          <widget class="QListWidget" name="listWidget">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="styleSheet">
            <string notr="true">border:none;</string>
           </property>
@@ -594,10 +625,12 @@
               <string notr="true">color:#A9ADB6;</string>
              </property>
              <property name="text">
-              <string>1.进行更换操作时，当前云手机剩余时间需要大于1小时
+              <string>1.进行更换操作时，当前云手机剩余时间需要大于
+1小时
 2.更换后，云手机数据将被清空
 3.QVIP/BVIP/VIP/GVIP/KVIP云手机每天可分别更新2/3/5/8/12次
-4.同一台云手机两次更换间隔1分钟</string>
+4.同一台云手机两次
+更换间隔1分钟</string>
              </property>
             </widget>
            </item>
