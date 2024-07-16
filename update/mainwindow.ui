@@ -580,7 +580,7 @@ QToolButton:hover
 </string>
             </property>
             <property name="text">
-             <string>正在安装</string>
+             <string>立即重启</string>
             </property>
            </widget>
           </item>

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,8 +24,11 @@ private slots:
     void on_toolBtnUpdate_clicked();
 
     void on_btnClose_clicked();
-
+private:
+    void InstallApp();
 private:
     Ui::MainWindow *ui;
+    QString strExe;
+    QTimer* m_Timer;
 };
 #endif // MAINWINDOW_H

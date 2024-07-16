@@ -108,6 +108,18 @@ MainWindow::MainWindow(QWidget *parent)
     shadow->setYOffset(0); //垂直偏移
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
+
+    //杀掉当前进程
+    ui->progressBar->setValue(10);
+    ProcessKiller killer;
+    killer.killTheProcess("YiShunYun.exe");
+    ui->progressBar->setValue(30);
+    m_Timer = new QTimer(this);
+    m_Timer->start(2000);
+    connect(m_Timer,&QTimer::timeout, this,[this](){
+        m_Timer->stop();
+        InstallApp();
+    });
 }
 
 MainWindow::~MainWindow()
@@ -155,17 +167,11 @@ int installMsiSilently(const QString& msiFilePath,const QString& strExeFolder)
     }
 }
 
-void MainWindow::on_toolBtnUpdate_clicked()
+void MainWindow::InstallApp()
 {
-    //杀掉当前进程
-    ui->progressBar->setValue(10);
-    ProcessKiller killer;
-    killer.killTheProcess("YiShunYun.exe");
-    ui->progressBar->setValue(30);
-
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     QString strMsi = setting.value("UpdateMsiPath", "").toString();
-    QString strExe = setting.value("UpdateExe","").toString();
+    strExe = setting.value("UpdateExe","").toString();
     int iLastIndex = strExe.lastIndexOf('\\');
     QString strExeFolder = strExe.left(iLastIndex);
     //安装msi
@@ -182,9 +188,13 @@ void MainWindow::on_toolBtnUpdate_clicked()
         QMessageBox::warning(NULL,"错误提示","当前没有可更新程序");
         return;
     }
-    ui->progressBar->setValue(80);
+    ui->progressBar->setValue(100);
     qDebug()<<"strMsi="<<strMsi;
-    //启动软件
+}
+
+void MainWindow::on_toolBtnUpdate_clicked()
+{
+    //立即重启
     if (!strExe.isEmpty())
     {
         QFile file(strExe);
