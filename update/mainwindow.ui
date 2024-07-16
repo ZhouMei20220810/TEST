@@ -495,7 +495,7 @@ QProgressBar::chunk{background-color: #FF407AFF;
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <bold>true</bold>
+              <bold>false</bold>
              </font>
             </property>
             <property name="cursor">
@@ -545,7 +545,7 @@ QToolButton:hover
             <property name="font">
              <font>
               <pointsize>11</pointsize>
-              <bold>true</bold>
+              <bold>false</bold>
              </font>
             </property>
             <property name="cursor">

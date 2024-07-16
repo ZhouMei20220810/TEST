@@ -139,6 +139,7 @@ int installMsiSilently(const QString& msiFilePath,const QString& strExeFolder)
     command.append(msiFilePath); // 添加MSI文件的完整路径
     //command.append("\""); // /qn 参数表示非静默安装，有界面
     command.append("\" /qn"); // /qn 参数表示静默安装，无界面
+    command.append("/norestart"); // /qn 确保不会发生重启
     command.append(QString(" TARGETDIR=\"%1\"").arg(strExeFolder));
     qDebug() << "command=" << command;
     QString strBatFile = QDir::tempPath() + "/update.bat";
@@ -170,18 +171,20 @@ int installMsiSilently(const QString& msiFilePath,const QString& strExeFolder)
 void MainWindow::InstallApp()
 {
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-    QString strMsi = setting.value("UpdateMsiPath", "").toString();
-    strExe = setting.value("UpdateExe","").toString();
-    int iLastIndex = strExe.lastIndexOf('\\');
-    QString strExeFolder = strExe.left(iLastIndex);
-    //安装msi
-    int exitCode = installMsiSilently(strMsi,strExeFolder);
-    ui->progressBar->setValue(50);
-    int bWriteLogFile = setting.value("WriteLogFile", true).toBool();
+	int bWriteLogFile = setting.value("WriteLogFile", true).toBool();
     if (bWriteLogFile)
     {
         qInstallMessageHandler(customMessageHandler);
     }
+    QString strMsi = setting.value("UpdateMsiPath", "").toString();
+    strExe = setting.value("UpdateExe","").toString();
+    int iLastIndex = strExe.lastIndexOf('\\');
+    QString strExeFolder = strExe.left(iLastIndex);
+    ui->progressBar->setValue(50);
+    //安装msi
+    int exitCode = installMsiSilently(strMsi,strExeFolder);
+    ui->progressBar->setValue(80);
+    
     qDebug() << "folder = " << strExeFolder;
     if(strMsi.isEmpty())
     {
@@ -190,6 +193,9 @@ void MainWindow::InstallApp()
     }
     ui->progressBar->setValue(100);
     qDebug()<<"strMsi="<<strMsi;
+
+    //自动重启
+    on_toolBtnUpdate_clicked();
 }
 
 void MainWindow::on_toolBtnUpdate_clicked()
@@ -208,18 +214,17 @@ void MainWindow::on_toolBtnUpdate_clicked()
             // 检查进程退出代码以确定安装是否成功
             int exitCode = process.exitCode();
             if (exitCode == 0) {
-                qDebug() << "MSI installed successfully."<< strExe;
+                qDebug() << "restart app successfully."<< strExe;
             }
             else {
-                qDebug() << "MSI installation failed with exit code:" << exitCode<<strExe;
+                qDebug() << "restart app failed with exit code:" << exitCode<<strExe;
             }
         }
         else
         {
             qDebug() << "文件不存在." << strExe;
         }
-    }
-    ui->progressBar->setValue(100);
+    }    
 }
 
 
