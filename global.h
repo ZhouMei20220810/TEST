@@ -50,6 +50,7 @@
 
 //文件相关接口,停用
 #define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
+#define HTTP_GET_UPLOAD_FILE_HISTORY    "/api/file/list"    //获取上传文件历史记录
 
 //云手机
 #define HTTP_CLOUD_PHONE_SERVER         "https://platform.armvm.com"
@@ -67,6 +68,8 @@
 #define HTTP_POST_ACTIVECODE_LIST       "/api/cdkey/list"       //激活码列表
 
 #define HTTP_POST_CHECK_UPDATE_APP      "/api/dict/list"        //数据字典，检测更新
+
+#define HTTP_POST_REPLACE_INSTANCE      "/api/user/replace"     //更换云机
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
@@ -367,6 +370,37 @@ typedef struct VERSION_INFO
         memset(this, 0, sizeof(VERSION_INFO));
     }
 }S_VERSION_INFO,*PS_VERSION_INFO;
+
+typedef struct UPLOADD_FILE_INFO
+{
+    int     id;
+    int     iCreateBy;
+    int     iSize;
+    int     iStatus;//0:失败；1：成功
+    QString strBucket;
+    QString strCreateTime;
+    QString strFileMd5;
+    QString strFileName;    
+    UPLOADD_FILE_INFO()
+    {
+        memset(this, 0, sizeof(UPLOADD_FILE_INFO));
+    }
+}S_UPLOADD_FILE_INFO,*PS_UPLOADD_FILE_INFO;
+
+typedef struct REPLACE_INFO
+{
+    int id;
+    int iInstanceId;
+    int iType;
+    int iCreateBy;
+    QString strCreateTime;
+    QString strRemark;
+    bool bIsSuccess;
+    REPLACE_INFO()
+    {
+        memset(this, 0, sizeof(REPLACE_INFO));
+    }
+}S_REPLACE_INFO,*PS_REPLACE_INFO;
 
 class GlobalData
 {
