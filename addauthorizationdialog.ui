@@ -436,13 +436,13 @@ height:16px;
               <widget class="QLabel" name="label_2">
                <property name="minimumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
@@ -516,13 +516,13 @@ height:16px;
               <widget class="QLabel" name="label_4">
                <property name="minimumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
@@ -596,13 +596,13 @@ height:16px;
               <widget class="QLabel" name="label_6">
                <property name="minimumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
@@ -616,7 +616,7 @@ height:16px;
                 <string notr="true">color:#4A4A4A;</string>
                </property>
                <property name="text">
-                <string>云手机剩余天数</string>
+                <string>云手机最少剩余天数</string>
                </property>
               </widget>
              </item>
@@ -676,13 +676,13 @@ height:16px;
               <widget class="QLabel" name="label_8">
                <property name="minimumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
@@ -777,8 +777,14 @@ padding-left:10px;</string>
               <widget class="QRadioButton" name="radioButtonAccount">
                <property name="minimumSize">
                 <size>
-                 <width>127</width>
+                 <width>147</width>
                  <height>19</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>147</width>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="font">
@@ -884,8 +890,14 @@ padding-left:10px;</string>
               <widget class="QFrame" name="frame_16">
                <property name="minimumSize">
                 <size>
-                 <width>100</width>
+                 <width>147</width>
                  <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>147</width>
+                 <height>16777215</height>
                 </size>
                </property>
                <property name="frameShape">
@@ -995,13 +1007,13 @@ padding-left:10px;</string>
               <widget class="QLabel" name="label_11">
                <property name="minimumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>130</width>
+                 <width>150</width>
                  <height>17</height>
                 </size>
                </property>

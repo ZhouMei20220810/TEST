@@ -2769,13 +2769,7 @@ background:transparent;</string>
                           <enum>QFrame::Raised</enum>
                          </property>
                          <layout class="QHBoxLayout" name="horizontalLayout_10">
-                          <property name="leftMargin">
-                           <number>20</number>
-                          </property>
                           <property name="topMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="rightMargin">
                            <number>0</number>
                           </property>
                           <property name="bottomMargin">
@@ -2790,8 +2784,57 @@ background:transparent;</string>
                              </font>
                             </property>
                             <property name="text">
-                             <string>等级/名称</string>
+                             <string>名称</string>
                             </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QFrame" name="frame_36">
+                            <property name="font">
+                             <font>
+                              <pointsize>10</pointsize>
+                              <bold>true</bold>
+                             </font>
+                            </property>
+                            <property name="frameShape">
+                             <enum>QFrame::StyledPanel</enum>
+                            </property>
+                            <property name="frameShadow">
+                             <enum>QFrame::Raised</enum>
+                            </property>
+                            <layout class="QHBoxLayout" name="horizontalLayout_40">
+                             <property name="leftMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="topMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="rightMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="bottomMargin">
+                              <number>0</number>
+                             </property>
+                             <item>
+                              <widget class="QToolButton" name="toolButton_3">
+                               <property name="font">
+                                <font>
+                                 <pointsize>10</pointsize>
+                                 <bold>true</bold>
+                                </font>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">color:#505465;border:none;</string>
+                               </property>
+                               <property name="text">
+                                <string>等级</string>
+                               </property>
+                               <property name="autoRaise">
+                                <bool>true</bool>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
                            </widget>
                           </item>
                           <item>
@@ -2804,32 +2847,6 @@ background:transparent;</string>
                             </property>
                             <property name="text">
                              <string>剩余时间</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QLabel" name="label_26">
-                            <property name="font">
-                             <font>
-                              <pointsize>10</pointsize>
-                              <bold>true</bold>
-                             </font>
-                            </property>
-                            <property name="text">
-                             <string>系统</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QLabel" name="label_27">
-                            <property name="font">
-                             <font>
-                              <pointsize>10</pointsize>
-                              <bold>true</bold>
-                             </font>
-                            </property>
-                            <property name="text">
-                             <string>状态</string>
                             </property>
                            </widget>
                           </item>

@@ -812,15 +812,19 @@ void MainWindow::InitBatchOperatorMenu()
     pActionBatchReboot = new QAction("批量重启", this);
     pActionBatchUploadFile = new QAction("批量上传文件", this);
     pActionBatchFactoryReset = new QAction("批量恢复出厂", this);
+    pActionBatchAuth = new QAction("批量授权", this);
     //pActionMoveGroup = new QAction("移动分组", ui->treeWidget);
     connect(pActionBatchReboot, &QAction::triggered, this, &MainWindow::do_ActionBatchReboot);
     connect(pActionBatchUploadFile, &QAction::triggered, this, &MainWindow::do_ActionBatchUploadFile);
     connect(pActionBatchFactoryReset, &QAction::triggered, this, &MainWindow::do_ActionBatchFactoryReset);
+    connect(pActionBatchAuth, &QAction::triggered, this, &MainWindow::do_ActionBatchAuth);
+
     //connect(pActionMoveGroup, &QAction::triggered, this, &MainWindow::do_ActionMoveGroup);
     m_BatchOperMenu->addAction(pActionBatchReboot);
     m_BatchOperMenu->addSeparator();
     m_BatchOperMenu->addAction(pActionBatchUploadFile);
     m_BatchOperMenu->addAction(pActionBatchFactoryReset);
+    m_BatchOperMenu->addAction(pActionBatchAuth);
     m_BatchOperSubMenu = m_BatchOperMenu->addMenu("批量移动分组");
 }
 
@@ -901,6 +905,18 @@ void MainWindow::do_ActionBatchFactoryReset(bool bChecked)
     if (strPhoneList.size() > 0)
     {
         m_toolObject->HttpPostInstanceReset(strPhoneList);
+    }
+}
+
+void MainWindow::do_ActionBatchAuth(bool bChecked)
+{
+    QStringList strPhoneList = getCheckedPhoneInstance();
+    if (strPhoneList.size() > 0)
+    {
+        //批量授权
+        AddAuthorizationDialog* dialog = new AddAuthorizationDialog(GlobalData::mapSyncPhoneList);
+        connect(dialog, &AddAuthorizationDialog::notifyMainWindowRefreshGroupListSignals, this, &MainWindow::on_btnGroupRefresh_clicked);
+        dialog->exec();
     }
 }
 

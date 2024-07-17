@@ -15,7 +15,8 @@ class AddAuthorizationDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddAuthorizationDialog(S_PHONE_INFO phoneInfo,QWidget *parent = nullptr);
+    explicit AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* parent = nullptr);
+    explicit AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map,QWidget *parent = nullptr);
     ~AddAuthorizationDialog();
 
     void InitWidget(S_AUTHOR_INFO authInfo);
@@ -47,12 +48,15 @@ private:
     void InitAccountPage(S_AUTHOR_INFO authInfo);
     void HttpPostGeneratorAuthCode(bool bIsReadOnly,qint64 iUserInstanceId, qint64 iExpireTime);
     void HttpPostAuthAccountByPhone(bool bIsReadOnly, int iUserInstanceId, qint64 iExpireTime,QString strPhoneNum);
+    void HttpPostBatchGeneratorAuthCode(bool bIsReadOnly, QMap<int, S_PHONE_INFO> map, qint64 iExpireTime);
+    void HttpPostBatchAuthAccountByPhone(bool bIsReadOnly, QMap<int, S_PHONE_INFO> map, qint64 iExpireTime, QString strPhoneNum);
 private:
     Ui::AddAuthorizationDialog *ui;
 
     bool m_bIsAccountAuth;
     bool m_bIsReadOnly;
     S_PHONE_INFO m_phoneInfo;
+    QMap<int, S_PHONE_INFO> m_map;
     QButtonGroup* m_btnGroup;
     int m_iDay;
     int m_iInstanceId;

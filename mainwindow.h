@@ -234,6 +234,7 @@ private slots:
     void do_ActionBatchReboot(bool bChecked);
     void do_ActionBatchUploadFile(bool bChecked);
     void do_ActionBatchFactoryReset(bool bChecked);
+    void do_ActionBatchAuth(bool bChecked);
 
     void on_comboBoxView_currentIndexChanged(int index);
 
@@ -316,6 +317,7 @@ private:
     QAction* pActionBatchReboot;
     QAction* pActionBatchUploadFile;
     QAction* pActionBatchFactoryReset;
+    QAction* pActionBatchAuth;//批量授权
 
     QTreeWidgetItem* m_pCurItem;
     ToolObject* m_toolObject;

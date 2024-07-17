@@ -12,8 +12,7 @@
 #include <QJsonArray>
 #include "messagetips.h"
 #include <QClipboard>
-
-AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *parent)
+AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::AddAuthorizationDialog)
 {
@@ -48,7 +47,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
 
     QDateTime curDateTime = QDateTime::currentDateTime();
     QDateTime expireTime = QDateTime::fromString(phoneInfo.strExpireTime, "yyyy-MM-dd hh:mm:ss");
-    qint64 mseconds = 0; 
+    qint64 mseconds = 0;
     mseconds = expireTime.toMSecsSinceEpoch() - curDateTime.toMSecsSinceEpoch();
     m_iDay = mseconds / (1000 * 60 * 60 * 24);
     QString strTime = strTime.asprintf("%d天%d小时", m_iDay, (mseconds / (1000 * 60 * 60)) % 24);
@@ -57,6 +56,119 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
 
     //默认,没有授权和被授权
     if (phoneInfo.iAuthStatus == 0)
+    {
+        ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
+    }
+    else if (phoneInfo.iAuthStatus == 1)//已授权
+    {
+        ui->stackedWidget->setCurrentWidget(ui->pageCode);
+    }
+    else if (phoneInfo.iAuthStatus == 2)//被授权
+    {
+        ui->stackedWidget->setCurrentWidget(ui->pageAccount);
+    }
+
+    switch (phoneInfo.iType)
+    {
+    case EN_AUTHORIZATION:
+        ui->btnCancelAuthCode->setEnabled(true);
+        ui->btnCancelAuthAccount->setEnabled(true);
+        break;
+    case EN_BE_AUTHORIZATION:
+        ui->btnCancelAuthCode->setEnabled(false);
+        ui->btnCancelAuthAccount->setEnabled(false);
+        break;
+    default:
+        break;
+    }
+}
+
+AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PHONE_INFO phoneInfo*/, QWidget* parent)
+    : QDialog(parent)
+    , ui(new Ui::AddAuthorizationDialog)
+{
+    ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
+    setWindowFlags(Qt::FramelessWindowHint);
+
+    //只读+不能选择
+    ui->plainTextEdit->setReadOnly(true);
+    ui->plainTextEdit->setTextInteractionFlags(Qt::NoTextInteraction);
+
+    //百度暂不支持PC端选择是否只读或可控,屏蔽界面选择
+    ui->frame_9->setVisible(false);
+
+    m_bIsAccountAuth = false;
+    m_bIsReadOnly = true;
+    m_map = map;
+    m_toolObject = new ToolObject(this);
+    QRegularExpression regExp("[0-9]*");
+    QValidator* validator = new QRegularExpressionValidator(regExp, this);
+    ui->lineEditDay->setValidator(validator);
+    ui->lineEditPhoneNum->setValidator(validator);
+
+    m_btnGroup = new QButtonGroup(this);
+    m_btnGroup->addButton(ui->radioButtonAccount);
+    m_btnGroup->addButton(ui->radioButtonAuthorCode);
+    QMap<int, S_PHONE_INFO>::iterator iter = map.begin();
+    QString strPhoneNameList="";
+    QString strPhoneInstanceList = "";
+    QString strPhoneTime;
+    QDateTime curDateTime = QDateTime::currentDateTime();
+    QDateTime expireTime;
+    qint64 mseconds = 0;
+    qint64 timeTmp = 0;
+    for (; iter != map.end(); iter++)
+    {
+        //过滤已授权和被授权的设备
+        /*if (iter->bIsAuth || iter->iType == 2)                                                                                          )
+        {
+            qDebug() << "已授权或者被授权 name=" << iter->strName << "No=" << iter->strInstanceNo;
+            continue;
+        }*/
+        if (iter->bIsAuth || iter->iType == 2)
+        {
+            qDebug() << "已授权或者被授权 name=" << iter->strName << "No=" << iter->strInstanceNo;
+            continue;
+        }
+
+        if (!strPhoneNameList.isEmpty())
+        {
+            strPhoneNameList += ",";
+        }
+        if (!strPhoneInstanceList.isEmpty())
+        {
+            strPhoneInstanceList += ",";
+        }
+        if (iter->strName.isEmpty())
+            strPhoneNameList += iter->strInstanceNo;
+        else
+            strPhoneNameList += iter->strName;
+
+        strPhoneInstanceList += iter->strInstanceNo;
+
+        //计算云手机最小的天数
+        expireTime = QDateTime::fromString(iter->strExpireTime, "yyyy-MM-dd hh:mm:ss");
+        timeTmp = expireTime.toMSecsSinceEpoch() - curDateTime.toMSecsSinceEpoch();
+        if (mseconds == 0)
+            mseconds = timeTmp;
+        else if (timeTmp < mseconds)
+        {
+            mseconds = timeTmp;
+        }
+            
+    }
+    ui->labelPhoneName->setText(strPhoneNameList);
+    ui->labelPhoneInstance->setText(strPhoneInstanceList);
+    
+    m_iDay = mseconds / (1000 * 60 * 60 * 24);
+    QString strTime = strTime.asprintf("%d天%d小时", m_iDay, (mseconds / (1000 * 60 * 60)) % 24);
+    qDebug() << "strTime=" << strTime;
+    ui->labelDay->setText(strTime);
+
+    ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
+    //默认,没有授权和被授权
+    /*if (phoneInfo.iAuthStatus == 0)
     {
         ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
     }
@@ -81,7 +193,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget *
         break;
     default:
         break;
-    }
+    }*/
 }
 
 AddAuthorizationDialog::~AddAuthorizationDialog()
@@ -149,16 +261,119 @@ void AddAuthorizationDialog::on_btnOk_clicked()
     //根据单选弹框
     if(ui->radioButtonAccount->isChecked())
     {
-        HttpPostAuthAccountByPhone(m_bIsReadOnly, m_phoneInfo.iId, ExpireTime.toMSecsSinceEpoch(), strPhone);
+        HttpPostBatchAuthAccountByPhone(m_bIsReadOnly, m_map, ExpireTime.toMSecsSinceEpoch(), strPhone);
     }
     else
     {
         //生成授权码
-        HttpPostGeneratorAuthCode(m_bIsReadOnly, m_phoneInfo.iId, ExpireTime.toMSecsSinceEpoch());
+        HttpPostBatchGeneratorAuthCode(m_bIsReadOnly, m_map, ExpireTime.toMSecsSinceEpoch());
     }
     emit notifyMainWindowRefreshGroupListSignals();
 }
+void AddAuthorizationDialog::HttpPostBatchGeneratorAuthCode(bool bIsReadOnly, QMap<int, S_PHONE_INFO> map, qint64 iExpireTime)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_GENERATOR_AUTH_CODE;
 
+    QString strGrantControl = "CONTROL";
+    if (bIsReadOnly)
+        strGrantControl = "WATCH";
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("grantControl", strGrantControl);
+    obj.insert("expireTime", iExpireTime);
+    QJsonArray listArray;
+    QMap<int, S_PHONE_INFO>::iterator iter = map.begin();
+    for (;iter != map.end();iter++)
+    {
+        listArray.append(iter->iId);
+    }
+    //doc.setObject(listArray);
+    //jsonObj["ids"] = listArray;
+    obj.insert("userInstanceIds", listArray);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                QString strData = obj["data"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << strData << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    m_iInstanceId = m_phoneInfo.iId;
+                    if (m_phoneInfo.strName.isEmpty())
+                        ui->labelName->setText(m_phoneInfo.strInstanceNo);
+                    else
+                        ui->labelName->setText(m_phoneInfo.strName);
+                    if (ui->radioButtonReadOnly->isChecked())
+                    {
+                        ui->labelQuanxian->setText("仅观看");
+                    }
+                    else
+                    {
+                        ui->labelQuanxian->setText("可操控");
+                    }
+
+                    /*if (m_phoneInfo.bUsed)
+                    {
+                        ui->labelUseStatus->setText("已使用");
+                    }
+                    else
+                    {
+                        ui->labelUseStatus->setText("未使用");
+                    }*/
+                    QDateTime currentTime = QDateTime::currentDateTime();
+                    QDateTime newDateTime = currentTime.addDays(ui->lineEditDay->text().toInt());
+                    ui->labelUseDay->setText(newDateTime.toString("yyyy-MM-dd hh:mm:ss"));
+
+                    ui->label->setText("授权信息");
+                    ui->label_18->setText("授权码：" + strData);
+                    ui->stackedWidget->setCurrentWidget(ui->pageCode);
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+void AddAuthorizationDialog::HttpPostBatchAuthAccountByPhone(bool bIsReadOnly, QMap<int, S_PHONE_INFO> map, qint64 iExpireTime, QString strPhoneNum)
+{
+
+}
 void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, qint64 iUserInstanceId, qint64 iExpireTime)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -182,7 +397,7 @@ void AddAuthorizationDialog::HttpPostGeneratorAuthCode(bool bIsReadOnly, qint64 
     QJsonObject obj;
     obj.insert("grantControl", strGrantControl);
     obj.insert("expireTime", iExpireTime);
-    obj.insert("userInstanceId",iUserInstanceId);
+    obj.insert("userInstanceIds",iUserInstanceId);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     //发出GET请求
