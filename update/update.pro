@@ -11,11 +11,13 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    messagetipsdialog.cpp
+    messagetipsdialog.cpp \
+    tinstallappthread.cpp
 
 HEADERS += \
     mainwindow.h \
-    messagetipsdialog.h
+    messagetipsdialog.h \
+    tinstallappthread.h
 
 FORMS += \
     mainwindow.ui \

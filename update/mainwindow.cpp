@@ -15,7 +15,7 @@
 
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
-#define         KILL_PROCESS_NAME           "YiShunYun.exe"
+#define     KILL_PROCESS_NAME       "YiShunYun.exe"
 
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
@@ -104,6 +104,13 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground, true);
 
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    int bWriteLogFile = setting.value("WriteLogFile", true).toBool();
+    if (bWriteLogFile)
+    {
+        qInstallMessageHandler(customMessageHandler);
+    }
+
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
     shadow->setBlurRadius(5);//阴影模糊半径
     shadow->setXOffset(0);//水平偏移
@@ -119,16 +126,24 @@ MainWindow::MainWindow(QWidget *parent)
     ProcessKiller killer;
     killer.killTheProcess(KILL_PROCESS_NAME);
     ui->progressBar->setValue(30);
-    m_Timer = new QTimer(this);
-    m_Timer->start(2000);
-    connect(m_Timer,&QTimer::timeout, this,[this](){
-        m_Timer->stop();
-        InstallApp();
-    });
+    m_thread = new TInstallAppThread(this);
+    connect(m_thread, &TInstallAppThread::showPrograssValueSignals, this, &MainWindow::do_showPrograssValueSignals);
+    m_thread->start();
+}
+
+void MainWindow::do_showPrograssValueSignals(int value)
+{
+    if (value == 100)
+        ui->toolBtnCancel->setEnabled(false);
+    ui->progressBar->setValue(value);
 }
 
 MainWindow::~MainWindow()
 {
+    if (m_thread->isRunning())
+    {
+        m_thread->quit();
+    }
     delete ui;
 }
 
@@ -140,102 +155,6 @@ void MainWindow::on_toolBtnCancel_clicked()
         this->close();
     }
 }
-
-int installMsiSilently(const QString& msiFilePath,const QString& strExeFolder)
-{
-    // msiexec命令格式用于静默安装
-    QString command = "msiexec /i \"";
-    command.append(msiFilePath); // 添加MSI文件的完整路径
-    //command.append("\""); // /qn 参数表示非静默安装，有界面
-    command.append("\" /qn"); // /qn 参数表示静默安装，无界面
-    command.append(" /norestart"); // /qn 确保不会发生重启
-    command.append(QString(" TARGETDIR=\"%1\"").arg(strExeFolder));
-    qDebug() << "command=" << command;
-    QString strBatFile = QDir::tempPath() + "/update.bat";
-    QFile file(strBatFile);
-    if (file.open(QIODevice::WriteOnly))
-    {
-        QTextStream out(&file);
-        out << command;
-        file.close();
-    }
-
-    // 使用QProcess执行命令
-    QProcess process;
-    process.start(strBatFile);
-    process.waitForFinished(-1); // 等待进程结束，-1表示无限制等待时间
-
-    // 检查进程退出代码以确定安装是否成功
-    int exitCode = process.exitCode();
-    if (exitCode == 0) {
-        qDebug() << "MSI installed successfully.";
-        return exitCode;
-    }
-    else {
-        qDebug() << "MSI installation failed with exit code:" << exitCode;
-        return exitCode;
-    }
-}
-
-void MainWindow::InstallApp()
-{
-    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
-	int bWriteLogFile = setting.value("WriteLogFile", true).toBool();
-    if (bWriteLogFile)
-    {
-        qInstallMessageHandler(customMessageHandler);
-    }
-    QString strMsi = setting.value("UpdateMsiPath", "").toString();
-    strExe = setting.value("UpdateExe","").toString();
-    int iLastIndex = strExe.lastIndexOf('\\');
-    QString strExeFolder = strExe.left(iLastIndex);
-    ui->progressBar->setValue(50);
-    //安装msi
-    int exitCode = installMsiSilently(strMsi,strExeFolder);
-    ui->progressBar->setValue(80);
-    
-    qDebug() << "folder = " << strExeFolder;
-    if(strMsi.isEmpty())
-    {
-        qDebug() << "not found file." << strMsi;
-        return;
-    }
-    ui->progressBar->setValue(100);
-    qDebug()<<"strMsi="<<strMsi;
-
-    //自动重启
-    on_toolBtnUpdate_clicked();
-}
-
-void MainWindow::on_toolBtnUpdate_clicked()
-{
-    //立即重启
-    if (!strExe.isEmpty())
-    {
-        QFile file(strExe);
-        if (file.exists())
-        {
-            // 使用QProcess执行命令
-            QProcess process;
-            process.start(strExe);
-            process.waitForFinished(-1); // 等待进程结束，-1表示无限制等待时间
-
-            // 检查进程退出代码以确定安装是否成功
-            int exitCode = process.exitCode();
-            if (exitCode == 0) {
-                qDebug() << "restart app successfully."<< strExe;
-            }
-            else {
-                qDebug() << "restart app failed with exit code:" << exitCode<<strExe;
-            }
-        }
-        else
-        {
-            qDebug() << "文件不存在." << strExe;
-        }
-    }    
-}
-
 
 void MainWindow::on_btnClose_clicked()
 {

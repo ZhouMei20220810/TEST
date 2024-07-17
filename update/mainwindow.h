@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTimer>
-
+#include "tinstallappthread.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -21,14 +20,11 @@ public:
 private slots:
     void on_toolBtnCancel_clicked();
 
-    void on_toolBtnUpdate_clicked();
-
     void on_btnClose_clicked();
-private:
-    void InstallApp();
+
+    void do_showPrograssValueSignals(int value);
 private:
     Ui::MainWindow *ui;
-    QString strExe;
-    QTimer* m_Timer;
+    TInstallAppThread* m_thread;
 };
 #endif // MAINWINDOW_H
