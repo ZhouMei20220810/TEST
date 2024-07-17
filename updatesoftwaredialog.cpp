@@ -118,7 +118,7 @@ void UpdateSoftwareDialog::callUpdateApp()
     command.append(msiFilePath); // 添加MSI文件的完整路径
     command.append("\" /qn"); // /qn 参数表示静默安装，无界面
     */
-    QString command = QCoreApplication::applicationDirPath() + "/Update.exe";
+    QString command = QCoreApplication::applicationDirPath() + "/update.exe";
     qDebug() << "command=" << command;
     // 使用QProcess执行命令
     QProcess process;

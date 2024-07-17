@@ -9,6 +9,7 @@
 #include "messagetips.h"
 #include <QEventLoop>
 #include "updatesoftwaredialog.h"
+#include <QVersionNumber>
 
 ToolObject::ToolObject(QObject *parent)
     : QObject{parent}
@@ -480,7 +481,6 @@ void ToolObject::HttpPostCheckAppVersion()
                         int iSize = dataArray.size();
                         S_VERSION_INFO versionInfo;
                         QJsonObject obj;
-                        bool bDownloadUpdate = false;
                         for (int i = 0; i < iSize; i++)
                         {
                             obj = dataArray[i].toObject();
@@ -489,7 +489,7 @@ void ToolObject::HttpPostCheckAppVersion()
                             {
                                 continue;
                             }
-                            versionInfo.strVersion = "v1.0.11";//obj["k"].toString();
+                            versionInfo.strVersion = obj["k"].toString(); //"1.0.11";//obj["k"].toString();
                             versionInfo.iIsFurcedUpdate = obj["v1"].toInt();
                             versionInfo.strDownloadUrl = obj["v2"].toString();
                             versionInfo.strV3 = obj["v3"].toString();
@@ -504,21 +504,16 @@ void ToolObject::HttpPostCheckAppVersion()
                             }
                             else
                             {
-                                int iRet = versionInfo.strVersion.compare(CURRENT_APP_VERSION, Qt::CaseInsensitive);
-                                if (iRet <= 0)
+                                QVersionNumber serverVer = QVersionNumber::fromString(versionInfo.strVersion);
+                                QVersionNumber appVer = QVersionNumber::fromString(CURRENT_APP_VERSION);
+                                //弹出提示框是否更新
+                                if (appVer < serverVer)
                                 {
-                                    //版本相同，不需要更新
-                                    bDownloadUpdate = true;
                                     UpdateSoftwareDialog* dialog = new UpdateSoftwareDialog(versionInfo);
                                     dialog->exec();
                                 }
-                                else
-                                {
-                                    bDownloadUpdate = false;                                    
-                                }
-                                //弹出提示框是否更新
                             }
-                            qDebug() << "type=" << versionInfo.strType << "version=" << versionInfo.strVersion << "v1（1：强制，0:不强制）=" << versionInfo.iIsFurcedUpdate << "下载地址=" << versionInfo.strDownloadUrl;
+                            qDebug() << "type=" << versionInfo.strType << "serverVer=" << versionInfo.strVersion<<"appVer="<< CURRENT_APP_VERSION << "v1（1：强制，0:不强制）=" << versionInfo.iIsFurcedUpdate << "下载地址=" << versionInfo.strDownloadUrl;
                             break;
                         }
                     }
