@@ -55,17 +55,22 @@ void TInstallAppThread::run()
     QString strExe = setting.value("UpdateExe", "").toString();
     int iLastIndex = strExe.lastIndexOf('\\');
     QString strExeFolder = strExe.left(iLastIndex);
-    showPrograssValueSignals(50);
-    //安装msi
-    int exitCode = installMsiSilently(strMsi, strExeFolder);
     showPrograssValueSignals(80);
-
+    //安装msi
     qDebug() << "folder = " << strExeFolder;
     if (strMsi.isEmpty())
     {
         qDebug() << "not found file." << strMsi;
         return;
     }
+    int exitCode = installMsiSilently(strMsi, strExeFolder);
+    if (exitCode != 0)
+    {
+        qDebug() << "installMsiSilently failed.";
+        return; 
+    }
+    showPrograssValueSignals(90);
+    
     showPrograssValueSignals(100);
     qDebug() << "strMsi=" << strMsi;
 
@@ -77,22 +82,19 @@ void TInstallAppThread::run()
         if (file.exists())
         {
             // 使用QProcess执行命令
-            QProcess process;
-            process.startDetached(strExe);
+            QProcess* process = new QProcess;
+            //异步启动
+            //bool bSuccess = process.startDetached(strExe);
+            //bool bStarted = process.waitForStarted(2000);
+            process->start(strExe);
+            bool bStart =  process->waitForStarted(5000);
+            if(bStart)
+                qDebug() << "restart app successfully." << strExe << "bStart="<<bStart;
+            else
+                qDebug() << "restart app failed." << strExe << "bStart=" << bStart;
             //process.start(strExe);
             //process.waitForFinished(-1); // 等待进程结束，-1表示无限制等待时间
             QApplication::exit();
-            //emit installFinishSignals();
-            qDebug() << "restart app successfully." << strExe;
-            // 检查进程退出代码以确定安装是否成功
-            //int exitCode = process.exitCode();
-            /*if (exitCode == 0)
-            {
-                qDebug() << "restart app successfully." << strExe;
-            }
-            else {
-                qDebug() << "restart app failed with exit code:" << exitCode << strExe;
-            }*/
         }
         else
         {
