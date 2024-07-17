@@ -16,7 +16,20 @@ PhoneListModeItemWidget::PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget
     else
         ui->checkBox->setText(sPhoneInfo.strName);
     ui->checkBox->setChecked(sPhoneInfo.bChecked);
-    ui->labelSystem->setText("Android");
+    if(sPhoneInfo.bIsAuth)
+    {
+        //已授权
+        ui->labelAuthImg->setPixmap(QPixmap(":/main/resource/main/Authorized.png"));
+    }
+    else if(sPhoneInfo.iType == EN_BE_AUTHORIZATION)
+    {
+        //被授权
+        ui->labelAuthImg->setPixmap(QPixmap(":/main/resource/main/BeAuthorized.png"));
+    }
+
+    //ui->labelSystem->setText("Android");
+    ui->toolBtnLevel->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(sPhoneInfo.strLevelName)));
+    ui->toolBtnLevel->setText(QString("%1").arg(sPhoneInfo.strLevelName));
 
     QDateTime curDateTime = QDateTime::currentDateTime();
     QDateTime expireTime = QDateTime::fromString(sPhoneInfo.strExpireTime, "yyyy-MM-dd hh:mm:ss");

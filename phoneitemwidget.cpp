@@ -30,12 +30,15 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     m_checkBox = new QCheckBox(ui->label);
     m_checkBox->setStyleSheet("QCheckBox{spacing:0px;background:transparent;}QCheckBox::indicator{width: 16px;height: 16px;}QCheckBox::indicator:unchecked{ image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}");    
     m_LabelAccredit->setStyleSheet("QLabel{background:transparent;border:none;}");
-    if (m_sPhoneInfo.bIsAuth)
+    if (sPhoneInfo.bIsAuth)
     {
-        if (m_sPhoneInfo.iType == EN_AUTHORIZATION)
-            m_LabelAccredit->setPixmap(QPixmap(":/main/resource/main/Authorized.png"));
-        else
-            m_LabelAccredit->setPixmap(QPixmap(":/main/resource/main/BeAuthorized.png"));
+        //已授权
+        m_LabelAccredit->setPixmap(QPixmap(":/main/resource/main/Authorized.png"));
+    }
+    else if (sPhoneInfo.iType == EN_BE_AUTHORIZATION)
+    {
+        //被授权
+        m_LabelAccredit->setPixmap(QPixmap(":/main/resource/main/BeAuthorized.png"));
     }
     
     QVBoxLayout* vBox = new QVBoxLayout(ui->label);    

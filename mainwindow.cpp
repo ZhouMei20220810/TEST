@@ -3622,12 +3622,19 @@ void MainWindow::on_toolBtnListMode_clicked()
     int iCount = ui->listWidget->count();
     if (iCount > 0)
     {
+        QMap<int, S_LEVEL_INFO>::iterator iterFind;
         for (int i = 0; i < iCount; i++)
         {
             item = ui->listWidget->item(i);
             if (item != NULL)
             {
                 phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                //获取对应level name
+                iterFind = m_mapLevelList.find(phoneInfo.iLevel);
+                if (iterFind != m_mapLevelList.end())
+                {
+                    phoneInfo.strLevelName = iterFind->strLevelName;
+                }
 
                 widget2 = new PhoneListModeItemWidget(phoneInfo, this);
                 widget2->setCheckBoxStatus(((PhoneItemWidget*)ui->listWidget->itemWidget(item))->getCheckBoxStatus());
@@ -4081,6 +4088,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
     ui->listWidget->clear();
     ui->listWidget2->clear();
     int iSelCount = 0;
+    QMap<int, S_LEVEL_INFO>::iterator iterFind;
     if (checked)
     {
         //获取所有选中项的迭代器
@@ -4124,6 +4132,12 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                 {
                     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageListMode);
                     //listWidget2
+                    //获取对应level name
+                    iterFind = m_mapLevelList.find(phoneInfo.iLevel);
+                    if (iterFind != m_mapLevelList.end())
+                    {
+                        phoneInfo.strLevelName = iterFind->strLevelName;
+                    }
                     widget2 = new PhoneListModeItemWidget(phoneInfo, this);
                     connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
                     connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
@@ -4192,6 +4206,14 @@ void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
 {
     QListWidgetItem* phoneItem = NULL;
     PhoneListModeItemWidget* widget2 = NULL;
+
+    //获取对应level name
+    QMap<int, S_LEVEL_INFO>::iterator iterFind;
+    iterFind = m_mapLevelList.find(phoneInfo.iLevel);
+    if (iterFind != m_mapLevelList.end())
+    {
+        phoneInfo.strLevelName = iterFind->strLevelName;
+    }
     widget2 = new PhoneListModeItemWidget(phoneInfo, this);
     connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
     connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);

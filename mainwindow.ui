@@ -2768,7 +2768,7 @@ background:transparent;</string>
                          <property name="frameShadow">
                           <enum>QFrame::Raised</enum>
                          </property>
-                         <layout class="QHBoxLayout" name="horizontalLayout_10">
+                         <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="2,2,2">
                           <property name="topMargin">
                            <number>0</number>
                           </property>
@@ -2833,6 +2833,19 @@ background:transparent;</string>
                                 <bool>true</bool>
                                </property>
                               </widget>
+                             </item>
+                             <item>
+                              <spacer name="horizontalSpacer_34">
+                               <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                               </property>
+                               <property name="sizeHint" stdset="0">
+                                <size>
+                                 <width>40</width>
+                                 <height>20</height>
+                                </size>
+                               </property>
+                              </spacer>
                              </item>
                             </layout>
                            </widget>

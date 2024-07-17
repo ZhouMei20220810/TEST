@@ -246,7 +246,7 @@ void AuthorizationManageDialog::HttpPostAddAuthCode(QString strAuthCode)
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
+                /*if (HTTP_SUCCESS_CODE == iCode)
                 {
                     if (obj["data"].isObject())
                     {
@@ -254,10 +254,10 @@ void AuthorizationManageDialog::HttpPostAddAuthCode(QString strAuthCode)
                     }
                 }
                 else
-                {
+                {*/
                     MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
-                }
+                //}
             }
         }
         reply->deleteLater();
@@ -274,9 +274,6 @@ void AuthorizationManageDialog::on_btnCancel_clicked()
 void AuthorizationManageDialog::on_toolBtnRefresh_clicked()
 {
     //刷新,重新拉取授权记录
-    ui->stackedWidget->setCurrentWidget(ui->pageBeAuthorized);
-
-    
     if (ui->stackedWidget->currentWidget() == ui->pageBeAuthorized)
         HttpGetAuthorizedListInfo(false, 1, 1000);
     else
