@@ -14,6 +14,7 @@ SystemSettingWidget::SystemSettingWidget(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);    
+    setWindowTitle("系统设置");
     m_enQuality = GlobalData::enPictrueQuality;
     m_bVerticalScreen = GlobalData::bVerticalPhoneInstance;
     m_bCloseMainWindowExit = GlobalData::bCloseMainWindowExit;

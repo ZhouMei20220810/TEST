@@ -8,6 +8,7 @@ MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    setWindowTitle("消息中心");
 }
 
 MessageCenterDialog::~MessageCenterDialog()

@@ -16,12 +16,15 @@ CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, int id, QString
     {
     case TYPE_CREATE_GROUP_WIDGET:
         ui->labelTitle->setText("创建分组");
+        setWindowTitle("创建分组");
         break;
     case TYPE_UPDATE_GROUP_WIDGET:
         ui->labelTitle->setText("编辑分组名称");
+        setWindowTitle("编辑分组名称");
         break;
     case TYPE_PHONE_RENAME_WIDGET:
         ui->labelTitle->setText("重命名");
+        setWindowTitle("重命名");
         ui->label->setText("云手机名称");
         ui->lineEditGroupName->setText(strLineEditText);
         break;

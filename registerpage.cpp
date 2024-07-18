@@ -23,6 +23,7 @@ RegisterPage::RegisterPage(QMoveWidget *parent)
     //setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setAttribute(Qt::WA_Hover, true);
+    setWindowTitle("注册");
     //setStyleSheet("QWidget{backgroud:#FFFFFFFF;border:1px solid #A0A0A0; padding10px;box-shadow:5px 5px 10px rgba(0,0,0,0.5);}");
     //setStyleSheet("QWidget{backgroud:#FFFFFFFF;border:none; padding:10px;box-shadow:5px 5px 10px rgba(0,0,0,0.8);}");
 

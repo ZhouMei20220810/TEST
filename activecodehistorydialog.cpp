@@ -16,6 +16,7 @@ ActiveCodeHistoryDialog::ActiveCodeHistoryDialog(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    setWindowTitle("激活码记录");
 
     m_mapActiveInfo.clear();
     HttpGetAcitveCodeHistory(1,1000);

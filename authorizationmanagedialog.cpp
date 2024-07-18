@@ -93,6 +93,7 @@ AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
 
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    setWindowTitle("授权管理");
     ui->toolBtnRefresh->setVisible(false);
 
     ui->labelPictureCode->installEventFilter(this);

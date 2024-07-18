@@ -15,6 +15,7 @@ ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<in
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    setWindowTitle("更换云机");
     m_mapLevelList = mapLevelList;
     //imageList->resize(365,400);
     //设置QListWidget的显示模式

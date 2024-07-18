@@ -16,6 +16,7 @@ BuyHistoryWidget::BuyHistoryWidget(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    setWindowTitle("购买记录");
 
     m_mapOrderInfo.clear();
     //获取我的订单

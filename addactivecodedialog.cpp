@@ -10,6 +10,7 @@ AddActiveCodeDialog::AddActiveCodeDialog(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
+    setWindowTitle("添加激活码");
 }
 
 AddActiveCodeDialog::~AddActiveCodeDialog()

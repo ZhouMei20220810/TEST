@@ -23,6 +23,7 @@ UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     //透明背景
     setAttribute(Qt::WA_TranslucentBackground, true);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    setWindowTitle("上传文件");
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
     shadow->setBlurRadius(5);//阴影模糊半径
     shadow->setXOffset(0);//水平偏移

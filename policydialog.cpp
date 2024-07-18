@@ -10,6 +10,7 @@ PolicyDialog::PolicyDialog(QString strTitle,QString strUrl,QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose,true);
     setWindowFlag(Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_Hover, true);
+    setWindowTitle(strTitle);
 
     ui->labelTitle->setText(strTitle);
     qDebug()<<"url:"<<strUrl;

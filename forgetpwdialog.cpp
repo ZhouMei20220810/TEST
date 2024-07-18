@@ -16,7 +16,7 @@ ForgetPWDialog::ForgetPWDialog(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);
-    
+    setWindowTitle("重置密码");
 }
 
 ForgetPWDialog::~ForgetPWDialog()

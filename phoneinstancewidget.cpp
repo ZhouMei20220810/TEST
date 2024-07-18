@@ -30,6 +30,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlag(Qt::FramelessWindowHint);
+    setWindowTitle(sPhoneInfo.strInstanceNo);
 
     m_GeoSource = NULL;
     
@@ -42,7 +43,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     m_strPhoneList << sPhoneInfo.strInstanceNo;//同步操作时，同时传入所有选中的item
     ui->toolBtnShow->setVisible(false);
 
-    ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);
+    ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);    
 
     m_manager = new QNetworkAccessManager(this);
     m_toolObject = new ToolObject(this);

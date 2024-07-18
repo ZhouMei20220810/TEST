@@ -8,6 +8,7 @@ FactoryDataResetDialog::FactoryDataResetDialog(QWidget *parent)
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_DeleteOnClose, true);
+    setWindowTitle("恢复出厂");
 }
 
 FactoryDataResetDialog::~FactoryDataResetDialog()

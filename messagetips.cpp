@@ -25,6 +25,7 @@ MessageTips::MessageTips(QString showStr,QWidget *parent) : QWidget(parent),
     this->setAttribute(Qt::WA_DeleteOnClose, true);
     this->setAttribute(Qt::WA_TranslucentBackground); // ****这里很重要****
     this->setAttribute(Qt::WA_TransparentForMouseEvents, true);// 禁止鼠标事件
+    setWindowTitle("提示");
     this->showStr = showStr;
     mText->setStyleSheet("QLabel { background: transparent;color:white;}");
     mText->setAlignment(Qt::AlignCenter);

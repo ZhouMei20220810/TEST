@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     setAttribute(Qt::WA_TranslucentBackground, true);
     setAttribute(Qt::WA_DeleteOnClose,true);
     setWindowFlag(Qt::WindowStaysOnTopHint, GlobalData::bIsTopWindow);
+    setWindowTitle("易舜云手机");
     //this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
     shadow->setBlurRadius(5);//阴影模糊半径
