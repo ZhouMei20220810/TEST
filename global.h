@@ -4,7 +4,7 @@
 #include <QToolButton>
 #include <QString>
 #include <QSystemTrayIcon>
-#define CURRENT_APP_VERSION         "1.0.13"
+#define CURRENT_APP_VERSION         "1.0.9"
 #define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" //"http://120.26.132.153:8080"       
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
@@ -244,6 +244,7 @@ typedef struct PHONE_INFO
     QString strCurrentTime;     //当前时间
     QString strExpireTime;      //到期时间
     QString strName;            //实例名称
+    QString strLevelName;       //等级名称
     QString strServerToken;     //第三方serverToken
     QString strGrantControl;    // 控制权限
     PHONE_INFO()
