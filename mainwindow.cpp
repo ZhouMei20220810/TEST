@@ -3999,7 +3999,7 @@ void MainWindow::on_toolBtnAddActiveCode_clicked()
                     item = new QListWidgetItem(ui->listWidgetActiveCode);
                     item->setSizeHint(QSize(RENEW_ITEM_WIDTH, 30));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
 
-                    widget = new ActiveCodeItem(strActiveCodeList.at(i),this);
+                    widget = new ActiveCodeItem(strActiveCodeList.at(i),"",this);
                     connect(this, &MainWindow::activeCodeStatusSignals, widget, &ActiveCodeItem::do_activeCodeStatusSignals);
                     ui->listWidgetActiveCode->addItem(item);
                     ui->listWidgetActiveCode->setItemWidget(item, widget);

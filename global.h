@@ -358,6 +358,17 @@ typedef struct AUTHOR_INFO
     }
 }S_AUTHOR_INFO,*PS_AUTHOR_INFO;
 
+typedef struct AUTH_RESULT_INFO
+{
+    int     iPhoneId;        //手机id
+    bool    bIsSuccess;
+    QString strRemark;      //备注
+    AUTH_RESULT_INFO()
+    {
+        memset(this, 0, sizeof(AUTH_RESULT_INFO));
+    }
+}S_AUTH_RESULT_INFO, * PS_AUTH_RESULT_INFO;
+
 typedef struct VERSION_INFO
 {
     QString strType;

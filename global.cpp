@@ -53,10 +53,11 @@ bool GlobalData::bHideIndividualCenterWidget = false;
 
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
+    QDateTime date = QDateTime::currentDateTime();
     QString logText;
     switch (type) {
     case QtDebugMsg:
-        logText = QString("Debug: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function);
+        logText = QString("YiShunYun.exe %1: %2 (%3:%4, %5)\n").arg(date.toString("yyyy-MM-dd hh:mm:ss")).arg(msg).arg(context.file).arg(context.line).arg(context.function);
         break;
         // 类似的处理其他类型...
     case QtCriticalMsg:
@@ -67,8 +68,7 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext& context, con
         break;
     }
 
-    // 这里可以写入文件、发送网络请求、显示在界面上等
-    QDate date = QDate::currentDate();
+    // 这里可以写入文件、发送网络请求、显示在界面上等    
     QString strDate = QString("/YSY_Log_%1.txt").arg(date.toString("yyyy-MM-dd"));
     QFile file(QDir::tempPath()+strDate);
     if (file.open(QIODevice::WriteOnly | QIODevice::Append)) {

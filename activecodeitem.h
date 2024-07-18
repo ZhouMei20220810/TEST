@@ -12,7 +12,7 @@ class ActiveCodeItem : public QWidget
     Q_OBJECT
 
 public:
-    explicit ActiveCodeItem(QString strActiveCode,QWidget *parent = nullptr);
+    explicit ActiveCodeItem(QString strActiveCode,QString strStatus,QWidget *parent = nullptr);
     ~ActiveCodeItem();
 
     QString getActiveCode();

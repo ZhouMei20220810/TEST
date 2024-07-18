@@ -6,13 +6,13 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 
-ActiveCodeItem::ActiveCodeItem(QString strActiveCode,QWidget *parent)
+ActiveCodeItem::ActiveCodeItem(QString strActiveCode, QString strStatus,QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ActiveCodeItem)
 {
     ui->setupUi(this);
     ui->labelActiveCode->setText(strActiveCode);
-    ui->labelActiveStatus->setText("");
+    ui->labelActiveStatus->setText(strStatus);
     m_strActiveCode = strActiveCode;
 }
 

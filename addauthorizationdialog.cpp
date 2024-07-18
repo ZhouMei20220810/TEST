@@ -12,6 +12,8 @@
 #include <QJsonArray>
 #include "messagetips.h"
 #include <QClipboard>
+#include "activecodeitem.h"
+#include <QListWidgetItem>
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::AddAuthorizationDialog)
@@ -160,8 +162,14 @@ AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PH
         }
             
     }
-    ui->labelPhoneName->setText(strPhoneNameList);
-    ui->labelPhoneInstance->setText(strPhoneInstanceList);
+    if (strPhoneNameList.isEmpty())
+        ui->labelPhoneName->setText("暂无可授权设备");
+    else
+        ui->labelPhoneName->setText(strPhoneNameList);
+    if (strPhoneInstanceList.isEmpty())
+        ui->labelPhoneInstance->setText("暂无可授权设备");
+    else
+        ui->labelPhoneInstance->setText(strPhoneInstanceList);
     
     m_iDay = mseconds / (1000 * 60 * 60 * 24);
     QString strTime = strTime.asprintf("%d天%d小时", m_iDay, (mseconds / (1000 * 60 * 60)) % 24);
@@ -430,42 +438,63 @@ void AddAuthorizationDialog::HttpPostBatchAuthAccountByPhone(bool bIsReadOnly, Q
             {
                 QJsonObject obj = doc.object();
                 int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                QString strData = obj["data"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << strData << "json=" << response;
+                QString strMessage = obj["message"].toString();                
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    //刚生成授权码直接从界面获取值显示，避免UI等待
-                    m_iInstanceId = m_phoneInfo.iId;
-                    if (m_phoneInfo.strName.isEmpty())
-                        ui->labelName_2->setText(m_phoneInfo.strInstanceNo);
-                    else
-                        ui->labelName_2->setText(m_phoneInfo.strName);
-                    if (ui->radioButtonReadOnly->isChecked())
+                    QJsonArray dataArray = obj["data"].toArray();
+                    int iSize = dataArray.size();
+                    S_AUTH_RESULT_INFO resultInfo;
+                    QJsonObject data;
+                    QMap<int, S_AUTH_RESULT_INFO> map;
+                    for (int i = 0; i < iSize; i++)
                     {
-                        ui->labelQuanxian_2->setText("仅观看");
-                    }
-                    else
-                    {
-                        ui->labelQuanxian_2->setText("可操控");
+                        data = dataArray[i].toObject();
+                        resultInfo.iPhoneId = data["code"].toString().toInt();
+                        resultInfo.bIsSuccess = data["isSuccess"].toBool();
+                        resultInfo.strRemark = data["msg"].toString();
+                        map.insert(i, resultInfo);
                     }
 
-                    /*if (m_phoneInfo.bUsed)
+                    if (map.size() > 1)
                     {
-                        ui->labelUseStatus_2->setText("已使用");
+                        LoadResultInfo(map);
+                        ui->stackedWidget->setCurrentWidget(ui->pageBatchResult);
                     }
                     else
-                    {*/
+                    {
+                        //刚生成授权码直接从界面获取值显示，避免UI等待
+                        m_iInstanceId = m_phoneInfo.iId;
+                        if (m_phoneInfo.strName.isEmpty())
+                            ui->labelName_2->setText(m_phoneInfo.strInstanceNo);
+                        else
+                            ui->labelName_2->setText(m_phoneInfo.strName);
+                        if (ui->radioButtonReadOnly->isChecked())
+                        {
+                            ui->labelQuanxian_2->setText("仅观看");
+                        }
+                        else
+                        {
+                            ui->labelQuanxian_2->setText("可操控");
+                        }
+
+                        //if (m_phoneInfo.bUsed)
+                        //{
+                        //    ui->labelUseStatus_2->setText("已使用");
+                        //}
+                        //else
+                        //{
                         ui->labelUseStatus_2->setText("未使用");
-                    //}
+                        //}
 
-                    QDateTime currentTime = QDateTime::currentDateTime();
-                    QDateTime newDateTime = currentTime.addDays(ui->lineEditDay->text().toInt());
-                    ui->labelUseDay_2->setText(newDateTime.toString("yyyy-MM-dd hh:mm:ss"));
+                        QDateTime currentTime = QDateTime::currentDateTime();
+                        QDateTime newDateTime = currentTime.addDays(ui->lineEditDay->text().toInt());
+                        ui->labelUseDay_2->setText(newDateTime.toString("yyyy-MM-dd hh:mm:ss"));
 
-                    ui->label->setText("授权信息");
-                    setWindowTitle("授权信息");
-                    ui->stackedWidget->setCurrentWidget(ui->pageAccount);
+                        ui->label->setText("授权信息");
+                        setWindowTitle("授权信息");
+                        ui->stackedWidget->setCurrentWidget(ui->pageAccount);
+                    }
                 }
                 else
                 {
@@ -477,7 +506,44 @@ void AddAuthorizationDialog::HttpPostBatchAuthAccountByPhone(bool bIsReadOnly, Q
         reply->deleteLater();
         });
 }
+void AddAuthorizationDialog::LoadResultInfo(QMap<int, S_AUTH_RESULT_INFO> map)
+{
+    if (map.size() <= 0)
+        return;
+    ui->listWidgetBatchAuthResult->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetBatchAuthResult->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetBatchAuthResult->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetBatchAuthResult->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetBatchAuthResult->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    QMap<int, S_AUTH_RESULT_INFO>::iterator iter = map.begin();
+    ActiveCodeItem* widget= NULL;
+    QListWidgetItem* item = NULL;
+    QMap<int, S_PHONE_INFO>::iterator iterFind;
+    for (; iter != map.end(); iter++)
+    {
+        iterFind = m_map.find(iter->iPhoneId);
+        if (iterFind != m_map.end())
+        {
+            widget = new ActiveCodeItem(iterFind->strName.isEmpty()?iterFind->strInstanceNo:iterFind->strName, iter->strRemark, this);
+        }
+        else
+        {
+            widget = new ActiveCodeItem(QString("%1").arg(iter->iPhoneId), iter->strRemark, this);
+        }
+        item = new QListWidgetItem(ui->listWidgetBatchAuthResult);
+        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, 28));
+        //phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+        ui->listWidgetBatchAuthResult->addItem(item);
+        ui->listWidgetBatchAuthResult->setItemWidget(item, widget);
+    }
+}
 void AddAuthorizationDialog::InitAuthCodePage(S_AUTHOR_INFO authInfo)
 {
     m_iInstanceId = authInfo.iInstanceId;

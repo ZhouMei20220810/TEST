@@ -48,6 +48,7 @@ private:
     void InitAccountPage(S_AUTHOR_INFO authInfo);
     void HttpPostBatchGeneratorAuthCode(bool bIsReadOnly, QMap<int, S_PHONE_INFO> map, qint64 iExpireTime);
     void HttpPostBatchAuthAccountByPhone(bool bIsReadOnly, QMap<int, S_PHONE_INFO> map, qint64 iExpireTime, QString strPhoneNum);
+    void LoadResultInfo(QMap<int, S_AUTH_RESULT_INFO> map);
 private:
     Ui::AddAuthorizationDialog *ui;
 

@@ -394,6 +394,9 @@
             <height>20</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background-color:#E6E9F2;</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
