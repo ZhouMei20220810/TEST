@@ -2051,6 +2051,7 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                m_mapPhoneInfo.clear();
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     if (obj["data"].isObject())
