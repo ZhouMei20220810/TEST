@@ -218,6 +218,19 @@ void AddAuthorizationDialog::InitWidget(S_AUTHOR_INFO authInfo)
         InitAccountPage(authInfo); 
     else
         InitAuthCodePage(authInfo);
+    switch (authInfo.iType)
+    {
+    case EN_AUTHORIZATION:
+        ui->btnCancelAuthCode->setEnabled(true);
+        ui->btnCancelAuthAccount->setEnabled(true);
+        break;
+    case EN_BE_AUTHORIZATION:
+        ui->btnCancelAuthCode->setEnabled(false);
+        ui->btnCancelAuthAccount->setEnabled(false);
+        break;
+    default:
+        break;
+    }
 }
 
 void AddAuthorizationDialog::on_btnClose_clicked()
@@ -575,8 +588,7 @@ void AddAuthorizationDialog::InitAccountPage(S_AUTHOR_INFO authInfo)
     else
     {
         ui->labelQuanxian_2->setText("控制云手机");
-    }
-    
+    }    
     ui->label->setText("授权信息");
     setWindowTitle("授权信息");
     ui->stackedWidget->setCurrentWidget(ui->pageAccount);

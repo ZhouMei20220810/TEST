@@ -360,7 +360,7 @@ typedef struct AUTHOR_INFO
 
 typedef struct AUTH_RESULT_INFO
 {
-    int     iPhoneId;        //手机id
+    QString strPhoneName;   //手机名称
     bool    bIsSuccess;
     QString strRemark;      //备注
     AUTH_RESULT_INFO()
