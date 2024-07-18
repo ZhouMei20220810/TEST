@@ -450,7 +450,7 @@ void AddAuthorizationDialog::HttpPostBatchAuthAccountByPhone(bool bIsReadOnly, Q
                     for (int i = 0; i < iSize; i++)
                     {
                         data = dataArray[i].toObject();
-                        resultInfo.iPhoneId = data["code"].toString().toInt();
+                        resultInfo.strPhoneName = data["code"].toString();
                         resultInfo.bIsSuccess = data["isSuccess"].toBool();
                         resultInfo.strRemark = data["msg"].toString();
                         map.insert(i, resultInfo);
@@ -525,18 +525,9 @@ void AddAuthorizationDialog::LoadResultInfo(QMap<int, S_AUTH_RESULT_INFO> map)
     QMap<int, S_AUTH_RESULT_INFO>::iterator iter = map.begin();
     ActiveCodeItem* widget= NULL;
     QListWidgetItem* item = NULL;
-    QMap<int, S_PHONE_INFO>::iterator iterFind;
     for (; iter != map.end(); iter++)
     {
-        iterFind = m_map.find(iter->iPhoneId);
-        if (iterFind != m_map.end())
-        {
-            widget = new ActiveCodeItem(iterFind->strName.isEmpty()?iterFind->strInstanceNo:iterFind->strName, iter->strRemark, this);
-        }
-        else
-        {
-            widget = new ActiveCodeItem(QString("%1").arg(iter->iPhoneId), iter->strRemark, this);
-        }
+        widget = new ActiveCodeItem(iter->strPhoneName, iter->strRemark, this);        
         item = new QListWidgetItem(ui->listWidgetBatchAuthResult);
         item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, 28));
         //phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));

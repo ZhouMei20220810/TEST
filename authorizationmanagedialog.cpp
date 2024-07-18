@@ -11,6 +11,7 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
+#include "activecodeitem.h"
 
 #define  PICTURE_CODE_WIDTH     90
 #define  PICTURE_CODE_HEIGHT    28
@@ -247,22 +248,66 @@ void AuthorizationManageDialog::HttpPostAddAuthCode(QString strAuthCode)
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                /*if (HTTP_SUCCESS_CODE == iCode)
+                if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    if (obj["data"].isObject())
+                    QJsonArray dataArray = obj["data"].toArray();
+                    int iSize = dataArray.size();
+                    S_AUTH_RESULT_INFO resultInfo;
+                    QJsonObject data;
+                    QMap<int, S_AUTH_RESULT_INFO> map;
+                    for (int i = 0; i < iSize; i++)
                     {
-                        qDebug() << "添加授权码";
+                        data = dataArray[i].toObject();
+                        resultInfo.strPhoneName = data["code"].toString();
+                        resultInfo.bIsSuccess = data["isSuccess"].toBool();
+                        resultInfo.strRemark = data["msg"].toString();
+                        if (resultInfo.bIsSuccess)
+                            resultInfo.strRemark = "成功";
+                        map.insert(i, resultInfo);
                     }
+
+                    LoadResultInfo(map);
+                    ui->stackedWidget->setCurrentWidget(ui->pageBatchAuthCodeResult);
                 }
                 else
-                {*/
+                {
                     MessageTips* tips = new MessageTips(strMessage, this);
                     tips->show();
-                //}
+                }
             }
         }
         reply->deleteLater();
         });
+}
+
+void AuthorizationManageDialog::LoadResultInfo(QMap<int, S_AUTH_RESULT_INFO> map)
+{
+    if (map.size() <= 0)
+        return;
+    ui->listWidgetBatchAuthResult->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetBatchAuthResult->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetBatchAuthResult->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetBatchAuthResult->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetBatchAuthResult->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    QMap<int, S_AUTH_RESULT_INFO>::iterator iter = map.begin();
+    ActiveCodeItem* widget = NULL;
+    QListWidgetItem* item = NULL;
+    QMap<int, S_PHONE_INFO>::iterator iterFind;
+    for (; iter != map.end(); iter++)
+    {
+        widget = new ActiveCodeItem(iter->strPhoneName, iter->strRemark, this);
+        item = new QListWidgetItem(ui->listWidgetBatchAuthResult);
+        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, 28));
+        ui->listWidgetBatchAuthResult->addItem(item);
+        ui->listWidgetBatchAuthResult->setItemWidget(item, widget);
+    }
 }
 
 void AuthorizationManageDialog::on_btnCancel_clicked()
