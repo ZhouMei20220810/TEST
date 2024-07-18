@@ -3394,7 +3394,7 @@ border:none;</string>
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_31">
+                   <layout class="QHBoxLayout" name="horizontalLayout_31" stretch="4,9">
                     <property name="spacing">
                      <number>0</number>
                     </property>
@@ -3414,13 +3414,13 @@ border:none;</string>
                      <widget class="QMouseFrame" name="frame_22">
                       <property name="minimumSize">
                        <size>
-                        <width>300</width>
+                        <width>0</width>
                         <height>30</height>
                        </size>
                       </property>
                       <property name="maximumSize">
                        <size>
-                        <width>300</width>
+                        <width>16777215</width>
                         <height>30</height>
                        </size>
                       </property>

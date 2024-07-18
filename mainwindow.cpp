@@ -147,6 +147,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->toolBtnAppInstall->setVisible(false);
     //暂时屏蔽翻页功能
     ui->frame_PageMode->setVisible(false);
+    //暂时屏蔽激活码分组的功能
+    ui->comboBoxGroupName->setVisible(false);
 
     if (!GlobalData::bCloseMainWindowExit && NULL == g_trayIcon)
     {
@@ -4444,17 +4446,12 @@ void MainWindow::on_toolBtnAddRenewActiveCode_clicked()
                             }
                         }
                     }
-                    /*if (iSelCount == iCount)
+                    if(iSelCount > iCount)
                     {
-                        MessageTipsDialog* dialog = new MessageTipsDialog("刚好");
+                        MessageTipsDialog* dialog = new MessageTipsDialog("添加的激活码少于续时设备的总数");
                         dialog->show();
                     }
-                    else */if(iSelCount > iCount)
-                    {
-                        MessageTipsDialog* dialog = new MessageTipsDialog("激活码少了");
-                        dialog->show();
-                    }
-                    else
+                    else if(iSelCount < iCount)
                     {
                         MessageTipsDialog* dialog = new MessageTipsDialog("添加的激活码超过续时设备的总数,超出的部分不会添加到列表中.");
                         dialog->show();

@@ -41,11 +41,11 @@ void ActiveCodeItem::do_activeCodeStatusSignals(QMap<QString, bool> mapActiveCod
         if (bSuccess)
         {
             strMessage = "激活成功";
-            strStyleSheet = "border:none;background:transparent;color:#505465";
+            strStyleSheet = "border:none;background-color:#F5F7FB;color:#505465";
         }
         else
         {
-            strStyleSheet = "border:none;background:transparent;color:#F96D6F";
+            strStyleSheet = "border:none;background-color:#F5F7FB;color:#F96D6F";
             strMessage = "激活码不存在";
         }
         ui->labelActiveStatus->setStyleSheet(strStyleSheet);
