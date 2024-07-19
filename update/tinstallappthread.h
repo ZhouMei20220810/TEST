@@ -11,6 +11,9 @@ public:
     TInstallAppThread(QObject* parent = nullptr);
 signals:
     void showPrograssValueSignals(int value);
+    void hideWindowSignals();
+private:
+    int installMsiSilently(const QString& msiFilePath, const QString& strExeFolder,const QString& strProductCode);
 protected:
     void run() override;
 };

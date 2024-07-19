@@ -91,6 +91,13 @@ void UpdateSoftwareDialog::downloadFinished()
     if (m_reply->error() == QNetworkReply::NoError) {
         // 成功下载，处理文件
         QFile file(m_outputFile);
+        if (file.exists())
+        {
+            if (!file.remove())
+            {
+                qDebug() << "delete msi file failed." << m_outputFile;
+            }
+        }
         if (file.open(QIODevice::WriteOnly)) {
             file.write(m_reply->readAll());
             file.close();
@@ -101,7 +108,7 @@ void UpdateSoftwareDialog::downloadFinished()
             callUpdateApp();
         }
         else {
-            qDebug() << "Failed to save the file!";
+            qDebug() << "Failed to save the file!"<< m_outputFile;
         }
     }
     else {
@@ -119,20 +126,40 @@ void UpdateSoftwareDialog::callUpdateApp()
     command.append(msiFilePath); // 添加MSI文件的完整路径
     command.append("\" /qn"); // /qn 参数表示静默安装，无界面
     */
-    QString command = QCoreApplication::applicationDirPath() + "/update.exe";
-    qDebug() << "command=" << command;
+    QString strUpdateExe = QCoreApplication::applicationDirPath() + "/update.exe";
+    QString strUpdateExe2 = QCoreApplication::applicationDirPath() + "/updateYSY.exe";
+    QFile fileUpdate(strUpdateExe2);
+    if (fileUpdate.exists())
+    {
+        fileUpdate.remove();
+        fileUpdate.close();
+    }
+    QFile file(strUpdateExe);
+    if (file.exists())
+    {
+        if (!file.rename(strUpdateExe2))
+        {
+            qDebug() << "file rename failed" << strUpdateExe2;
+        }
+    }
+    else
+    {
+        qDebug() << "update app exe not exists.";
+        return;
+    }
+    qDebug() << "Run update exe " << strUpdateExe2;
     // 使用QProcess执行命令
     QProcess process;
-    process.start(command);
-    process.waitForFinished(-1); // 等待进程结束，-1表示无限制等待时间
+    process.start(strUpdateExe2);
+    process.waitForFinished(5000); // 等待进程结束，-1表示无限制等待时间
 
     // 检查进程退出代码以确定安装是否成功
     int exitCode = process.exitCode();
     if (exitCode == 0) {
-        qDebug() << "MSI installed successfully.";
+        qDebug() << "Run update exe successfully.";
     }
     else {
-        qDebug() << "MSI installation failed with exit code:" << exitCode;
+        qDebug() << "Run update exe failed with exit code:" << exitCode;
     }
 }
 

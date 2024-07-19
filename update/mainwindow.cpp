@@ -19,10 +19,11 @@
 
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
+    QDateTime date = QDateTime::currentDateTime();
     QString logText;
     switch (type) {
     case QtDebugMsg:
-        logText = QString("Debug: %1 (%2:%3, %4)\n").arg(msg).arg(context.file).arg(context.line).arg(context.function);
+        logText = QString("update.exe %1: %2 (%3:%4, %5)\n").arg(date.toString("yyyy-MM-dd hh:mm:ss")).arg(msg).arg(context.file).arg(context.line).arg(context.function);
         break;
         // 类似的处理其他类型...
     case QtCriticalMsg:
@@ -34,7 +35,7 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext& context, con
     }
 
     // 这里可以写入文件、发送网络请求、显示在界面上等
-    QDate date = QDate::currentDate();
+    
     QString strDate = QString("/YSY_Log_%1.txt").arg(date.toString("yyyy-MM-dd"));
     QFile file(QDir::tempPath() + strDate);
     if (file.open(QIODevice::WriteOnly | QIODevice::Append)) {
@@ -128,6 +129,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->progressBar->setValue(30);
     m_thread = new TInstallAppThread(this);
     connect(m_thread, &TInstallAppThread::showPrograssValueSignals, this, &MainWindow::do_showPrograssValueSignals);
+    connect(m_thread, &TInstallAppThread::hideWindowSignals, this, [this]() {
+        qDebug() << "隐藏窗口";
+        this->hide();
+        });
     m_thread->start();
 }
 

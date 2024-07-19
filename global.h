@@ -4,8 +4,10 @@
 #include <QToolButton>
 #include <QString>
 #include <QSystemTrayIcon>
-#define CURRENT_APP_VERSION         "1.0.9"
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" //"http://120.26.132.153:8080"       
+#define CURRENT_APP_VERSION         "1.0.14"
+#define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
+
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080"        //"http://192.168.1.6:8080"
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -77,7 +79,8 @@
 #define     TIMER_INTERVAL          (6*1000)               //正式时间
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
-#define     KILL_PROCESS_NAME       "update.exe"
+#define     KILL_PROCESS_NAME       "updateYSY.exe"
+
 #define OPEN_ZHIFUBAO_TEMP_FILE_NAME "ysy.html"
 
 #define HTTP_SUCCESS_CODE           200
