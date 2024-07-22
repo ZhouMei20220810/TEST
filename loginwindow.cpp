@@ -81,6 +81,17 @@ LoginWindow::LoginWindow(QWidget *parent)
         });
     connect(m_passwordLoginPage, &PasswordLoginPage::logoutSignals, this, [=]() {
         this->show();
+        });    
+
+    m_timer = new QTimer(this);
+    m_timer->start(2);
+    connect(m_timer, &QTimer::timeout, this, [=]() {
+        m_timer->stop();
+        if (GlobalData::bNeedForcedUpdateApp)
+        {
+            qDebug() << "强制更新,退出程序";
+            this->close();
+        }
         });
 }
 

@@ -376,7 +376,7 @@ typedef struct VERSION_INFO
 {
     QString strType;
     QString strVersion;         //k版本
-    int     iIsFurcedUpdate;    //1：强制更新；0：不强制
+    QString iIsFurcedUpdate;    //1：强制更新；0：不强制
     QString strDownloadUrl;     //下载地址
     QString strV3;
     QString strV4;
@@ -468,5 +468,7 @@ public:
     static std::string BucketName;
 
     static bool bHideIndividualCenterWidget;
+
+    static bool bNeedForcedUpdateApp; //需要强制更新
 };
 #endif // GLOBAL_H

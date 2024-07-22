@@ -6,6 +6,7 @@
 #include "smsloginpage.h"
 #include "registerpage.h"
 #include <QMouseEvent>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -34,6 +35,7 @@ private:
 
     QPoint  m_LastPos;
     bool m_bMoving= false;
+    QTimer* m_timer;
     // QWidget interface
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;

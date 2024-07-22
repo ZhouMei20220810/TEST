@@ -495,17 +495,21 @@ void ToolObject::HttpPostCheckAppVersion()
                             versionInfo.strV3 = obj["v3"].toString();
                             versionInfo.strV4 = obj["v4"].toString();
                             versionInfo.strV5 = obj["v5"].toString();
-                            if (versionInfo.iIsFurcedUpdate == 1)//强制更新
+                            QVersionNumber serverVer = QVersionNumber::fromString(versionInfo.strVersion);
+                            QVersionNumber appVer = QVersionNumber::fromString(CURRENT_APP_VERSION);
+                            if (versionInfo.iIsFurcedUpdate.toInt() == 1)//强制更新
                             {
                                 //不需要判断版本，直接更新
                                 qDebug() << "强制更新";
-                                UpdateSoftwareDialog* dialog = new UpdateSoftwareDialog(versionInfo);
-                                dialog->exec();
+                                if (serverVer != appVer)
+                                {
+                                    GlobalData::bNeedForcedUpdateApp = true;
+                                    UpdateSoftwareDialog* dialog = new UpdateSoftwareDialog(versionInfo);
+                                    dialog->exec();
+                                }
                             }
                             else
                             {
-                                QVersionNumber serverVer = QVersionNumber::fromString(versionInfo.strVersion);
-                                QVersionNumber appVer = QVersionNumber::fromString(CURRENT_APP_VERSION);
                                 //弹出提示框是否更新
                                 if (appVer < serverVer)
                                 {

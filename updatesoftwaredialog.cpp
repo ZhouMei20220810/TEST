@@ -25,7 +25,7 @@ UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *
 
     m_versionInfo = versionInfo;
 
-    if (versionInfo.iIsFurcedUpdate)
+    if (versionInfo.iIsFurcedUpdate.toInt())
         ui->toolBtnCancel->setVisible(false);
     else
         ui->toolBtnCancel->setVisible(true);
