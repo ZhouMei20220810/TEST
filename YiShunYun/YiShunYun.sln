@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "YiShunYun", "YiShunYun.vdproj", "{21155673-E904-45C9-8DA4-FD905857CDDD}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "YiShunYun", "YiShunYun.vdproj", "{9F768F0F-F44E-4869-BCFC-7D78988CD561}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Default = Release|Default
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{21155673-E904-45C9-8DA4-FD905857CDDD}.Debug|Default.ActiveCfg = Debug
-		{21155673-E904-45C9-8DA4-FD905857CDDD}.Debug|Default.Build.0 = Debug
-		{21155673-E904-45C9-8DA4-FD905857CDDD}.Release|Default.ActiveCfg = Release
-		{21155673-E904-45C9-8DA4-FD905857CDDD}.Release|Default.Build.0 = Release
+		{9F768F0F-F44E-4869-BCFC-7D78988CD561}.Debug|Default.ActiveCfg = Debug
+		{9F768F0F-F44E-4869-BCFC-7D78988CD561}.Debug|Default.Build.0 = Debug
+		{9F768F0F-F44E-4869-BCFC-7D78988CD561}.Release|Default.ActiveCfg = Release
+		{9F768F0F-F44E-4869-BCFC-7D78988CD561}.Release|Default.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2242789E-2D4D-427D-B004-8A145341C885}
+		SolutionGuid = {F350D0E2-41D1-4BA7-A28C-97A532FEAB4F}
 	EndGlobalSection
 EndGlobal

@@ -451,7 +451,7 @@ void ToolObject::HttpPostCheckAppVersion()
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     //发出GET请求
-    QNetworkReply* reply = manager->post(request, "");
+    QNetworkReply* reply = manager->post(request, postData);
     QEventLoop              loop;    
     //连接请求完成的信号    
     connect(reply, &QNetworkReply::finished, this, [=] {
