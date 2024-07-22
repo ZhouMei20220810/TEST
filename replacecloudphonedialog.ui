@@ -395,7 +395,7 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color:#E6E9F2;</string>
+           <string notr="true"/>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -628,12 +628,10 @@
               <string notr="true">color:#A9ADB6;</string>
              </property>
              <property name="text">
-              <string>1.进行更换操作时，当前云手机剩余时间需要大于
-1小时
+              <string>1.进行更换操作时，当前云手机剩余时间需要大于1小时
 2.更换后，云手机数据将被清空
 3.QVIP/BVIP/VIP/GVIP/KVIP云手机每天可分别更新2/3/5/8/12次
-4.同一台云手机两次
-更换间隔1分钟</string>
+4.同一台云手机两次更换间隔1分钟</string>
              </property>
             </widget>
            </item>
