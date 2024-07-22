@@ -27,10 +27,10 @@ IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
 
-    //QFontMetrics fontWidth(ui->labelAccount->font());
-    //QString strElideNote = fontWidth.elidedText(GlobalData::strAccount, Qt::ElideRight, 38);
-    //ui->labelAccount->setText(strElideNote);
-    ui->labelAccount->setText(GlobalData::strAccount);
+    QFontMetrics fontWidth(ui->labelAccount->font());
+    QString strElideNote = fontWidth.elidedText(GlobalData::strAccount, Qt::ElideRight, 90);
+    ui->labelAccount->setText(strElideNote);
+    //ui->labelAccount->setText(GlobalData::strAccount);
     ui->labelAccount->setToolTip(GlobalData::strAccount);
     ui->labelID->setText(QString("%1").arg(GlobalData::id));
 
