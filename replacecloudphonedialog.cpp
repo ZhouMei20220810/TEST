@@ -245,7 +245,7 @@ void ReplaceCloudPhoneDialog::HttpGetMyPhoneInstance(int iGroupId, int iPage, in
                 {
                     if (obj["data"].isObject())
                     {
-                        m_mapPhoneInfo.clear();
+                        m_mapPhone.clear();
                         QJsonObject data = obj["data"].toObject();
                         int iCurrent = data["current"].toInt();
                         int iPages = data["pages"].toInt();
@@ -274,14 +274,14 @@ void ReplaceCloudPhoneDialog::HttpGetMyPhoneInstance(int iGroupId, int iPage, in
                                 phoneInfo.iType = recordObj["type"].toInt();
                                 phoneInfo.strGrantControl = recordObj["grantControl"].toString();
                                 phoneInfo.bIsAuth = recordObj["isAuth"].toBool();
-                                m_mapPhoneInfo.insert(i, phoneInfo);
+                                m_mapPhone.insert(phoneInfo.iId, phoneInfo);
                                 qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
                             }
                         }
                         //if (iLevel != 0)
                             //    ShowActiveCodeItemInfo(iLevel, m_mapPhoneInfo);
                             //else 
-                        ShowPhoneInfo(m_mapPhoneInfo);
+                        ShowPhoneInfo(m_mapPhone);
                     }
                 }
                 else

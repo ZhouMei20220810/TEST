@@ -27,7 +27,7 @@ private:
     void LoadReplaceInstanceStatus(QMap<int, S_REPLACE_INFO> map);
 private:
     Ui::ReplaceCloudPhoneDialog *ui;
-    QMap<int, S_PHONE_INFO> m_mapPhoneInfo;
+    QMap<int, S_PHONE_INFO> m_mapPhone;
     QMap<int, S_LEVEL_INFO> m_mapLevelList;
 };
 

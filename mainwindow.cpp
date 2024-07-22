@@ -2051,7 +2051,6 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                 int iCode = obj["code"].toInt();
                 QString strMessage = obj["message"].toString();
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                m_mapPhoneInfo.clear();
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     if (obj["data"].isObject())
@@ -2084,7 +2083,7 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                                 phoneInfo.iType = recordObj["type"].toInt();
                                 phoneInfo.strGrantControl = recordObj["grantControl"].toString();
                                 phoneInfo.bIsAuth = recordObj["isAuth"].toBool();
-                                m_mapPhoneInfo.insert(i, phoneInfo);
+                                m_mapPhoneInfo.insert(phoneInfo.iId, phoneInfo);
                                 qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType<<"level="<< phoneInfo.iLevel;
                             }
                             if(iLevel != 0)
@@ -4643,6 +4642,7 @@ void MainWindow::on_btnRefreshRenewList_clicked()
 {
     if (m_ActiveRenewLevelType <= 0)
         return;
+    ui->listWidgetRenewActiveCode->clear();
     //刷新续费列表
     qDebug() << "查询手机列表 m_ActiveRenewLevelType="<< m_ActiveRenewLevelType;
     HttpGetMyPhoneInstance(0, 1, 1000, m_ActiveRenewLevelType);
