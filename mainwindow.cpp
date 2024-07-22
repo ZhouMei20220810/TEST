@@ -4549,17 +4549,43 @@ void MainWindow::DeleteActiveItemByStatus(ENUM_ACTIVE_CODE_STATUS enType)
     int iCount = ui->listWidgetRenewActiveCode->count();
     QListWidgetItem* item = NULL;
     ActiveCodeRenewItem* widget = NULL;
-    for (int i = iCount-1; i >= 0; i--)
+    //删除成功项
+    switch (enType)
     {
-        item = ui->listWidgetRenewActiveCode->item(i);
-        if (item == NULL)
-            continue;
-        widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
-        if (widget != NULL && (widget->getStatus() == enType))
+    case TYPE_SUCCESS:
+    {
+        for (int i = iCount - 1; i >= 0; i--)
         {
-            ui->listWidgetRenewActiveCode->takeItem(i);
+            item = ui->listWidgetRenewActiveCode->item(i);
+            if (item == NULL)
+                continue;
+            widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
+            if (widget != NULL && (widget->getStatus() == TYPE_SUCCESS))
+            {
+                ui->listWidgetRenewActiveCode->takeItem(i);
+            }
         }
     }
+    break;
+    case TYPE_FAILED:
+    {
+        for (int i = iCount - 1; i >= 0; i--)
+        {
+            item = ui->listWidgetRenewActiveCode->item(i);
+            if (item == NULL)
+                continue;
+            widget = static_cast<ActiveCodeRenewItem*>(ui->listWidgetRenewActiveCode->itemWidget(item));
+            if (widget != NULL && (widget->getStatus() == TYPE_FAILED))
+            {
+                widget->clearStatus();
+                //ui->listWidgetRenewActiveCode->takeItem(i);
+            }
+        }
+    }
+        break;
+    default:
+        break;
+    } 
 }
 void MainWindow::on_toolBtnRemoveSuccessItem_clicked()
 {

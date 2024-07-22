@@ -40,6 +40,12 @@ QString ActiveCodeRenewItem::getRenewActiveCode()
     return ui->labelRenewActiveCode->text();
 }
 
+void ActiveCodeRenewItem::clearStatus()
+{
+    ui->labelRenewActiveCode->clear();
+    ui->labelStatus->clear();
+}
+
 void ActiveCodeRenewItem::do_UpdateRenewActiveCodeSignals(int iPhoneId,QString strRenewActiveCode)
 {
     if (m_phoneInfo.iId == iPhoneId)

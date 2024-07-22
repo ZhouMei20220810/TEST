@@ -22,6 +22,8 @@ public:
     void setRenewActiveCode(QString strRenewActiveCode);
     QString getRenewActiveCode();
 
+    void clearStatus();
+
     int getStatus();
 signals:
     void deleteActiveItemSignals(S_PHONE_INFO phoneInfo);
