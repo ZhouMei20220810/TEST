@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     GlobalData::pointPhoneInstance = setting.value("PhoneInstancePoint").toPoint();
     GlobalData::bCloseMainWindowExit = setting.value("CloseMainWindowExit", true).toBool();
     GlobalData::bShowSystemTrayIcon = setting.value("ShowSystemTrayIcon", false).toBool();
-    GlobalData::strToolButtonList = setting.value("ToolButtonList", "").toString();
+    GlobalData::strToolButtonList = setting.value("ToolButtonList", "1,2,3,4,5,6,7,8,9,10,11,12").toString();
     GlobalData::bBootstrapAutoStart = setting.value("BootstrapAutoStart", false).toBool();
     GlobalData::bIsTopWindow = setting.value("MainWindowTopWindow", false).toBool();
     GlobalData::bIsPageMode = setting.value("PageMode", false).toBool();
