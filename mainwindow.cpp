@@ -3836,8 +3836,8 @@ void MainWindow::handleTrayIconActivated(QSystemTrayIcon::ActivationReason reaso
 
 void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
 {
-    if (!checked)
-        return;
+    GlobalData::bIsSyncOperation = checked;
+    qDebug() << "同步=" << GlobalData::bIsSyncOperation;
 
     QStringList strPhoneList = getCheckedPhoneInstance();
     if (strPhoneList.size() <= 0)
@@ -3845,9 +3845,9 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
         MessageTipsDialog* tips = new MessageTipsDialog("请先选择云手机后再进行操作", this);
         tips->show();
         return;
-    }
-    GlobalData::bIsSyncOperation = checked;
-    qDebug() << "同步=" << GlobalData::bIsSyncOperation;
+    }    
+
+    on_ShowPhoneInstanceWidgetSignals(m_CurSelMenuPhoneInfo, false);
 }
 
 //显示实例
@@ -3861,9 +3861,9 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         m_MainPhoneInstanceWidget = NULL;
     }
 
+    m_CurSelMenuPhoneInfo = sPhoneInfo;
     if (bShowMenu)
     {
-        m_CurSelMenuPhoneInfo = sPhoneInfo;
         pActionCopyCloudId->setText("复制云号[" + m_CurSelMenuPhoneInfo.strInstanceNo + "]");
         m_PhoneMenu->exec(QCursor::pos());
         return;
@@ -3873,7 +3873,6 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
     if (GlobalData::mapSyncPhoneList.size() <= 0)
         return;
 
-    int iSize = GlobalData::mapSyncPhoneList.size();
     QMap<int, S_PHONE_INFO>::iterator iter = GlobalData::mapSyncPhoneList.begin();
     if (m_SyncOperListWidget != NULL)
         m_SyncOperListWidget->clear();
