@@ -1251,7 +1251,10 @@ void MainWindow::ShowPhoneInfo(int iGroupId, QMap<int, S_PHONE_INFO> mapPhoneInf
                     phoneItem = new QTreeWidgetItem(item);
                     qDebug() << "phone id" << iter->iId << " name=" << iter->strName;
                     phoneItem->setData(0, Qt::UserRole, QVariant::fromValue(*iter));
-                    phoneItem->setIcon(0, QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
+                    if (strLevelName.compare("BVIP", Qt::CaseInsensitive) == 0)
+                        phoneItem->setIcon(0,QIcon(QString(":/main/resource/main/XVIP.png")));
+                    else
+                        phoneItem->setIcon(0, QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
 
                     expireTime = QDateTime::fromString(iter->strExpireTime, "yyyy-MM-dd hh:mm:ss");
                     mseconds = expireTime.toMSecsSinceEpoch() - curDateTime.toMSecsSinceEpoch();

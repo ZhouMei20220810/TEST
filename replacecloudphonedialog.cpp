@@ -318,7 +318,10 @@ void ReplaceCloudPhoneDialog::ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo
 
         checkBox = new QCheckBox(this);
         checkBox->setStyleSheet(strStyleSheet);
-        checkBox->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
+        if (strLevelName.compare("BVIP", Qt::CaseInsensitive) == 0)
+            checkBox->setIcon(QIcon(QString(":/main/resource/main/XVIP.png")));
+        else
+            checkBox->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
         if (iter->strName.isEmpty())
             checkBox->setText(iter->strInstanceNo);
         else
