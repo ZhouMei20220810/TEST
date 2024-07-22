@@ -43,11 +43,21 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* 
     m_btnGroup = new QButtonGroup(this);
     m_btnGroup->addButton(ui->radioButtonAccount);
     m_btnGroup->addButton(ui->radioButtonAuthorCode);
-    if (phoneInfo.strName.isEmpty())
-        ui->labelPhoneName->setText(phoneInfo.strInstanceNo);
-    else
-        ui->labelPhoneName->setText(phoneInfo.strName);
-    ui->labelPhoneInstance->setText(phoneInfo.strInstanceNo);
+
+    QFontMetrics fontWidth2(ui->labelPhoneInstance->font());
+    QString strElideNote2 = fontWidth2.elidedText(phoneInfo.strInstanceNo, Qt::ElideRight, 456);
+    ui->labelPhoneInstance->setText(strElideNote2);
+    ui->labelPhoneInstance->setToolTip(strElideNote2);
+    ui->labelPhoneName->setText(strElideNote2);
+    ui->labelPhoneName->setToolTip(strElideNote2);
+
+    if (!phoneInfo.strName.isEmpty())
+    {
+        QFontMetrics fontWidth(ui->labelPhoneName->font());
+        QString strElideNote = fontWidth.elidedText(phoneInfo.strName, Qt::ElideRight, 456);
+        ui->labelPhoneName->setText(strElideNote);
+        ui->labelPhoneName->setToolTip(strElideNote);
+    }
 
     QDateTime curDateTime = QDateTime::currentDateTime();
     QDateTime expireTime = QDateTime::fromString(phoneInfo.strExpireTime, "yyyy-MM-dd hh:mm:ss");
@@ -162,14 +172,26 @@ AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PH
         }
             
     }
+
     if (strPhoneNameList.isEmpty())
         ui->labelPhoneName->setText("暂无可授权设备");
     else
-        ui->labelPhoneName->setText(strPhoneNameList);
+    {
+        QFontMetrics fontWidth(ui->labelPhoneName->font());
+        QString strElideNote = fontWidth.elidedText(strPhoneNameList, Qt::ElideRight, 456);
+        ui->labelPhoneName->setText(strElideNote);
+        ui->labelPhoneName->setToolTip(strElideNote);
+    }
+
     if (strPhoneInstanceList.isEmpty())
         ui->labelPhoneInstance->setText("暂无可授权设备");
     else
-        ui->labelPhoneInstance->setText(strPhoneInstanceList);
+    {
+        QFontMetrics fontWidth2(ui->labelPhoneInstance->font());
+        QString strElideNote2 = fontWidth2.elidedText(strPhoneInstanceList, Qt::ElideRight, 456);
+        ui->labelPhoneInstance->setText(strElideNote2);
+        ui->labelPhoneInstance->setToolTip(strElideNote2);
+    }
     
     m_iDay = mseconds / (1000 * 60 * 60 * 24);
     QString strTime = strTime.asprintf("%d天%d小时", m_iDay, (mseconds / (1000 * 60 * 60)) % 24);
