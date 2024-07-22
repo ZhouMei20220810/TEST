@@ -47,9 +47,9 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* 
     QFontMetrics fontWidth2(ui->labelPhoneInstance->font());
     QString strElideNote2 = fontWidth2.elidedText(phoneInfo.strInstanceNo, Qt::ElideRight, 456);
     ui->labelPhoneInstance->setText(strElideNote2);
-    ui->labelPhoneInstance->setToolTip(strElideNote2);
+    ui->labelPhoneInstance->setToolTip(phoneInfo.strInstanceNo);
     ui->labelPhoneName->setText(strElideNote2);
-    ui->labelPhoneName->setToolTip(strElideNote2);
+    ui->labelPhoneName->setToolTip(phoneInfo.strInstanceNo);
 
     if (!phoneInfo.strName.isEmpty())
     {
@@ -180,7 +180,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PH
         QFontMetrics fontWidth(ui->labelPhoneName->font());
         QString strElideNote = fontWidth.elidedText(strPhoneNameList, Qt::ElideRight, 456);
         ui->labelPhoneName->setText(strElideNote);
-        ui->labelPhoneName->setToolTip(strElideNote);
+        ui->labelPhoneName->setToolTip(strPhoneNameList);
     }
 
     if (strPhoneInstanceList.isEmpty())
@@ -190,7 +190,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PH
         QFontMetrics fontWidth2(ui->labelPhoneInstance->font());
         QString strElideNote2 = fontWidth2.elidedText(strPhoneInstanceList, Qt::ElideRight, 456);
         ui->labelPhoneInstance->setText(strElideNote2);
-        ui->labelPhoneInstance->setToolTip(strElideNote2);
+        ui->labelPhoneInstance->setToolTip(strPhoneInstanceList);
     }
     
     m_iDay = mseconds / (1000 * 60 * 60 * 24);
