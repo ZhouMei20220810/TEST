@@ -847,29 +847,60 @@ QStringList MainWindow::getCheckedPhoneInstance(bool IsPhoneId)
     QStringList strPhoneList;
     strPhoneIdList.clear();
     strPhoneList.clear();
-    int iCount = ui->listWidget->count();
-    if (iCount <= 0)
-        return strPhoneList;
-    
-    QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
     S_PHONE_INFO phoneInfo;
     GlobalData::mapSyncPhoneList.clear();
-    for (int i = 0; i < iCount; i++)
+    //预览模式
+    if (m_isIconMode)
     {
-        item = ui->listWidget->item(i);
-        if (item != NULL)
+        int iCount = ui->listWidget->count();
+        if (iCount <= 0)
+            return strPhoneList;
+
+        QListWidgetItem* item = NULL;
+        PhoneItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
         {
-            phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
-            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty() && phoneItem->getCheckBoxStatus())
+            item = ui->listWidget->item(i);
+            if (item != NULL)
             {
-                strPhoneIdList << QString("%1").arg(phoneInfo.iId);
-                strPhoneList<< phoneInfo.strInstanceNo;
-                GlobalData::mapSyncPhoneList.insert(phoneInfo.iId, phoneInfo);
+                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
+                if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty() && phoneItem->getCheckBoxStatus())
+                {
+                    strPhoneIdList << QString("%1").arg(phoneInfo.iId);
+                    strPhoneList << phoneInfo.strInstanceNo;
+                    GlobalData::mapSyncPhoneList.insert(phoneInfo.iId, phoneInfo);
+                }
             }
         }
     }
+    else
+    {
+        int iCount = ui->listWidget2->count();
+        if (iCount <= 0)
+        {
+            return strPhoneList;
+        }
+
+        QListWidgetItem* item = NULL;
+        PhoneListModeItemWidget* phoneItem = NULL;
+        for (int i = 0; i < iCount; i++)
+        {
+            item = ui->listWidget2->item(i);
+            if (item != NULL)
+            {
+                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                phoneItem = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(item));
+                if (phoneItem != NULL && phoneItem->getCheckBoxStatus())
+                {
+                    strPhoneIdList << QString("%1").arg(phoneInfo.iId);
+                    strPhoneList << phoneInfo.strInstanceNo;
+                    GlobalData::mapSyncPhoneList.insert(phoneInfo.iId, phoneInfo);
+                }
+            }
+        }
+    }
+    
     if (IsPhoneId)
         return strPhoneIdList;
     return strPhoneList;
@@ -3805,6 +3836,9 @@ void MainWindow::handleTrayIconActivated(QSystemTrayIcon::ActivationReason reaso
 
 void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
 {
+    if (!checked)
+        return;
+
     QStringList strPhoneList = getCheckedPhoneInstance();
     if (strPhoneList.size() <= 0)
     {
