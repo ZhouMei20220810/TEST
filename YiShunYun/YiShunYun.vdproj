@@ -81,12 +81,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_184A5AEE97854BEAA220656CB8F6C9F9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1A7472326FF547CD9F3EA636E05D019A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -213,6 +207,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_48B227801B90453F8B06CFCDE05A5326"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4A330ED1EDFD42DD8351528E3F9E1E3F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -274,12 +274,6 @@
         "Entry"
         {
         "MsmKey" = "8:_56DA4359C2B140799B3C0CF0DC7A6B83"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_580B668E50CF4D4983D65E7A6899E480"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -561,6 +555,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A313EA6973644663AF2DD1B29200AB30"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A8577BDC37014BE5BF01D1AA13FE1989"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -813,6 +813,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F481C8FB098441DA9CD91F86E906E259"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F4CE6BE030EE431DA5B629BC38146F95"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -838,6 +844,12 @@
         "Entry"
         {
         "MsmKey" = "8:_F8A3E683AFBF4388897B23655FCDC9FD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FB37A0D70A1E49FC9C7CEC21301ACB60"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -871,6 +883,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -887,6 +907,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -1114,26 +1150,6 @@
             "TargetName" = "8:sr.pak"
             "Tag" = "8:"
             "Folder" = "8:_C52506B148894334947B88CF8CAD3C76"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_184A5AEE97854BEAA220656CB8F6C9F9"
-            {
-            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\YiShunYun.exe"
-            "TargetName" = "8:YiShunYun.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1568,6 +1584,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_48B227801B90453F8B06CFCDE05A5326"
+            {
+            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\update.exe"
+            "TargetName" = "8:update.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4A330ED1EDFD42DD8351528E3F9E1E3F"
             {
             "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\translations\\qtwebengine_locales\\fil.pak"
@@ -1772,26 +1808,6 @@
             {
             "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\Qt6Gui.dll"
             "TargetName" = "8:Qt6Gui.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_580B668E50CF4D4983D65E7A6899E480"
-            {
-            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\update.exe"
-            "TargetName" = "8:update.exe"
             "Tag" = "8:"
             "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
             "Condition" = "8:"
@@ -2728,6 +2744,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A313EA6973644663AF2DD1B29200AB30"
+            {
+            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\YiShunYun.exe"
+            "TargetName" = "8:YiShunYun.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A8577BDC37014BE5BF01D1AA13FE1989"
             {
             "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\imageformats\\qico.dll"
@@ -3568,6 +3604,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F481C8FB098441DA9CD91F86E906E259"
+            {
+            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\update.exe"
+            "TargetName" = "8:update.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F4CE6BE030EE431DA5B629BC38146F95"
             {
             "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\translations\\qtwebengine_locales\\he.pak"
@@ -3654,6 +3710,26 @@
             "TargetName" = "8:qmldbg_nativedebugger.dll"
             "Tag" = "8:"
             "Folder" = "8:_54C179044E8C4681B506E3AE89009D0D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FB37A0D70A1E49FC9C7CEC21301ACB60"
+            {
+            "SourcePath" = "8:C:\\Windows\\System32\\msiexec.exe"
+            "TargetName" = "8:msiexec.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -3929,15 +4005,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:YiShunYun"
-        "ProductCode" = "8:{0E2E78A3-FDAD-4348-85A4-6EEFA35ABE99}"
-        "PackageCode" = "8:{050B732D-A660-42FA-BE24-3CBBAB0AD1EC}"
+        "ProductCode" = "8:{8654C99F-E3C1-4A9E-A77B-C7588E5510D4}"
+        "PackageCode" = "8:{89F039D8-96D8-479A-A068-8C9BC6190F96}"
         "UpgradeCode" = "8:{F0300FE8-7B91-4127-932C-2D2C22CF15B2}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.15"
+        "ProductVersion" = "8:1.0.16"
         "Manufacturer" = "8:YSY"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -4050,6 +4126,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2F5ACD69716C46D283CECF72EE756B96"
+            {
+            "Name" = "8:卸载易舜云手机"
+            "Arguments" = "8:/x {8654C99F-E3C1-4A9E-A77B-C7588E5510D4} /qn"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_FB37A0D70A1E49FC9C7CEC21301ACB60"
+            "Folder" = "8:_6BD47E8B83124E6087AC7161279F610A"
+            "WorkingFolder" = "8:_4FC6DFD276264207BD796A28441EB325"
+            "Icon" = "8:_99992338DF6F4EE6AADBE459C1A97B4B"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_539AFD0DA82A4B31A12BF764E2473E2B"
+            {
+            "Name" = "8:易舜云手机"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_A313EA6973644663AF2DD1B29200AB30"
+            "Folder" = "8:_04F1AC8AF31942FEB4332F42B9A5811C"
+            "WorkingFolder" = "8:_4FC6DFD276264207BD796A28441EB325"
+            "Icon" = "8:_99992338DF6F4EE6AADBE459C1A97B4B"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
