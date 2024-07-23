@@ -59,6 +59,7 @@ SOURCES += \
     updategroupwidget.cpp \
     updatesoftwaredialog.cpp \
     uploadfiledialog.cpp \
+    uploadfilehistoryitem.cpp \
     uploadfileitemwidget.cpp \
     videoviewwidget.cpp \
     vipitemwidget.cpp
@@ -109,6 +110,7 @@ HEADERS += \
     updategroupwidget.h \
     updatesoftwaredialog.h \
     uploadfiledialog.h \
+    uploadfilehistoryitem.h \
     uploadfileitemwidget.h \
     videoviewwidget.h \
     vipitemwidget.h
@@ -148,6 +150,7 @@ FORMS += \
     updategroupwidget.ui \
     updatesoftwaredialog.ui \
     uploadfiledialog.ui \
+    uploadfilehistoryitem.ui \
     uploadfileitemwidget.ui \
     videoviewwidget.ui \
     vipitemwidget.ui

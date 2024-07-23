@@ -1245,7 +1245,7 @@ border:none;
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">border:none;</string>
+                <string notr="true">border:none;color:#505465;</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -1272,10 +1272,10 @@ border:none;
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">border:none;</string>
+                   <string notr="true">border:none;color:#505465;</string>
                   </property>
                   <property name="text">
-                   <string>云手机名称</string>
+                   <string>文件名称</string>
                   </property>
                  </widget>
                 </item>
@@ -1291,7 +1291,7 @@ border:none;
                    <string notr="true">border:none;</string>
                   </property>
                   <property name="text">
-                   <string>文件名称</string>
+                   <string>创建时间</string>
                   </property>
                  </widget>
                 </item>

@@ -13,6 +13,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QGraphicsDropShadowEffect>
+#include "uploadfilehistoryitem.h"
 
 UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     : QDialog(parent)
@@ -229,24 +230,16 @@ void UploadFileDialog::LoadUploadFileHistory(QMap<int, S_UPLOADD_FILE_INFO> map)
     if (map.size() <= 0)
         return;
     QListWidgetItem* item = NULL;
-    QListWidgetItem* queueItem = NULL;
     QString strFilePath;
-    QueueTableItem* widget = NULL;
+    UploadFileHistoryItem* widget = NULL;
     QMap<int, S_UPLOADD_FILE_INFO>::iterator iter = map.begin();
     for (; iter != map.end(); iter++)
     {
-        //item = ui->listWidgetChooseFile->item(i);
-        //if (item != NULL)
-        {
-            strFilePath = item->data(Qt::UserRole).toString();
-            queueItem = new QListWidgetItem(ui->listWidgetHistory);
-            queueItem->setData(Qt::UserRole, strFilePath);
-            queueItem->setSizeHint(QSize(QUEUE_ITEM_WIDTH, QUEUE_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-            //tableitem* widget = new tableitem(dataObj,this);
-            widget = new QueueTableItem(m_strPhoneList, strFilePath, this);
-            ui->listWidgetHistory->addItem(queueItem);
-            ui->listWidgetHistory->setItemWidget(queueItem, widget);
-        }
+        item = new QListWidgetItem(ui->listWidgetHistory);
+        item->setSizeHint(QSize(QUEUE_ITEM_WIDTH, QUEUE_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
+        widget = new UploadFileHistoryItem(*iter, this);
+        ui->listWidgetHistory->addItem(item);
+        ui->listWidgetHistory->setItemWidget(item, widget);
     }
 }
 
@@ -280,6 +273,7 @@ void UploadFileDialog::SelectFile()
     int iFileSize = strFileList.size();
     if(iFileSize > 0)
     {
+        ui->stackedWidget->setCurrentWidget(ui->pageChooseFile);
         QListWidgetItem* item = NULL;
         UploadFileItemWidget* fileItem = NULL;
         for(int i = 0; i < iFileSize; i++)
@@ -293,8 +287,7 @@ void UploadFileDialog::SelectFile()
             item->setSizeHint(QSize(fileItem->size()));
             ui->listWidgetChooseFile->addItem(item);
             ui->listWidgetChooseFile->setItemWidget(item, fileItem);
-        }
-        ui->stackedWidget->setCurrentWidget(ui->pageChooseFile);
+        }        
     }
     else
     {
