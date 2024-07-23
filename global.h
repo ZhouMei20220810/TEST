@@ -470,5 +470,6 @@ public:
     static bool bHideIndividualCenterWidget;
 
     static bool bNeedForcedUpdateApp; //需要强制更新
+    static bool bIsUninstallHighVersion; //是否需要卸载高版本
 };
 #endif // GLOBAL_H

@@ -134,30 +134,34 @@ void TInstallAppThread::run()
     QString strMsi = setting.value("UpdateMsiPath", "").toString();
     QString strExe = setting.value("UpdateExe", "").toString();
     QString strProductCode = setting.value("ProductCode", "").toString();
+    bool bIsUninstallHighVersion = setting.value("IsUninstallHighVersion", false).toBool();
     int iLastIndex = strExe.lastIndexOf('\\');
     QString strExeFolder = strExe.left(iLastIndex);
-    //获取快捷建目录  User's Programs Menu
-    QString programsMenuPath = getUserProgramsMenuPath();
-    qDebug() << "User's Programs Menu Path:" << programsMenuPath;
-    showPrograssValueSignals(iPrograssValue);
+    if (bIsUninstallHighVersion)
+    {
+        //获取快捷建目录  User's Programs Menu
+        QString programsMenuPath = getUserProgramsMenuPath();
+        qDebug() << "User's Programs Menu Path:" << programsMenuPath;
+        showPrograssValueSignals(iPrograssValue);
 
-    QString appUninstallShortCut = programsMenuPath + "\\卸载易舜云手机.lnk";
-    iPrograssValue += PROGRASS_INTERVAL;
-    showPrograssValueSignals(iPrograssValue);
-    //卸载
-    QString wShortcutPath = QString::fromWCharArray(appUninstallShortCut.toStdWString().c_str());
+        QString appUninstallShortCut = programsMenuPath + "\\卸载易舜云手机.lnk";
+        iPrograssValue += PROGRASS_INTERVAL;
+        showPrograssValueSignals(iPrograssValue);
+        //卸载
+        QString wShortcutPath = QString::fromWCharArray(appUninstallShortCut.toStdWString().c_str());
 
-    // 使用ShellExecute打开快捷方式
-    HINSTANCE result = ShellExecute(NULL, L"open", (LPCWSTR)wShortcutPath.utf16(), NULL, NULL, SW_SHOWNORMAL);
+        // 使用ShellExecute打开快捷方式
+        HINSTANCE result = ShellExecute(NULL, L"open", (LPCWSTR)wShortcutPath.utf16(), NULL, NULL, SW_SHOWNORMAL);
 
-    if ((DWORD)result <= 32) {
-        // 处理错误
-        qDebug() << "Error launching shortcut. result="<<result;
+        if ((DWORD)result <= 32) {
+            // 处理错误
+            qDebug() << "Error launching shortcut. result=" << result;
+        }
+        iPrograssValue += PROGRASS_INTERVAL;
+        if (iPrograssValue >= 100)
+            iPrograssValue = 100 - 15;
+        showPrograssValueSignals(iPrograssValue);
     }
-    iPrograssValue += PROGRASS_INTERVAL;
-    if (iPrograssValue >= 100)
-        iPrograssValue = 100 - 15;
-    showPrograssValueSignals(iPrograssValue);
     
     //安装msi
     qDebug() << "folder = " << strExeFolder;

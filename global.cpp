@@ -41,6 +41,7 @@ bool GlobalData::bIsPageMode = false;
 bool GlobalData::bIsSyncOperation = false;
 QMap<int, S_PHONE_INFO> GlobalData::mapSyncPhoneList;
 bool GlobalData::bNeedForcedUpdateApp = false;
+bool GlobalData::bIsUninstallHighVersion = false;
 
 QString GlobalData::strFileTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER+"/";
 QString GlobalData::strPictureTempDir = QDir::tempPath() + "/" + SCREENSHOT_PICTRUE_FLODER + INSTANCE_TEMP_DIR;

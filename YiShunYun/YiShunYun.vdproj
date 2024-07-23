@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_07A6D485746B404996FB480DDC7E7495"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_086A0F8B4CE74E7B8EF60A3968C74AFC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -202,12 +208,6 @@
         "Entry"
         {
         "MsmKey" = "8:_4515C3F8E07F4F8B8C7878A4BBC18468"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_48B227801B90453F8B06CFCDE05A5326"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -555,12 +555,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_A313EA6973644663AF2DD1B29200AB30"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_A8577BDC37014BE5BF01D1AA13FE1989"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -813,12 +807,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F481C8FB098441DA9CD91F86E906E259"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F4CE6BE030EE431DA5B629BC38146F95"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -862,6 +850,12 @@
         "Entry"
         {
         "MsmKey" = "8:_FDA64ABBCA764B40A94D2FA753357CEA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FF30AAC411F34C8E98BC135E61C583C6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -950,6 +944,26 @@
             "TargetName" = "8:qmldbg_messages.dll"
             "Tag" = "8:"
             "Folder" = "8:_54C179044E8C4681B506E3AE89009D0D"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_07A6D485746B404996FB480DDC7E7495"
+            {
+            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\YiShunYun.exe"
+            "TargetName" = "8:YiShunYun.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1570,26 +1584,6 @@
             "TargetName" = "8:qt_nn.qm"
             "Tag" = "8:"
             "Folder" = "8:_AFC2C512BCEC426FBD2F2B3468AC7B49"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_48B227801B90453F8B06CFCDE05A5326"
-            {
-            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\update.exe"
-            "TargetName" = "8:update.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2744,26 +2738,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A313EA6973644663AF2DD1B29200AB30"
-            {
-            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\YiShunYun.exe"
-            "TargetName" = "8:YiShunYun.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A8577BDC37014BE5BF01D1AA13FE1989"
             {
             "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\imageformats\\qico.dll"
@@ -3604,26 +3578,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F481C8FB098441DA9CD91F86E906E259"
-            {
-            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\update.exe"
-            "TargetName" = "8:update.exe"
-            "Tag" = "8:"
-            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F4CE6BE030EE431DA5B629BC38146F95"
             {
             "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\translations\\qtwebengine_locales\\he.pak"
@@ -3770,6 +3724,26 @@
             "TargetName" = "8:qschannelbackend.dll"
             "Tag" = "8:"
             "Folder" = "8:_15861A7247A44905A71319DCFF2F54B4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FF30AAC411F34C8E98BC135E61C583C6"
+            {
+            "SourcePath" = "8:C:\\Users\\Administrator\\Desktop\\package\\YSY_Release\\update.exe"
+            "TargetName" = "8:update.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_4FC6DFD276264207BD796A28441EB325"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -4006,7 +3980,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:YiShunYun"
         "ProductCode" = "8:{8654C99F-E3C1-4A9E-A77B-C7588E5510D4}"
-        "PackageCode" = "8:{89F039D8-96D8-479A-A068-8C9BC6190F96}"
+        "PackageCode" = "8:{469FFF83-6B9C-46DF-9755-729AF1DCBA22}"
         "UpgradeCode" = "8:{F0300FE8-7B91-4127-932C-2D2C22CF15B2}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
@@ -4140,7 +4114,7 @@
             "Icon" = "8:_99992338DF6F4EE6AADBE459C1A97B4B"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_539AFD0DA82A4B31A12BF764E2473E2B"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D15F94BEE1044427B2D3834F75E14400"
             {
             "Name" = "8:易舜云手机"
             "Arguments" = "8:"
@@ -4148,7 +4122,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_A313EA6973644663AF2DD1B29200AB30"
+            "Target" = "8:_07A6D485746B404996FB480DDC7E7495"
             "Folder" = "8:_04F1AC8AF31942FEB4332F42B9A5811C"
             "WorkingFolder" = "8:_4FC6DFD276264207BD796A28441EB325"
             "Icon" = "8:_99992338DF6F4EE6AADBE459C1A97B4B"

@@ -10,6 +10,7 @@
 #include <QEventLoop>
 #include "updatesoftwaredialog.h"
 #include <QVersionNumber>
+#include <QSettings>
 
 ToolObject::ToolObject(QObject *parent)
     : QObject{parent}
@@ -501,8 +502,20 @@ void ToolObject::HttpPostCheckAppVersion()
                             {
                                 //不需要判断版本，直接更新
                                 qDebug() << "强制更新";
+                                if (appVer > serverVer)
+                                {
+                                    qDebug() << "need uninstall local app.";
+                                    GlobalData::bIsUninstallHighVersion = true;                                    
+                                }
+                                else
+                                {
+                                    qDebug() << "don't need uninstall local app.";
+                                    GlobalData::bIsUninstallHighVersion = false;
+                                }
                                 if (serverVer != appVer)
                                 {
+                                    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+                                    setting.setValue("IsUninstallHighVersion", GlobalData::bIsUninstallHighVersion);
                                     GlobalData::bNeedForcedUpdateApp = true;
                                     UpdateSoftwareDialog* dialog = new UpdateSoftwareDialog(versionInfo);
                                     dialog->exec();
@@ -513,11 +526,15 @@ void ToolObject::HttpPostCheckAppVersion()
                                 //弹出提示框是否更新
                                 if (appVer < serverVer)
                                 {
+                                    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+                                    setting.setValue("IsUninstallHighVersion", GlobalData::bIsUninstallHighVersion);
+                                    qDebug() << "don't need uninstall local app.";
+                                    GlobalData::bIsUninstallHighVersion = false;
                                     UpdateSoftwareDialog* dialog = new UpdateSoftwareDialog(versionInfo);
                                     dialog->exec();
                                 }
-                            }
-                            qDebug() << "type=" << versionInfo.strType << "serverVer=" << versionInfo.strVersion<<"appVer="<< CURRENT_APP_VERSION << "v1（1：强制，0:不强制）=" << versionInfo.iIsFurcedUpdate << "下载地址=" << versionInfo.strDownloadUrl;
+                            }                            
+                            qDebug() << "type=" << versionInfo.strType << "serverVer=" << versionInfo.strVersion<<"appVer="<< CURRENT_APP_VERSION << "v1（1：强制，0:不强制）=" << versionInfo.iIsFurcedUpdate << "下载地址=" << versionInfo.strDownloadUrl<<"是否卸载"<< GlobalData::bNeedForcedUpdateApp;
                             break;
                         }
                     }
