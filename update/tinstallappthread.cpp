@@ -6,15 +6,29 @@
 #include <QApplication>
 #include <QTextStream>
 #include <winerror.h>
+#include <QString>
+#include <QByteArray>
+#include <Windows.h>
+#include <ShlObj.h>
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
+#define     PROGRASS_INTERVAL       15
 
 TInstallAppThread::TInstallAppThread(QObject* parent):QThread(parent)
 {
 }
 
+QString getUserProgramsMenuPath() 
+{
+    wchar_t path[256] = {0};
+    if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROGRAMS, NULL, 0, path))) 
+    {
+        return QString::fromWCharArray(path);
+    }
+    return QString();
+}
 
-int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QString& strExeFolder,const QString& strProductCode)
+int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QString& strExeFolder,const QString& strProductCode,int iPrograssValue)
 {
     //卸载原来的软件
     //V1.0.10 ProductCode必须更新
@@ -65,12 +79,15 @@ int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QStr
         out << command;
         qDebug() << "write command=" << command;
         file.close();
-        showPrograssValueSignals(80);
+        iPrograssValue += PROGRASS_INTERVAL;
+        showPrograssValueSignals(iPrograssValue);
     }
     else
     {
         qDebug() << "open failed." << strBatFile;
     }
+    iPrograssValue += PROGRASS_INTERVAL;
+    showPrograssValueSignals(iPrograssValue);
     // 使用QProcess执行命令
     QProcess process;
     process.start(strBatFile);
@@ -82,12 +99,14 @@ int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QStr
     }
     else
     {
-        showPrograssValueSignals(90);
+        iPrograssValue += PROGRASS_INTERVAL;
+        showPrograssValueSignals(iPrograssValue);
         qDebug() << "waitForFinished return true";
     }
     QString strOutput = process.readAllStandardOutput();
     qDebug() << "output:" << strOutput;
-
+    iPrograssValue += PROGRASS_INTERVAL;
+    showPrograssValueSignals(iPrograssValue);
     // 检查进程退出代码以确定安装是否成功
     int exitCode = process.exitCode();
     switch (exitCode)
@@ -102,19 +121,44 @@ int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QStr
         qDebug() << "MSI installation failed with exit code:" << exitCode;
         break;
     }
+    iPrograssValue += PROGRASS_INTERVAL;
+    showPrograssValueSignals(iPrograssValue);
     return exitCode;
 }
 
 
 void TInstallAppThread::run()
 {
+    int iPrograssValue = 10;
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     QString strMsi = setting.value("UpdateMsiPath", "").toString();
     QString strExe = setting.value("UpdateExe", "").toString();
     QString strProductCode = setting.value("ProductCode", "").toString();
     int iLastIndex = strExe.lastIndexOf('\\');
     QString strExeFolder = strExe.left(iLastIndex);
-    showPrograssValueSignals(30);
+    //获取快捷建目录  User's Programs Menu
+    QString programsMenuPath = getUserProgramsMenuPath();
+    qDebug() << "User's Programs Menu Path:" << programsMenuPath;
+    showPrograssValueSignals(iPrograssValue);
+
+    QString appUninstallShortCut = programsMenuPath + "\\卸载易舜云手机.lnk";
+    iPrograssValue += PROGRASS_INTERVAL;
+    showPrograssValueSignals(iPrograssValue);
+    //卸载
+    QString wShortcutPath = QString::fromWCharArray(appUninstallShortCut.toStdWString().c_str());
+
+    // 使用ShellExecute打开快捷方式
+    HINSTANCE result = ShellExecute(NULL, L"open", (LPCWSTR)wShortcutPath.utf16(), NULL, NULL, SW_SHOWNORMAL);
+
+    if ((DWORD)result <= 32) {
+        // 处理错误
+        qDebug() << "Error launching shortcut. result="<<result;
+    }
+    iPrograssValue += PROGRASS_INTERVAL;
+    if (iPrograssValue >= 100)
+        iPrograssValue = 100 - 15;
+    showPrograssValueSignals(iPrograssValue);
+    
     //安装msi
     qDebug() << "folder = " << strExeFolder;
     if (strMsi.isEmpty())
@@ -122,15 +166,21 @@ void TInstallAppThread::run()
         qDebug() << "not found file." << strMsi;
         return;
     }
-    int exitCode = installMsiSilently(strMsi, strExeFolder,strProductCode);
+    iPrograssValue += PROGRASS_INTERVAL;
+    if (iPrograssValue >= 100)
+        iPrograssValue = 100 - 10;
+    showPrograssValueSignals(iPrograssValue);
+    int exitCode = installMsiSilently(strMsi, strExeFolder,strProductCode, iPrograssValue);
     if (exitCode != 0)
     {
         qDebug() << "installMsiSilently failed.";
         return; 
     }
     
-    
-    showPrograssValueSignals(100);
+    iPrograssValue += PROGRASS_INTERVAL;
+    if (iPrograssValue >= 100)
+        iPrograssValue = 100-5;
+    showPrograssValueSignals(iPrograssValue);
     qDebug() << "strMsi=" << strMsi;
 
     //自动重启
@@ -147,8 +197,11 @@ void TInstallAppThread::run()
             //bool bStarted = process.waitForStarted(2000);
             process->start(strExe);
             bool bStart =  process->waitForStarted(5000);
-            if(bStart)
-                qDebug() << "restart app successfully." << strExe << "bStart="<<bStart;
+            if (bStart)
+            {
+                showPrograssValueSignals(100);
+                qDebug() << "restart app successfully." << strExe << "bStart=" << bStart;
+            }
             else
                 qDebug() << "restart app failed." << strExe << "bStart=" << bStart;
             //process.start(strExe);

@@ -130,8 +130,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_thread = new TInstallAppThread(this);
     connect(m_thread, &TInstallAppThread::showPrograssValueSignals, this, &MainWindow::do_showPrograssValueSignals);
     connect(m_thread, &TInstallAppThread::hideWindowSignals, this, [this]() {
-        qDebug() << "隐藏窗口";
-        this->hide();
+        qDebug() << "退出";
+        this->close();
         });
     m_thread->start();
 }

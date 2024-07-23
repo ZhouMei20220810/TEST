@@ -13,7 +13,7 @@ signals:
     void showPrograssValueSignals(int value);
     void hideWindowSignals();
 private:
-    int installMsiSilently(const QString& msiFilePath, const QString& strExeFolder,const QString& strProductCode);
+    int installMsiSilently(const QString& msiFilePath, const QString& strExeFolder,const QString& strProductCode, int iPrograssValue);
 protected:
     void run() override;
 };
