@@ -3980,7 +3980,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:YiShunYun"
         "ProductCode" = "8:{8654C99F-E3C1-4A9E-A77B-C7588E5510D4}"
-        "PackageCode" = "8:{469FFF83-6B9C-46DF-9755-729AF1DCBA22}"
+        "PackageCode" = "8:{9CC064DB-84C1-40C8-A1C7-3B9CCB6F29CB}"
         "UpgradeCode" = "8:{F0300FE8-7B91-4127-932C-2D2C22CF15B2}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"

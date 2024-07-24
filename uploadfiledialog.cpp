@@ -37,6 +37,7 @@ UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
     ui->toolBtnUpload->setDisabled(true);
 
     ui->stackedWidget->setCurrentWidget(ui->page);
+    ui->listWidgetChooseFile->setVisible(false);
     InitWidget(ui->listWidgetChooseFile);
 
     //初始化列表
@@ -99,10 +100,17 @@ void UploadFileDialog::on_toolBtnAddUploadFile_clicked()
     ui->toolBtnAddUploadFile->setStyleSheet("QToolButton {border:none;color:#FF505465;	background-color:#FFE6E9F2;border-radius:1px;padding-left:8px;}QToolButton:hover {color: #FF505465;;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     ui->toolBtnUploadQueue->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
     ui->toolBtnUploadHistory->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
-    if(ui->listWidgetChooseFile->count() > 0)
-        ui->stackedWidget->setCurrentWidget(ui->pageChooseFile);
+    ui->stackedWidget->setCurrentWidget(ui->page);
+    if (ui->listWidgetChooseFile->count() > 0)
+    {
+        ui->listWidgetChooseFile->setVisible(true);
+        ui->frameNoData->setVisible(false);
+    }
     else
-        ui->stackedWidget->setCurrentWidget(ui->page);
+    {
+        ui->listWidgetChooseFile->setVisible(false);
+        ui->frameNoData->setVisible(true);
+    }
     QRect rect = ui->toolBtnUploadQueue->geometry();
     m_LabelPoint->move(rect.x() + rect.width() - 5, rect.y() - 5);
 }
@@ -124,7 +132,7 @@ void UploadFileDialog::on_toolBtnUploadHistory_clicked()
 {
     ui->toolBtnUploadHistory->setStyleSheet("QToolButton {border:none;color:#FF505465;	background-color:#FFE6E9F2;border-radius:1px;padding-left:8px;}QToolButton:hover {color: #FF505465;;background-color: #FFE7E8EE;border-radius:1px;padding-left:8px;}");
     ui->toolBtnAddUploadFile->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
-    ui->toolBtnUploadHistory->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
+    ui->toolBtnUploadQueue->setStyleSheet("QToolButton{background-color:#FfF4F6FA;border: 1px solid #FFE6E9F2;color: #FF505465;border-radius:1px;padding-left:8px;}QToolButton:hover {background-color: #FFE7E8EE;color: #FF505465;border-radius:1px;padding-left:8px;}");
 
     ui->stackedWidget->setCurrentWidget(ui->pageHistory);
     QRect rect = ui->toolBtnUploadQueue->geometry();
@@ -243,18 +251,6 @@ void UploadFileDialog::LoadUploadFileHistory(QMap<int, S_UPLOADD_FILE_INFO> map)
     }
 }
 
-void UploadFileDialog::on_toolBtnSelectFile_2_clicked()
-{
-    SelectFile();
-}
-
-
-void UploadFileDialog::on_toolBtnUpload_2_clicked()
-{
-    uploadFile();
-}
-
-
 void UploadFileDialog::on_toolBtnSelectFile_clicked()
 {
     SelectFile();
@@ -273,7 +269,10 @@ void UploadFileDialog::SelectFile()
     int iFileSize = strFileList.size();
     if(iFileSize > 0)
     {
-        ui->stackedWidget->setCurrentWidget(ui->pageChooseFile);
+        ui->listWidgetChooseFile->setVisible(true);
+        ui->frameNoData->setVisible(false);
+        ui->toolBtnUpload->setDisabled(false);
+
         QListWidgetItem* item = NULL;
         UploadFileItemWidget* fileItem = NULL;
         for(int i = 0; i < iFileSize; i++)
@@ -287,11 +286,22 @@ void UploadFileDialog::SelectFile()
             item->setSizeHint(QSize(fileItem->size()));
             ui->listWidgetChooseFile->addItem(item);
             ui->listWidgetChooseFile->setItemWidget(item, fileItem);
-        }        
+
+            QApplication::processEvents(); // 允许处理待处理事件
+        }
     }
     else
     {
-        ui->stackedWidget->setCurrentWidget(ui->page);
+        ui->listWidgetChooseFile->setVisible(false);
+        ui->frameNoData->setVisible(true);
+        if (ui->listWidgetChooseFile->count() > 0)
+        {
+            ui->toolBtnUpload->setDisabled(false);
+        }
+        else
+        {
+            ui->toolBtnUpload->setDisabled(true);
+        }
     }
 }
 
@@ -351,7 +361,8 @@ void UploadFileDialog::do_deleteFileItemSignal(QString strFilePath)
     iCount = ui->listWidgetChooseFile->count();
     if(iCount <= 0)
     {
-        ui->stackedWidget->setCurrentWidget(ui->page);
+        ui->listWidgetChooseFile->setVisible(false);
+        ui->frameNoData->setVisible(true);
     }
 }
 
