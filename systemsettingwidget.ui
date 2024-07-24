@@ -1687,7 +1687,7 @@ border-radius:2px;</string>
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QPushButton:pressed{
+                 <string notr="true">QPushButton{
 border:none;
 }</string>
                 </property>
@@ -1705,7 +1705,7 @@ border:none;
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QPushButton:pressed{
+                 <string notr="true">QPushButton{
 border:none;
 }</string>
                 </property>
@@ -1723,7 +1723,7 @@ border:none;
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QPushButton:pressed{
+                 <string notr="true">QPushButton{
 border:none;
 }</string>
                 </property>
@@ -1741,7 +1741,7 @@ border:none;
                  <cursorShape>PointingHandCursor</cursorShape>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QPushButton:pressed{
+                 <string notr="true">QPushButton{
 border:none;
 }</string>
                 </property>
@@ -1781,7 +1781,7 @@ border:none;
               <cursorShape>PointingHandCursor</cursorShape>
              </property>
              <property name="styleSheet">
-              <string notr="true">QPushButton:pressed{
+              <string notr="true">QPushButton{
 border:none;
 }</string>
              </property>
@@ -2162,9 +2162,6 @@ font-size:13px;</string>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QPushButton{
-color:#F96D6F;
-}
-QPushButton:pressed{
 color:#F96D6F;
 border:none;
 }</string>
