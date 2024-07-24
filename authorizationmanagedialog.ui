@@ -299,6 +299,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="toolBtnRefresh">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">QToolButton {border:none;
 color:#FFFFFF;
