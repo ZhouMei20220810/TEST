@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>Stylesheet Example</Name>
+    <Name>易舜云手机</Name>
     <Version>1.0.0</Version>
-    <Title>Stylesheet Example</Title>
-    <Publisher>Qt-Project</Publisher>
+    <Title>易舜云手机</Title>
+    <Publisher>长沙易舜信息技术有限公司</Publisher>
+    <ProductUrl>http://www.ysyos.com</ProductUrl>
+    <InstallerWindowIcon>installericon</InstallerWindowIcon>
+    <InstallerApplicationIcon>installericon</InstallerApplicationIcon>
+    <Logo>logo.ico</Logo>
+    <Watermark>watermark.png</Watermark>
+    <RunProgram>@TargetDir@/YourAppToRun</RunProgram>
+    <RunProgramArguments>
+        <Argument>Argument 1</Argument>
+        <Argument>Argument 2</Argument>
+    </RunProgramArguments>
+    <RunProgramDescription>My nice application</RunProgramDescription>
     <StartMenuDir>Qt IFW Examples</StartMenuDir>
+    <MaintenanceToolName>SDKMaintenanceTool</MaintenanceToolName>
+    <AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
+    <Background>background.png</Background>
     <TargetDir>@HomeDir@/IfwExamples/stylesheet</TargetDir>
-    <WizardStyle>Classic</WizardStyle>
+    <!--<WizardStyle>Classic</WizardStyle>
     <StyleSheet>style.qss</StyleSheet>
-    <TitleColor>#FFFFFF</TitleColor>
+    <TitleColor>#FFFFFF</TitleColor>-->
+    <AdminTargetDir>@RootDir@/testinstall</AdminTargetDir>
+    <RemoteRepositories>
+        <Repository>
+            <Url>http://www.your-repo-location/packages/</Url>
+        </Repository>
+    </RemoteRepositories>
 </Installer>
