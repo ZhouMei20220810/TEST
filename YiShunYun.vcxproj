@@ -85,8 +85,7 @@
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>
-      </ProgramDataBaseFileName>
+      <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -246,6 +245,7 @@
     <ClCompile Include="systemsettingwidget.cpp" />
     <ClCompile Include="tcustomdragdroplistwidget.cpp" />
     <ClCompile Include="toolobject.cpp" />
+    <ClCompile Include="transferphonedialog.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="updatesoftwaredialog.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
@@ -255,7 +255,6 @@
     <ClCompile Include="vipitemwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="uploadfilehistoryitem.h" />
     <QtMoc Include="Logoutdialog.h" />
     <QtMoc Include="activecodehistorydialog.h" />
     <QtMoc Include="activecodehistoryitem.h" />
@@ -298,9 +297,11 @@
     <QtMoc Include="systemsettingwidget.h" />
     <QtMoc Include="tcustomdragdroplistwidget.h" />
     <QtMoc Include="toolobject.h" />
+    <QtMoc Include="transferphonedialog.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="updatesoftwaredialog.h" />
     <QtMoc Include="uploadfiledialog.h" />
+    <QtMoc Include="uploadfilehistoryitem.h" />
     <QtMoc Include="uploadfileitemwidget.h" />
     <QtMoc Include="videoviewwidget.h" />
     <QtMoc Include="vipitemwidget.h" />
@@ -353,6 +354,7 @@
     <QtUic Include="replacecloudphonedialog.ui" />
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="systemsettingwidget.ui" />
+    <QtUic Include="transferphonedialog.ui" />
     <QtUic Include="updategroupwidget.ui" />
     <QtUic Include="updatesoftwaredialog.ui" />
     <QtUic Include="uploadfiledialog.ui" />

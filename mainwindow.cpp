@@ -40,6 +40,7 @@
 #include "customtoolbutton.h"
 #include "addauthorizationdialog.h"
 #include "replacecloudphonedialog.h"
+#include "transferphonedialog.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -592,6 +593,12 @@ void MainWindow::do_ActionReplaceCloudPhone(bool bChecked)
     dialog->exec();
 }
 
+void MainWindow::do_ActionTransferCloudPhone(bool bChecked)
+{
+    TransferPhoneDialog* dialog = new TransferPhoneDialog();
+    dialog->exec();
+}
+
 void MainWindow::InitGroupMenu()
 {
     //组右键菜单
@@ -629,6 +636,7 @@ void MainWindow::InitPhoneMenu()
     pActionRenewCloudPhone = new QAction("续费云手机", ui->treeWidget);
     pActionAuthorization = new QAction("授权", ui->treeWidget);
     pActionReplaceCloudPhone = new QAction("更换云机",ui->treeWidget);
+    pActionTransferCloudPhone = new QAction("转移云机", ui->treeWidget);
     connect(pActionBeginControl, &QAction::triggered, this, &MainWindow::do_ActionBeginControl);
     connect(pActionCopyCloudId, &QAction::triggered, this, &MainWindow::do_ActionCopyCloudId);
     connect(pActionRename, &QAction::triggered, this, &MainWindow::do_ActionRename);
@@ -639,6 +647,7 @@ void MainWindow::InitPhoneMenu()
     connect(pActionRenewCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionRenewCloudPhone);
     connect(pActionAuthorization, &QAction::triggered, this, &MainWindow::do_ActionAuthorization);
     connect(pActionReplaceCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionReplaceCloudPhone);
+    connect(pActionTransferCloudPhone, &QAction::triggered, this, &MainWindow::do_ActionTransferCloudPhone);
     m_PhoneMenu->addAction(pActionBeginControl);
     m_PhoneMenu->addAction(pActionCopyCloudId);
     m_PhoneMenu->addAction(pActionRename);
@@ -652,6 +661,7 @@ void MainWindow::InitPhoneMenu()
     m_PhoneMenu->addAction(pActionRenewCloudPhone);
     m_PhoneMenu->addAction(pActionAuthorization);
     m_PhoneMenu->addAction(pActionReplaceCloudPhone);
+    m_PhoneMenu->addAction(pActionTransferCloudPhone);
 }
 
 //云手机
