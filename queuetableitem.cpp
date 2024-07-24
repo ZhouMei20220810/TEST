@@ -27,7 +27,11 @@ QueueTableItem::QueueTableItem(QStringList strPhoneList, QString strFilePath, QW
     m_strPhoneList = strPhoneList;
     m_strFilePath = strFilePath;
     QFileInfo fileInfo(strFilePath);
-    ui->labelFileName->setText(fileInfo.fileName());
+    QFontMetrics fontWidth(ui->labelFileName->font());
+    QString strElideNote = fontWidth.elidedText(fileInfo.fileName(), Qt::ElideRight, 150);
+    ui->labelFileName->setText(strElideNote);
+    ui->labelFileName->setToolTip(fileInfo.fileName());
+
     ui->progressBar->setValue(0);
     ui->labelProgressStatus->setText("等待中");
 
