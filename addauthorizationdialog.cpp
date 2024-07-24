@@ -56,7 +56,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* 
         QFontMetrics fontWidth(ui->labelPhoneName->font());
         QString strElideNote = fontWidth.elidedText(phoneInfo.strName, Qt::ElideRight, 456);
         ui->labelPhoneName->setText(strElideNote);
-        ui->labelPhoneName->setToolTip(strElideNote);
+        ui->labelPhoneName->setToolTip(phoneInfo.strName);
     }
 
     QDateTime curDateTime = QDateTime::currentDateTime();
