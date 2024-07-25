@@ -199,7 +199,7 @@ void TransferPhoneDialog::on_btnOk_clicked()
         return;
     }
 
-    TransferTipsDialog* tips = new TransferTipsDialog(strPhoneOrAccount);
+    TransferTipsDialog* tips = new TransferTipsDialog(map.size(),strPhoneOrAccount);
     if (QDialog::Accepted == tips->exec())
     {
         HttpPostTransferPhone(map);

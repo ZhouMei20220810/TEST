@@ -12,13 +12,15 @@ class TransferTipsDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit TransferTipsDialog(QString strPhoneOrAccount,QWidget *parent = nullptr);
+    explicit TransferTipsDialog(int iPhoneCount, QString strPhoneOrAccount,QWidget *parent = nullptr);
     ~TransferTipsDialog();
 
 private slots:
     void on_btnSave_clicked();
 
     void on_btnCancel_clicked();
+
+    void on_btnClose_clicked();
 
 private:
     Ui::TransferTipsDialog *ui;
