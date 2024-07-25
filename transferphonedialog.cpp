@@ -336,3 +336,28 @@ bool TransferPhoneDialog::eventFilter(QObject *watched, QEvent *event)
     }
     return QDialog::eventFilter(watched, event);
 }
+
+void TransferPhoneDialog::on_checkBoxAll_clicked(bool checked)
+{
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        return;
+    }
+
+    QListWidgetItem* item = NULL;
+    QCheckBox* checkBox = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            checkBox = static_cast<QCheckBox*>(ui->listWidget->itemWidget(item));
+            if (checkBox != NULL)
+            {
+                checkBox->setChecked(checked);
+            }
+        }
+    }
+}
+

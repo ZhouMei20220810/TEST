@@ -22,6 +22,8 @@ private slots:
 
     void on_btnAuthorPolicy_clicked();
 
+    void on_checkBoxAll_clicked(bool checked);
+
 private:
     void LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo);
     void RefreshPictureCode();
