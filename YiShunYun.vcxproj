@@ -246,6 +246,8 @@
     <ClCompile Include="tcustomdragdroplistwidget.cpp" />
     <ClCompile Include="toolobject.cpp" />
     <ClCompile Include="transferphonedialog.cpp" />
+    <ClCompile Include="transferphonehistorydialog.cpp" />
+    <ClCompile Include="transfertipsdialog.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="updatesoftwaredialog.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
@@ -298,6 +300,8 @@
     <QtMoc Include="tcustomdragdroplistwidget.h" />
     <QtMoc Include="toolobject.h" />
     <QtMoc Include="transferphonedialog.h" />
+    <QtMoc Include="transferphonehistorydialog.h" />
+    <QtMoc Include="transfertipsdialog.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="updatesoftwaredialog.h" />
     <QtMoc Include="uploadfiledialog.h" />
@@ -355,6 +359,8 @@
     <QtUic Include="smsloginpage.ui" />
     <QtUic Include="systemsettingwidget.ui" />
     <QtUic Include="transferphonedialog.ui" />
+    <QtUic Include="transferphonehistorydialog.ui" />
+    <QtUic Include="transfertipsdialog.ui" />
     <QtUic Include="updategroupwidget.ui" />
     <QtUic Include="updatesoftwaredialog.ui" />
     <QtUic Include="uploadfiledialog.ui" />

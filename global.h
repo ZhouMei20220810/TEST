@@ -73,6 +73,10 @@
 
 #define HTTP_POST_REPLACE_INSTANCE      "/api/user/replace"     //更换云机
 
+//转移
+#define HTTP_TRANSFER_PHONE             ""                      //转移云机
+#define HTTP_TRANSFER_PHONE_HISTORY     ""                      //转移记录
+
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
 #define     DOWNLOAD_SCREENSHOT_INTERVAL (3*1000)       //下载截图间隔

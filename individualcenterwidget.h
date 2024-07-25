@@ -28,6 +28,8 @@ private slots:
 
     void on_toolBtnActiveCodeHistory_clicked();
 
+    void on_toolBtnTransferHistory_clicked();
+
 private:
     //注销
     void HttpLogout();

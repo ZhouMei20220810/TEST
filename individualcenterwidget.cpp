@@ -11,6 +11,7 @@
 #include "authorizationmanagedialog.h"
 #include "activecodehistorydialog.h"
 #include <QGraphicsDropShadowEffect>
+#include "transferphonehistorydialog.h"
 
 IndividualCenterWidget::IndividualCenterWidget(QWidget *parent)
     : QDialog(parent)
@@ -157,6 +158,14 @@ void IndividualCenterWidget::on_toolBtnActiveCodeHistory_clicked()
 {
     //激活码记录
     ActiveCodeHistoryDialog* dialog = new ActiveCodeHistoryDialog();
+    dialog->exec();
+}
+
+
+void IndividualCenterWidget::on_toolBtnTransferHistory_clicked()
+{
+    //转移记录
+    TransferPhoneHistoryDialog* dialog = new TransferPhoneHistoryDialog();
     dialog->exec();
 }
 

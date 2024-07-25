@@ -57,6 +57,8 @@ SOURCES += \
     tcustomdragdroplistwidget.cpp \
     toolobject.cpp \
     transferphonedialog.cpp \
+    transferphonehistorydialog.cpp \
+    transfertipsdialog.cpp \
     updategroupwidget.cpp \
     updatesoftwaredialog.cpp \
     uploadfiledialog.cpp \
@@ -109,6 +111,8 @@ HEADERS += \
     tcustomdragdroplistwidget.h \
     toolobject.h \
     transferphonedialog.h \
+    transferphonehistorydialog.h \
+    transfertipsdialog.h \
     updategroupwidget.h \
     updatesoftwaredialog.h \
     uploadfiledialog.h \
@@ -150,6 +154,8 @@ FORMS += \
     smsloginpage.ui \
     systemsettingwidget.ui \
     transferphonedialog.ui \
+    transferphonehistorydialog.ui \
+    transfertipsdialog.ui \
     updategroupwidget.ui \
     updatesoftwaredialog.ui \
     uploadfiledialog.ui \
