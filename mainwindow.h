@@ -137,6 +137,7 @@ private:
     void BianliTreeWidgetSelectItem(QTreeWidgetItem* item);
 
     void DeleteActiveItemByStatus(ENUM_ACTIVE_CODE_STATUS enType);
+    QMap<int, S_PHONE_INFO> getCurrentAllSelectItem(EN_RIGHT_CLICK_TYPE enType);
 private slots:
     //工具栏
     void on_toolBtnCloudPhone_clicked();

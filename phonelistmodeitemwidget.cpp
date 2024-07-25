@@ -72,6 +72,7 @@ void PhoneListModeItemWidget::mousePressEvent(QMouseEvent *event)
     }
     break;
     case Qt::RightButton:
+        GlobalData::enRightClickType = EN_LIST_MODE_WIDGET;
         emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo, true);
     default:
         QWidget::mousePressEvent(event);;

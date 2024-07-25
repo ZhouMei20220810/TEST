@@ -4,7 +4,7 @@
 #include <QToolButton>
 #include <QString>
 #include <QSystemTrayIcon>
-#define CURRENT_APP_VERSION         "1.0.16"
+#define CURRENT_APP_VERSION         "1.0.15"
 #define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
 
 #define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080"        //"http://192.168.1.6:8080"
@@ -418,6 +418,13 @@ typedef struct REPLACE_INFO
     }
 }S_REPLACE_INFO,*PS_REPLACE_INFO;
 
+enum EN_RIGHT_CLICK_TYPE
+{
+    EN_GROUP_TREEWIDGET = 0,
+    EN_ICON_MODE_WIDGET = 1,
+    EN_LIST_MODE_WIDGET = 2
+};
+
 class GlobalData
 {
 public:
@@ -471,5 +478,6 @@ public:
 
     static bool bNeedForcedUpdateApp; //需要强制更新
     static bool bIsUninstallHighVersion; //是否需要卸载高版本
+    static EN_RIGHT_CLICK_TYPE enRightClickType;
 };
 #endif // GLOBAL_H

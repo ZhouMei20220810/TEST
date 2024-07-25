@@ -247,6 +247,7 @@ bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
             }                
                 break;
             case Qt::RightButton:
+                GlobalData::enRightClickType = EN_ICON_MODE_WIDGET;
                 emit ShowPhoneInstanceWidgetSignals(m_sPhoneInfo,true);
                 return true;
             default:

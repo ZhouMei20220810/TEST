@@ -593,9 +593,101 @@ void MainWindow::do_ActionReplaceCloudPhone(bool bChecked)
     dialog->exec();
 }
 
+//获取当前所有选中的item,根据enum判断是返回树形控件，预览模式还是列表模式
+QMap<int, S_PHONE_INFO> MainWindow::getCurrentAllSelectItem(EN_RIGHT_CLICK_TYPE enType)
+{
+    QMap<int, S_PHONE_INFO> map;
+    S_PHONE_INFO phoneInfo;
+    switch (GlobalData::enRightClickType)
+    {
+    case EN_GROUP_TREEWIDGET:
+        //获取树形控件选中项
+    {
+        QTreeWidgetItemIterator it(ui->treeWidget);
+        //遍历所有选中项的迭代器
+        QTreeWidgetItem* item = NULL;        
+        QTreeWidgetItem* child = NULL;
+        int count = 0;
+        int i = 0;
+        Qt::CheckState checkState;
+        while (*it)
+        {
+            item = *it;
+            //获取组的所有子节点
+            count = item->childCount();
+            for (i = 0; i < count; ++i)
+            {
+                child = item->child(i);
+                checkState = child->checkState(0);
+                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+                if (checkState == Qt::Checked)
+                {
+                    map.insert(phoneInfo.iId, phoneInfo);
+                }
+            }
+            ++it;
+        }
+    }
+    break;
+    case EN_ICON_MODE_WIDGET:
+        //获取预览模式选中项
+    {
+        int iCount = ui->listWidget->count();
+        if (iCount > 0)
+        {
+            QListWidgetItem* item = NULL;
+            QListWidgetItem* phoneItem = NULL;
+            QMap<int, S_LEVEL_INFO>::iterator iterFind;
+            for (int i = 0; i < iCount; i++)
+            {
+                item = ui->listWidget->item(i);
+                if (item != NULL)
+                {
+                    //是否选中
+                    if (((PhoneItemWidget*)ui->listWidget->itemWidget(item))->getCheckBoxStatus())
+                    {
+                        phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                        map.insert(phoneInfo.iId, phoneInfo);
+                    }
+                }
+            }
+        }
+    }
+        break;
+    case EN_LIST_MODE_WIDGET:
+        //获取列表模式选中项
+    {
+        int iCount = ui->listWidget2->count();
+        if (iCount > 0)
+        {
+            QListWidgetItem* item = NULL;
+            for (int i = 0; i < iCount; i++)
+            {
+                item = ui->listWidget2->item(i);
+                if (item != NULL)
+                {
+                    //是否选中
+                    if (((PhoneListModeItemWidget*)ui->listWidget2->itemWidget(item))->getCheckBoxStatus())
+                    {
+                        phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                        map.insert(phoneInfo.iId, phoneInfo);
+                    }
+                }
+            }
+        }
+    }
+        break;
+    default:
+        break;
+    }
+
+    return map;
+}
 void MainWindow::do_ActionTransferCloudPhone(bool bChecked)
 {
-    TransferPhoneDialog* dialog = new TransferPhoneDialog();
+    //分别获取分组、预览模式、列表模式选中项
+    QMap<int, S_PHONE_INFO> currentSelMap = getCurrentAllSelectItem(GlobalData::enRightClickType);
+    TransferPhoneDialog* dialog = new TransferPhoneDialog(currentSelMap, m_mapLevelList);
     dialog->exec();
 }
 
@@ -3411,6 +3503,7 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
     {
         if (item->parent() != NULL)
         {
+            GlobalData::enRightClickType = EN_GROUP_TREEWIDGET;
             m_CurSelMenuPhoneInfo = item->data(0, Qt::UserRole).value<S_PHONE_INFO>();
             pActionCopyCloudId->setText("复制云号[" + m_CurSelMenuPhoneInfo.strInstanceNo+"]");
             m_PhoneMenu->exec(QCursor::pos());
