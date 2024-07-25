@@ -18,12 +18,24 @@ public:
 
 private slots:
     void on_btnClose_clicked();
+    void on_btnOk_clicked();
+
+    void on_btnAuthorPolicy_clicked();
+
 private:
     void LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo);
+    void RefreshPictureCode();
+    QPixmap generateCaptchaImage(const QString& code);
+
+    void HttpPostTransferPhone(QMap<int, int> mapId);
 private:
     Ui::TransferPhoneDialog *ui;
-    //int会员等级
     QMap<int, S_LEVEL_INFO> m_mapLevelList;
+    QString m_strPictureCode;
+
+    // QObject interface
+public:
+    virtual bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 #endif // TRANSFERPHONEDIALOG_H

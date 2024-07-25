@@ -13,21 +13,6 @@
 #include <QJsonArray>
 #include "activecodeitem.h"
 
-#define  PICTURE_CODE_WIDTH     90
-#define  PICTURE_CODE_HEIGHT    28
-
-// 生成随机字符串
-QString AuthorizationManageDialog::generateRandomCode(int length/* = 4*/)
-{
-    const QString possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    QString code;
-    QRandomGenerator* generator = QRandomGenerator::global();
-    for (int i = 0; i < length; ++i) {
-        code.append(possibleChars.at(generator->generate() % possibleChars.size()));
-    }
-    return code;
-}
-
 // 生成验证码图像
 QPixmap AuthorizationManageDialog::generateCaptchaImage(const QString& code)
 {
@@ -106,7 +91,7 @@ AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
 void AuthorizationManageDialog::RefreshPictureCode()
 {
     // 生成验证码字符串
-    m_strPictureCode = generateRandomCode();
+    m_strPictureCode = generateRandomCode(4);
     qDebug() << "Piccode = " << m_strPictureCode;
     // 生成验证码图像
     QPixmap captchaImg = generateCaptchaImage(m_strPictureCode);

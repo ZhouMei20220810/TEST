@@ -895,7 +895,7 @@ color:#4A4A4A;
 </string>
                 </property>
                 <property name="text">
-                 <string>《易舜云手机授权协议》</string>
+                 <string>《易舜云手机转移协议》</string>
                 </property>
                 <property name="flat">
                  <bool>true</bool>
@@ -972,7 +972,7 @@ QPushButton:disabled
 </string>
                 </property>
                 <property name="text">
-                 <string>确定授权</string>
+                 <string>确定转移</string>
                 </property>
                </widget>
               </item>

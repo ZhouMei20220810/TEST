@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QCoreApplication>
+#include <QRandomGenerator>
 
 int GlobalData::id = 10;
 QString GlobalData::strMaxExpirationDate = "";
@@ -225,4 +226,16 @@ QString getMessageByCode(long code)
         break;
     }
     return strMsg;
+}
+
+// 生成随机字符串
+QString generateRandomCode(int length/* = 4*/)
+{
+    const QString possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    QString code;
+    QRandomGenerator* generator = QRandomGenerator::global();
+    for (int i = 0; i < length; ++i) {
+        code.append(possibleChars.at(generator->generate() % possibleChars.size()));
+    }
+    return code;
 }
