@@ -26,6 +26,8 @@ private slots:
 
 private:
     void LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo);
+
+    QString generateRandomCode(int length = 4);
     void RefreshPictureCode();
     QPixmap generateCaptchaImage(const QString& code);
 

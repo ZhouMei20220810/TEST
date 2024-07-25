@@ -11,6 +11,8 @@
 #include <QJsonObject>
 #include "policydialog.h"
 #include "transfertipsdialog.h"
+#define  PICTURE_CODE_WIDTH     110
+#define  PICTURE_CODE_HEIGHT    32
 
 TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList,QWidget *parent)
     : QDialog(parent)
@@ -20,7 +22,7 @@ TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, Q
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground, true);
-    setWindowTitle("转移云机");
+    setWindowTitle("转移云手机");
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
     shadow->setBlurRadius(5);//阴影模糊半径
     shadow->setXOffset(0);//水平偏移
@@ -45,6 +47,18 @@ TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, Q
     LoadWidgetData(mapPhoneInfo);
     RefreshPictureCode();
     ui->labelPictureCode->installEventFilter(this);
+}
+
+// 生成随机字符串
+QString TransferPhoneDialog::generateRandomCode(int length/* = 4*/)
+{
+    const QString possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    QString code;
+    QRandomGenerator* generator = QRandomGenerator::global();
+    for (int i = 0; i < length; ++i) {
+        code.append(possibleChars.at(generator->generate() % possibleChars.size()));
+    }
+    return code;
 }
 
 void TransferPhoneDialog::RefreshPictureCode()
@@ -128,7 +142,7 @@ QPixmap TransferPhoneDialog::generateCaptchaImage(const QString& code)
         //添加垂直随机偏移量
         iVerOffset = QRandomGenerator::global()->bounded(-5, 5);
         //绘制字符，同时应用水平和垂直偏移
-        painter.drawText(10 + i * 17, 20 + iVerOffset, code.at(i)); // 分散字符以避免被轻易识别
+        painter.drawText(15 + i * 20, 20 + iVerOffset, code.at(i)); // 分散字符以避免被轻易识别
     }
 
     // 可以增加噪声线或点以提高安全性

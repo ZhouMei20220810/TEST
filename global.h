@@ -170,10 +170,6 @@ std::string sha256(const std::string str);
 int calculateWidth(int fixedHeight);
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
-#define  PICTURE_CODE_WIDTH     90
-#define  PICTURE_CODE_HEIGHT    28
-// 生成随机字符串
-QString generateRandomCode(int length/* = 4*/);
 enum ENUM_ACTIVE_CODE_STATUS
 {
     TYPE_INIT = -1,

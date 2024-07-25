@@ -749,7 +749,7 @@ void MainWindow::InitPhoneMenu()
     pActionRenewCloudPhone = new QAction("续费云手机", ui->treeWidget);
     pActionAuthorization = new QAction("授权", ui->treeWidget);
     pActionReplaceCloudPhone = new QAction("更换云机",ui->treeWidget);
-    pActionTransferCloudPhone = new QAction("转移云机", ui->treeWidget);
+    pActionTransferCloudPhone = new QAction("转移云手机", ui->treeWidget);
     connect(pActionBeginControl, &QAction::triggered, this, &MainWindow::do_ActionBeginControl);
     connect(pActionCopyCloudId, &QAction::triggered, this, &MainWindow::do_ActionCopyCloudId);
     connect(pActionRename, &QAction::triggered, this, &MainWindow::do_ActionRename);

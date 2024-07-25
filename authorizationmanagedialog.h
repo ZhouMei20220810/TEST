@@ -45,6 +45,7 @@ private:
     void LoadBeAuthorizedList(QMap<int, S_AUTHOR_INFO> map);
     void LoadResultInfo(QMap<int, S_AUTH_RESULT_INFO> map);
 
+    QString generateRandomCode(int length = 4);
     QPixmap generateCaptchaImage(const QString& code);
     void RefreshPictureCode();
 
