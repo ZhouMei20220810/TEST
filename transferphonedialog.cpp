@@ -10,6 +10,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "policydialog.h"
+#include "transfertipsdialog.h"
 
 TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList,QWidget *parent)
     : QDialog(parent)
@@ -150,7 +151,6 @@ void TransferPhoneDialog::on_btnOk_clicked()
         tips->show();
         return;
     }
-
     //行-手机id
     QMap<int, int> map;
     QCheckBox* checkBox = NULL;
@@ -175,7 +175,35 @@ void TransferPhoneDialog::on_btnOk_clicked()
         tips->show();
         return;
     }
-    HttpPostTransferPhone(map);
+
+    QString strPhoneOrAccount = ui->lineEditPhoneOrAccount->text();
+    if (strPhoneOrAccount.isEmpty())
+    {
+        MessageTips* tips = new MessageTips("接收方账号不能为空", this);
+        tips->show();
+        return;
+    }
+    QString strInputCode = ui->lineEditPictureCode->text();
+    if (strInputCode.compare(m_strPictureCode, Qt::CaseInsensitive) != 0)
+    {
+        MessageTips* dialog = new MessageTips("验证码不一致", this);
+        dialog->show();
+        return;
+    }
+
+    bool bCheck = ui->checkBoxPolicy->isChecked();
+    if (!bCheck)
+    {
+        MessageTips* dialog = new MessageTips("请先阅读并勾选", this);
+        dialog->show();
+        return;
+    }
+
+    TransferTipsDialog* tips = new TransferTipsDialog(strPhoneOrAccount);
+    if (QDialog::Accepted == tips->exec())
+    {
+        HttpPostTransferPhone(map);
+    }
 }
 
 void TransferPhoneDialog::HttpPostTransferPhone(QMap<int, int> mapId)

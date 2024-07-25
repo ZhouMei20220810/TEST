@@ -12,7 +12,7 @@ class TransferTipsDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit TransferTipsDialog(QWidget *parent = nullptr);
+    explicit TransferTipsDialog(QString strPhoneOrAccount,QWidget *parent = nullptr);
     ~TransferTipsDialog();
 
 private slots:
