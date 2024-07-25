@@ -240,7 +240,7 @@ typedef struct PHONE_INFO
     bool    bIsAuth;            //是否授权    
     int     iAuthStatus;        //是否授权
     int     iId;
-    int     iType;              //1:已授权;2:被授权
+    int     iAuthType;          //1:已授权;2:被授权
     int     iLevel;             //级别
     QString strInstanceNo;      //外部实例编号
     QString strCreateTime;      //创建时间

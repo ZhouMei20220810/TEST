@@ -567,13 +567,13 @@ void MainWindow::do_ActionRenewCloudPhone(bool bChecked)
 
 void MainWindow::do_ActionAuthorization(bool bChecked)
 {
-    if (!m_CurSelMenuPhoneInfo.bIsAuth && m_CurSelMenuPhoneInfo.iType == EN_BE_AUTHORIZATION)
+    if (!m_CurSelMenuPhoneInfo.bIsAuth && m_CurSelMenuPhoneInfo.iAuthType == EN_BE_AUTHORIZATION)
     {
         return;
     }
-    if (m_CurSelMenuPhoneInfo.bIsAuth)
+    if (m_CurSelMenuPhoneInfo.bIsAuth || m_CurSelMenuPhoneInfo.iAuthType == EN_BE_AUTHORIZATION)
     {
-        qDebug() << "已授权id" << m_CurSelMenuPhoneInfo.iId;
+        qDebug() << "已授权或者被授权id" << m_CurSelMenuPhoneInfo.iId;
         m_toolObject->HttpPostAuthDetail(m_CurSelMenuPhoneInfo.iId);
     }
     else
@@ -622,6 +622,11 @@ QMap<int, S_PHONE_INFO> MainWindow::getCurrentAllSelectItem(EN_RIGHT_CLICK_TYPE 
                 phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
                 if (checkState == Qt::Checked)
                 {
+                    if (phoneInfo.bIsAuth || phoneInfo.iAuthType == EN_BE_AUTHORIZATION)
+                    {
+                        qDebug() << "已授权或者被授权 name=" << phoneInfo.strName << "No=" << phoneInfo.strInstanceNo;
+                        continue;
+                    }
                     map.insert(phoneInfo.iId, phoneInfo);
                 }
             }
@@ -647,6 +652,11 @@ QMap<int, S_PHONE_INFO> MainWindow::getCurrentAllSelectItem(EN_RIGHT_CLICK_TYPE 
                     if (((PhoneItemWidget*)ui->listWidget->itemWidget(item))->getCheckBoxStatus())
                     {
                         phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                        if (phoneInfo.bIsAuth || phoneInfo.iAuthType == EN_BE_AUTHORIZATION)
+                        {
+                            qDebug() << "已授权或者被授权 name=" << phoneInfo.strName << "No=" << phoneInfo.strInstanceNo;
+                            continue;
+                        }
                         map.insert(phoneInfo.iId, phoneInfo);
                     }
                 }
@@ -670,6 +680,11 @@ QMap<int, S_PHONE_INFO> MainWindow::getCurrentAllSelectItem(EN_RIGHT_CLICK_TYPE 
                     if (((PhoneListModeItemWidget*)ui->listWidget2->itemWidget(item))->getCheckBoxStatus())
                     {
                         phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+                        if (phoneInfo.bIsAuth || phoneInfo.iAuthType == EN_BE_AUTHORIZATION)
+                        {
+                            qDebug() << "已授权或者被授权 name=" << phoneInfo.strName << "No=" << phoneInfo.strInstanceNo;
+                            continue;
+                        }
                         map.insert(phoneInfo.iId, phoneInfo);
                     }
                 }
@@ -687,6 +702,12 @@ void MainWindow::do_ActionTransferCloudPhone(bool bChecked)
 {
     //分别获取分组、预览模式、列表模式选中项
     QMap<int, S_PHONE_INFO> currentSelMap = getCurrentAllSelectItem(GlobalData::enRightClickType);
+    if (currentSelMap.size() <= 0)
+    {
+        MessageTipsDialog* dialog = new MessageTipsDialog("当前没有选中可转移设备");
+        dialog->show();
+        return;
+    }
     TransferPhoneDialog* dialog = new TransferPhoneDialog(currentSelMap, m_mapLevelList);
     dialog->exec();
 }
@@ -2216,11 +2237,11 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                                 phoneInfo.strName = recordObj["name"].toString();
                                 phoneInfo.strInstanceNo = recordObj["no"].toString();
                                 phoneInfo.strServerToken = recordObj["serverToken"].toString();
-                                phoneInfo.iType = recordObj["type"].toInt();
+                                phoneInfo.iAuthType = recordObj["type"].toInt();
                                 phoneInfo.strGrantControl = recordObj["grantControl"].toString();
                                 phoneInfo.bIsAuth = recordObj["isAuth"].toBool();
                                 m_mapPhoneInfo.insert(phoneInfo.iId, phoneInfo);
-                                qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType<<"level="<< phoneInfo.iLevel;
+                                qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "authType=" << phoneInfo.iAuthType<<"level="<< phoneInfo.iLevel;
                             }
                             if(iLevel != 0)
                                 ShowActiveCodeItemInfo(iLevel, m_mapPhoneInfo);
@@ -3820,7 +3841,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
                 phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
 
                 m_listInstanceNo << phoneInfo.strInstanceNo;
-                qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
+                qDebug() << "树上节点信息 name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "authType=" << phoneInfo.iAuthType << "level=" << phoneInfo.iLevel;
 
                 //重新显示listWidget
                 widget = new PhoneItemWidget(phoneInfo, this);

@@ -271,11 +271,11 @@ void ReplaceCloudPhoneDialog::HttpGetMyPhoneInstance(int iGroupId, int iPage, in
                                 phoneInfo.strName = recordObj["name"].toString();
                                 phoneInfo.strInstanceNo = recordObj["no"].toString();
                                 phoneInfo.strServerToken = recordObj["serverToken"].toString();
-                                phoneInfo.iType = recordObj["type"].toInt();
+                                phoneInfo.iAuthType = recordObj["type"].toInt();
                                 phoneInfo.strGrantControl = recordObj["grantControl"].toString();
                                 phoneInfo.bIsAuth = recordObj["isAuth"].toBool();
                                 m_mapPhone.insert(phoneInfo.iId, phoneInfo);
-                                qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iType << "level=" << phoneInfo.iLevel;
+                                qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iAuthType << "level=" << phoneInfo.iLevel;
                             }
                         }
                         //if (iLevel != 0)

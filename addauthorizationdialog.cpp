@@ -67,34 +67,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* 
     QString strTime = strTime.asprintf("%d天%d小时", m_iDay, (mseconds / (1000 * 60 * 60)) % 24);
     qDebug() << "strTime=" << strTime;
     ui->labelDay->setText(strTime);
-
-    //默认,没有授权和被授权
-    if (phoneInfo.iAuthStatus == 0)
-    {
-        ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
-    }
-    else if (phoneInfo.iAuthStatus == 1)//已授权
-    {
-        ui->stackedWidget->setCurrentWidget(ui->pageCode);
-    }
-    else if (phoneInfo.iAuthStatus == 2)//被授权
-    {
-        ui->stackedWidget->setCurrentWidget(ui->pageAccount);
-    }
-
-    switch (phoneInfo.iType)
-    {
-    case EN_AUTHORIZATION:
-        ui->btnCancelAuthCode->setEnabled(true);
-        ui->btnCancelAuthAccount->setEnabled(true);
-        break;
-    case EN_BE_AUTHORIZATION:
-        ui->btnCancelAuthCode->setEnabled(false);
-        ui->btnCancelAuthAccount->setEnabled(false);
-        break;
-    default:
-        break;
-    }
+    ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
 }
 
 AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PHONE_INFO phoneInfo*/, QWidget* parent)
@@ -135,12 +108,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PH
     for (; iter != map.end(); iter++)
     {
         //过滤已授权和被授权的设备
-        /*if (iter->bIsAuth || iter->iType == 2)                                                                                          )
-        {
-            qDebug() << "已授权或者被授权 name=" << iter->strName << "No=" << iter->strInstanceNo;
-            continue;
-        }*/
-        if (iter->bIsAuth || iter->iType == 2)
+        if (iter->bIsAuth || iter->iAuthType == EN_BE_AUTHORIZATION)
         {
             qDebug() << "已授权或者被授权 name=" << iter->strName << "No=" << iter->strInstanceNo;
             continue;
@@ -197,35 +165,8 @@ AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PH
     QString strTime = strTime.asprintf("%d天%d小时", m_iDay, (mseconds / (1000 * 60 * 60)) % 24);
     qDebug() << "strTime=" << strTime;
     ui->labelDay->setText(strTime);
-
+    //批量需过滤已授权或者被授权设备
     ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
-    //默认,没有授权和被授权
-    /*if (phoneInfo.iAuthStatus == 0)
-    {
-        ui->stackedWidget->setCurrentWidget(ui->pageAddAuth);
-    }
-    else if(phoneInfo.iAuthStatus == 1)//已授权
-    {
-        ui->stackedWidget->setCurrentWidget(ui->pageCode);
-    }
-    else if(phoneInfo.iAuthStatus == 2)//被授权
-    {
-        ui->stackedWidget->setCurrentWidget(ui->pageAccount);
-    }
-
-    switch (phoneInfo.iType)
-    {
-    case EN_AUTHORIZATION:
-        ui->btnCancelAuthCode->setEnabled(true);
-        ui->btnCancelAuthAccount->setEnabled(true);
-        break;
-    case EN_BE_AUTHORIZATION:
-        ui->btnCancelAuthCode->setEnabled(false);
-        ui->btnCancelAuthAccount->setEnabled(false);
-        break;
-    default:
-        break;
-    }*/
 }
 
 AddAuthorizationDialog::~AddAuthorizationDialog()

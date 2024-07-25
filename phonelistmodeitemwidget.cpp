@@ -21,7 +21,7 @@ PhoneListModeItemWidget::PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget
         //已授权
         ui->labelAuthImg->setPixmap(QPixmap(":/main/resource/main/Authorized.png"));
     }
-    else if(sPhoneInfo.iType == EN_BE_AUTHORIZATION)
+    else if(sPhoneInfo.iAuthType == EN_BE_AUTHORIZATION)
     {
         //被授权
         ui->labelAuthImg->setPixmap(QPixmap(":/main/resource/main/BeAuthorized.png"));
