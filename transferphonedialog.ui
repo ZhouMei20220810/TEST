@@ -645,7 +645,7 @@
                  </property>
                  <property name="styleSheet">
                   <string notr="true">border:none;
-color:#ADAFB5;
+color:#A9ADB6;
 background-color: #E7E8EE;
 padding-left:10px;</string>
                  </property>
@@ -732,7 +732,7 @@ padding-left:10px;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEditPictureCode">
+                <widget class="QFrame" name="frame_11">
                  <property name="minimumSize">
                   <size>
                    <width>158</width>
@@ -745,23 +745,71 @@ padding-left:10px;</string>
                    <height>32</height>
                   </size>
                  </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
                  <property name="styleSheet">
-                  <string notr="true">border:none;
-color:#FF4A4A4A;
+                  <string notr="true">color:#FF4A4A4A;
+background: #FFE7E8EE;
+border-radius: 3px;</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_13">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="labelPhoneImage_4">
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="pixmap">
+                     <pixmap resource="res.qrc">:/main/resource/main/pictureCode.png</pixmap>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEditPictureCode">
+                    <property name="minimumSize">
+                     <size>
+                      <width>133</width>
+                      <height>32</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>133</width>
+                      <height>32</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">border:none;
+color:#A9ADB6;
 background-color: #E7E8EE;
 padding-left:10px;</string>
-                 </property>
-                 <property name="echoMode">
-                  <enum>QLineEdit::Normal</enum>
-                 </property>
-                 <property name="placeholderText">
-                  <string>请输入验证码</string>
-                 </property>
+                    </property>
+                    <property name="echoMode">
+                     <enum>QLineEdit::Normal</enum>
+                    </property>
+                    <property name="placeholderText">
+                     <string>请输入验证码</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
