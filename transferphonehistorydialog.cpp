@@ -46,6 +46,7 @@ void TransferHistoryListItem::setupUI(S_TRANSFER_INFO transferInfo)
     m_LabelTransferStatus->setText(transferInfo.strTransferStatus);
     m_LabelTransferStatus->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     hLayout->addWidget(m_LabelTransferStatus);
+    hLayout->setSpacing(22);
 
     //添加到垂直布局
     vLayout->addLayout(hLayout);
@@ -73,7 +74,7 @@ TransferPhoneHistoryDialog::TransferPhoneHistoryDialog(QWidget *parent)
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidgetTransferHistory->setSpacing(5);
+    ui->listWidgetTransferHistory->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING*2);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidgetTransferHistory->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -233,7 +234,7 @@ void TransferPhoneHistoryDialog::ShowTransferInfoList(QMap<int, S_TRANSFER_INFO>
         ui->listWidgetTransferHistory->addItem(item);
 
         widget = new TransferHistoryListItem(iter.value(), this);
-        item->setSizeHint(QSize(640, LISTMODE_ITEM_HEGITH));
+        item->setSizeHint(QSize(620, LISTMODE_ITEM_HEGITH));
         ui->listWidgetTransferHistory->setItemWidget(item, widget);
     }
 }
