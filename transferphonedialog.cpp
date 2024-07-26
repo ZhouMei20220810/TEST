@@ -291,32 +291,9 @@ void TransferPhoneDialog::HttpPostTransferPhone(QString strPhoneOrAccount,QMap<i
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    QJsonArray dataArray = obj["data"].toArray();
-                    QJsonObject data;
-                    int iSize = dataArray.size();
-                    int iSuccessCount = 0;
-                    bool bSuccess = false;
-                    //行
-                    //QMap<int, S_REPLACE_INFO> map;
-                    //QMap<int, int>::const_iterator iterId = mapId.begin();
-                    for (int i = 0; i < iSize; i++)
-                    {
-                        data = dataArray[i].toObject();
-                        /*replaceInfo.id = data["id"].toInt();
-                        replaceInfo.iInstanceId = data["instanceId"].toInt();
-                        replaceInfo.iType = data["type"].toInt();
-                        replaceInfo.iCreateBy = data["createBy"].toInt();
-                        replaceInfo.strCreateTime = data["createTime"].toString();
-                        replaceInfo.strRemark = data["remark"].toString();*/
-                        bSuccess = data["isSuccess"].toBool();
-                        if (bSuccess)
-                        {
-                            iSuccessCount++;
-                        }
-                        //服务器返回的数据按请求的数据返回，没有返回与手机相关的信息
-                        //map.insert(iterId.key(), replaceInfo);
-                    }
-                    qDebug() << "成功次数=" << iSuccessCount;
+                    QJsonObject data = obj["data"].toObject();
+                    int iSuccesssCount = data["snum"].toInt();                    
+                    qDebug() << "成功台数=" << iSuccesssCount;
                     //不用更新状态，需要统计成功多少台
                     //LoadReplaceInstanceStatus(map);
                 }

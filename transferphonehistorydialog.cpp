@@ -17,11 +17,11 @@ void TransferHistoryListItem::setupUI(S_TRANSFER_INFO transferInfo)
     hLayout->setContentsMargins(0, 0, 0, 0);
 
     QString strStyleSheet = "QLabel{color:#4A4A4A;font-size:12px;}";
-    m_LabelTransferType = new QLabel(this);    
+    /*m_LabelTransferType = new QLabel(this);
     m_LabelTransferType->setStyleSheet(strStyleSheet);
     m_LabelTransferType->setText(transferInfo.strPhoneNum);
     m_LabelTransferType->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    hLayout->addWidget(m_LabelTransferType);
+    hLayout->addWidget(m_LabelTransferType);*/
 
     m_LabelTransferAccount = new QLabel(this);
     m_LabelTransferAccount->setStyleSheet(strStyleSheet);
@@ -84,23 +84,6 @@ TransferPhoneHistoryDialog::TransferPhoneHistoryDialog(QWidget *parent)
     //m_mapOrderInfo.clear();
     //获取转移记录
     HttpGetTransferHistory(1, 1000);
-
-
-    //测试假数据界面
-    QMap<int, S_TRANSFER_INFO> map;
-    S_TRANSFER_INFO transferInfo;
-    for (int i = 0; i < 10; i++)
-    {
-        transferInfo.strCreateTime = "2024";
-        transferInfo.strPhoneNum = "123****5487";
-        transferInfo.strTransferAccount = "account";
-        transferInfo.strTransferStatus = "成功";
-        transferInfo.strTransferCount = QString("%1").arg(i + 1);
-        map.insert(i, transferInfo);
-    }
-
-    //显示数据
-    ShowTransferInfoList(map);
 }
 
 TransferPhoneHistoryDialog::~TransferPhoneHistoryDialog()
@@ -177,25 +160,12 @@ void TransferPhoneHistoryDialog::HttpGetTransferHistory(int iPage, int iPageSize
                             QMap<int, S_TRANSFER_INFO> map;
                             for (int i = 0; i < iRecordsSize; i++)
                             {
-                                /*recordObj = records[i].toObject();
-                                orderInfo.fActualAmount = recordObj["actualAmount"].toDouble();
-                                orderInfo.iCreateBy = recordObj["createBy"].toInt();
-                                orderInfo.strCreateTime = recordObj["createTime"].toString();
-                                orderInfo.iId = recordObj["id"].toInt();
-                                orderInfo.bIsDelete = recordObj["isDelete"].toBool();
-                                orderInfo.iMemberId = recordObj["memberId"].toInt();
-                                orderInfo.strOrderTitle = recordObj["name"].toString();
-                                orderInfo.iBuyNum = recordObj["num"].toInt();
-                                orderInfo.strOutTradeNo = recordObj["outTradeNo"].toString();
-                                orderInfo.strPayTime = recordObj["payTime"].toString();
-                                orderInfo.iPayType = recordObj["payType"].toInt();
-                                orderInfo.fPreferentialAmount = recordObj["preferentialAmount"].toDouble();
-                                orderInfo.strRelateid = recordObj["relateId"].toString();
-                                orderInfo.strRemark = recordObj["remark"].toString();
-                                orderInfo.iStatus = recordObj["status"].toInt();
-                                orderInfo.fTotalAmount = recordObj["totalAmount"].toDouble();
-                                orderInfo.strTradeNo = recordObj["tradeNo"].toString();
-                                orderInfo.iOrderType = recordObj["type"].toInt();*/
+                                recordObj = records[i].toObject();
+                                //transferInfo.fActualAmount = recordObj["id"].toDouble();
+                                transferInfo.strTransferAccount = recordObj["mobile"].toString();
+                                transferInfo.strCreateTime = recordObj["createTime"].toString();
+                                transferInfo.strTransferCount = QString("%1台").arg(recordObj["snum"].toInt());
+                                transferInfo.strTransferStatus = "成功";
                                 map.insert(i, transferInfo);
                             }
 

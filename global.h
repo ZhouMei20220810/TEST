@@ -75,7 +75,7 @@
 
 //转移
 #define HTTP_TRANSFER_PHONE             "/api/user/transfer"    //转移云手机
-#define HTTP_TRANSFER_PHONE_HISTORY     ""                      //转移记录
+#define HTTP_TRANSFER_PHONE_HISTORY     "/api/transfer/list"    //转移记录
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
@@ -432,7 +432,6 @@ enum EN_RIGHT_CLICK_TYPE
 
 typedef struct TRANSFER_INFO
 {
-    QString strPhoneNum;
     QString strTransferAccount;
     QString strCreateTime;
     QString strTransferCount;

@@ -478,6 +478,11 @@ padding-left:0px;
       </property>
       <item>
        <widget class="QToolButton" name="toolBtnActiveCodeHistory">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">QToolButton {border:none;
 color:#505465;
@@ -576,6 +581,11 @@ padding-left:0px;
       </property>
       <item>
        <widget class="QToolButton" name="toolBtnTransferHistory">
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">QToolButton {border:none;
 color:#505465;
