@@ -18,7 +18,7 @@ TransferTipsDialog::TransferTipsDialog(int iPhoneCount,QString strPhoneOrAccount
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
 
-    QString strContent = QString("<font color='#4A4A4A'>是否将%1台云手机转移至账号</font><font color='#F96D6F'>%2</font><font color='#4A4A4A'>,信号确认无误后,将确认转移</font>").arg(iPhoneCount).arg(strPhoneOrAccount);
+    QString strContent = QString("<font color='#4A4A4A'>是否将%1台云手机转移至账号</font><font color='#F96D6F'>%2</font><font color='#4A4A4A'>,信息确认无误后,将确认转移</font>").arg(iPhoneCount).arg(strPhoneOrAccount);
     ui->labelContent->setText(strContent);
     //自动换行
     ui->labelContent->setWordWrap(true);

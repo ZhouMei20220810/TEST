@@ -4223,6 +4223,7 @@ void MainWindow::on_btnActiveCode_clicked()
 void MainWindow::on_btnGroupRefresh_clicked()
 {
     //重新加载列表
+    m_mapPhoneInfo.clear();
     HttpQueryAllGroup();
 }
 
