@@ -24,6 +24,8 @@ private slots:
 
     void on_checkBoxAll_clicked(bool checked);
     void do_historyItemCheckBoxStatus(bool checked);
+    void on_btnCancel_clicked();
+
 private:
     void LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo);
 

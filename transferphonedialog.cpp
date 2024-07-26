@@ -403,3 +403,9 @@ void TransferPhoneDialog::on_checkBoxAll_clicked(bool checked)
     }        
 }
 
+
+void TransferPhoneDialog::on_btnCancel_clicked()
+{
+    this->close();
+}
+

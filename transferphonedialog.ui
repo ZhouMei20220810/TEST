@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
+    <width>788</width>
     <height>497</height>
    </rect>
   </property>
@@ -427,7 +427,7 @@
              <number>0</number>
             </property>
             <property name="leftMargin">
-             <number>12</number>
+             <number>0</number>
             </property>
             <property name="topMargin">
              <number>16</number>
@@ -457,7 +457,7 @@
                 <number>0</number>
                </property>
                <property name="leftMargin">
-                <number>0</number>
+                <number>6</number>
                </property>
                <property name="topMargin">
                 <number>0</number>
@@ -871,7 +871,7 @@ padding-left:10px;</string>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
+              <layout class="QVBoxLayout" name="verticalLayout_5">
                <property name="spacing">
                 <number>9</number>
                </property>
@@ -903,25 +903,117 @@ padding-left:10px;</string>
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="label_5">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
+                <widget class="QFrame" name="frame_12">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
                  </property>
-                 <property name="styleSheet">
-                  <string notr="true">color:#A9ADB6;</string>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
                  </property>
-                 <property name="text">
-                  <string>1.在进行设备转移操作时，设备剩余时间需要大于24小时。 
-2.每台设备24小时内只能进行1次转移操作。 
-3.由于设备转移操作不可逆，在转移前请确认账号信息准确,注意:设备转移是转移你的设备到其他的账号，而不是转移设备的时间!请合理且合法利用设备转移功能! 
-4.授权云手机需先解除授权才能进行转移。 
-5.转移后的云手机不支持退款。</string>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_4">
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_5">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color:#A9ADB6;</string>
+                    </property>
+                    <property name="text">
+                     <string>1.在进行设备转移操作时，设备剩余时间需要大于24小时。</string>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_10">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color:#A9ADB6;</string>
+                    </property>
+                    <property name="text">
+                     <string>2.每台设备24小时内只能进行1次转移操作。 </string>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_9">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color:#A9ADB6;</string>
+                    </property>
+                    <property name="text">
+                     <string>3.由于设备转移操作不可逆，在转移前请确认账号信息准确,注意:设备转移是转移你的设备到其他的账号，而不是转移设备的时间!请合理且合法利用设备转移功能! </string>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_7">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color:#A9ADB6;</string>
+                    </property>
+                    <property name="text">
+                     <string>4.授权云手机需先解除授权才能进行转移。 </string>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_6">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color:#A9ADB6;</string>
+                    </property>
+                    <property name="text">
+                     <string>5.转移后的云手机不支持退款。</string>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>
@@ -950,7 +1042,7 @@ padding-left:10px;</string>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout">
                <property name="spacing">
-                <number>0</number>
+                <number>16</number>
                </property>
                <property name="leftMargin">
                 <number>0</number>
@@ -965,18 +1057,48 @@ padding-left:10px;</string>
                 <number>0</number>
                </property>
                <item>
-                <widget class="QCheckBox" name="checkBoxPolicy">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
+                <widget class="QFrame" name="frame_13">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
                  </property>
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
                  </property>
-                 <property name="styleSheet">
-                  <string notr="true"> QCheckBox {
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxPolicy">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true"> QCheckBox {
      spacing: 5px;
 color:#4A4A4A;
  }
@@ -1010,33 +1132,36 @@ color:#4A4A4A;
      image: url(:/login/resource/login/option_select.png);
  }
 </string>
-                 </property>
-                 <property name="text">
-                  <string>请先阅读</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btnAuthorPolicy">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="cursor">
-                  <cursorShape>PointingHandCursor</cursorShape>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">color:#F96D6F;border: none;
+                    </property>
+                    <property name="text">
+                     <string>请先阅读</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="btnAuthorPolicy">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="cursor">
+                     <cursorShape>PointingHandCursor</cursorShape>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color:#F96D6F;border: none;
 </string>
-                 </property>
-                 <property name="text">
-                  <string>《易舜云手机转移协议》</string>
-                 </property>
-                 <property name="flat">
-                  <bool>true</bool>
-                 </property>
+                    </property>
+                    <property name="text">
+                     <string>《易舜云手机转移协议》</string>
+                    </property>
+                    <property name="flat">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
@@ -1051,6 +1176,61 @@ color:#4A4A4A;
                   </size>
                  </property>
                 </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="btnCancel">
+                 <property name="minimumSize">
+                  <size>
+                   <width>68</width>
+                   <height>28</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>68</width>
+                   <height>28</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                   <bold>false</bold>
+                  </font>
+                 </property>
+                 <property name="cursor">
+                  <cursorShape>PointingHandCursor</cursorShape>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton {
+     border: 1px solid #D7D7DE;
+     border-radius:2px;
+	 background-color: #FFFFFFFF;
+	 color:#505465;
+ }
+QPushButton:hover
+{
+	border:1px solid  #D7D7DE;
+	background-color: #FFFFFFFF;
+}
+ QPushButton:pressed {
+     border: 1px solid #D7D7DE;
+     border-radius: 2px;
+	 background-color: #FFFFFFFF;
+	 color:#505465;
+ }
+
+ QPushButton:flat {
+     border: none; /* no border for a flat push button */
+ }
+
+ QPushButton:default {
+     border-color: navy; /* make the default button prominent */
+ }</string>
+                 </property>
+                 <property name="text">
+                  <string>取消</string>
+                 </property>
+                </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="btnOk">
@@ -1069,7 +1249,7 @@ color:#4A4A4A;
                  <property name="font">
                   <font>
                    <pointsize>11</pointsize>
-                   <bold>true</bold>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="cursor">
