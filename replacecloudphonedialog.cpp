@@ -22,7 +22,7 @@ ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<in
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidget->setSpacing(5);
+    ui->listWidget->setSpacing(0);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     //设置不能移动

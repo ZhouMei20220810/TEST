@@ -52,7 +52,7 @@ private:
         QHBoxLayout* hLayout = new QHBoxLayout(this);
         hLayout->setContentsMargins(0, 0, 0, 0);
 
-        QString strStyleSheet = "QCheckBox{spacing:5px;color:#4A4A4A;font-size:12px;}QCheckBox::indicator{width:16px;height:16px;}QCheckBox::indicator:unchecked{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}";
+        QString strStyleSheet = "QCheckBox{padding-left:1px;spacing:5px;color:#4A4A4A;font-size:12px;}QCheckBox::indicator{width:16px;height:16px;}QCheckBox::indicator:unchecked{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}";
         m_checkBox = new QCheckBox(this);
         connect(m_checkBox, &QCheckBox::clicked, this, &ReplaceListItem::replaceItemCheckBoxStatus);
         m_checkBox->setStyleSheet(strStyleSheet);
