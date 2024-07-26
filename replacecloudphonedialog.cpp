@@ -30,7 +30,7 @@ ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<in
     ui->listWidget->setMovement(QListWidget::Static);
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-
+    m_iCurSelCount = 0;
     //按等级拉去数据
     HttpGetMyPhoneInstance(0, 1, 1000, phoneInfo.iLevel);
 }
@@ -327,6 +327,7 @@ void ReplaceCloudPhoneDialog::ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo
         else
             checkBox->setText(iter->strName);
         checkBox->setFixedSize(340, LISTMODE_ITEM_HEGITH);
+        connect(checkBox, &QCheckBox::clicked, this, &ReplaceCloudPhoneDialog::do_replaceItemCheckBoxStatus);
         //widget2 = new PhoneListModeItemWidget(phoneInfo, this);
         //connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
         //connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
@@ -338,3 +339,54 @@ void ReplaceCloudPhoneDialog::ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo
     }
     
 }
+
+void ReplaceCloudPhoneDialog::do_replaceItemCheckBoxStatus(bool checked)
+{
+    qDebug() << "TransferPhoneDialog do_historyItemCheckBoxStatus 改变状态=" << checked;
+    if (checked)
+    {
+        m_iCurSelCount++;
+    }
+    else
+    {
+        m_iCurSelCount--;
+    }
+    int iCount = ui->listWidget->count();
+    ui->checkBoxAll->setText(QString("%1/%2         名称").arg(m_iCurSelCount).arg(iCount));
+    ui->checkBoxAll->setChecked(m_iCurSelCount == iCount ? true : false);
+}
+
+void ReplaceCloudPhoneDialog::on_checkBoxAll_clicked(bool checked)
+{
+    int iCount = ui->listWidget->count();
+    if (iCount <= 0)
+    {
+        return;
+    }
+
+    QListWidgetItem* item = NULL;
+    QCheckBox* checkBox = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidget->item(i);
+        if (item != NULL)
+        {
+            checkBox = static_cast<QCheckBox*>(ui->listWidget->itemWidget(item));
+            if (checkBox != NULL)
+            {
+                checkBox->setChecked(checked);
+            }
+        }
+    }
+    if (checked)
+    {
+        m_iCurSelCount = iCount;
+        ui->checkBoxAll->setText(QString("%1/%2         名称").arg(iCount).arg(iCount));
+    }
+    else
+    {
+        m_iCurSelCount = 0;
+        ui->checkBoxAll->setText(QString("%1/%2         名称").arg(0).arg(iCount));
+    }
+}
+
