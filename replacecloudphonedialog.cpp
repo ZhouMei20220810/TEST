@@ -30,6 +30,7 @@ ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<in
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     m_iCurSelCount = 0;
+    ui->checkBoxAll->setText(QString("%1/%2         名称").arg(0).arg(0));
     //按等级拉去数据
     HttpGetMyPhoneInstance(0, 1, 1000, phoneInfo.iLevel);
 }

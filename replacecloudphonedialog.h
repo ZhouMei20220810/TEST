@@ -76,8 +76,8 @@ private:
         m_LabelStatus = new QLabel(this);
         strStyleSheet = "QLabel{color:#4A4A4A;font-size:12px;}";
         m_LabelStatus->setStyleSheet(strStyleSheet);
-        m_LabelStatus->setText("test distance 123456");
-        m_LabelStatus->setAlignment(Qt::AlignRight);
+        m_LabelStatus->setText("");
+        m_LabelStatus->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
         hLayout->addWidget(m_LabelStatus);
 
         //添加到垂直布局
