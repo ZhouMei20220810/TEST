@@ -33,7 +33,7 @@ private:
     void RefreshPictureCode();
     QPixmap generateCaptchaImage(const QString& code);
 
-    void HttpPostTransferPhone(QMap<int, int> mapId);
+    void HttpPostTransferPhone(QString strPhoneOrAccount, QMap<int, int> mapId);
 private:
     Ui::TransferPhoneDialog *ui;
     QMap<int, S_LEVEL_INFO> m_mapLevelList;

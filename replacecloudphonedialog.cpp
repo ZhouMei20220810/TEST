@@ -1,7 +1,6 @@
 #include "replacecloudphonedialog.h"
 #include "ui_replacecloudphonedialog.h"
 #include "messagetips.h"
-#include <QCheckBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QJsonParseError>
@@ -60,7 +59,7 @@ void ReplaceCloudPhoneDialog::on_btnOk_clicked()
         return;
     }
 
-    QCheckBox* checkBox = NULL;
+    ReplaceListItem* widget = NULL;
     QListWidgetItem* item = NULL;
     S_PHONE_INFO phoneInfo;
     for (int i = 0; i < iCount; i++)
@@ -68,8 +67,8 @@ void ReplaceCloudPhoneDialog::on_btnOk_clicked()
         item = ui->listWidget->item(i);
         if (item != NULL)
         {
-            checkBox = qobject_cast<QCheckBox*>(ui->listWidget->itemWidget(item));
-            if (checkBox != NULL && checkBox->isChecked())
+            widget = qobject_cast<ReplaceListItem*>(ui->listWidget->itemWidget(item));
+            if (widget != NULL && widget->getCheckBoxStatus())
             {
                 phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
                 map.insert(i, phoneInfo.iId);
@@ -183,7 +182,7 @@ void ReplaceCloudPhoneDialog::LoadReplaceInstanceStatus(QMap<int, S_REPLACE_INFO
         return;
     QMap<int, S_REPLACE_INFO>::iterator iter = map.begin();
     QListWidgetItem* item = NULL;
-    QCheckBox* checkBox = NULL;
+    ReplaceListItem* widget = NULL;
     QString strText;
     for (; iter != map.end(); iter++)
     {
@@ -191,9 +190,8 @@ void ReplaceCloudPhoneDialog::LoadReplaceInstanceStatus(QMap<int, S_REPLACE_INFO
         item = ui->listWidget->item(iter.key());
         if (item != NULL)
         {
-            checkBox = static_cast<QCheckBox*>(ui->listWidget->itemWidget(item));
-            strText = checkBox->text()+"   "+iter->strRemark;
-            checkBox->setText(strText);
+            widget = static_cast<ReplaceListItem*>(ui->listWidget->itemWidget(item));
+            widget->setReplacePhoneStatus(iter->strRemark);
         }
     }
 }
@@ -301,48 +299,27 @@ void ReplaceCloudPhoneDialog::ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo
     if (mapPhoneInfo.size() <= 0)
         return;
 
-    QString strStyleSheet = "QCheckBox{spacing:5px;}QCheckBox::indicator{width:16px;height:16px;}QCheckBox::indicator:unchecked{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}";    
     QListWidgetItem* item = NULL;
     QCheckBox* checkBox = NULL;
     QString strLevelName;
     QMap<int, S_LEVEL_INFO>::iterator iterFind;
     QMap<int, S_PHONE_INFO>::iterator iter = mapPhoneInfo.begin();
+    ReplaceListItem* widget = NULL;
     for (; iter != mapPhoneInfo.end(); iter++)
-    {
-        iterFind = m_mapLevelList.find(iter->iLevel);
-        strLevelName = "";
-        if (iterFind != m_mapLevelList.end())
-        {
-            strLevelName = iterFind->strLevelName;
-        }
-
-        checkBox = new QCheckBox(this);
-        checkBox->setStyleSheet(strStyleSheet);
-        if (strLevelName.compare("BVIP", Qt::CaseInsensitive) == 0)
-            checkBox->setIcon(QIcon(QString(":/main/resource/main/XVIP.png")));
-        else
-            checkBox->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
-        if (iter->strName.isEmpty())
-            checkBox->setText(iter->strInstanceNo);
-        else
-            checkBox->setText(iter->strName);
-        checkBox->setFixedSize(340, LISTMODE_ITEM_HEGITH);
-        connect(checkBox, &QCheckBox::clicked, this, &ReplaceCloudPhoneDialog::do_replaceItemCheckBoxStatus);
-        //widget2 = new PhoneListModeItemWidget(phoneInfo, this);
-        //connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-        //connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
+    {        
+        widget = new ReplaceListItem(*iter, m_mapLevelList, this);
+        connect(widget, &ReplaceListItem::replaceItemCheckBoxStatus, this, &ReplaceCloudPhoneDialog::do_replaceItemCheckBoxStatus);
         item = new QListWidgetItem(ui->listWidget);
-        item->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
+        item->setSizeHint(QSize(REPLACE_LIST_ITEM_WIDTH, REPLACE_LIST_ITEM_HEIGHT));
         item->setData(Qt::UserRole, QVariant::fromValue(*iter));
         ui->listWidget->addItem(item);
-        ui->listWidget->setItemWidget(item, checkBox);
+        ui->listWidget->setItemWidget(item, widget);
     }
-    
 }
 
 void ReplaceCloudPhoneDialog::do_replaceItemCheckBoxStatus(bool checked)
 {
-    qDebug() << "TransferPhoneDialog do_historyItemCheckBoxStatus 改变状态=" << checked;
+    qDebug() << "ReplaceCloudPhoneDialog do_replaceItemCheckBoxStatus 改变状态=" << checked;
     if (checked)
     {
         m_iCurSelCount++;
@@ -365,16 +342,16 @@ void ReplaceCloudPhoneDialog::on_checkBoxAll_clicked(bool checked)
     }
 
     QListWidgetItem* item = NULL;
-    QCheckBox* checkBox = NULL;
+    ReplaceListItem* widget = NULL;
     for (int i = 0; i < iCount; i++)
     {
         item = ui->listWidget->item(i);
         if (item != NULL)
         {
-            checkBox = static_cast<QCheckBox*>(ui->listWidget->itemWidget(item));
-            if (checkBox != NULL)
+            widget = static_cast<ReplaceListItem*>(ui->listWidget->itemWidget(item));
+            if (widget != NULL)
             {
-                checkBox->setChecked(checked);
+                widget->setCheckBoxStatus(checked);
             }
         }
     }

@@ -234,17 +234,17 @@ void TransferPhoneDialog::on_btnOk_clicked()
     TransferTipsDialog* tips = new TransferTipsDialog(map.size(),strPhoneOrAccount);
     if (QDialog::Accepted == tips->exec())
     {
-        HttpPostTransferPhone(map);
+        HttpPostTransferPhone(strPhoneOrAccount,map);
     }
 }
 
-void TransferPhoneDialog::HttpPostTransferPhone(QMap<int, int> mapId)
+void TransferPhoneDialog::HttpPostTransferPhone(QString strPhoneOrAccount,QMap<int, int> mapId)
 {
     int iSize = mapId.size();
     if (iSize <= 0)
         return;
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_POST_REPLACE_INSTANCE;
+    strUrl += HTTP_TRANSFER_PHONE;
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
     //创建请求对象
@@ -253,23 +253,19 @@ void TransferPhoneDialog::HttpPostTransferPhone(QMap<int, int> mapId)
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setRawHeader("Authorization", strToken.toLocal8Bit());
     request.setUrl(url);
-    //QJsonObject jsonObj;
-    //jsonObj["groupId"] = iGroupId;
+    QJsonObject jsonObj;
+    jsonObj.insert("mobile", strPhoneOrAccount);
 
     QJsonArray listArray;
-    //for (int i = 0; i < iSize; i++)
     QMap<int, int>::iterator iter = mapId.begin();
     for (; iter != mapId.end(); iter++)
     {
         listArray.append(iter.value());
     }
-    //doc.setObject(listArray);
-    //jsonObj["idList"] = listArray;
-    //doc.setArray(listArray);
-    QJsonDocument doc(listArray);
+    jsonObj["ids"] = listArray;
+    QJsonDocument doc(jsonObj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     qDebug() << postData;
     //发出GET请求

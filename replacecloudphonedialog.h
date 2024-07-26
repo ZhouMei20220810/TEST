@@ -3,10 +3,90 @@
 
 #include <QDialog>
 #include "global.h"
+#include <QCheckBox>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#define         REPLACE_LIST_ITEM_WIDTH             337
+#define         REPLACE_LIST_ITEM_HEIGHT            20
 
 namespace Ui {
 class ReplaceCloudPhoneDialog;
 }
+
+class ReplaceListItem :public QWidget
+{
+    Q_OBJECT
+public:
+    explicit ReplaceListItem(S_PHONE_INFO phoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList, QWidget* parent)
+        :QWidget(parent)
+    {
+        resize(REPLACE_LIST_ITEM_WIDTH, REPLACE_LIST_ITEM_HEIGHT);
+        setupUI(phoneInfo, mapLevelList);
+    }
+    ~ReplaceListItem()
+    {
+    }
+
+    void setCheckBoxStatus(bool bCheck)
+    {
+        if (m_checkBox)
+            m_checkBox->setChecked(bCheck);
+    }
+    bool getCheckBoxStatus()
+    {
+        return m_checkBox->isChecked();
+    }
+    
+    void setReplacePhoneStatus(QString strRemark)
+    {
+        m_LabelStatus->setText(strRemark);
+    }
+signals:
+    void replaceItemCheckBoxStatus(bool checked);
+private:
+    void setupUI(S_PHONE_INFO phoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList)
+    {
+        QVBoxLayout* vLayout = new QVBoxLayout(this);
+        vLayout->setContentsMargins(0, 0, 0, 0);
+        QHBoxLayout* hLayout = new QHBoxLayout(this);
+        hLayout->setContentsMargins(0, 0, 0, 0);
+
+        QString strStyleSheet = "QCheckBox{spacing:5px;color:#4A4A4A;font-size:12px;}QCheckBox::indicator{width:16px;height:16px;}QCheckBox::indicator:unchecked{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}";
+        m_checkBox = new QCheckBox(this);
+        connect(m_checkBox, &QCheckBox::clicked, this, &ReplaceListItem::replaceItemCheckBoxStatus);
+        m_checkBox->setStyleSheet(strStyleSheet);
+        QMap<int, S_LEVEL_INFO>::iterator iterFind = mapLevelList.find(phoneInfo.iLevel);
+        QString strLevelName = "";
+        if (iterFind != mapLevelList.end())
+        {
+            strLevelName = iterFind->strLevelName;
+        }
+        if (strLevelName.compare("BVIP", Qt::CaseInsensitive) == 0)
+            m_checkBox->setIcon(QIcon(QString(":/main/resource/main/XVIP.png")));
+        else
+            m_checkBox->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
+        if (phoneInfo.strName.isEmpty())
+            m_checkBox->setText(phoneInfo.strInstanceNo);
+        else
+            m_checkBox->setText(phoneInfo.strName);
+        hLayout->addWidget(m_checkBox);
+        hLayout->addStretch();
+
+        m_LabelStatus = new QLabel(this);
+        strStyleSheet = "QLabel{color:#4A4A4A;font-size:12px;}";
+        m_LabelStatus->setStyleSheet(strStyleSheet);
+        m_LabelStatus->setText("test distance 123456");
+        m_LabelStatus->setAlignment(Qt::AlignRight);
+        hLayout->addWidget(m_LabelStatus);
+
+        //添加到垂直布局
+        vLayout->addLayout(hLayout);
+    };
+private:
+    QCheckBox* m_checkBox;
+    QLabel* m_LabelStatus;
+};
 
 class ReplaceCloudPhoneDialog : public QDialog
 {
