@@ -36,7 +36,7 @@ TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, Q
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidget->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    ui->listWidget->setSpacing(0);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -88,7 +88,7 @@ void TransferPhoneDialog::LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo)
     if (mapPhoneInfo.size() <= 0)
         return;
 
-    QString strStyleSheet = "QCheckBox{spacing:5px;}QCheckBox::indicator{width:16px;height:16px;}QCheckBox::indicator:unchecked{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}";
+    QString strStyleSheet = "QCheckBox{padding-left:7px;spacing:5px;}QCheckBox::indicator{width:16px;height:16px;}QCheckBox::indicator:unchecked{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:hover{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:unchecked:pressed{image:url(:/login/resource/login/option_normal.png);}QCheckBox::indicator:checked{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:hover{image:url(:/login/resource/login/option_select.png);}QCheckBox::indicator:checked:pressed{image:url(:/login/resource/login/option_select.png);}";
     QListWidgetItem* item = NULL;
     QCheckBox* checkBox = NULL;
     QString strLevelName;
