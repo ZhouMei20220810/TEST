@@ -95,6 +95,7 @@
         <file>resource/buy/BVIP_level_bg_normal.png</file>
         <file>resource/buy/BVIP_level_bg_select.png</file>
         <file>resource/main/pictureCode.png</file>
+        <file>resource/main/BVIP.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

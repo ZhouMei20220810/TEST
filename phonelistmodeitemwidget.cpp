@@ -28,10 +28,7 @@ PhoneListModeItemWidget::PhoneListModeItemWidget(S_PHONE_INFO sPhoneInfo,QWidget
     }
 
     //ui->labelSystem->setText("Android");
-    if(sPhoneInfo.strLevelName.compare("BVIP",Qt::CaseInsensitive) == 0)
-        ui->toolBtnLevel->setIcon(QIcon(QString(":/main/resource/main/XVIP.png")));
-    else
-        ui->toolBtnLevel->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(sPhoneInfo.strLevelName)));
+    ui->toolBtnLevel->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(sPhoneInfo.strLevelName)));
     ui->toolBtnLevel->setText(QString("%1").arg(sPhoneInfo.strLevelName));
 
     QDateTime curDateTime = QDateTime::currentDateTime();

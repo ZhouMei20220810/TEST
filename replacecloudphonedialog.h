@@ -63,10 +63,7 @@ private:
         {
             strLevelName = iterFind->strLevelName;
         }
-        if (strLevelName.compare("BVIP", Qt::CaseInsensitive) == 0)
-            m_checkBox->setIcon(QIcon(QString(":/main/resource/main/XVIP.png")));
-        else
-            m_checkBox->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
+        m_checkBox->setIcon(QIcon(QString(":/main/resource/main/%1.png").arg(strLevelName)));
         if (phoneInfo.strName.isEmpty())
             m_checkBox->setText(phoneInfo.strInstanceNo);
         else
