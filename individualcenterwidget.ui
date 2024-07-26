@@ -490,8 +490,8 @@ background:transparent;
          <string>  激活码记录</string>
         </property>
         <property name="icon">
-         <iconset resource="res.qrc">
-          <normaloff>:/resource/individual/5.png</normaloff>:/resource/individual/5.png</iconset>
+         <iconset>
+          <normaloff>resource/individual/5.png</normaloff>resource/individual/5.png</iconset>
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -589,7 +589,7 @@ background:transparent;
         </property>
         <property name="icon">
          <iconset resource="res.qrc">
-          <normaloff>:/resource/individual/5.png</normaloff>:/resource/individual/5.png</iconset>
+          <normaloff>:/resource/individual/6.png</normaloff>:/resource/individual/6.png</iconset>
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonTextBesideIcon</enum>
