@@ -133,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
     //加载等级列表
     HttpLevelList();
 
-    HttpQueryAllGroup();
+    on_btnGroupRefresh_clicked();
     //初始化Tab云手机
     InitCloudPhoneTab();
     //初始化Tab激活码
@@ -421,7 +421,7 @@ void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
                 qDebug() << "Code=" << iCode << "message=" << strMessage <<"json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode && bData)
                 {
-                    HttpQueryAllGroup();
+                    on_btnGroupRefresh_clicked();
                 }
                 else
                 {
@@ -709,7 +709,13 @@ void MainWindow::do_ActionTransferCloudPhone(bool bChecked)
         return;
     }
     TransferPhoneDialog* dialog = new TransferPhoneDialog(currentSelMap, m_mapLevelList);
+    connect(dialog, &TransferPhoneDialog::TransferSuccessRefreshInstanceListSignals, this, &MainWindow::do_TransferSuccessRefreshInstanceListSignals);
     dialog->exec();
+}
+
+void MainWindow::do_TransferSuccessRefreshInstanceListSignals()
+{
+    on_btnGroupRefresh_clicked();
 }
 
 void MainWindow::InitGroupMenu()
@@ -1531,7 +1537,7 @@ void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //界面添加该组
-                    HttpQueryAllGroup();
+                    on_btnGroupRefresh_clicked();
                 }
                 else
                 {
@@ -1596,7 +1602,7 @@ void MainWindow::HttpUpdateGroup(int iGroupId, QString strNewName)//修改分组
                     if (data)
                     {
                         //界面直接修改名称不需要重新请求
-                        HttpQueryAllGroup();
+                        on_btnGroupRefresh_clicked();
                     }
                 }
                 else
@@ -1657,7 +1663,7 @@ void MainWindow::HttpDeleteGroup(int iGroupId)//删除分组
                     if (data)
                     {
                         //界面直接修改名称不需要重新请求
-                        HttpQueryAllGroup();
+                        on_btnGroupRefresh_clicked();
                     }
                 }
                 else

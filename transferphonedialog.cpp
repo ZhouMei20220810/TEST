@@ -294,6 +294,9 @@ void TransferPhoneDialog::HttpPostTransferPhone(QString strPhoneOrAccount,QMap<i
                     QJsonObject data = obj["data"].toObject();
                     int iSuccesssCount = data["snum"].toInt();                    
                     qDebug() << "成功台数=" << iSuccesssCount;
+                    //转移成功之后关闭窗口
+                    this->close();
+                    emit TransferSuccessRefreshInstanceListSignals();
                     //不用更新状态，需要统计成功多少台
                     //LoadReplaceInstanceStatus(map);
                 }

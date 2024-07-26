@@ -269,6 +269,9 @@ private slots:
 
     void do_deleteActiveItemSignals(S_PHONE_INFO phoneInfo);
     void on_btnRefreshRenewList_clicked();
+
+    //转移之后，刷新所有列表数据
+    void do_TransferSuccessRefreshInstanceListSignals();
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

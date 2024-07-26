@@ -15,7 +15,8 @@ class TransferPhoneDialog : public QDialog
 public:
     explicit TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList,QWidget *parent = nullptr);
     ~TransferPhoneDialog();
-
+signals:
+    void TransferSuccessRefreshInstanceListSignals();
 private slots:
     void on_btnClose_clicked();
     void on_btnOk_clicked();
