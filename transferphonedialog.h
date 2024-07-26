@@ -23,7 +23,7 @@ private slots:
     void on_btnAuthorPolicy_clicked();
 
     void on_checkBoxAll_clicked(bool checked);
-
+    void do_historyItemCheckBoxStatus(bool checked);
 private:
     void LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo);
 
@@ -36,7 +36,7 @@ private:
     Ui::TransferPhoneDialog *ui;
     QMap<int, S_LEVEL_INFO> m_mapLevelList;
     QString m_strPictureCode;
-
+    int     m_iCurSelCount;
     // QObject interface
 public:
     virtual bool eventFilter(QObject *watched, QEvent *event) override;

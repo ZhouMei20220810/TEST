@@ -746,8 +746,8 @@ padding-left:10px;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">color:#FF4A4A4A;
-background: #FFE7E8EE;
+                  <string notr="true">color:#A9ADB6;
+background-color: #E7E8EE;
 border-radius: 3px;</string>
                  </property>
                  <property name="frameShape">
@@ -792,7 +792,7 @@ border-radius: 3px;</string>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>10</pointsize>
+                      <pointsize>11</pointsize>
                      </font>
                     </property>
                     <property name="styleSheet">
@@ -827,7 +827,7 @@ padding-left:10px;</string>
                   </size>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">background-color:#D7D7DE;</string>
+                  <string notr="true">background-color: #E7E8EE;</string>
                  </property>
                  <property name="text">
                   <string/>

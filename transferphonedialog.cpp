@@ -29,7 +29,7 @@ TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, Q
     shadow->setYOffset(0); //垂直偏移
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
-
+    m_iCurSelCount = 0;
     m_mapLevelList = mapLevelList;
 
     ui->listWidget->setViewMode(QListView::ListMode);
@@ -46,6 +46,7 @@ TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, Q
 
     LoadWidgetData(mapPhoneInfo);
     RefreshPictureCode();
+    ui->checkBoxAll->setText(QString("%1/%2         名称").arg(0).arg(mapPhoneInfo.size()));
     ui->labelPictureCode->installEventFilter(this);
 }
 
@@ -113,6 +114,7 @@ void TransferPhoneDialog::LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo)
         else
             checkBox->setText(iter->strName);
         checkBox->setFixedSize(340, LISTMODE_ITEM_HEGITH);
+        connect(checkBox, &QCheckBox::clicked, this, &TransferPhoneDialog::do_historyItemCheckBoxStatus);
         //widget2 = new PhoneListModeItemWidget(phoneInfo, this);
         //connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
         //connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
@@ -122,6 +124,22 @@ void TransferPhoneDialog::LoadWidgetData(QMap<int, S_PHONE_INFO> mapPhoneInfo)
         ui->listWidget->addItem(item);
         ui->listWidget->setItemWidget(item, checkBox);
     }
+}
+
+void TransferPhoneDialog::do_historyItemCheckBoxStatus(bool checked)
+{
+    qDebug() << "TransferPhoneDialog do_historyItemCheckBoxStatus 改变状态=" << checked;
+    if (checked)
+    {
+        m_iCurSelCount++;
+    }
+    else
+    {
+        m_iCurSelCount--;
+    }
+    int iCount = ui->listWidget->count();
+    ui->checkBoxAll->setText(QString("%1/%2         名称").arg(m_iCurSelCount).arg(iCount));
+    ui->checkBoxAll->setChecked(m_iCurSelCount == iCount ? true : false);
 }
 
 // 生成验证码图像
@@ -373,5 +391,15 @@ void TransferPhoneDialog::on_checkBoxAll_clicked(bool checked)
             }
         }
     }
+    if (checked)
+    {
+        m_iCurSelCount = iCount;
+        ui->checkBoxAll->setText(QString("%1/%2         名称").arg(iCount).arg(iCount));
+    }        
+    else
+    {
+        m_iCurSelCount = 0;
+        ui->checkBoxAll->setText(QString("%1/%2         名称").arg(0).arg(iCount));
+    }        
 }
 
