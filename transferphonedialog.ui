@@ -924,24 +924,6 @@ padding-left:10px;</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QLabel" name="label_5">
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color:#A9ADB6;</string>
-                    </property>
-                    <property name="text">
-                     <string>1.在进行设备转移操作时，设备剩余时间需要大于24小时。</string>
-                    </property>
-                    <property name="wordWrap">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QLabel" name="label_10">
                     <property name="font">
                      <font>
@@ -952,7 +934,7 @@ padding-left:10px;</string>
                      <string notr="true">color:#A9ADB6;</string>
                     </property>
                     <property name="text">
-                     <string>2.每台设备24小时内只能进行1次转移操作。 </string>
+                     <string>1.每台设备每个月只能进行1次转移操作。</string>
                     </property>
                     <property name="wordWrap">
                      <bool>true</bool>
@@ -970,7 +952,7 @@ padding-left:10px;</string>
                      <string notr="true">color:#A9ADB6;</string>
                     </property>
                     <property name="text">
-                     <string>3.由于设备转移操作不可逆，在转移前请确认账号信息准确,注意:设备转移是转移你的设备到其他的账号，而不是转移设备的时间!请合理且合法利用设备转移功能! </string>
+                     <string>2.由于设备转移操作不可逆，在转移前请确认账号信息准确,注意:设备转移是转移你的设备到其他的账号，而不是转移设备的时间!请合理且合法利用设备转移功能! </string>
                     </property>
                     <property name="wordWrap">
                      <bool>true</bool>
@@ -988,7 +970,7 @@ padding-left:10px;</string>
                      <string notr="true">color:#A9ADB6;</string>
                     </property>
                     <property name="text">
-                     <string>4.授权云手机需先解除授权才能进行转移。 </string>
+                     <string>3.授权云手机需先解除授权才能进行转移。 </string>
                     </property>
                     <property name="wordWrap">
                      <bool>true</bool>
@@ -1006,7 +988,7 @@ padding-left:10px;</string>
                      <string notr="true">color:#A9ADB6;</string>
                     </property>
                     <property name="text">
-                     <string>5.转移后的云手机不支持退款。</string>
+                     <string>4.转移后的云手机不支持退款。</string>
                     </property>
                     <property name="wordWrap">
                      <bool>true</bool>
