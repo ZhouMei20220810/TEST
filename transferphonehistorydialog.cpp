@@ -9,6 +9,48 @@
 #include <QJsonObject>
 #include "messagetips.h"
 
+void TransferHistoryListItem::setupUI(S_TRANSFER_INFO transferInfo)
+{
+    QVBoxLayout* vLayout = new QVBoxLayout(this);
+    vLayout->setContentsMargins(0, 0, 0, 0);
+    QHBoxLayout* hLayout = new QHBoxLayout(this);
+    hLayout->setContentsMargins(0, 0, 0, 0);
+
+    QString strStyleSheet = "QLabel{color:#4A4A4A;font-size:12px;}";
+    m_LabelTransferType = new QLabel(this);    
+    m_LabelTransferType->setStyleSheet(strStyleSheet);
+    m_LabelTransferType->setText(transferInfo.strPhoneNum);
+    m_LabelTransferType->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    hLayout->addWidget(m_LabelTransferType);
+
+    m_LabelTransferAccount = new QLabel(this);
+    m_LabelTransferAccount->setStyleSheet(strStyleSheet);
+    m_LabelTransferAccount->setText(transferInfo.strTransferAccount);
+    m_LabelTransferAccount->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    hLayout->addWidget(m_LabelTransferAccount);
+
+    m_LabelTransferTime = new QLabel(this);
+    m_LabelTransferTime->setStyleSheet(strStyleSheet);
+    m_LabelTransferTime->setText(transferInfo.strCreateTime);
+    m_LabelTransferTime->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    hLayout->addWidget(m_LabelTransferTime);
+
+    m_LabelTransferCount = new QLabel(this);
+    m_LabelTransferCount->setStyleSheet(strStyleSheet);
+    m_LabelTransferCount->setText(transferInfo.strTransferCount);
+    m_LabelTransferCount->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    hLayout->addWidget(m_LabelTransferCount);
+
+    m_LabelTransferStatus = new QLabel(this);
+    m_LabelTransferStatus->setStyleSheet(strStyleSheet);
+    m_LabelTransferStatus->setText(transferInfo.strTransferStatus);
+    m_LabelTransferStatus->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    hLayout->addWidget(m_LabelTransferStatus);
+
+    //添加到垂直布局
+    vLayout->addLayout(hLayout);
+};
+
 TransferPhoneHistoryDialog::TransferPhoneHistoryDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TransferPhoneHistoryDialog)
@@ -25,9 +67,39 @@ TransferPhoneHistoryDialog::TransferPhoneHistoryDialog(QWidget *parent)
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
 
+    //imageList->resize(365,400);
+    //设置QListWidget的显示模式
+    ui->listWidgetTransferHistory->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    ui->listWidgetTransferHistory->setSpacing(5);
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetTransferHistory->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetTransferHistory->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetTransferHistory->setSelectionMode(QAbstractItemView::SingleSelection);
     //m_mapOrderInfo.clear();
     //获取转移记录
     HttpGetTransferHistory(1, 1000);
+
+
+    //测试假数据界面
+    QMap<int, S_TRANSFER_INFO> map;
+    S_TRANSFER_INFO transferInfo;
+    for (int i = 0; i < 10; i++)
+    {
+        transferInfo.strCreateTime = "2024";
+        transferInfo.strPhoneNum = "123****5487";
+        transferInfo.strTransferAccount = "account";
+        transferInfo.strTransferStatus = "成功";
+        transferInfo.strTransferCount = QString("%1").arg(i + 1);
+        map.insert(i, transferInfo);
+    }
+
+    //显示数据
+    ShowTransferInfoList(map);
 }
 
 TransferPhoneHistoryDialog::~TransferPhoneHistoryDialog()
@@ -100,10 +172,11 @@ void TransferPhoneHistoryDialog::HttpGetTransferHistory(int iPage, int iPageSize
                             int iRecordsSize = records.size();
                             QJsonObject recordObj;
                             //获取我的手机实例数据，暂未存储
-                            /*S_ORDER_INFO orderInfo;
+                            S_TRANSFER_INFO transferInfo;
+                            QMap<int, S_TRANSFER_INFO> map;
                             for (int i = 0; i < iRecordsSize; i++)
                             {
-                                recordObj = records[i].toObject();
+                                /*recordObj = records[i].toObject();
                                 orderInfo.fActualAmount = recordObj["actualAmount"].toDouble();
                                 orderInfo.iCreateBy = recordObj["createBy"].toInt();
                                 orderInfo.strCreateTime = recordObj["createTime"].toString();
@@ -121,12 +194,12 @@ void TransferPhoneHistoryDialog::HttpGetTransferHistory(int iPage, int iPageSize
                                 orderInfo.iStatus = recordObj["status"].toInt();
                                 orderInfo.fTotalAmount = recordObj["totalAmount"].toDouble();
                                 orderInfo.strTradeNo = recordObj["tradeNo"].toString();
-                                orderInfo.iOrderType = recordObj["type"].toInt();
-                                m_mapOrderInfo.insert(i, orderInfo);
-                            }*/
+                                orderInfo.iOrderType = recordObj["type"].toInt();*/
+                                map.insert(i, transferInfo);
+                            }
 
                             //显示数据
-                            //ShowOrderInfoList();
+                            ShowTransferInfoList(map);
                         }
                     }
                 }
@@ -142,25 +215,25 @@ void TransferPhoneHistoryDialog::HttpGetTransferHistory(int iPage, int iPageSize
 }
 
 //显示数据
-void TransferPhoneHistoryDialog::ShowTransferInfoList()
+void TransferPhoneHistoryDialog::ShowTransferInfoList(QMap<int, S_TRANSFER_INFO> map)
 {
-    /*if (m_mapOrderInfo.size() <= 0)
+    if (map.size() <= 0)
     {
-        MessageTipsDialog* tips = new MessageTipsDialog("没有购买记录!");
+        MessageTips* tips = new MessageTips("没有转移记录!");
         tips->show();
         return;
     }
 
-    QListWidgetItem* item;
-    BuyHistoryItemWidget* itemWidget;
-    QMap<int, S_ORDER_INFO>::iterator iter = m_mapOrderInfo.begin();
-    for (; iter != m_mapOrderInfo.end(); iter++)
+    QListWidgetItem* item = NULL;
+    TransferHistoryListItem* widget = NULL;
+    QMap<int, S_TRANSFER_INFO>::iterator iter = map.begin();
+    for (; iter != map.end(); iter++)
     {
-        item = new QListWidgetItem(ui->listWidgetBuyHistory);
-        ui->listWidgetBuyHistory->addItem(item);
+        item = new QListWidgetItem(ui->listWidgetTransferHistory);
+        ui->listWidgetTransferHistory->addItem(item);
 
-        itemWidget = new BuyHistoryItemWidget(iter.value(), this);
-        item->setSizeHint(QSize(ui->listWidgetBuyHistory->width() - 50, itemWidget->height()));
-        ui->listWidgetBuyHistory->setItemWidget(item, itemWidget);
-    }*/
+        widget = new TransferHistoryListItem(iter.value(), this);
+        item->setSizeHint(QSize(640, LISTMODE_ITEM_HEGITH));
+        ui->listWidgetTransferHistory->setItemWidget(item, widget);
+    }
 }

@@ -430,6 +430,19 @@ enum EN_RIGHT_CLICK_TYPE
     EN_LIST_MODE_WIDGET = 2
 };
 
+typedef struct TRANSFER_INFO
+{
+    QString strPhoneNum;
+    QString strTransferAccount;
+    QString strCreateTime;
+    QString strTransferCount;
+    QString strTransferStatus;
+    TRANSFER_INFO()
+    {
+        memset(this, 0, sizeof(REPLACE_INFO));
+    }
+}S_TRANSFER_INFO, * PS_TRANSFER_INFO;
+
 class GlobalData
 {
 public:

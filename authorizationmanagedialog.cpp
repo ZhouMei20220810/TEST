@@ -76,7 +76,7 @@ void AuthorizationManageDialog::InitListWidget()
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidgetBeAuthorized->setSpacing(5);
+    ui->listWidgetBeAuthorized->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidgetBeAuthorized->setResizeMode(QListWidget::Adjust);
     //设置不能移动
