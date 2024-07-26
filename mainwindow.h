@@ -272,6 +272,9 @@ private slots:
 
     //转移之后，刷新所有列表数据
     void do_TransferSuccessRefreshInstanceListSignals();
+    //转移后刷新列表
+    void RefreshTransferPhoneList();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

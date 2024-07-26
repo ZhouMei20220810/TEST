@@ -715,6 +715,73 @@ void MainWindow::do_ActionTransferCloudPhone(bool bChecked)
 
 void MainWindow::do_TransferSuccessRefreshInstanceListSignals()
 {
+    //比较数据,清除没有的数据
+    m_mapPhoneInfo.clear();
+    HttpGetMyPhoneInstance(-1, 1, 1000, -1);  
+}
+
+void MainWindow::RefreshTransferPhoneList()
+{
+    
+    S_PHONE_INFO phoneInfo;
+    int iListCount = 0;
+    int iRow = 0;
+    QListWidgetItem* phoneItem = NULL;
+    QMap<int, S_PHONE_INFO>::iterator iterFind;
+    int iSelCount = 0;
+    //重新显示listWidget
+    //预览模式
+    if (m_isIconMode)
+    {
+        PhoneItemWidget* widget = NULL;
+        iListCount = ui->listWidget->count();
+        for (iRow = iListCount - 1; iRow >= 0; iRow--)
+        {
+            phoneItem = ui->listWidget->item(iRow);
+            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
+            iterFind = m_mapPhoneInfo.find(phoneInfo.iId);
+            if (iterFind != m_mapPhoneInfo.end())
+            {
+                widget = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(phoneItem));
+                if (widget != NULL && widget->getCheckBoxStatus())
+                {
+                    iSelCount++;
+                }
+                continue;
+            }
+            ui->listWidget->takeItem(iRow);
+        }
+    }
+    //列表模式
+    else
+    {
+        PhoneListModeItemWidget* widget2 = NULL;
+        //listWidget2
+        iListCount = ui->listWidget2->count();
+        for (iRow = iListCount - 1; iRow >= 0; iRow--)
+        {
+            phoneItem = ui->listWidget2->item(iRow);
+            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
+            iterFind = m_mapPhoneInfo.find(phoneInfo.iId);
+            if (iterFind != m_mapPhoneInfo.end())
+            {
+                widget2 = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(phoneItem));
+                if (widget2 != NULL && widget2->getCheckBoxStatus())
+                {
+                    iSelCount++;
+                }
+                continue;
+            }
+            ui->listWidget2->takeItem(iRow);
+        }
+    }
+    int iCount = 0;
+    if (m_isIconMode)
+        iCount = ui->listWidget->count();
+    else
+        iCount = ui->listWidget2->count();
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(iSelCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((iSelCount == iCount && iCount != 0) ? true : false);
     on_btnGroupRefresh_clicked();
 }
 
@@ -2173,8 +2240,12 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_GET_MY_PHONE_INSTANCE;
     //level不传值,返回该 组下面所有的level
-    if(iLevel != 0)
+    if(iLevel > 0)
         strUrl += QString::asprintf("?level=%d&page=%d&pageSize=%d", iLevel, iPage, iPageSize);
+    else if (iGroupId == -1 && iLevel == -1)
+    {
+        strUrl += QString::asprintf("?page=%d&pageSize=%d", iPage, iPageSize);
+    }
     else
         strUrl += QString::asprintf("?groupId=%d&page=%d&pageSize=%d", iGroupId, iPage, iPageSize);
     qDebug() << "strUrl = " << strUrl;
@@ -2246,12 +2317,13 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                                 m_mapPhoneInfo.insert(phoneInfo.iId, phoneInfo);
                                 qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "authType=" << phoneInfo.iAuthType<<"level="<< phoneInfo.iLevel;
                             }
-                            if(iLevel != 0)
-                                ShowActiveCodeItemInfo(iLevel, m_mapPhoneInfo);
-                            else
-                                ShowPhoneInfo(iGroupId, m_mapPhoneInfo);
-                            
                         }
+                        if (iLevel > 0)
+                            ShowActiveCodeItemInfo(iLevel, m_mapPhoneInfo);
+                        else if (iGroupId == -1 && iLevel == -1)
+                            RefreshTransferPhoneList();
+                        else
+                            ShowPhoneInfo(iGroupId, m_mapPhoneInfo);
                     }
                 }
                 else
