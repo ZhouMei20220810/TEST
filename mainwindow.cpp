@@ -1552,7 +1552,7 @@ void MainWindow::ShowTaskInfo()
             phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
             if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
             {
-                phoneItem->startRequest(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
+                phoneItem->downloadUrl(m_mapTask.find(phoneInfo.strInstanceNo).value().strUrl);
             }
         }        
     }
@@ -4045,8 +4045,23 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
         tips->show();
         return;
     }    
-
-    on_ShowPhoneInstanceWidgetSignals(m_CurSelMenuPhoneInfo, false);
+    
+    if (m_MainPhoneInstanceWidget != NULL && m_MainPhoneInstanceWidget->isVisible())
+    {
+        if (m_CurSelMenuPhoneInfo.strInstanceNo.isEmpty())
+        {
+            //没有点击过PhoneItemWidget
+            QMap<int, S_PHONE_INFO>::iterator iter = GlobalData::mapSyncPhoneList.begin();
+            if (iter != GlobalData::mapSyncPhoneList.end())
+            {
+                on_ShowPhoneInstanceWidgetSignals(*iter, false);
+            }
+        }
+        else
+        {
+            on_ShowPhoneInstanceWidgetSignals(m_CurSelMenuPhoneInfo, false);
+        }
+    }
 }
 
 //显示实例
@@ -4134,7 +4149,11 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         connect(phoneWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
         connect(this, &MainWindow::GPSSignals, phoneWidget, &PhoneInstanceWidget::do_GPSSignals);
 
-        connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, this, &MainWindow::closePhoneInstanceWidgetSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this]() {
+            emit closePhoneInstanceWidgetSignals();
+            delete m_MainPhoneInstanceWidget;
+            m_MainPhoneInstanceWidget = NULL;
+            });
         connect(this, &MainWindow::closePhoneInstanceWidgetSignals, phoneWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
 
         if (iter->iId != sPhoneInfo.iId)
