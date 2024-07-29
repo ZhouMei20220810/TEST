@@ -78,11 +78,7 @@ protected:
 
 private:
     void HttpGetInstanceSession(int id);
-    void startRequest(QUrl url);
 private slots:
-    void httpFinished();//文件接收完成
-    void httpReadyRead();//接受数据中
-    void updateDataReadProgress(qint64, qint64);//进度条更新
     void on_toolBtnPhoneInstance_clicked();
     void on_toolBtnPictureQuality_clicked();
     void on_toolBtnTopLevel_clicked();
@@ -126,8 +122,6 @@ private:
     QTimer* m_getScreenshotsTimer;
     QNetworkAccessManager* m_manager;
     QNetworkReply* m_reply;
-    QFile* m_File;
-    QString m_strDownloadFileName;
 
     QToolButton* m_tBtnVolumnUp;
     QToolButton* m_tBtnVolumnDown;

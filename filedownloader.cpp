@@ -15,6 +15,13 @@ void FileDownloader::setUrl(const QString &url, const QString &outputFile)
     m_outputFile = GlobalData::strPictureTempDir + strFileName;
 }
 
+void FileDownloader::setUrlOutputFile(const QString& url, const QString& outputFile)
+{
+    m_url = url;
+    m_outputFile = outputFile;
+    qDebug() << "setUrlOutputFile url=" << url << "outFile=" << m_outputFile;
+}
+
 void FileDownloader::run()
 {
     // 如果URL或输出文件为空，则发出错误信号并返回

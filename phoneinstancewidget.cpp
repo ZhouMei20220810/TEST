@@ -20,6 +20,7 @@
 #include <QVBoxLayout>
 #include <QDesktopServices>
 #include <QSettings>
+#include "filedownloader.h"
 #define         TOOLBUTTON_WIDTH            (40)
 #define         TOOLBUTTON_HEIGHT           (40)
 
@@ -74,6 +75,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         if (mapScreenshotTask.size() <= 0)
             return;
 
+        QString strOutputFile = "";
         QMap<QString, S_TASK_INFO>::iterator iter = mapScreenshotTask.begin();
         for (; iter != mapScreenshotTask.end(); iter++)
         {
@@ -84,7 +86,16 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
                 tips->show();
                 continue;
             }
-            startRequest(iter->strUrl);
+
+            FileDownloader* downloader = new FileDownloader(this);
+            if (downloader != NULL)
+            {
+                QDateTime dateTime = QDateTime::currentDateTime();
+                QString strTime = dateTime.toString("MMddhhmmss");
+                strOutputFile = GlobalData::strPhoneInstanceScreenshotDir + "/" + iter->strPadCode + "_" + strTime + ".png";
+                downloader->setUrlOutputFile(iter->strUrl, strOutputFile);
+                downloader->start();
+            }            
         }
 
         });
@@ -157,52 +168,6 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     HttpGetInstanceSession(sPhoneInfo.iId);
 }
 
-void PhoneInstanceWidget::startRequest(QUrl url)
-{
-    //初始化文件
-    m_File = new QFile(m_strDownloadFileName);
-    if (!m_File->open(QIODevice::WriteOnly))
-    {
-        delete m_File;
-        m_File = NULL;
-    }
-    m_reply = m_manager->get(QNetworkRequest(url));
-    connect(m_reply, &QNetworkReply::readyRead, this, &PhoneInstanceWidget::httpReadyRead);
-    connect(m_reply, &QNetworkReply::finished, this, &PhoneInstanceWidget::httpFinished);
-    connect(m_reply, &QNetworkReply::downloadProgress, this, &PhoneInstanceWidget::updateDataReadProgress);
-}
-//文件接收完成
-void PhoneInstanceWidget::httpFinished()
-{
-    if (m_File)
-    {
-        m_File->flush();
-        MessageTips* tips = new MessageTips("截图成功", this);
-        tips->show();
-        m_File->close();
-        delete m_File;
-        m_File = NULL;
-    }
-    m_reply->deleteLater();
-    m_reply = 0;
-
-}
-
-//接受数据中
-void PhoneInstanceWidget::httpReadyRead()
-{
-    if (m_File)
-    {
-        m_File->write(m_reply->readAll());
-    }
-}
-
-//进度条更新
-void PhoneInstanceWidget::updateDataReadProgress(qint64 byteRead, qint64 totalBytes)
-{
-    //ui->progressBar->setMaximum(totalBytes);
-    //ui->progressBar->setValue(byteRead);
-}
 void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint64 i64OnlineTime, QString strPadCode*/
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -745,9 +710,6 @@ void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
 
 void PhoneInstanceWidget::do_ScreenshotsSignals()
 {
-    QDateTime dateTime = QDateTime::currentDateTime();
-    QString strTime = dateTime.toString("MMddhhmmss");
-    m_strDownloadFileName = GlobalData::strPhoneInstanceScreenshotDir + "/" + m_PhoneInfo.strName + "_" + m_PhoneInfo.strInstanceNo+"_"+ strTime + ".png";
 }
 
 void PhoneInstanceWidget::on_toolButton_6_clicked()

@@ -17,6 +17,7 @@ class FileDownloader : public QThread
 public:
     explicit FileDownloader(QObject *parent = nullptr);
     void setUrl(const QString &url, const QString &outputFile);
+    void setUrlOutputFile(const QString& url, const QString& outputFile);
 
 signals:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
