@@ -476,7 +476,7 @@ public:
     static bool     bIsPageMode;
 
     static bool     bIsSyncOperation; //    同步操作
-    static QMap<int, S_PHONE_INFO> mapSyncPhoneList;
+    static QMap<int, S_PHONE_INFO> mapSyncPhoneList;  //同步的设备
     //static void setToolButtonSize(QToolButton* btn);
 
     static QString strSecurityToken;

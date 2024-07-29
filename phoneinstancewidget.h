@@ -52,6 +52,7 @@ public slots:
 
     void do_RebootSignals();
     void do_FactoryDataResetSignals();
+    void on_Screenshot_clicked(bool checked = false);
     void do_ScreenshotsSignals();
     void do_VolumeUpSignals();
     void do_VolumeDownSignals();

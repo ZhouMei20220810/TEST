@@ -41,6 +41,17 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     m_PhoneInfo = sPhoneInfo;
     m_strPhoneList.clear();
     m_strPhoneList << sPhoneInfo.strInstanceNo;//同步操作时，同时传入所有选中的item
+
+    if (GlobalData::bIsSyncOperation)
+    {
+        m_strPhoneList.clear();
+        QMap<int, S_PHONE_INFO>::iterator iter = GlobalData::mapSyncPhoneList.begin();
+        for (; iter != GlobalData::mapSyncPhoneList.end(); iter++)
+        {
+            qDebug() << "同步操作,添加需要同步设备" << iter->strInstanceNo;
+            m_strPhoneList << iter->strInstanceNo;
+        }
+    }
     ui->toolBtnShow->setVisible(false);
 
     ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);    
@@ -55,7 +66,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
             this->m_toolObject->HttpPostInstanceScreenshot(m_strPhoneList);
         });
     connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this, [=]() {
-        qDebug() << "刷新成功,间隔一秒钟下载图片";
+        qDebug() << "获取图片刷新成功,间隔三秒钟下载图片";
         m_getScreenshotsTimer->start(DOWNLOAD_SCREENSHOT_INTERVAL);
         });
     connect(m_toolObject, &ToolObject::getScreenshortSignals, this, [=](QMap<QString, S_TASK_INFO> mapScreenshotTask) 
@@ -725,12 +736,18 @@ void PhoneInstanceWidget::on_toolButton_4_clicked()
 {
 
 }
+
+void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
+{
+    m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
+    emit ScreenshotsSignals();
+}
+
 void PhoneInstanceWidget::do_ScreenshotsSignals()
 {
     QDateTime dateTime = QDateTime::currentDateTime();
     QString strTime = dateTime.toString("MMddhhmmss");
     m_strDownloadFileName = GlobalData::strPhoneInstanceScreenshotDir + "/" + m_PhoneInfo.strName + "_" + m_PhoneInfo.strInstanceNo+"_"+ strTime + ".png";
-    m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
 }
 
 void PhoneInstanceWidget::on_toolButton_6_clicked()
@@ -925,7 +942,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_SCREENSHOTS:
                     m_tBtnScreenshots = new QToolButton(ui->frame_2);
-                    connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::ScreenshotsSignals);
+                    connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::on_Screenshot_clicked);
                     m_tBtnScreenshots->setIcon(QIcon(":/resource/instance/screenshots.png"));
                     m_tBtnScreenshots->setIconSize(iconMinSize);
                     m_tBtnScreenshots->setText("截图");
@@ -1067,7 +1084,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_SCREENSHOTS:
                     m_tBtnScreenshots = new QToolButton(ui->frame_2);
-                    connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::ScreenshotsSignals);
+                    connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::on_Screenshot_clicked);
                     m_tBtnScreenshots->setIcon(QIcon(":/resource/instance/screenshots.png"));
                     m_tBtnScreenshots->setIconSize(iconMinSize);
                     m_tBtnScreenshots->setText("截图");
@@ -1195,7 +1212,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_SCREENSHOTS:
                     m_tBtnScreenshots = new QToolButton(ui->frameTool);
-                    connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::ScreenshotsSignals);
+                    connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::on_Screenshot_clicked);
                     m_tBtnScreenshots->setIcon(QIcon(":/resource/instance/screenshots.png"));
                     m_tBtnScreenshots->setIconSize(iconMinSize);
                     m_tBtnScreenshots->setText("截图");

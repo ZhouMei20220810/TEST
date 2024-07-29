@@ -86,7 +86,7 @@ void ToolObject::HttpPostInstanceScreenshot(QStringList strList)
                             taskInfo.fTaskStatus = dataObj["taskStatus"].toDouble();
                             taskInfo.strUrl = dataObj["url"].toString();
                             taskInfo.strPadCode = dataObj["padCode"].toString();
-                            //qDebug() << "任务返回数据 No" << taskInfo.strPadCode << "下载图片地址:" << taskInfo.strUrl;
+                            qDebug() << "任务返回数据 No" << taskInfo.strPadCode << "下载图片地址:" << taskInfo.strUrl;
                             m_mapScreenshotTask.insert(taskInfo.strPadCode, taskInfo);
                         }
                     }
