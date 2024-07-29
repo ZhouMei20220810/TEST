@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QTransform>
 #include <QMouseEvent>
+#include "filedownloader.h"
 //#include <QMatrix>
 
 PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
@@ -56,31 +57,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     //未下载时先隐藏进度条
     //ui->progressBar->hide();
 
-    //初始化文件
-    /*file = new QFile(m_strPicturePath);
-    if (!file->open(QIODevice::WriteOnly))
-    {
-        delete file;
-        file = NULL;
-    }*/
-
-    //startRequest(QUrl(m_sTaskInfo.strUrl));
-
-    //进度条清0
-    //ui->progressBar->setValue(0);
-    //ui->progressBar->show();
-
     ui->label->installEventFilter(this);
-
-    m_refreshTimer = new QTimer();
-    connect(m_refreshTimer, &QTimer::timeout, this, [this]()
-        {
-            m_refreshTimer->stop();
-            qDebug() << "init m_strPicturePath" << m_strPicturePath;
-            showLabelImage(m_strPicturePath);
-
-        });
-    m_refreshTimer->start(1);// 1ms触发一次
 }
 
 void PhoneItemWidget::setPhoneName(QString strPhoneName)
@@ -153,82 +130,47 @@ bool PhoneItemWidget::getCheckBoxStatus()
 {
     return m_checkBox->isChecked();
 }
-void PhoneItemWidget::startRequest(QUrl url)
+void PhoneItemWidget::downloadUrl(QString url)
 {
-    //初始化文件
-    m_File = new QFile(m_strTemp);
-    if (!m_File->open(QIODevice::WriteOnly))
+    FileDownloader* download = new FileDownloader(this);
+    if (download != NULL)
     {
-        delete m_File;
-        m_File = NULL;
-    }
-    m_reply = m_manager->get(QNetworkRequest(url));
-    connect(m_reply, &QNetworkReply::readyRead, this, &PhoneItemWidget::httpReadyRead);
-    connect(m_reply, &QNetworkReply::finished, this, &PhoneItemWidget::httpFinished);
-    connect(m_reply, &QNetworkReply::downloadProgress, this, &PhoneItemWidget::updateDataReadProgress);
-}
-
-//文件接收完成
-void PhoneItemWidget::httpFinished()
-{
-    if (m_File)
-    {
-        m_File->flush();
-        //file->close();
-        QPixmap pixmap(m_strTemp);
-        if (!pixmap.isNull())
-        {
-            QFile file(m_strPicturePath);
-            if (file.exists())
+        connect(download, &FileDownloader::downloadFinished, this, [this]() 
             {
-                if (!file.remove())
+            QPixmap pixmap(m_strTemp);
+            if (!pixmap.isNull())
+            {
+                if (QFile::exists(m_strPicturePath))
                 {
-                    qDebug() << "remove fail:" << m_strPicturePath;
-                }                    
-            }
-            if (!m_File->rename(m_strPicturePath))
-            {
-                qDebug() << "rename fail: "<< m_strPicturePath;
-            }
-            //file.rename(m_strPicturePath);
-            showLabelImage(m_strPicturePath);
-        }
-        else
-        {
-            if (QFile::exists(m_strPicturePath))
-            {
-                qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
+                    if (!QFile::remove(m_strPicturePath))
+                    {
+                        qDebug() << "remove fail:" << m_strPicturePath;
+                    }
+                }
+                if (QFile::rename(m_strTemp,m_strPicturePath))
+                {
+                    qDebug() << "rename fail: " << m_strPicturePath;
+                }
+                //file.rename(m_strPicturePath);
                 showLabelImage(m_strPicturePath);
             }
             else
             {
-                qDebug() << "图片无效,显示默认图片";
-                ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+                if (QFile::exists(m_strPicturePath))
+                {
+                    qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
+                    showLabelImage(m_strPicturePath);
+                }
+                else
+                {
+                    qDebug() << "图片无效,显示默认图片";
+                    ui->label->setPixmap(QPixmap(":/main/resource/main/defaultSceenShot.png").scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+                }
             }
-        }
-        m_File->close();
-        delete m_File;
-        m_File = NULL;
+            });
+        download->setUrlOutputFile(url, m_strTemp);
+        download->start();
     }
-    m_reply->deleteLater();
-    m_reply = 0;
-
-}
-
-//接受数据中
-void PhoneItemWidget::httpReadyRead()
-{
-    if (m_File) 
-    { 
-        m_File->write(m_reply->readAll()); 
-    }
-}
-
-//进度条更新
-void PhoneItemWidget::updateDataReadProgress(qint64 byteRead, qint64 totalBytes)
-{
-    //ui->progressBar->setMaximum(totalBytes);
-    //ui->progressBar->setValue(byteRead);
 }
 
 bool PhoneItemWidget::eventFilter(QObject *watched, QEvent *event)
