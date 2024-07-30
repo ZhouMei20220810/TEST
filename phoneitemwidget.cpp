@@ -56,8 +56,16 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     connect(m_checkBox, &QCheckBox::stateChanged, this, &PhoneItemWidget::stateChanged);
     //未下载时先隐藏进度条
     //ui->progressBar->hide();
-
     ui->label->installEventFilter(this);
+    m_refreshTimer = new QTimer();
+    connect(m_refreshTimer, &QTimer::timeout, this, [this]()
+        {
+            m_refreshTimer->stop();
+            qDebug() << "init m_strPicturePath" << m_strPicturePath;
+            showLabelImage(m_strPicturePath);
+
+        });
+    m_refreshTimer->start(1);// 1ms触发一次
 }
 
 void PhoneItemWidget::setPhoneName(QString strPhoneName)

@@ -42,6 +42,8 @@ private:
     QByteArray byteArrayImageUrl;
     QString  m_strPicturePath;
     QString  m_strTemp;
+    //设置定时器,图片大小
+    QTimer* m_refreshTimer;
 
     QLabel* m_LabelAccredit;
     QCheckBox* m_checkBox;
