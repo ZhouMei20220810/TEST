@@ -7,7 +7,7 @@
 #define CURRENT_APP_VERSION         "1.0.0" //线上版本
 #define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
 
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080"  //"http://192.168.1.6:8080"  //        //
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080"  //"http://120.26.132.153:8080"  //  
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -76,6 +76,11 @@
 //转移
 #define HTTP_TRANSFER_PHONE             "/api/user/transfer"    //转移云手机
 #define HTTP_TRANSFER_PHONE_HISTORY     "/api/transfer/list"    //转移记录
+
+//消息中心
+#define HTTP_GET_NOTICE_LIST            "/api/notice/list"      //消息中心
+//设置已读
+#define HTTP_POST_SET_NOTICE_READ       "/api/notice/read"
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
@@ -441,6 +446,27 @@ typedef struct TRANSFER_INFO
         memset(this, 0, sizeof(REPLACE_INFO));
     }
 }S_TRANSFER_INFO, * PS_TRANSFER_INFO;
+
+enum NOTICE_TYPE
+{
+    NOTICE_SYSTEM_ANNOUNCEMENT = 1,         //系统公告
+    NOTICE_ACTIVE = 2                       //活动
+};
+
+typedef struct NOTICE_INFO
+{
+    bool    bIsRead;
+    int     iId;
+    int     iType;                      //公告类型 1.系统公告 2.活动
+    int     iCreateBy;
+    QString strTitle;
+    QString strRemark;
+    QString strCreateTime;
+    NOTICE_INFO()
+    {
+        memset(this, 0, sizeof(NOTICE_INFO));
+    }
+}S_NOTICE_INFO,*PS_NOTICE_INFO;
 
 class GlobalData
 {

@@ -17,13 +17,17 @@ void NoticeItem::setupUI(S_NOTICE_INFO info)
     hLayout->setContentsMargins(0, 0, 0, 0);*/
     m_info = info;
 
-    m_button = new QPushButton(info.strTitle, this);
-    m_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    m_button->setFixedSize(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
+    m_button = new QToolButton(this);
     if (info.bIsRead)
-        m_button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#A9ADB6}QPushButton:hover{background-color:#FFFFFF}");
+        m_button->setStyleSheet("QToolButton{padding-left:12px;font-size:13px;color:#A9ADB6}QToolButton:hover{background-color:#FFFFFF}");
     else
-        m_button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#505465}QPushButton:hover{background-color:#FFFFFF}");
+        m_button->setStyleSheet("QToolButton{padding-left:12px;font-size:13px;color:#505465}QToolButton:hover{background-color:#FFFFFF}");
+    m_button->setFixedSize(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
+    m_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    m_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    QFontMetrics fontWidth2(m_button->font());
+    QString strElideNote2 = fontWidth2.elidedText(info.strTitle, Qt::ElideRight, NOTICE_ITEM_WIDTH-20);
+    m_button->setText(strElideNote2);
     connect(m_button, &QPushButton::clicked, this, &NoticeItem::do_NoticeItem_clicked);
     //hLayout->addWidget(m_LabelTransferStatus);
     //hLayout->setSpacing(22);
@@ -35,7 +39,10 @@ void NoticeItem::setupUI(S_NOTICE_INFO info)
 void NoticeItem::do_NoticeItem_clicked(bool checked)
 {
     qDebug() << "clicked me 当前选中 id=" << m_info.iId << "创建人=" << m_info.iCreateBy << "公告类型 1.系统公告 2.活动：" << m_info.iType << "标题：" << m_info.strTitle;
-    HttpPostSetNoticeRead(m_info.iCreateBy, m_info.iId, (NOTICE_TYPE)m_info.iType);
+    if (!m_info.bIsRead)
+    {
+        HttpPostSetNoticeRead(m_info.iCreateBy, m_info.iId, (NOTICE_TYPE)m_info.iType);
+    }
 }
 
 MessageCenterDialog::MessageCenterDialog(QWidget *parent)
@@ -120,7 +127,6 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
     QPushButton* button = NULL;
     int iIsReadCount = 0;
     int iIsReadActivityCount = 0;
-    for(int i = 0 ; i < 20 ;i++)
     for (iter = m_mapNotice.begin(); iter != m_mapNotice.end(); iter++)
     {
         switch (iter->iType)
@@ -151,7 +157,6 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
             ui->listWidget->addItem(item);
 
             item->setData(Qt::UserRole, QVariant::fromValue(*iter));
-            iter->strTitle += "加长名字长度测试，显示文本是否有问题";
             widget = new NoticeItem(*iter,this);
             ui->listWidget->setItemWidget(item, widget);
         }
@@ -289,9 +294,9 @@ void NoticeItem::HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enTyp
     request.setUrl(url);
     QJsonDocument doc;
     QJsonObject obj;
-    obj.insert("createBy", iCreateBy);
-    obj.insert("id", iId);
-    obj.insert("noticeId", enType);
+    /*obj.insert("createBy", iCreateBy);
+    obj.insert("id", iId);*/
+    obj.insert("noticeId", iId);
     doc.setObject(obj);
     QByteArray postData = doc.toJson(QJsonDocument::Compact);
     qDebug() << "postData:" << postData;
@@ -320,11 +325,13 @@ void NoticeItem::HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enTyp
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     qDebug() << "更新状态为已读";
+                    m_info.bIsRead = true;
+                    m_button->setStyleSheet("QToolButton{padding-left:12px;font-size:13px;color:#A9ADB6}QToolButton:hover{background-color:#FFFFFF}");
                 }
                 else
                 {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
+                    /*MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();*/
                 }
             }
         }

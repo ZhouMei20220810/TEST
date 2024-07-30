@@ -5,7 +5,7 @@
 #include "global.h"
 #include <QListWidgetItem>
 #include <QLabel>
-#include <QPushButton>
+#include <QToolButton>
 
 namespace Ui {
 class MessageCenterDialog;
@@ -33,7 +33,7 @@ private:
     //设置已读
     void HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enType);
 private:
-    QPushButton* m_button;
+    QToolButton* m_button;
     S_NOTICE_INFO m_info;
 };
 

@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include "mainwindow.h"
 #include <QGraphicsDropShadowEffect>
+#include "messagecenterdialog.h"
 
 #define     PAGE_WIDGET_X_POS       324
 #define     PAGE_WIDGET_Y_POS       32
@@ -41,10 +42,7 @@ LoginWindow::LoginWindow(QWidget *parent)
             {
         showPage(type);
     });
-    connect(m_smsLoginPage, &SMSLoginPage::closeWindowSignals, this, [=]()
-        {
-            this->hide();
-        });
+    connect(m_smsLoginPage, &SMSLoginPage::closeWindowSignals, this, &LoginWindow::do_closeWindowSignals);
     connect(m_smsLoginPage, &SMSLoginPage::logoutSignals, this, [=]() {
         this->show();
         });
@@ -75,10 +73,7 @@ LoginWindow::LoginWindow(QWidget *parent)
                 break;
             }
             });
-    connect(m_passwordLoginPage, &PasswordLoginPage::closeWindowSignals, this, [=]()
-        {
-            this->hide();
-        });
+    connect(m_passwordLoginPage, &PasswordLoginPage::closeWindowSignals, this, &LoginWindow::do_closeWindowSignals);
     connect(m_passwordLoginPage, &PasswordLoginPage::logoutSignals, this, [=]() {
         this->show();
         });    
@@ -166,4 +161,19 @@ void LoginWindow::mouseMoveEvent(QMouseEvent *event)
 void LoginWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     m_bMoving = false;
+}
+
+//登录之后显示系统公告
+void LoginWindow::do_closeWindowSignals()
+{
+    this->hide();
+
+    //消息中心
+    MessageCenterDialog* dialog = new MessageCenterDialog();
+    dialog->exec();
+
+    //去掉父窗口
+    MainWindow* mainWindow = new MainWindow();
+    connect(mainWindow, &MainWindow::logoutSignals, this, &LoginWindow::logoutSignals);
+    mainWindow->show();
 }

@@ -26,6 +26,7 @@ private:
     void showPage(ENUM_LOGIN_PAGE_TYPE type);
 private slots:
     void on_pushButton_clicked();
+    void do_closeWindowSignals();
 private:
     Ui::LoginWindow *ui;
 
