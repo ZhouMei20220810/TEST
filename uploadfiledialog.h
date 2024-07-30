@@ -37,9 +37,6 @@ private:
 
     void InitWidget(QListWidget* listWidget);
 
-    void SelectFile();
-    void uploadFile();
-
     void GetOSSInfo();
 
     Ui::UploadFileDialog *ui;
