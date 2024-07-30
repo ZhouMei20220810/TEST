@@ -43,9 +43,6 @@ LoginWindow::LoginWindow(QWidget *parent)
         showPage(type);
     });
     connect(m_smsLoginPage, &SMSLoginPage::closeWindowSignals, this, &LoginWindow::do_closeWindowSignals);
-    connect(m_smsLoginPage, &SMSLoginPage::logoutSignals, this, [=]() {
-        this->show();
-        });
 
     /*connect(m_registerPage, &RegisterPage::showPageType, this, [=](ENUM_LOGIN_PAGE_TYPE type)
             {
@@ -74,9 +71,6 @@ LoginWindow::LoginWindow(QWidget *parent)
             }
             });
     connect(m_passwordLoginPage, &PasswordLoginPage::closeWindowSignals, this, &LoginWindow::do_closeWindowSignals);
-    connect(m_passwordLoginPage, &PasswordLoginPage::logoutSignals, this, [=]() {
-        this->show();
-        });    
 
     m_timer = new QTimer(this);
     m_timer->start(2);
@@ -174,6 +168,8 @@ void LoginWindow::do_closeWindowSignals()
 
     //去掉父窗口
     MainWindow* mainWindow = new MainWindow();
-    connect(mainWindow, &MainWindow::logoutSignals, this, &LoginWindow::logoutSignals);
+    connect(mainWindow, &MainWindow::logoutSignals, this, [=]() {
+        this->show();
+        });
     mainWindow->show();
 }
