@@ -38,6 +38,8 @@ private:
     void InitWidget(QListWidget* listWidget);
 
     void GetOSSInfo();
+    //判断文件大小是否超过2G
+    bool isFileSizeOver2GB(const QString& filePath);
 
     Ui::UploadFileDialog *ui;
     QStringList m_strPhoneList;

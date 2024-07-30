@@ -251,6 +251,30 @@ void UploadFileDialog::LoadUploadFileHistory(QMap<int, S_UPLOADD_FILE_INFO> map)
     }
 }
 
+bool UploadFileDialog::isFileSizeOver2GB(const QString& filePath) 
+{
+    QFileInfo fileInfo(filePath);
+    if (fileInfo.exists()) 
+    {
+        qint64 fileSize = fileInfo.size();
+        if (fileSize > UPLOAD_FILE_MAX_SIZE)
+        { // 2 GB in bytes
+            qDebug() << "文件大小超过2GB";
+            return true;
+        }
+        else 
+        {
+            qDebug() << "文件大小未超过2GB";
+            return false;
+        }
+    }
+    else 
+    {
+        qDebug() << "文件不存在";
+        return false;
+    }
+}
+
 void UploadFileDialog::on_toolBtnSelectFile_clicked()
 {
     //选择文件
@@ -268,8 +292,15 @@ void UploadFileDialog::on_toolBtnSelectFile_clicked()
         for (int i = 0; i < iFileSize; i++)
         {
             qDebug() << "第" << i << "个：" << strFileList.at(i);
-            item = new QListWidgetItem(ui->listWidgetChooseFile);
+            //过滤超过2G文件
+            if (isFileSizeOver2GB(strFileList.at(i)))
+            {
+                MessageTips* tips = new MessageTips(QString("%1该文件大小超过2G不能上传").arg(strFileList.at(i)));
+                tips->show();
+                continue;
+            }
 
+            item = new QListWidgetItem(ui->listWidgetChooseFile);
             fileItem = new UploadFileItemWidget(strFileList.at(i), this);
             connect(fileItem, &UploadFileItemWidget::deleteFileItemSignal, this, &UploadFileDialog::do_deleteFileItemSignal);
             item->setData(Qt::UserRole, strFileList.at(i));
