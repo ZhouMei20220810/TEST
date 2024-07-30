@@ -821,6 +821,9 @@ border:none;</string>
               <string notr="true">border:none;
 </string>
              </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
             </widget>
            </item>
           </layout>

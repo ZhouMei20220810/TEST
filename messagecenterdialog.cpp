@@ -7,6 +7,10 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QGraphicsDropShadowEffect>
+#define  POINT_SIZE         6
+
+#define  NOTICE_ITEM_WIDTH      136
+#define  NOTICE_ITEM_HEIGHT     32
 
 MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     : QDialog(parent)
@@ -28,7 +32,7 @@ MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
-    ui->listWidget->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    ui->listWidget->setSpacing(0);//ui->listWidget->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -36,7 +40,22 @@ MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    HttpGetNoticeListInfo(true, 1, 1000);
+    m_LabelActivityPoint = new QLabel(ui->frame_22);
+    m_LabelActivityPoint->resize(POINT_SIZE, POINT_SIZE);
+    m_LabelActivityPoint->setPixmap(QPixmap(":/resource/upload/point.png").scaled(QSize(m_LabelActivityPoint->width(), m_LabelActivityPoint->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    QRect rectActivity = ui->btnActivity->geometry();
+    m_LabelActivityPoint->move(rectActivity.x() + rectActivity.width() - POINT_SIZE/2, rectActivity.y());
+    m_LabelActivityPoint->setVisible(false);
+
+    m_LabelAnnouncementPoint = new QLabel(ui->frame_21);
+    m_LabelAnnouncementPoint->resize(POINT_SIZE, POINT_SIZE);
+    m_LabelAnnouncementPoint->setPixmap(QPixmap(":/resource/upload/point.png").scaled(QSize(m_LabelAnnouncementPoint->width(), m_LabelAnnouncementPoint->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    QRect rectAnnouncement = ui->btnAnnouncement->geometry();
+    m_LabelAnnouncementPoint->move(rectAnnouncement.x() + rectAnnouncement.width() - POINT_SIZE/2, rectAnnouncement.y());
+    m_LabelAnnouncementPoint->setVisible(false);
+
+    //默认显示活动
+    HttpGetNoticeListInfo(NOTICE_ACTIVE, 1, 1000);
 }
 
 MessageCenterDialog::~MessageCenterDialog()
@@ -51,18 +70,8 @@ void MessageCenterDialog::on_btnAnnouncement_clicked()
     ui->btnActivity->setStyleSheet("QPushButton:hover{border:none;color:#505465;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}QPushButton{color:#A9ADB6;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}");
     ui->labelAnnouncement->setStyleSheet("background-color:#505465;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
     ui->labelActivity->setStyleSheet("background-color:#F4F6FA;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
-
-    ui->listWidget->clear();
-    QListWidgetItem* item = NULL;
-    QMap<int, S_NOTICE_INFO>::iterator iter = m_mapNotice.begin();
-    for (; iter != m_mapNotice.end(); iter++)
-    {
-        if (NOTICE_SYSTEM_ANNOUNCEMENT == iter->iType)
-        {
-            item = new QListWidgetItem(iter->strTitle, ui->listWidget);
-            ui->listWidget->addItem(item);
-        }
-    }
+    
+    HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
 }
 
 void MessageCenterDialog::on_btnActivity_clicked()
@@ -73,20 +82,86 @@ void MessageCenterDialog::on_btnActivity_clicked()
     ui->labelActivity->setStyleSheet("background-color:#505465;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
     ui->labelAnnouncement->setStyleSheet("background-color:#F4F6FA;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
 
+    HttpGetNoticeListInfo(NOTICE_ACTIVE, 1, 1000);
+}
+
+void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
+{
     ui->listWidget->clear();
     QListWidgetItem* item = NULL;
-    QMap<int, S_NOTICE_INFO>::iterator iter = m_mapNotice.begin();
-    for (; iter != m_mapNotice.end(); iter++)
+    QMap<int, S_NOTICE_INFO>::iterator iter;
+    QPushButton* button = NULL;
+    int iIsReadCount = 0;
+    int iIsReadActivityCount = 0;
+    for(int i = 0 ; i < 20 ;i++)
+    for (iter = m_mapNotice.begin(); iter != m_mapNotice.end(); iter++)
     {
-        if (NOTICE_ACTIVE == iter->iType)
+        switch (iter->iType)
         {
-            item = new QListWidgetItem(iter->strTitle, ui->listWidget);
-            ui->listWidget->addItem(item);
+        case NOTICE_SYSTEM_ANNOUNCEMENT:
+        {
+            if (!iter->bIsRead)
+            {
+                iIsReadCount++;
+            }    
         }
+            break;
+        case NOTICE_ACTIVE:
+        {
+            if (!iter->bIsRead)
+            {
+                iIsReadActivityCount++;
+            }    
+        }
+            break;
+        default:
+            break;
+        }
+        if (enType == iter->iType)
+        {
+            item = new QListWidgetItem(ui->listWidget);
+            item->setSizeHint(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
+            ui->listWidget->addItem(item);
+
+            item->setData(Qt::UserRole, QVariant::fromValue(*iter));
+            iter->strTitle += "加长名字长度测试，显示文本是否有问题";
+            button = new QPushButton(iter->strTitle, this);
+            button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+            button->setFixedSize(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
+            if (iter->bIsRead)
+                button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#A9ADB6}QPushButton:hover{background-color:#FFFFFF}");
+            else
+                button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#505465}QPushButton:hover{background-color:#FFFFFF}");
+            ui->listWidget->setItemWidget(item, button);
+        }
+    }
+
+    if (iIsReadCount == 0)
+    {
+        m_LabelAnnouncementPoint->setVisible(false);
+    }
+    else
+    {
+        m_LabelAnnouncementPoint->setVisible(true);
+    }
+
+    if (iIsReadActivityCount == 0)
+    {
+        m_LabelActivityPoint->setVisible(false);
+    }
+    else
+    {
+        m_LabelActivityPoint->setVisible(true);
+    }
+
+    //没有新的公告
+    if (iIsReadCount == 0 && iIsReadActivityCount == 0)
+    {
+        this->close();
     }
 }
 
-void MessageCenterDialog::HttpGetNoticeListInfo(bool bIsAuth, int iPage, int iPageSize)
+void MessageCenterDialog::HttpGetNoticeListInfo(NOTICE_TYPE enType,int iPage, int iPageSize)
 {
     //已授权列表
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
@@ -158,6 +233,9 @@ void MessageCenterDialog::HttpGetNoticeListInfo(bool bIsAuth, int iPage, int iPa
                                 m_mapNotice.insert(i, noticeInfo);
                             }
                         }
+
+                        //显示
+                        LoadNoticeInfoList(enType);
                     }
                 }
                 else
@@ -174,5 +252,14 @@ void MessageCenterDialog::HttpGetNoticeListInfo(bool bIsAuth, int iPage, int iPa
 void MessageCenterDialog::on_btnClose_clicked()
 {
     this->close();
+}
+
+void MessageCenterDialog::on_listWidget_itemClicked(QListWidgetItem *item)
+{
+    if (item != NULL)
+    {
+        S_NOTICE_INFO info = item->data(Qt::UserRole).value<S_NOTICE_INFO>();
+        qDebug() << "当前选中" << info.strTitle;
+    }
 }
 

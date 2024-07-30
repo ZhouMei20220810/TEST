@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "global.h"
+#include <QListWidgetItem>
+#include <QLabel>
 
 namespace Ui {
 class MessageCenterDialog;
@@ -22,12 +24,17 @@ private slots:
     //活动
     void on_btnActivity_clicked();
     void on_btnClose_clicked();
+    void on_listWidget_itemClicked(QListWidgetItem *item);
+
 private:
-    void HttpGetNoticeListInfo(bool bIsAuth, int iPage, int iPageSize);
+    void HttpGetNoticeListInfo(NOTICE_TYPE enType, int iPage, int iPageSize);
+    void LoadNoticeInfoList(NOTICE_TYPE enType);
 private:
     Ui::MessageCenterDialog *ui;
     //id
     QMap<int, S_NOTICE_INFO> m_mapNotice;
+    QLabel* m_LabelActivityPoint;
+    QLabel* m_LabelAnnouncementPoint;
 };
 
 #endif // MESSAGECENTERDIALOG_H
