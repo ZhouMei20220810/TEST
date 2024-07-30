@@ -9,8 +9,34 @@
 #include <QGraphicsDropShadowEffect>
 #define  POINT_SIZE         6
 
-#define  NOTICE_ITEM_WIDTH      136
-#define  NOTICE_ITEM_HEIGHT     32
+void NoticeItem::setupUI(S_NOTICE_INFO info)
+{
+    /*QVBoxLayout* vLayout = new QVBoxLayout(this);
+    vLayout->setContentsMargins(0, 0, 0, 0);
+    QHBoxLayout* hLayout = new QHBoxLayout(this);
+    hLayout->setContentsMargins(0, 0, 0, 0);*/
+    m_info = info;
+
+    m_button = new QPushButton(info.strTitle, this);
+    m_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    m_button->setFixedSize(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
+    if (info.bIsRead)
+        m_button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#A9ADB6}QPushButton:hover{background-color:#FFFFFF}");
+    else
+        m_button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#505465}QPushButton:hover{background-color:#FFFFFF}");
+    connect(m_button, &QPushButton::clicked, this, &NoticeItem::do_NoticeItem_clicked);
+    //hLayout->addWidget(m_LabelTransferStatus);
+    //hLayout->setSpacing(22);
+
+    //添加到垂直布局
+    //vLayout->addLayout(hLayout);
+};
+
+void NoticeItem::do_NoticeItem_clicked(bool checked)
+{
+    qDebug() << "clicked me 当前选中 id=" << m_info.iId << "创建人=" << m_info.iCreateBy << "公告类型 1.系统公告 2.活动：" << m_info.iType << "标题：" << m_info.strTitle;
+    HttpPostSetNoticeRead(m_info.iCreateBy, m_info.iId, (NOTICE_TYPE)m_info.iType);
+}
 
 MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     : QDialog(parent)
@@ -88,6 +114,7 @@ void MessageCenterDialog::on_btnActivity_clicked()
 void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
 {
     ui->listWidget->clear();
+    NoticeItem* widget = NULL;
     QListWidgetItem* item = NULL;
     QMap<int, S_NOTICE_INFO>::iterator iter;
     QPushButton* button = NULL;
@@ -125,14 +152,8 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
 
             item->setData(Qt::UserRole, QVariant::fromValue(*iter));
             iter->strTitle += "加长名字长度测试，显示文本是否有问题";
-            button = new QPushButton(iter->strTitle, this);
-            button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-            button->setFixedSize(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
-            if (iter->bIsRead)
-                button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#A9ADB6}QPushButton:hover{background-color:#FFFFFF}");
-            else
-                button->setStyleSheet("QPushButton{text-overflow:ellipsis;font-size:13px;color:#505465}QPushButton:hover{background-color:#FFFFFF}");
-            ui->listWidget->setItemWidget(item, button);
+            widget = new NoticeItem(*iter,this);
+            ui->listWidget->setItemWidget(item, widget);
         }
     }
 
@@ -249,17 +270,69 @@ void MessageCenterDialog::HttpGetNoticeListInfo(NOTICE_TYPE enType,int iPage, in
         });
 }
 
+//设置已读
+void NoticeItem::HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enType)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_SET_NOTICE_READ;
+    //strUrl += QString("?page=%1&pageSize=%2").arg(iPage).arg(iPageSize);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("createBy", iCreateBy);
+    obj.insert("id", iId);
+    obj.insert("noticeId", enType);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << "postData:" << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    qDebug() << "更新状态为已读";
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage, this);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
 void MessageCenterDialog::on_btnClose_clicked()
 {
     this->close();
 }
-
-void MessageCenterDialog::on_listWidget_itemClicked(QListWidgetItem *item)
-{
-    if (item != NULL)
-    {
-        S_NOTICE_INFO info = item->data(Qt::UserRole).value<S_NOTICE_INFO>();
-        qDebug() << "当前选中" << info.strTitle;
-    }
-}
-

@@ -5,10 +5,38 @@
 #include "global.h"
 #include <QListWidgetItem>
 #include <QLabel>
+#include <QPushButton>
 
 namespace Ui {
 class MessageCenterDialog;
 }
+#define  NOTICE_ITEM_WIDTH      136
+#define  NOTICE_ITEM_HEIGHT     32
+class NoticeItem :public QWidget
+{
+    Q_OBJECT
+public:
+    explicit NoticeItem(S_NOTICE_INFO info, QWidget* parent)
+        :QWidget(parent)
+    {
+        resize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT);
+        setupUI(info);
+    }
+    ~NoticeItem()
+    {
+        qDebug() << "delete ~NoticeItem()";
+    }
+private slots:
+    void do_NoticeItem_clicked(bool checked);
+private:
+    void setupUI(S_NOTICE_INFO info);
+    //设置已读
+    void HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enType);
+private:
+    QPushButton* m_button;
+    S_NOTICE_INFO m_info;
+};
+
 
 class MessageCenterDialog : public QDialog
 {
@@ -24,9 +52,8 @@ private slots:
     //活动
     void on_btnActivity_clicked();
     void on_btnClose_clicked();
-    void on_listWidget_itemClicked(QListWidgetItem *item);
-
 private:
+    //获取通知列表
     void HttpGetNoticeListInfo(NOTICE_TYPE enType, int iPage, int iPageSize);
     void LoadNoticeInfoList(NOTICE_TYPE enType);
 private:
