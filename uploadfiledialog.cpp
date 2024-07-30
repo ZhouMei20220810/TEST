@@ -253,21 +253,11 @@ void UploadFileDialog::LoadUploadFileHistory(QMap<int, S_UPLOADD_FILE_INFO> map)
 
 void UploadFileDialog::on_toolBtnSelectFile_clicked()
 {
-    SelectFile();
-}
-
-
-void UploadFileDialog::on_toolBtnUpload_clicked()
-{
-    uploadFile();
-}
-
-void UploadFileDialog::SelectFile()
-{
+    //选择文件
     QString strCurPath = QDir::currentPath();
-    QStringList strFileList = QFileDialog::getOpenFileNames(this,"选择文件",strCurPath,"请选择上传文件(*.*)");
+    QStringList strFileList = QFileDialog::getOpenFileNames(this, "选择文件", strCurPath, "请选择上传文件(*.*)");
     int iFileSize = strFileList.size();
-    if(iFileSize > 0)
+    if (iFileSize > 0)
     {
         ui->listWidgetChooseFile->setVisible(true);
         ui->frameNoData->setVisible(false);
@@ -275,12 +265,12 @@ void UploadFileDialog::SelectFile()
 
         QListWidgetItem* item = NULL;
         UploadFileItemWidget* fileItem = NULL;
-        for(int i = 0; i < iFileSize; i++)
+        for (int i = 0; i < iFileSize; i++)
         {
-            qDebug()<<"第"<<i<<"个："<<strFileList.at(i);
+            qDebug() << "第" << i << "个：" << strFileList.at(i);
             item = new QListWidgetItem(ui->listWidgetChooseFile);
 
-            fileItem = new UploadFileItemWidget(strFileList.at(i),this);
+            fileItem = new UploadFileItemWidget(strFileList.at(i), this);
             connect(fileItem, &UploadFileItemWidget::deleteFileItemSignal, this, &UploadFileDialog::do_deleteFileItemSignal);
             item->setData(Qt::UserRole, strFileList.at(i));
             item->setSizeHint(QSize(fileItem->size()));
@@ -305,11 +295,12 @@ void UploadFileDialog::SelectFile()
     }
 }
 
-void UploadFileDialog::uploadFile()
+void UploadFileDialog::on_toolBtnUpload_clicked()
 {
+    //上传文件
     on_toolBtnUploadQueue_clicked();
 
-    ui->stackedWidget->setCurrentWidget(ui->pageQueue);    
+    ui->stackedWidget->setCurrentWidget(ui->pageQueue);
 
     //获取上传列表
     int iUploadCount = ui->listWidgetChooseFile->count();
@@ -329,7 +320,7 @@ void UploadFileDialog::uploadFile()
             queueItem->setData(Qt::UserRole, strFilePath);
             queueItem->setSizeHint(QSize(QUEUE_ITEM_WIDTH, QUEUE_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
             //tableitem* widget = new tableitem(dataObj,this);
-            widget = new QueueTableItem(m_strPhoneList,strFilePath,this);
+            widget = new QueueTableItem(m_strPhoneList, strFilePath, this);
             ui->listWidgetQueue->addItem(queueItem);
             ui->listWidgetQueue->setItemWidget(queueItem, widget);
         }

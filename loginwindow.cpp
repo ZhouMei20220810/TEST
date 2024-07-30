@@ -162,10 +162,13 @@ void LoginWindow::do_closeWindowSignals()
 {
     this->hide();
 
+    QDateTime date = QDateTime::currentDateTime();
+    qDebug()<<"消息中心before："<<QString("%1").arg(date.toString("yyyy-MM-dd hh:mm:ss"));
     //消息中心
     MessageCenterDialog* dialog = new MessageCenterDialog();
     dialog->exec();
-
+    date = QDateTime::currentDateTime();
+    qDebug() << "消息中心after：" << QString("%1").arg(date.toString("yyyy-MM-dd hh:mm:ss"));
     //去掉父窗口
     MainWindow* mainWindow = new MainWindow();
     connect(mainWindow, &MainWindow::logoutSignals, this, [=]() {
