@@ -248,6 +248,7 @@
     <ClCompile Include="transferphonedialog.cpp" />
     <ClCompile Include="transferphonehistorydialog.cpp" />
     <ClCompile Include="transfertipsdialog.cpp" />
+    <ClCompile Include="tuploadfilethread.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="updatesoftwaredialog.cpp" />
     <ClCompile Include="uploadfiledialog.cpp" />
@@ -302,6 +303,7 @@
     <QtMoc Include="transferphonedialog.h" />
     <QtMoc Include="transferphonehistorydialog.h" />
     <QtMoc Include="transfertipsdialog.h" />
+    <QtMoc Include="tuploadfilethread.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="updatesoftwaredialog.h" />
     <QtMoc Include="uploadfiledialog.h" />
@@ -393,6 +395,7 @@
     <None Include="resource\individual\5.png" />
     <None Include="resource\setting\5.png" />
     <None Include="resource\function\6.png" />
+    <None Include="resource\individual\6.png" />
     <None Include="resource\setting\6.png" />
     <None Include="resource\setting\7.png" />
     <None Include="resource\setting\8.png" />
@@ -404,6 +407,7 @@
     <None Include="resource\main\Authorized.png" />
     <None Include="resource\author\Authorized_normal.png" />
     <None Include="resource\author\Authorized_select.png" />
+    <None Include="resource\main\BVIP.png" />
     <None Include="resource\buy\BVIP_bg_normal.png" />
     <None Include="resource\buy\BVIP_bg_select.png" />
     <None Include="resource\buy\BVIP_level_bg_normal.png" />

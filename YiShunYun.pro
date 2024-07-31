@@ -59,6 +59,7 @@ SOURCES += \
     transferphonedialog.cpp \
     transferphonehistorydialog.cpp \
     transfertipsdialog.cpp \
+    tuploadfilethread.cpp \
     updategroupwidget.cpp \
     updatesoftwaredialog.cpp \
     uploadfiledialog.cpp \
@@ -113,6 +114,7 @@ HEADERS += \
     transferphonedialog.h \
     transferphonehistorydialog.h \
     transfertipsdialog.h \
+    tuploadfilethread.h \
     updategroupwidget.h \
     updatesoftwaredialog.h \
     uploadfiledialog.h \

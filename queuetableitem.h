@@ -31,7 +31,7 @@ private:
     bool    m_IsAbort;
 
     //上次到OSS
-    bool uploadFile(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall = 1);
+    //bool uploadFile(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall = 1);
     //取消文件上传
     bool cancelUploadFile(const QString& filePath, QStringList strPhoneList);
     //删除文件
