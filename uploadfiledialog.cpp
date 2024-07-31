@@ -208,12 +208,12 @@ void UploadFileDialog::HttpGetUploadFileHistory(int iPage, int iPageSize)
                                 recordObj = records[i].toObject();
                                 uploadFileInfo.strBucket = recordObj["bucket"].toString();
                                 uploadFileInfo.iCreateBy = recordObj["createBy"].toInt();
-                                uploadFileInfo.id = recordObj["id"].toInt();
+                                uploadFileInfo.iId = recordObj["id"].toInt();
                                 uploadFileInfo.strCreateTime = recordObj["createTime"].toString();
                                 uploadFileInfo.strFileMd5 = recordObj["fileMd5"].toString();
                                 uploadFileInfo.strFileName = recordObj["fileName"].toString();
                                 uploadFileInfo.iStatus = recordObj["status"].toInt();
-                                uploadFileInfo.iSize = recordObj["size"].toInt();
+                                uploadFileInfo.i64FileSize = recordObj["size"].toInteger();
                                 map.insert(i, uploadFileInfo);
                             }
                         }

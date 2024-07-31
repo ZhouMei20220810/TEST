@@ -7,7 +7,7 @@
 #define CURRENT_APP_VERSION         "1.0.0" //线上版本
 #define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
 
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080" //"http://192.168.1.6:8080"  //"http://120.26.132.153:8080"  //  
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080"  //"http://120.26.132.153:8080"  //  
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -81,6 +81,11 @@
 #define HTTP_GET_NOTICE_LIST            "/api/notice/list"      //消息中心
 //设置已读
 #define HTTP_POST_SET_NOTICE_READ       "/api/notice/read"
+
+//文件md5校验
+#define HTTP_POST_FILE_CHECK_MD5        "/api/file/check/md5"
+//文件直接上传百度
+#define HTTP_POST_FILE_UPLOAD_BAIDU     "/api/file/upload/baidu"
 
 #define     SCREENSHOT_PICTRUE_FLODER "YiShunYun"
 #define     INSTANCE_TEMP_DIR         "/Instance/"
@@ -399,21 +404,6 @@ typedef struct VERSION_INFO
     }
 }S_VERSION_INFO,*PS_VERSION_INFO;
 
-typedef struct UPLOADD_FILE_INFO
-{
-    int     id;
-    int     iCreateBy;
-    int     iSize;
-    int     iStatus;//0:失败；1：成功
-    QString strBucket;
-    QString strCreateTime;
-    QString strFileMd5;
-    QString strFileName;    
-    UPLOADD_FILE_INFO()
-    {
-        memset(this, 0, sizeof(UPLOADD_FILE_INFO));
-    }
-}S_UPLOADD_FILE_INFO,*PS_UPLOADD_FILE_INFO;
 
 typedef struct REPLACE_INFO
 {
@@ -469,6 +459,24 @@ typedef struct NOTICE_INFO
         memset(this, 0, sizeof(NOTICE_INFO));
     }
 }S_NOTICE_INFO,*PS_NOTICE_INFO;
+//data=true提示用户安装中
+typedef struct UPLOAD_FILE_INFO
+{
+    int         iId;
+    int         iCreateBy;
+    int         iAutoInstall;//0
+    int         iStatus;                //上传状态
+    qint64      i64FileSize;            //文件大小
+    QString     strBucket;              //上传bucket
+    QString     strFileMd5;             //文件md5
+    QString     strFileName;            //文件名称
+    QStringList strPhoneInstanceNo;     //实例编号集合
+    QString     strCreateTime;    
+    UPLOAD_FILE_INFO()
+    {
+        memset(this, 0, sizeof(UPLOAD_FILE_INFO));
+    }
+}S_UPLOADD_FILE_INFO,*PS_UPLOADD_FILE_INFO;
 
 class GlobalData
 {

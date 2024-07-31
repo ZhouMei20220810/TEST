@@ -12,13 +12,12 @@ TUploadFileThread::TUploadFileThread(QObject *parent)
     : QThread{parent}
 {}
 
-void TUploadFileThread::setUploadFileParam(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall,QProgressBar* progressBar)
+void TUploadFileThread::setUploadFileParam(const QString& filePath, QStringList strPhoneList, int iIsAutoInstall)
 {
     m_filePath = filePath;
     m_strPhoneList = strPhoneList;
     m_iIsAutoInstall = iIsAutoInstall;
-    m_progressBar = progressBar;
-
+    
     QString strPhone="";
     int iSize = strPhoneList.size();
     for (int i = 0; i < iSize; i++)
@@ -32,27 +31,18 @@ void TUploadFileThread::setUploadFileParam(const QString& filePath, QStringList 
 
 void ProgressCallback(size_t increment, int64_t transfered, int64_t total, void* userData)
 {
+    qDebug() << "ProgressCallback[" << userData << "] => " << increment << " ," << transfered << "," << total;
+
     // increment表示本次回调发送的数据大小。
     // transfered表示已上传的数据大小。
     // total表示上传文件的总大小。
-    if (userData != NULL)
+    /*if (userData != NULL)
     {
         //将userData转换为指向QPrograssBar的指针
-        QProgressBar* progressBar = static_cast<QProgressBar*>(userData);
-
-        qDebug() << "ProgressCallback[" << userData << "] => " << increment << " ," << transfered << "," << total;
-        if (total > transfered)
-        {
-            qDebug() << "进度条上传中";
-            progressBar->setMaximum(total);
-            progressBar->setValue(transfered);
-        }
-        else
-        {
-            qDebug() << "进度条上传完成";
-            progressBar->setValue(total);
-        }
-    }
+        QueueTableItem* widget = static_cast<QueueTableItem*>(userData);
+        if(widget!= NULL)
+            widget->RefreshPrograssBarValue(transfered, total);
+    }*/
 }
 
 void TUploadFileThread::run()
@@ -73,6 +63,7 @@ void TUploadFileThread::run()
         ui->progressBar->setValue(50);
         ui->labelProgressStatus->setText("上传中");
     }*/
+    emit refreshUISignals(10);
 
     do
     {
@@ -108,6 +99,7 @@ void TUploadFileThread::run()
 
         /* 初始化分片上传事件 */
         InitiateMultipartUploadOutcome uploadIdResult = client.InitiateMultipartUpload(initUploadRequest);
+        emit refreshUISignals(20);
         /*if (m_IsAbort)
         {
             break;
@@ -154,9 +146,9 @@ void TUploadFileThread::run()
                     ",code:" << uploadPartOutcome.error().Code() <<
                     ",message:" << uploadPartOutcome.error().Message() <<
                     ",requestId:" << uploadPartOutcome.error().RequestId();
-            }
-
+            }            
         }
+        emit refreshUISignals(50);
 
         /* 完成分片上传 */
         /* 在执行完成分片上传操作时，需要提供所有有效的partETags。OSS收到提交的partETags后，会逐一验证每个分片的有效性。当所有的数据分片验证通过后，OSS将把这些分片组合成一个完整的文件。*/
@@ -171,7 +163,7 @@ void TUploadFileThread::run()
         }*/
         request.setUploadId(uploadId);
         request.setPartList(partETagList);
-        TransferProgress progressCallback = { ProgressCallback , m_progressBar };
+        TransferProgress progressCallback = { ProgressCallback , nullptr};
         request.setTransferProgress(progressCallback);
         std::shared_ptr<std::iostream> content = std::make_shared<std::stringstream>();
         *content << "Thank you for using Aliyun Object Storage Service!";
@@ -204,6 +196,7 @@ void TUploadFileThread::run()
         {
             break;
         }*/
+        emit refreshUISignals(75);
         CompleteMultipartUploadOutcome outcome = client.CompleteMultipartUpload(request);
         /*if (m_IsAbort)
         {
@@ -215,24 +208,13 @@ void TUploadFileThread::run()
                 ",code:" << outcome.error().Code() <<
                 ",message:" << outcome.error().Message() <<
                 ",requestId:" << outcome.error().RequestId();
-            /*ui->toolBtnCancel->setVisible(false);
-            ui->toolBtnFinish->setVisible(false);
-            ui->toolBtnDelete->setVisible(true);
-            ui->toolBtnReupload->setVisible(true);
-            ui->labelProgressStatus->setText("已取消");
-            ui->progressBar->setStyleSheet("QProgressBar{text-align:center;background-color: #FFC4C7D0;border: 0px solid #FFC4C7D0;border-radius:2px;}QProgressBar::chunk{background-color:#FFA9ADB6;border-radius:2px;}");
-            ui->progressBar->setValue(80);*/
+            emit refreshUISignals(80);
         }
         else
         {
             //成功结果
             qDebug() << "成功：location=" << outcome.result().Location() << "Tag=" << outcome.result().ETag() << "CRC64=" << outcome.result().CRC64();
         }
-        /*ui->labelProgressStatus->setText("解析中");
-        ui->toolBtnCancel->setVisible(false);
-        ui->toolBtnFinish->setVisible(true);
-        ui->toolBtnDelete->setVisible(false);
-        ui->toolBtnReupload->setVisible(false);
-        ui->progressBar->setValue(100);*/
+        emit refreshUISignals(100);
     } while (false);
 }

@@ -94,6 +94,9 @@
 QProgressBar::chunk{background-color: #FF407AFF;
                                      border-radius: 2px;}</string>
         </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
         <property name="value">
          <number>24</number>
         </property>
