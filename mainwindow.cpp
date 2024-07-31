@@ -3839,6 +3839,8 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
 
 void MainWindow::on_toolBtnListMode_clicked()
 {
+    if(!m_isIconMode)
+        return;
     ui->toolBtnListMode->setStyleSheet("QToolButton {border:none;color:rgb(204, 204, 204);background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
     ui->toolBtnPreviewMode->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:0px;padding-left:8px;background-color:#E6E9F2;}");
 
@@ -3893,6 +3895,8 @@ void MainWindow::on_toolBtnListMode_clicked()
 
 void MainWindow::on_toolBtnPreviewMode_clicked()
 {
+    if(m_isIconMode)
+        return;
     ui->toolBtnPreviewMode->setStyleSheet("QToolButton {border:none;color:rgb(204, 204, 204);background-color:#FF9092A4;border-radius:1px;padding-left:8px;}");
     ui->toolBtnListMode->setStyleSheet("QToolButton {border:none;color:#505465;border-radius:0px;padding-left:8px;background-color:#E6E9F2;}");
 
