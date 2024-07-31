@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QCheckBox>
 #include <QLabel>
+#include "filedownloader.h"
 
 namespace Ui {
 class PhoneItemWidget;
@@ -47,6 +48,8 @@ private:
 
     QLabel* m_LabelAccredit;
     QCheckBox* m_checkBox;
+
+    FileDownloader* m_FileDownload;
 };
 
 #endif // PHONEITEMWIDGET_H

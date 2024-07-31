@@ -22,6 +22,7 @@ PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
     else
         ui->toolBtnName->setText(sPhoneInfo.strName);
     
+    m_FileDownload = NULL;
     m_strPicturePath = GlobalData::strFileTempDir + sPhoneInfo.strInstanceNo + ".png";
     m_strTemp = GlobalData::strFileTempDir + sPhoneInfo.strInstanceNo + "_bak.png";
 
@@ -99,7 +100,10 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
             pixmap = QPixmap(m_strPicturePath);
             qDebug() << "pixmap is null. file=" << m_strPicturePath;
         }
-        ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        if (this->isVisible())
+        {
+            ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        }        
     }
     else
     {
@@ -120,13 +124,21 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
                 qDebug() << "image is null. file=" << m_strPicturePath;
             }
         }
-        ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-        qDebug() << "showLabelImage fail. file not exists." << m_strPicturePath;
+        if (this->isVisible())
+        {
+            ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+            qDebug() << "showLabelImage fail. file not exists." << m_strPicturePath;
+        }
     }
 }
 
 PhoneItemWidget::~PhoneItemWidget()
 {
+    if (m_FileDownload != NULL && m_FileDownload->isRunning())
+    {
+        qDebug() << "PhoneItemWidget thread is running";
+        m_FileDownload->terminate();
+    }
     delete ui;
 }
 
@@ -140,10 +152,11 @@ bool PhoneItemWidget::getCheckBoxStatus()
 }
 void PhoneItemWidget::downloadUrl(QString url)
 {
-    FileDownloader* download = new FileDownloader(this);
-    if (download != NULL)
+    if(NULL == m_FileDownload)
+        m_FileDownload = new FileDownloader(this);
+    if (m_FileDownload != NULL)
     {
-        connect(download, &FileDownloader::downloadFinished, this, [this]() 
+        connect(m_FileDownload, &FileDownloader::downloadFinished, this, [this]()
             {
             QPixmap pixmap(m_strTemp);
             if (!pixmap.isNull())
@@ -176,8 +189,8 @@ void PhoneItemWidget::downloadUrl(QString url)
                 }
             }
             });
-        download->setUrlOutputFile(url, m_strTemp);
-        download->start();
+        m_FileDownload->setUrlOutputFile(url, m_strTemp);
+        m_FileDownload->start();
     }
 }
 
