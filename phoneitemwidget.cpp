@@ -155,7 +155,7 @@ void PhoneItemWidget::downloadUrl(QString url)
                         qDebug() << "remove fail:" << m_strPicturePath;
                     }
                 }
-                if (QFile::rename(m_strTemp,m_strPicturePath))
+                if (!QFile::rename(m_strTemp,m_strPicturePath))
                 {
                     qDebug() << "rename fail: " << m_strPicturePath;
                 }
