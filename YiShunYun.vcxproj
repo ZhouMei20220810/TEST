@@ -227,6 +227,7 @@
     <ClCompile Include="messagecenterdialog.cpp" />
     <ClCompile Include="messagetips.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
+    <ClCompile Include="oneclicknewmachinedialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
     <ClCompile Include="phoneinstancewidget.cpp" />
     <ClCompile Include="phoneitemwidget.cpp" />
@@ -282,6 +283,7 @@
     <QtMoc Include="messagecenterdialog.h" />
     <QtMoc Include="messagetips.h" />
     <QtMoc Include="messagetipsdialog.h" />
+    <QtMoc Include="oneclicknewmachinedialog.h" />
     <QtMoc Include="passwordloginpage.h" />
     <QtMoc Include="phoneinstancewidget.h" />
     <QtMoc Include="phoneitemwidget.h" />
@@ -349,6 +351,7 @@
     <QtUic Include="mainwindow.ui" />
     <QtUic Include="messagecenterdialog.ui" />
     <QtUic Include="messagetipsdialog.ui" />
+    <QtUic Include="oneclicknewmachinedialog.ui" />
     <QtUic Include="passwordloginpage.ui" />
     <QtUic Include="phoneinstancewidget.ui" />
     <QtUic Include="phoneitemwidget.ui" />

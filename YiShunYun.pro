@@ -38,6 +38,7 @@ SOURCES += \
     messagecenterdialog.cpp \
     messagetips.cpp \
     messagetipsdialog.cpp \
+    oneclicknewmachinedialog.cpp \
     passwordloginpage.cpp \
     phoneinstancewidget.cpp \
     phoneitemwidget.cpp \
@@ -93,6 +94,7 @@ HEADERS += \
     messagecenterdialog.h \
     messagetips.h \
     messagetipsdialog.h \
+    oneclicknewmachinedialog.h \
     passwordloginpage.h \
     phoneinstancewidget.h \
     phoneitemwidget.h \
@@ -144,6 +146,7 @@ FORMS += \
     mainwindow.ui \
     messagecenterdialog.ui \
     messagetipsdialog.ui \
+    oneclicknewmachinedialog.ui \
     passwordloginpage.ui \
     phoneinstancewidget.ui \
     phoneitemwidget.ui \

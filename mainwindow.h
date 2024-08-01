@@ -209,6 +209,7 @@ private slots:
     void do_ActionCopyCloudId(bool bChecked);
     void do_ActionRename(bool bChecked);
     void do_ActionRestartCloudPhone(bool bChecked);
+    void do_ActonOneClickNewMachine(bool bChecked);
     void do_ActionFactoryDataReset(bool bChecked);
     void do_ActionUploadFile(bool bChecked);
     void do_ActionMoveGroup(bool bChecked);
@@ -315,6 +316,7 @@ private:
     QAction* pActionBeginControl;
     QAction* pActionCopyCloudId;
     QAction* pActionRename;
+    QAction* pActonOneClickNewMachine;
     QAction* pActionRestartCloudPhone;
     QAction* pActionFactoryDataReset;
     QAction* pActionUploadFile;
