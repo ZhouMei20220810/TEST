@@ -974,7 +974,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_CHANGE_KEYBOARD:
                     m_tBtnChangeKeyBoard = new QToolButton(ui->frame_2);
-                    connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
+                    connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnChangeKeyBoard_clicked);
                     m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/instance/key_show.png"));
                     m_tBtnChangeKeyBoard->setIconSize(iconMinSize);
                     m_tBtnChangeKeyBoard->setText("切换\n键盘");
@@ -1116,7 +1116,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_CHANGE_KEYBOARD:
                     m_tBtnChangeKeyBoard = new QToolButton(ui->frame_2);
-                    connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
+                    connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnChangeKeyBoard_clicked);
                     m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/instance/key_show.png"));
                     m_tBtnChangeKeyBoard->setIconSize(iconMinSize);
                     m_tBtnChangeKeyBoard->setText("切换\n键盘");
@@ -1244,7 +1244,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_CHANGE_KEYBOARD:
                     m_tBtnChangeKeyBoard = new QToolButton(ui->frameTool);
-                    connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_12_clicked);
+                    connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnChangeKeyBoard_clicked);
                     m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/instance/key_show.png"));
                     m_tBtnChangeKeyBoard->setIconSize(iconMinSize);
                     m_tBtnChangeKeyBoard->setText("切换\n键盘");
@@ -1361,9 +1361,10 @@ void PhoneInstanceWidget::do_GPSSignals()
     }
 }
 
-void PhoneInstanceWidget::on_toolButton_12_clicked()
+void PhoneInstanceWidget::on_toolBtnChangeKeyBoard_clicked()
 {
     //键盘KEY_KEYBOARD
+    qDebug() << "do change keyboard signals";
     qDebug() << "this->width" << this->width() << "this.height=" << this->height();
 }
 
