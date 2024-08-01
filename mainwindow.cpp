@@ -3852,7 +3852,6 @@ void MainWindow::on_toolBtnListMode_clicked()
         m_TaskTimer->stop();
     }
     ui->listWidget2->clear();
-    m_iCheckCount = 0;
     PhoneListModeItemWidget* widget2 = NULL;
     QListWidgetItem* item = NULL;
     S_PHONE_INFO phoneInfo;
@@ -3902,7 +3901,6 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
 
     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
     m_isIconMode = true;
-    m_iCheckCount = 0;
     ui->listWidget->clear();
     PhoneItemWidget* widget = NULL;
     QListWidgetItem* item = NULL;
