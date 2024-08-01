@@ -4501,6 +4501,7 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
     QTreeWidgetItem* child = NULL;
     S_PHONE_INFO phoneInfo;
     int iChildCount = 0;
+    int iSelGroupCount = 0;
     int i = 0;
     Qt::CheckState checkState;
     while (*iter)
@@ -4521,6 +4522,7 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                 {
                     phoneInfo.bChecked = true;
                     m_iCheckCount++;
+                    iSelGroupCount++;
                 }
                 if (m_isIconMode)
                 {
@@ -4548,6 +4550,7 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                 {
                     phoneInfo.bChecked = true;
                     m_iCheckCount++;
+                    iSelGroupCount++;
                 }
                 if (m_isIconMode)
                 {
@@ -4559,6 +4562,21 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                     AddListModeListWidgetItem(phoneInfo);
                 }
             }            
+        }
+        if (iChildCount != 0)
+        {
+            if (iSelGroupCount == iChildCount)
+            {
+                item->setCheckState(0, Qt::Checked);
+            }
+            else if (iSelGroupCount == 0)
+            {
+                item->setCheckState(0, Qt::Unchecked);
+            }
+            else
+            {
+                item->setCheckState(0, Qt::PartiallyChecked);
+            }
         }
 
         iter++;
