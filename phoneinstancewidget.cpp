@@ -735,9 +735,9 @@ void PhoneInstanceWidget::do_FactoryDataResetSignals()
     m_toolObject->HttpPostInstanceReset(m_strPhoneList);
 }
 
-void PhoneInstanceWidget::on_toolButton_9_clicked()
+void PhoneInstanceWidget::do_rootSignals()
 {
-
+    qDebug() << "do root signals";
 }
 
 void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info) 
@@ -944,7 +944,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_ROOT:
                     m_tBtnRoot = new QToolButton(ui->frame_2);
-                    connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_9_clicked);
+                    connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::RootSignals);
                     m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
                     m_tBtnRoot->setIconSize(iconMinSize);
                     m_tBtnRoot->setText("Root");
@@ -1086,7 +1086,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_ROOT:
                     m_tBtnRoot = new QToolButton(ui->frame_2);
-                    connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_9_clicked);
+                    connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::RootSignals);
                     m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
                     m_tBtnRoot->setIconSize(iconMinSize);
                     m_tBtnRoot->setText("Root");
@@ -1214,7 +1214,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_ROOT:
                     m_tBtnRoot = new QToolButton(ui->frameTool);
-                    connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_9_clicked);
+                    connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::RootSignals);
                     m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
                     m_tBtnRoot->setIconSize(iconMinSize);
                     m_tBtnRoot->setText("Root");

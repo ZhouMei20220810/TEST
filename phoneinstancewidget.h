@@ -38,6 +38,7 @@ signals:
 
     void RebootSignals();
     void FactoryDataResetSignals();
+    void RootSignals();
     void ScreenshotsSignals();
     void VolumeUpSignals();
     void VolumeDownSignals();
@@ -52,6 +53,7 @@ public slots:
 
     void do_RebootSignals();
     void do_FactoryDataResetSignals();
+    void do_rootSignals();
     void on_Screenshot_clicked(bool checked = false);
     void do_ScreenshotsSignals();
     void do_VolumeUpSignals();
@@ -93,7 +95,6 @@ private slots:
     void on_toolButton_3_clicked();
     void on_toolButton_4_clicked();
     void on_toolButton_6_clicked();
-    void on_toolButton_9_clicked();
     void on_toolButton_12_clicked();
 
     void onPositionUpdated(const QGeoPositionInfo& info);

@@ -47,6 +47,7 @@ signals:
     void paifaTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
     void RebootSignals();
     void FactoryDataResetSignals();
+    void RootSignals();
     void ScreenshotsSignals();
     void VolumeUpSignals();
     void VolumeDownSignals();

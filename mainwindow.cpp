@@ -4146,6 +4146,8 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         connect(this, &MainWindow::RebootSignals, phoneWidget, &PhoneInstanceWidget::do_RebootSignals);
         connect(phoneWidget, &PhoneInstanceWidget::FactoryDataResetSignals, this, &MainWindow::FactoryDataResetSignals);
         connect(this, &MainWindow::FactoryDataResetSignals, phoneWidget, &PhoneInstanceWidget::do_FactoryDataResetSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::RootSignals, this, &MainWindow::RootSignals);
+        connect(this, &MainWindow::RootSignals, phoneWidget, &PhoneInstanceWidget::do_rootSignals);
         connect(phoneWidget, &PhoneInstanceWidget::ScreenshotsSignals, this, &MainWindow::ScreenshotsSignals);
         connect(this, &MainWindow::ScreenshotsSignals, phoneWidget, &PhoneInstanceWidget::do_ScreenshotsSignals);
 
