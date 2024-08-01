@@ -689,7 +689,7 @@ void PhoneInstanceWidget::do_VolumeDownSignals()
     }
 }
 
-void PhoneInstanceWidget::on_toolButton_3_clicked()
+void PhoneInstanceWidget::on_toolBtnHorOrVer_clicked()
 {
     //其他窗口不适应关闭新建，需要重新初始化，先发送closePhoneInstanceWidgetSignals信号通知其他同步窗口，给服务器后台同步横屏
     GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;    
@@ -697,9 +697,9 @@ void PhoneInstanceWidget::on_toolButton_3_clicked()
 }
 
 
-void PhoneInstanceWidget::on_toolButton_4_clicked()
+void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
 {
-
+    qDebug() << "do clipboard signals";
 }
 
 void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
@@ -884,7 +884,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_HOR_VER_SCREEN:
                     m_tBtnHorVerScreen = new QToolButton(ui->frame_2);
-                    connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_3_clicked);
+                    connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnHorOrVer_clicked);
                     m_tBtnHorVerScreen->setIcon(QIcon(":/resource/instance/HorVerScreen.png"));
                     m_tBtnHorVerScreen->setIconSize(iconMinSize);
                     m_tBtnHorVerScreen->setText("横竖屏");
@@ -894,7 +894,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_CLIPBOARD:
                     m_tBtnClipboard = new QToolButton(ui->frame_2);
-                    connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_4_clicked);
+                    connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnClipboard_clicked);
                     m_tBtnClipboard->setIcon(QIcon(":/resource/instance/clipboard.png"));
                     m_tBtnClipboard->setIconSize(iconMinSize);
                     m_tBtnClipboard->setText("剪贴板");
@@ -1026,7 +1026,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_HOR_VER_SCREEN:
                     m_tBtnHorVerScreen = new QToolButton(ui->frame_2);
-                    connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_3_clicked);
+                    connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnHorOrVer_clicked);
                     m_tBtnHorVerScreen->setIcon(QIcon(":/resource/instance/HorVerScreen.png"));
                     m_tBtnHorVerScreen->setIconSize(iconMinSize);
                     m_tBtnHorVerScreen->setText("横竖屏");
@@ -1036,7 +1036,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_CLIPBOARD:
                     m_tBtnClipboard = new QToolButton(ui->frame_2);
-                    connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_4_clicked);
+                    connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnClipboard_clicked);
                     m_tBtnClipboard->setIcon(QIcon(":/resource/instance/clipboard.png"));
                     m_tBtnClipboard->setIconSize(iconMinSize);
                     m_tBtnClipboard->setText("剪贴板");
@@ -1154,7 +1154,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_HOR_VER_SCREEN:
                     m_tBtnHorVerScreen = new QToolButton(ui->frameTool);
-                    connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_3_clicked);
+                    connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnHorOrVer_clicked);
                     m_tBtnHorVerScreen->setIcon(QIcon(":/resource/instance/HorVerScreen.png"));
                     m_tBtnHorVerScreen->setIconSize(iconMinSize);
                     m_tBtnHorVerScreen->setText("横竖屏");
@@ -1164,7 +1164,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_CLIPBOARD:
                     m_tBtnClipboard = new QToolButton(ui->frameTool);
-                    connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_4_clicked);
+                    connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnClipboard_clicked);
                     m_tBtnClipboard->setIcon(QIcon(":/resource/instance/clipboard.png"));
                     m_tBtnClipboard->setIconSize(iconMinSize);
                     m_tBtnClipboard->setText("剪贴板");

@@ -92,8 +92,8 @@ private slots:
 
     void on_toolBtnMore_clicked();
 
-    void on_toolButton_3_clicked();
-    void on_toolButton_4_clicked();
+    void on_toolBtnHorOrVer_clicked();
+    void on_toolBtnClipboard_clicked();
     void on_toolButton_6_clicked();
     void on_toolButton_12_clicked();
 
