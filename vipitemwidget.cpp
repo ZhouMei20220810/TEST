@@ -31,8 +31,17 @@ VIPItemWidget::VIPItemWidget(S_LEVEL_DATA_INFO levelInfo, QString strLevelName, 
     //ui->labelCheck->setText(QString("%1").arg(enVipType));
 
     ui->labelTotalTime->setText(QString("%1").arg(levelInfo.strMemberName));
+    float fPrice = 0;
     QString strTmp;
-    strTmp = strTmp.asprintf("%.2f", levelInfo.fActivityPrice);
+    if (levelInfo.fActivityPrice>-0.000001 && m_levelInfo.fActivityPrice <0.000001)
+    {
+        fPrice = levelInfo.fPrice;
+    }
+    else
+    {
+        fPrice = levelInfo.fActivityPrice;
+    }
+    strTmp = strTmp.asprintf("%.2f", fPrice);
     QStringList strValueList = strTmp.split('.');
     if (strValueList.size() > 1)
     {
@@ -41,7 +50,7 @@ VIPItemWidget::VIPItemWidget(S_LEVEL_DATA_INFO levelInfo, QString strLevelName, 
     }
     
 
-    strTmp = strTmp.asprintf("%.2f元/天", levelInfo.fActivityPrice / levelInfo.iUseDay);
+    strTmp = strTmp.asprintf("%.2f元/天", fPrice/levelInfo.iUseDay);
     ui->labelDayPrice->setText(strTmp);
     //QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(strImage);//QString strStyleSheet = QString("QLabel{background-image: url(%1);border: none;}").arg(":/main/resource/main/level.png");
     //ui->labelBg->setStyleSheet(strStyleSheet)

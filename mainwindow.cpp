@@ -890,7 +890,7 @@ void MainWindow::InitCloudPhoneTab()
     ui->comboBoxSystem->addItem("安卓","andrios");
     ui->comboBoxSystem->addItem("苹果","ios");
 
-    ui->comboBoxLevel->addItem("标准型","vip");
+    ui->comboBoxLevel->addItem("标准型","VIP");
     ui->comboBoxLevel->addItem("增强型","GVIP");
     ui->comboBoxLevel->addItem("尊享型","KVIP");
 
@@ -3116,7 +3116,17 @@ void MainWindow::calcNeedPayMoney()
 {
     int iBuyNum = ui->lineEditBuyNumber->text().toInt();
     QString str;
-    str = str.asprintf("%.2f", iBuyNum * m_curLevelDataInfo.fActivityPrice);
+    float fPrice = 0;
+    QString strTmp;
+    if (m_curLevelDataInfo.fActivityPrice > -0.000001 && m_curLevelDataInfo.fActivityPrice < 0.000001)
+    {
+        fPrice = m_curLevelDataInfo.fPrice;
+    }
+    else
+    {
+        fPrice = m_curLevelDataInfo.fActivityPrice;
+    }
+    str = str.asprintf("%.2f", iBuyNum * fPrice);
     QStringList strValueList = str.split('.');
     if (strValueList.size() > 1)
     {
