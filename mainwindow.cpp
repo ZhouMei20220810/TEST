@@ -4971,4 +4971,3 @@ void MainWindow::on_btnRefreshRenewList_clicked()
     qDebug() << "查询手机列表 m_ActiveRenewLevelType="<< m_ActiveRenewLevelType;
     HttpGetMyPhoneInstance(0, 1, 1000, m_ActiveRenewLevelType);
 }
-

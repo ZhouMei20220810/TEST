@@ -394,7 +394,7 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
-          <number>16</number>
+          <number>20</number>
          </property>
          <property name="leftMargin">
           <number>12</number>
@@ -697,7 +697,7 @@
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>72</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -820,6 +820,125 @@ QComboBox QAbstractItemView::item:selected{
               <property name="sizeHint" stdset="0">
                <size>
                 <width>264</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_11">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <property name="spacing">
+             <number>16</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="minimumSize">
+               <size>
+                <width>104</width>
+                <height>18</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color:#505465;font-size:13px;font-weight:bold;</string>
+              </property>
+              <property name="text">
+               <string>型号：</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBoxModel">
+              <property name="minimumSize">
+               <size>
+                <width>132</width>
+                <height>28</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>132</width>
+                <height>28</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>-1</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QComboBox{
+background-color:#E6E9F2;
+border:none;
+font-size:14px;
+color:#A9ADB6;
+}
+
+QComboBox::down-arrow {
+	image: url(:/login/resource/login/ico_down.png);
+	height:30px;width:15px;
+background-color:#E7E8EE;
+border:none;
+} 
+QComboBox::drop-down{
+	border:none;
+padding-right:5px;
+	background-color: rgba(255, 255, 255, 0);
+} 
+QComboBox QAbstractItemView
+{
+	background:#FFFFFFFF;
+	border:1px solid rgba(228,228,228,1);
+	border-radius:0px 0px 5px 5px;
+	font-size:14px;
+	outline:0px;
+}
+QComboBox QAbstractItemView::item{
+	height:36px;
+	color:#FF666666;
+	padding-left:9px;
+	background-color:#FFFFFFFF;
+}
+QComboBox QAbstractItemView::item:hover{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}
+QComboBox QAbstractItemView::item:selected{
+	color:#FFFFFFFF;
+	background-color:#FF409CE1;
+}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
                 <height>20</height>
                </size>
               </property>
@@ -952,7 +1071,7 @@ QComboBox QAbstractItemView::item:selected{
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QCheckBox" name="checkBoxRemberPW_5">
+                   <widget class="QCheckBox" name="checkBox">
                     <property name="font">
                      <font>
                       <pointsize>-1</pointsize>
@@ -1132,7 +1251,7 @@ QComboBox QAbstractItemView::item:selected{
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>152</height>
+             <height>82</height>
             </size>
            </property>
           </spacer>
