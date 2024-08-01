@@ -59,7 +59,7 @@ void OneClickNewMachineDialog::HttpGetModelList(QString strBrand,int iPage, int 
     if(strBrand.isEmpty())
         strUrl += QString::asprintf("?page=%d&pageSize=%d", iPage, iPageSize);
     else
-        strUrl += QString::asprintf("?page=%d&pageSize=%d", iPage, iPageSize);
+        strUrl += QString("?page=%1&pageSize=%2&brand=%3").arg(iPage).arg(iPageSize).arg(strBrand);
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
     //创建请求对象
@@ -111,7 +111,10 @@ void OneClickNewMachineDialog::HttpGetModelList(QString strBrand,int iPage, int 
                             info.strModel = recordObj["model"].toString();
                             info.strBrand = recordObj["brand"].toString();
                             info.strManufacturer = recordObj["manufacturer"].toString();
-                            map.insert(info.strBrand, info);
+                            if (strBrand.isEmpty())
+                                map.insert(info.strBrand, info);
+                            else
+                                map.insert(info.strModel, info);
                         }
                         if (strBrand.isEmpty())
                             LoadBrandList(map);
