@@ -94,7 +94,7 @@ private slots:
 
     void on_toolBtnHorOrVer_clicked();
     void on_toolBtnClipboard_clicked();
-    void on_toolButton_6_clicked();
+    void on_toolBtnScreenshotDir_clicked();
     void on_toolButton_12_clicked();
 
     void onPositionUpdated(const QGeoPositionInfo& info);

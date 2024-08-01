@@ -712,7 +712,7 @@ void PhoneInstanceWidget::do_ScreenshotsSignals()
 {
 }
 
-void PhoneInstanceWidget::on_toolButton_6_clicked()
+void PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked()
 {
     //截图目录
     QUrl url(QString("file:///") + GlobalData::strPhoneInstanceScreenshotDir);
@@ -914,7 +914,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_SCREENSHOTS_DIR:
                     m_tBtnScreenshotsFolder = new QToolButton(ui->frame_2);
-                    connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_6_clicked);
+                    connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked);
                     m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/instance/screenshotsDir.png"));
                     m_tBtnScreenshotsFolder->setIconSize(iconMinSize);
                     m_tBtnScreenshotsFolder->setText("截图\n目录");
@@ -1056,7 +1056,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_SCREENSHOTS_DIR:
                     m_tBtnScreenshotsFolder = new QToolButton(ui->frame_2);
-                    connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_6_clicked);
+                    connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked);
                     m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/instance/screenshotsDir.png"));
                     m_tBtnScreenshotsFolder->setIconSize(iconMinSize);
                     m_tBtnScreenshotsFolder->setText("截图\n目录");
@@ -1184,7 +1184,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
                     break;
                 case TYPE_SCREENSHOTS_DIR:
                     m_tBtnScreenshotsFolder = new QToolButton(ui->frameTool);
-                    connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolButton_6_clicked);
+                    connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked);
                     m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/instance/screenshotsDir.png"));
                     m_tBtnScreenshotsFolder->setIconSize(iconMinSize);
                     m_tBtnScreenshotsFolder->setText("截图\n目录");
