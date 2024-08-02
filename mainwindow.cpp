@@ -1023,11 +1023,13 @@ void MainWindow::InitBatchOperatorMenu()
         QMenu::item:pressed{ background:#F5F7FB;font-weight:bold;height:20; border:0px solid rgba(82,130,164,1);/*摁下状态*/ }");
     pActionBatchReboot = new QAction("批量重启", this);
     pActionBatchUploadFile = new QAction("批量上传文件", this);
+    pActionBatchOneClickNewMachine = new QAction("批量一键新机", this);
     pActionBatchFactoryReset = new QAction("批量恢复出厂", this);
     pActionBatchAuth = new QAction("批量授权", this);
     //pActionMoveGroup = new QAction("移动分组", ui->treeWidget);
     connect(pActionBatchReboot, &QAction::triggered, this, &MainWindow::do_ActionBatchReboot);
     connect(pActionBatchUploadFile, &QAction::triggered, this, &MainWindow::do_ActionBatchUploadFile);
+    connect(pActionBatchOneClickNewMachine, &QAction::triggered, this, &MainWindow::do_ActionBatchOneClickNewMachine);
     connect(pActionBatchFactoryReset, &QAction::triggered, this, &MainWindow::do_ActionBatchFactoryReset);
     connect(pActionBatchAuth, &QAction::triggered, this, &MainWindow::do_ActionBatchAuth);
 
@@ -1035,6 +1037,7 @@ void MainWindow::InitBatchOperatorMenu()
     m_BatchOperMenu->addAction(pActionBatchReboot);
     m_BatchOperMenu->addSeparator();
     m_BatchOperMenu->addAction(pActionBatchUploadFile);
+    m_BatchOperMenu->addAction(pActionBatchOneClickNewMachine);
     m_BatchOperMenu->addAction(pActionBatchFactoryReset);
     m_BatchOperMenu->addAction(pActionBatchAuth);
     m_BatchOperSubMenu = m_BatchOperMenu->addMenu("批量移动分组");
@@ -1119,6 +1122,17 @@ void MainWindow::do_ActionBatchReboot(bool bChecked)
 {
     //获取列表选中项
     QStringList strPhoneList = getCheckedPhoneInstance();
+    QString strTmp = "";
+    for (int i = 0; i < strPhoneList.size(); i++)
+    {
+        if (!strTmp.isEmpty())
+        {
+            strTmp += ",";
+        }
+        strTmp += strPhoneList.at(i);
+    }
+    qDebug() << "批量重启:" << strTmp;
+
     if (strPhoneList.size() > 0)
     {
         m_toolObject->HttpPostInstanceReboot(strPhoneList);
@@ -1129,10 +1143,16 @@ void MainWindow::do_ActionBatchUploadFile(bool bChecked)
 {
     //获取列表选中项
     QStringList strPhoneList = getCheckedPhoneInstance();
+    QString strTmp = "";
     for (int i = 0; i < strPhoneList.size(); i++)
     {
-        qDebug() << "批处理设备No("<<i<<"):" << strPhoneList.at(i);
+        if (!strTmp.isEmpty())
+        {
+            strTmp += ",";
+        }
+        strTmp += strPhoneList.at(i);
     }
+    qDebug() << "批量上传文件:" << strTmp;
     
     if (strPhoneList.size() > 0)
     {
@@ -1141,10 +1161,42 @@ void MainWindow::do_ActionBatchUploadFile(bool bChecked)
     }    
 }
 
+void MainWindow::do_ActionBatchOneClickNewMachine(bool bChecked)
+{    
+    //获取列表选中项
+    QStringList strPhoneList = getCheckedPhoneInstance();
+    QString strTmp="";
+    for (int i = 0; i < strPhoneList.size(); i++)
+    {
+        if (!strTmp.isEmpty())
+        {
+            strTmp += ",";
+        }
+        strTmp += strPhoneList.at(i);
+    }
+    qDebug() << "批量一键新机:"<<strTmp;
+
+    if (strPhoneList.size() > 0)
+    {
+        OneClickNewMachineDialog* dialog = new OneClickNewMachineDialog(strPhoneList);
+        dialog->exec();
+    }
+}
+
 void MainWindow::do_ActionBatchFactoryReset(bool bChecked)
 {
     //获取列表选中项
     QStringList strPhoneList = getCheckedPhoneInstance();
+    QString strTmp = "";
+    for (int i = 0; i < strPhoneList.size(); i++)
+    {
+        if (!strTmp.isEmpty())
+        {
+            strTmp += ",";
+        }
+        strTmp += strPhoneList.at(i);
+    }
+    qDebug() << "批量恢复出厂:" << strTmp;
     if (strPhoneList.size() > 0)
     {
         m_toolObject->HttpPostInstanceReset(strPhoneList);
@@ -1154,6 +1206,16 @@ void MainWindow::do_ActionBatchFactoryReset(bool bChecked)
 void MainWindow::do_ActionBatchAuth(bool bChecked)
 {
     QStringList strPhoneList = getCheckedPhoneInstance();
+    QString strTmp = "";
+    for (int i = 0; i < strPhoneList.size(); i++)
+    {
+        if (!strTmp.isEmpty())
+        {
+            strTmp += ",";
+        }
+        strTmp += strPhoneList.at(i);
+    }
+    qDebug() << "批量授权:" << strTmp;
     if (strPhoneList.size() > 0)
     {
         //批量授权

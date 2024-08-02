@@ -237,6 +237,7 @@ private slots:
     QStringList getCheckedPhoneInstance(bool IsPhoneId = false);
     void do_ActionBatchReboot(bool bChecked);
     void do_ActionBatchUploadFile(bool bChecked);
+    void do_ActionBatchOneClickNewMachine(bool bChecked);
     void do_ActionBatchFactoryReset(bool bChecked);
     void do_ActionBatchAuth(bool bChecked);
 
@@ -328,6 +329,7 @@ private:
 
     QAction* pActionBatchReboot;
     QAction* pActionBatchUploadFile;
+    QAction* pActionBatchOneClickNewMachine;
     QAction* pActionBatchFactoryReset;
     QAction* pActionBatchAuth;//批量授权
 
