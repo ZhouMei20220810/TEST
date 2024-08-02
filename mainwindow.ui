@@ -2185,10 +2185,6 @@ background-image: url(:/main/resource/main/buyNum.png);
                       <property name="text">
                        <string/>
                       </property>
-                      <property name="icon">
-                       <iconset resource="res.qrc">
-                        <normaloff>:/main/resource/main/buyNum.png</normaloff>:/main/resource/main/buyNum.png</iconset>
-                      </property>
                       <property name="flat">
                        <bool>true</bool>
                       </property>

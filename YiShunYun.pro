@@ -50,6 +50,7 @@ SOURCES += \
     qmousewidget.cpp \
     qmovewidget.cpp \
     queuetableitem.cpp \
+    recentcopycutcontentdialog.cpp \
     registerpage.cpp \
     renewitemwidget.cpp \
     replacecloudphonedialog.cpp \
@@ -106,6 +107,7 @@ HEADERS += \
     qmousewidget.h \
     qmovewidget.h \
     queuetableitem.h \
+    recentcopycutcontentdialog.h \
     registerpage.h \
     renewitemwidget.h \
     replacecloudphonedialog.h \
@@ -153,6 +155,7 @@ FORMS += \
     phonelistmodeitemwidget.ui \
     policydialog.ui \
     queuetableitem.ui \
+    recentcopycutcontentdialog.ui \
     registerpage.ui \
     renewitemwidget.ui \
     replacecloudphonedialog.ui \

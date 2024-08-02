@@ -21,6 +21,7 @@
 #include <QDesktopServices>
 #include <QSettings>
 #include "filedownloader.h"
+#include "recentcopycutcontentdialog.h"
 #define         TOOLBUTTON_WIDTH            (40)
 #define         TOOLBUTTON_HEIGHT           (40)
 
@@ -700,7 +701,11 @@ void PhoneInstanceWidget::on_toolBtnHorOrVer_clicked()
 void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
 {
     qDebug() << "do clipboard signals";
-    if (m_Player != NULL)
+    RecentCopyCutContentDialog* dialog = new RecentCopyCutContentDialog();
+    //传递需要拷贝的文字
+    //connect(dialog, &)
+    dialog->exec();
+    /*if (m_Player != NULL)
     {
         DataSource* source = m_Player->getDataSource();
         if (source != NULL)
@@ -709,7 +714,7 @@ void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
             QString strContent = "复制剪贴板内容";
             source->copyToRemote(strContent.toStdString().c_str(),strContent.length());
         }
-    }
+    }*/
 }
 
 void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
