@@ -205,7 +205,7 @@ void OneClickNewMachineDialog::on_btnOk_clicked()
     if (m_bAndroidID)
     {
         //生成16位字符串
-        strAndroidID = generateRandomAndroidId();
+        strAndroidID = generateBrandID(ui->comboBoxBrand->currentText());
     }
     if (m_bWIFIMAC)
     {
@@ -214,7 +214,7 @@ void OneClickNewMachineDialog::on_btnOk_clicked()
     if (m_bPhoneOrder)
     {
         //生成12位随机数
-        strPhoneOrder = generateRandomSerialNumber();
+        strPhoneOrder = generateRandomSerialNumber(); 
     }
     QString strModel = ui->comboBoxModel->currentText();
     QMap<QString, S_BRAND_INFO>::iterator iterFind = m_mapModel.find(strModel);

@@ -243,14 +243,14 @@ QString generateRandomCode(int length/* = 4*/)
 QString generateRandomMacAddress()
 {
     // Qt 5.11及以上版本提供了QRandomGenerator类
-    QRandomGenerator generator;
+    QRandomGenerator* generator = QRandomGenerator::global();
 
     // 开始生成MAC地址
     QString macAddress;
     for (int i = 0; i < 6; ++i)
     {
         // 生成一个00-FF之间的随机十六进制数字
-        int byte = generator.bounded(0, 256);
+        int byte = generator->bounded(0, 256);
         // 将整数转换为两位的十六进制字符串
         QString hexByte = QString("%1").arg(byte, 2, 16, QChar('0')).toUpper();
         // 添加到MAC地址中
@@ -287,11 +287,11 @@ int calculateLuhnCheckDigit(const QString& imei)
 // 生成随机的IMEI编码
 QString generateRandomImei()
 {
-    QRandomGenerator generator;
+    QRandomGenerator* generator = QRandomGenerator::global();
     // TAC (Type Allocation Code) 一般由8位数字组成，这里随机生成
-    QString tac = QString("%1").arg(generator.bounded(0, 99999999), 8, 10, QChar('0'));
+    QString tac = QString("%1").arg(generator->bounded(0, 99999999), 8, 10, QChar('0'));
     // FAC (Final Assembly Code) 和 Serial Number 一般各占2位数字，这里随机生成
-    QString facAndSerial = QString("%1").arg(generator.bounded(0, 999999), 6, 10, QChar('0'));
+    QString facAndSerial = QString("%1").arg(generator->bounded(0, 999999), 6, 10, QChar('0'));
     // 合并TAC、FAC和Serial Number
     QString imeiWithoutCheckDigit = tac + facAndSerial;
     // 计算校验位
@@ -304,13 +304,13 @@ QString generateRandomImei()
 // 生成随机的Android ID
 QString generateRandomAndroidId()
 {
-    QRandomGenerator generator;
+    QRandomGenerator* generator = QRandomGenerator::global();
     // 生成16个十六进制字符
     QString androidId;
     for (int i = 0; i < 16; ++i)
     {
         // 生成0-15之间的随机数，并转换为十六进制字符
-        char hexChar = "0123456789abcdef"[generator.bounded(0, 16)];
+        char hexChar = "0123456789abcdef"[generator->bounded(0, 16)];
         androidId.append(hexChar);
     }
     return androidId;
@@ -319,7 +319,7 @@ QString generateRandomAndroidId()
 // 生成随机的手机序列号
 QString generateRandomSerialNumber()
 {
-    QRandomGenerator generator;
+    QRandomGenerator* generator = QRandomGenerator::global();
     QString validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const int serialLength = 15; // 序列号长度
 
@@ -327,9 +327,41 @@ QString generateRandomSerialNumber()
     for (int i = 0; i < serialLength; ++i)
     {
         // 从有效字符集中选择一个随机字符
-        char randomChar = validChars[generator.bounded(validChars.length())].toLatin1();
+        char randomChar = validChars[generator->bounded(validChars.length())].toLatin1();
         serialNumber.append(randomChar);
     }
 
     return serialNumber;
+}
+
+QString generateAndroidID()
+{
+    const int length = 16; // Android ID长度
+    const QString possibleCharacters = "0123456789abcdef"; // 十六进制字符
+
+    QString androidID;
+    QRandomGenerator* generator = QRandomGenerator::global();
+
+    for (int i = 0; i < length; i++)
+    {
+        androidID.append(possibleCharacters[generator->bounded(possibleCharacters.size())]);
+    }
+
+    return androidID;
+}
+
+QString generateBrandID(const QString& brand)
+{
+    QString androidID = generateAndroidID();
+    // 添加品牌前缀
+    if (brand == "HUAWEI")
+        androidID.prepend("H");
+    else if (brand == "MEIZU")
+        androidID.prepend("M");
+    else if (brand == "Redmi")
+        androidID.prepend("R");
+    else if (brand == "Samsung")
+        androidID.prepend("S");
+
+    return androidID;
 }

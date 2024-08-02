@@ -191,7 +191,7 @@ QString generateRandomMacAddress();
 // 生成随机的IMEI编码
 QString generateRandomImei();
 // 生成随机的Android ID
-QString generateRandomAndroidId();
+QString generateBrandID(const QString& brand);
 // 生成随机的手机序列号
 QString generateRandomSerialNumber();
 enum ENUM_ACTIVE_CODE_STATUS
