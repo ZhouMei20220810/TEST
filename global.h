@@ -7,7 +7,7 @@
 #define CURRENT_APP_VERSION         "1.0.0" //线上版本
 #define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
 
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080"  //"http://120.26.132.153:8080"  //  
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080" //"http://192.168.1.6:8080"  //"http://120.26.132.153:8080"  //  
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -49,6 +49,8 @@
 #define HTTP_SET_INSTANCE_NAME      "/api/user/setName"     // 实例名称修改
 #define HTTP_UPLOAD_FILE_TO_INSTANCE "/api/user/upload"     //上传文件到实例
 #define HTTP_GET_INSTANCE_SESSION    "/api/user/getSessionId" //获取连接session
+#define HTTP_GET_MODEL_LIST         "/api/model/list"         //一键新机-品牌列表
+#define HTTP_POST_ONE_CLICK_NEWPAD  "/api/user/newPad"        //一键新机
 
 //文件相关接口,停用
 #define HTTP_POST_SERVER_OSS_INFO   "/api/file/getSts"      //获取文件上传sts
@@ -181,6 +183,11 @@ QString getMessageByCode(long code);
 std::string sha256(const std::string str);
 int calculateWidth(int fixedHeight);
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+
+// 生成随机字符串
+QString generateRandomCode(int length/* = 4*/);
+//生成WIFIMac字符串
+QString generateRandomMacAddress();
 
 enum ENUM_ACTIVE_CODE_STATUS
 {
@@ -477,6 +484,18 @@ typedef struct UPLOAD_FILE_INFO
         memset(this, 0, sizeof(UPLOAD_FILE_INFO));
     }
 }S_UPLOADD_FILE_INFO,*PS_UPLOADD_FILE_INFO;
+
+typedef struct BRAND_INFO
+{
+    int     id;
+    QString strBrand;
+    QString strManufacturer;
+    QString strModel;
+    BRAND_INFO()
+    {
+        memset(this, 0, sizeof(BRAND_INFO));
+    }
+}S_BRAND_INFO,*PS_BRAND_INFO;
 
 class GlobalData
 {

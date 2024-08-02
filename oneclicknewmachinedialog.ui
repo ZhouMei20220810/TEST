@@ -483,7 +483,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QCheckBox" name="checkBoxRemberPW">
+                <widget class="QCheckBox" name="checkBoxIMEICode">
                  <property name="font">
                   <font>
                    <pointsize>-1</pointsize>
@@ -535,7 +535,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBoxRemberPW_2">
+                <widget class="QCheckBox" name="checkBoxAndroidID">
                  <property name="font">
                   <font>
                    <pointsize>-1</pointsize>
@@ -587,7 +587,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBoxRemberPW_3">
+                <widget class="QCheckBox" name="checkBoxWIFIMAC">
                  <property name="font">
                   <font>
                    <pointsize>-1</pointsize>
@@ -639,7 +639,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="checkBoxRemberPW_4">
+                <widget class="QCheckBox" name="checkBoxPhoneOrder">
                  <property name="font">
                   <font>
                    <pointsize>-1</pointsize>

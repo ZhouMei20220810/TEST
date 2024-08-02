@@ -239,3 +239,48 @@ QString generateRandomCode(int length/* = 4*/)
     }
     return code;
 }
+
+/*QString generateRandomMacAddress()
+{
+    // Qt 5.11及以上版本提供了QRandomGenerator类
+    QRandomGenerator generator;
+
+    // 开始生成MAC地址
+    QString macAddress;
+    for (int i = 0; i < 6; ++i)
+    {
+        // 生成一个00-FF之间的随机十六进制数字
+        int byte = generator.bounded(0, 256);
+        // 将整数转换为两位的十六进制字符串
+        QString hexByte = QString("%1").arg(byte, 4, 16, QChar('0')).toUpper();
+        // 添加到MAC地址中
+        macAddress.append(hexByte);
+        // 如果不是最后一个字节，则添加一个分隔符（如冒号或短横线）
+        if (i < 5)
+            macAddress.append(':');
+    }
+
+    return macAddress;
+}*/
+
+// 生成一个随机的MAC地址
+QString generateRandomMacAddress()
+{
+    QRandomGenerator generator;
+
+    QString macAddress;
+    for (int i = 0; i < 6; ++i)
+    {
+        // 生成一个0000-FFFF之间的随机十六进制数字
+        uint word = generator.bounded(0x0000, 0xFFFF);
+        // 将整数转换为四位的十六进制字符串
+        QString hexWord = QString("%1").arg(word, 4, 16, QChar('0')).toUpper();
+        // 添加到MAC地址中
+        macAddress.append(hexWord);
+        // 如果不是最后一个字节，则添加一个分隔符（如空格或短横线）
+        if (i < 5)
+            macAddress.append('-');
+    }
+
+    return macAddress;
+}

@@ -486,7 +486,9 @@ void MainWindow::do_ActonOneClickNewMachine(bool bChecked)
 {
     //一键新机
     qDebug() << "一键新机";
-    OneClickNewMachineDialog* dialog = new OneClickNewMachineDialog();
+    QStringList strInstanceList;
+    strInstanceList << m_CurSelMenuPhoneInfo.strInstanceNo;
+    OneClickNewMachineDialog* dialog = new OneClickNewMachineDialog(strInstanceList);
     dialog->exec();
 }
 void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
