@@ -25,7 +25,7 @@ OneClickNewMachineDialog::OneClickNewMachineDialog(QStringList strInstanceList,Q
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
     m_bIMEICode = false;
-    m_bAndroidID = false;
+    //m_bAndroidID = false;
     m_bWIFIMAC = false;
     m_bPhoneOrder = false;
     m_strInstanceList = strInstanceList;
@@ -171,10 +171,10 @@ void OneClickNewMachineDialog::on_checkBoxIMEICode_clicked(bool checked)
     m_bIMEICode = checked;
 }
 
-void OneClickNewMachineDialog::on_checkBoxAndroidID_clicked(bool checked)
+/*void OneClickNewMachineDialog::on_checkBoxAndroidID_clicked(bool checked)
 {
     m_bAndroidID = checked;
-}
+}*/
 
 void OneClickNewMachineDialog::on_checkBoxWIFIMAC_clicked(bool checked)
 {
@@ -202,11 +202,11 @@ void OneClickNewMachineDialog::on_btnOk_clicked()
         //生成15位字符串
         strIMEICode = generateRandomImei();
     }
-    if (m_bAndroidID)
+    /*if (m_bAndroidID)
     {
         //生成16位字符串
         strAndroidID = generateBrandID(ui->comboBoxBrand->currentText());
-    }
+    }*/
     if (m_bWIFIMAC)
     {
         strWIFIMAC = generateRandomMacAddress();
@@ -220,12 +220,12 @@ void OneClickNewMachineDialog::on_btnOk_clicked()
     QMap<QString, S_BRAND_INFO>::iterator iterFind = m_mapModel.find(strModel);
     if (iterFind != m_mapModel.end())
     {
-        HttpPostOneClickNewMachine(strIMEICode, strAndroidID, strWIFIMAC, strPhoneOrder, iterFind->id, m_strInstanceList);
+        HttpPostOneClickNewMachine(strIMEICode, /*strAndroidID,*/ strWIFIMAC, strPhoneOrder, iterFind->id, m_strInstanceList);
     }    
 }
 
 
-void OneClickNewMachineDialog::HttpPostOneClickNewMachine(QString strIMEICode, QString strAndroidID, QString strWIFIMAC, QString strPhoneOrder, int iModelId, QStringList strInstanceList)
+void OneClickNewMachineDialog::HttpPostOneClickNewMachine(QString strIMEICode, /*QString strAndroidID, */ QString strWIFIMAC, QString strPhoneOrder, int iModelId, QStringList strInstanceList)
 {
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_POST_ONE_CLICK_NEWPAD;
@@ -243,7 +243,7 @@ void OneClickNewMachineDialog::HttpPostOneClickNewMachine(QString strIMEICode, Q
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("imei", strIMEICode);
-    obj.insert("androidid", strAndroidID);
+    //obj.insert("androidid", strAndroidID);
     obj.insert("wifimac", strWIFIMAC);
     obj.insert("serialno", strPhoneOrder);
     QJsonArray listArray;

@@ -21,7 +21,7 @@ private:
     void LoadBrandList(QMap<QString, S_BRAND_INFO> map);
     //更加品牌型号过滤
     void LoadModelList(QMap<QString, S_BRAND_INFO> map);
-    void HttpPostOneClickNewMachine(QString strIMEICode, QString strAndroidID, QString strWIFIMAC, QString strPhoneOrder, int iModelId, QStringList strInstanceList);
+    void HttpPostOneClickNewMachine(QString strIMEICode, /*QString strAndroidID, */ QString strWIFIMAC, QString strPhoneOrder, int iModelId, QStringList strInstanceList);
 private slots:
     void on_btnClose_clicked();
 
@@ -32,14 +32,14 @@ private slots:
     void on_comboBoxBrand_currentIndexChanged(int index);
 
     void on_checkBoxIMEICode_clicked(bool checked);
-    void on_checkBoxAndroidID_clicked(bool checked);
+    //void on_checkBoxAndroidID_clicked(bool checked);
     void on_checkBoxWIFIMAC_clicked(bool checked);
     void on_checkBoxPhoneOrder_clicked(bool checked);
 
 private:
     Ui::OneClickNewMachineDialog *ui;
     bool        m_bIMEICode;
-    bool        m_bAndroidID;
+    //bool        m_bAndroidID;
     bool        m_bWIFIMAC;
     bool        m_bPhoneOrder;
     QStringList m_strInstanceList;
