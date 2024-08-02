@@ -200,12 +200,12 @@ void OneClickNewMachineDialog::on_btnOk_clicked()
     if (m_bIMEICode)
     {
         //生成15位字符串
-        strIMEICode = generateRandomCode(15);
+        strIMEICode = generateRandomImei();
     }
     if (m_bAndroidID)
     {
         //生成16位字符串
-        strAndroidID = generateRandomCode(16);
+        strAndroidID = generateRandomAndroidId();
     }
     if (m_bWIFIMAC)
     {
@@ -214,7 +214,7 @@ void OneClickNewMachineDialog::on_btnOk_clicked()
     if (m_bPhoneOrder)
     {
         //生成12位随机数
-        strPhoneOrder = generateRandomCode(12);
+        strPhoneOrder = generateRandomSerialNumber();
     }
     QString strModel = ui->comboBoxModel->currentText();
     QMap<QString, S_BRAND_INFO>::iterator iterFind = m_mapModel.find(strModel);

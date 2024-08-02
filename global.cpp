@@ -240,7 +240,7 @@ QString generateRandomCode(int length/* = 4*/)
     return code;
 }
 
-/*QString generateRandomMacAddress()
+QString generateRandomMacAddress()
 {
     // Qt 5.11及以上版本提供了QRandomGenerator类
     QRandomGenerator generator;
@@ -252,7 +252,7 @@ QString generateRandomCode(int length/* = 4*/)
         // 生成一个00-FF之间的随机十六进制数字
         int byte = generator.bounded(0, 256);
         // 将整数转换为两位的十六进制字符串
-        QString hexByte = QString("%1").arg(byte, 4, 16, QChar('0')).toUpper();
+        QString hexByte = QString("%1").arg(byte, 2, 16, QChar('0')).toUpper();
         // 添加到MAC地址中
         macAddress.append(hexByte);
         // 如果不是最后一个字节，则添加一个分隔符（如冒号或短横线）
@@ -261,26 +261,75 @@ QString generateRandomCode(int length/* = 4*/)
     }
 
     return macAddress;
-}*/
+}
 
-// 生成一个随机的MAC地址
-QString generateRandomMacAddress()
+// 计算Luhn校验位
+int calculateLuhnCheckDigit(const QString& imei)
+{
+    int sum = 0;
+    bool isSecond = false;
+    for (int i = imei.length() - 1; i >= 0; --i)
+    {
+        int digit = imei[i].digitValue();
+        if (isSecond)
+        {
+            digit *= 2;
+            if (digit > 9)
+                digit -= 9;
+        }
+        sum += digit;
+        isSecond = !isSecond;
+    }
+    int checkDigit = ((sum / 10 + 1) * 10 - sum) % 10;
+    return checkDigit;
+}
+
+// 生成随机的IMEI编码
+QString generateRandomImei()
 {
     QRandomGenerator generator;
+    // TAC (Type Allocation Code) 一般由8位数字组成，这里随机生成
+    QString tac = QString("%1").arg(generator.bounded(0, 99999999), 8, 10, QChar('0'));
+    // FAC (Final Assembly Code) 和 Serial Number 一般各占2位数字，这里随机生成
+    QString facAndSerial = QString("%1").arg(generator.bounded(0, 999999), 6, 10, QChar('0'));
+    // 合并TAC、FAC和Serial Number
+    QString imeiWithoutCheckDigit = tac + facAndSerial;
+    // 计算校验位
+    int checkDigit = calculateLuhnCheckDigit(imeiWithoutCheckDigit);
+    // 添加校验位
+    imeiWithoutCheckDigit.append(QString::number(checkDigit));
+    return imeiWithoutCheckDigit;
+}
 
-    QString macAddress;
-    for (int i = 0; i < 6; ++i)
+// 生成随机的Android ID
+QString generateRandomAndroidId()
+{
+    QRandomGenerator generator;
+    // 生成16个十六进制字符
+    QString androidId;
+    for (int i = 0; i < 16; ++i)
     {
-        // 生成一个0000-FFFF之间的随机十六进制数字
-        uint word = generator.bounded(0x0000, 0xFFFF);
-        // 将整数转换为四位的十六进制字符串
-        QString hexWord = QString("%1").arg(word, 4, 16, QChar('0')).toUpper();
-        // 添加到MAC地址中
-        macAddress.append(hexWord);
-        // 如果不是最后一个字节，则添加一个分隔符（如空格或短横线）
-        if (i < 5)
-            macAddress.append('-');
+        // 生成0-15之间的随机数，并转换为十六进制字符
+        char hexChar = "0123456789abcdef"[generator.bounded(0, 16)];
+        androidId.append(hexChar);
+    }
+    return androidId;
+}
+
+// 生成随机的手机序列号
+QString generateRandomSerialNumber()
+{
+    QRandomGenerator generator;
+    QString validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const int serialLength = 15; // 序列号长度
+
+    QString serialNumber;
+    for (int i = 0; i < serialLength; ++i)
+    {
+        // 从有效字符集中选择一个随机字符
+        char randomChar = validChars[generator.bounded(validChars.length())].toLatin1();
+        serialNumber.append(randomChar);
     }
 
-    return macAddress;
+    return serialNumber;
 }

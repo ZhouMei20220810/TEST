@@ -188,7 +188,12 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext& context, con
 QString generateRandomCode(int length/* = 4*/);
 //生成WIFIMac字符串
 QString generateRandomMacAddress();
-
+// 生成随机的IMEI编码
+QString generateRandomImei();
+// 生成随机的Android ID
+QString generateRandomAndroidId();
+// 生成随机的手机序列号
+QString generateRandomSerialNumber();
 enum ENUM_ACTIVE_CODE_STATUS
 {
     TYPE_INIT = -1,
