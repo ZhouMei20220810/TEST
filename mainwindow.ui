@@ -2179,7 +2179,7 @@ QPushButton:hover{
 border: none; 
 border-radius: 999px; 
 background: transparent;
-background-image: url(:/main/resource/main/default_photoUrl.png);
+background-image: url(:/main/resource/main/buyNum.png);
 }</string>
                       </property>
                       <property name="text">

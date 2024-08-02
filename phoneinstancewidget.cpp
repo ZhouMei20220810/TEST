@@ -700,6 +700,16 @@ void PhoneInstanceWidget::on_toolBtnHorOrVer_clicked()
 void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
 {
     qDebug() << "do clipboard signals";
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            //手机剪贴板
+            QString strContent = "复制剪贴板内容";
+            source->copyToRemote(strContent.toStdString().c_str(),strContent.length());
+        }
+    }
 }
 
 void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
