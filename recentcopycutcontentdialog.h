@@ -82,7 +82,9 @@ private slots:
     void on_btnClose_clicked();
 
     void do_idClicked(int id);
-
+    void onClipboardChanged();
+private:
+    void addItem(const QString& text);
 private:
     Ui::RecentCopyCutContentDialog *ui;
     QButtonGroup*       m_buttonGroup;
