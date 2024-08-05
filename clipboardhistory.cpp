@@ -38,3 +38,18 @@ QList<QString> ClipboardHistory::getHistory() const
 {
     return history_;
 }
+
+bool ClipboardHistory::removeHistoryItem(QString strText)
+{
+    if (history_.size() <= 0)
+        return false;
+
+    //删除全局列表中的Item
+    bool find = history_.removeOne(strText);
+    if (!find)
+    {
+        qDebug() << "not found. strText=" << strText;
+        return false;
+    }
+    return true;
+}

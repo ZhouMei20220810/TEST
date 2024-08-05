@@ -37,6 +37,7 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
     m_buttonGroup = new QButtonGroup(this);
     connect(m_buttonGroup, &QButtonGroup::idClicked, this, &RecentCopyCutContentDialog::do_idClicked);
    
+    m_iBtnID = 0;
     // 连接信号与槽
     connect(qApp->clipboard(), &QClipboard::dataChanged, this, &RecentCopyCutContentDialog::onClipboardChanged);
     LoadHistoryList();
@@ -44,12 +45,6 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
 void RecentCopyCutContentDialog::onClipboardChanged()
 {
     LoadHistoryList();
-    /*const QMimeData* mimeData = qApp->clipboard()->mimeData();
-    if (mimeData && mimeData->hasText())
-    {
-        QString text = mimeData->text();
-        addItem(text);
-    }*/
 }
 void RecentCopyCutContentDialog::LoadHistoryList()
 {
@@ -65,53 +60,49 @@ void RecentCopyCutContentDialog::LoadHistoryList()
     }
 }
 
+void RecentCopyCutContentDialog::deleteItem(QListWidgetItem* item)
+{
+    if (item) 
+    {
+        // 从QButtonGroup中移除对应的QRadioButton
+        m_buttonGroup->removeButton(m_buttonGroup->button(item->data(Qt::UserRole).toInt()));
+
+        ui->listWidget->takeItem(ui->listWidget->row(item));
+        delete item;
+    }
+}
+
 void RecentCopyCutContentDialog::addItem(const QString& strContent)
 {
     QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-    QWidget* widget = new QWidget(this);
-    widget->resize(RECENT_LIST_ITEM_WIDTH, RECENT_LIST_ITEM_HEIGHT);
-    QVBoxLayout* vLayout = new QVBoxLayout(this);
-    vLayout->setContentsMargins(0, 0, 0, 0);
-    QHBoxLayout* hLayout = new QHBoxLayout(this);
-    hLayout->setContentsMargins(0, 0, 0, 0);
-
-    QString strStyleSheet = "QRadioButton::indicator::unchecked{border-image:url(:/main/resource/main/radioUncheck.png);}QRadioButton::indicator::checked{border-image:url(:/main/resource/main/radioCheck.png);}QRadioButton::indicator{width:16px;height:16px;}";
-    QRadioButton* radioBtnContent = new QRadioButton(widget);
-    //这里设置为非互斥，使用QButtonGroup来控制
-    radioBtnContent->setAutoExclusive(false);
-    m_buttonGroup->addButton(radioBtnContent);
-    //connect(m_radioBtnContent, &QRadioButton::clicked, this, &RecentListItem::selectItemSignals);
-    radioBtnContent->setStyleSheet(strStyleSheet);
-    QFontMetrics fontWidth(radioBtnContent->font());
-    QString strElideNote = fontWidth.elidedText(strContent, Qt::ElideRight, 244);
-    radioBtnContent->setText(strElideNote);
-    radioBtnContent->setToolTip(strContent);
-
-    hLayout->addWidget(radioBtnContent);
-    hLayout->addStretch();
-
-    QToolButton* toolBtnDel = new QToolButton(widget);
-    strStyleSheet = "QToolButton{border:none;background:transparent;background-image: url(:/main/resource/main/deleteActiveItem.png);}";
-    toolBtnDel->setStyleSheet(strStyleSheet);
-    toolBtnDel->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    connect(toolBtnDel, &QToolButton::clicked, this, &RecentCopyCutContentDialog::do_toolBtnDelClick);
-    //m_toolBtnDel->setText("222");
-    //m_toolBtnDel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    hLayout->addWidget(toolBtnDel);
-
-    //添加到垂直布局
-    vLayout->addLayout(hLayout);
-    widget->setLayout(vLayout);
-
+    RecentListItem* widget = new RecentListItem(strContent.isEmpty()?"New Option":strContent, m_buttonGroup, m_iBtnID, this);
+    item->setData(Qt::UserRole, m_iBtnID);
+    item->setData(Qt::DisplayRole, strContent);
+    m_iBtnID++;
+    connect(widget, &RecentListItem::deleteClicked, this, [this, widget]() {
+        QListWidgetItem* item = NULL;
+        for (int i = 0; i < ui->listWidget->count(); i++)
+        {
+            item = ui->listWidget->item(i);
+            if (widget == ui->listWidget->itemWidget(item))
+            {
+                qobject_cast<ClipboardHistoryApp*>(qApp)->removeHistoryItem(item->data(Qt::DisplayRole).toString());
+                m_buttonGroup->removeButton(m_buttonGroup->button(item->data(Qt::UserRole).toInt()));                
+                ui->listWidget->takeItem(i);
+                break;
+            }
+        }
+        delete item;
+        });
     ui->listWidget->addItem(item);
     ui->listWidget->setItemWidget(item, widget);
 }
 
 //删除按钮
-void RecentCopyCutContentDialog::do_toolBtnDelClick(bool bChecked)
+/*void RecentCopyCutContentDialog::do_toolBtnDelClick(bool bChecked)
 {
 
-}
+}*/
 
 void RecentCopyCutContentDialog::do_idClicked(int id)
 {

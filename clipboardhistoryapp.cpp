@@ -35,3 +35,8 @@ QList<QString> ClipboardHistoryApp::getClipboardHistoryList()
         item->setCheckState(Qt::Unchecked);
     }*/
 }
+
+bool ClipboardHistoryApp::removeHistoryItem(QString strText)
+{
+    return clipboardHistory_->removeHistoryItem(strText);
+}
