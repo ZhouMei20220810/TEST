@@ -203,6 +203,7 @@ void MessageCenterDialog::HttpGetNoticeListInfo(NOTICE_TYPE enType,int iPage, in
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     request.setUrl(url);
 
@@ -290,6 +291,7 @@ void NoticeItem::HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enTyp
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     request.setUrl(url);
     QJsonDocument doc;

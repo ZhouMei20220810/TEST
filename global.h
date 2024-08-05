@@ -96,6 +96,9 @@
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
 #define     KILL_PROCESS_NAME       "updateYSY.exe"
+//登录类型
+#define     LOGIN_DEVICE_TYPE       "device-type"
+#define     LOGIN_DEVICE_TYPE_VALUE "PC"
 
 #define OPEN_ZHIFUBAO_TEMP_FILE_NAME "ysy.html"
 

@@ -250,6 +250,7 @@ void TransferPhoneDialog::HttpPostTransferPhone(QString strPhoneOrAccount,QMap<i
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     request.setRawHeader("Authorization", strToken.toLocal8Bit());
     request.setUrl(url);
     QJsonObject jsonObj;

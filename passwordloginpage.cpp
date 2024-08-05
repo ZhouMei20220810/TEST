@@ -108,7 +108,7 @@ void PasswordLoginPage::on_btnLogin_clicked()
     QNetworkRequest request;
     QUrl url(strUrl);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    //request.setRawHeader("Authorization", strAccount.toUtf8());
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     request.setUrl(url);
     
     QJsonDocument doc;

@@ -129,6 +129,7 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
     qDebug() << "url:" << strUrl;
     request.setUrl(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("code", strSMSCode);

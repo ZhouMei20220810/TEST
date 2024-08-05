@@ -131,6 +131,7 @@ void RegisterPage::on_btnRegister_clicked()
     QNetworkRequest request;
     request.setUrl(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("account", strAccount);

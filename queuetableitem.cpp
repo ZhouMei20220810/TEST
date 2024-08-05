@@ -189,6 +189,7 @@ void QueueTableItem::HttpPostFileCheckMd5(QString strFileMd5)
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     request.setUrl(url);
     QJsonDocument doc;
@@ -266,6 +267,7 @@ void QueueTableItem::HttpPostFileUploadBaidu(S_UPLOADD_FILE_INFO uploadInfo)
     qDebug() << "url:" << strUrl;
     QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
     request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
     request.setUrl(url);
     QJsonDocument doc;
