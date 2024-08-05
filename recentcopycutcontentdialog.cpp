@@ -26,7 +26,7 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
     //ui->imageList->setIconSize(QSize(100,100));
     //设置QListWidget中单元项的间距
     //ui->listWidgetActiveCode->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
-    ui->listWidget->setSpacing(0);//去掉上下左右空格
+    ui->listWidget->setSpacing(5);//去掉上下左右空格
     //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
     ui->listWidget->setResizeMode(QListWidget::Adjust);
     //设置不能移动
@@ -43,21 +43,18 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
 }
 void RecentCopyCutContentDialog::onClipboardChanged()
 {
-    const QMimeData* mimeData = qApp->clipboard()->mimeData();
+    LoadHistoryList();
+    /*const QMimeData* mimeData = qApp->clipboard()->mimeData();
     if (mimeData && mimeData->hasText())
     {
         QString text = mimeData->text();
         addItem(text);
-    }
+    }*/
 }
 void RecentCopyCutContentDialog::LoadHistoryList()
 {
     ui->listWidget->clear();
 
-    QListWidgetItem* item = NULL;
-    QWidget* widget = NULL;
-    QRadioButton* m_radioBtnContent = NULL;
-    QToolButton* m_toolBtnDel = NULL;
     QList<QString> history;
     ClipboardHistoryApp* app = qobject_cast<ClipboardHistoryApp*>(qApp);
     if(app != NULL)
@@ -79,23 +76,28 @@ void RecentCopyCutContentDialog::addItem(const QString& strContent)
     hLayout->setContentsMargins(0, 0, 0, 0);
 
     QString strStyleSheet = "QRadioButton::indicator::unchecked{border-image:url(:/main/resource/main/radioUncheck.png);}QRadioButton::indicator::checked{border-image:url(:/main/resource/main/radioCheck.png);}QRadioButton::indicator{width:16px;height:16px;}";
-    QRadioButton* m_radioBtnContent = new QRadioButton(widget);
+    QRadioButton* radioBtnContent = new QRadioButton(widget);
     //这里设置为非互斥，使用QButtonGroup来控制
-    m_radioBtnContent->setAutoExclusive(false);
-    m_buttonGroup->addButton(m_radioBtnContent);
+    radioBtnContent->setAutoExclusive(false);
+    m_buttonGroup->addButton(radioBtnContent);
     //connect(m_radioBtnContent, &QRadioButton::clicked, this, &RecentListItem::selectItemSignals);
-    m_radioBtnContent->setStyleSheet(strStyleSheet);
-    m_radioBtnContent->setText(strContent);
-    hLayout->addWidget(m_radioBtnContent);
+    radioBtnContent->setStyleSheet(strStyleSheet);
+    QFontMetrics fontWidth(radioBtnContent->font());
+    QString strElideNote = fontWidth.elidedText(strContent, Qt::ElideRight, 244);
+    radioBtnContent->setText(strElideNote);
+    radioBtnContent->setToolTip(strContent);
+
+    hLayout->addWidget(radioBtnContent);
     hLayout->addStretch();
 
-    QToolButton* m_toolBtnDel = new QToolButton(widget);
+    QToolButton* toolBtnDel = new QToolButton(widget);
     strStyleSheet = "QToolButton{border:none;background:transparent;background-image: url(:/main/resource/main/deleteActiveItem.png);}";
-    m_toolBtnDel->setStyleSheet(strStyleSheet);
-    m_toolBtnDel->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolBtnDel->setStyleSheet(strStyleSheet);
+    toolBtnDel->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    connect(toolBtnDel, &QToolButton::clicked, this, &RecentCopyCutContentDialog::do_toolBtnDelClick);
     //m_toolBtnDel->setText("222");
     //m_toolBtnDel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    hLayout->addWidget(m_toolBtnDel);
+    hLayout->addWidget(toolBtnDel);
 
     //添加到垂直布局
     vLayout->addLayout(hLayout);
@@ -103,6 +105,12 @@ void RecentCopyCutContentDialog::addItem(const QString& strContent)
 
     ui->listWidget->addItem(item);
     ui->listWidget->setItemWidget(item, widget);
+}
+
+//删除按钮
+void RecentCopyCutContentDialog::do_toolBtnDelClick(bool bChecked)
+{
+
 }
 
 void RecentCopyCutContentDialog::do_idClicked(int id)

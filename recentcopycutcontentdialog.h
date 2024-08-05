@@ -83,6 +83,9 @@ private slots:
 
     void do_idClicked(int id);
     void onClipboardChanged();
+
+    //É¾³ý°´Å¥
+    void do_toolBtnDelClick(bool bChecked);
 private:
     void addItem(const QString& text);
 private:
