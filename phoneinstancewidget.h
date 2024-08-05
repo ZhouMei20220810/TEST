@@ -98,6 +98,7 @@ private slots:
     void on_toolBtnChangeKeyBoard_clicked();
 
     void onPositionUpdated(const QGeoPositionInfo& info);
+    void do_DirectCopyToPhoneSignals(QString strSelectText);
 private:
     void InitToolButtonList();
     Ui::PhoneInstanceWidget* ui;

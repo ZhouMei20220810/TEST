@@ -703,18 +703,22 @@ void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
     qDebug() << "do clipboard signals";
     RecentCopyCutContentDialog* dialog = new RecentCopyCutContentDialog();
     //传递需要拷贝的文字
-    //connect(dialog, &)
+    connect(dialog, &RecentCopyCutContentDialog::DirectCopyToPhoneSignals, this, &PhoneInstanceWidget::do_DirectCopyToPhoneSignals);
     dialog->exec();
-    /*if (m_Player != NULL)
+}
+
+void PhoneInstanceWidget::do_DirectCopyToPhoneSignals(QString strSelectText)
+{
+    //直接拷贝到云手机
+    if (m_Player != NULL)
     {
         DataSource* source = m_Player->getDataSource();
         if (source != NULL)
         {
             //手机剪贴板
-            QString strContent = "复制剪贴板内容";
-            source->copyToRemote(strContent.toStdString().c_str(),strContent.length());
+            source->copyToRemote(strSelectText.toStdString().c_str(), strSelectText.length());
         }
-    }*/
+    }
 }
 
 void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)

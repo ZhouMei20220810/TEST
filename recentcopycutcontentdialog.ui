@@ -366,8 +366,17 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QFrame" name="frame_5">
+           <property name="styleSheet">
+            <string notr="true">QFrame {border-right: 1px solid #D7D7DE;color:#505465;font-size:13px;font-weight:bold;}</string>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -388,10 +397,14 @@
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>0</number>
+             <number>16</number>
             </property>
             <item>
-             <widget class="QListWidget" name="listWidget"/>
+             <widget class="QListWidget" name="listWidget">
+              <property name="styleSheet">
+               <string notr="true">border:none;</string>
+              </property>
+             </widget>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
