@@ -24,6 +24,8 @@ SOURCES += \
     authorizationmanagedialog.cpp \
     buyhistoryitemwidget.cpp \
     buyhistorywidget.cpp \
+    clipboardhistory.cpp \
+    clipboardhistoryapp.cpp \
     creategroupwidget.cpp \
     customtoolbutton.cpp \
     factorydataresetdialog.cpp \
@@ -82,6 +84,8 @@ HEADERS += \
     authorizationmanagedialog.h \
     buyhistoryitemwidget.h \
     buyhistorywidget.h \
+    clipboardhistory.h \
+    clipboardhistoryapp.h \
     creategroupwidget.h \
     customtoolbutton.h \
     factorydataresetdialog.h \

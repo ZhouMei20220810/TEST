@@ -1,6 +1,7 @@
 #include "recentcopycutcontentdialog.h"
 #include "ui_recentcopycutcontentdialog.h"
 #include <QGraphicsDropShadowEffect>
+#include "clipboardhistoryapp.h"
 
 RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
     : QDialog(parent)
@@ -33,16 +34,24 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
 
     m_buttonGroup = new QButtonGroup(this);
     connect(m_buttonGroup, &QButtonGroup::idClicked, this, &RecentCopyCutContentDialog::do_idClicked);
+   
+    LoadHistoryList();
+}
 
-    //假数据
+void RecentCopyCutContentDialog::LoadHistoryList()
+{
+    ui->listWidget->clear();
+
     QListWidgetItem* item = NULL;
     QWidget* widget = NULL;
     QRadioButton* m_radioBtnContent = NULL;
     QToolButton* m_toolBtnDel = NULL;
-    QString strContent;
-    for (int i = 0; i < 10; i++)
+    QList<QString> history;
+    ClipboardHistoryApp* app = qobject_cast<ClipboardHistoryApp*>(qApp);
+    if(app != NULL)
+        history = app->getClipboardHistoryList();    
+    for (const QString& strContent : history)
     {
-        strContent = strContent.asprintf("测试%d", i);
         item = new QListWidgetItem(ui->listWidget);
         widget = new QWidget(this);
         widget->resize(RECENT_LIST_ITEM_WIDTH, RECENT_LIST_ITEM_HEIGHT);

@@ -85,8 +85,7 @@
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;NDEBUG;QT_NO_DEBUG;QT_QMLMODELS_LIB;QT_QMLINTEGRATION_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>
-      </ProgramDataBaseFileName>
+      <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -214,6 +213,8 @@
     <ClCompile Include="authorizationmanagedialog.cpp" />
     <ClCompile Include="buyhistoryitemwidget.cpp" />
     <ClCompile Include="buyhistorywidget.cpp" />
+    <ClCompile Include="clipboardhistory.cpp" />
+    <ClCompile Include="clipboardhistoryapp.cpp" />
     <ClCompile Include="creategroupwidget.cpp" />
     <ClCompile Include="customtoolbutton.cpp" />
     <ClCompile Include="factorydataresetdialog.cpp" />
@@ -222,18 +223,8 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="individualcenterwidget.cpp" />
     <ClCompile Include="levelitemwidget.cpp" />
-    <ClCompile Include="loginwindow.cpp">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </ClCompile>
-    <QtMoc Include="main.cpp">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </QtMoc>
+    <ClCompile Include="loginwindow.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="messagecenterdialog.cpp" />
     <ClCompile Include="messagetips.cpp" />
@@ -250,12 +241,7 @@
     <ClCompile Include="qmousewidget.cpp" />
     <ClCompile Include="qmovewidget.cpp" />
     <ClCompile Include="queuetableitem.cpp" />
-    <ClCompile Include="recentcopycutcontentdialog.cpp">
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
-      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
-      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
-    </ClCompile>
+    <ClCompile Include="recentcopycutcontentdialog.cpp" />
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="renewitemwidget.cpp" />
     <ClCompile Include="replacecloudphonedialog.cpp" />
@@ -287,6 +273,8 @@
     <QtMoc Include="authorizationmanagedialog.h" />
     <QtMoc Include="buyhistoryitemwidget.h" />
     <QtMoc Include="buyhistorywidget.h" />
+    <QtMoc Include="clipboardhistory.h" />
+    <QtMoc Include="clipboardhistoryapp.h" />
     <QtMoc Include="creategroupwidget.h" />
     <QtMoc Include="customtoolbutton.h" />
     <QtMoc Include="factorydataresetdialog.h" />

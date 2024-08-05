@@ -10,17 +10,10 @@
 #include <QAction>
 #include "toolobject.h"
 #include <QProcess>
+#include "clipboardhistoryapp.h"
 
 QSystemTrayIcon* g_trayIcon = NULL;
 
-/*void setAutoStart() {
-    QString appPath = QCoreApplication::applicationFilePath();
-    QString startupDir = QDir::toNativeSeparators(QCoreApplication::applicationDirPath() + "/../Startup");
-    QString startupLink = startupDir + "/YourAppName.lnk";
-
-    QProcess::startDetached("mkdir \"" + startupDir + "\"");
-    QProcess::startDetached("cmd /c \"\"" + appPath + "\"\" > NUL 2> NUL && (echo 指向快捷方式的路径 && pause > NUL) || (echo 创建快捷方式 && copy /Y \"" + appPath + "\" \"" + startupLink + "\" && echo [InternetShortcut] > \"" + startupLink + "\" && echo URL=\\\"file:\\\\\\\"%1\\\"\\\" >> \"" + startupLink + "\" && echo IconIndex=0 >> \"" + startupLink + "\" && echo IconFile=\\\"file:\\\\\\\"%1\\\"\\\" >> \"" + startupLink + "\")");
-}*/
 class ProcessKiller {
     //Q_OBJECT
 public:
@@ -75,7 +68,8 @@ public:
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    //QApplication app(argc, argv);
+    ClipboardHistoryApp app(argc, argv);
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     GlobalData::enPictrueQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_DEFINITION).toInt();
     GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
@@ -137,7 +131,7 @@ int main(int argc, char *argv[])
     LoginWindow w;
     w.show();
 
-    int iResult = a.exec();
+    int iResult = app.exec();
     SWRuntime::getInstance()->deinit();
     return iResult;
 }

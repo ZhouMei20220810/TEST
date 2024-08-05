@@ -71,6 +71,8 @@ class RecentCopyCutContentDialog : public QDialog
 public:
     explicit RecentCopyCutContentDialog(QWidget *parent = nullptr);
     ~RecentCopyCutContentDialog();
+
+    void LoadHistoryList();
 signals:
     void DirectCopyToPhoneSignals(QString strSelectText);
 private slots:
