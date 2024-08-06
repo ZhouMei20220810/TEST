@@ -13,6 +13,10 @@ public:
     void RefreshUIData(QString strRemark);
 private slots:
     void onImageDownloaded(QNetworkReply* reply);
+private:
+    void updateHtmlContent(const QString& imageUrl, const QByteArray& base64ImageData);
+private:
+    QMap<QString, QNetworkReply*> m_imageRequests;
 };
 
 #endif // TRICHTEXTDISPLAY_H
