@@ -939,7 +939,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
     switch (iToolIndex)
     {
     case TYPE_VOLUMN_UP:
-        m_tBtnVolumnUp = new QToolButton(ui->frame_2);
+        m_tBtnVolumnUp = new QToolButton(frame);
         connect(m_tBtnVolumnUp, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeUpSignals);
         m_tBtnVolumnUp->setIcon(QIcon(":/resource/instance/volumeAdd.png"));
         m_tBtnVolumnUp->setIconSize(iconMinSize);
@@ -949,7 +949,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnVolumnUp);
         break;
     case TYPE_VOLUMN_DOWN:
-        m_tBtnVolumnDown = new QToolButton(ui->frame_2);
+        m_tBtnVolumnDown = new QToolButton(frame);
         connect(m_tBtnVolumnDown, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeDownSignals);
         m_tBtnVolumnDown->setIcon(QIcon(":/resource/instance/volumeSub.png"));
         m_tBtnVolumnDown->setIconSize(iconMinSize);
@@ -959,7 +959,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnVolumnDown);
         break;
     case TYPE_HOR_VER_SCREEN:
-        m_tBtnHorVerScreen = new QToolButton(ui->frame_2);
+        m_tBtnHorVerScreen = new QToolButton(frame);
         connect(m_tBtnHorVerScreen, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnHorOrVer_clicked);
         m_tBtnHorVerScreen->setIcon(QIcon(":/resource/instance/HorVerScreen.png"));
         m_tBtnHorVerScreen->setIconSize(iconMinSize);
@@ -969,7 +969,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnHorVerScreen);;
         break;
     case TYPE_CLIPBOARD:
-        m_tBtnClipboard = new QToolButton(ui->frame_2);
+        m_tBtnClipboard = new QToolButton(frame);
         connect(m_tBtnClipboard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnClipboard_clicked);
         m_tBtnClipboard->setIcon(QIcon(":/resource/instance/clipboard.png"));
         m_tBtnClipboard->setIconSize(iconMinSize);
@@ -979,7 +979,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnClipboard);
         break;
     case TYPE_SCREENSHOTS:
-        m_tBtnScreenshots = new QToolButton(ui->frame_2);
+        m_tBtnScreenshots = new QToolButton(frame);
         connect(m_tBtnScreenshots, &QToolButton::clicked, this, &PhoneInstanceWidget::on_Screenshot_clicked);
         m_tBtnScreenshots->setIcon(QIcon(":/resource/instance/screenshots.png"));
         m_tBtnScreenshots->setIconSize(iconMinSize);
@@ -989,7 +989,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnScreenshots);
         break;
     case TYPE_SCREENSHOTS_DIR:
-        m_tBtnScreenshotsFolder = new QToolButton(ui->frame_2);
+        m_tBtnScreenshotsFolder = new QToolButton(frame);
         connect(m_tBtnScreenshotsFolder, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked);
         m_tBtnScreenshotsFolder->setIcon(QIcon(":/resource/instance/screenshotsDir.png"));
         m_tBtnScreenshotsFolder->setIconSize(iconMinSize);
@@ -999,7 +999,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnScreenshotsFolder);
         break;
     case TYPE_RESTART:
-        m_tBtnRestart = new QToolButton(ui->frame_2);
+        m_tBtnRestart = new QToolButton(frame);
         connect(m_tBtnRestart, &QToolButton::clicked, this, &PhoneInstanceWidget::RebootSignals);
         m_tBtnRestart->setIcon(QIcon(":/resource/instance/restart.png"));
         m_tBtnRestart->setIconSize(iconMinSize);
@@ -1009,7 +1009,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnRestart);
         break;
     case TYPE_RESET_FACTORY_DATA:
-        m_tBtnResetFactoryData = new QToolButton(ui->frame_2);
+        m_tBtnResetFactoryData = new QToolButton(frame);
         connect(m_tBtnResetFactoryData, &QToolButton::clicked, this, &PhoneInstanceWidget::FactoryDataResetSignals);
         m_tBtnResetFactoryData->setIcon(QIcon(":/resource/instance/factoryDataReset.png"));
         m_tBtnResetFactoryData->setIconSize(iconMinSize);
@@ -1019,7 +1019,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnResetFactoryData);
         break;
     case TYPE_ROOT:
-        m_tBtnRoot = new QToolButton(ui->frame_2);
+        m_tBtnRoot = new QToolButton(frame);
         connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::RootSignals);
         m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
         m_tBtnRoot->setIconSize(iconMinSize);
@@ -1029,7 +1029,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnRoot);
         break;
     case TYPE_SHARK:
-        m_tBtnShark = new QToolButton(ui->frame_2);
+        m_tBtnShark = new QToolButton(frame);
         connect(m_tBtnShark, &QToolButton::clicked, this, &PhoneInstanceWidget::SharkSignals);
         m_tBtnShark->setIcon(QIcon(":/resource/instance/shake.png"));
         m_tBtnShark->setIconSize(iconMinSize);
@@ -1039,7 +1039,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnShark);
         break;
     case TYPE_GPS:
-        m_tBtnGPS = new QToolButton(ui->frame_2);
+        m_tBtnGPS = new QToolButton(frame);
         connect(m_tBtnGPS, &QToolButton::clicked, this, &PhoneInstanceWidget::GPSSignals);
         m_tBtnGPS->setIcon(QIcon(":/resource/instance/GPS.png"));
         m_tBtnGPS->setIconSize(iconMinSize);
@@ -1049,7 +1049,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         vBox->addWidget(m_tBtnGPS);
         break;
     case TYPE_CHANGE_KEYBOARD:
-        m_tBtnChangeKeyBoard = new QToolButton(ui->frame_2);
+        m_tBtnChangeKeyBoard = new QToolButton(frame);
         connect(m_tBtnChangeKeyBoard, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnChangeKeyBoard_clicked);
         m_tBtnChangeKeyBoard->setIcon(QIcon(":/resource/instance/key_show.png"));
         m_tBtnChangeKeyBoard->setIconSize(iconMinSize);
