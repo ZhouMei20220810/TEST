@@ -830,7 +830,7 @@ border:none;</string>
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="webView" native="true"/>
+         <widget class="TRichTextDisplay" name="textEdit"/>
         </item>
        </layout>
       </item>
@@ -845,6 +845,11 @@ border:none;</string>
    <extends>QFrame</extends>
    <header location="global">qmouseframe.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TRichTextDisplay</class>
+   <extends>QTextEdit</extends>
+   <header location="global">trichtextdisplay.h</header>
   </customwidget>
  </customwidgets>
  <resources>

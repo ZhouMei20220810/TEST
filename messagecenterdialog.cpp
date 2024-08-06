@@ -3,6 +3,7 @@
 #include "messagetips.h"
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -150,6 +151,11 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
         default:
             break;
         }
+        if (iter == m_mapNotice.begin())
+        {
+            ui->textEdit->RefreshUIData(iter->strRemark);
+        }
+
         if (enType == iter->iType)
         {
             item = new QListWidgetItem(ui->listWidget);
@@ -192,8 +198,8 @@ void MessageCenterDialog::HttpGetNoticeListInfo(NOTICE_TYPE enType,int iPage, in
     //已授权列表
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_GET_NOTICE_LIST;
-    //level不传值,返回该 组下面所有的level
-    strUrl += QString::asprintf("?page=%d&pageSize=%d", iPage, iPageSize);
+    //platform PC端值为1
+    strUrl += QString::asprintf("?page=%d&pageSize=%d&platform=%d", iPage, iPageSize,1);
     qDebug() << "strUrl = " << strUrl;
     //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
     QNetworkAccessManager* manager = new QNetworkAccessManager(this);
@@ -255,6 +261,7 @@ void MessageCenterDialog::HttpGetNoticeListInfo(NOTICE_TYPE enType,int iPage, in
                                 noticeInfo.strTitle = recordObj["title"].toString();
                                 noticeInfo.strCreateTime = recordObj["createTime"].toString();
                                 noticeInfo.strRemark = recordObj["remark"].toString();
+                                qDebug() << "公告 title=" << noticeInfo.strTitle << "remark=" << noticeInfo.strRemark;
                                 noticeInfo.iCreateBy = recordObj["createBy"].toInt();
                                 noticeInfo.bIsRead = recordObj["isRead"].toBool();
                                 m_mapNotice.insert(i, noticeInfo);

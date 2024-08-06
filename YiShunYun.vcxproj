@@ -252,6 +252,7 @@
     <ClCompile Include="transferphonedialog.cpp" />
     <ClCompile Include="transferphonehistorydialog.cpp" />
     <ClCompile Include="transfertipsdialog.cpp" />
+    <ClCompile Include="trichtextdisplay.cpp" />
     <ClCompile Include="tuploadfilethread.cpp" />
     <ClCompile Include="updategroupwidget.cpp" />
     <ClCompile Include="updatesoftwaredialog.cpp" />
@@ -311,6 +312,7 @@
     <QtMoc Include="transferphonedialog.h" />
     <QtMoc Include="transferphonehistorydialog.h" />
     <QtMoc Include="transfertipsdialog.h" />
+    <QtMoc Include="trichtextdisplay.h" />
     <QtMoc Include="tuploadfilethread.h" />
     <QtMoc Include="updategroupwidget.h" />
     <QtMoc Include="updatesoftwaredialog.h" />

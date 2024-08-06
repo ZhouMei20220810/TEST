@@ -2484,10 +2484,10 @@ void MainWindow::HttpGetMyInstanceLevel(int iPhoneId)
                                 QString strAshIcon = data["ashIcon"].toString();
                                 QString strColorIcon = data["colorIcon"].toString();
                                 int iId = data["id"].toInt();
-                                int isEnabled = data["isEnabled"].toInt();
+                                bool isEnabled = data["isEnabled"].toBool();
                                 QString strlevelName = data["name"].toString();
                                 QString strRemark = data["remark"].toString();
-                                qDebug() << "获取我的实例级别 id=" << iId << "strlevelName" << strlevelName << "remark=" << strRemark;
+                                qDebug() << "获取我的实例级别 id=" << iId << "strlevelName" << strlevelName << "remark=" << strRemark <<"isEnabled="<< isEnabled;
                             }
                         }
                         
