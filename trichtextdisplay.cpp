@@ -12,7 +12,12 @@
 
 TRichTextDisplay::TRichTextDisplay(QWidget* parent):QTextEdit(parent)
 {
+    //设置为只读
     setReadOnly(true);
+    //禁止文本选中
+    setTextInteractionFlags(Qt::NoTextInteraction);
+    //禁止鼠标光标变为文本选择光标
+    viewport()->setCursor(Qt::ArrowCursor);
 }
 
 void TRichTextDisplay::RefreshUIData(QString strRemark)

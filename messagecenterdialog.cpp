@@ -39,6 +39,7 @@ void NoticeItem::setupUI(S_NOTICE_INFO info)
 
 void NoticeItem::do_NoticeItem_clicked(bool checked)
 {
+    emit itemSelectSignals(m_info.strRemark);
     qDebug() << "clicked me 当前选中 id=" << m_info.iId << "创建人=" << m_info.iCreateBy << "公告类型 1.系统公告 2.活动：" << m_info.iType << "标题：" << m_info.strTitle;
     if (!m_info.bIsRead)
     {
@@ -151,11 +152,6 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
         default:
             break;
         }
-        if (iter == m_mapNotice.begin())
-        {
-            ui->textEdit->RefreshUIData(iter->strRemark);
-        }
-
         if (enType == iter->iType)
         {
             item = new QListWidgetItem(ui->listWidget);
@@ -164,8 +160,24 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
 
             item->setData(Qt::UserRole, QVariant::fromValue(*iter));
             widget = new NoticeItem(*iter,this);
+            connect(widget, &NoticeItem::itemSelectSignals, this, [this](QString strRemark) {
+                //显示选中数据
+                ui->textEdit->RefreshUIData(strRemark);
+                });
             ui->listWidget->setItemWidget(item, widget);
         }
+    }
+
+    //设置默认第一条选中
+    if (ui->listWidget->count() > 0)
+    {
+        ui->listWidget->setCurrentRow(0);
+        QListWidgetItem* item = ui->listWidget->currentItem();
+        if (item != NULL)
+        {
+            S_NOTICE_INFO info = item->data(Qt::UserRole).value<S_NOTICE_INFO>();
+            ui->textEdit->RefreshUIData(info.strRemark);
+        }        
     }
 
     if (iIsReadCount == 0)
