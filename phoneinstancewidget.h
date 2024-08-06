@@ -100,7 +100,7 @@ private slots:
     void onPositionUpdated(const QGeoPositionInfo& info);
     void do_DirectCopyToPhoneSignals(QString strSelectText);
 private:
-    void InitToolButtonList();
+    void InitToolButtonList(int iToolIndex, QFrame* frame, QVBoxLayout* vBox);
     Ui::PhoneInstanceWidget* ui;
 
     S_PHONE_INFO m_PhoneInfo;
@@ -144,8 +144,8 @@ private:
     QToolButton* m_tBtnHome;
     QToolButton* m_tBtnChangeMenu;
 
-    QVBoxLayout* vBox;
-    QVBoxLayout* vBox2;
+    QVBoxLayout* m_vBox;
+    QVBoxLayout* m_vBox2;
 
     QPoint      m_leftTopPoint;
     QSize       m_remmberSize;
