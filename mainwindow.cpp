@@ -4138,6 +4138,33 @@ void MainWindow::handleTrayIconActivated(QSystemTrayIcon::ActivationReason reaso
 
 void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
 {
+    if (NULL != m_MainPhoneInstanceWidget)
+    {
+        //弹框提示会关闭主副控
+        //弹窗提示是否关闭
+        if (!GlobalData::bIsTipsCloseSyncOper)
+        {
+            MessageTipsDialog* dialog = new MessageTipsDialog("关闭同步操作,将同时关闭主控及非主控设备", nullptr, MESSAGE_NOT_TIPS_CLOSE_SYNC_OPER, "关闭同步操作");
+            if (QDialog::Accepted == dialog->exec())
+            {
+                emit closePhoneInstanceWidgetSignals();
+                //m_MainPhoneInstanceWidget->close();
+                delete m_MainPhoneInstanceWidget;
+                m_MainPhoneInstanceWidget = NULL;
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            emit closePhoneInstanceWidgetSignals();
+            //m_MainPhoneInstanceWidget->close();
+            delete m_MainPhoneInstanceWidget;
+            m_MainPhoneInstanceWidget = NULL;
+        }        
+    }
     GlobalData::bIsSyncOperation = checked;
     qDebug() << "同步=" << GlobalData::bIsSyncOperation;
 
@@ -4146,6 +4173,7 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
     {
         MessageTipsDialog* tips = new MessageTipsDialog("请先选择云手机后再进行操作", this);
         tips->show();
+        ui->radioButtonSyncOperation->setChecked(false);
         return;
     }    
     
@@ -4198,6 +4226,7 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
     connect(this, &MainWindow::GPSSignals, phoneWidget, &PhoneInstanceWidget::do_GPSSignals);
 
     connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this]() {
+        //关闭非主控云机
         if (NULL != m_MainPhoneInstanceWidget)
         {
             if (m_MainPhoneInstanceWidget->hasChildControl())
@@ -4205,8 +4234,6 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
                 m_MainPhoneInstanceWidget->setChildControl(false);
             }
         }
-        /*delete m_MainPhoneInstanceWidget;
-        m_MainPhoneInstanceWidget = NULL;*/
         });
     connect(this, &MainWindow::closePhoneInstanceWidgetSignals, phoneWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
     phoneWidget->setModal(false);
@@ -4253,8 +4280,6 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         return;
     }
     
-    
-
     GlobalData::mapSyncPhoneList.insert(sPhoneInfo.iId, sPhoneInfo);
     if (GlobalData::mapSyncPhoneList.size() <= 0)
         return;

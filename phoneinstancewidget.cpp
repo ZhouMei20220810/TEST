@@ -5,7 +5,7 @@
 #include "messagetips.h"
 #include "Keyboard.h"
 #include "SWDataSource.h"
-#include "messagetips.h"
+#include "messagetipsdialog.h"
 #include <QDateTime>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -373,7 +373,27 @@ void PhoneInstanceWidget::on_toolBtnClose_clicked()
 {
     if (m_bIsMasterOrNot)
     {
-        emit closePhoneInstanceWidgetSignals();
+        //是否有副控
+        if (hasChildControl())
+        {
+            //弹窗提示是否关闭
+            if (!GlobalData::bIsTipsCloseMasterInstance)
+            {
+                MessageTipsDialog* dialog = new MessageTipsDialog("关闭主控时,将同时关闭非主控云机", nullptr, MESSAGE_NOT_TIPS_CLOSE_MASTER_INSTANCE, "关闭主控云机");
+                if (QDialog::Accepted == dialog->exec())
+                {
+                    emit closePhoneInstanceWidgetSignals();
+                }
+            }
+            else
+            {
+                emit closePhoneInstanceWidgetSignals();
+            }
+        }
+        else
+        {
+            emit closePhoneInstanceWidgetSignals();
+        }
     }
     else
     {

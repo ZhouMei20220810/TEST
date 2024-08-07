@@ -505,6 +505,14 @@ typedef struct BRAND_INFO
     }
 }S_BRAND_INFO,*PS_BRAND_INFO;
 
+//弹窗不再提示窗口
+enum MESSAGE_NOT_TIPS_TYPE
+{
+    MESSAGE_NOT_TIPS_NORMAL = 0,                // 默认弹窗风格
+    MESSAGE_NOT_TIPS_CLOSE_MASTER_INSTANCE = 1, //关闭主控
+    MESSAGE_NOT_TIPS_CLOSE_SYNC_OPER = 2        //关闭操作
+};
+
 class GlobalData
 {
 public:
@@ -559,5 +567,8 @@ public:
     static bool bNeedForcedUpdateApp; //需要强制更新
     static bool bIsUninstallHighVersion; //是否需要卸载高版本
     static EN_RIGHT_CLICK_TYPE enRightClickType;
+
+    static bool bIsTipsCloseMasterInstance; //关闭主控是否不再提示
+    static bool bIsTipsCloseSyncOper;       //关闭同步操作是否不再提示
 };
 #endif // GLOBAL_H
