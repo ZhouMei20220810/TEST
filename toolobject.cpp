@@ -303,7 +303,7 @@ void ToolObject::HttpPostInstanceReset(QStringList strList)
                 qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
-                    MessageTips* tips = new MessageTips("实例重置操作成功!");
+                    MessageTips* tips = new MessageTips("恢复出厂设置操作成功!");
                     tips->show();
                 }
                 else

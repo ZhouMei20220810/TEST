@@ -805,12 +805,14 @@ void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
 {
     if (m_bIsMasterOrNot)
     {
-        emit FactoryDataResetSignals();
+        m_toolObject->HttpPostInstanceReset(m_strPhoneList);
     }
     else
     {
         //只能控制自己
-        do_FactoryDataResetSignals();
+        QStringList strList;
+        strList << m_PhoneInfo.strInstanceNo;
+        m_toolObject->HttpPostInstanceReset(strList);
     }
 }
 
@@ -889,11 +891,6 @@ void PhoneInstanceWidget::on_toolBtnChangePage_clicked()
         //只能控制自己
         do_ChangePageSignals();
     }
-}
-
-void PhoneInstanceWidget::do_FactoryDataResetSignals()
-{
-    m_toolObject->HttpPostInstanceReset(m_strPhoneList);
 }
 
 void PhoneInstanceWidget::do_rootSignals()
