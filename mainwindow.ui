@@ -1874,7 +1874,7 @@ QPushButton:hover
  }
 QPushButton:disabled
 {
- background-color: #FF407AFF;
+ background-color: #D2D2D2;
  color:#FFFFFFFF;
 }
 
@@ -1910,16 +1910,21 @@ QPushButton:disabled
                        <string notr="true"> QCheckBox {
      spacing: 5px;
  }
-
+QCheckBox:disabled
+{
+/*禁用状态字体颜色*/
+	color:#D2D2D2
+}
  QCheckBox::indicator {
      width: 16px;
      height: 16px;
  }
-
  QCheckBox::indicator:unchecked {
      image: url(:/login/resource/login/option_normal.png);
  }
-
+ QCheckBox::indicator:unchecked:disabled {
+     image:url(:/login/resource/login/option_normal_disable.png);
+ }
  QCheckBox::indicator:unchecked:hover {
      image: url(:/login/resource/login/option_normal.png);
  }
@@ -1939,7 +1944,9 @@ QPushButton:disabled
  QCheckBox::indicator:checked:pressed {
      image: url(:/login/resource/login/option_select.png);
  }
-</string>
+ QCheckBox::indicator:checked:disabled {
+     image:url(:/login/resource/login/option_select_disable.png);
+ }</string>
                       </property>
                       <property name="text">
                        <string>全选(0/0)</string>
@@ -1961,16 +1968,21 @@ QPushButton:disabled
                        <string notr="true"> QCheckBox {
      spacing: 5px;
  }
-
+QCheckBox:disabled
+{
+/*禁用状态字体颜色*/
+	color:#D2D2D2
+}
  QCheckBox::indicator {
      width: 16px;
      height: 16px;
  }
-
  QCheckBox::indicator:unchecked {
      image: url(:/login/resource/login/option_normal.png);
  }
-
+ QCheckBox::indicator:unchecked:disabled {
+     image:url(:/login/resource/login/option_normal_disable.png);
+ }
  QCheckBox::indicator:unchecked:hover {
      image: url(:/login/resource/login/option_normal.png);
  }
@@ -1990,7 +2002,9 @@ QPushButton:disabled
  QCheckBox::indicator:checked:pressed {
      image: url(:/login/resource/login/option_select.png);
  }
-</string>
+ QCheckBox::indicator:checked:disabled {
+     image:url(:/login/resource/login/option_select_disable.png);
+ }</string>
                       </property>
                       <property name="text">
                        <string>反选</string>

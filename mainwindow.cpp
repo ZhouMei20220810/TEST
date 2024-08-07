@@ -4193,6 +4193,12 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
             on_ShowPhoneInstanceWidgetSignals(m_CurSelMenuPhoneInfo, false);
         }
     }
+
+    //重置UI状态
+    ui->treeWidget->setEnabled(!checked);
+    ui->checkBoxAllSelect->setEnabled(!checked);
+    ui->checkBoxFanSelect->setEnabled(!checked);
+    ui->btnCancelSelect->setEnabled(!checked);
 }
 //显示非主控设备
 void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)

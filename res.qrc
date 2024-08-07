@@ -13,6 +13,8 @@
         <file>resource/login/close.png</file>
         <file>resource/login/ico_lock.png</file>
         <file>resource/login/passsword.png</file>
+        <file>resource/login/option_normal_disable.png</file>
+        <file>resource/login/option_select_disable.png</file>
     </qresource>
     <qresource prefix="/main">
         <file>resource/main/control_contraction.png</file>
