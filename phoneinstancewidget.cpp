@@ -377,6 +377,7 @@ void PhoneInstanceWidget::on_toolBtnClose_clicked()
     }
     else
     {
+        emit closeNotMasterPhoneSignals();
         this->close();
     }
 }

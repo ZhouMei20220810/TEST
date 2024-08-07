@@ -4197,8 +4197,14 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
     connect(phoneWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
     connect(this, &MainWindow::GPSSignals, phoneWidget, &PhoneInstanceWidget::do_GPSSignals);
 
-    connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this]() {
-        emit closePhoneInstanceWidgetSignals();
+    connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this]() {
+        if (NULL != m_MainPhoneInstanceWidget)
+        {
+            if (m_MainPhoneInstanceWidget->hasChildControl())
+            {
+                m_MainPhoneInstanceWidget->setChildControl(false);
+            }
+        }
         /*delete m_MainPhoneInstanceWidget;
         m_MainPhoneInstanceWidget = NULL;*/
         });
