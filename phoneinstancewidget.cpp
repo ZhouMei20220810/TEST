@@ -554,7 +554,7 @@ bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
 			datasource->setBusinessType(businessType);
 
 			m_Player->setDataSource(datasource);
-            connect(ui->videoViewWidget, &VideoViewWidget::syncTouchEventSignals, this, &PhoneInstanceWidget::TouchEventSignals);
+            connect(ui->videoViewWidget, &VideoViewWidget::syncTouchEventSignals, this, &PhoneInstanceWidget::do_syncTouchEventSignals);
             connect(this, &PhoneInstanceWidget::dealTouchEventSignals, ui->videoViewWidget, &VideoViewWidget::do_syncTouchEventSignals);
             connect(this, &PhoneInstanceWidget::changeVerOrHorScreenSignals, ui->videoViewWidget, &VideoViewWidget::do_changeVerOrHorScreenSignals);
             m_Player->setDisplay(ui->videoViewWidget);
@@ -564,6 +564,18 @@ bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
 		} while (0);
 	}
 	return true;
+}
+
+void PhoneInstanceWidget::do_syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[])
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit TouchEventSignals(eventAction, pointerCount, x, y, force);
+    }
+    else
+    {
+        ui->videoViewWidget->do_syncTouchEventSignals(eventAction, pointerCount, x, y, force);
+    }
 }
 
 void PhoneInstanceWidget::onPlayStop(bool bQuit)

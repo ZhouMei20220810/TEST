@@ -45,13 +45,10 @@ signals:
     void homeSignals();
     void changePageSignals();
     void paifaTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
-    void RebootSignals();
-    void FactoryDataResetSignals();
     void RootSignals();
-    void ScreenshotsSignals();
     void VolumeUpSignals();
     void VolumeDownSignals();
-    void HorizontalSignals();
+    void HorizontalSignals(bool bIsVertical);
     void SharkSignals();
     void GPSSignals();
 
@@ -248,6 +245,8 @@ private slots:
     void on_radioButtonSyncOperation_clicked(bool checked);
     //显示实例
     void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo,bool bShowMenu);
+    //显示非主控设备
+    void on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo);
     void on_btnAddPhone_clicked();
     //统计
     void do_stateChanged(int state);

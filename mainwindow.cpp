@@ -4166,18 +4166,50 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
         }
     }
 }
+//显示非主控设备
+void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
+{
+    PhoneInstanceWidget* phoneWidget = new PhoneInstanceWidget(sPhoneInfo, false);    
+    connect(phoneWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
+    connect(this, &MainWindow::paifaTouchEventSignals, phoneWidget, &PhoneInstanceWidget::dealTouchEventSignals);
+
+    connect(phoneWidget, &PhoneInstanceWidget::ReturnSignals, this, &MainWindow::returnSignals);
+    connect(this, &MainWindow::returnSignals, phoneWidget, &PhoneInstanceWidget::do_ReturnSignals);
+
+    connect(phoneWidget, &PhoneInstanceWidget::HomeSignals, this, &MainWindow::homeSignals);
+    connect(this, &MainWindow::homeSignals, phoneWidget, &PhoneInstanceWidget::do_HomeSignals);
+
+    connect(phoneWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
+    connect(this, &MainWindow::changePageSignals, phoneWidget, &PhoneInstanceWidget::do_ChangePageSignals);
+
+    connect(phoneWidget, &PhoneInstanceWidget::RootSignals, this, &MainWindow::RootSignals);
+    connect(this, &MainWindow::RootSignals, phoneWidget, &PhoneInstanceWidget::do_rootSignals);
+
+    connect(phoneWidget, &PhoneInstanceWidget::VolumeUpSignals, this, &MainWindow::VolumeUpSignals);
+    connect(this, &MainWindow::VolumeUpSignals, phoneWidget, &PhoneInstanceWidget::do_VolumeUpSignals);
+    connect(phoneWidget, &PhoneInstanceWidget::VolumeDownSignals, this, &MainWindow::VolumeDownSignals);
+    connect(this, &MainWindow::VolumeDownSignals, phoneWidget, &PhoneInstanceWidget::do_VolumeDownSignals);
+
+    connect(phoneWidget, &PhoneInstanceWidget::HorizontalSignals, this, &MainWindow::HorizontalSignals);
+    connect(this, &MainWindow::HorizontalSignals, phoneWidget, &PhoneInstanceWidget::do_HorizontalSignals);
+    connect(phoneWidget, &PhoneInstanceWidget::SharkSignals, this, &MainWindow::SharkSignals);
+    connect(this, &MainWindow::SharkSignals, phoneWidget, &PhoneInstanceWidget::do_SharkSignals);
+    connect(phoneWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
+    connect(this, &MainWindow::GPSSignals, phoneWidget, &PhoneInstanceWidget::do_GPSSignals);
+
+    connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this]() {
+        emit closePhoneInstanceWidgetSignals();
+        /*delete m_MainPhoneInstanceWidget;
+        m_MainPhoneInstanceWidget = NULL;*/
+        });
+    connect(this, &MainWindow::closePhoneInstanceWidgetSignals, phoneWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
+    phoneWidget->setModal(false);
+    phoneWidget->show();
+}
 
 //显示实例
 void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu)
 {
-    if (NULL != m_MainPhoneInstanceWidget)
-    {     
-        emit closePhoneInstanceWidgetSignals();
-        //m_MainPhoneInstanceWidget->close();
-        delete m_MainPhoneInstanceWidget;
-        m_MainPhoneInstanceWidget = NULL;
-    }
-
     m_CurSelMenuPhoneInfo = sPhoneInfo;
     if (bShowMenu)
     {
@@ -4185,6 +4217,37 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         m_PhoneMenu->exec(QCursor::pos());
         return;
     }
+
+
+    if (NULL != m_MainPhoneInstanceWidget)
+    {     
+        if (m_MainPhoneInstanceWidget->hasChildControl())
+        {
+            //已经有子控
+            MessageTipsDialog* dialog = new MessageTipsDialog("同步模式下仅支持打开一台非主控云手机,将为您自动切换非主控设备.");
+            dialog->show();
+            return;
+        }
+        else
+        {
+            //子控设备
+            QMap<int, S_PHONE_INFO>::iterator iterFind = GlobalData::mapSyncPhoneList.find(sPhoneInfo.iId);
+            if (iterFind != GlobalData::mapSyncPhoneList.end())
+            {
+                GlobalData::mapSyncPhoneList.remove(sPhoneInfo.iId);
+            }
+            m_MainPhoneInstanceWidget->setChildControl(true);
+            on_ShowPhoneInstanceNotMaster(sPhoneInfo);
+        }
+        //已有窗口判断是否为主控，还是已经有非主控设备
+        /*emit closePhoneInstanceWidgetSignals();
+        //m_MainPhoneInstanceWidget->close();                                       
+        delete m_MainPhoneInstanceWidget;
+        m_MainPhoneInstanceWidget = NULL;*/
+        return;
+    }
+    
+    
 
     GlobalData::mapSyncPhoneList.insert(sPhoneInfo.iId, sPhoneInfo);
     if (GlobalData::mapSyncPhoneList.size() <= 0)
@@ -4233,14 +4296,8 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         connect(phoneWidget, &PhoneInstanceWidget::ChangePageSignals, this, &MainWindow::changePageSignals);
         connect(this, &MainWindow::changePageSignals, phoneWidget, &PhoneInstanceWidget::do_ChangePageSignals);
 
-        connect(phoneWidget, &PhoneInstanceWidget::RebootSignals, this, &MainWindow::RebootSignals);
-        connect(this, &MainWindow::RebootSignals, phoneWidget, &PhoneInstanceWidget::do_RebootSignals);
-        connect(phoneWidget, &PhoneInstanceWidget::FactoryDataResetSignals, this, &MainWindow::FactoryDataResetSignals);
-        connect(this, &MainWindow::FactoryDataResetSignals, phoneWidget, &PhoneInstanceWidget::do_FactoryDataResetSignals);
         connect(phoneWidget, &PhoneInstanceWidget::RootSignals, this, &MainWindow::RootSignals);
         connect(this, &MainWindow::RootSignals, phoneWidget, &PhoneInstanceWidget::do_rootSignals);
-        connect(phoneWidget, &PhoneInstanceWidget::ScreenshotsSignals, this, &MainWindow::ScreenshotsSignals);
-        connect(this, &MainWindow::ScreenshotsSignals, phoneWidget, &PhoneInstanceWidget::do_ScreenshotsSignals);
 
         connect(phoneWidget, &PhoneInstanceWidget::VolumeUpSignals,this, &MainWindow::VolumeUpSignals);
         connect(this, &MainWindow::VolumeUpSignals, phoneWidget, &PhoneInstanceWidget::do_VolumeUpSignals);

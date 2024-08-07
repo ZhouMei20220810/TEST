@@ -70,6 +70,9 @@ public slots:
     void do_SharkSignals();
     void do_GPSSignals();
     void do_closePhoneInstanceWidgetSignals();
+
+    //Ω” ‹videoviewwidget–≈∫≈
+    void do_syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
 protected:
     bool onPlayStart(S_PAD_INFO padInfo);
     void onPlayStop(bool bQuit);
