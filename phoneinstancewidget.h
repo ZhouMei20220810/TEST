@@ -48,10 +48,8 @@ signals:
     void TouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
     void dealTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
 
-    void RebootSignals();
     void FactoryDataResetSignals();
     void RootSignals();
-    void ScreenshotsSignals();
     void VolumeUpSignals();
     void VolumeDownSignals();
     void HorizontalSignals(bool bIsVertical);
@@ -65,11 +63,9 @@ public slots:
     void do_HomeSignals();
     void do_ChangePageSignals();
 
-    void do_RebootSignals();
     void do_FactoryDataResetSignals();
     void do_rootSignals();
     void on_Screenshot_clicked(bool checked = false);
-    void do_ScreenshotsSignals();
     void do_VolumeUpSignals();
     void do_VolumeDownSignals();
     void do_HorizontalSignals(bool bIsVertical);

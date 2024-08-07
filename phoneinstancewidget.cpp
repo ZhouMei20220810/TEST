@@ -765,7 +765,6 @@ void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
     {
         //截图一次请求，可以同时发送多个手机InstanceNo
         m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
-        emit ScreenshotsSignals();
     }
     else
     {
@@ -775,11 +774,6 @@ void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
         m_toolObject->HttpPostInstanceScreenshotRefresh(strList);
     }    
 }
-
-void PhoneInstanceWidget::do_ScreenshotsSignals()
-{
-}
-
 void PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked()
 {
     //截图目录
@@ -796,12 +790,14 @@ void PhoneInstanceWidget::on_toolBtnReboot_clicked()
 {
     if (m_bIsMasterOrNot)
     {
-        emit RebootSignals();
+        //截图一次请求，可以同时发送多个手机InstanceNo
+        m_toolObject->HttpPostInstanceReboot(m_strPhoneList);
     }
     else
     {
-        //只能控制自己
-        do_RebootSignals();
+        QStringList strList;
+        strList << m_PhoneInfo.strInstanceNo;
+        m_toolObject->HttpPostInstanceReboot(strList);
     }
 }
 
@@ -827,7 +823,7 @@ void PhoneInstanceWidget::on_toolBtnRoot_clicked()
     else
     {
         //只能控制自己
-        do_RebootSignals();
+        do_rootSignals();
     }
 }
 
@@ -893,11 +889,6 @@ void PhoneInstanceWidget::on_toolBtnChangePage_clicked()
         //只能控制自己
         do_ChangePageSignals();
     }
-}
-
-void PhoneInstanceWidget::do_RebootSignals()
-{
-    m_toolObject->HttpPostInstanceReboot(m_strPhoneList);
 }
 
 void PhoneInstanceWidget::do_FactoryDataResetSignals()
