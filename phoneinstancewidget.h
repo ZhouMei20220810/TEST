@@ -6,7 +6,6 @@
 #include "toolobject.h"
 #include "SWPlayer.h"
 #include "SWDataSourceListener.h"
-#include "videoviewwidget.h"
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
 #include <QListWidget>
@@ -26,9 +25,22 @@ class PhoneInstanceWidget : public QDialog,public SWDataSourceListener
     Q_OBJECT
 
 public:
-    explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo, QDialog* parent = nullptr);
+    explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo, bool bIsMasterOrNot =true, QDialog* parent = nullptr);
     ~PhoneInstanceWidget();
     // QWidget interface
+    //是否主控机
+    bool IsMasterOrNot()
+    {
+        return m_bIsMasterOrNot;//true：主控，false非主控
+    } 
+    void setChildControl(bool bHasChildControl)
+    {
+        m_bHasChildControl = bHasChildControl;
+    }
+    bool hasChildControl()
+    {
+        return m_bHasChildControl;//true:有，false：否是否有子控
+    }
 signals:
     void ReturnSignals();
     void HomeSignals();
@@ -42,10 +54,12 @@ signals:
     void ScreenshotsSignals();
     void VolumeUpSignals();
     void VolumeDownSignals();
-    void HorizontalSignals();
+    void HorizontalSignals(bool bIsVertical);
     void SharkSignals();
     void GPSSignals();
     void closePhoneInstanceWidgetSignals();
+    //改变横竖屏通知videoviewwidget
+    void changeVerOrHorScreenSignals(bool bIsVertical);
 public slots:
     void do_ReturnSignals();
     void do_HomeSignals();
@@ -58,7 +72,7 @@ public slots:
     void do_ScreenshotsSignals();
     void do_VolumeUpSignals();
     void do_VolumeDownSignals();
-    void do_HorizontalSignals();
+    void do_HorizontalSignals(bool bIsVertical);
     void do_SharkSignals();
     void do_GPSSignals();
     void do_closePhoneInstanceWidgetSignals();
@@ -92,10 +106,20 @@ private slots:
 
     void on_toolBtnMore_clicked();
 
+    void on_toolBtnVolumnUp_clicked();
+    void on_toolBtnVolumnDown_clicked();
     void on_toolBtnHorOrVer_clicked();
     void on_toolBtnClipboard_clicked();
     void on_toolBtnScreenshotDir_clicked();
     void on_toolBtnChangeKeyBoard_clicked();
+    void on_toolBtnReboot_clicked();
+    void on_toolBtnFactoryDataReset_clicked();
+    void on_toolBtnRoot_clicked();
+    void on_toolBtnShark_clicked();
+    void on_toolBtnGPS_clicked();
+    void on_toolBtnReturn_clicked();
+    void on_toolBtnHome_clicked();
+    void on_toolBtnChangePage_clicked();
 
     void onPositionUpdated(const QGeoPositionInfo& info);
     void do_DirectCopyToPhoneSignals(QString strSelectText);
@@ -118,8 +142,6 @@ private:
 
     QMap<int, S_PAD_INFO> m_mapPadInfo;
     QGeoPositionInfoSource* m_GeoSource;
-
-    VideoViewWidget* m_OtherVideoViewWidget;
 
     QTimer* m_getScreenshotsTimer;
     QNetworkAccessManager* m_manager;
@@ -149,6 +171,11 @@ private:
 
     QPoint      m_leftTopPoint;
     QSize       m_remmberSize;
+    
+    //是否主控机
+    bool        m_bIsMasterOrNot;//true：主控，false非主控
+    bool        m_bHasChildControl;//true:有，false：否是否有子控
+    bool        m_bIsVertical;//true竖屏，false横屏
 };
 
 #endif // PHONEINSTANCEWIDGET_H

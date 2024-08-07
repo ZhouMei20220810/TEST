@@ -25,7 +25,7 @@
 #define         TOOLBUTTON_WIDTH            (40)
 #define         TOOLBUTTON_HEIGHT           (40)
 
-PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent)
+PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,bool bIsMasterOrNot,QDialog *parent)
     : QDialog(parent)
     , ui(new Ui::PhoneInstanceWidget)
 {
@@ -34,16 +34,16 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     setWindowFlag(Qt::FramelessWindowHint);
     setWindowTitle(sPhoneInfo.strInstanceNo);
 
+    m_bIsMasterOrNot = bIsMasterOrNot;
+    m_bHasChildControl = false;
     m_GeoSource = NULL;
     
     ui->frameTool->setVisible(false);   
 
-    do_HorizontalSignals();
-   
     m_PhoneInfo = sPhoneInfo;
     m_strPhoneList.clear();
     m_strPhoneList << sPhoneInfo.strInstanceNo;//同步操作时，同时传入所有选中的item
-
+    //主控设备才需要同步
     if (GlobalData::bIsSyncOperation)
     {
         m_strPhoneList.clear();
@@ -110,8 +110,9 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     qint64 i64Time = time.toSecsSinceEpoch();//time.toMSecsSinceEpoch();
     qDebug() << "i64Time(s)=" << i64Time<<"i64Time(ms)="<< time.toMSecsSinceEpoch();
 
-
-    if (GlobalData::bVerticalPhoneInstance)
+    m_bIsVertical = GlobalData::bVerticalPhoneInstance;
+    do_HorizontalSignals(m_bIsVertical);
+    if (m_bIsVertical)
     {
         int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
         int iwidth = calculateWidth(height);
@@ -123,10 +124,6 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         int width = calculateWidth(height - 40) + 40;
         resize(height, width);
     }
-    /*if (GlobalData::bVerticalPhoneInstance)
-        resize(PHONE_INSTANCE_VERTICAL_WIDTH, PHONE_INSTANCE_VERTICAL_HEIGHT);
-    else
-        resize(PHONE_INSTANCE_HORIZONTAL_WIDTH, PHONE_INSTANCE_HORIZONTAL_HEIGHT);*/
     // 使用QStandardItemModel，因为它支持设置数据的不同角色
     ui->comboBox->setIconSize(QSize(27,45));
     QStandardItemModel* model = new QStandardItemModel(ui->comboBox);
@@ -374,7 +371,14 @@ void PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals()
 }
 void PhoneInstanceWidget::on_toolBtnClose_clicked()
 {
-    emit closePhoneInstanceWidgetSignals();
+    if (m_bIsMasterOrNot)
+    {
+        emit closePhoneInstanceWidgetSignals();
+    }
+    else
+    {
+        this->close();
+    }
 }
 
 
@@ -552,6 +556,7 @@ bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
 			m_Player->setDataSource(datasource);
             connect(ui->videoViewWidget, &VideoViewWidget::syncTouchEventSignals, this, &PhoneInstanceWidget::TouchEventSignals);
             connect(this, &PhoneInstanceWidget::dealTouchEventSignals, ui->videoViewWidget, &VideoViewWidget::do_syncTouchEventSignals);
+            connect(this, &PhoneInstanceWidget::changeVerOrHorScreenSignals, ui->videoViewWidget, &VideoViewWidget::do_changeVerOrHorScreenSignals);
             m_Player->setDisplay(ui->videoViewWidget);
             //开始投屏
 			m_Player->start();
@@ -690,17 +695,49 @@ void PhoneInstanceWidget::do_VolumeDownSignals()
         }
     }
 }
+void PhoneInstanceWidget::on_toolBtnVolumnUp_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit VolumeUpSignals();
+    }
+    else
+    {
+        do_VolumeUpSignals();
+    }
+}
+
+void PhoneInstanceWidget::on_toolBtnVolumnDown_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit VolumeDownSignals();
+    }
+    else
+    {
+        do_VolumeDownSignals();
+    }
+}
 
 void PhoneInstanceWidget::on_toolBtnHorOrVer_clicked()
 {
-    //其他窗口不适应关闭新建，需要重新初始化，先发送closePhoneInstanceWidgetSignals信号通知其他同步窗口，给服务器后台同步横屏
-    GlobalData::bVerticalPhoneInstance = !GlobalData::bVerticalPhoneInstance;    
-    emit HorizontalSignals();
+    m_bIsVertical = !m_bIsVertical;
+    emit changeVerOrHorScreenSignals(m_bIsVertical);
+    if (m_bIsMasterOrNot)
+    {
+        //其他窗口不适应关闭新建，需要重新初始化，先发送closePhoneInstanceWidgetSignals信号通知其他同步窗口，给服务器后台同步横屏
+        emit HorizontalSignals(m_bIsVertical);
+    }
+    else
+    {
+        do_HorizontalSignals(m_bIsVertical);
+    }
 }
 
 
 void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
 {
+    //主控、副控剪切板一致，其他的情况副控只能控制自己。
     qDebug() << "do clipboard signals";
     RecentCopyCutContentDialog* dialog = new RecentCopyCutContentDialog();
     //传递需要拷贝的文字
@@ -724,8 +761,19 @@ void PhoneInstanceWidget::do_DirectCopyToPhoneSignals(QString strSelectText)
 
 void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
 {
-    m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
-    emit ScreenshotsSignals();
+    if (m_bIsMasterOrNot)
+    {
+        //截图一次请求，可以同时发送多个手机InstanceNo
+        m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
+        emit ScreenshotsSignals();
+    }
+    else
+    {
+        //单个手机实例编号，截图自己
+        QStringList strList;
+        strList<<m_PhoneInfo.strInstanceNo;
+        m_toolObject->HttpPostInstanceScreenshotRefresh(strList);
+    }    
 }
 
 void PhoneInstanceWidget::do_ScreenshotsSignals()
@@ -742,6 +790,108 @@ void PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked()
     else {
         // 打开目录失败
         qDebug() << "open fail." << GlobalData::strPhoneInstanceScreenshotDir;
+    }
+}
+void PhoneInstanceWidget::on_toolBtnReboot_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit RebootSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_RebootSignals();
+    }
+}
+
+void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit FactoryDataResetSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_FactoryDataResetSignals();
+    }
+}
+
+void PhoneInstanceWidget::on_toolBtnRoot_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit RootSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_RebootSignals();
+    }
+}
+
+void PhoneInstanceWidget::on_toolBtnShark_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit SharkSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_SharkSignals();
+    }
+}
+void PhoneInstanceWidget::on_toolBtnGPS_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit GPSSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_GPSSignals();
+    }
+}
+
+void PhoneInstanceWidget::on_toolBtnReturn_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit ReturnSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_ReturnSignals();
+    }
+}
+
+void PhoneInstanceWidget::on_toolBtnHome_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit HomeSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_HomeSignals();
+    }
+}
+
+void PhoneInstanceWidget::on_toolBtnChangePage_clicked()
+{
+    if (m_bIsMasterOrNot)
+    {
+        emit ChangePageSignals();
+    }
+    else
+    {
+        //只能控制自己
+        do_ChangePageSignals();
     }
 }
 
@@ -794,7 +944,7 @@ void PhoneInstanceWidget::onPositionUpdated(const QGeoPositionInfo& info)
         }
     }
 }
-void PhoneInstanceWidget::do_HorizontalSignals()
+void PhoneInstanceWidget::do_HorizontalSignals(bool bIsVertical)
 {
     int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
     int width = calculateWidth(height);
@@ -809,19 +959,19 @@ void PhoneInstanceWidget::do_HorizontalSignals()
     m_tBtnHide->setFixedSize(btnMinSize);
 
     m_tBtnRetrun = new QToolButton(ui->frame_2);
-    connect(m_tBtnRetrun, &QToolButton::clicked, this, &PhoneInstanceWidget::ReturnSignals);
+    connect(m_tBtnRetrun, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnReturn_clicked);
     m_tBtnRetrun->setIcon(QIcon(":/resource/instance/reback.png"));
     m_tBtnRetrun->setIconSize(btnMinSize);
     m_tBtnRetrun->setFixedSize(btnMinSize);
 
     m_tBtnHome = new QToolButton(ui->frame_2);
-    connect(m_tBtnHome, &QToolButton::clicked, this, &PhoneInstanceWidget::HomeSignals);
+    connect(m_tBtnHome, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnHome_clicked);
     m_tBtnHome->setIcon(QIcon(":/resource/instance/home.png"));
     m_tBtnHome->setIconSize(btnMinSize);
     m_tBtnHome->setFixedSize(btnMinSize);
 
     m_tBtnChangeMenu = new QToolButton(ui->frame_2);
-    connect(m_tBtnChangeMenu, &QToolButton::clicked, this, &PhoneInstanceWidget::ChangePageSignals);
+    connect(m_tBtnChangeMenu, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnChangePage_clicked);
     m_tBtnChangeMenu->setIcon(QIcon(":/resource/instance/change.png"));
     m_tBtnChangeMenu->setIconSize(btnMinSize);
     m_tBtnChangeMenu->setFixedSize(btnMinSize);
@@ -871,7 +1021,7 @@ void PhoneInstanceWidget::do_HorizontalSignals()
     m_vBox2->setSpacing(5);
 
     //横屏
-    if (GlobalData::bVerticalPhoneInstance)
+    if (m_bIsVertical)
     {        
         if (!GlobalData::strToolButtonList.isEmpty())
         {
@@ -940,7 +1090,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
     {
     case TYPE_VOLUMN_UP:
         m_tBtnVolumnUp = new QToolButton(frame);
-        connect(m_tBtnVolumnUp, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeUpSignals);
+        connect(m_tBtnVolumnUp, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnVolumnUp_clicked);
         m_tBtnVolumnUp->setIcon(QIcon(":/resource/instance/volumeAdd.png"));
         m_tBtnVolumnUp->setIconSize(iconMinSize);
         m_tBtnVolumnUp->setText("音量+");
@@ -950,7 +1100,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         break;
     case TYPE_VOLUMN_DOWN:
         m_tBtnVolumnDown = new QToolButton(frame);
-        connect(m_tBtnVolumnDown, &QToolButton::clicked, this, &PhoneInstanceWidget::VolumeDownSignals);
+        connect(m_tBtnVolumnDown, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnVolumnDown_clicked);
         m_tBtnVolumnDown->setIcon(QIcon(":/resource/instance/volumeSub.png"));
         m_tBtnVolumnDown->setIconSize(iconMinSize);
         m_tBtnVolumnDown->setText("音量-");
@@ -1000,7 +1150,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         break;
     case TYPE_RESTART:
         m_tBtnRestart = new QToolButton(frame);
-        connect(m_tBtnRestart, &QToolButton::clicked, this, &PhoneInstanceWidget::RebootSignals);
+        connect(m_tBtnRestart, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnReboot_clicked);
         m_tBtnRestart->setIcon(QIcon(":/resource/instance/restart.png"));
         m_tBtnRestart->setIconSize(iconMinSize);
         m_tBtnRestart->setText("重启");
@@ -1010,7 +1160,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         break;
     case TYPE_RESET_FACTORY_DATA:
         m_tBtnResetFactoryData = new QToolButton(frame);
-        connect(m_tBtnResetFactoryData, &QToolButton::clicked, this, &PhoneInstanceWidget::FactoryDataResetSignals);
+        connect(m_tBtnResetFactoryData, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked);
         m_tBtnResetFactoryData->setIcon(QIcon(":/resource/instance/factoryDataReset.png"));
         m_tBtnResetFactoryData->setIconSize(iconMinSize);
         m_tBtnResetFactoryData->setText("恢复\n出厂");
@@ -1020,7 +1170,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         break;
     case TYPE_ROOT:
         m_tBtnRoot = new QToolButton(frame);
-        connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::RootSignals);
+        connect(m_tBtnRoot, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnRoot_clicked);
         m_tBtnRoot->setIcon(QIcon(":/resource/instance/Root.png"));
         m_tBtnRoot->setIconSize(iconMinSize);
         m_tBtnRoot->setText("Root");
@@ -1030,7 +1180,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         break;
     case TYPE_SHARK:
         m_tBtnShark = new QToolButton(frame);
-        connect(m_tBtnShark, &QToolButton::clicked, this, &PhoneInstanceWidget::SharkSignals);
+        connect(m_tBtnShark, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnShark_clicked);
         m_tBtnShark->setIcon(QIcon(":/resource/instance/shake.png"));
         m_tBtnShark->setIconSize(iconMinSize);
         m_tBtnShark->setText("摇一摇");
@@ -1040,7 +1190,7 @@ void PhoneInstanceWidget::InitToolButtonList(int iToolIndex,QFrame* frame, QVBox
         break;
     case TYPE_GPS:
         m_tBtnGPS = new QToolButton(frame);
-        connect(m_tBtnGPS, &QToolButton::clicked, this, &PhoneInstanceWidget::GPSSignals);
+        connect(m_tBtnGPS, &QToolButton::clicked, this, &PhoneInstanceWidget::on_toolBtnGPS_clicked);
         m_tBtnGPS->setIcon(QIcon(":/resource/instance/GPS.png"));
         m_tBtnGPS->setIconSize(iconMinSize);
         m_tBtnGPS->setText("GPS");

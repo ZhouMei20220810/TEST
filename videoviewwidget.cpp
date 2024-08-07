@@ -11,37 +11,7 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
     ui->setupUi(this);
 
 	m_parent = parent;
-	setStyleSheet("background-color:gray");
-    /*//ui->label->setText("Hello world");
-	m_strTempFile = GlobalData::strPictureTempDir +"1.png";
-	
-	QFile file1(m_strTempFile);
-	QString strUrl;
-	if (!file1.exists())
-		strUrl = ":/main/resource/main/defaultSceenShot.png";
-	else
-		strUrl = m_strTempFile;
-	QPixmap pixmap;
-	QImage image(strUrl);
-	if (!image.isNull())
-	{
-		if (!GlobalData::bVerticalPhoneInstance)
-		{
-			QTransform transform;
-			transform.rotate(270);
-			image = image.transformed(transform);
-		}
-	}
-
-	pixmap = QPixmap::fromImage(image);
-	if (pixmap.isNull())
-	{
-		pixmap = QPixmap(strUrl);
-	}
-	
-	ui->label->setPixmap(pixmap.scaled(QSize(ui->label->width(), ui->label->height()), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	//m_strPicturePath = GlobalData::strFileTempDir + "/" + m_PhoneInfo.strInstanceNo + ".png";
-	*/
+	setStyleSheet("background-color:gray");    
 }
 
 VideoViewWidget::~VideoViewWidget()
@@ -67,7 +37,7 @@ void VideoViewWidget::mousePressEvent(QMouseEvent *event)
 	int mouseY = 0;
 	int viewHeight = 0;
 	int viewWidth = 0;
-	if (GlobalData::bVerticalPhoneInstance)
+	if (m_bIsVertical)
 	{
 		mouseX = localPoint.x() - this->rect().left();
 		mouseY = localPoint.y() - this->rect().top();
@@ -108,6 +78,11 @@ void VideoViewWidget::do_syncTouchEventSignals(int eventAction, int pointerCount
 	OnTouchEvent(eventAction, pointerCount, x, y, force);
 }
 
+void VideoViewWidget::do_changeVerOrHorScreenSignals(bool bIsVertical)
+{
+	m_bIsVertical = bIsVertical;
+}
+
 void VideoViewWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 	int x[1] = { -1 };
@@ -134,7 +109,7 @@ void VideoViewWidget::mouseMoveEvent(QMouseEvent *event)
 		int mouseY = 0;
 		int viewHeight = 0;
 		int viewWidth = 0;
-		if (GlobalData::bVerticalPhoneInstance)
+		if (m_bIsVertical)
 		{
 			mouseX = mousePoint.x() - this->rect().left();
 			mouseY = mousePoint.y() - this->rect().top();
@@ -182,12 +157,12 @@ void  VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar 
 	ui->label->setAlignment(Qt::AlignCenter);  // 图片居中
 	//QImage image(data, ui->label->width(), frame_len, ui->label->height(), QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
     //QImage image(data, getSrcWidth(), frame_len, 1005, QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
-	if (!GlobalData::bVerticalPhoneInstance)
+	if (!m_bIsVertical)
 	{
 		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_RGBA8888);
 		if (!image.isNull())
 		{
-			if (!GlobalData::bVerticalPhoneInstance)
+			if (!m_bIsVertical)
 			{
 				QTransform transform;
 				transform.rotate(-90, Qt::Axis::ZAxis);
