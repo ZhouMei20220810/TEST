@@ -228,7 +228,8 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 			lockFrameBuffer();
 
 			char* src_data = (char*)getFrameBuffer();
-			if (this->isActiveWindow() && !this->isHidden())
+			//
+			//if (this->isActiveWindow() && !this->isHidden())
 			{
 				Show_RGB((const uchar*)src_data, 20, 10);
 			}
