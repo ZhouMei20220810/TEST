@@ -374,18 +374,11 @@ void PhoneInstanceWidget::on_toolBtnClose_clicked()
     if (m_bIsMasterOrNot)
     {
         //是否有副控
-        if (hasChildControl())
+        if (hasChildControl() && !GlobalData::bIsTipsCloseMasterInstance)
         {
             //弹窗提示是否关闭
-            if (!GlobalData::bIsTipsCloseMasterInstance)
-            {
-                MessageTipsDialog* dialog = new MessageTipsDialog("关闭主控时,将同时关闭非主控云机", nullptr, MESSAGE_NOT_TIPS_CLOSE_MASTER_INSTANCE, "关闭主控云机");
-                if (QDialog::Accepted == dialog->exec())
-                {
-                    emit closePhoneInstanceWidgetSignals();
-                }
-            }
-            else
+            MessageTipsDialog* dialog = new MessageTipsDialog("关闭主控时,将同时关闭非主控云机", nullptr, MESSAGE_NOT_TIPS_CLOSE_MASTER_INSTANCE, "关闭主控云机");
+            if (QDialog::Accepted == dialog->exec())
             {
                 emit closePhoneInstanceWidgetSignals();
             }
