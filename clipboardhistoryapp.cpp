@@ -21,22 +21,14 @@ ClipboardHistoryApp::~ClipboardHistoryApp()
 QList<QString> ClipboardHistoryApp::getClipboardHistoryList()
 {
     return clipboardHistory_->getHistory();
-    //clipboardHistory_->LoadHistoryList();
-    //clipboardHistory_->exec();
-    // 清空列表
-    /*listWidget_->clear();
-
-    // 添加历史记录到列表
-    const QList<QString>& history = clipboardHistory_->getHistory();
-    for (const QString& text : history)
-    {
-        QListWidgetItem* item = new QListWidgetItem(text, listWidget_);
-        item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-        item->setCheckState(Qt::Unchecked);
-    }*/
 }
 
 bool ClipboardHistoryApp::removeHistoryItem(QString strText)
 {
     return clipboardHistory_->removeHistoryItem(strText);
+}
+
+void ClipboardHistoryApp::SaveCopyData()
+{
+    clipboardHistory_->SaveCopyData();
 }

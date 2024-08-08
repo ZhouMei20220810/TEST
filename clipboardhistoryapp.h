@@ -16,6 +16,7 @@ public:
 
     //void updateListWidget();
     QList<QString> getClipboardHistoryList();
+    void SaveCopyData();
     bool removeHistoryItem(QString strText);
 private:
     ClipboardHistory* clipboardHistory_;

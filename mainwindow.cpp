@@ -42,6 +42,7 @@
 #include "replacecloudphonedialog.h"
 #include "transferphonedialog.h"
 #include "oneclicknewmachinedialog.h"
+#include "clipboardhistoryapp.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -2661,6 +2662,12 @@ void MainWindow::HttpLogout()
 void MainWindow::on_btnClose_clicked()
 {    
     this->close();
+    //关闭主面板时，保存数据
+    ClipboardHistoryApp* app = qobject_cast<ClipboardHistoryApp*>(qApp);
+    if (app != NULL)
+    {
+        app->SaveCopyData();
+    }
 }
 
 void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGroupName, int id)

@@ -15,9 +15,13 @@ public:
     void addTextToHistory(const QString& text);
     QList<QString> getHistory() const;
     bool removeHistoryItem(QString strText);
+    //保存到注册表
+    void SaveCopyData();
 signals:
     void dataChanged();
-
+private:
+    //从注册表加载
+    void LoadCopyData();
 private:
     QApplication* app_;
     QList<QString> history_;
