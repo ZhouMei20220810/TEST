@@ -4259,7 +4259,14 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
 
 
     if (NULL != m_MainPhoneInstanceWidget)
-    {     
+    {
+        if (m_MainPhoneInstanceWidget->getPhoneInfo().iId == m_CurSelMenuPhoneInfo.iId)
+        {
+            qDebug() << "已经是主控不能成为非主控 id=" << m_CurSelMenuPhoneInfo.iId;
+            MessageTips* tips = new MessageTips("已经是主控不能成为非主控");
+            tips->show();
+            return;
+        }
         if (m_MainPhoneInstanceWidget->hasChildControl())
         {
             //已经有子控

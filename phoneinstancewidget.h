@@ -41,6 +41,10 @@ public:
     {
         return m_bHasChildControl;//true:有，false：否是否有子控
     }
+    S_PHONE_INFO getPhoneInfo()
+    {
+        return m_PhoneInfo;
+    }
 signals:
     void ReturnSignals();
     void HomeSignals();

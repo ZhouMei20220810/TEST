@@ -529,7 +529,9 @@
     <None Include="resource\main\next.png" />
     <None Include="resource\author\oper.png" />
     <None Include="resource\login\option_normal.png" />
+    <None Include="resource\login\option_normal_disable.png" />
     <None Include="resource\login\option_select.png" />
+    <None Include="resource\login\option_select_disable.png" />
     <None Include="resource\main\packup.png" />
     <None Include="resource\login\passsword.png" />
     <None Include="resource\individual\photo.png" />
