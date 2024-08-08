@@ -87,6 +87,7 @@ public:
     void LoadHistoryList();
 signals:
     void DirectCopyToPhoneSignals(QString strSelectText);
+    void BatchDirectCopyToPhoneSignals(QString strTextList);
 private slots:
     void on_btnCopyToPhone_clicked();
     void on_btnDirectCopy_clicked();

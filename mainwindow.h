@@ -51,6 +51,8 @@ signals:
     void HorizontalSignals(bool bIsVertical);
     void SharkSignals();
     void GPSSignals();
+    //同步到其他设备
+    void BatchDirectCopyToPhoneSignals(QString strTextList);
 
     void closePhoneInstanceWidgetSignals();
     void activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);

@@ -58,6 +58,8 @@ bool GlobalData::bHideIndividualCenterWidget = false;
 bool GlobalData::bIsTipsCloseMasterInstance = false;
 bool GlobalData::bIsTipsCloseSyncOper = false;
 
+int GlobalData::iSyncPhoneIndex = 0;
+
 void customMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     QDateTime date = QDateTime::currentDateTime();

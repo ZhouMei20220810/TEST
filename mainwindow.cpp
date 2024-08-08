@@ -4238,6 +4238,9 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
     connect(phoneWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
     connect(this, &MainWindow::GPSSignals, phoneWidget, &PhoneInstanceWidget::do_GPSSignals);
 
+	connect(phoneWidget, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals, this, &MainWindow::BatchDirectCopyToPhoneSignals);
+    connect(this, &MainWindow::BatchDirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals);
+
     connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this]() {
         //关闭非主控云机
         if (NULL != m_MainPhoneInstanceWidget)
@@ -4267,7 +4270,7 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
 
     if (NULL != m_MainPhoneInstanceWidget)
     {
-        if (m_MainPhoneInstanceWidget->getPhoneInfo().iId == m_CurSelMenuPhoneInfo.iId)
+        if (m_MainPhoneInstanceWidget->isWindow() && m_MainPhoneInstanceWidget->getPhoneInfo().iId == m_CurSelMenuPhoneInfo.iId)
         {
             qDebug() << "已经是主控不能成为非主控 id=" << m_CurSelMenuPhoneInfo.iId;
             MessageTips* tips = new MessageTips("已经是主控不能成为非主控");
@@ -4361,6 +4364,9 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         connect(this, &MainWindow::SharkSignals, phoneWidget, &PhoneInstanceWidget::do_SharkSignals);
         connect(phoneWidget, &PhoneInstanceWidget::GPSSignals, this, &MainWindow::GPSSignals);
         connect(this, &MainWindow::GPSSignals, phoneWidget, &PhoneInstanceWidget::do_GPSSignals);
+
+        connect(phoneWidget, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals, this, &MainWindow::BatchDirectCopyToPhoneSignals);
+        connect(this, &MainWindow::BatchDirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals);
 
         connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this]() {
             emit closePhoneInstanceWidgetSignals();

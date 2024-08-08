@@ -129,12 +129,24 @@ void RecentCopyCutContentDialog::on_btnCopyToPhone_clicked()
 void RecentCopyCutContentDialog::on_btnDirectCopy_clicked()
 {
     //直接拷贝
+    QString strText = ui->plainTextEdit->toPlainText();
+    emit DirectCopyToPhoneSignals(strText);
+    this->close();
 }
 
 
 void RecentCopyCutContentDialog::on_btnCopyByOrder_clicked()
 {
     //按顺序依次拷贝
+    QString strText = ui->plainTextEdit->toPlainText();
+    QStringList strTextList = strText.split('\n');
+    qDebug() << "按顺序依次拷贝:";
+    for(auto item:strTextList)
+    {
+        qDebug() << item;
+    }
+    GlobalData::iSyncPhoneIndex = 0;
+    emit BatchDirectCopyToPhoneSignals(strText);
 }
 
 

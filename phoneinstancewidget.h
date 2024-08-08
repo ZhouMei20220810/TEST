@@ -58,6 +58,8 @@ signals:
     void HorizontalSignals(bool bIsVertical);
     void SharkSignals();
     void GPSSignals();
+    //同步到其他设备
+    void BatchDirectCopyToPhoneSignals(QString strTextList);
     void closePhoneInstanceWidgetSignals();
     //改变横竖屏通知videoviewwidget
     void changeVerOrHorScreenSignals(bool bIsVertical);
@@ -78,6 +80,8 @@ public slots:
 
     //接受videoviewwidget信号
     void do_syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
+    //依次拷贝到手机
+    void do_BatchDirectCopyToPhoneSignals(QString strTextList);
 protected:
     bool onPlayStart(S_PAD_INFO padInfo);
     void onPlayStop(bool bQuit);
@@ -124,7 +128,8 @@ private slots:
     void on_toolBtnChangePage_clicked();
 
     void onPositionUpdated(const QGeoPositionInfo& info);
-    void do_DirectCopyToPhoneSignals(QString strSelectText);
+    //直接拷贝
+    void do_DirectCopyToPhoneSignals(QString strSelectText);      
 private:
     void InitToolButtonList(int iToolIndex, QFrame* frame, QVBoxLayout* vBox);
     Ui::PhoneInstanceWidget* ui;

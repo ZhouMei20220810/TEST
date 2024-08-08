@@ -581,5 +581,7 @@ public:
 
     static bool bIsTipsCloseMasterInstance; //关闭主控是否不再提示
     static bool bIsTipsCloseSyncOper;       //关闭同步操作是否不再提示
+
+    static int  iSyncPhoneIndex; //同步操作手机下标
 };
 #endif // GLOBAL_H

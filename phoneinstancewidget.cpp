@@ -768,6 +768,7 @@ void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
     RecentCopyCutContentDialog* dialog = new RecentCopyCutContentDialog();
     //传递需要拷贝的文字
     connect(dialog, &RecentCopyCutContentDialog::DirectCopyToPhoneSignals, this, &PhoneInstanceWidget::do_DirectCopyToPhoneSignals);
+    connect(dialog, &RecentCopyCutContentDialog::BatchDirectCopyToPhoneSignals, this, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals);
     dialog->exec();
 }
 
@@ -783,6 +784,28 @@ void PhoneInstanceWidget::do_DirectCopyToPhoneSignals(QString strSelectText)
             source->copyToRemote(strSelectText.toStdString().c_str(), strSelectText.length());
         }
     }
+}
+
+//依次拷贝到手机
+void PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals(QString strTextList)
+{
+    qDebug() << "PhoneInstanceWidget 依次拷贝到手机="<< GlobalData::iSyncPhoneIndex;
+    QStringList strList = strTextList.split('\n');
+    QString strText;
+    if (GlobalData::iSyncPhoneIndex < strList.size())
+    {
+        if (m_Player != NULL)
+        {
+            DataSource* source = m_Player->getDataSource();
+            if (source != NULL)
+            {
+                strText = strList.at(GlobalData::iSyncPhoneIndex);
+                //手机剪贴板
+                source->copyToRemote(strText.toStdString().c_str(), strText.length());
+            }
+        }
+    }
+    GlobalData::iSyncPhoneIndex++;
 }
 
 void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
