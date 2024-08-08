@@ -27,7 +27,7 @@ public:
         qDebug() << "delete ~NoticeItem()";
     }
 signals:
-    void itemSelectSignals(QString strRemark);
+    void itemSelectSignals(S_NOTICE_INFO info);
 private slots:
     void do_NoticeItem_clicked(bool checked);
 private:

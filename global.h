@@ -456,8 +456,9 @@ typedef struct TRANSFER_INFO
 
 enum NOTICE_TYPE
 {
-    NOTICE_SYSTEM_ANNOUNCEMENT = 1,         //系统公告
-    NOTICE_ACTIVE = 2                       //活动
+    NOTICE_SYSTEM_ANNOUNCEMENT = 1,          //系统公告
+    NOTICE_ACTIVE = 2,                       //活动
+    NOTICE_UPDATE_APP = 3                    //登录后，更新软件公告
 };
 
 typedef struct NOTICE_INFO

@@ -98,6 +98,8 @@
         <file>resource/buy/BVIP_level_bg_select.png</file>
         <file>resource/main/pictureCode.png</file>
         <file>resource/main/BVIP.png</file>
+        <file>resource/main/message_disable.png</file>
+        <file>resource/main/message_normal.png</file>
     </qresource>
     <qresource prefix="/func">
         <file>resource/function/1.png</file>

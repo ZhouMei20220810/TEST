@@ -581,16 +581,8 @@ subcontrol-origin: margin;
                     <cursorShape>PointingHandCursor</cursorShape>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">QPushButton:hover {border:none;
+                    <string notr="true">QPushButton {border:none;
 color: #505465;
-background: transparent;
-border-radius:1px;
-padding-left:0px;
-font-weight:bold;
-font-size:13px;
-}
-QPushButton {
-color: #A9ADB6;
 background: transparent;
 border-radius:1px;
 padding-left:0px;
@@ -654,7 +646,7 @@ font-size:13px;
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color:#F4F6FA;
+                       <string notr="true">background-color:#505465;
 max-height:2px;
 max-width:12px;
 min-height:2px;
@@ -729,8 +721,16 @@ border:none;</string>
                     <cursorShape>PointingHandCursor</cursorShape>
                    </property>
                    <property name="styleSheet">
-                    <string notr="true">QPushButton {border:none;
+                    <string notr="true">QPushButton:hover {border:none;
 color: #505465;
+background: transparent;
+border-radius:1px;
+padding-left:0px;
+font-weight:bold;
+font-size:13px;
+}
+QPushButton {
+color: #A9ADB6;
 background: transparent;
 border-radius:1px;
 padding-left:0px;
@@ -794,7 +794,7 @@ font-size:13px;
                        </size>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">background-color:#505465;
+                       <string notr="true">background-color:#F4F6FA;
 max-height:2px;
 max-width:12px;
 min-height:2px;

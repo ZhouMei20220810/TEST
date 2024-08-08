@@ -43,6 +43,7 @@
 #include "transferphonedialog.h"
 #include "oneclicknewmachinedialog.h"
 #include "clipboardhistoryapp.h"
+#include "messagecenterdialog.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -5165,3 +5166,10 @@ void MainWindow::on_btnRefreshRenewList_clicked()
     qDebug() << "查询手机列表 m_ActiveRenewLevelType="<< m_ActiveRenewLevelType;
     HttpGetMyPhoneInstance(0, 1, 1000, m_ActiveRenewLevelType);
 }
+
+void MainWindow::on_toolBtnMessageCenter_clicked()
+{
+    MessageCenterDialog* dialog = new MessageCenterDialog();
+    dialog->exec();
+}
+

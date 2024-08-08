@@ -279,6 +279,8 @@ private slots:
     //转移后刷新列表
     void RefreshTransferPhoneList();
 
+    void on_toolBtnMessageCenter_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;

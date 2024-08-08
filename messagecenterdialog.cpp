@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QGraphicsDropShadowEffect>
+#include "toolobject.h"
 #define  POINT_SIZE         6
 
 void NoticeItem::setupUI(S_NOTICE_INFO info)
@@ -39,8 +40,8 @@ void NoticeItem::setupUI(S_NOTICE_INFO info)
 
 void NoticeItem::do_NoticeItem_clicked(bool checked)
 {
-    emit itemSelectSignals(m_info.strRemark);
-    qDebug() << "clicked me 当前选中 id=" << m_info.iId << "创建人=" << m_info.iCreateBy << "公告类型 1.系统公告 2.活动：" << m_info.iType << "标题：" << m_info.strTitle;
+    emit itemSelectSignals(m_info);
+    qDebug() << "clicked me 当前选中 id=" << m_info.iId << "创建人=" << m_info.iCreateBy << "公告类型 1.系统公告 2.活动 3.更新公告：" << m_info.iType << "标题：" << m_info.strTitle;
     if (!m_info.bIsRead)
     {
         HttpPostSetNoticeRead(m_info.iCreateBy, m_info.iId, (NOTICE_TYPE)m_info.iType);
@@ -89,8 +90,8 @@ MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     m_LabelAnnouncementPoint->move(rectAnnouncement.x() + rectAnnouncement.width() - POINT_SIZE/2, rectAnnouncement.y());
     m_LabelAnnouncementPoint->setVisible(false);
 
-    //默认显示活动
-    HttpGetNoticeListInfo(NOTICE_ACTIVE, 1, 1000);
+    //默认公告
+    HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);    
 }
 
 MessageCenterDialog::~MessageCenterDialog()
@@ -138,6 +139,18 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
             if (!iter->bIsRead)
             {
                 iIsReadCount++;
+            }
+        }
+        break;
+        case NOTICE_UPDATE_APP:
+        {            
+            if (!iter->bIsRead)
+            {
+                //更新公告
+                ToolObject toolObj;
+                toolObj.HttpPostCheckAppVersion();
+
+                iIsReadCount++;
             }    
         }
             break;
@@ -152,20 +165,23 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
         default:
             break;
         }
-        if (enType == iter->iType)
+        if (enType == NOTICE_SYSTEM_ANNOUNCEMENT)
         {
-            item = new QListWidgetItem(ui->listWidget);
-            item->setSizeHint(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
-            ui->listWidget->addItem(item);
+            if (NOTICE_SYSTEM_ANNOUNCEMENT == iter->iType || NOTICE_UPDATE_APP == iter->iType)
+            {
+                item = new QListWidgetItem(ui->listWidget);
+                item->setSizeHint(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
+                ui->listWidget->addItem(item);
 
-            item->setData(Qt::UserRole, QVariant::fromValue(*iter));
-            widget = new NoticeItem(*iter,this);
-            connect(widget, &NoticeItem::itemSelectSignals, this, [this](QString strRemark) {
-                //显示选中数据
-                ui->textEdit->RefreshUIData(strRemark);
-                });
-            ui->listWidget->setItemWidget(item, widget);
-        }
+                item->setData(Qt::UserRole, QVariant::fromValue(*iter));
+                widget = new NoticeItem(*iter, this);
+                connect(widget, &NoticeItem::itemSelectSignals, this, [this](S_NOTICE_INFO info) {
+                    //显示选中数据
+                    ui->textEdit->RefreshUIData(info.strRemark);
+                    });
+                ui->listWidget->setItemWidget(item, widget);
+            }
+        }        
     }
 
     //设置默认第一条选中
