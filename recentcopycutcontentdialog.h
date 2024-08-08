@@ -13,15 +13,15 @@ namespace Ui {
 class RecentCopyCutContentDialog;
 }
 
-#define RECENT_LIST_ITEM_WIDTH   100
+#define RECENT_LIST_ITEM_WIDTH   200
 #define RECENT_LIST_ITEM_HEIGHT  20
 
-// ×Ô¶¨ÒåµÄÁÐ±íÏîÐ¡²¿¼þ
+// è‡ªå®šä¹‰çš„åˆ—è¡¨é¡¹å°éƒ¨ä»¶
 class RecentListItem : public QWidget
 {
     Q_OBJECT
 public:
-    RecentListItem(const QString& text,QButtonGroup* buttonGroup,int iBtnID, QWidget* parent = nullptr)
+    RecentListItem(S_RECENT_COPY_DATA info, QWidget* parent = nullptr)
         : QWidget(parent)
     {
         resize(RECENT_LIST_ITEM_WIDTH, RECENT_LIST_ITEM_HEIGHT);
@@ -30,60 +30,40 @@ public:
         QHBoxLayout* hLayout = new QHBoxLayout(this);
         hLayout->setContentsMargins(0, 0, 0, 0);
 
-        QString strStyleSheet = "QRadioButton::indicator::unchecked{border-image:url(:/main/resource/main/radioUncheck.png);}QRadioButton::indicator::checked{border-image:url(:/main/resource/main/radioCheck.png);}QRadioButton::indicator{width:16px;height:16px;}";
+        QString strStyleSheet = "QRadioButton::indicator::unchecked{border-image:url(:/main/resource/main/radioUncheck.png);}QRadioButton::indicator::checked{border-image:url(:/main/resource/main/radioCheck.png);}QRadioButton::indicator{width:16px;height:16px;}QRadioButton{background:transparent;}";
         radioBtnContent = new QRadioButton(this);
-        //ÕâÀïÉèÖÃÎª·Ç»¥³â£¬Ê¹ÓÃQButtonGroupÀ´¿ØÖÆ
+        //è¿™é‡Œè®¾ç½®ä¸ºéžäº’æ–¥ï¼Œä½¿ç”¨QButtonGroupæ¥æŽ§åˆ¶
         radioBtnContent->setAutoExclusive(false);
-        buttonGroup->addButton(radioBtnContent, iBtnID);
+        info.pButtonGroup->addButton(radioBtnContent, info.iBtnGroupId);
         //connect(m_radioBtnContent, &QRadioButton::clicked, this, &RecentListItem::selectItemSignals);
         radioBtnContent->setStyleSheet(strStyleSheet);
+        radioBtnContent->resize(QSize(RECENT_LIST_ITEM_WIDTH - 50, RECENT_LIST_ITEM_HEIGHT));
         QFontMetrics fontWidth(radioBtnContent->font());
-        QString strElideNote = fontWidth.elidedText(text, Qt::ElideRight, 244);
+        QString strElideNote = fontWidth.elidedText(info.strContent, Qt::ElideRight, RECENT_LIST_ITEM_WIDTH - 50);
         radioBtnContent->setText(strElideNote);
-        radioBtnContent->setToolTip(text);
-        
+        radioBtnContent->setToolTip(info.strContent);
+
 
         hLayout->addWidget(radioBtnContent);
         hLayout->addStretch();
 
         toolBtnDel = new QToolButton(this);
-        strStyleSheet = "QToolButton{border:none;background:transparent;background-image: url(:/main/resource/main/deleteActiveItem.png);}";
+        strStyleSheet = "QToolButton{border:none;background:transparent;}";
         toolBtnDel->setStyleSheet(strStyleSheet);
+        toolBtnDel->resize(QSize(16, 16));
         toolBtnDel->setToolButtonStyle(Qt::ToolButtonIconOnly);
+        toolBtnDel->setIcon(QIcon(":/main/resource/main/deleteActiveItem.png"));
+        toolBtnDel->setIconSize(QSize(16, 16));
         connect(toolBtnDel, &QToolButton::clicked, this, &RecentListItem::do_Clicked);
         //m_toolBtnDel->setText("222");
         //m_toolBtnDel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         hLayout->addWidget(toolBtnDel);
 
-        //Ìí¼Óµ½´¹Ö±²¼¾Ö
+        //æ·»åŠ åˆ°åž‚ç›´å¸ƒå±€
         vLayout->addLayout(hLayout);
         this->setLayout(vLayout);
-        /*QVBoxLayout* layout = new QVBoxLayout(this);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->setSpacing(0);
-
-        // ´´½¨Ò»¸öË®Æ½²¼¾ÖÀ´ÈÝÄÉQRadioButtonºÍQToolButton
-        QHBoxLayout* buttonLayout = new QHBoxLayout;
-        buttonLayout->setContentsMargins(0, 0, 0, 0);
-        buttonLayout->setSpacing(10);
-
-        // ´´½¨QRadioButton
-        radioButton = new QRadioButton(text);
-        buttonLayout->addWidget(radioButton);
-
-        // ´´½¨QToolButtonÓÃÓÚÉ¾³ý
-        deleteButton = new QToolButton;
-        deleteButton->setText("X");
-        deleteButton->setStyleSheet("QToolButton { background-color: #FF6B6B; color: white; border-radius: 5px; }");
-        connect(deleteButton, &QToolButton::clicked, this, &RecentListItem::deleteClicked);
-        buttonLayout->addWidget(deleteButton);
-
-        layout->addLayout(buttonLayout);
-
-        setLayout(layout);*/
     }
 private slots:
-    //void do_toolBtnDelClick(bool bChecked);
     void do_Clicked(bool bChecked)
     {
         emit deleteClicked(this);
@@ -116,8 +96,6 @@ private slots:
     void do_idClicked(int id);
     void onClipboardChanged();
 
-    //É¾³ý°´Å¥
-    //void do_toolBtnDelClick(bool bChecked);
 private:
     void deleteItem(QListWidgetItem* item);
     void addItem(const QString& text);

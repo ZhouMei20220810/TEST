@@ -75,41 +75,42 @@ void RecentCopyCutContentDialog::deleteItem(QListWidgetItem* item)
 void RecentCopyCutContentDialog::addItem(const QString& strContent)
 {
     QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-    RecentListItem* widget = new RecentListItem(strContent.isEmpty()?"New Option":strContent, m_buttonGroup, m_iBtnID, this);
-    item->setData(Qt::UserRole, m_iBtnID);
-    item->setData(Qt::DisplayRole, strContent);
+    RECENT_COPY_DATA info;
+    info.strContent = strContent.isEmpty() ? "New Option" : strContent;
+    info.pButtonGroup = m_buttonGroup;
+    info.iBtnGroupId = m_iBtnID;
+    RecentListItem* widget = new RecentListItem(info, this);
+    item->setSizeHint(QSize(RECENT_LIST_ITEM_WIDTH, RECENT_LIST_ITEM_HEIGHT));
+    item->setData(Qt::UserRole, QVariant::fromValue(info));
+    ui->listWidget->addItem(item);
+    ui->listWidget->setItemWidget(item, widget);
     m_iBtnID++;
-    connect(widget, &RecentListItem::deleteClicked, this, [this, widget]() {
+    connect(widget, &RecentListItem::deleteClicked, this, [this, widget]() 
+        {
         QListWidgetItem* item = NULL;
+        RECENT_COPY_DATA info;
         for (int i = 0; i < ui->listWidget->count(); i++)
         {
             item = ui->listWidget->item(i);
             if (widget == ui->listWidget->itemWidget(item))
             {
-                qobject_cast<ClipboardHistoryApp*>(qApp)->removeHistoryItem(item->data(Qt::DisplayRole).toString());
-                m_buttonGroup->removeButton(m_buttonGroup->button(item->data(Qt::UserRole).toInt()));                
+                info = item->data(Qt::UserRole).value<RECENT_COPY_DATA>();
+                qobject_cast<ClipboardHistoryApp*>(qApp)->removeHistoryItem(info.strContent);
+                m_buttonGroup->removeButton(m_buttonGroup->button(info.iBtnGroupId));                
                 ui->listWidget->takeItem(i);
                 break;
             }
         }
         delete item;
+        item = NULL;
         });
-    ui->listWidget->addItem(item);
-    ui->listWidget->setItemWidget(item, widget);
 }
-
-//删除按钮
-/*void RecentCopyCutContentDialog::do_toolBtnDelClick(bool bChecked)
-{
-
-}*/
 
 void RecentCopyCutContentDialog::do_idClicked(int id)
 {
-    QRadioButton* button =  qobject_cast<QRadioButton*>(m_buttonGroup->button(id));
+    QRadioButton* button = qobject_cast<QRadioButton*>(m_buttonGroup->button(id));
     m_strSelectText = button->text();
     qDebug() << "Selected radio button:" << m_strSelectText;
-
 }
 
 RecentCopyCutContentDialog::~RecentCopyCutContentDialog()

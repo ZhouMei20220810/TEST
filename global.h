@@ -513,6 +513,17 @@ enum MESSAGE_NOT_TIPS_TYPE
     MESSAGE_NOT_TIPS_CLOSE_SYNC_OPER = 2        //关闭操作
 };
 
+typedef struct RECENT_COPY_DATA
+{
+    int         iBtnGroupId;            //QButtonGroup分组id
+    QButtonGroup* pButtonGroup;         //QRaidoButton组
+    QString     strContent;
+    RECENT_COPY_DATA()
+    {
+        memset(this, 0, sizeof(RECENT_COPY_DATA));
+    }
+}S_RECENT_COPY_DATA,*PS_RECENT_COPY_DATA;
+
 class GlobalData
 {
 public:
