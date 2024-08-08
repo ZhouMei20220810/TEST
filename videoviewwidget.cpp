@@ -9,7 +9,7 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
     , ui(new Ui::VideoViewWidget)
 {
     ui->setupUi(this);
-
+	m_bIsVertical = true;
 	m_parent = parent;
 	setStyleSheet("background-color:gray");    
 }

@@ -36,7 +36,10 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
 
     m_buttonGroup = new QButtonGroup(this);
     connect(m_buttonGroup, &QButtonGroup::idClicked, this, &RecentCopyCutContentDialog::do_idClicked);
-   
+
+    //暂时隐藏 拷贝规则
+    ui->frame_6->setVisible(false);
+
     m_iBtnID = 0;
     // 连接信号与槽
     connect(qApp->clipboard(), &QClipboard::dataChanged, this, &RecentCopyCutContentDialog::onClipboardChanged);
