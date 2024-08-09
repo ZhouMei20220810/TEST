@@ -37,9 +37,6 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
     m_buttonGroup = new QButtonGroup(this);
     connect(m_buttonGroup, &QButtonGroup::idClicked, this, &RecentCopyCutContentDialog::do_idClicked);
 
-    //暂时隐藏 拷贝规则
-    ui->frame_6->setVisible(false);
-
     m_iBtnID = 0;
     // 连接信号与槽
     connect(qApp->clipboard(), &QClipboard::dataChanged, this, &RecentCopyCutContentDialog::onClipboardChanged);
@@ -151,5 +148,17 @@ void RecentCopyCutContentDialog::on_btnCopyByOrder_clicked()
 void RecentCopyCutContentDialog::on_btnClose_clicked()
 {
     this->close();
+}
+
+
+void RecentCopyCutContentDialog::on_toolBtnClear_clicked()
+{
+    //清空
+    ui->listWidget->clear();
+    //清空缓存数据
+    QList<QString> history;
+    ClipboardHistoryApp* app = qobject_cast<ClipboardHistoryApp*>(qApp);
+    if (app != NULL)
+        app->clearClipboardHistoryList();
 }
 

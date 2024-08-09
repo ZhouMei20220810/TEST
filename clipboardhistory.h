@@ -14,6 +14,7 @@ public:
 
     void addTextToHistory(const QString& text);
     QList<QString> getHistory() const;
+    void clearHistory();
     bool removeHistoryItem(QString strText);
     //±£´æµ½×¢²á±í
     void SaveCopyData();

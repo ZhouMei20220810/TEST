@@ -51,7 +51,7 @@ public:
         toolBtnDel->setStyleSheet(strStyleSheet);
         toolBtnDel->resize(QSize(16, 16));
         toolBtnDel->setToolButtonStyle(Qt::ToolButtonIconOnly);
-        toolBtnDel->setIcon(QIcon(":/main/resource/main/deleteActiveItem.png"));
+        toolBtnDel->setIcon(QIcon(":/main/resource/main/copyDel.png"));
         toolBtnDel->setIconSize(QSize(16, 16));
         connect(toolBtnDel, &QToolButton::clicked, this, &RecentListItem::do_Clicked);
         //m_toolBtnDel->setText("222");
@@ -95,6 +95,8 @@ private slots:
 
     void do_idClicked(int id);
     void onClipboardChanged();
+
+    void on_toolBtnClear_clicked();
 
 private:
     void deleteItem(QListWidgetItem* item);

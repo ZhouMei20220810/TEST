@@ -15,7 +15,10 @@ public:
     ~ClipboardHistoryApp();
 
     //void updateListWidget();
+    //获取列表
     QList<QString> getClipboardHistoryList();
+    //清空列表
+    void clearClipboardHistoryList();
     void SaveCopyData();
     bool removeHistoryItem(QString strText);
 private:

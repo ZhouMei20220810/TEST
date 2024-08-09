@@ -23,6 +23,11 @@ QList<QString> ClipboardHistoryApp::getClipboardHistoryList()
     return clipboardHistory_->getHistory();
 }
 
+void ClipboardHistoryApp::clearClipboardHistoryList()
+{
+    clipboardHistory_->clearHistory();
+}
+
 bool ClipboardHistoryApp::removeHistoryItem(QString strText)
 {
     return clipboardHistory_->removeHistoryItem(strText);

@@ -72,6 +72,11 @@ QList<QString> ClipboardHistory::getHistory() const
     return history_;
 }
 
+void ClipboardHistory::clearHistory()
+{
+    history_.clear();
+}
+
 bool ClipboardHistory::removeHistoryItem(QString strText)
 {
     if (history_.size() <= 0)
