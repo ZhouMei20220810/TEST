@@ -1,7 +1,6 @@
 #ifndef RECENTCOPYCUTCONTENTDIALOG_H
 #define RECENTCOPYCUTCONTENTDIALOG_H
 
-#include <QDialog>
 #include <QRadioButton>
 #include <QToolButton>
 #include "global.h"
@@ -76,7 +75,7 @@ private:
     QToolButton* toolBtnDel;
 };
 
-class RecentCopyCutContentDialog : public QDialog
+class RecentCopyCutContentDialog : public QMoveDialog
 {
     Q_OBJECT
 

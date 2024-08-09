@@ -2,7 +2,6 @@
 #define PHONEINSTANCEWIDGET_H
 
 #include <QDialog>
-#include "global.h"
 #include "toolobject.h"
 #include "SWPlayer.h"
 #include "SWDataSourceListener.h"

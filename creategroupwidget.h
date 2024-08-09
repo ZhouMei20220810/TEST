@@ -1,14 +1,13 @@
 #ifndef CREATEGROUPWIDGET_H
 #define CREATEGROUPWIDGET_H
 
-#include <QDialog>
 #include "global.h"
 
 namespace Ui {
 class CreateGroupWidget;
 }
 
-class CreateGroupWidget : public QDialog
+class CreateGroupWidget : public QMoveDialog
 {
     Q_OBJECT
 

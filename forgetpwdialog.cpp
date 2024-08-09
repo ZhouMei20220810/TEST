@@ -10,7 +10,7 @@
 #include "messagetips.h"
 
 ForgetPWDialog::ForgetPWDialog(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::ForgetPWDialog)
 {
     ui->setupUi(this);

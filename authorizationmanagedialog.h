@@ -1,14 +1,12 @@
 #ifndef AUTHORIZATIONMANAGEDIALOG_H
 #define AUTHORIZATIONMANAGEDIALOG_H
-
-#include <QDialog>
 #include "global.h"
 
 namespace Ui {
 class AuthorizationManageDialog;
 }
 
-class AuthorizationManageDialog : public QDialog
+class AuthorizationManageDialog : public QMoveDialog
 {
     Q_OBJECT
 

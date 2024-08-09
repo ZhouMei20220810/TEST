@@ -15,7 +15,7 @@
 #define  PICTURE_CODE_HEIGHT    32
 
 TransferPhoneDialog::TransferPhoneDialog(QMap<int, S_PHONE_INFO> mapPhoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList,QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::TransferPhoneDialog)
 {
     ui->setupUi(this);

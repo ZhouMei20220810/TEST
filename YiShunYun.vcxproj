@@ -239,6 +239,7 @@
     <ClCompile Include="qmouselistwidget.cpp" />
     <ClCompile Include="qmousetreewidget.cpp" />
     <ClCompile Include="qmousewidget.cpp" />
+    <ClCompile Include="qmovedialog.cpp" />
     <ClCompile Include="qmovewidget.cpp" />
     <ClCompile Include="queuetableitem.cpp" />
     <ClCompile Include="recentcopycutcontentdialog.cpp" />
@@ -299,6 +300,7 @@
     <QtMoc Include="qmouselistwidget.h" />
     <QtMoc Include="qmousetreewidget.h" />
     <QtMoc Include="qmousewidget.h" />
+    <QtMoc Include="qmovedialog.h" />
     <QtMoc Include="qmovewidget.h" />
     <QtMoc Include="queuetableitem.h" />
     <QtMoc Include="recentcopycutcontentdialog.h" />

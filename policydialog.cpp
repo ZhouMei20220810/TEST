@@ -3,7 +3,7 @@
 #include <QWebEngineView>
 
 PolicyDialog::PolicyDialog(QString strTitle,QString strUrl,QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::PolicyDialog)
 {
     ui->setupUi(this);

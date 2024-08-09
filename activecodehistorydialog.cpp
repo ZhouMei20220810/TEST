@@ -10,7 +10,7 @@
 #include "activecodehistoryitem.h"
 
 ActiveCodeHistoryDialog::ActiveCodeHistoryDialog(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::ActiveCodeHistoryDialog)
 {
     ui->setupUi(this);

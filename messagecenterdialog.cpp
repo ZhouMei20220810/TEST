@@ -49,7 +49,7 @@ void NoticeItem::do_NoticeItem_clicked(bool checked)
 }
 
 MessageCenterDialog::MessageCenterDialog(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::MessageCenterDialog)
 {
     ui->setupUi(this);

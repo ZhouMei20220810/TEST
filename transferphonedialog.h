@@ -1,14 +1,13 @@
 #ifndef TRANSFERPHONEDIALOG_H
 #define TRANSFERPHONEDIALOG_H
 
-#include <QDialog>
 #include "global.h"
 
 namespace Ui {
 class TransferPhoneDialog;
 }
 
-class TransferPhoneDialog : public QDialog
+class TransferPhoneDialog : public QMoveDialog
 {
     Q_OBJECT
 

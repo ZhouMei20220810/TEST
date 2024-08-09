@@ -1,7 +1,6 @@
 #ifndef MESSAGECENTERDIALOG_H
 #define MESSAGECENTERDIALOG_H
 
-#include <QDialog>
 #include "global.h"
 #include <QListWidgetItem>
 #include <QLabel>
@@ -40,7 +39,7 @@ private:
 };
 
 
-class MessageCenterDialog : public QDialog
+class MessageCenterDialog : public QMoveDialog
 {
     Q_OBJECT
 

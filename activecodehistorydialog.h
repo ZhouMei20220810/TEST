@@ -1,14 +1,13 @@
 #ifndef ACTIVECODEHISTORYDIALOG_H
 #define ACTIVECODEHISTORYDIALOG_H
 
-#include <QDialog>
 #include "global.h"
 
 namespace Ui {
 class ActiveCodeHistoryDialog;
 }
 //¼¤»îÂë¼ÇÂ¼
-class ActiveCodeHistoryDialog : public QDialog
+class ActiveCodeHistoryDialog : public QMoveDialog
 {
     Q_OBJECT
 

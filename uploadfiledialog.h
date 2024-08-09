@@ -10,7 +10,7 @@ namespace Ui {
 class UploadFileDialog;
 }
 
-class UploadFileDialog : public QDialog
+class UploadFileDialog : public QMoveDialog
 {
     Q_OBJECT
 

@@ -6,7 +6,7 @@
 #include <QMimeData>
 
 RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::RecentCopyCutContentDialog)
 {
     ui->setupUi(this);

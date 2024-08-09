@@ -15,7 +15,7 @@
 #include "activecodeitem.h"
 #include <QListWidgetItem>
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::AddAuthorizationDialog)
 {
     ui->setupUi(this);
@@ -71,7 +71,7 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* 
 }
 
 AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PHONE_INFO phoneInfo*/, QWidget* parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::AddAuthorizationDialog)
 {
     ui->setupUi(this);

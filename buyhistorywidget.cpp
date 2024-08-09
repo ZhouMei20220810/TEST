@@ -10,7 +10,7 @@
 #include "messagetips.h"
 
 BuyHistoryWidget::BuyHistoryWidget(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::BuyHistoryWidget)
 {
     ui->setupUi(this);

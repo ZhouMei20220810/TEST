@@ -1,13 +1,13 @@
 #ifndef ADDACTIVECODEDIALOG_H
 #define ADDACTIVECODEDIALOG_H
 
-#include <QDialog>
+#include "qmovedialog.h"
 
 namespace Ui {
 class AddActiveCodeDialog;
 }
 
-class AddActiveCodeDialog : public QDialog
+class AddActiveCodeDialog : public QMoveDialog
 {
     Q_OBJECT
 

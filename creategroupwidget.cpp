@@ -3,7 +3,7 @@
 #include "messagetipsdialog.h"
 
 CreateGroupWidget::CreateGroupWidget(ENUM_CREATE_OR_UPDATA type, int id, QString strLineEditText, QDialog* parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::CreateGroupWidget)
 {
     ui->setupUi(this);

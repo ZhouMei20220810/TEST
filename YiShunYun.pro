@@ -50,6 +50,7 @@ SOURCES += \
     qmouselistwidget.cpp \
     qmousetreewidget.cpp \
     qmousewidget.cpp \
+    qmovedialog.cpp \
     qmovewidget.cpp \
     queuetableitem.cpp \
     recentcopycutcontentdialog.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     qmouselistwidget.h \
     qmousetreewidget.h \
     qmousewidget.h \
+    qmovedialog.h \
     qmovewidget.h \
     queuetableitem.h \
     recentcopycutcontentdialog.h \

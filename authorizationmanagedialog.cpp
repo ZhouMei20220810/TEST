@@ -86,7 +86,7 @@ void AuthorizationManageDialog::InitListWidget()
 }
 
 AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::AuthorizationManageDialog)
 {
     ui->setupUi(this);

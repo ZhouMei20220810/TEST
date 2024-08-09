@@ -3,7 +3,7 @@
 #include <QGraphicsDropShadowEffect>
 
 TransferTipsDialog::TransferTipsDialog(int iPhoneCount,QString strPhoneOrAccount, QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::TransferTipsDialog)
 {
     ui->setupUi(this);

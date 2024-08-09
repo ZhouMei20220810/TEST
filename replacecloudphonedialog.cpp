@@ -8,7 +8,7 @@
 #include <QJsonArray>
 
 ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList,QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::ReplaceCloudPhoneDialog)
 {
     ui->setupUi(this);

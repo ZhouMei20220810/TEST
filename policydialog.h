@@ -1,14 +1,14 @@
 #ifndef POLICYDIALOG_H
 #define POLICYDIALOG_H
 
-#include <QDialog>
+#include "qmovedialog.h"
 #include <QMouseEvent>
 
 namespace Ui {
 class PolicyDialog;
 }
 
-class PolicyDialog : public QDialog
+class PolicyDialog : public QMoveDialog
 {
     Q_OBJECT
 

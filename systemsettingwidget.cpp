@@ -8,7 +8,7 @@
 //#include <QShortcut>
 
 SystemSettingWidget::SystemSettingWidget(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::SystemSettingWidget)
 {
     ui->setupUi(this);

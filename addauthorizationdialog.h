@@ -1,7 +1,6 @@
 #ifndef ADDAUTHORIZATIONDIALOG_H
 #define ADDAUTHORIZATIONDIALOG_H
 
-#include <QDialog>
 #include "global.h"
 #include <QButtonGroup>
 #include "toolobject.h"
@@ -10,7 +9,7 @@ namespace Ui {
 class AddAuthorizationDialog;
 }
 
-class AddAuthorizationDialog : public QDialog
+class AddAuthorizationDialog : public QMoveDialog
 {
     Q_OBJECT
 

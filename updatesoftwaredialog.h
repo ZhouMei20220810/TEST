@@ -1,7 +1,6 @@
 #ifndef UPDATESOFTWAREDIALOG_H
 #define UPDATESOFTWAREDIALOG_H
 
-#include <QDialog>
 #include "global.h"
 #include <QProgressBar>
 #include <QNetworkAccessManager> 
@@ -10,7 +9,7 @@ namespace Ui {
 class UpdateSoftwareDialog;
 }
 
-class UpdateSoftwareDialog : public QDialog
+class UpdateSoftwareDialog : public QMoveDialog
 {
     Q_OBJECT
 

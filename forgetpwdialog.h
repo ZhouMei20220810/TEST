@@ -1,13 +1,13 @@
 #ifndef FORGETPWDIALOG_H
 #define FORGETPWDIALOG_H
 
-#include <QDialog>
+#include "qmovedialog.h"
 
 namespace Ui {
 class ForgetPWDialog;
 }
 
-class ForgetPWDialog : public QDialog
+class ForgetPWDialog : public QMoveDialog
 {
     Q_OBJECT
 

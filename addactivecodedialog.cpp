@@ -4,7 +4,7 @@
 #include <QTextBlock>
 
 AddActiveCodeDialog::AddActiveCodeDialog(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::AddActiveCodeDialog)
 {
     ui->setupUi(this);

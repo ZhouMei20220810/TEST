@@ -87,7 +87,7 @@ private:
     QLabel* m_LabelStatus;
 };
 
-class ReplaceCloudPhoneDialog : public QDialog
+class ReplaceCloudPhoneDialog : public QMoveDialog
 {
     Q_OBJECT
 

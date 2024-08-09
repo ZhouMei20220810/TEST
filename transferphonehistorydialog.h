@@ -1,7 +1,6 @@
 #ifndef TRANSFERPHONEHISTORYDIALOG_H
 #define TRANSFERPHONEHISTORYDIALOG_H
 
-#include <QDialog>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -40,7 +39,7 @@ private:
     QLabel* m_LabelTransferStatus;
 };
 
-class TransferPhoneHistoryDialog : public QDialog
+class TransferPhoneHistoryDialog : public QMoveDialog
 {
     Q_OBJECT
 

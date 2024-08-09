@@ -1,13 +1,13 @@
 #ifndef TRANSFERTIPSDIALOG_H
 #define TRANSFERTIPSDIALOG_H
 
-#include <QDialog>
+#include "qmovedialog.h"
 
 namespace Ui {
 class TransferTipsDialog;
 }
 
-class TransferTipsDialog : public QDialog
+class TransferTipsDialog : public QMoveDialog
 {
     Q_OBJECT
 

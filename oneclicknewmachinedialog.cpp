@@ -9,7 +9,7 @@
 #include "messagetips.h"
 
 OneClickNewMachineDialog::OneClickNewMachineDialog(QStringList strInstanceList,QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::OneClickNewMachineDialog)
 {
     ui->setupUi(this);

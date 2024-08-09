@@ -8,7 +8,7 @@
 #include <QGraphicsDropShadowEffect>
 
 UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::UpdateSoftwareDialog)
 {
     ui->setupUi(this);

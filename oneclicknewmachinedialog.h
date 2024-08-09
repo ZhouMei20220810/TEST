@@ -1,14 +1,13 @@
 #ifndef ONECLICKNEWMACHINEDIALOG_H
 #define ONECLICKNEWMACHINEDIALOG_H
 
-#include <QDialog>
 #include "global.h"
 
 namespace Ui {
 class OneClickNewMachineDialog;
 }
 
-class OneClickNewMachineDialog : public QDialog
+class OneClickNewMachineDialog : public QMoveDialog
 {
     Q_OBJECT
 

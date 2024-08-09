@@ -4,6 +4,7 @@
 #include <QToolButton>
 #include <QString>
 #include <QSystemTrayIcon>
+#include "qmovedialog.h"
 #define CURRENT_APP_VERSION         "1.0.0" //线上版本
 #define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
 

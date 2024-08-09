@@ -16,7 +16,7 @@
 #include "uploadfilehistoryitem.h"
 
 UploadFileDialog::UploadFileDialog(QStringList strList,QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::UploadFileDialog)
 {
     ui->setupUi(this);

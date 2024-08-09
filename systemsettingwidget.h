@@ -9,7 +9,7 @@ namespace Ui {
 class SystemSettingWidget;
 }
 
-class SystemSettingWidget : public QDialog
+class SystemSettingWidget : public QMoveDialog
 {
     Q_OBJECT
 

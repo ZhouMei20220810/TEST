@@ -53,7 +53,7 @@ void TransferHistoryListItem::setupUI(S_TRANSFER_INFO transferInfo)
 };
 
 TransferPhoneHistoryDialog::TransferPhoneHistoryDialog(QWidget *parent)
-    : QDialog(parent)
+    : QMoveDialog(parent)
     , ui(new Ui::TransferPhoneHistoryDialog)
 {
     ui->setupUi(this);
