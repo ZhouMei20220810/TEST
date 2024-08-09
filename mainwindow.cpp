@@ -4173,8 +4173,6 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
             m_MainPhoneInstanceWidget = NULL;
         }        
     }
-    GlobalData::bIsSyncOperation = checked;
-    qDebug() << "同步=" << GlobalData::bIsSyncOperation;
 
     QStringList strPhoneList = getCheckedPhoneInstance();
     if (strPhoneList.size() <= 0)
@@ -4202,6 +4200,8 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
         }
     }
 
+    GlobalData::bIsSyncOperation = checked;
+    qDebug() << "同步=" << GlobalData::bIsSyncOperation;
     //重置UI状态
     ui->treeWidget->setEnabled(!checked);
     ui->checkBoxAllSelect->setEnabled(!checked);
@@ -4268,7 +4268,14 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         return;
     }
 
+    //非同步模式
+    if (!GlobalData::bIsSyncOperation)
+    {
+        on_ShowPhoneInstanceNotMaster(sPhoneInfo);
+        return;
+    }
 
+    //同步操作模式
     if (NULL != m_MainPhoneInstanceWidget)
     {
         if (m_MainPhoneInstanceWidget->isWindow() && m_MainPhoneInstanceWidget->getPhoneInfo().iId == m_CurSelMenuPhoneInfo.iId)

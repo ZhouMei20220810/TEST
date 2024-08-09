@@ -10,14 +10,18 @@ void QMoveDialog::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton)
     {
-        m_LastPos = event->globalPosition().toPoint()-this->pos();
-        qDebug() << "globbal Position x="<<event->globalPosition().toPoint().x()
-                 <<",y="<<event->globalPosition().toPoint().y()
-                 <<"; pos x=" << this->pos().x()
-                 <<",y=" << this->pos().y()
-                 <<";LastPos x="<<m_LastPos.x()
-                 <<" ;y="<<m_LastPos.y();
-        m_bMoving = true;
+        //点击标题栏才可以拖动
+        if (event->pos().y() <= 32)
+        {
+            m_LastPos = event->globalPosition().toPoint() - this->pos();
+            //qDebug() << "globbal Position x=" << event->globalPosition().toPoint().x() \
+                << ",y=" << event->globalPosition().toPoint().y() \
+                << "; pos x=" << this->pos().x() \
+                << ",y=" << this->pos().y() \
+                << ";LastPos x=" << m_LastPos.x() \
+                << " ;y=" << m_LastPos.y();
+            m_bMoving = true;
+        }        
     }
     return QWidget::mousePressEvent(event);
 }
@@ -35,11 +39,11 @@ void QMoveDialog::mouseMoveEvent(QMouseEvent *event)
     {
         move(globalPosition-m_LastPos);
         m_LastPos = globalPosition-pos();
-        qDebug() << "mouseMoveEvent globbal Position x="<<globalPosition.x()
-                 <<",y="<<globalPosition.y()
-                 <<" pos x=" << this->pos().x()
-                 <<",y=" << this->pos().y()
-                 <<"LastPos x="<<m_LastPos.x()
+        //qDebug() << "mouseMoveEvent globbal Position x="<<globalPosition.x() \
+                 <<",y="<<globalPosition.y() \
+                 <<" pos x=" << this->pos().x() \
+                 <<",y=" << this->pos().y() \
+                 <<"LastPos x="<<m_LastPos.x() \
                  <<" ;y="<<m_LastPos.y();
     }
     return QWidget::mouseMoveEvent(event);
