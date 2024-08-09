@@ -522,6 +522,8 @@
     <None Include="resource\login\main_logo.png" />
     <None Include="resource\instance\max.png" />
     <None Include="resource\main\max_normal.png" />
+    <None Include="resource\main\message_disable.png" />
+    <None Include="resource\main\message_normal.png" />
     <None Include="resource\instance\min.png" />
     <None Include="resource\main\min_normal.png" />
     <None Include="resource\instance\more.png" />

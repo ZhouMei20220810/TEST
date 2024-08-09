@@ -165,23 +165,22 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
         default:
             break;
         }
-        if (enType == NOTICE_SYSTEM_ANNOUNCEMENT)
+        
+        if ((enType == NOTICE_SYSTEM_ANNOUNCEMENT && ((NOTICE_SYSTEM_ANNOUNCEMENT == iter->iType) || (NOTICE_UPDATE_APP == iter->iType)))
+            || ((enType == NOTICE_ACTIVE) && (NOTICE_ACTIVE == iter->iType)))
         {
-            if (NOTICE_SYSTEM_ANNOUNCEMENT == iter->iType || NOTICE_UPDATE_APP == iter->iType)
-            {
-                item = new QListWidgetItem(ui->listWidget);
-                item->setSizeHint(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
-                ui->listWidget->addItem(item);
+            item = new QListWidgetItem(ui->listWidget);
+            item->setSizeHint(QSize(NOTICE_ITEM_WIDTH, NOTICE_ITEM_HEIGHT));
+            ui->listWidget->addItem(item);
 
-                item->setData(Qt::UserRole, QVariant::fromValue(*iter));
-                widget = new NoticeItem(*iter, this);
-                connect(widget, &NoticeItem::itemSelectSignals, this, [this](S_NOTICE_INFO info) {
-                    //显示选中数据
-                    ui->textEdit->RefreshUIData(info.strRemark);
-                    });
-                ui->listWidget->setItemWidget(item, widget);
-            }
-        }        
+            item->setData(Qt::UserRole, QVariant::fromValue(*iter));
+            widget = new NoticeItem(*iter, this);
+            connect(widget, &NoticeItem::itemSelectSignals, this, [this](S_NOTICE_INFO info) {
+                //显示选中数据
+                ui->textEdit->RefreshUIData(info.strRemark);
+                });
+            ui->listWidget->setItemWidget(item, widget);
+        }
     }
 
     //设置默认第一条选中
