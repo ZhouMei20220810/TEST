@@ -390,7 +390,7 @@ void PhoneInstanceWidget::on_toolBtnClose_clicked()
     }
     else
     {
-        emit closeNotMasterPhoneSignals();
+        emit closeNotMasterPhoneSignals(m_PhoneInfo);
         this->close();
     }
 }
