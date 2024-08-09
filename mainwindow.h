@@ -374,6 +374,8 @@ private:
 
     //Phone instanceNo - 手机实例窗口
     QMap<QString, PhoneInstanceWidget*>* m_mapWindows;
+    //Phone instanceNo - 同步手机实例窗口
+    QMap<QString, PhoneInstanceWidget*>* m_mapSyncWindows;
 };
 
 #endif // MAINWINDOW_H

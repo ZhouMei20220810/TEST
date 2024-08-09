@@ -181,6 +181,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Phone instanceNo - 手机实例窗口
     m_mapWindows = new QMap<QString, PhoneInstanceWidget*>;
+    //同步模式列表框
+    m_mapSyncWindows = new QMap<QString, PhoneInstanceWidget*>;
 }
 
 MainWindow::~MainWindow()
@@ -4253,6 +4255,8 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
             {
                 if (m_MainPhoneInstanceWidget->hasChildControl())
                 {
+                    qDebug() << "同步模式,移除item window:" << info.strInstanceNo;
+                    m_mapSyncWindows->remove(info.strInstanceNo);
                     m_MainPhoneInstanceWidget->setChildControl(false);
                 }
             }
@@ -4271,6 +4275,10 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
     {
         //同步模式下，非主控共用同一个接口
         m_mapWindows->insert(sPhoneInfo.strInstanceNo, phoneWidget);
+    }
+    else
+    {
+        m_mapSyncWindows->insert(sPhoneInfo.strInstanceNo, phoneWidget);
     }
 }
 
@@ -4298,7 +4306,7 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         else
         {
             on_ShowPhoneInstanceNotMaster(sPhoneInfo);
-        }        
+        }
         return;
     }
 
@@ -4316,7 +4324,33 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         {
             //已经有子控
             MessageTipsDialog* dialog = new MessageTipsDialog("同步模式下仅支持打开一台非主控云手机,将为您自动切换非主控设备.");
-            dialog->show();
+            if (QDialog::Accepted == dialog->exec())
+            {
+                //关闭之前，打开
+                PhoneInstanceWidget* phoneWidget = NULL;
+                phoneWidget = m_mapSyncWindows->value(sPhoneInfo.strInstanceNo, nullptr);
+                if (phoneWidget)
+                {
+                    phoneWidget->raise();//将窗口置顶
+                    phoneWidget->activateWindow();//激活窗口
+                }
+                else
+                {
+                    //删除非主设备
+                    PhoneInstanceWidget* phoneWidget = NULL;
+                    auto it = m_mapSyncWindows->begin();
+                    if ( it != m_mapSyncWindows->end())
+                    {
+                        phoneWidget = it.value();
+                        phoneWidget->close();
+                        m_mapSyncWindows->remove(it.key());
+                        delete phoneWidget;
+                        phoneWidget = NULL;
+                    }
+                    
+                    on_ShowPhoneInstanceNotMaster(sPhoneInfo);
+                }
+            }
             return;
         }
         else

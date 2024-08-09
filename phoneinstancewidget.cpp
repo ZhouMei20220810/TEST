@@ -780,8 +780,9 @@ void PhoneInstanceWidget::do_DirectCopyToPhoneSignals(QString strSelectText)
         DataSource* source = m_Player->getDataSource();
         if (source != NULL)
         {
-            //手机剪贴板
-            source->copyToRemote(strSelectText.toStdString().c_str(), strSelectText.length());
+            //手机剪贴板 0:成功，负数为失败
+            int iRet = source->copyToRemote(strSelectText.toStdString().c_str(), strSelectText.length());
+            qDebug() << "直接拷贝 结果=" << iRet;
         }
     }
 }
