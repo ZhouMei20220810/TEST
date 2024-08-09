@@ -178,6 +178,9 @@ MainWindow::MainWindow(QWidget *parent)
     this->setContextMenuPolicy(Qt::PreventContextMenu);    
 
     ui->stackedWidget->setCurrentWidget(ui->page);
+
+    //Phone instanceNo - 手机实例窗口
+    m_mapWindows = new QMap<QString, PhoneInstanceWidget*>;
 }
 
 MainWindow::~MainWindow()
@@ -4242,19 +4245,33 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
 	connect(phoneWidget, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals, this, &MainWindow::BatchDirectCopyToPhoneSignals);
     connect(this, &MainWindow::BatchDirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals);
 
-    connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this]() {
-        //关闭非主控云机
-        if (NULL != m_MainPhoneInstanceWidget)
+    connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this](S_PHONE_INFO info) {
+        //同步操作模式，关闭非主控云机
+        if (GlobalData::bIsSyncOperation)
         {
-            if (m_MainPhoneInstanceWidget->hasChildControl())
+            if (NULL != m_MainPhoneInstanceWidget)
             {
-                m_MainPhoneInstanceWidget->setChildControl(false);
+                if (m_MainPhoneInstanceWidget->hasChildControl())
+                {
+                    m_MainPhoneInstanceWidget->setChildControl(false);
+                }
             }
         }
+        else//非同步模式,移除item
+        {
+            qDebug() << "非同步模式,移除item window:" << info.strInstanceNo;
+            m_mapWindows->remove(info.strInstanceNo);
+        }
+        
         });
     connect(this, &MainWindow::closePhoneInstanceWidgetSignals, phoneWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
     phoneWidget->setModal(false);
     phoneWidget->show();
+    if (!GlobalData::bIsSyncOperation)
+    {
+        //同步模式下，非主控共用同一个接口
+        m_mapWindows->insert(sPhoneInfo.strInstanceNo, phoneWidget);
+    }
 }
 
 //显示实例
@@ -4271,7 +4288,17 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
     //非同步模式
     if (!GlobalData::bIsSyncOperation)
     {
-        on_ShowPhoneInstanceNotMaster(sPhoneInfo);
+        PhoneInstanceWidget* phoneWidget = NULL; 
+        phoneWidget = m_mapWindows->value(sPhoneInfo.strInstanceNo, nullptr);
+        if (phoneWidget)
+        {
+            phoneWidget->raise();//将窗口置顶
+            phoneWidget->activateWindow();//激活窗口
+        }
+        else
+        {
+            on_ShowPhoneInstanceNotMaster(sPhoneInfo);
+        }        
         return;
     }
 

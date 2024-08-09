@@ -371,6 +371,9 @@ private:
 
     QHBoxLayout* m_hBoxLevelTypeToolBtn; //激活码续费level布局
     int          m_ActiveRenewLevelType;
+
+    //Phone instanceNo - 手机实例窗口
+    QMap<QString, PhoneInstanceWidget*>* m_mapWindows;
 };
 
 #endif // MAINWINDOW_H
