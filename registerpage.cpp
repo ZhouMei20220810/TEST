@@ -132,6 +132,9 @@ void RegisterPage::on_btnRegister_clicked()
     request.setUrl(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+        
+    strPassword = GlobalData::md5(strPassword);
+    qDebug() << "password = " << strPassword;
     QJsonDocument doc;
     QJsonObject obj;
     obj.insert("account", strAccount);
