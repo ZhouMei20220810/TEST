@@ -5169,7 +5169,8 @@ void MainWindow::on_btnRefreshRenewList_clicked()
 
 void MainWindow::on_toolBtnMessageCenter_clicked()
 {
-    MessageCenterDialog* dialog = new MessageCenterDialog();
+    //true强制显示
+    MessageCenterDialog* dialog = new MessageCenterDialog(true);
     dialog->exec();
 }
 

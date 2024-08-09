@@ -44,7 +44,7 @@ class MessageCenterDialog : public QMoveDialog
     Q_OBJECT
 
 public:
-    explicit MessageCenterDialog(QWidget *parent = nullptr);
+    explicit MessageCenterDialog(bool bForcusShow = false,QWidget *parent = nullptr);
     ~MessageCenterDialog();
 
 private slots:
@@ -63,6 +63,8 @@ private:
     QMap<int, S_NOTICE_INFO> m_mapNotice;
     QLabel* m_LabelActivityPoint;
     QLabel* m_LabelAnnouncementPoint;
+
+    bool m_bForcusShow;//是否强制显示
 };
 
 #endif // MESSAGECENTERDIALOG_H

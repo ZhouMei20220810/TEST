@@ -48,7 +48,7 @@ void NoticeItem::do_NoticeItem_clicked(bool checked)
     }
 }
 
-MessageCenterDialog::MessageCenterDialog(QWidget *parent)
+MessageCenterDialog::MessageCenterDialog(bool bForcusShow, QWidget *parent)
     : QMoveDialog(parent)
     , ui(new Ui::MessageCenterDialog)
 {
@@ -63,6 +63,8 @@ MessageCenterDialog::MessageCenterDialog(QWidget *parent)
     shadow->setYOffset(0); //垂直偏移
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
+
+    m_bForcusShow = bForcusShow;
 
     ui->listWidget->setViewMode(QListView::ListMode);
     //设置QListWidget中单元项的图片大小
@@ -214,7 +216,7 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
     }
 
     //没有新的公告
-    if (iIsReadCount == 0 && iIsReadActivityCount == 0)
+    if (iIsReadCount == 0 && iIsReadActivityCount == 0 && !m_bForcusShow)
     {
         this->close();
     }
