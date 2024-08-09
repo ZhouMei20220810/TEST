@@ -765,7 +765,7 @@ void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
 {
     //主控、副控剪切板一致，其他的情况副控只能控制自己。
     qDebug() << "do clipboard signals";
-    RecentCopyCutContentDialog* dialog = new RecentCopyCutContentDialog();
+    RecentCopyCutContentDialog* dialog = new RecentCopyCutContentDialog(m_strPhoneList);
     //传递需要拷贝的文字
     connect(dialog, &RecentCopyCutContentDialog::DirectCopyToPhoneSignals, this, &PhoneInstanceWidget::do_DirectCopyToPhoneSignals);
     connect(dialog, &RecentCopyCutContentDialog::BatchDirectCopyToPhoneSignals, this, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals);

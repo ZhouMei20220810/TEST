@@ -80,7 +80,7 @@ class RecentCopyCutContentDialog : public QMoveDialog
     Q_OBJECT
 
 public:
-    explicit RecentCopyCutContentDialog(QWidget *parent = nullptr);
+    explicit RecentCopyCutContentDialog(QStringList strPhoneList,QWidget *parent = nullptr);
     ~RecentCopyCutContentDialog();
 
     void LoadHistoryList();
@@ -97,6 +97,8 @@ private slots:
     void onClipboardChanged();
 
     void on_toolBtnClear_clicked();
+
+    void on_plainTextEdit_textChanged();
 
 private:
     void deleteItem(QListWidgetItem* item);

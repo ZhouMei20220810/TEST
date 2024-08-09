@@ -4,8 +4,10 @@
 #include "clipboardhistoryapp.h"
 #include <QClipboard>
 #include <QMimeData>
+#include <QTextDocument>
+#include <QTextBlock>
 
-RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
+RecentCopyCutContentDialog::RecentCopyCutContentDialog(QStringList strPhoneList,QWidget *parent)
     : QMoveDialog(parent)
     , ui(new Ui::RecentCopyCutContentDialog)
 {
@@ -41,6 +43,9 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QWidget *parent)
     // 连接信号与槽
     connect(qApp->clipboard(), &QClipboard::dataChanged, this, &RecentCopyCutContentDialog::onClipboardChanged);
     LoadHistoryList();
+
+    ui->labelPhoneCount->setText(QString("设备数量： %1").arg(strPhoneList.size()));
+    ui->labelTextCount->setText(QString("当前文字数量： %1").arg(0));
 }
 void RecentCopyCutContentDialog::onClipboardChanged()
 {
@@ -160,5 +165,22 @@ void RecentCopyCutContentDialog::on_toolBtnClear_clicked()
     ClipboardHistoryApp* app = qobject_cast<ClipboardHistoryApp*>(qApp);
     if (app != NULL)
         app->clearClipboardHistoryList();
+}
+
+void RecentCopyCutContentDialog::on_plainTextEdit_textChanged()
+{
+    int lines = 0;
+    QTextDocument* doc = ui->plainTextEdit->document();
+    QString strActiveCode="";
+    for(int i = 0;i< doc->blockCount(); i++)
+    {
+        strActiveCode = doc->findBlockByNumber(i).text();
+        if(!strActiveCode.isEmpty())
+        {
+            lines++;
+        }
+
+    }
+    ui->labelTextCount->setText(QString("当前文字数量： %1").arg(lines));
 }
 
