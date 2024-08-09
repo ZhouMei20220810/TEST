@@ -551,16 +551,16 @@ QPushButton:disabled
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="spacing">
-             <number>0</number>
+             <number>16</number>
             </property>
             <property name="leftMargin">
-             <number>0</number>
+             <number>16</number>
             </property>
             <property name="topMargin">
-             <number>0</number>
+             <number>16</number>
             </property>
             <property name="rightMargin">
-             <number>0</number>
+             <number>16</number>
             </property>
             <property name="bottomMargin">
              <number>0</number>
@@ -569,7 +569,10 @@ QPushButton:disabled
              <widget class="QPlainTextEdit" name="plainTextEdit">
               <property name="styleSheet">
                <string notr="true">background-color:#F5F6FA;
-border: 1px solid #EBF1FF;</string>
+border: 1px solid #EBF1FF;color:#596380;font-size:12px;border-radius: 2px;</string>
+              </property>
+              <property name="placeholderText">
+               <string>请输入需要粘贴的内容</string>
               </property>
              </widget>
             </item>
@@ -582,11 +585,164 @@ border: 1px solid #EBF1FF;</string>
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_4">
+               <property name="spacing">
+                <number>16</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string>粘贴规则</string>
+                <widget class="QFrame" name="frame_8">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
                  </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <property name="spacing">
+                   <number>8</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_2">
+                    <property name="styleSheet">
+                     <string notr="true">color:#596380;font-size:15px;font-weight:bold;</string>
+                    </property>
+                    <property name="text">
+                     <string>粘贴规则</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_3">
+                    <property name="styleSheet">
+                     <string notr="true">color:#596380;font-size:12px;</string>
+                    </property>
+                    <property name="text">
+                     <string>以换行符作为分隔</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_4">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>167</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="frame_9">
+                 <property name="minimumSize">
+                  <size>
+                   <width>320</width>
+                   <height>166</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">border: 1px solid #EBF1FF;border-radius: 2px;</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="frame_10">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="styleSheet">
+                     <string notr="true">color:#596380;font-size:12px;text-decoration: underline;</string>
+                    </property>
+                    <property name="text">
+                     <string>设备数量： 100</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_5">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>163</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_5">
+                    <property name="styleSheet">
+                     <string notr="true">color:#596380;font-size:12px;</string>
+                    </property>
+                    <property name="text">
+                     <string>当前文字数量：0</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
                <item>
@@ -600,6 +756,18 @@ border: 1px solid #EBF1FF;</string>
                  <layout class="QHBoxLayout" name="horizontalLayout_6">
                   <property name="spacing">
                    <number>8</number>
+                  </property>
+                  <property name="leftMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="topMargin">
+                   <number>21</number>
+                  </property>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>0</number>
                   </property>
                   <item>
                    <spacer name="horizontalSpacer">

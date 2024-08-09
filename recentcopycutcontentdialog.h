@@ -12,7 +12,7 @@ namespace Ui {
 class RecentCopyCutContentDialog;
 }
 
-#define RECENT_LIST_ITEM_WIDTH   200
+#define RECENT_LIST_ITEM_WIDTH   300
 #define RECENT_LIST_ITEM_HEIGHT  20
 
 // 自定义的列表项小部件
@@ -36,7 +36,7 @@ public:
         info.pButtonGroup->addButton(radioBtnContent, info.iBtnGroupId);
         //connect(m_radioBtnContent, &QRadioButton::clicked, this, &RecentListItem::selectItemSignals);
         radioBtnContent->setStyleSheet(strStyleSheet);
-        radioBtnContent->resize(QSize(RECENT_LIST_ITEM_WIDTH - 50, RECENT_LIST_ITEM_HEIGHT));
+        radioBtnContent->setFixedSize(QSize(RECENT_LIST_ITEM_WIDTH - 50, RECENT_LIST_ITEM_HEIGHT));
         QFontMetrics fontWidth(radioBtnContent->font());
         QString strElideNote = fontWidth.elidedText(info.strContent, Qt::ElideRight, RECENT_LIST_ITEM_WIDTH - 50);
         radioBtnContent->setText(strElideNote);
