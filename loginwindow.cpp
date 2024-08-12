@@ -162,10 +162,13 @@ void LoginWindow::mouseReleaseEvent(QMouseEvent *event)
 //登录之后显示系统公告
 void LoginWindow::do_closeWindowSignals()
 {
+    //先隐藏窗口，否则感觉反应慢
+    this->hide();
+
     m_toolObject = new ToolObject(this);
     connect(m_toolObject, &ToolObject::noticeListInfoSignals, this, &LoginWindow::do_noticeListInfoSignals);
     m_toolObject->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
-    this->hide();    
+      
 }
 
 void LoginWindow::do_noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice)
