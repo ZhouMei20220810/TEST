@@ -4187,6 +4187,15 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
         ui->radioButtonSyncOperation->setChecked(false);
         return;
     }    
+
+    //非同步模式时可能打开了一系列窗口，关闭所有的窗口，清空列表
+    for (auto it = m_mapWindows->begin(); it != m_mapWindows->end(); )
+    {
+        PhoneInstanceWidget* window = it.value();
+        window->close();
+        delete window;
+        it = m_mapWindows->erase(it); // 移除窗口后更新迭代器
+    }
     
     if (m_MainPhoneInstanceWidget != NULL && m_MainPhoneInstanceWidget->isVisible())
     {
