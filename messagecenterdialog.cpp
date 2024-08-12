@@ -8,7 +8,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QGraphicsDropShadowEffect>
-#include "toolobject.h"
 #define  POINT_SIZE         6
 
 void NoticeItem::setupUI(S_NOTICE_INFO info)
@@ -93,7 +92,9 @@ MessageCenterDialog::MessageCenterDialog(bool bForcusShow, QWidget *parent)
     m_LabelAnnouncementPoint->setVisible(false);
 
     //默认公告
-    HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);    
+    m_toolObject = new ToolObject();
+    connect(m_toolObject, &ToolObject::noticeListInfoSignals, this, &MessageCenterDialog::do_noticeListInfoSignals);
+    m_toolObject->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
 }
 
 MessageCenterDialog::~MessageCenterDialog()
@@ -108,8 +109,7 @@ void MessageCenterDialog::on_btnAnnouncement_clicked()
     ui->btnActivity->setStyleSheet("QPushButton:hover{border:none;color:#505465;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}QPushButton{color:#A9ADB6;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}");
     ui->labelAnnouncement->setStyleSheet("background-color:#505465;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
     ui->labelActivity->setStyleSheet("background-color:#F4F6FA;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
-    
-    HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
+    m_toolObject->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
 }
 
 void MessageCenterDialog::on_btnActivity_clicked()
@@ -119,20 +119,20 @@ void MessageCenterDialog::on_btnActivity_clicked()
     ui->btnAnnouncement->setStyleSheet("QPushButton:hover{border:none;color:#505465;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}QPushButton{color: #A9ADB6;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}");
     ui->labelActivity->setStyleSheet("background-color:#505465;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
     ui->labelAnnouncement->setStyleSheet("background-color:#F4F6FA;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
-
-    HttpGetNoticeListInfo(NOTICE_ACTIVE, 1, 1000);
+    m_toolObject->HttpGetNoticeListInfo(NOTICE_ACTIVE, 1, 1000);
 }
 
-void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
+void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice)
 {
     ui->listWidget->clear();
+    ui->textEdit->clear();
     NoticeItem* widget = NULL;
     QListWidgetItem* item = NULL;
     QMap<int, S_NOTICE_INFO>::iterator iter;
     QPushButton* button = NULL;
     int iIsReadCount = 0;
     int iIsReadActivityCount = 0;
-    for (iter = m_mapNotice.begin(); iter != m_mapNotice.end(); iter++)
+    for (iter = mapNotice.begin(); iter != mapNotice.end(); iter++)
     {
         switch (iter->iType)
         {
@@ -222,96 +222,6 @@ void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType)
     }
 }
 
-void MessageCenterDialog::HttpGetNoticeListInfo(NOTICE_TYPE enType,int iPage, int iPageSize)
-{
-    //已授权列表
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_GET_NOTICE_LIST;
-    //platform PC端值为1
-    strUrl += QString::asprintf("?page=%d&pageSize=%d&platform=%d", iPage, iPageSize,1);
-    qDebug() << "strUrl = " << strUrl;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    request.setUrl(url);
-
-    m_mapNotice.clear();
-    //发出GET请求
-    QNetworkReply* reply = manager->get(request);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    if (obj["data"].isObject())
-                    {
-                        QJsonObject data = obj["data"].toObject();
-                        int iCurrent = data["current"].toInt();
-                        int iPages = data["pages"].toInt();
-                        int iSize = data["size"].toInt();
-                        int iTotal = data["total"].toInt();
-                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
-                        QJsonArray records = data["records"].toArray();                        
-                        if (records.size() > 0)
-                        {
-                            int iRecordsSize = records.size();
-                            QJsonObject recordObj;
-                            //获取我的手机实例数据，暂未存储
-                            S_NOTICE_INFO noticeInfo;
-                            for (int i = 0; i < iRecordsSize; i++)
-                            {
-                                recordObj = records[i].toObject();
-                                noticeInfo.iId = recordObj["id"].toInt();
-                                noticeInfo.iType = recordObj["type"].toInt();
-                                noticeInfo.strTitle = recordObj["title"].toString();
-                                noticeInfo.strCreateTime = recordObj["createTime"].toString();
-                                noticeInfo.strRemark = recordObj["remark"].toString();
-                                qDebug() << "公告 title=" << noticeInfo.strTitle << "remark=" << noticeInfo.strRemark;
-                                noticeInfo.iCreateBy = recordObj["createBy"].toInt();
-                                noticeInfo.bIsRead = recordObj["isRead"].toBool();
-                                m_mapNotice.insert(i, noticeInfo);
-                            }
-                        }
-
-                        //显示
-                        LoadNoticeInfoList(enType);
-                    }
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
-}
-
 //设置已读
 void NoticeItem::HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enType)
 {
@@ -380,4 +290,9 @@ void NoticeItem::HttpPostSetNoticeRead(int iCreateBy, int iId, NOTICE_TYPE enTyp
 void MessageCenterDialog::on_btnClose_clicked()
 {
     this->close();
+}
+
+void MessageCenterDialog::do_noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice)
+{
+    LoadNoticeInfoList(enType, mapNotice);
 }

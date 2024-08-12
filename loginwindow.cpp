@@ -82,6 +82,8 @@ LoginWindow::LoginWindow(QWidget *parent)
             this->close();
         }
         });
+
+    m_bShowMessageCenter = false;    
 }
 
 LoginWindow::~LoginWindow()
@@ -160,15 +162,33 @@ void LoginWindow::mouseReleaseEvent(QMouseEvent *event)
 //登录之后显示系统公告
 void LoginWindow::do_closeWindowSignals()
 {
-    this->hide();
+    m_toolObject = new ToolObject(this);
+    connect(m_toolObject, &ToolObject::noticeListInfoSignals, this, &LoginWindow::do_noticeListInfoSignals);
+    m_toolObject->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
+    this->hide();    
+}
 
-    QDateTime date = QDateTime::currentDateTime();
-    qDebug()<<"消息中心before："<<QString("%1").arg(date.toString("yyyy-MM-dd hh:mm:ss"));
-    //消息中心
-    MessageCenterDialog* dialog = new MessageCenterDialog();
-    dialog->exec();
-    date = QDateTime::currentDateTime();
-    qDebug() << "消息中心after：" << QString("%1").arg(date.toString("yyyy-MM-dd hh:mm:ss"));
+void LoginWindow::do_noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice)
+{
+    //判断是否有未读
+    QMap<int, S_NOTICE_INFO>::iterator iter;
+    for (iter = mapNotice.begin(); iter != mapNotice.end(); iter++)
+    {
+        if (!iter->bIsRead)
+        {
+            m_bShowMessageCenter = true;
+            break;
+        }        
+    }
+
+    //有未读消息
+    if (m_bShowMessageCenter)
+    {
+        //消息中心
+        MessageCenterDialog* dialog = new MessageCenterDialog();
+        dialog->exec();
+    }
+
     //去掉父窗口
     MainWindow* mainWindow = new MainWindow();
     connect(mainWindow, &MainWindow::logoutSignals, this, [=]() {

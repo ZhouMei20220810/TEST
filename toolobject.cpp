@@ -554,3 +554,95 @@ void ToolObject::HttpPostCheckAppVersion()
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 }
+
+void ToolObject::HttpGetNoticeListInfo(NOTICE_TYPE enType, int iPage, int iPageSize)
+{
+    //已授权列表
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_GET_NOTICE_LIST;
+    //platform PC端值为1
+    strUrl += QString::asprintf("?page=%d&pageSize=%d&platform=%d", iPage, iPageSize, 1);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+        
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);
+    QEventLoop loop;    
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    QMap<int, S_NOTICE_INFO> mapNotice;
+                    if (obj["data"].isObject())
+                    {
+                        QJsonObject data = obj["data"].toObject();
+                        int iCurrent = data["current"].toInt();
+                        int iPages = data["pages"].toInt();
+                        int iSize = data["size"].toInt();
+                        int iTotal = data["total"].toInt();
+                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
+                        QJsonArray records = data["records"].toArray();
+                        if (records.size() > 0)
+                        {
+                            int iRecordsSize = records.size();
+                            QJsonObject recordObj;
+                            //获取我的手机实例数据，暂未存储
+                            S_NOTICE_INFO noticeInfo;
+                            for (int i = 0; i < iRecordsSize; i++)
+                            {
+                                recordObj = records[i].toObject();
+                                noticeInfo.iId = recordObj["id"].toInt();
+                                noticeInfo.iType = recordObj["type"].toInt();
+                                noticeInfo.strTitle = recordObj["title"].toString();
+                                noticeInfo.strCreateTime = recordObj["createTime"].toString();
+                                noticeInfo.strRemark = recordObj["remark"].toString();
+                                qDebug() << "公告 title=" << noticeInfo.strTitle << "remark=" << noticeInfo.strRemark;
+                                noticeInfo.iCreateBy = recordObj["createBy"].toInt();
+                                noticeInfo.bIsRead = recordObj["isRead"].toBool();
+                                mapNotice.insert(i, noticeInfo);
+                            }
+                        }
+                    }
+                    //显示
+                    emit noticeListInfoSignals(enType, mapNotice);
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+}

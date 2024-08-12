@@ -25,11 +25,14 @@ public:
     void HttpPostAuthDetail(int iPhoneId);
     //版本检测
     void HttpPostCheckAppVersion();
+    //获取通知列表
+    void HttpGetNoticeListInfo(NOTICE_TYPE enType, int iPage, int iPageSize);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
     void ShowAuthDetailSignals(S_AUTHOR_INFO authInfo);
     void closeAuthDialogOrGroupRefreshSignals();
+    void noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice);
 private:
     QMap<QString, S_TASK_INFO> m_mapScreenshotTask;
 };

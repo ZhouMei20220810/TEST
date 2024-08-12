@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <QLabel>
 #include <QToolButton>
+#include "toolobject.h"
 
 namespace Ui {
 class MessageCenterDialog;
@@ -53,18 +54,21 @@ private slots:
     //活动
     void on_btnActivity_clicked();
     void on_btnClose_clicked();
+    //消息中心列表
+    void do_noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice);
 private:
     //获取通知列表
     void HttpGetNoticeListInfo(NOTICE_TYPE enType, int iPage, int iPageSize);
-    void LoadNoticeInfoList(NOTICE_TYPE enType);
+    void LoadNoticeInfoList(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice);
 private:
     Ui::MessageCenterDialog *ui;
-    //id
-    QMap<int, S_NOTICE_INFO> m_mapNotice;
+    //id    
     QLabel* m_LabelActivityPoint;
     QLabel* m_LabelAnnouncementPoint;
 
     bool m_bForcusShow;//是否强制显示
+
+    ToolObject* m_toolObject;
 };
 
 #endif // MESSAGECENTERDIALOG_H

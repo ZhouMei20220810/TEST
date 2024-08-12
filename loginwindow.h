@@ -7,6 +7,7 @@
 #include "registerpage.h"
 #include <QMouseEvent>
 #include <QTimer>
+#include "toolobject.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +28,7 @@ private:
 private slots:
     void on_pushButton_clicked();
     void do_closeWindowSignals();
+    void do_noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice);
 private:
     Ui::LoginWindow *ui;
 
@@ -38,6 +40,8 @@ private:
     bool m_bMoving= false;
     QTimer* m_timer;
     // QWidget interface
+    ToolObject* m_toolObject;
+    bool        m_bShowMessageCenter;
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
