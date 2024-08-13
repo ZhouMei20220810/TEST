@@ -876,7 +876,7 @@ QPushButton:disabled
 QPushButton:hover
 {
 	border:0px solid  #FF27282B;
-	background-color: #FF407AFF;
+	background-color: #E6E9F2;
 }
  QPushButton:pressed {
      border: 0px solid #555764;
