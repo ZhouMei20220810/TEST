@@ -500,7 +500,7 @@ void ToolObject::HttpPostCheckAppVersion()
                             versionInfo.strVersion = obj["k"].toString(); //"1.0.11";//obj["k"].toString();
                             versionInfo.iIsFurcedUpdate = obj["v1"].toString();
                             versionInfo.strDownloadUrl = obj["v2"].toString();
-                            versionInfo.strV3 = obj["v3"].toString();
+                            versionInfo.strUpdateContents = obj["v3"].toString();
                             versionInfo.strV4 = obj["v4"].toString();
                             versionInfo.strV5 = obj["v5"].toString();
                             QVersionNumber serverVer = QVersionNumber::fromString(versionInfo.strVersion);

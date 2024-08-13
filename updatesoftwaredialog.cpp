@@ -15,7 +15,7 @@ UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground, true);
-    setWindowTitle("软件更新");
+    setWindowTitle("检查更新");
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
     shadow->setBlurRadius(5);//阴影模糊半径
     shadow->setXOffset(0);//水平偏移
@@ -25,10 +25,16 @@ UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *
 
     m_versionInfo = versionInfo;
 
-    if (versionInfo.iIsFurcedUpdate.toInt())
-        ui->toolBtnCancel->setVisible(false);
-    else
-        ui->toolBtnCancel->setVisible(true);
+
+    ui->labelUpdateVersion->setText(versionInfo.strVersion);
+    ui->textEditUpdateContent->setText(versionInfo.strUpdateContents);
+    //设置为只读
+    ui->textEditUpdateContent->setReadOnly(true);
+    //禁止文本选中
+    ui->textEditUpdateContent->setTextInteractionFlags(Qt::NoTextInteraction);
+    //禁止鼠标光标变为文本选择光标
+    ui->textEditUpdateContent->viewport()->setCursor(Qt::ArrowCursor);
+    ui->stackedWidget->setCurrentWidget(ui->pageCheckUpdate);
 }
 
 UpdateSoftwareDialog::~UpdateSoftwareDialog()
@@ -38,20 +44,17 @@ UpdateSoftwareDialog::~UpdateSoftwareDialog()
 
 void UpdateSoftwareDialog::on_toolBtnUpdate_clicked()
 {
+    //跳转到更新页面
+    ui->stackedWidget->setCurrentWidget(ui->pageUpdating);
     //立即更新
     //1、下载文件
     //2、安装文件
     //3、重启应用
     ui->toolBtnUpdate->setEnabled(false);
+    this->setWindowTitle("更新中");
+
     ui->toolBtnUpdate->setText("正在更新");
     startDownload(m_versionInfo.strDownloadUrl, ui->progressBar);
-}
-
-
-void UpdateSoftwareDialog::on_toolBtnCancel_clicked()
-{
-    //以后再说
-    this->close();
 }
 
 

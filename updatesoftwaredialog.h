@@ -20,8 +20,6 @@ public:
 private slots:
     void on_toolBtnUpdate_clicked();
 
-    void on_toolBtnCancel_clicked();
-
     void on_btnClose_clicked();
     
     void updateProgress(qint64 bytesReceived, qint64 bytesTotal);
