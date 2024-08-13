@@ -27,6 +27,9 @@ UpdateSoftwareDialog::UpdateSoftwareDialog(S_VERSION_INFO versionInfo, QWidget *
 
 
     ui->labelUpdateVersion->setText(versionInfo.strVersion);
+    ui->labelUpdateVersion_2->setText(versionInfo.strVersion);
+    ui->labelUpdateVersion_3->setText(versionInfo.strVersion);
+
     ui->textEditUpdateContent->setText(versionInfo.strUpdateContents);
     //设置为只读
     ui->textEditUpdateContent->setReadOnly(true);
@@ -52,8 +55,9 @@ void UpdateSoftwareDialog::on_toolBtnUpdate_clicked()
     //3、重启应用
     ui->toolBtnUpdate->setEnabled(false);
     this->setWindowTitle("更新中");
-
-    ui->toolBtnUpdate->setText("正在更新");
+    ui->labelTitle->setText("更新中");
+    
+    ui->labelProgressValue->setText("已更新 1%");
     startDownload(m_versionInfo.strDownloadUrl, ui->progressBar);
 }
 
@@ -78,7 +82,6 @@ void UpdateSoftwareDialog::startDownload(const QUrl& url, QProgressBar* progress
 
     m_reply = m_networkManager->get(request);
     connect(m_reply, &QNetworkReply::downloadProgress, this, &UpdateSoftwareDialog::updateProgress);
-    //connect(m_reply, &QNetworkReply::fini)
 }
 
 void UpdateSoftwareDialog::updateProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -86,12 +89,14 @@ void UpdateSoftwareDialog::updateProgress(qint64 bytesReceived, qint64 bytesTota
     if (bytesTotal > 0) {
         int progress = (bytesReceived * 100) / bytesTotal;
         m_progressBar->setValue(progress);
+        ui->labelProgressValue->setText(QString("已更新 %1%").arg(progress));
     }
 }
 
 void UpdateSoftwareDialog::downloadFinished()
-{
-    if (m_reply->error() == QNetworkReply::NoError) {
+{    
+    QNetworkReply::NetworkError err =  m_reply->error();
+    if (err == QNetworkReply::NoError) {
         // 成功下载，处理文件
         QFile file(m_outputFile);
         if (file.exists())
@@ -108,14 +113,21 @@ void UpdateSoftwareDialog::downloadFinished()
             QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
             setting.setValue("UpdateMsiPath", QDir::toNativeSeparators(m_outputFile));
             setting.setValue("UpdateExe", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
+            setting.setValue("UpdateVersion", m_versionInfo.strVersion);
             callUpdateApp();
         }
         else {
             qDebug() << "Failed to save the file!"<< m_outputFile;
+            ui->labelTitle->setText("更新失败");
+            setWindowTitle("更新失败");
+            ui->stackedWidget->setCurrentWidget(ui->pageUpdateError);
         }
     }
     else {
         qDebug() << "Download failed: " << m_reply->errorString();
+        ui->labelTitle->setText("更新失败");
+        setWindowTitle("更新失败");
+        ui->stackedWidget->setCurrentWidget(ui->pageUpdateError);
     }
 
     m_reply->deleteLater();
@@ -164,5 +176,12 @@ void UpdateSoftwareDialog::callUpdateApp()
     else {
         qDebug() << "Run update exe failed with exit code:" << exitCode;
     }
+}
+
+
+void UpdateSoftwareDialog::on_toolBtnReupdate_clicked()
+{
+    //重新更新
+    on_toolBtnUpdate_clicked();
 }
 

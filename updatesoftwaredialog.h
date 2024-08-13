@@ -25,6 +25,8 @@ private slots:
     void updateProgress(qint64 bytesReceived, qint64 bytesTotal);
 
     void downloadFinished();
+    void on_toolBtnReupdate_clicked();
+
 private:
     void callUpdateApp();
 private:
