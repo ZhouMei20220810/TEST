@@ -179,7 +179,7 @@ void PhoneItemWidget::downloadUrl(QString url)
             {
                 if (QFile::exists(m_strPicturePath))
                 {
-                    qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
+                    //qDebug() << "httpFinished pixmap is null. m_strPicturePath" << m_strPicturePath;
                     showLabelImage(m_strPicturePath);
                 }
                 else

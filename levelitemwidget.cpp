@@ -47,6 +47,8 @@ LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
     qDebug() << "url=" << url << "strTmp=" << strTmp;
     //ui->labelVersion->setPixmap(QPixmap(strTmp));
     startDownload(url);
+    //ÔÝÊ±ÏÂÔØ»ÒÍ¼
+    startDownloadFunctionImg(levelInfo.strFucImg);
     int width = ui->labelVersion->width();
     int height = ui->labelVersion->height();
     QFile file(strTmp);
@@ -86,6 +88,38 @@ void LevelItemWidget::startDownload(QString strUrl)
                 qDebug() <<"download="<< m_levelInfo.strColorIcon<< "errorMessage = " << errorMessage;
             }
                             
+        });
+    downloader->setUrl(strUrl, "xxx.png");
+    downloader->start();
+}
+
+
+void LevelItemWidget::startDownloadFunctionImg(QString strUrl)
+{
+    FileDownloader* downloader = new FileDownloader(this);
+    connect(downloader, &FileDownloader::downloadFinished, this, [this](bool success, QString errorMessage)
+        {
+            if (success)
+            {
+                QString url = m_levelInfo.strFucImg;
+                QString strFileName = url.right(url.size() - url.lastIndexOf('/') - 1);
+                QString strTmp = GlobalData::strPictureTempDir + strFileName;
+                qDebug() << "url=" << url << "strTmp=" << strTmp;
+                //ui->labelVersion->setPixmap(QPixmap(strTmp));
+                //startDownload(url);
+                int width = ui->labelImg->width();
+                int height = ui->labelImg->height();
+                QFile file(strTmp);
+                if (file.exists())
+                {
+                    ui->labelImg->setPixmap(QPixmap(strTmp).scaled(QSize(width, height), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                }
+            }
+            else
+            {
+                qDebug() << "download strFucImg=" << m_levelInfo.strFucImg << "errorMessage = " << errorMessage;
+            }
+
         });
     downloader->setUrl(strUrl, "xxx.png");
     downloader->start();

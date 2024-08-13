@@ -149,6 +149,7 @@ typedef struct LEVEL_INFO
     QString strLevelRemark;     //等级描述
     QString strColorIcon;       //彩图
     QString strAshIcon;         //灰图
+    QString strFucImg;          //功能图标
     bool    bIsEnabled;         //是否启动
     LEVEL_INFO()
     {

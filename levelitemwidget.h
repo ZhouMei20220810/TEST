@@ -24,6 +24,7 @@ signals:
     void refreshMemberListSignals(int iLevelId, QMap<int, S_LEVEL_DATA_INFO> mapData);
 private:
     void startDownload(QString strUrl);
+    void startDownloadFunctionImg(QString strUrl);
     void HttpMemberListByLevelId();
 
     Ui::LevelItemWidget *ui;
