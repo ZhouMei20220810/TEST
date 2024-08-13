@@ -111,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent)
     {
         qInstallMessageHandler(customMessageHandler);
     }
+    QString strUpdateVersion = setting.value("UpdateVersion","").toString();
+    ui->labelUpdateVersion->setText(strUpdateVersion);
 
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
     shadow->setBlurRadius(5);//阴影模糊半径
@@ -119,19 +121,26 @@ MainWindow::MainWindow(QWidget *parent)
     shadow->setColor(Qt::gray);//阴影颜色
     this->setGraphicsEffect(shadow);
 
+    m_iPrograssValue = 0;
     //自动重启
-    ui->toolBtnUpdate->setVisible(false);
+    ui->toolBtnUpdate->setEnabled(false);
+    ui->toolBtnUpdate->setText("立即更新");
+    setWindowTitle("安装中");
+    ui->labelTitle->setText("安装中");
+    ui->labelProgressValue->setText("安装中 1%");
 
     //杀掉当前进程
-    ui->progressBar->setValue(10);
+	ui->progressBar->setValue(10);
+    ui->labelProgressValue->setText(QString("已安装 %1%").arg(10));
     ProcessKiller killer;
     killer.killTheProcess(KILL_PROCESS_NAME);
-    ui->progressBar->setValue(30);
+	ui->progressBar->setValue(30);
+    ui->labelProgressValue->setText(QString("已安装 %1%").arg(30));
     m_thread = new TInstallAppThread(this);
     connect(m_thread, &TInstallAppThread::showPrograssValueSignals, this, &MainWindow::do_showPrograssValueSignals);
-    connect(m_thread, &TInstallAppThread::hideWindowSignals, this, [this]() {
-        qDebug() << "退出";
-        this->close();
+    //connect(m_thread, &TInstallAppThread::hideWindowSignals, this, [this]() {\
+        qDebug() << "退出";\
+        this->close();\
         });
     m_thread->start();
 }
@@ -139,8 +148,16 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::do_showPrograssValueSignals(int value)
 {
     if (value == 100)
-        ui->toolBtnCancel->setEnabled(false);
+    {
+        ui->toolBtnUpdate->setEnabled(true);
+        ui->toolBtnUpdate->setText("立即体验");
+        setWindowTitle("更新成功");
+        ui->labelTitle->setText("更新成功");
+        ui->labelStatus->setText("更新成功");
+    }
+    m_iPrograssValue = value;
     ui->progressBar->setValue(value);
+    ui->labelProgressValue->setText(QString("已安装 %1%").arg(value));
 }
 
 MainWindow::~MainWindow()
@@ -152,17 +169,57 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_toolBtnCancel_clicked()
+void MainWindow::on_btnClose_clicked()
 {
-    MessageTipsDialog* dialog = new MessageTipsDialog("程序正在安装,中断可能导致软件不可用,请确定是否退出");
-    if(QDialog::Accepted == dialog->exec())
+    if (m_iPrograssValue != 100)
     {
-        this->close();
+        MessageTipsDialog* dialog = new MessageTipsDialog("程序正在安装,中断可能导致软件不可用,请确定是否退出");
+        if (QDialog::Accepted == dialog->exec())
+        {
+            this->close();
+        }
+    }
+    else
+    {
+        //启动软件
+        on_toolBtnUpdate_clicked();
     }
 }
 
-void MainWindow::on_btnClose_clicked()
+void MainWindow::on_toolBtnUpdate_clicked()
 {
-    this->close();
+    //立即体验
+    QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
+    QString strExe = setting.value("UpdateExe", "").toString();
+    if (!strExe.isEmpty())
+    {
+        QFile file(strExe);
+        if (file.exists())
+        {
+            // 使用QProcess执行命令
+            QProcess* process = new QProcess;
+            //异步启动
+            //bool bSuccess = process.startDetached(strExe);
+            //bool bStarted = process.waitForStarted(2000);
+            process->start(strExe);
+            bool bStart = process->waitForStarted(5000);
+            if (bStart)
+            {
+                qDebug() << "restart app successfully." << strExe << "bStart=" << bStart;
+            }
+            else
+                qDebug() << "restart app failed." << strExe << "bStart=" << bStart;
+            //process.start(strExe);
+            //process.waitForFinished(-1); // 等待进程结束，-1表示无限制等待时间
+            //QApplication::exit();
+            //emit hideWindowSignals();
+            qDebug() << "退出";
+            this->close();
+        }
+        else
+        {
+            qDebug() << "文件不存在." << strExe;
+        }
+    }
 }
 

@@ -18,13 +18,14 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_toolBtnCancel_clicked();
-
     void on_btnClose_clicked();
 
     void do_showPrograssValueSignals(int value);
+    void on_toolBtnUpdate_clicked();
+
 private:
     Ui::MainWindow *ui;
     TInstallAppThread* m_thread;
+    int         m_iPrograssValue;
 };
 #endif // MAINWINDOW_H

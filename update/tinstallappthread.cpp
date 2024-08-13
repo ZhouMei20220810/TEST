@@ -187,7 +187,6 @@ void TInstallAppThread::run()
     showPrograssValueSignals(iPrograssValue);
     qDebug() << "strMsi=" << strMsi;
 
-    //自动重启
     //立即重启
     if (!strExe.isEmpty())
     {
@@ -195,7 +194,8 @@ void TInstallAppThread::run()
         if (file.exists())
         {
             // 使用QProcess执行命令
-            QProcess* process = new QProcess;
+            //屏蔽自动重启
+            /*QProcess* process = new QProcess;
             //异步启动
             //bool bSuccess = process.startDetached(strExe);
             //bool bStarted = process.waitForStarted(2000);
@@ -207,11 +207,12 @@ void TInstallAppThread::run()
                 qDebug() << "restart app successfully." << strExe << "bStart=" << bStart;
             }
             else
-                qDebug() << "restart app failed." << strExe << "bStart=" << bStart;
+                qDebug() << "restart app failed." << strExe << "bStart=" << bStart;*/
+            showPrograssValueSignals(100);
             //process.start(strExe);
             //process.waitForFinished(-1); // 等待进程结束，-1表示无限制等待时间
             //QApplication::exit();
-            emit hideWindowSignals();
+            //emit hideWindowSignals();
         }
         else
         {
