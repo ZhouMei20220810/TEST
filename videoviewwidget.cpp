@@ -205,10 +205,14 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 			char* src_data = (char*)getFrameBuffer();
 			//
 			//if (this->isActiveWindow() && !this->isHidden())
+			if(src_data != NULL)
 			{
 				Show_RGB((const uchar*)src_data, 20, 10);
 			}
-			
+			else
+			{
+				qDebug() << "没有透传数据";
+			}
 			/*Window* parent_wnd = GetWindow();
 			if (src_data && parent_wnd)
 			{

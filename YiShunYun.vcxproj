@@ -494,6 +494,7 @@
     <None Include="resource\instance\control.png" />
     <None Include="resource\main\control_contraction.png" />
     <None Include="resource\main\control_expansion.png" />
+    <None Include="resource\main\copyDel.png" />
     <None Include="resource\main\customer.png" />
     <None Include="resource\instance\data_bad.png" />
     <None Include="resource\instance\data_good.png" />

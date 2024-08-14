@@ -25,7 +25,7 @@
 #define         TOOLBUTTON_WIDTH            (40)
 #define         TOOLBUTTON_HEIGHT           (40)
 
-PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,bool bIsMasterOrNot,QDialog *parent)
+PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent)
     : QDialog(parent)
     , ui(new Ui::PhoneInstanceWidget)
 {
@@ -34,7 +34,7 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,bool bIsMasterO
     setWindowFlag(Qt::FramelessWindowHint);
     setWindowTitle(sPhoneInfo.strInstanceNo);
 
-    m_bIsMasterOrNot = bIsMasterOrNot;
+    m_bIsMasterOrNot = false;
     m_bHasChildControl = false;
     m_GeoSource = NULL;
     
@@ -366,32 +366,32 @@ void PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals()
 {
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     setting.setValue("PhoneInstancePoint", QVariant::fromValue(this->pos()));
-
+    qDebug() << "PhoneInstanceWidget 关闭窗口" << m_PhoneInfo.strInstanceNo << "m_bIsMasterOrNot true主控,:false非主控" << m_bIsMasterOrNot;
     this->close();
 }
 void PhoneInstanceWidget::on_toolBtnClose_clicked()
 {
     if (m_bIsMasterOrNot)
     {
-        //是否有副控
+        //是否有副控        
         if (hasChildControl() && !GlobalData::bIsTipsCloseMasterInstance)
         {
             //弹窗提示是否关闭
             MessageTipsDialog* dialog = new MessageTipsDialog("关闭主控时,将同时关闭非主控云机", nullptr, MESSAGE_NOT_TIPS_CLOSE_MASTER_INSTANCE, "关闭主控云机");
             if (QDialog::Accepted == dialog->exec())
             {
-                emit closePhoneInstanceWidgetSignals();
+                emit closePhoneInstanceWidgetSignals(this);
             }
         }
         else
         {
-            emit closePhoneInstanceWidgetSignals();
+            emit closePhoneInstanceWidgetSignals(this);
         }
+        //this->close();//避免主控响应失败
     }
     else
     {
         emit closeNotMasterPhoneSignals(m_PhoneInfo);
-        this->close();
     }
 }
 
@@ -1336,3 +1336,11 @@ void PhoneInstanceWidget::on_toolBtnChangeKeyBoard_clicked()
     qDebug() << "this->width" << this->width() << "this.height=" << this->height();
 }
 
+
+
+void PhoneInstanceWidget::closeEvent(QCloseEvent *event)
+{
+    //任务栏直接关闭不会响应button调用关闭事件
+    on_toolBtnClose_clicked();
+    event->accept();
+}

@@ -24,21 +24,25 @@ class PhoneInstanceWidget : public QDialog,public SWDataSourceListener
     Q_OBJECT
 
 public:
-    explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo, bool bIsMasterOrNot =true, QDialog* parent = nullptr);
+    explicit PhoneInstanceWidget(S_PHONE_INFO sTaskInfo, QDialog* parent = nullptr);
     ~PhoneInstanceWidget();
     // QWidget interface
-    //ÊÇ·ñÖ÷¿Ø»ú
-    bool IsMasterOrNot()
+    //æ˜¯å¦ä¸»æ§æœº
+    bool getIsMasterOrNot()
     {
-        return m_bIsMasterOrNot;//true£ºÖ÷¿Ø£¬false·ÇÖ÷¿Ø
+        return m_bIsMasterOrNot;//trueï¼šä¸»æ§ï¼Œfalseéä¸»æ§
     } 
+    void setIsMasterOrNot(bool bIsMasterOrNot)
+    {
+        m_bIsMasterOrNot = bIsMasterOrNot;//trueï¼šä¸»æ§ï¼Œfalseéä¸»æ§
+    }
     void setChildControl(bool bHasChildControl)
     {
         m_bHasChildControl = bHasChildControl;
     }
     bool hasChildControl()
     {
-        return m_bHasChildControl;//true:ÓĞ£¬false£º·ñÊÇ·ñÓĞ×Ó¿Ø
+        return m_bHasChildControl;//true:æœ‰ï¼Œfalseï¼šå¦æ˜¯å¦æœ‰å­æ§
     }
     S_PHONE_INFO getPhoneInfo()
     {
@@ -57,10 +61,10 @@ signals:
     void HorizontalSignals(bool bIsVertical);
     void SharkSignals();
     void GPSSignals();
-    //Í¬²½µ½ÆäËûÉè±¸
+    //åŒæ­¥åˆ°å…¶ä»–è®¾å¤‡
     void BatchDirectCopyToPhoneSignals(QString strTextList);
-    void closePhoneInstanceWidgetSignals();
-    //¸Ä±äºáÊúÆÁÍ¨Öªvideoviewwidget
+    void closePhoneInstanceWidgetSignals(PhoneInstanceWidget* widget);
+    //æ”¹å˜æ¨ªç«–å±é€šçŸ¥videoviewwidget
     void changeVerOrHorScreenSignals(bool bIsVertical);
     void closeNotMasterPhoneSignals(S_PHONE_INFO info);
 public slots:
@@ -77,9 +81,9 @@ public slots:
     void do_GPSSignals();
     void do_closePhoneInstanceWidgetSignals();
 
-    //½ÓÊÜvideoviewwidgetĞÅºÅ
+    //æ¥å—videoviewwidgetä¿¡å·
     void do_syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
-    //ÒÀ´Î¿½±´µ½ÊÖ»ú
+    //ä¾æ¬¡æ‹·è´åˆ°æ‰‹æœº
     void do_BatchDirectCopyToPhoneSignals(QString strTextList);
 protected:
     bool onPlayStart(S_PAD_INFO padInfo);
@@ -96,7 +100,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
-
+	virtual void closeEvent(QCloseEvent *event) override;
 private:
     void HttpGetInstanceSession(int id);
 private slots:
@@ -127,7 +131,7 @@ private slots:
     void on_toolBtnChangePage_clicked();
 
     void onPositionUpdated(const QGeoPositionInfo& info);
-    //Ö±½Ó¿½±´
+    //ç›´æ¥æ‹·è´
     void do_DirectCopyToPhoneSignals(QString strSelectText);      
 private:
     void InitToolButtonList(int iToolIndex, QFrame* frame, QVBoxLayout* vBox);
@@ -178,10 +182,10 @@ private:
     QPoint      m_leftTopPoint;
     QSize       m_remmberSize;
     
-    //ÊÇ·ñÖ÷¿Ø»ú
-    bool        m_bIsMasterOrNot;//true£ºÖ÷¿Ø£¬false·ÇÖ÷¿Ø
-    bool        m_bHasChildControl;//true:ÓĞ£¬false£º·ñÊÇ·ñÓĞ×Ó¿Ø
-    bool        m_bIsVertical;//trueÊúÆÁ£¬falseºáÆÁ
+    //æ˜¯å¦ä¸»æ§æœº
+    bool        m_bIsMasterOrNot;//trueï¼šä¸»æ§ï¼Œfalseéä¸»æ§
+    bool        m_bHasChildControl;//true:æœ‰ï¼Œfalseï¼šå¦æ˜¯å¦æœ‰å­æ§
+    bool        m_bIsVertical;//trueç«–å±ï¼Œfalseæ¨ªå±
 };
 
 #endif // PHONEINSTANCEWIDGET_H
