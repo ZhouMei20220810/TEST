@@ -280,7 +280,13 @@ private slots:
     void RefreshTransferPhoneList();
 
     void on_toolBtnMessageCenter_clicked();
-
+    
+    //清空同步列表
+    void ClearSyncPhoneInstanceWidgetList();
+    //同步列表添加widget
+    void AddSyncPhoneInstanceWidget(S_PHONE_INFO info,PhoneInstanceWidget* phoneWidget=NULL);
+    //同步列表删除widget
+    void DeleteSyncPhoneInstanceWidget(QString strInstanceNo);
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
@@ -373,9 +379,9 @@ private:
     int          m_ActiveRenewLevelType;
 
     //Phone instanceNo - 手机实例窗口
-    QMap<QString, PhoneInstanceWidget*>* m_mapWindows;
+    QMap<QString, PhoneInstanceWidget*> m_mapWindows;//非同步模式，所有打开的窗口
     //Phone instanceNo - 同步手机实例窗口
-    QMap<QString, PhoneInstanceWidget*>* m_mapSyncWindows;
+    QMap<QString, PhoneInstanceWidget*> m_mapSyncWindows;//记录同步模式，非主控设置
 };
 
 #endif // MAINWINDOW_H

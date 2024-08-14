@@ -66,7 +66,7 @@ signals:
     void closePhoneInstanceWidgetSignals(PhoneInstanceWidget* widget);
     //改变横竖屏通知videoviewwidget
     void changeVerOrHorScreenSignals(bool bIsVertical);
-    void closeNotMasterPhoneSignals(S_PHONE_INFO info);
+    void closeNotMasterPhoneSignals(PhoneInstanceWidget* widget);
 public slots:
     void do_ReturnSignals();
     void do_HomeSignals();

@@ -180,9 +180,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->stackedWidget->setCurrentWidget(ui->page);
 
     //Phone instanceNo - 手机实例窗口
-    m_mapWindows = new QMap<QString, PhoneInstanceWidget*>;
+    m_mapWindows.clear();// = new QMap<QString, PhoneInstanceWidget*>;
     //同步模式列表框
-    m_mapSyncWindows = new QMap<QString, PhoneInstanceWidget*>;
+    m_mapSyncWindows.clear();// = new QMap<QString, PhoneInstanceWidget*>;
 }
 
 MainWindow::~MainWindow()
@@ -1964,6 +1964,7 @@ void MainWindow::HttpLevelList()
                             {
                                 startDownload(info.strColorIcon);
                             }*/
+                            //安卓用
                             info.strAshIcon = objData["ashIcon"].toString();
                             /*if (!info.strAshIcon.isEmpty())
                             {
@@ -1972,6 +1973,7 @@ void MainWindow::HttpLevelList()
                             //isEnabled true能用;false禁用
                             info.bIsEnabled = objData["isEnable"].toBool();
                             info.strLevelRemark = objData["remark"].toString();
+                            info.strFucImg = objData["ashIcon"].toString();
                             qDebug() << "等级" << info.iLevelId << " name=" << info.strLevelName;
                             if (info.bIsEnabled)
                             {
@@ -4189,12 +4191,12 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
     }    
 
     //非同步模式时可能打开了一系列窗口，关闭所有的窗口，清空列表
-    for (auto it = m_mapWindows->begin(); it != m_mapWindows->end(); )
+    for (auto it = m_mapWindows.begin(); it != m_mapWindows.end(); )
     {
         PhoneInstanceWidget* window = it.value();
         window->close();
         delete window;
-        it = m_mapWindows->erase(it); // 移除窗口后更新迭代器
+        it = m_mapWindows.erase(it); // 移除窗口后更新迭代器
     }
     
     if (m_MainPhoneInstanceWidget != NULL && m_MainPhoneInstanceWidget->isVisible())
@@ -4225,7 +4227,7 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
 //显示非主控设备
 void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
 {
-    PhoneInstanceWidget* phoneWidget = new PhoneInstanceWidget(sPhoneInfo, false);    
+    PhoneInstanceWidget* phoneWidget = new PhoneInstanceWidget(sPhoneInfo);    
     connect(phoneWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
     connect(this, &MainWindow::paifaTouchEventSignals, phoneWidget, &PhoneInstanceWidget::dealTouchEventSignals);
 
@@ -4256,26 +4258,67 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
 	connect(phoneWidget, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals, this, &MainWindow::BatchDirectCopyToPhoneSignals);
     connect(this, &MainWindow::BatchDirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals);
 
-    connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this](S_PHONE_INFO info) {
+    connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this](PhoneInstanceWidget* phoneWidget) {
         //同步操作模式，关闭非主控云机
+        if (phoneWidget == NULL)
+        {
+            qDebug() << "phoneWidget == NULL";
+            return;
+        }
+            
+        S_PHONE_INFO info = phoneWidget->getPhoneInfo();
         if (GlobalData::bIsSyncOperation)
         {
             if (NULL != m_MainPhoneInstanceWidget)
             {
                 if (m_MainPhoneInstanceWidget->hasChildControl())
                 {
-                    qDebug() << "同步模式,移除item window:" << info.strInstanceNo;
-                    m_mapSyncWindows->remove(info.strInstanceNo);
                     m_MainPhoneInstanceWidget->setChildControl(false);
                 }
+            }
+            //关闭时移除
+            if (m_mapSyncWindows.size() > 0)
+            {
+                //移除非主控                
+                qDebug() << "同步模式,移除item window:" << info.strInstanceNo;
+                if (phoneWidget != NULL && m_MainPhoneInstanceWidget != NULL)
+                {
+                    //同步列表模式增加widget
+                    AddSyncPhoneInstanceWidget(info, phoneWidget);
+                    //delete phoneWidget;
+                    //phoneWidget = NULL;
+                }
+                else
+                {
+                    delete phoneWidget;
+                    phoneWidget = NULL;
+                }
+                m_mapSyncWindows.remove(info.strInstanceNo);
             }
         }
         else//非同步模式,移除item
         {
             qDebug() << "非同步模式,移除item window:" << info.strInstanceNo;
-            m_mapWindows->remove(info.strInstanceNo);
+            if (m_mapWindows.size() > 0)
+            {
+                PhoneInstanceWidget* widget = m_mapWindows.value(info.strInstanceNo, nullptr);
+                if (widget != NULL)
+                {
+                    delete widget;
+                    widget = NULL;
+                }
+                m_mapWindows.remove(info.strInstanceNo);
+            }
         }
         
+        });
+    connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this](PhoneInstanceWidget* widget) {
+        if (widget == m_MainPhoneInstanceWidget)
+        {
+            delete m_MainPhoneInstanceWidget;
+            m_MainPhoneInstanceWidget = NULL;
+        }
+        emit closePhoneInstanceWidgetSignals();
         });
     connect(this, &MainWindow::closePhoneInstanceWidgetSignals, phoneWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
     phoneWidget->setModal(false);
@@ -4283,11 +4326,100 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
     if (!GlobalData::bIsSyncOperation)
     {
         //同步模式下，非主控共用同一个接口
-        m_mapWindows->insert(sPhoneInfo.strInstanceNo, phoneWidget);
+        m_mapWindows.insert(sPhoneInfo.strInstanceNo, phoneWidget);
     }
     else
     {
-        m_mapSyncWindows->insert(sPhoneInfo.strInstanceNo, phoneWidget);
+        m_mapSyncWindows.insert(sPhoneInfo.strInstanceNo, phoneWidget);
+        //从同步列表中移除，否则会有两个窗口
+        DeleteSyncPhoneInstanceWidget(sPhoneInfo.strInstanceNo);        
+    }
+}
+
+//清空同步列表
+void MainWindow::ClearSyncPhoneInstanceWidgetList()
+{
+    if (m_SyncOperListWidget != NULL)
+    {
+        //释放资源
+        QListWidgetItem* item = NULL;
+        PhoneInstanceWidget* widget = NULL;
+        int iSyncCount = m_SyncOperListWidget->count();
+        for (int iRow = iSyncCount - 1; iRow >= 0; iRow--)
+        {
+            item = m_SyncOperListWidget->item(iRow);
+            if (item != NULL)
+            {
+                widget = qobject_cast<PhoneInstanceWidget*>(m_SyncOperListWidget->itemWidget(item));
+                if (widget != NULL)
+                {
+                    delete widget;
+                    widget = NULL;
+                }
+            }
+        }
+        m_SyncOperListWidget->clear();
+    }
+}
+
+//同步列表添加widget
+void MainWindow::AddSyncPhoneInstanceWidget(S_PHONE_INFO info, PhoneInstanceWidget* phoneWidget)
+{
+    if (m_SyncOperListWidget == NULL)
+    {
+        m_SyncOperListWidget = new QListWidget();
+        m_SyncOperListWidget->setViewMode(QListView::IconMode);
+        //设置QListWidget中单元项的图片大小
+        //ui->imageList->setIconSize(QSize(100,100));
+        //设置QListWidget中单元项的间距
+        m_SyncOperListWidget->setSpacing(ITEM_WIDGET_SPACING);
+        //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+        m_SyncOperListWidget->setResizeMode(QListWidget::Adjust);
+        //设置不能移动
+        m_SyncOperListWidget->setMovement(QListWidget::Static);
+        //设置单选
+        m_SyncOperListWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    }
+
+    //添加到列表
+    int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
+    int iwidth = calculateWidth(height);
+    QListWidgetItem* item = new QListWidgetItem(m_SyncOperListWidget);
+    item->setSizeHint(QSize(iwidth, height));
+    item->setData(Qt::UserRole, QVariant::fromValue(info));
+    m_SyncOperListWidget->setItemWidget(item, phoneWidget);
+}
+//同步列表删除widget
+void MainWindow::DeleteSyncPhoneInstanceWidget(QString strInstanceNo)
+{
+    if (m_SyncOperListWidget == NULL)
+        return;
+    int iSyncCount = m_SyncOperListWidget->count();
+    if (iSyncCount <= 0)
+        return;
+
+    QListWidgetItem* item = NULL;
+    PhoneInstanceWidget* widget = NULL;
+    S_PHONE_INFO info;
+    for (int iRow = iSyncCount-1; iRow >= 0; iRow--)
+    {
+        item = m_SyncOperListWidget->item(iRow);
+        if (item != NULL)
+        {
+            info = item->data(Qt::UserRole).value<S_PHONE_INFO>();
+            if (info.strInstanceNo == strInstanceNo)
+            {
+                qDebug() << "DeleteSyncPhoneInstanceWidget strInstanceNo=" << strInstanceNo;
+                widget = qobject_cast<PhoneInstanceWidget*>(m_SyncOperListWidget->itemWidget(item));
+                if (widget != NULL)
+                {
+                    delete widget;
+                    widget = NULL;
+                    m_SyncOperListWidget->takeItem(iRow);
+                }
+                break;
+            }            
+        }
     }
 }
 
@@ -4306,7 +4438,7 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
     if (!GlobalData::bIsSyncOperation)
     {
         PhoneInstanceWidget* phoneWidget = NULL; 
-        phoneWidget = m_mapWindows->value(sPhoneInfo.strInstanceNo, nullptr);
+        phoneWidget = m_mapWindows.value(sPhoneInfo.strInstanceNo, nullptr);
         if (phoneWidget)
         {
             phoneWidget->raise();//将窗口置顶
@@ -4331,66 +4463,71 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         }
         if (m_MainPhoneInstanceWidget->hasChildControl())
         {
-            //已经有子控
-            MessageTipsDialog* dialog = new MessageTipsDialog("同步模式下仅支持打开一台非主控云手机,将为您自动切换非主控设备.");
-            if (QDialog::Accepted == dialog->exec())
+            //已经有子控            
+            //关闭之前，打开
+            PhoneInstanceWidget* phoneWidget = NULL;
+            phoneWidget = m_mapSyncWindows.value(sPhoneInfo.strInstanceNo, nullptr);
+            if (phoneWidget)
             {
-                //关闭之前，打开
-                PhoneInstanceWidget* phoneWidget = NULL;
-                phoneWidget = m_mapSyncWindows->value(sPhoneInfo.strInstanceNo, nullptr);
-                if (phoneWidget)
-                {
-                    phoneWidget->raise();//将窗口置顶
-                    phoneWidget->activateWindow();//激活窗口
-                }
-                else
-                {
-                    //删除非主设备
-                    PhoneInstanceWidget* phoneWidget = NULL;
-                    auto it = m_mapSyncWindows->begin();
-                    if ( it != m_mapSyncWindows->end())
-                    {
-                        phoneWidget = it.value();
-                        phoneWidget->close();
-                        m_mapSyncWindows->remove(it.key());
-                        delete phoneWidget;
-                        phoneWidget = NULL;
-                    }
-                    
-                    on_ShowPhoneInstanceNotMaster(sPhoneInfo);
-                }
+                phoneWidget->raise();//将窗口置顶
+                phoneWidget->activateWindow();//激活窗口
             }
-            return;
+            else
+            {
+                MessageTipsDialog* dialog = new MessageTipsDialog("同步模式下仅支持打开一台非主控云手机,将为您自动切换非主控设备.");
+                if (QDialog::Accepted != dialog->exec())
+                    return;
+
+                //删除非主设备
+                PhoneInstanceWidget* phoneWidget = NULL;
+                auto it = m_mapSyncWindows.begin();
+                if (it != m_mapSyncWindows.end())
+                {
+                    phoneWidget = it.value();
+                    //phoneWidget->hide();
+                    //不能关闭窗口，关闭的话不能同步了
+                    //phoneWidget->close();
+                    //添加到列表
+                    if (phoneWidget != NULL)
+                    {
+                        AddSyncPhoneInstanceWidget(phoneWidget->getPhoneInfo(), phoneWidget);                        
+                        //delete phoneWidget;
+                        //phoneWidget = NULL;
+                    }
+                    m_mapSyncWindows.remove(it.key());
+                }
+                on_ShowPhoneInstanceNotMaster(sPhoneInfo);
+            }
         }
         else
         {
-            //子控设备
-            QMap<int, S_PHONE_INFO>::iterator iterFind = GlobalData::mapSyncPhoneList.find(sPhoneInfo.iId);
+            //子控设备,同步列表移除后，后面不会再同步
+            /*QMap<int, S_PHONE_INFO>::iterator iterFind = GlobalData::mapSyncPhoneList.find(sPhoneInfo.iId);
             if (iterFind != GlobalData::mapSyncPhoneList.end())
             {
                 GlobalData::mapSyncPhoneList.remove(sPhoneInfo.iId);
-            }
+            }*/
             m_MainPhoneInstanceWidget->setChildControl(true);
             on_ShowPhoneInstanceNotMaster(sPhoneInfo);
         }
-        //已有窗口判断是否为主控，还是已经有非主控设备
-        /*emit closePhoneInstanceWidgetSignals();
-        //m_MainPhoneInstanceWidget->close();                                       
-        delete m_MainPhoneInstanceWidget;
-        m_MainPhoneInstanceWidget = NULL;*/
         return;
     }
     
+    //重新获取一次列表，列表数据
+    getCheckedPhoneInstance();
     GlobalData::mapSyncPhoneList.insert(sPhoneInfo.iId, sPhoneInfo);
     if (GlobalData::mapSyncPhoneList.size() <= 0)
         return;
 
     QMap<int, S_PHONE_INFO>::iterator iter = GlobalData::mapSyncPhoneList.begin();
     if (m_SyncOperListWidget != NULL)
-        m_SyncOperListWidget->clear();
+    {
+        //释放资源
+        ClearSyncPhoneInstanceWidgetList();        
+    }        
     else
     {
-        m_SyncOperListWidget = new QListWidget(this);
+        m_SyncOperListWidget = new QListWidget();
         m_SyncOperListWidget->setViewMode(QListView::IconMode);
         //设置QListWidget中单元项的图片大小
         //ui->imageList->setIconSize(QSize(100,100));
@@ -4404,7 +4541,6 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         m_SyncOperListWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     }
 
-    m_SyncOperListWidget->show();
     QListWidgetItem* item = NULL;
     int height = PHONE_INSTANCE_VERTICAL_HEIGHT;
     int iwidth = calculateWidth(height);
@@ -4416,6 +4552,7 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         qDebug() << "同步实例id=" << iter.value().iId;
         //HttpGetInstanceSession(iter.value().iId);
         phoneWidget = new PhoneInstanceWidget(*iter);
+        phoneWidget->setIsMasterOrNot(false);
         connect(phoneWidget, &PhoneInstanceWidget::TouchEventSignals, this, &MainWindow::paifaTouchEventSignals);
         connect(this, &MainWindow::paifaTouchEventSignals, phoneWidget, &PhoneInstanceWidget::dealTouchEventSignals);
 
@@ -4446,10 +4583,13 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         connect(phoneWidget, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals, this, &MainWindow::BatchDirectCopyToPhoneSignals);
         connect(this, &MainWindow::BatchDirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals);
 
-        connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this]() {
+        connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this](PhoneInstanceWidget* widget) {
+            if (widget == m_MainPhoneInstanceWidget)
+            {
+                delete m_MainPhoneInstanceWidget;
+                m_MainPhoneInstanceWidget = NULL;
+            }
             emit closePhoneInstanceWidgetSignals();
-            delete m_MainPhoneInstanceWidget;
-            m_MainPhoneInstanceWidget = NULL;
             });
         connect(this, &MainWindow::closePhoneInstanceWidgetSignals, phoneWidget, &PhoneInstanceWidget::do_closePhoneInstanceWidgetSignals);
 
@@ -4463,18 +4603,16 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
         else
         {
             m_MainPhoneInstanceWidget = phoneWidget;
-            connect(m_MainPhoneInstanceWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, this, [this]() {                
-                delete m_MainPhoneInstanceWidget;
-                m_MainPhoneInstanceWidget = NULL;
-                });
+            //设置为主控
+            m_MainPhoneInstanceWidget->setIsMasterOrNot(true);
             m_MainPhoneInstanceWidget->setModal(false);
             m_MainPhoneInstanceWidget->show();
         }
     }
-
+    //m_SyncOperListWidget->show();
     //m_SyncOperListWidget->move(0, 0);
-    //m_SyncOperListWidget->resize(500,500);
-    m_SyncOperListWidget->setVisible(false);
+    //m_SyncOperListWidget->resize(2000,2000);
+    //m_SyncOperListWidget->setVisible(false);
 
 }
 
