@@ -4162,6 +4162,7 @@ void MainWindow::on_radioButtonSyncOperation_clicked(bool checked)
             MessageTipsDialog* dialog = new MessageTipsDialog("关闭同步操作,将同时关闭主控及非主控设备", nullptr, MESSAGE_NOT_TIPS_CLOSE_SYNC_OPER, "关闭同步操作");
             if (QDialog::Accepted == dialog->exec())
             {
+                GlobalData::bSyncOperClosing = true;
                 emit closePhoneInstanceWidgetSignals();
                 //m_MainPhoneInstanceWidget->close();
                 delete m_MainPhoneInstanceWidget;

@@ -8,7 +8,7 @@
 #define CURRENT_APP_VERSION         "1.0.0" //线上版本
 #define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
 
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" //"http://120.26.132.153:8080"  //"http://192.168.1.6:8080"  
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://120.26.132.153:8080"  //"http://192.168.1.6:8080"  
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -584,6 +584,7 @@ public:
 
     static bool bIsTipsCloseMasterInstance; //关闭主控是否不再提示
     static bool bIsTipsCloseSyncOper;       //关闭同步操作是否不再提示
+    static bool bSyncOperClosing;           //通过同步操作关闭，不再弹窗
 
     static int  iSyncPhoneIndex; //同步操作手机下标
 };
