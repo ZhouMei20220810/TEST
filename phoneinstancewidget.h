@@ -133,6 +133,8 @@ private slots:
     void onPositionUpdated(const QGeoPositionInfo& info);
     //直接拷贝
     void do_DirectCopyToPhoneSignals(QString strSelectText);      
+    //从外面直接拷贝进云手机
+    void onClipboardChanged();
 private:
     void InitToolButtonList(int iToolIndex, QFrame* frame, QVBoxLayout* vBox);
     Ui::PhoneInstanceWidget* ui;

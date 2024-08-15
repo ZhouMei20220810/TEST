@@ -22,6 +22,7 @@
 #include <QSettings>
 #include "filedownloader.h"
 #include "recentcopycutcontentdialog.h"
+#include <QMimeData>
 #define         TOOLBUTTON_WIDTH            (40)
 #define         TOOLBUTTON_HEIGHT           (40)
 
@@ -163,7 +164,19 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
         this->move(GlobalData::pointPhoneInstance);
     }
 
+    connect(qApp->clipboard(), &QClipboard::dataChanged, this, &PhoneInstanceWidget::onClipboardChanged);
+
     HttpGetInstanceSession(sPhoneInfo.iId);
+}
+
+void PhoneInstanceWidget::onClipboardChanged()
+{
+    const QMimeData* mimeData = qApp->clipboard()->mimeData();
+    if (mimeData && mimeData->hasText())
+    {
+        QString text = mimeData->text();
+        do_DirectCopyToPhoneSignals(text);
+    }
 }
 
 void PhoneInstanceWidget::HttpGetInstanceSession(int id)/*QString strUUID, qint64 i64OnlineTime, QString strPadCode*/
@@ -780,8 +793,10 @@ void PhoneInstanceWidget::do_DirectCopyToPhoneSignals(QString strSelectText)
         DataSource* source = m_Player->getDataSource();
         if (source != NULL)
         {
-            //手机剪贴板 0:成功，负数为失败
-            int iRet = source->copyToRemote(strSelectText.toStdString().c_str(), strSelectText.length());
+            //手机剪贴板 0:成功，负数为失败            
+            int iByteLength = strSelectText.toUtf8().size();//中文越界
+            qDebug() << "Copy strText" << strSelectText << "length=" << strSelectText.length()<<"byte length="<< iByteLength;
+            int iRet = source->copyToRemote(strSelectText.toStdString().c_str(), iByteLength);
             qDebug() << "直接拷贝 结果=" << iRet;
         }
     }
