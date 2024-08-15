@@ -349,13 +349,13 @@
            <property name="minimumSize">
             <size>
              <width>24</width>
-             <height>32</height>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>24</width>
-             <height>32</height>
+             <height>24</height>
             </size>
            </property>
            <property name="cursor">

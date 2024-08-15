@@ -243,6 +243,7 @@
     <ClCompile Include="qmovewidget.cpp" />
     <ClCompile Include="queuetableitem.cpp" />
     <ClCompile Include="recentcopycutcontentdialog.cpp" />
+    <ClCompile Include="recentcopystatusdialog.cpp" />
     <ClCompile Include="registerpage.cpp" />
     <ClCompile Include="renewitemwidget.cpp" />
     <ClCompile Include="replacecloudphonedialog.cpp" />
@@ -305,6 +306,7 @@
     <QtMoc Include="qmovewidget.h" />
     <QtMoc Include="queuetableitem.h" />
     <QtMoc Include="recentcopycutcontentdialog.h" />
+    <QtMoc Include="recentcopystatusdialog.h" />
     <QtMoc Include="registerpage.h" />
     <QtMoc Include="renewitemwidget.h" />
     <QtMoc Include="replacecloudphonedialog.h" />
@@ -371,6 +373,7 @@
     <QtUic Include="policydialog.ui" />
     <QtUic Include="queuetableitem.ui" />
     <QtUic Include="recentcopycutcontentdialog.ui" />
+    <QtUic Include="recentcopystatusdialog.ui" />
     <QtUic Include="registerpage.ui" />
     <QtUic Include="renewitemwidget.ui" />
     <QtUic Include="replacecloudphonedialog.ui" />
