@@ -36,6 +36,26 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QStringList strPhoneList,
     //设置单选
     ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    ui->listWidgetEditable->setViewMode(QListView::ListMode);
+    //设置QListWidget中单元项的图片大小
+    //ui->imageList->setIconSize(QSize(100,100));
+    //设置QListWidget中单元项的间距
+    //ui->listWidgetActiveCode->setSpacing(LIST_WIDGET_LISTMODE_ITEM_SPACING);
+    ui->listWidgetEditable->setSpacing(5);//去掉上下左右空格
+    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
+    ui->listWidgetEditable->setResizeMode(QListWidget::Adjust);
+    //设置不能移动
+    ui->listWidgetEditable->setMovement(QListWidget::Static);
+    //设置单选
+    ui->listWidgetEditable->setSelectionMode(QAbstractItemView::SingleSelection);
+    //初始化默认数据
+    QListWidgetItem* item = NULL;
+    RecentListEditableItem* widget = NULL;
+    item = new QListWidgetItem(ui->listWidgetEditable);
+    widget = new RecentListEditableItem(0, "", this);
+    item->setSizeHint(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH, RECENT_LIST_EDITABLE_ITEM_HEIGHT));
+    ui->listWidgetEditable->setItemWidget(item, widget);
+
     m_buttonGroup = new QButtonGroup(this);
     connect(m_buttonGroup, &QButtonGroup::idClicked, this, &RecentCopyCutContentDialog::do_idClicked);
 
