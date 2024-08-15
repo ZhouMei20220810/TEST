@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>408</width>
+    <width>400</width>
     <height>160</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>408</width>
+    <width>400</width>
     <height>160</height>
    </size>
   </property>
@@ -29,51 +29,31 @@
    <string notr="true">border-radius: 10px;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>16</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QLabel" name="labelVersion">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border:none;
-background:transparent;</string>
-     </property>
-     <property name="text">
-      <string>云手机专业VIP</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="labelFunction">
-     <property name="styleSheet">
-      <string notr="true">border:none;
-background:transparent;</string>
-     </property>
-     <property name="text">
-      <string>配置、高性价比、稳定运行</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="frame">
+    <widget class="QFrame" name="frame_2">
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>80</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>60</height>
+       <height>50</height>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">border:none;
-background:transparent;</string>
+      <string notr="true">background:transparent;</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -81,7 +61,73 @@ background:transparent;</string>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>4</number>
+      </property>
+      <property name="leftMargin">
+       <number>24</number>
+      </property>
+      <property name="topMargin">
+       <number>24</number>
+      </property>
+      <property name="rightMargin">
+       <number>24</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="labelVersion">
+        <property name="font">
+         <font>
+          <pointsize>-1</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border:none;
+background:transparent;
+font-size:20px;
+font-weight:bold;
+color:#505465;</string>
+        </property>
+        <property name="text">
+         <string>云手机专业VIP</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelFunction">
+        <property name="styleSheet">
+         <string notr="true">border:none;
+background:transparent;
+color:#363847;
+font-size:12px;</string>
+        </property>
+        <property name="text">
+         <string>配置、高性价比、稳定运行</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">background:transparent;</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -92,10 +138,25 @@ background:transparent;</string>
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>24</number>
       </property>
       <item>
        <widget class="QLabel" name="labelImg">
+        <property name="minimumSize">
+         <size>
+          <width>400</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>400</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background:transparent;</string>
+        </property>
         <property name="text">
          <string/>
         </property>

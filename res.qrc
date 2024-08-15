@@ -104,12 +104,6 @@
         <file>resource/main/copyRule.png</file>
     </qresource>
     <qresource prefix="/func">
-        <file>resource/function/1.png</file>
-        <file>resource/function/2.png</file>
-        <file>resource/function/3.png</file>
-        <file>resource/function/4.png</file>
-        <file>resource/function/5.png</file>
-        <file>resource/function/6.png</file>
         <file>resource/function/emptyMeal.png</file>
         <file>resource/function/PayFinish.png</file>
         <file>resource/function/waitPay.png</file>

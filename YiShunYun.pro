@@ -61,6 +61,7 @@ SOURCES += \
     systemsettingwidget.cpp \
     tcustomdragdroplistwidget.cpp \
     toolobject.cpp \
+    tplaintextedit.cpp \
     transferphonedialog.cpp \
     transferphonehistorydialog.cpp \
     transfertipsdialog.cpp \
@@ -122,6 +123,7 @@ HEADERS += \
     systemsettingwidget.h \
     tcustomdragdroplistwidget.h \
     toolobject.h \
+    tplaintextedit.h \
     transferphonedialog.h \
     transferphonehistorydialog.h \
     transfertipsdialog.h \

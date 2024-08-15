@@ -1973,7 +1973,7 @@ void MainWindow::HttpLevelList()
                             //isEnabled true能用;false禁用
                             info.bIsEnabled = objData["isEnable"].toBool();
                             info.strLevelRemark = objData["remark"].toString();
-                            info.strFucImg = objData["ashIcon"].toString();
+                            info.strFucImg = objData["describeUrl"].toString();
                             qDebug() << "等级" << info.iLevelId << " name=" << info.strLevelName;
                             if (info.bIsEnabled)
                             {

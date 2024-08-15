@@ -250,6 +250,7 @@
     <ClCompile Include="systemsettingwidget.cpp" />
     <ClCompile Include="tcustomdragdroplistwidget.cpp" />
     <ClCompile Include="toolobject.cpp" />
+    <ClCompile Include="tplaintextedit.cpp" />
     <ClCompile Include="transferphonedialog.cpp" />
     <ClCompile Include="transferphonehistorydialog.cpp" />
     <ClCompile Include="transfertipsdialog.cpp" />
@@ -311,6 +312,7 @@
     <QtMoc Include="systemsettingwidget.h" />
     <QtMoc Include="tcustomdragdroplistwidget.h" />
     <QtMoc Include="toolobject.h" />
+    <QtMoc Include="tplaintextedit.h" />
     <QtMoc Include="transferphonedialog.h" />
     <QtMoc Include="transferphonehistorydialog.h" />
     <QtMoc Include="transfertipsdialog.h" />
@@ -386,29 +388,23 @@
     <QtUic Include="vipitemwidget.ui" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resource\function\1.png" />
     <None Include="resource\individual\1.png" />
     <None Include="resource\instance\1.png" />
     <None Include="resource\setting\1.png" />
     <None Include="resource\setting\10.png" />
     <None Include="resource\setting\11.png" />
     <None Include="resource\setting\12.png" />
-    <None Include="resource\function\2.png" />
     <None Include="resource\individual\2.png" />
     <None Include="resource\instance\2.png" />
     <None Include="resource\setting\2.png" />
-    <None Include="resource\function\3.png" />
     <None Include="resource\individual\3.png" />
     <None Include="resource\instance\3.png" />
     <None Include="resource\setting\3.png" />
-    <None Include="resource\function\4.png" />
     <None Include="resource\individual\4.png" />
     <None Include="resource\instance\4.png" />
     <None Include="resource\setting\4.png" />
-    <None Include="resource\function\5.png" />
     <None Include="resource\individual\5.png" />
     <None Include="resource\setting\5.png" />
-    <None Include="resource\function\6.png" />
     <None Include="resource\individual\6.png" />
     <None Include="resource\setting\6.png" />
     <None Include="resource\setting\7.png" />

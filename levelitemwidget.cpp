@@ -26,15 +26,13 @@ LevelItemWidget::LevelItemWidget(S_LEVEL_INFO levelInfo, QWidget* parent)
     m_toolBtn->setIconSize(QSize(ITEM_WIDGET_LEVEL_WIDTH - 2, ITEM_WIDGET_LEVEL_HEIGHT));
     connect(m_toolBtn, &QToolButton::clicked, this, &LevelItemWidget::on_toolButtonBG_clicked);
 
-    ui->labelVersion->setParent(m_toolBtn);
-    ui->labelFunction->setParent(m_toolBtn);
+    ui->frame_2->setParent(m_toolBtn);
     ui->frame->setParent(m_toolBtn);
 
     QVBoxLayout* vBox = new QVBoxLayout();
-    vBox->addWidget(ui->labelVersion);
-    vBox->addWidget(ui->labelFunction);
+    vBox->addWidget(ui->frame_2);
     vBox->addWidget(ui->frame);
-    vBox->setContentsMargins(24,24,24,24);
+    vBox->setContentsMargins(0, 0, 0, 0);
     m_toolBtn->setLayout(vBox);
 
     ui->labelVersion->setText(levelInfo.strLevelName);
