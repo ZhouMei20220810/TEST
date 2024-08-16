@@ -276,21 +276,34 @@ void RecentCopyCutContentDialog::showCopyStatusDialog()
 void RecentCopyCutContentDialog::on_btnCopyToPhone_clicked()
 {
     //增加提示框
-    RecentCopyPhoneDialog dialog;
-    if (QDialog::Accepted == dialog.exec())
+    if (GlobalData::bIsSyncOperation)
     {
-        //同步状态需要弹窗提示成功状态
-        showCopyStatusDialog();
-        //粘贴到云手机中
-        //先清空之前的记录
-        qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
-        emit DirectCopyToPhoneSignals(m_strSelectText);
-    }    
+        RecentCopyPhoneDialog dialog;
+        if (QDialog::Accepted != dialog.exec())
+        {
+            return;
+        }
+    }     
+    //同步状态需要弹窗提示成功状态
+    showCopyStatusDialog();
+    //粘贴到云手机中
+    //先清空之前的记录
+    qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
+    emit DirectCopyToPhoneSignals(m_strSelectText);
 }
 
 
 void RecentCopyCutContentDialog::on_btnDirectCopy_clicked()
 {
+    //增加提示框
+    if (GlobalData::bIsSyncOperation)
+    {
+        RecentCopyPhoneDialog dialog;
+        if (QDialog::Accepted != dialog.exec())
+        {
+            return;
+        }
+    }
     //同步状态需要弹窗提示成功状态
     showCopyStatusDialog();
     //直接拷贝
@@ -303,6 +316,15 @@ void RecentCopyCutContentDialog::on_btnDirectCopy_clicked()
 
 void RecentCopyCutContentDialog::on_btnCopyByOrder_clicked()
 {
+    //增加提示框
+    if (GlobalData::bIsSyncOperation)
+    {
+        RecentCopyPhoneDialog dialog;
+        if (QDialog::Accepted != dialog.exec())
+        {
+            return;
+        }
+    }
     //同步状态需要弹窗提示成功状态
     showCopyStatusDialog();
     //按顺序依次拷贝
