@@ -14,13 +14,6 @@ class RecentCopyStatusDialog;
 #define COPY_STATUS_ITEM_WIDTH          200
 #define COPY_STATUS_ITEM_HEIGHT         30
 
-enum EN_COPY_STATUS
-{
-    EN_COPY_STATUS_SUCCESS = 0,     //成功
-    EN_COPY_STATUS_FAILD = 1,       //错误
-    EN_COPY_STATUS_NO_CONTENT = 2   //无内容
-};
-
 class CopyStatusItem : public QWidget
 {
     Q_OBJECT
@@ -44,7 +37,7 @@ public:
     explicit RecentCopyStatusDialog(QWidget *parent = nullptr);
     ~RecentCopyStatusDialog();
 public slots:
-    void do_CopyStatusSignals(S_PHONE_INFO info, int iRet, QString strContent);
+    void do_addCopyStatusSignals(S_RECENT_COPY_STATUS info);
 private slots:
     void on_btnClose_clicked();
 

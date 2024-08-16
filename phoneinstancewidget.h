@@ -67,6 +67,8 @@ signals:
     //改变横竖屏通知videoviewwidget
     void changeVerOrHorScreenSignals(bool bIsVertical);
     void closeNotMasterPhoneSignals(PhoneInstanceWidget* widget);
+    //同步模式分发
+    void DirectCopyToPhoneSignals(QString strSelectText);
 public slots:
     void do_ReturnSignals();
     void do_HomeSignals();
@@ -85,6 +87,8 @@ public slots:
     void do_syncTouchEventSignals(int eventAction, int pointerCount, int x[], int y[], float force[]);
     //依次拷贝到手机
     void do_BatchDirectCopyToPhoneSignals(QString strTextList);
+    //直接拷贝
+    void do_DirectCopyToPhoneSignals(QString strSelectText);    
 protected:
     bool onPlayStart(S_PAD_INFO padInfo);
     void onPlayStop(bool bQuit);
@@ -130,11 +134,10 @@ private slots:
     void on_toolBtnHome_clicked();
     void on_toolBtnChangePage_clicked();
 
-    void onPositionUpdated(const QGeoPositionInfo& info);
-    //直接拷贝
-    void do_DirectCopyToPhoneSignals(QString strSelectText);      
+    void onPositionUpdated(const QGeoPositionInfo& info);          
     //从外面直接拷贝进云手机
     void onClipboardChanged();
+    void on_toolBtnCopyToPhone_clicked(QString strSelectText);
 private:
     void InitToolButtonList(int iToolIndex, QFrame* frame, QVBoxLayout* vBox);
     Ui::PhoneInstanceWidget* ui;

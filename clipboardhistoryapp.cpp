@@ -37,3 +37,15 @@ void ClipboardHistoryApp::SaveCopyData()
 {
     clipboardHistory_->SaveCopyData();
 }
+
+//用于保存拷贝结果
+void ClipboardHistoryApp::addCopyStatus(S_RECENT_COPY_STATUS info)
+{
+    m_mapCopyStatus.insert(info.info.strInstanceNo, info);
+    emit addCopyStatusSignals(info);
+}
+
+void ClipboardHistoryApp::clearCopyStatus()
+{
+    m_mapCopyStatus.clear();
+}

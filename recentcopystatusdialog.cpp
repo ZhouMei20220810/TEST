@@ -122,15 +122,15 @@ void RecentCopyStatusDialog::on_btnOK_clicked()
     this->close();
 }
 
-void RecentCopyStatusDialog::do_CopyStatusSignals(S_PHONE_INFO info, int iRet,QString strContent)
+void RecentCopyStatusDialog::do_addCopyStatusSignals(S_RECENT_COPY_STATUS info)
 {
-    qDebug() << "新增一条记录" << info.strInstanceNo << "iRet=" << iRet;
+    qDebug() << "新增一条记录" << info.info.strName << "iRet=" << info.iRet;
     QListWidgetItem* item = new QListWidgetItem(ui->listWidget);
-    
+
     EN_COPY_STATUS enType;
-    if (!strContent.isEmpty())
+    if (!info.strText.isEmpty())
     {
-        if (iRet == 0)
+        if (info.iRet == 0)
             enType = EN_COPY_STATUS_SUCCESS;
         else
             enType = EN_COPY_STATUS_FAILD;
@@ -140,7 +140,7 @@ void RecentCopyStatusDialog::do_CopyStatusSignals(S_PHONE_INFO info, int iRet,QS
         enType = EN_COPY_STATUS_NO_CONTENT;
     }
     item->setData(Qt::UserRole, enType);
-    CopyStatusItem* widget = new CopyStatusItem(info, enType, this);
+    CopyStatusItem* widget = new CopyStatusItem(info.info, enType, this);
     item->setSizeHint(QSize(COPY_STATUS_ITEM_WIDTH, COPY_STATUS_ITEM_HEIGHT));
     ui->listWidget->setItemWidget(item, widget);
 

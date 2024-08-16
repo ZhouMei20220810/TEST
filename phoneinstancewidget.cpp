@@ -23,6 +23,8 @@
 #include "filedownloader.h"
 #include "recentcopycutcontentdialog.h"
 #include <QMimeData>
+#include "clipboardhistoryapp.h"
+
 #define         TOOLBUTTON_WIDTH            (40)
 #define         TOOLBUTTON_HEIGHT           (40)
 
@@ -175,7 +177,19 @@ void PhoneInstanceWidget::onClipboardChanged()
     if (mimeData && mimeData->hasText())
     {
         QString text = mimeData->text();
-        do_DirectCopyToPhoneSignals(text);
+        //do_DirectCopyToPhoneSignals(text);
+
+        if (m_Player != NULL)
+        {
+            DataSource* source = m_Player->getDataSource();
+            if (source != NULL)
+            {
+                //手机剪贴板 0:成功，负数为失败            
+                int iByteLength = text.toUtf8().size();//中文越界
+                qDebug() << "onClipboardChanged 窗口启动后拷贝直接拷入云手机 Copy strText" << text << "instanceNo=" << m_PhoneInfo.strInstanceNo << "length=" << text.length() << "byte length=" << iByteLength;
+                int iRet = source->copyToRemote(text.toStdString().c_str(), iByteLength);
+            }
+        }
     }
 }
 
@@ -781,26 +795,54 @@ void PhoneInstanceWidget::on_toolBtnClipboard_clicked()
     qDebug() << "do clipboard signals";
     RecentCopyCutContentDialog* dialog = new RecentCopyCutContentDialog(m_strPhoneList);
     //传递需要拷贝的文字
-    connect(dialog, &RecentCopyCutContentDialog::DirectCopyToPhoneSignals, this, &PhoneInstanceWidget::do_DirectCopyToPhoneSignals);
+    //connect(dialog, &RecentCopyCutContentDialog::DirectCopyToPhoneSignals, this, &PhoneInstanceWidget::do_DirectCopyToPhoneSignals);
+    connect(dialog, &RecentCopyCutContentDialog::DirectCopyToPhoneSignals, this, &PhoneInstanceWidget::on_toolBtnCopyToPhone_clicked);
     connect(dialog, &RecentCopyCutContentDialog::BatchDirectCopyToPhoneSignals, this, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals);
     dialog->exec();
 }
 
+void PhoneInstanceWidget::on_toolBtnCopyToPhone_clicked(QString strSelectText)
+{
+    //新增一个槽过渡，分发同步到其他窗口
+    //if (m_bIsMasterOrNot)
+    {
+        //先清空之前的记录
+        qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
+        emit DirectCopyToPhoneSignals(strSelectText);
+    }
+    //else
+    {
+
+    }
+}
+
 void PhoneInstanceWidget::do_DirectCopyToPhoneSignals(QString strSelectText)
 {
-    //直接拷贝到云手机
-    if (m_Player != NULL)
+    //如果是主控设备分配到所有的设备
+    /*if (m_bIsMasterOrNot)
     {
-        DataSource* source = m_Player->getDataSource();
-        if (source != NULL)
-        {
-            //手机剪贴板 0:成功，负数为失败            
-            int iByteLength = strSelectText.toUtf8().size();//中文越界
-            qDebug() << "Copy strText" << strSelectText << "length=" << strSelectText.length()<<"byte length="<< iByteLength;
-            int iRet = source->copyToRemote(strSelectText.toStdString().c_str(), iByteLength);
-            qDebug() << "直接拷贝 结果=" << iRet;
-        }
+        emit DirectCopyToPhoneSignals(strSelectText);
     }
+    else*/
+    {
+        //直接拷贝到云手机
+        if (m_Player != NULL)
+        {
+            DataSource* source = m_Player->getDataSource();
+            if (source != NULL)
+            {
+                //手机剪贴板 0:成功，负数为失败            
+                int iByteLength = strSelectText.toUtf8().size();//中文越界
+                qDebug() << "do_DirectCopyToPhoneSignals Copy strText" << strSelectText <<"instanceNo="<<m_PhoneInfo.strInstanceNo << "length=" << strSelectText.length() << "byte length=" << iByteLength;
+                int iRet = source->copyToRemote(strSelectText.toStdString().c_str(), iByteLength);
+                S_RECENT_COPY_STATUS status;
+                status.info = m_PhoneInfo;
+                status.strText = strSelectText;
+                status.iRet = iRet;
+                qobject_cast<ClipboardHistoryApp*>(qApp)->addCopyStatus(status);
+            }
+        }
+    }    
 }
 
 //依次拷贝到手机
@@ -818,7 +860,14 @@ void PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals(QString strTextList)
             {
                 strText = strList.at(GlobalData::iSyncPhoneIndex);
                 //手机剪贴板
-                source->copyToRemote(strText.toStdString().c_str(), strText.length());
+                int iByteLength = strText.toUtf8().size();//中文越界
+                qDebug() << "do_BatchDirectCopyToPhoneSignals Batch Copy strText" << strText << "instanceNo=" << m_PhoneInfo.strInstanceNo << "length=" << strText.length() << "byte length=" << iByteLength;
+                int iRet = source->copyToRemote(strText.toStdString().c_str(), iByteLength);
+                S_RECENT_COPY_STATUS status;
+                status.info = m_PhoneInfo;
+                status.strText = strText;
+                status.iRet = iRet;
+                qobject_cast<ClipboardHistoryApp*>(qApp)->addCopyStatus(status);
             }
         }
     }

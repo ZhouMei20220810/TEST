@@ -4264,7 +4264,8 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
 
 	connect(phoneWidget, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals, this, &MainWindow::BatchDirectCopyToPhoneSignals);
     connect(this, &MainWindow::BatchDirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals);
-
+    connect(phoneWidget, &PhoneInstanceWidget::DirectCopyToPhoneSignals, this, &MainWindow::DirectCopyToPhoneSignals);
+    connect(this, &MainWindow::DirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_DirectCopyToPhoneSignals);
     connect(phoneWidget, &PhoneInstanceWidget::closeNotMasterPhoneSignals, [this](PhoneInstanceWidget* phoneWidget) {
         //同步操作模式，关闭非主控云机
         if (phoneWidget == NULL)
@@ -4589,6 +4590,8 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
 
         connect(phoneWidget, &PhoneInstanceWidget::BatchDirectCopyToPhoneSignals, this, &MainWindow::BatchDirectCopyToPhoneSignals);
         connect(this, &MainWindow::BatchDirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_BatchDirectCopyToPhoneSignals);
+        connect(phoneWidget, &PhoneInstanceWidget::DirectCopyToPhoneSignals, this, &MainWindow::DirectCopyToPhoneSignals);
+        connect(this, &MainWindow::DirectCopyToPhoneSignals, phoneWidget, &PhoneInstanceWidget::do_DirectCopyToPhoneSignals);
 
         connect(phoneWidget, &PhoneInstanceWidget::closePhoneInstanceWidgetSignals, [this](PhoneInstanceWidget* widget) {
             if (widget == m_MainPhoneInstanceWidget)

@@ -8,7 +8,8 @@
 #include <QButtonGroup>
 #include <QListWidgetItem>
 #include <QFrame>
-#include <QPlainTextEdit>
+#include "tplaintextedit.h"
+#include "recentcopystatusdialog.h"
 
 namespace Ui {
 class RecentCopyCutContentDialog;
@@ -91,23 +92,20 @@ public:
         QHBoxLayout* hLayout = new QHBoxLayout(this);
         hLayout->setContentsMargins(0, 0, 0, 0);
 
-        QString strStyleSheet = "QFrame{color:rgb(255, 255, 255);background-color:#F5F6FA;border-radius:0px;border-bottom: 1px solid #E6E9F2;}";
+        /*QString strStyleSheet = "QFrame{color:rgb(255, 255, 255);background-color:#F5F6FA;border-radius:0px;border-bottom: 1px solid #E6E9F2;}";
         m_Frame = new QFrame(this);
         //这里设置为非互斥，使用QButtonGroup来控制
         //radioBtnContent->setAutoExclusive(false);
         //connect(m_radioBtnContent, &QRadioButton::clicked, this, &RecentListItem::selectItemSignals);
         m_Frame->setStyleSheet(strStyleSheet);
-        m_Frame->setFixedSize(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH - 50, 50));
-        /*QFontMetrics fontWidth(radioBtnContent->font());
-        QString strElideNote = fontWidth.elidedText(info.strContent, Qt::ElideRight, RECENT_LIST_ITEM_WIDTH - 50);
-        radioBtnContent->setText(strElideNote);
-        radioBtnContent->setToolTip(info.strContent);*/
+        m_Frame->setFixedSize(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH - 50, 50));*/
 
 
-        hLayout->addWidget(m_Frame);
+        //hLayout->addWidget(m_Frame);
 
-        m_textEdit = new QPlainTextEdit(m_Frame);
-        strStyleSheet = "QPlainTextEdit{border:none;background:transparent;color:#4A4A4A;font-size:12px;border-bottom: 1px solid #E6E9F2;}";
+        m_textEdit = new TPlainTextEdit(this);
+        connect(m_textEdit, &TPlainTextEdit::returnPressed, this, &RecentListEditableItem::do_returnPressed);
+        QString strStyleSheet = "QPlainTextEdit{border:none;background:transparent;color:#4A4A4A;font-size:12px;border-bottom: 1px solid #E6E9F2;}";
         m_textEdit->setStyleSheet(strStyleSheet);
         m_textEdit->resize(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH - 70, 40));
         m_textEdit->setPlaceholderText("请输入需要粘贴的内容");
@@ -116,6 +114,7 @@ public:
             m_textEdit->setPlainText(QString("%1、%2").arg(iRowIndex).arg(strText));
             //m_textEdit->setText(QString("%1、%2").arg(iRowIndex).arg(strText));
         }
+        hLayout->addWidget(m_textEdit);
         /*toolBtnDel->setToolButtonStyle(Qt::ToolButtonIconOnly);
         toolBtnDel->setIcon(QIcon(":/main/resource/main/copyDel.png"));
         toolBtnDel->setIconSize(QSize(16, 16));
@@ -131,18 +130,27 @@ public:
     {
         return m_strText;
     }
-/*private slots:
-    void do_Clicked(bool bChecked)
+private slots:
+    void do_returnPressed()
     {
-        emit deleteClicked(this);
-    }*/
+        QString text = m_textEdit->toPlainText().trimmed();
+        if (!text.isEmpty())
+        {
+            /*QStringList items = text.split(',', Qt::SkipEmptyParts);
+            for (const QString &item : items) {
+                QListWidgetItem *newItem = new QListWidgetItem(item.trimmed(), listWidget);
+                newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
+            }*/
+            emit enterTextSignals(text);
+            m_textEdit->clear(); // 清除输入框中的文本
+        }
+    }
 signals:
-    //void deleteClicked(RecentListItem*);
-
+    void enterTextSignals(QString strEnterText);
 private:
     QString m_strText;
-    QFrame* m_Frame;
-    QPlainTextEdit* m_textEdit;
+    //QFrame* m_Frame;
+    TPlainTextEdit* m_textEdit;
 };
 
 
@@ -171,6 +179,10 @@ private slots:
 
     void on_plainTextEdit_textChanged();
 
+    //处理拷贝到文本框的文字
+    void do_enterTextSignals(QString strEnterText);
+    //是否弹窗提示复制状态
+    void showCopyStatusDialog();
 private:
     void deleteItem(QListWidgetItem* item);
     void addItem(const QString& text);

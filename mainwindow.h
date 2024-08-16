@@ -56,6 +56,8 @@ signals:
 
     void closePhoneInstanceWidgetSignals();
     void activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
+    //同步模式剪切板分发
+    void DirectCopyToPhoneSignals(QString strSelectText);
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

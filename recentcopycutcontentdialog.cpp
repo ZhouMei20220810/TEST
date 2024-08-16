@@ -6,6 +6,7 @@
 #include <QMimeData>
 #include <QTextDocument>
 #include <QTextBlock>
+#include "recentcopystatusdialog.h"
 
 RecentCopyCutContentDialog::RecentCopyCutContentDialog(QStringList strPhoneList,QWidget *parent)
     : QMoveDialog(parent)
@@ -53,6 +54,7 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QStringList strPhoneList,
     RecentListEditableItem* widget = NULL;
     item = new QListWidgetItem(ui->listWidgetEditable);
     widget = new RecentListEditableItem(0, "", this);
+    connect(widget, &RecentListEditableItem::enterTextSignals, this, &RecentCopyCutContentDialog::do_enterTextSignals);
     item->setSizeHint(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH, RECENT_LIST_EDITABLE_ITEM_HEIGHT));
     ui->listWidgetEditable->setItemWidget(item, widget);
 
@@ -142,31 +144,57 @@ RecentCopyCutContentDialog::~RecentCopyCutContentDialog()
 {
     delete ui;
 }
+//是否弹窗提示复制状态
+void RecentCopyCutContentDialog::showCopyStatusDialog()
+{
+    //同步状态需要弹窗提示成功状态
+    if (GlobalData::bIsSyncOperation)
+    { 
+        RecentCopyStatusDialog* dialog = new RecentCopyStatusDialog();
+        connect(qobject_cast<ClipboardHistoryApp*>(qApp), &ClipboardHistoryApp::addCopyStatusSignals, dialog, &RecentCopyStatusDialog::do_addCopyStatusSignals);
+        dialog->setModal(false);
+        dialog->show();
+        this->close();
+    }
+    else
+    {
+        this->close();
+    }
+}
 
 void RecentCopyCutContentDialog::on_btnCopyToPhone_clicked()
 {
+    //同步状态需要弹窗提示成功状态
+    showCopyStatusDialog();
     //粘贴到云手机中
+    //先清空之前的记录
+    qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
     emit DirectCopyToPhoneSignals(m_strSelectText);
-    this->close();
 }
 
 
 void RecentCopyCutContentDialog::on_btnDirectCopy_clicked()
 {
+    //同步状态需要弹窗提示成功状态
+    showCopyStatusDialog();
     //直接拷贝
     QString strText = ui->plainTextEdit->toPlainText();
-    emit DirectCopyToPhoneSignals(strText);
-    this->close();
+    //先清空之前的记录
+    qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
+    emit DirectCopyToPhoneSignals(strText);    
 }
 
 
 void RecentCopyCutContentDialog::on_btnCopyByOrder_clicked()
 {
+    //同步状态需要弹窗提示成功状态
+    showCopyStatusDialog();
     //按顺序依次拷贝
     QString strText = ui->plainTextEdit->toPlainText();
     GlobalData::iSyncPhoneIndex = 0;
-    emit BatchDirectCopyToPhoneSignals(strText);
-    this->close();
+    //先清空之前的记录
+    qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
+    emit BatchDirectCopyToPhoneSignals(strText);    
 }
 
 
@@ -204,3 +232,20 @@ void RecentCopyCutContentDialog::on_plainTextEdit_textChanged()
     ui->labelTextCount->setText(QString("当前文字数量： %1").arg(lines));
 }
 
+void RecentCopyCutContentDialog::do_enterTextSignals(QString strEnterText)
+{
+    QStringList items = strEnterText.split(',', Qt::SkipEmptyParts);
+    QListWidgetItem* item = NULL;
+    RecentListEditableItem* widget = NULL;
+    int i = 0;
+    for (const QString& strItem : items) 
+    {
+        //QListWidgetItem* newItem = new QListWidgetItem(item.trimmed(), ui->listWidgetEditable);
+        //newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);        
+        item = new QListWidgetItem(ui->listWidgetEditable);
+        widget = new RecentListEditableItem(i+1, strItem, this);
+        connect(widget, &RecentListEditableItem::enterTextSignals, this, &RecentCopyCutContentDialog::do_enterTextSignals);
+        item->setSizeHint(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH, RECENT_LIST_EDITABLE_ITEM_HEIGHT));
+        ui->listWidgetEditable->setItemWidget(item, widget);
+    }
+}

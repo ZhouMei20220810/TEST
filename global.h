@@ -527,6 +527,24 @@ typedef struct RECENT_COPY_DATA
     }
 }S_RECENT_COPY_DATA,*PS_RECENT_COPY_DATA;
 
+enum EN_COPY_STATUS
+{
+    EN_COPY_STATUS_SUCCESS = 0,     //成功
+    EN_COPY_STATUS_FAILD = 1,       //错误
+    EN_COPY_STATUS_NO_CONTENT = 2   //无内容
+};
+
+typedef struct RECENT_COPY_STATUS
+{
+    S_PHONE_INFO    info;
+    QString         strText;
+    int             iRet;
+    RECENT_COPY_STATUS()
+    {
+        memset(this, 0, sizeof(RECENT_COPY_STATUS));
+    }
+}S_RECENT_COPY_STATUS,*PS_RECENT_COPY_STATUS;
+
 class GlobalData
 {
 public:
