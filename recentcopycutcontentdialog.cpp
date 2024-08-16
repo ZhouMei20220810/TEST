@@ -7,6 +7,117 @@
 #include <QTextDocument>
 #include <QTextBlock>
 #include "recentcopystatusdialog.h"
+#include "recentcopyphonedialog.h"
+
+RecentListItem::RecentListItem(S_RECENT_COPY_DATA info, QWidget* parent)
+    : QWidget(parent)
+{
+    resize(RECENT_LIST_ITEM_WIDTH, RECENT_LIST_ITEM_HEIGHT);
+    QVBoxLayout* vLayout = new QVBoxLayout(this);
+    vLayout->setContentsMargins(0, 0, 0, 0);
+    QHBoxLayout* hLayout = new QHBoxLayout(this);
+    hLayout->setContentsMargins(0, 0, 0, 0);
+
+    QString strStyleSheet = "QRadioButton::indicator::unchecked{border-image:url(:/main/resource/main/radioUncheck.png);}QRadioButton::indicator::checked{border-image:url(:/main/resource/main/radioCheck.png);}QRadioButton::indicator{width:16px;height:16px;}QRadioButton{background:transparent;}";
+    radioBtnContent = new QRadioButton(this);
+    //这里设置为非互斥，使用QButtonGroup来控制
+    radioBtnContent->setAutoExclusive(false);
+    info.pButtonGroup->addButton(radioBtnContent, info.iBtnGroupId);
+    //connect(m_radioBtnContent, &QRadioButton::clicked, this, &RecentListItem::selectItemSignals);
+    radioBtnContent->setStyleSheet(strStyleSheet);
+    radioBtnContent->setFixedSize(QSize(RECENT_LIST_ITEM_WIDTH - 50, RECENT_LIST_ITEM_HEIGHT));
+    QFontMetrics fontWidth(radioBtnContent->font());
+    QString strElideNote = fontWidth.elidedText(info.strContent, Qt::ElideRight, RECENT_LIST_ITEM_WIDTH - 50);
+    radioBtnContent->setText(strElideNote);
+    radioBtnContent->setToolTip(info.strContent);
+
+
+    hLayout->addWidget(radioBtnContent);
+    hLayout->addStretch();
+
+    toolBtnDel = new QToolButton(this);
+    strStyleSheet = "QToolButton{border:none;background:transparent;}";
+    toolBtnDel->setStyleSheet(strStyleSheet);
+    toolBtnDel->resize(QSize(16, 16));
+    toolBtnDel->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    toolBtnDel->setIcon(QIcon(":/main/resource/main/copyDel.png"));
+    toolBtnDel->setIconSize(QSize(16, 16));
+    connect(toolBtnDel, &QToolButton::clicked, this, &RecentListItem::do_Clicked);
+    //m_toolBtnDel->setText("222");
+    //m_toolBtnDel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    hLayout->addWidget(toolBtnDel);
+
+    //添加到垂直布局
+    vLayout->addLayout(hLayout);
+    this->setLayout(vLayout);
+}
+
+RecentListEditableItem::RecentListEditableItem(int iRowIndex, QString strText, QWidget* parent)
+    : QWidget(parent)
+{
+    resize(RECENT_LIST_EDITABLE_ITEM_WIDTH, RECENT_LIST_EDITABLE_ITEM_HEIGHT);
+    m_strText = strText;
+
+    QHBoxLayout* hLayout = new QHBoxLayout(this);
+    hLayout->setContentsMargins(0, 0, 0, 0);
+
+    m_textEdit = new TPlainTextEdit(this);
+    connect(m_textEdit, &TPlainTextEdit::returnPressed, this, &RecentListEditableItem::do_returnPressed);
+    QString strStyleSheet = "QPlainTextEdit{border:none;background:transparent;color:#4A4A4A;font-size:12px;border-bottom: 1px solid #E6E9F2;}";
+    m_textEdit->setStyleSheet(strStyleSheet);
+    m_textEdit->resize(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH - 70, 40));
+    m_textEdit->setPlaceholderText("请输入需要粘贴的内容");
+    if (!strText.isEmpty())
+    {
+        m_textEdit->setPlainText(QString("%1、%2").arg(iRowIndex).arg(strText));
+        //m_textEdit->setText(QString("%1、%2").arg(iRowIndex).arg(strText));
+    }
+    hLayout->addWidget(m_textEdit);
+    this->setLayout(hLayout);
+
+    //监听拷贝事件
+    connect(m_textEdit, &QPlainTextEdit::copyAvailable, this, &RecentListEditableItem::do_copyAvailable);
+}
+
+void RecentListEditableItem::do_returnPressed()
+{
+    QString text = m_textEdit->toPlainText().trimmed();
+    if (!text.isEmpty())
+    {
+        /*QStringList items = text.split(',', Qt::SkipEmptyParts);
+        for (const QString &item : items) {
+            QListWidgetItem *newItem = new QListWidgetItem(item.trimmed(), listWidget);
+            newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);
+        }*/
+        emit enterTextSignals(text);
+        m_textEdit->clear(); // 清除输入框中的文本
+    }
+}
+
+void RecentListEditableItem::do_copyAvailable(bool available)
+{
+    if (available) 
+    {
+        // 当有内容可以复制时，监听剪贴板的变化
+        auto clipboard = QApplication::clipboard();
+        connect(clipboard, &QClipboard::dataChanged, this, &RecentListEditableItem::onClipboardDataChanged);
+    }
+}
+
+void RecentListEditableItem::onClipboardDataChanged()
+{
+    auto clipboard = QApplication::clipboard();
+    if (clipboard->mimeData()->hasText()) {
+        const QString& clipboardText = clipboard->text();
+        qDebug() << "Clipboard Text:" << clipboardText;
+
+        // 检查文本中是否包含换行符
+        bool containsNewline = clipboardText.contains('\n');
+        qDebug() << "Contains newline:" << containsNewline;
+
+        // 在这里可以处理拷贝的文本，例如插入到其他地方
+    }
+}
 
 RecentCopyCutContentDialog::RecentCopyCutContentDialog(QStringList strPhoneList,QWidget *parent)
     : QMoveDialog(parent)
@@ -164,12 +275,17 @@ void RecentCopyCutContentDialog::showCopyStatusDialog()
 
 void RecentCopyCutContentDialog::on_btnCopyToPhone_clicked()
 {
-    //同步状态需要弹窗提示成功状态
-    showCopyStatusDialog();
-    //粘贴到云手机中
-    //先清空之前的记录
-    qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
-    emit DirectCopyToPhoneSignals(m_strSelectText);
+    //增加提示框
+    RecentCopyPhoneDialog dialog;
+    if (QDialog::Accepted == dialog.exec())
+    {
+        //同步状态需要弹窗提示成功状态
+        showCopyStatusDialog();
+        //粘贴到云手机中
+        //先清空之前的记录
+        qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
+        emit DirectCopyToPhoneSignals(m_strSelectText);
+    }    
 }
 
 

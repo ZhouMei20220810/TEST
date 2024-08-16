@@ -54,6 +54,7 @@ SOURCES += \
     qmovewidget.cpp \
     queuetableitem.cpp \
     recentcopycutcontentdialog.cpp \
+    recentcopyphonedialog.cpp \
     recentcopystatusdialog.cpp \
     registerpage.cpp \
     renewitemwidget.cpp \
@@ -117,6 +118,7 @@ HEADERS += \
     qmovewidget.h \
     queuetableitem.h \
     recentcopycutcontentdialog.h \
+    recentcopyphonedialog.h \
     recentcopystatusdialog.h \
     registerpage.h \
     renewitemwidget.h \
@@ -168,6 +170,7 @@ FORMS += \
     policydialog.ui \
     queuetableitem.ui \
     recentcopycutcontentdialog.ui \
+    recentcopyphonedialog.ui \
     recentcopystatusdialog.ui \
     registerpage.ui \
     renewitemwidget.ui \
