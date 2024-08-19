@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>易舜云手机</DisplayName>
+    <Description>易舜云手机应用程序安装实例.</Description>
+    <Version>1.0.0-1</Version>
+    <ReleaseDate>2014-08-19</ReleaseDate>
+    <Default>true</Default>
+    <Script>installscript.qs</Script>
+</Package>
