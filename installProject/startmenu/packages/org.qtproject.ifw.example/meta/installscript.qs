@@ -36,9 +36,18 @@ Component.prototype.createOperations = function()
     // call default implementation to actually install YiShunYun.exe!
     component.createOperations();
 
-    if (systemInfo.productType === "windows") {
-        component.addOperation("CreateShortcut", "@TargetDir@/YiShunYun.exe", "@StartMenuDir@/YiShunYun.lnk",
+    if (systemInfo.productType === "windows") 
+	{
+		var targetDir = "@TargetDir@";
+        var exePath = targetDir + "/YiShunYun.exe";
+		// 使用 Unicode 字符串来创建中文名称的快捷方式
+        var startMenuLink = '@StartMenuDir@/\u6613\u821c\u4e91\u624b\u673a.lnk';
+        var desktopLink = '@DesktopDir@/\u6613\u821c\u4e91\u624b\u673a.lnk';
+        component.addOperation("CreateShortcut", exePath, startMenuLink,
             "workingDirectory=@TargetDir@", "iconPath=%SystemRoot%/system32/SHELL32.dll",
             "iconId=2", "description=run YiShunYun file");
+		component.addOperation("CreateShortcut", exePath, desktopLink,
+    "workingDirectory=" + targetDir, "iconPath=%SystemRoot%/system32/SHELL32.dll",
+    "iconId=2", "description=Run YiShunYun file");
     }
 }

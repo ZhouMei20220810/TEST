@@ -6,5 +6,5 @@
     <Publisher>长沙易舜信息技术有限公司</Publisher>
     <!-- Directory name is used in component.xml -->
     <StartMenuDir>易舜云手机</StartMenuDir>
-    <TargetDir>@ApplicationsDir@/YiShunYun/YiShunYunStudio</TargetDir>
+    <TargetDir>@ApplicationsDir@/YiShunYun</TargetDir>
 </Installer>
