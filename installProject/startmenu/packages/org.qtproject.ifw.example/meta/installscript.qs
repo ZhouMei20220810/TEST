@@ -43,11 +43,10 @@ Component.prototype.createOperations = function()
 		// 使用 Unicode 字符串来创建中文名称的快捷方式
         var startMenuLink = '@StartMenuDir@/\u6613\u821c\u4e91\u624b\u673a.lnk';
         var desktopLink = '@DesktopDir@/\u6613\u821c\u4e91\u624b\u673a.lnk';
+		var iconPath = '@TargetDir@/logo.ico'; // 假设 logo.ico 文件与可执行文件位于同一目录下
         component.addOperation("CreateShortcut", exePath, startMenuLink,
-            "workingDirectory=@TargetDir@", "iconPath=%SystemRoot%/system32/SHELL32.dll",
-            "iconId=2", "description=run YiShunYun file");
+            "workingDirectory=@TargetDir@", "iconPath="+iconPath, "description=run YiShunYun file");
 		component.addOperation("CreateShortcut", exePath, desktopLink,
-    "workingDirectory=" + targetDir, "iconPath=%SystemRoot%/system32/SHELL32.dll",
-    "iconId=2", "description=Run YiShunYun file");
+    "workingDirectory=" + targetDir, "iconPath="+iconPath, "description=Run YiShunYun file");
     }
 }
