@@ -10,6 +10,7 @@
 #include <QFrame>
 #include "tplaintextedit.h"
 #include "recentcopystatusdialog.h"
+#include <QTimer>
 
 namespace Ui {
 class RecentCopyCutContentDialog;
@@ -84,12 +85,11 @@ private slots:
 
     void on_toolBtnClear_clicked();
 
-    void on_plainTextEdit_textChanged();
-
     //处理拷贝到文本框的文字
     void do_enterTextSignals(QString strEnterText);
     //是否弹窗提示复制状态
     void showCopyStatusDialog();
+    QString getEditableListWidgetText();
 private:
     void deleteItem(QListWidgetItem* item);
     void addItem(const QString& text);
@@ -98,6 +98,7 @@ private:
     QButtonGroup*       m_buttonGroup;
     QString             m_strSelectText;
     int                 m_iBtnID;
+    QTimer* m_UITimer;
 };
 
 #endif // RECENTCOPYCUTCONTENTDIALOG_H

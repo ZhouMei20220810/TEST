@@ -584,17 +584,6 @@ QPushButton:disabled
              <number>0</number>
             </property>
             <item>
-             <widget class="QPlainTextEdit" name="plainTextEdit">
-              <property name="styleSheet">
-               <string notr="true">background-color:#F5F6FA;
-border: 1px solid #EBF1FF;color:#596380;font-size:12px;border-radius: 2px;</string>
-              </property>
-              <property name="placeholderText">
-               <string>请输入需要粘贴的内容</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QListWidget" name="listWidgetEditable">
               <property name="styleSheet">
                <string notr="true">QListWidget{background-color:#F5F6FA;

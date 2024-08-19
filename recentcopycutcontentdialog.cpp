@@ -64,14 +64,23 @@ RecentListEditableItem::RecentListEditableItem(int iRowIndex, QString strText, Q
     m_textEdit = new TPlainTextEdit(this);
     connect(m_textEdit, &TPlainTextEdit::returnPressed, this, &RecentListEditableItem::do_returnPressed);
     QString strStyleSheet = "QPlainTextEdit{border:none;background:transparent;color:#4A4A4A;font-size:12px;border-bottom: 1px solid #E6E9F2;}";
-    m_textEdit->setStyleSheet(strStyleSheet);
+    
     m_textEdit->resize(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH - 70, 40));
     m_textEdit->setPlaceholderText("请输入需要粘贴的内容");
     if (!strText.isEmpty())
     {
-        m_textEdit->setPlainText(QString("%1、%2").arg(iRowIndex).arg(strText));
+        m_textEdit->setPlainText(QString("%1、%2").arg(iRowIndex+1).arg(strText));
         //m_textEdit->setText(QString("%1、%2").arg(iRowIndex).arg(strText));
     }
+    else
+    {
+        //没有内容
+        if (iRowIndex == 0 && strText.isEmpty())
+        {
+            strStyleSheet = "QPlainTextEdit{border:none;background:transparent;color:#4A4A4A;font-size:12px;border-bottom:0px solid #E6E9F2;}";
+        }
+    }
+    m_textEdit->setStyleSheet(strStyleSheet);
     hLayout->addWidget(m_textEdit);
     this->setLayout(hLayout);
 
@@ -159,15 +168,7 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QStringList strPhoneList,
     //设置不能移动
     ui->listWidgetEditable->setMovement(QListWidget::Static);
     //设置单选
-    ui->listWidgetEditable->setSelectionMode(QAbstractItemView::SingleSelection);
-    //初始化默认数据
-    QListWidgetItem* item = NULL;
-    RecentListEditableItem* widget = NULL;
-    item = new QListWidgetItem(ui->listWidgetEditable);
-    widget = new RecentListEditableItem(0, "", this);
-    connect(widget, &RecentListEditableItem::enterTextSignals, this, &RecentCopyCutContentDialog::do_enterTextSignals);
-    item->setSizeHint(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH, RECENT_LIST_EDITABLE_ITEM_HEIGHT));
-    ui->listWidgetEditable->setItemWidget(item, widget);
+    ui->listWidgetEditable->setSelectionMode(QAbstractItemView::SingleSelection);    
 
     m_buttonGroup = new QButtonGroup(this);
     connect(m_buttonGroup, &QButtonGroup::idClicked, this, &RecentCopyCutContentDialog::do_idClicked);
@@ -176,9 +177,16 @@ RecentCopyCutContentDialog::RecentCopyCutContentDialog(QStringList strPhoneList,
     // 连接信号与槽
     connect(qApp->clipboard(), &QClipboard::dataChanged, this, &RecentCopyCutContentDialog::onClipboardChanged);
     LoadHistoryList();
-
     ui->labelPhoneCount->setText(QString("设备数量： %1").arg(strPhoneList.size()));
     ui->labelTextCount->setText(QString("当前文字数量： %1").arg(0));
+
+    m_UITimer = new QTimer(this);
+    m_UITimer->start(2);
+    connect(m_UITimer, &QTimer::timeout, this, [this]() {
+        //初始化数据
+        m_UITimer->stop();
+        do_enterTextSignals("");
+        });
 }
 void RecentCopyCutContentDialog::onClipboardChanged()
 {
@@ -263,7 +271,7 @@ void RecentCopyCutContentDialog::showCopyStatusDialog()
     { 
         RecentCopyStatusDialog* dialog = new RecentCopyStatusDialog();
         connect(qobject_cast<ClipboardHistoryApp*>(qApp), &ClipboardHistoryApp::addCopyStatusSignals, dialog, &RecentCopyStatusDialog::do_addCopyStatusSignals);
-        dialog->setModal(false);
+        dialog->setModal(true);
         dialog->show();
         this->close();
     }
@@ -307,12 +315,29 @@ void RecentCopyCutContentDialog::on_btnDirectCopy_clicked()
     //同步状态需要弹窗提示成功状态
     showCopyStatusDialog();
     //直接拷贝
-    QString strText = ui->plainTextEdit->toPlainText();
+    QString strText = getEditableListWidgetText();//ui->plainTextEdit->toPlainText();
     //先清空之前的记录
     qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
     emit DirectCopyToPhoneSignals(strText);    
 }
 
+QString RecentCopyCutContentDialog::getEditableListWidgetText()
+{
+    QString strText = "";
+    int iCount = ui->listWidgetEditable->count();
+    QListWidgetItem* item = NULL;
+    for (int i = 0; i < iCount; i++)
+    {
+        item = ui->listWidgetEditable->item(i);
+        if (item != NULL)
+        {
+            if (!strText.isEmpty())
+                strText += '\n';
+            strText += item->data(Qt::UserRole).toString();
+        }
+    }
+    return strText;
+}
 
 void RecentCopyCutContentDialog::on_btnCopyByOrder_clicked()
 {
@@ -328,7 +353,7 @@ void RecentCopyCutContentDialog::on_btnCopyByOrder_clicked()
     //同步状态需要弹窗提示成功状态
     showCopyStatusDialog();
     //按顺序依次拷贝
-    QString strText = ui->plainTextEdit->toPlainText();
+    QString strText = getEditableListWidgetText();//ui->plainTextEdit->toPlainText();
     GlobalData::iSyncPhoneIndex = 0;
     //先清空之前的记录
     qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
@@ -353,37 +378,40 @@ void RecentCopyCutContentDialog::on_toolBtnClear_clicked()
         app->clearClipboardHistoryList();
 }
 
-void RecentCopyCutContentDialog::on_plainTextEdit_textChanged()
-{
-    int lines = 0;
-    QTextDocument* doc = ui->plainTextEdit->document();
-    QString strActiveCode="";
-    for(int i = 0;i< doc->blockCount(); i++)
-    {
-        strActiveCode = doc->findBlockByNumber(i).text();
-        if(!strActiveCode.isEmpty())
-        {
-            lines++;
-        }
-
-    }
-    ui->labelTextCount->setText(QString("当前文字数量： %1").arg(lines));
-}
 
 void RecentCopyCutContentDialog::do_enterTextSignals(QString strEnterText)
 {
-    QStringList items = strEnterText.split(',', Qt::SkipEmptyParts);
+    //ui->listWidgetEditable->clear();
+    //不清空之前的内容
+    //删除最后一行
+    if (ui->listWidgetEditable->count() > 0)
+    {
+        ui->listWidgetEditable->takeItem(ui->listWidgetEditable->count() - 1);
+    }
+
+    QStringList items = strEnterText.split('\n', Qt::SkipEmptyParts);
     QListWidgetItem* item = NULL;
     RecentListEditableItem* widget = NULL;
-    int i = 0;
+    int i = ui->listWidgetEditable->count();
     for (const QString& strItem : items) 
     {
-        //QListWidgetItem* newItem = new QListWidgetItem(item.trimmed(), ui->listWidgetEditable);
-        //newItem->setFlags(newItem->flags() | Qt::ItemIsEditable);        
         item = new QListWidgetItem(ui->listWidgetEditable);
-        widget = new RecentListEditableItem(i+1, strItem, this);
+        widget = new RecentListEditableItem(i, strItem, this);        
         connect(widget, &RecentListEditableItem::enterTextSignals, this, &RecentCopyCutContentDialog::do_enterTextSignals);
         item->setSizeHint(QSize(RECENT_LIST_EDITABLE_ITEM_WIDTH, RECENT_LIST_EDITABLE_ITEM_HEIGHT));
+        item->setData(Qt::UserRole, strItem);
+        ui->listWidgetEditable->insertItem(i, item);
         ui->listWidgetEditable->setItemWidget(item, widget);
+        i++;
     }
+    ui->labelTextCount->setText(QString("当前文字数量： %1").arg(ui->listWidgetEditable->count()));
+
+    //最后一行添加空白行，支持拷贝
+    item = new QListWidgetItem(ui->listWidgetEditable);
+    widget = new RecentListEditableItem(i, "", this);
+    connect(widget, &RecentListEditableItem::enterTextSignals, this, &RecentCopyCutContentDialog::do_enterTextSignals);
+    item->setSizeHint(ui->listWidgetEditable->size());
+    item->setData(Qt::UserRole, "");
+    ui->listWidgetEditable->insertItem(i, item);
+    ui->listWidgetEditable->setItemWidget(item, widget);
 }
