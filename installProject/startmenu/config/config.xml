@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>YiShunYun</Name>
+    <Name>易舜云手机</Name>
     <Version>1.0.0</Version>
     <Title>易舜云手机</Title>
     <Publisher>长沙易舜信息技术有限公司</Publisher>
     <!-- Directory name is used in component.xml -->
-    <StartMenuDir>YiShunYun</StartMenuDir>
-    <TargetDir>@HomeDir@/YiShunYun/startMenu</TargetDir>
+    <StartMenuDir>易舜云手机</StartMenuDir>
+    <TargetDir>@rootDir@/Program Files/YiShunYun/YiShunYunStudio</TargetDir>
 </Installer>
