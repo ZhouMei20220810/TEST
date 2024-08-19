@@ -9,17 +9,18 @@
     <InstallerApplicationIcon>installericon</InstallerApplicationIcon>
     <Logo>logo.ico</Logo>
     <Watermark>watermark.png</Watermark>
-    <RunProgram>@TargetDir@/YourAppToRun</RunProgram>
-    <RunProgramArguments>
+    <RunProgram>@rootDir@/YiShunYun/YiShunYunStudio/YiShunYun.exe</RunProgram>
+    <!--<RunProgramArguments>
         <Argument>Argument 1</Argument>
         <Argument>Argument 2</Argument>
-    </RunProgramArguments>
+    </RunProgramArguments>-->
     <RunProgramDescription>My nice application</RunProgramDescription>
     <StartMenuDir>Qt IFW Examples</StartMenuDir>
     <MaintenanceToolName>SDKMaintenanceTool</MaintenanceToolName>
     <AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
     <Background>background.png</Background>
-    <TargetDir>@HomeDir@/IfwExamples/stylesheet</TargetDir>
+    <!--<TargetDir>@HomeDir@/YiShunYun/YiShunYunStudio</TargetDir>-->
+	<TargetDir>@HomeDir@/YiShunYun/YiShunYunStudio</TargetDir>
     <!--<WizardStyle>Classic</WizardStyle>
     <StyleSheet>style.qss</StyleSheet>
     <TitleColor>#FFFFFF</TitleColor>-->
@@ -29,4 +30,8 @@
             <Url>http://www.your-repo-location/packages/</Url>
         </Repository>
     </RemoteRepositories>
+	<UninstallerName>Uninstall Sample App</UninstallerName>
+	<Script>
+        <!-- Your scripting commands here -->
+    </Script>
 </Installer>

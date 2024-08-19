@@ -40,10 +40,10 @@ Component.prototype.createOperations = function()
 	{
 		var targetDir = "@TargetDir@";
         var exePath = targetDir + "/YiShunYun.exe";
-		// Ê¹ÓÃ Unicode ×Ö·û´®À´´´½¨ÖĞÎÄÃû³ÆµÄ¿ì½İ·½Ê½
+		// ä½¿ç”¨ Unicode å­—ç¬¦ä¸²æ¥åˆ›å»ºä¸­æ–‡åç§°çš„å¿«æ·æ–¹å¼
         var startMenuLink = '@StartMenuDir@/\u6613\u821c\u4e91\u624b\u673a.lnk';
         var desktopLink = '@DesktopDir@/\u6613\u821c\u4e91\u624b\u673a.lnk';
-		var iconPath = '@TargetDir@/logo.ico'; // ¼ÙÉè logo.ico ÎÄ¼şÓë¿ÉÖ´ĞĞÎÄ¼şÎ»ÓÚÍ¬Ò»Ä¿Â¼ÏÂ
+		var iconPath = '@TargetDir@/logo.ico'; // å‡è®¾ logo.ico æ–‡ä»¶ä¸å¯æ‰§è¡Œæ–‡ä»¶ä½äºåŒä¸€ç›®å½•ä¸‹
         component.addOperation("CreateShortcut", exePath, startMenuLink,
             "workingDirectory=@TargetDir@", "iconPath="+iconPath, "description=run YiShunYun file");
 		component.addOperation("CreateShortcut", exePath, desktopLink,
