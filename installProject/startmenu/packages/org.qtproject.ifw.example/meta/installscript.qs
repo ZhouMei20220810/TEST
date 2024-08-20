@@ -50,3 +50,49 @@ Component.prototype.createOperations = function()
     "workingDirectory=" + targetDir, "iconPath="+iconPath, "description=Run YiShunYun file");
     }
 }
+
+function handleCommandLineArguments()
+{
+    console.log("handleCommandLineArguments enter", args);
+    if (installer)
+    {
+        // 如果 installer.commandLineArguments 不存在，则初始化为空数组
+        if (!installer.commandLineArguments)
+        {
+            installer.commandLineArguments = [];
+        }
+
+        var args = installer.commandLineArguments;
+
+        // 检查是否设置了静默安装标志
+        if (args.indexOf('/S') >= 0 || args.indexOf('/s') >= 0)
+        {
+            installer.isSilent = true;
+        }
+
+        // 检查是否指定了安装路径
+        var installPathArgIndex = args.indexOf('/D');
+        if (installPathArgIndex >= 0)
+        {
+            var installPath = args[installPathArgIndex + 1];
+            if (installPath)
+            {
+                // 设置安装目录
+                installer.installDirectory = installPath;
+            }
+        }
+
+        // 输出调试信息
+        console.log("Command Line Arguments:", args);
+        console.log("Is Silent:", installer.isSilent);
+        console.log("Install Directory:", installer.installDirectory);
+    }
+    else
+    {
+        console.log("Warning: installer object not defined.");
+    }
+    console.log("handleCommandLineArguments leave", args);
+}
+
+// 调用函数处理命令行参数
+handleCommandLineArguments();
