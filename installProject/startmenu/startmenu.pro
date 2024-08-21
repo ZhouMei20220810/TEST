@@ -11,3 +11,12 @@ example.CONFIG += target_predeps no_link combine
 QMAKE_EXTRA_COMPILERS += example
 
 OTHER_FILES = README
+
+RESOURCES += \
+    res.qrc
+
+FORMS +=
+
+HEADERS +=
+
+SOURCES +=

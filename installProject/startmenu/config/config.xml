@@ -5,6 +5,9 @@
     <Title>易舜云手机</Title>
     <Publisher>长沙易舜信息技术有限公司</Publisher>
     <!-- Directory name is used in component.xml -->
-    <StartMenuDir>易舜云手机</StartMenuDir>
+    <!--<StartMenuDir>易舜云手机</StartMenuDir>-->
     <TargetDir>@ApplicationsDir@/YiShunYun</TargetDir>
+	<!--<InstallerWindowIcon>D:\\zm\\QtProject\\git0726\\TEST\\installProject\\startmenu\\config/logo.ico</InstallerWindowIcon>
+    <InstallerApplicationIcon>D:\\zm\\QtProject\\git0726\\TEST\\installProject\\startmenu\\config/aboutlogo.png</InstallerApplicationIcon>
+	<Logo>D:\\zm\\QtProject\\git0726\\TEST\\installProject\\startmenu\\config/aboutlogo.png</Logo>-->
 </Installer>

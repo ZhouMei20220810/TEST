@@ -28,6 +28,7 @@
 
 function Component()
 {
+    console.log("handleCommandLineArguments enter", args);
 	if (!installer.addWizardPage(component, "Page", QInstaller.TargetDirectory))
         console.log("Could not add the dynamic page.");
 	//加载自定义UI
@@ -37,83 +38,68 @@ function Component()
     component.unusualFileType = generateUnusualFileType(5)*/
 
     installer.isSilent = true; // 设置静默模式
-    // default constructor
-    //var result = QMessageBox["question"]("test.quit", "Installer", "Do you want to quit the installer?<br>" +
-    //        "This message box was created using JavaScript.", QMessageBox.Ok | QMessageBox.Cancel);
-        //if (result == QMessageBox.Ok)
+	
+	/*installer.setValue("FinishedText", "<font color='red' size=3>The installer was quit.</font>");*/
+
+    //屏蔽页面显示
+    installer.setDefaultPageVisible(QInstaller.TargetDirectory, true);
+    installer.setDefaultPageVisible(QInstaller.ReadyForInstallation, false);
+    installer.setDefaultPageVisible(QInstaller.ComponentSelection, false);
+    installer.setDefaultPageVisible(QInstaller.StartMenuSelection, false);
+    installer.setDefaultPageVisible(QInstaller.PerformInstallation, true);
+    installer.setDefaultPageVisible(QInstaller.LicenseCheck, false);
+    /*gui.clickButton(buttons.NextButton);*/
+    if (installer)
+    {
+        // 如果 installer.commandLineArguments 不存在，则初始化为空数组
+        if (!installer.commandLineArguments)
         {
-            /*installer.setValue("FinishedText", "<font color='red' size=3>The installer was quit.</font>");*/
-
-            //屏蔽页面显示
-            installer.setDefaultPageVisible(QInstaller.TargetDirectory, true);
-            installer.setDefaultPageVisible(QInstaller.ReadyForInstallation, false);
-            installer.setDefaultPageVisible(QInstaller.ComponentSelection, false);
-            installer.setDefaultPageVisible(QInstaller.StartMenuSelection, false);
-            installer.setDefaultPageVisible(QInstaller.PerformInstallation, true);
-            installer.setDefaultPageVisible(QInstaller.LicenseCheck, false);
-            /*gui.clickButton(buttons.NextButton);*/
-            if (installer)
-            {
-                // 如果 installer.commandLineArguments 不存在，则初始化为空数组
-                if (!installer.commandLineArguments)
-                {
-                    installer.commandLineArguments = [];
-                }
-
-                var args = installer.commandLineArguments;
-                var result = QMessageBox["question"]("test.quit", "args", installer.commandLineArguments, QMessageBox.Ok | QMessageBox.Cancel);
-                // 检查是否设置了静默安装标志
-                if (args.indexOf('/S') >= 0 || args.indexOf('/s') >= 0)
-                {
-                    installer.isSilent = true;
-                    var result = QMessageBox["question"]("test.quit", "args.indexOf('/S')", installer.commandLineArguments, QMessageBox.Ok | QMessageBox.Cancel);
-
-                }
-
-                // 检查是否指定了安装路径
-                var installPathArgIndex = args.indexOf('/D');
-                var result = QMessageBox["question"]("test.quit", "installPathArgIndex", installPathArgIndex, QMessageBox.Ok | QMessageBox.Cancel);
-
-                if (installPathArgIndex >= 0)
-                {
-                    var result = QMessageBox["question"]("test.quit", "installPathArgIndex", installPathArgIndex, QMessageBox.Ok | QMessageBox.Cancel);
-
-                    var installPath = args[installPathArgIndex + 1];
-                    if (installPath)
-                    {
-                        // 设置安装目录
-                        //installer.installDirectory = installPath;
-                        //修改安装目录
-                        installer.setValue('TargetDir', installPath);
-                        var result = QMessageBox["question"]("test.quit", "installPath", installPath, QMessageBox.Ok | QMessageBox.Cancel);
-                    }
-                }
-                else
-                {
-                    //installer.installDirectory = "D:\\Users\\Administrator";
-                    //修改安装目录
-                    installer.setValue('TargetDir', "D:\\Users\\Administrator\\YiShunYun");
-                    //var result = QMessageBox["question"]("test.quit", "installPath", installer.installDirectory, QMessageBox.Ok | QMessageBox.Cancel);
-                }
-
-                // 输出调试信息
-                console.log("Command Line Arguments:", args);
-                console.log("Is Silent:", installer.isSilent);
-                var result = QMessageBox["question"]("test.quit", "installPath", installer.isSilent, QMessageBox.Ok | QMessageBox.Cancel);
-                console.log("Install Directory:", installer.installDirectory);
-            }
-            else
-            {
-                console.log("Warning: installer object not defined.");
-            }
-            console.log("handleCommandLineArguments leave", args);
+            installer.commandLineArguments = [];
         }
-    /*else {
-            installer.setValue("FinishedText",
-                "<font color='green' size=3>The installer was not quit by JavaScript.</font>");
+
+        var args = installer.commandLineArguments;
+        // 检查是否设置了静默安装标志
+        if (args.indexOf('/S') >= 0 || args.indexOf('/s') >= 0)
+        {
+            installer.isSilent = true;
+            //var result = QMessageBox["question"]("test.quit", "installer.isSilent = true", "args.indexOf('/S') >= 0 || args.indexOf('/s') >= 0", QMessageBox.Ok | QMessageBox.Cancel);
+
+        }
+
+        // 检查是否指定了安装路径
+        var installPathArgIndex = args.indexOf('/D');
+        if (installPathArgIndex >= 0)
+        {
+            //var result = QMessageBox["question"]("test.quit", "installPathArgIndex", installPathArgIndex, QMessageBox.Ok | QMessageBox.Cancel);
+
+            var installPath = args[installPathArgIndex + 1];
+            if (installPath)
+            {
+                // 设置安装目录
+                //installer.installDirectory = installPath;
+                //修改安装目录
+                installer.setValue('TargetDir', installPath);
+                //var result = QMessageBox["question"]("test.quit", "installPath", installPath, QMessageBox.Ok | QMessageBox.Cancel);
+            }
+        }
+        /*else
+        {
+            //installer.installDirectory = "D:\\Users\\Administrator";
+            //修改安装目录
+            installer.setValue('TargetDir', "D:\\Users\\Administrator\\YiShunYun");
+            //var result = QMessageBox["question"]("test.quit", "installPath", installer.installDirectory, QMessageBox.Ok | QMessageBox.Cancel);
         }*/
 
-
+        // 输出调试信息
+        console.log("Command Line Arguments:", args);
+        console.log("Is Silent:", installer.isSilent);
+        console.log("Install Directory:", installer.installDirectory);
+    }
+    else
+    {
+        console.log("Warning: installer object not defined.");
+    }
+    console.log("handleCommandLineArguments leave", args);
 }
 
 Component.prototype.createOperations = function()
