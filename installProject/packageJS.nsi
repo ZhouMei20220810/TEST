@@ -3,19 +3,20 @@
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "易舜云手机"
 !define PRODUCT_VERSION "1.0.0"
-!define PRODUCT_PUBLISHER "易舜"
+!define PRODUCT_PUBLISHER "长沙易舜信息技术有限公司"
 !define PRODUCT_WEB_SITE "https://www.ysyos.com/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\YiShunYun.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
+!define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "YSY_Release\logo.ico"
-!define MUI_UNICON "YSY_Release\logo.ico"
+!define MUI_ICON "NSISPackage\logo.ico"
+!define MUI_UNICON "NSISPackage\logo.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
@@ -23,6 +24,14 @@
 ;!insertmacro MUI_PAGE_LICENSE "License.txt"
 ; Directory page
 !insertmacro MUI_PAGE_DIRECTORY
+; Start menu page
+var ICONS_GROUP
+!define MUI_STARTMENUPAGE_NODISABLE
+!define MUI_STARTMENUPAGE_DEFAULTFOLDER "易舜云手机"
+!define MUI_STARTMENUPAGE_REGISTRY_ROOT "${PRODUCT_UNINST_ROOT_KEY}"
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
+!define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "${PRODUCT_STARTMENU_REGVAL}"
+!insertmacro MUI_PAGE_STARTMENU Application $ICONS_GROUP
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
@@ -38,7 +47,7 @@
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "YSY_Release\YiShunYunInstaller.exe"
+OutFile "易舜云手机.exe"
 InstallDir "$PROGRAMFILES\易舜云手机"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -47,56 +56,56 @@ ShowUnInstDetails show
 Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
-  File "YSY_Release\zlibwapi.dll"
-  File "YSY_Release\YiShunYun.exe"
-  CreateDirectory "$SMPROGRAMS\易舜云手机"
-  CreateShortCut "$SMPROGRAMS\易舜云手机\易舜云手机.lnk" "$INSTDIR\YiShunYun.exe"
+  File "NSISPackage\zlibwapi.dll"
+  File "NSISPackage\YiShunYun.exe"
+  CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\易舜云手机.lnk" "$INSTDIR\YiShunYun.exe"
   CreateShortCut "$DESKTOP\易舜云手机.lnk" "$INSTDIR\YiShunYun.exe"
-  File "YSY_Release\update.exe"
-  File "YSY_Release\swplay_u.lib"
-  File "YSY_Release\swplay_u.dll"
-  File "YSY_Release\ssleay32.dll"
-  File "YSY_Release\QtWebEngineProcess.exe"
-  File "YSY_Release\Qt6Widgets.dll"
-  File "YSY_Release\Qt6WebEngineWidgets.dll"
-  File "YSY_Release\Qt6WebEngineCore.dll"
-  File "YSY_Release\Qt6WebChannel.dll"
-  File "YSY_Release\Qt6Svg.dll"
-  File "YSY_Release\Qt6QuickWidgets.dll"
-  File "YSY_Release\Qt6Quick.dll"
-  File "YSY_Release\Qt6QmlModels.dll"
-  File "YSY_Release\Qt6Qml.dll"
-  File "YSY_Release\Qt6PrintSupport.dll"
-  File "YSY_Release\Qt6Positioning.dll"
-  File "YSY_Release\Qt6OpenGL.dll"
-  File "YSY_Release\Qt6Network.dll"
-  File "YSY_Release\Qt6Gui.dll"
-  File "YSY_Release\Qt6Core.dll"
-  File "YSY_Release\opengl32sw.dll"
-  File "YSY_Release\logo.ico"
-  File "YSY_Release\libeay32.dll"
-  File "YSY_Release\libcurl.dll"
-  File "YSY_Release\D3Dcompiler_47.dll"
-  File /r "YSY_Release\generic"
-  File /r "YSY_Release\iconengines"
-  File /r "YSY_Release\imageformats"
-  ;File /r "YSY_Release\locales"
-  File /r "YSY_Release\networkinformation"
-  File /r "YSY_Release\platforms"
-  File /r "YSY_Release\position"
-  ;File /r "YSY_Release\qml"
-  File /r "YSY_Release\qmltooling"
-  File /r "YSY_Release\resources"
-  File /r "YSY_Release\screenshots"
-  File /r "YSY_Release\styles"
-  File /r "YSY_Release\tls"
-  File /r "YSY_Release\translations"
+  File "NSISPackage\update.exe"
+  File "NSISPackage\swplay_u.lib"
+  File "NSISPackage\swplay_u.dll"
+  File "NSISPackage\ssleay32.dll"
+  File "NSISPackage\QtWebEngineProcess.exe"
+  File "NSISPackage\Qt6Widgets.dll"
+  File "NSISPackage\Qt6WebEngineWidgets.dll"
+  File "NSISPackage\Qt6WebEngineCore.dll"
+  File "NSISPackage\Qt6WebChannel.dll"
+  File "NSISPackage\Qt6Svg.dll"
+  File "NSISPackage\Qt6QuickWidgets.dll"
+  File "NSISPackage\Qt6Quick.dll"
+  File "NSISPackage\Qt6QmlModels.dll"
+  File "NSISPackage\Qt6Qml.dll"
+  File "NSISPackage\Qt6PrintSupport.dll"
+  File "NSISPackage\Qt6Positioning.dll"
+  File "NSISPackage\Qt6OpenGL.dll"
+  File "NSISPackage\Qt6Network.dll"
+  File "NSISPackage\Qt6Gui.dll"
+  File "NSISPackage\Qt6Core.dll"
+  File "NSISPackage\opengl32sw.dll"
+  File "NSISPackage\logo.ico"
+  File "NSISPackage\libeay32.dll"
+  File "NSISPackage\libcurl.dll"
+  File "NSISPackage\D3Dcompiler_47.dll"
+  File /r "NSISPackage\generic"
+  File /r "NSISPackage\iconengines"
+  File /r "NSISPackage\imageformats"
+  ;File /r "NSISPackage\locales"
+  File /r "NSISPackage\networkinformation"
+  File /r "NSISPackage\platforms"
+  File /r "NSISPackage\position"
+  ;File /r "NSISPackage\qml"
+  File /r "NSISPackage\qmltooling"
+  File /r "NSISPackage\resources"
+  ;File /r "NSISPackage\screenshots"
+  File /r "NSISPackage\styles"
+  File /r "NSISPackage\tls"
+  File /r "NSISPackage\translations"
 SectionEnd
 
 Section -AdditionalIcons
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
-  CreateShortCut "$SMPROGRAMS\易舜云手机\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
-  CreateShortCut "$SMPROGRAMS\易舜云手机\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
+  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\uninst.exe"
 SectionEnd
 
 Section -Post
@@ -106,6 +115,7 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\YiShunYun.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "${PRODUCT_STARTMENU_REGVAL}" "$ICONS_GROUP"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
 SectionEnd
@@ -122,6 +132,7 @@ Function un.onInit
 FunctionEnd
 
 Section Uninstall
+  ReadRegStr $ICONS_GROUP ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "${PRODUCT_STARTMENU_REGVAL}"
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\D3Dcompiler_47.dll"
@@ -162,17 +173,17 @@ Section Uninstall
   ;RMDir /r "$INSTDIR\qml"
   RMDir /r "$INSTDIR\qmltooling"
   RMDir /r "$INSTDIR\resources"
-  RMDir /r "$INSTDIR\screenshots"
+  ;RMDir /r "$INSTDIR\screenshots"
   RMDir /r "$INSTDIR\styles"
   RMDir /r "$INSTDIR\tls"
   RMDir /r "$INSTDIR\translations"
 
-  Delete "$SMPROGRAMS\易舜云手机\Uninstall.lnk"
-  Delete "$SMPROGRAMS\易舜云手机\Website.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"
   Delete "$DESKTOP\易舜云手机.lnk"
-  Delete "$SMPROGRAMS\易舜云手机\易舜云手机.lnk"
+  Delete "$SMPROGRAMS\$ICONS_GROUP\易舜云手机.lnk"
 
-  RMDir "$SMPROGRAMS\易舜云手机"
+  RMDir "$SMPROGRAMS\$ICONS_GROUP"
   RMDir "$INSTDIR"
 
   DeleteRegKey ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}"
