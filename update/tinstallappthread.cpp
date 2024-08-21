@@ -10,6 +10,7 @@
 #include <QByteArray>
 #include <Windows.h>
 #include <ShlObj.h>
+#include <QFileInfo>
 #define     ORGANIZATION_NAME       "YSY"
 #define     APPLICATION_NAME        "YSY STUDIO"
 #define     PROGRASS_INTERVAL       15
@@ -32,67 +33,45 @@ int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QStr
 {
     //卸载原来的软件
     //V1.0.10 ProductCode必须更新
-    /*QString uninstallCommand = QString("msiexec /x %1 /qb").arg(strProductCode);
-    QString strBatFile = QDir::tempPath() + "/update.bat";
-    QFile file(strBatFile);
-    if (file.open(QIODevice::WriteOnly))
+    QFileInfo file(msiFilePath);
+    QString extension = file.suffix().toLower(); // 获取文件扩展名并转换为小写
+    QString strBatFile;
+    if (extension == "msi")
     {
-        QTextStream out(&file);
-        out.setEncoding(QStringConverter::System);
-        out << uninstallCommand;
-        qDebug() << "write command=" << uninstallCommand;
-        file.close();
-        showPrograssValueSignals(50);
-    }
-    else
-    {
-        qDebug() << "open failed." << strBatFile;
-    }
-
-    QProcess uninstallProcess;
-    uninstallProcess.start(strBatFile);
-    //process.start(command);
-    if (!uninstallProcess.waitForFinished(-1)) // 等待进程结束，-1表示无限制等待时间
-    {
-        qDebug() << "uninstall command=" << uninstallCommand << "return false. error=" << uninstallProcess.readAllStandardError();
-        return -1;
-    }
-    else
-    {
-        showPrograssValueSignals(60);
-        qDebug() <<"uninstall command="<< uninstallCommand << " return true";
-    }*/
-
-    /*QString strBatFile = QDir::tempPath() + "/update.bat";
-    QFile file(strBatFile);*/
-    // msiexec命令格式用于静默安装
-    /*QString command = "msiexec.exe /i \"";
-    command.append(msiFilePath); // 添加MSI文件的完整路径
-    //command.append("\""); // /qn 参数表示非静默安装，有界面
-    command.append("\" /qn"); // /qn 参数表示静默安装，无界面
-    command.append(" /norestart"); // /qn 确保不会发生重启
-    command.append(QString(" TARGETDIR=\"%1\"").arg(strExeFolder));    */
-    /*QString command = QString("%1 /s").arg(msiFilePath);
-    
-    if (file.open(QIODevice::WriteOnly))
-    {
-        QTextStream out(&file);
-        out.setEncoding(QStringConverter::System);
-        out << command;
-        qDebug() << "write command=" << command;
-        file.close();
+        strBatFile = QDir::tempPath() + "/update.bat";
+        QFile file(strBatFile);
+        // msiexec命令格式用于静默安装
+        QString command = "msiexec.exe /i \"";
+        command.append(msiFilePath); // 添加MSI文件的完整路径
+        //command.append("\""); // /qn 参数表示非静默安装，有界面
+        command.append("\" /qn"); // /qn 参数表示静默安装，无界面
+        command.append(" /norestart"); // /qn 确保不会发生重启
+        command.append(QString(" TARGETDIR=\"%1\"").arg(strExeFolder));
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QTextStream out(&file);
+            out.setEncoding(QStringConverter::System);
+            out << command;
+            qDebug() << "write command=" << command;
+            file.close();
+            iPrograssValue += PROGRASS_INTERVAL;
+            showPrograssValueSignals(iPrograssValue);
+        }
+        else
+        {
+            qDebug() << "open failed." << strBatFile;
+        }
         iPrograssValue += PROGRASS_INTERVAL;
         showPrograssValueSignals(iPrograssValue);
     }
     else
     {
-        qDebug() << "open failed." << strBatFile;
+        //exe格式
+        strBatFile = msiFilePath;
     }
-    iPrograssValue += PROGRASS_INTERVAL;
-    showPrograssValueSignals(iPrograssValue);*/
     // 使用QProcess执行命令
     QProcess process;
-    process.start(msiFilePath);
+    process.start(strBatFile);
     //process.start(command);
     if (!process.waitForFinished(-1)) // 等待进程结束，-1表示无限制等待时间
     {
