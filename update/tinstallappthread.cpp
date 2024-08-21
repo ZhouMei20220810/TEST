@@ -63,15 +63,17 @@ int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QStr
         qDebug() <<"uninstall command="<< uninstallCommand << " return true";
     }*/
 
-    QString strBatFile = QDir::tempPath() + "/update.bat";
-    QFile file(strBatFile);
+    /*QString strBatFile = QDir::tempPath() + "/update.bat";
+    QFile file(strBatFile);*/
     // msiexec命令格式用于静默安装
-    QString command = "msiexec.exe /i \"";
+    /*QString command = "msiexec.exe /i \"";
     command.append(msiFilePath); // 添加MSI文件的完整路径
     //command.append("\""); // /qn 参数表示非静默安装，有界面
     command.append("\" /qn"); // /qn 参数表示静默安装，无界面
     command.append(" /norestart"); // /qn 确保不会发生重启
-    command.append(QString(" TARGETDIR=\"%1\"").arg(strExeFolder));    
+    command.append(QString(" TARGETDIR=\"%1\"").arg(strExeFolder));    */
+    /*QString command = QString("%1 /s").arg(msiFilePath);
+    
     if (file.open(QIODevice::WriteOnly))
     {
         QTextStream out(&file);
@@ -87,10 +89,10 @@ int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QStr
         qDebug() << "open failed." << strBatFile;
     }
     iPrograssValue += PROGRASS_INTERVAL;
-    showPrograssValueSignals(iPrograssValue);
+    showPrograssValueSignals(iPrograssValue);*/
     // 使用QProcess执行命令
     QProcess process;
-    process.start(strBatFile);
+    process.start(msiFilePath);
     //process.start(command);
     if (!process.waitForFinished(-1)) // 等待进程结束，-1表示无限制等待时间
     {
