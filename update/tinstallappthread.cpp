@@ -67,7 +67,27 @@ int TInstallAppThread::installMsiSilently(const QString& msiFilePath, const QStr
     else
     {
         //exe格式
-        strBatFile = msiFilePath;
+        //strBatFile = QString("cmd.exe %1 /S").arg(msiFilePath);
+        strBatFile = QDir::tempPath() + "/update.bat";
+        QFile file(strBatFile);
+        // msiexec命令格式用于静默安装
+        QString command = QString("%1 /S").arg(msiFilePath);
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QTextStream out(&file);
+            out.setEncoding(QStringConverter::System);
+            out << command;
+            qDebug() << "write command=" << command;
+            file.close();
+            iPrograssValue += PROGRASS_INTERVAL;
+            showPrograssValueSignals(iPrograssValue);
+        }
+        else
+        {
+            qDebug() << "open failed." << strBatFile;
+        }
+        iPrograssValue += PROGRASS_INTERVAL;
+        showPrograssValueSignals(iPrograssValue);
     }
     // 使用QProcess执行命令
     QProcess process;
