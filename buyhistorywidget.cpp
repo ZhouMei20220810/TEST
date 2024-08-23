@@ -8,6 +8,7 @@
 #include "messagetipsdialog.h"
 #include "buyhistoryitemwidget.h"
 #include "messagetips.h"
+#include <QGraphicsDropShadowEffect>
 
 BuyHistoryWidget::BuyHistoryWidget(QWidget *parent)
     : QMoveDialog(parent)
@@ -17,6 +18,14 @@ BuyHistoryWidget::BuyHistoryWidget(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("购买记录");
+
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::gray);//阴影颜色
+    this->setGraphicsEffect(shadow);
 
     m_mapOrderInfo.clear();
     //获取我的订单

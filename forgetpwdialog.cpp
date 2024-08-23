@@ -8,6 +8,7 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 #include "messagetips.h"
+#include <QGraphicsDropShadowEffect>
 
 ForgetPWDialog::ForgetPWDialog(QWidget *parent)
     : QMoveDialog(parent)
@@ -17,6 +18,14 @@ ForgetPWDialog::ForgetPWDialog(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("重置密码");
+
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::gray);//阴影颜色
+    this->setGraphicsEffect(shadow);
 
     m_PayTimer = new QTimer();
     connect(m_PayTimer, &QTimer::timeout, this, [=]()

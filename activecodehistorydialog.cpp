@@ -8,6 +8,7 @@
 #include "messagetipsdialog.h"
 #include "messagetips.h"
 #include "activecodehistoryitem.h"
+#include <QGraphicsDropShadowEffect>
 
 ActiveCodeHistoryDialog::ActiveCodeHistoryDialog(QWidget *parent)
     : QMoveDialog(parent)
@@ -17,6 +18,14 @@ ActiveCodeHistoryDialog::ActiveCodeHistoryDialog(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("激活码记录");
+
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::gray);//阴影颜色
+    this->setGraphicsEffect(shadow);
 
     m_mapActiveInfo.clear();
     HttpGetAcitveCodeHistory(1,1000);

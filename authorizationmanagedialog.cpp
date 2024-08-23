@@ -12,6 +12,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "activecodeitem.h"
+#include <QGraphicsDropShadowEffect>
 #define  PICTURE_CODE_WIDTH     90
 #define  PICTURE_CODE_HEIGHT    28
 
@@ -94,6 +95,15 @@ AuthorizationManageDialog::AuthorizationManageDialog(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("授权管理");
+    
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::gray);//阴影颜色
+    this->setGraphicsEffect(shadow);
+    
     ui->toolBtnRefresh->setVisible(false);
 
     ui->labelPictureCode->installEventFilter(this);

@@ -4765,6 +4765,11 @@ void MainWindow::on_btnActiveCode_clicked()
 void MainWindow::on_btnGroupRefresh_clicked()
 {
     //重新加载列表
+    if (m_isIconMode)
+        ui->listWidget->clear();
+    else
+        ui->listWidget2->clear();
+
     m_mapPhoneInfo.clear();
     HttpQueryAllGroup();
 }
