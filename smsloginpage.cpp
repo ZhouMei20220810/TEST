@@ -21,6 +21,23 @@ SMSLoginPage::SMSLoginPage(QWidget *parent)
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     QString strAccount = setting.value("account", "").toString();
     ui->lineEditPhone->setText(strAccount);
+
+    m_PayTimer = new QTimer();
+    connect(m_PayTimer, &QTimer::timeout, this, [=]()
+        {
+            if (m_iPayCount > 0)
+            {
+                ui->btnGetSMSCode->setEnabled(false);
+                ui->btnGetSMSCode->setText(QString::asprintf("%ds", m_iPayCount));
+                m_iPayCount--;
+            }
+            else
+            {
+                ui->btnGetSMSCode->setEnabled(true);
+                ui->btnGetSMSCode->setText(QString::asprintf("获取验证码"));
+                m_PayTimer->stop();
+            }
+        });
 }
 
 SMSLoginPage::~SMSLoginPage()
@@ -46,6 +63,9 @@ void SMSLoginPage::on_btnGetSMSCode_clicked()
         return;
     }
 
+    //登录一分钟倒计时
+    m_iPayCount = 59;
+    m_PayTimer->start(1000);
 
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_YSY_GET_SMS_CODE;
@@ -184,6 +204,10 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
 
                             qDebug() << "登录成功：" << "id=" << GlobalData::id << "name=" << GlobalData::strName << "account=" << GlobalData::strAccount << "mobile=" << GlobalData::strMobile << "MaxExpirationDate" << GlobalData::strMaxExpirationDate << "token=" << GlobalData::strToken;
 
+                            if (m_PayTimer->isActive())
+                            {
+                                m_PayTimer->stop();
+                            }
                             //关闭
                             //this->close();
                             emit closeWindowSignals();

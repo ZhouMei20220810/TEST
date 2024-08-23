@@ -28,6 +28,8 @@ private slots:
 
 private:
     Ui::SMSLoginPage *ui;
+    QTimer* m_PayTimer;
+    int m_iPayCount;
 };
 
 #endif // SMSLOGINPAGE_H

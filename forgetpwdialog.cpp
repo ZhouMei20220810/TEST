@@ -17,6 +17,23 @@ ForgetPWDialog::ForgetPWDialog(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose, true);
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("重置密码");
+
+    m_PayTimer = new QTimer();
+    connect(m_PayTimer, &QTimer::timeout, this, [=]()
+        {
+            if (m_iPayCount > 0)
+            {
+                ui->btnGetCode->setEnabled(false);
+                ui->btnGetCode->setText(QString::asprintf("%ds", m_iPayCount));
+                m_iPayCount--;
+            }
+            else
+            {
+                ui->btnGetCode->setEnabled(true);
+                ui->btnGetCode->setText(QString::asprintf("获取验证码"));
+                m_PayTimer->stop();
+            }
+        });
 }
 
 ForgetPWDialog::~ForgetPWDialog()
@@ -52,6 +69,10 @@ void ForgetPWDialog::on_btnGetCode_clicked()
         tips->show();
         return;
     }
+
+    //登录一分钟倒计时
+    m_iPayCount = 59;
+    m_PayTimer->start(1000);
 
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_YSY_GET_SMS_CODE;
@@ -155,6 +176,10 @@ void ForgetPWDialog::HttpPostResetPassword(QString strCode,QString strPassword)
                 {
                     MessageTipsDialog* tips = new MessageTipsDialog("重置密码成功", this);
                     tips->show();
+                    if (m_PayTimer->isActive())
+                    {
+                        m_PayTimer->stop();
+                    }
                 }
                 else
                 {

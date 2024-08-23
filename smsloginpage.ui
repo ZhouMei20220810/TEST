@@ -243,9 +243,12 @@ padding-left:10px;</string>
           <height>16777215</height>
          </size>
         </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true"> QPushButton {
-     border: 2px solid #FF407AFF;
+     border: 0px solid #FF407AFF;
      border-radius:2px;
 	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
@@ -261,6 +264,10 @@ QPushButton:hover
 	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
+QPushButton:disabled{
+background-color:#FFC1C1C1;
+color:#FFFFFFFF;
+}
 
  QPushButton:flat {
      border: none; /* no border for a flat push button */
@@ -268,7 +275,8 @@ QPushButton:hover
 
  QPushButton:default {
      border-color: navy; /* make the default button prominent */
- }</string>
+ }
+</string>
         </property>
         <property name="text">
          <string>获取验证码</string>
@@ -350,6 +358,9 @@ QPushButton:hover
       <font>
        <pointsize>10</pointsize>
       </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true"> QPushButton {

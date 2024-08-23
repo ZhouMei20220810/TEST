@@ -2,6 +2,7 @@
 #define FORGETPWDIALOG_H
 
 #include "qmovedialog.h"
+#include <QTimer>
 
 namespace Ui {
 class ForgetPWDialog;
@@ -28,6 +29,9 @@ private:
     void HttpPostResetPassword(QString strCode,QString strPassword);
 
     Ui::ForgetPWDialog *ui;
+
+    QTimer* m_PayTimer;
+    int m_iPayCount;
 };
 
 #endif // FORGETPWDIALOG_H
