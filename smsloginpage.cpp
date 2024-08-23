@@ -42,11 +42,23 @@ SMSLoginPage::SMSLoginPage(QWidget *parent)
 
 SMSLoginPage::~SMSLoginPage()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->btnGetSMSCode->setEnabled(true);
+        ui->btnGetSMSCode->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     delete ui;
 }
 
 void SMSLoginPage::on_btnPasswordLogin_clicked()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->btnGetSMSCode->setEnabled(true);
+        ui->btnGetSMSCode->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     emit showPageType(TYPE_PASSWORDLOGIN_PAGE);
 }
 
@@ -206,6 +218,8 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
 
                             if (m_PayTimer->isActive())
                             {
+                                ui->btnGetSMSCode->setEnabled(true);
+                                ui->btnGetSMSCode->setText(QString::asprintf("获取验证码"));
                                 m_PayTimer->stop();
                             }
                             //关闭
@@ -227,6 +241,12 @@ void SMSLoginPage::on_btnSMSLogin_clicked()
 
 void SMSLoginPage::on_btnReturn_clicked()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->btnGetSMSCode->setEnabled(true);
+        ui->btnGetSMSCode->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     emit showPageType(TYPE_PASSWORDLOGIN_PAGE);
 }
 

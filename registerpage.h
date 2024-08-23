@@ -37,6 +37,8 @@ private slots:
 private:
     Ui::RegisterPage *ui;
     QPoint m_dragPosition;
+    QTimer* m_PayTimer;
+    int m_iPayCount;
 };
 
 #endif // REGISTERPAGE_H

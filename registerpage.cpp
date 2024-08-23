@@ -44,10 +44,33 @@ RegisterPage::RegisterPage(QMoveWidget *parent)
         qDebug()<<"setSceneNameAndTagsList move : iNewPosX="<< iNewPosX<<"iNewPosY="<<iNewPosY;
         this->move(iNewPosX,iNewPosY);
     }*/
+
+    m_PayTimer = new QTimer();
+    connect(m_PayTimer, &QTimer::timeout, this, [=]()
+        {
+            if (m_iPayCount > 0)
+            {
+                ui->pushButton->setEnabled(false);
+                ui->pushButton->setText(QString::asprintf("%ds", m_iPayCount));
+                m_iPayCount--;
+            }
+            else
+            {
+                ui->pushButton->setEnabled(true);
+                ui->pushButton->setText(QString::asprintf("获取验证码"));
+                m_PayTimer->stop();
+            }
+        });
 }
 
 RegisterPage::~RegisterPage()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->pushButton->setEnabled(true);
+        ui->pushButton->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     delete ui;
 }
 
@@ -189,6 +212,12 @@ void RegisterPage::on_btnRegister_clicked()
                             QString strMobile = userDetailVO["mobile"].toString();
                             QString strPhotoUrl = userDetailVO["photoUrl"].toString();
                             qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"photoUrl="<<strPhotoUrl<<"token="<<strToken;
+                            if (m_PayTimer->isActive())
+                            {
+                                ui->pushButton->setEnabled(true);
+                                ui->pushButton->setText(QString::asprintf("获取验证码"));
+                                m_PayTimer->stop();
+                            }
 
                             MainWindow* mainWindow = new MainWindow();
                             connect(mainWindow, &MainWindow::logoutSignals, this, &RegisterPage::logoutSignals);
@@ -212,6 +241,12 @@ void RegisterPage::on_btnRegister_clicked()
 
 void RegisterPage::on_btnReturn_clicked()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->pushButton->setEnabled(true);
+        ui->pushButton->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     this->close();
     emit showPageType(TYPE_PASSWORDLOGIN_PAGE);
 }
@@ -235,6 +270,9 @@ void RegisterPage::on_pushButton_clicked()
         return;
     }
 
+    //登录一分钟倒计时
+    m_iPayCount = 59;
+    m_PayTimer->start(1000);
 
     QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
     strUrl += HTTP_YSY_GET_SMS_CODE;
@@ -291,6 +329,12 @@ void RegisterPage::on_pushButton_clicked()
 
 void RegisterPage::on_pushButton_2_clicked()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->pushButton->setEnabled(true);
+        ui->pushButton->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     this->close();
 }
 

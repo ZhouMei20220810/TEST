@@ -38,17 +38,35 @@ ForgetPWDialog::ForgetPWDialog(QWidget *parent)
 
 ForgetPWDialog::~ForgetPWDialog()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->btnGetCode->setEnabled(true);
+        ui->btnGetCode->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     delete ui;
 }
 
 void ForgetPWDialog::on_btnReturn_clicked()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->btnGetCode->setEnabled(true);
+        ui->btnGetCode->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     this->accept();
 }
 
 
 void ForgetPWDialog::on_btnClose_clicked()
 {
+    if (m_PayTimer->isActive())
+    {
+        ui->btnGetCode->setEnabled(true);
+        ui->btnGetCode->setText(QString::asprintf("获取验证码"));
+        m_PayTimer->stop();
+    }
     this->reject();
 }
 
@@ -178,6 +196,8 @@ void ForgetPWDialog::HttpPostResetPassword(QString strCode,QString strPassword)
                     tips->show();
                     if (m_PayTimer->isActive())
                     {
+                        ui->btnGetCode->setEnabled(true);
+                        ui->btnGetCode->setText(QString::asprintf("获取验证码"));
                         m_PayTimer->stop();
                     }
                 }

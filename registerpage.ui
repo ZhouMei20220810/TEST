@@ -642,26 +642,25 @@ padding-left:10px;</string>
            </property>
            <property name="styleSheet">
             <string notr="true"> QPushButton {
-     border: 0px solid #555764;
+     border: 0px solid #FF407AFF;
      border-radius:2px;
-	 background-color: #FF363847;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 QPushButton:hover
 {
-	border:0px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:2px solid  #FF407AFF;
+	background-color: #FF407AFF;
 }
  QPushButton:pressed {
-     border: 0px solid #555764;
+     border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
-QPushButton:disabled
-{
- background-color: #FFC1C1C1;
- color:#FFFFFFFF;
+QPushButton:disabled{
+background-color:#FFC1C1C1;
+color:#FFFFFFFF;
 }
 
  QPushButton:flat {
@@ -1004,26 +1003,25 @@ border-radius: 3px;</string>
          </property>
          <property name="styleSheet">
           <string notr="true"> QPushButton {
-     border: 0px solid #555764;
+     border: 0px solid #FF407AFF;
      border-radius:2px;
-	 background-color: #FF363847;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
 QPushButton:hover
 {
-	border:0px solid  #FF27282B;
-	background-color: #FF27282B;
+	border:2px solid  #FF407AFF;
+	background-color: #FF407AFF;
 }
  QPushButton:pressed {
-     border: 0px solid #555764;
+     border: 2px solid #FF407AFF;
      border-radius: 2px;
-	 background-color: #FF555764;
+	 background-color: #FF407AFF;
 	 color:#FFFFFFFF;
  }
-QPushButton:disabled
-{
- background-color: #FFC1C1C1;
- color:#FFFFFFFF;
+QPushButton:disabled{
+background-color:#FFC1C1C1;
+color:#FFFFFFFF;
 }
 
  QPushButton:flat {
