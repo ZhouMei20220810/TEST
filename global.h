@@ -5,10 +5,10 @@
 #include <QString>
 #include <QSystemTrayIcon>
 #include "qmovedialog.h"
-#define CURRENT_APP_VERSION         "1.0.16" //线上版本
+#define CURRENT_APP_VERSION         "1.0.0" //线上版本
 #define CURRENT_VERSION_PRODUCTCODE "{5E87264F-FCFF-4987-9B21-B7E2C678F7C3}"        //当前版本的ProductCode每次软件升级需修改
 
-#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" // "http://120.26.132.153:8080"  //"http://192.168.1.6:8080"  
+#define HTTP_SERVER_DOMAIN_ADDRESS  "http://192.168.1.6:8080" //"http://120.26.132.153:8080"  //"http://192.168.1.6:8080"  
 #define HTTP_YSY_PASSWORD_LOGIN     "/api/login/"           //密码登录
 #define HTTP_YSY_REGISTER           "/api/login/register"   //注册
 #define HTTP_YSY_LOGOUT             "/api/login/logout"     //注销
@@ -156,6 +156,22 @@ typedef struct LEVEL_INFO
         memset(this, 0, sizeof(LEVEL_INFO));
     }
 }S_LEVEL_INFO,*PS_LEVEL_INFO;
+//活动信息
+typedef struct ACTIVITY_INFO
+{
+    int     iId;                //活动id
+    QString strName;            //活动名称
+    QString strRemark;          //备注
+    int     iMemberId;          //
+    int     iType;              //
+    int     iPayNum;            //
+    float   fActivityPrice;     //活动价格
+    ACTIVITY_INFO()
+    {
+        memset(this, 0, sizeof(ACTIVITY_INFO));
+    }
+}S_ACTIVITY_INFO,*PS_ACTIVITY_INFO;
+
 //level data
 typedef struct LEVEL_DATA_INFO
 {
@@ -172,6 +188,7 @@ typedef struct LEVEL_DATA_INFO
     QString strAshIcon;         //灰色图标
     QString strLevelRemark;
     QString strMemberName;      //会员名称
+    S_ACTIVITY_INFO sActivityInfo; //活动信息
     LEVEL_DATA_INFO()
     {
         memset(this,0,sizeof(LEVEL_DATA_INFO));

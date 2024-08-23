@@ -210,11 +210,12 @@ void LevelItemWidget::HttpMemberListByLevelId()
                         for (int i = 0; i < recordArray.size(); i++)
                         {
                             member = recordArray[i].toObject();
+                            memset(&sLevelData, 0, sizeof(sLevelData));
                             sLevelData.iMemberId = member["id"].toInt();
                             sLevelData.strMemberName = member["name"].toString();
                             sLevelData.iLevelId = member["level"].toInt();
-                            sLevelData.fPrice = member["price"].toDouble();
-                            sLevelData.fActivityPrice = member["activityPrice"].toDouble();
+                            sLevelData.fPrice = member["price"].toDouble();//Ô­¼Û
+                            sLevelData.fActivityPrice = member["activityPrice"].toDouble();//ÆúÓÃ
                             sLevelData.strUrl = member["url"].toString();
                             sLevelData.strRemark = member["remark"].toString();
                             sLevelData.strInstanceLevel = member["instanceLevel"].toString();

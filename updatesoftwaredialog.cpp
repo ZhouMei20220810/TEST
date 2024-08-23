@@ -87,8 +87,10 @@ void UpdateSoftwareDialog::startDownload(const QUrl& url, QProgressBar* progress
 void UpdateSoftwareDialog::updateProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     if (bytesTotal > 0) {
-        int progress = (bytesReceived * 100) / bytesTotal;
+        //float progress = (bytesReceived * 1.0) / bytesTotal*100;
+		float progress = (bytesReceived * 100) / bytesTotal;
         m_progressBar->setValue(progress);
+        //qDebug() << "progress = " << progress;
         ui->labelProgressValue->setText(QString("已更新 %1%").arg(progress));
     }
 }
