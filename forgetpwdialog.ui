@@ -338,6 +338,9 @@
              <height>32</height>
             </size>
            </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
            <property name="styleSheet">
             <string notr="true">QPushButton:hover {
      background: transparent;
@@ -424,11 +427,14 @@
                <height>16777215</height>
               </size>
              </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
              <property name="styleSheet">
-              <string notr="true">color:#FF000000;</string>
+              <string notr="true">color:#FF4A4A4A;</string>
              </property>
              <property name="text">
-              <string>返回</string>
+              <string> 返回</string>
              </property>
              <property name="icon">
               <iconset resource="res.qrc">
