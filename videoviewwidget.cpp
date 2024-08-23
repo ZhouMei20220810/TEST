@@ -159,7 +159,7 @@ void  VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar 
     //QImage image(data, getSrcWidth(), frame_len, 1005, QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
 	if (!m_bIsVertical)
 	{
-		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_RGBA8888);
+		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_ARGB32);
 		if (!image.isNull())
 		{
 			if (!m_bIsVertical)
@@ -173,7 +173,7 @@ void  VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar 
 	}
 	else
 	{
-		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_RGBA8888);
+		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_ARGB32);
 		ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size(), Qt::KeepAspectRatio));//自适应/等比例
 	}
 	
