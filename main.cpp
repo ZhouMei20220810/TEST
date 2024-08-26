@@ -11,6 +11,9 @@
 #include "toolobject.h"
 #include <QProcess>
 #include "clipboardhistoryapp.h"
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include "dataprovider.h"
 
 QSystemTrayIcon* g_trayIcon = NULL;
 
@@ -69,7 +72,34 @@ public:
 int main(int argc, char *argv[])
 {
     //QApplication app(argc, argv);
-    ClipboardHistoryApp app(argc, argv);
+    /*ClipboardHistoryApp app(argc, argv);
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/resource/qml.xml")));
+    return app.exec();*/
+
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+
+    // 创建 DataProvider 实例
+    DataProvider dataProvider;
+
+    // 将 DataProvider 实例注册到上下文
+    engine.rootContext()->setContextProperty("dataProvider", &dataProvider);
+
+    // 加载 QML 文件
+    const QUrl url(QStringLiteral("qrc:/resource/qml.xml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+        &app, [url](QObject* obj, const QUrl& objUrl) {
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+        }, Qt::QueuedConnection);
+    engine.load(url);
+
+    return app.exec();
+
     QSettings setting(ORGANIZATION_NAME, APPLICATION_NAME);
     GlobalData::enPictrueQuality = (ENUM_PICTURE_QUALITY)setting.value("PictureQuality", TYPE_QUALITY_HIGH_DEFINITION).toInt();
     GlobalData::bVerticalPhoneInstance = setting.value("VerticalScreen", true).toBool();
