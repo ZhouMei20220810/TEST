@@ -34,7 +34,7 @@ PasswordLoginPage::PasswordLoginPage(QWidget *parent)
     if(bRemmemberPW)
     {
         ui->checkBoxRemberPW->setChecked(true);
-        QString strAccount = setting.value("account","").toString();
+        QString strAccount = setting.value("mobile","").toString();
         ui->lineEditPhone->setText(strAccount);
         QString strPassword = setting.value("password","").toString();
         ui->lineEditPassword->setText(strPassword);        

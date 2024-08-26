@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "易舜云手机"
-!define PRODUCT_VERSION "1.0.0"
+!define PRODUCT_VERSION "1.0.2"
 !define PRODUCT_PUBLISHER "长沙易舜信息技术有限公司"
 !define PRODUCT_WEB_SITE "https://www.ysyos.com/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\YiShunYun.exe"
@@ -87,8 +87,6 @@ Section "MainSection" SEC01
   File "NSISPackage\libcurl.dll"
   File "NSISPackage\D3Dcompiler_47.dll"
   File "NSISPackage\MSVCR120.dll"
-  File "NSISPackage\BluetoothApis.dll"
-  File "NSISPackage\bthprops.cpl"
   File /r "NSISPackage\generic"
   File /r "NSISPackage\iconengines"
   File /r "NSISPackage\imageformats"
@@ -166,9 +164,7 @@ Section Uninstall
   Delete "$INSTDIR\YiShunYun.exe"
   Delete "$INSTDIR\zlibwapi.dll"
   Delete "$INSTDIR\MSVCR120.dll"
-  Delete "$INSTDIR\BluetoothApis.dll"
-  Delete "$INSTDIR\bthprops.cpl"
-  
+
   RMDir /r "$INSTDIR\generic"
   RMDir /r "$INSTDIR\iconengines"
   RMDir /r "$INSTDIR\imageformats"
