@@ -14,12 +14,12 @@ Rectangle {
         anchors.fill: parent
         //width:237
         //height:426
-        cellWidth:237 //设置每个item 的宽高，否则会重叠
-        cellHeight:426
+        cellWidth:CELLWIDTH //237 //设置每个item 的宽高，否则会重叠
+        cellHeight:CELLHEIGHT //426
         //displayMarginBeginning:15
         //displayMarginEnd:15
         anchors.margins: 15 //GridView距离间距 
-        model:1000
+        model:10000
         /*model: ListModel {
             id:listModel
             ListElement {
@@ -38,18 +38,22 @@ Rectangle {
             }
             // 添加更多 ListElement 项
         }*/
-        Timer {
-        id: timer
-        interval: 1000 // 立即触发
-        running: true
-        repeat: true
-        onTriggered: {
-            // 如果需要的话，在这里也可以改变大小
-            listView.cellWidth -= 50;
-            listView.cellHeight -= 50;
-            console.log("listView.cellWidth="+listView.cellWidth+"listView.cellHeight="+listView.cellHeight)
-        }
-    }
+
+        //定时器修改cellWidth和cellHeight可以动态改变所有窗口的大小，没什么影响
+        /*Timer 
+        {
+            id: timer
+            interval: 100 // 立即触发
+            running: true
+            repeat: true
+            onTriggered: 
+            {
+                // 如果需要的话，在这里也可以改变大小
+                listView.cellWidth -= 50;
+                listView.cellHeight -= 50;
+                console.log("listView.cellWidth="+listView.cellWidth+"listView.cellHeight="+listView.cellHeight)
+            }
+        }*/
         delegate: Component {
             Button {
                 id: windowItem
@@ -60,8 +64,8 @@ Rectangle {
                 border.width: 2*/
                 //width:listView.cellWidth-30 // 207;
                 //height:listView.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
-                width:listView.cellWidth //207 //sizeManager.m_iWidth
-                height:listView.cellHeight //396
+                width:listView.cellWidth==0?207:listView.cellWidth //207 //sizeManager.m_iWidth
+                height:listView.cellHeight==0?207:listView.cellHeight //396
 
                 MouseArea {
                     id: itemClickArea
@@ -126,6 +130,7 @@ Rectangle {
             var columns = Math.floor(parent.width / itemWidth);
             columns = columns <= 0 ? 1 : columns; // 防止除法结果为零
             listView.columns = columns;
+            console.log("onWidthChanged计算宽度listView.columns="+listView.columns);
         }
     }
 

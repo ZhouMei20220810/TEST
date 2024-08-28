@@ -67,23 +67,34 @@ MainWindow::MainWindow(QWidget *parent)
     QQmlContext* content = engine->rootContext();
     content->setContextProperty("WIDTH", 800/*ui->widget->width() */);
     content->setContextProperty("HEIGHT", 600/*ui->widget->height()*/);
-    content->setContextProperty("CELL_WIDTH", 237);
-    content->setContextProperty("CELL_HEIGHT", 426);
+    content->setContextProperty("CELLWIDTH", 247);
+    content->setContextProperty("CELLHEIGHT", 436);
+    content->setContextProperty("ISVERTICALSCREEN",true); //横屏还是竖屏,控制宽高和图片旋转
     //content->setContextProperty("sizeManager", sizeManager);
     qmlRegisterType<QtSizeManager>("SizeManager",1,0,"QtSizeManager");
 
     // 连接 QComboBox 改变事件
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-        this, [sizeManager](int index) {
+        this, [&](int index) {
+            QQmlEngine* engine = m_quickWidget->engine();
+            QQmlContext* content = engine->rootContext();
             switch (index) {
             case 0: 
-                sizeManager->setCurrentSize(0.3); 
+                content->setContextProperty("CELLWIDTH", 207 * 0.3);
+                content->setContextProperty("CELLHEIGHT", 396 * 0.3);
+                //sizeManager->setCurrentSize(0.3); 
                 break;
             case 1: 
-                sizeManager->setCurrentSize(0.5);
+                content->setContextProperty("CELLWIDTH", 207*0.5);
+                content->setContextProperty("CELLHEIGHT", 396*0.5);
+                //sizeManager->setCurrentSize(0.5);
                 break;
             case 2: 
-                sizeManager->setCurrentSize(1); 
+                content->setContextProperty("CELLWIDTH", 207);
+                content->setContextProperty("CELLHEIGHT", 396);
+                //sizeManager->setCurrentSize(1); 
+                break;
+            default:
                 break;
                 // 可以继续添加更多的情况
             }
