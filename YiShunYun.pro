@@ -2,7 +2,7 @@ QT       += core gui
 QT += network
 QT += webenginewidgets
 QT += positioning
-#QT += quickwidgets
+QT += quickwidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 #LIBS += -lssl -lcrypto

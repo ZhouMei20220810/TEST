@@ -2,35 +2,39 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 ApplicationWindow {
-    id: mainWindow
+    id: root
     visible: true
     width: 640
     height: 480
+    title: qsTr("QML Window")
 
     Column {
         anchors.fill: parent
 
-        QQuickListView {
+        ListView {
             id: listView
             anchors.fill: parent
             model: ListModel {
-                id: itemsModel
-                ListElement {
-                    name: "Window 1"
-                }
-                ListElement {
-                    name: "Window 2"
-                }
-                // 添加更多 ListElement 项
+                id: windowListModel
+                ListElement { url: "image1.jpg" }
+                ListElement { url: "image2.jpg" }
+                // ... 添加更多的 ListElement
             }
 
             delegate: Rectangle {
-                id: windowItem
-                width: 200; height: 100
-                color: "lightblue"
-                Text {
-                    anchors.centerIn: parent
-                    text: modelData.name
+                width: parent.width
+                height: 100
+                color: "transparent"
+                property string imageUrl: item.url
+
+                Image {
+                    id: backgroundImage
+                    source: imageUrl
+                    fillMode: Image.PreserveAspectFit
+                    async: true
+                    width: parent.width
+                    height: parent.height
+                    visible: backgroundImage.status === Image.Ready
                 }
             }
         }

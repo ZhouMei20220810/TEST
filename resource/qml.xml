@@ -1,108 +1,87 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
 
 ApplicationWindow {
-visible: true
-width: 800
-height: 600
-id: appWindow
+    visible: true
+    width: 640
+    height: 480
+    id: appWindow
 
-property var currentIndex: -1
-//property string tempDirectory: QUrl::fromLocalFile(QCoreApplication.applicationDirPath() + "/../temp").toString()
-
-// 定义模型
-ListModel {
-id: windowListModel
-}
-
-// 初始化数据
-Component.onCompleted: {
-for (var i = 0; i < dataProvider.data.length; i++) {
-            windowListModel.append({
-                name: dataProvider.data[i].name,
-                checked: dataProvider.data[i].checked,
-                backgroundImage: dataProvider.data[i].backgroundImage.toString()
-            });
+    ListModel {
+        id: listModel
+        ListElement {
+            name: "Item 1"
+            checked: false
+            background: "red"
         }
+        ListElement {
+            name: "Item 2"
+            checked: true
+            background: "red"
+        }
+        // 添加更多元素...
     }
 
-    // 定义计时器用于更新背景图片
     Timer {
         id: timer
         interval: 5000
         running: true
         repeat: true
         onTriggered: {
-            for (var i = 0; i < windowListModel.count; i++) {
-                if (i % 2 === 0) {
-                    //windowListModel.get(i).backgroundImage = "file://" + tempDirectory + "/YiShunYun/background1.png";
-                } else {
-                    //windowListModel.get(i).backgroundImage = "file://" + tempDirectory + "/YiShunYun/background2.png";
+            for (var i = 0; i < listModel.count; i++) {
+                var newColor = "rgb(" + Math.floor(Math.random() * 256) + "," +
+                               Math.floor(Math.random() * 256) + "," +
+                               Math.floor(Math.random() * 256) + ")";
+                listModel.get(i).background = newColor;
+            }
+        }
+    }
+
+    ListView {
+        id: listView
+        anchors.fill: parent
+        model: listModel
+        delegate: Component {
+            Rectangle {
+                id: itemRect
+                width: parent.width
+                height: 50
+                color: modelData.background
+                Text {
+                    id: itemText
+                    text: modelData.name
+                    anchors.centerIn: parent
+                }
+                CheckBox {
+                    id: itemCheckbox
+                    x: 10
+                    y: 10
+                    checked: modelData.checked // 与模型中的 checked 属性绑定
+                    onCheckedChanged: {
+                        // 更新模型中的 checked 值
+                        listModel.get(index).checked = checked;
+                        console.log("Checkbox status changed:", index, checked);
+                    }
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("Clicked on item:", index, modelData.name);
+                    }
                 }
             }
         }
     }
 
-    // 使用 ListView 显示项目
-    ListView {
-        id: listView
-        anchors.fill: parent
-        model: windowListModel
-        delegate: Component {
-            Rectangle {
-                id: itemRect
-                width: parent.width
-                height: 100
-                color: "lightgray"
-
-                Image {
-                    id: itemBackground
-                    source: modelData.backgroundImage
-                    fillMode: Image.PreserveAspectFit
-                    anchors.fill: parent
-                }
-
-                Text {
-                    id: itemText
-                    text: modelData.name
-                    anchors.centerIn: parent
-                    anchors.topMargin: 10
-                    anchors.bottomMargin: 10
-                }
-
-                CheckBox {
-                    id: itemCheckbox
-                    x: 10
-                    y: 10
-                    checked: modelData.checked
-                    onCheckedChanged: {
-                        modelData.checked = checked;
-                    }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        currentIndex = index;
-                        console.log("Clicked on window:", index, modelData.name);
-                    }
-                }
-            }
-        }
-
-        // 添加按钮来触发添加新元素
-        Button {
-            text: "Add Item"
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.margins: 10
-            onClicked: {
-                var newItemName = "New Window"; // 您可以在这里指定名称
-                //var newItemBackground = "file://" + tempDirectory + "/YiShunYun/background1.png"; // 默认背景
-                var newItemChecked = true; // 默认选中
-                dataProvider.addItem(newItemName, newItemBackground, newItemChecked);
-            }
+    // 初始化数据
+    Component.onCompleted: {
+        for (var i = 0; i < 2; i++) {
+            var item = {
+                name: "Item " + (i + 3),
+                checked: false,
+                background: "lightblue"
+            };
+            listModel.append(item);
         }
     }
 }

@@ -44,6 +44,8 @@
 #include "oneclicknewmachinedialog.h"
 #include "clipboardhistoryapp.h"
 #include "messagecenterdialog.h"
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -183,6 +185,48 @@ MainWindow::MainWindow(QWidget *parent)
     m_mapWindows.clear();// = new QMap<QString, PhoneInstanceWidget*>;
     //同步模式列表框
     m_mapSyncWindows.clear();// = new QMap<QString, PhoneInstanceWidget*>;
+
+    QQmlApplicationEngine engine;
+    //创建全局上下文对象
+    QQmlContext* context = engine.rootContext();
+    QScreen* screen = QGuiApplication::primaryScreen();
+    QRect rect = screen->virtualGeometry();
+    //context->setContextProperty("SCREEN_WIDTH", this->width());
+    //context->setContextProperty("SCREEN_HEIGHT", this->height());
+    //通过c++控制QML的全局属性
+    //context->setContextProperty("SCREEN_WIDTH", 800/*rect.width()*/);
+    //context->setContextProperty("SCREEN_HEIGHT", 600/*rect.height()*/);
+    //context->setContextProperty("COLOR","red");
+    const QUrl url(QStringLiteral("qrc:/resource/listview.qml"));
+
+    //void objectCreated(QObject *object, const QUrl &url)
+
+    connect(&engine, &QQmlApplicationEngine::objectCreated,this,[url](QObject *object, const QUrl &objUrl)
+    {
+        if(!object && url == objUrl)
+        {
+            QCoreApplication::exit(-1);
+        }
+    });
+
+    //创建QQuickWidget并设置源文件
+    m_quickWidget = new QQuickWidget(ui->quickWidget);
+    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/resource/listview.qml")));
+    //设置QQuickWidget 为父窗口的布局中心
+    QVBoxLayout* layout = new QVBoxLayout(ui->quickWidget);
+    layout->addWidget(m_quickWidget);
+    layout->setContentsMargins(0, 0, 0, 0);//移除边距
+    m_quickWidget->show();
+
+    /*m_quickWidget = new QQuickWidget(this);
+    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/resource/listview.qml")));
+    //设置QQuickWidget 为父窗口的布局中心
+    setCentralWidget(m_quickWidget);*/
+
+    //ui->quickWidget->setLayout(layout);
+    //setCentralWidget(quickWidget);
+    //quickWidget->move(ui->quickWidget);
+    //quickWidget->
 }
 
 MainWindow::~MainWindow()
@@ -194,6 +238,12 @@ MainWindow::~MainWindow()
     if (m_Timer->isActive())
     {
         m_Timer->stop();
+    }
+    if (m_quickWidget != NULL)
+    {
+        m_quickWidget->close();
+        delete m_quickWidget;
+        m_quickWidget = NULL;
     }
     delete ui;
 }

@@ -16,6 +16,7 @@
 #include "individualcenterwidget.h"
 #include <QSystemTrayIcon>
 #include <QToolButton>
+#include <QQuickWidget>
 
 namespace Ui {
 class MainWindow;
@@ -384,6 +385,9 @@ private:
     QMap<QString, PhoneInstanceWidget*> m_mapWindows;//非同步模式，所有打开的窗口
     //Phone instanceNo - 同步手机实例窗口
     QMap<QString, PhoneInstanceWidget*> m_mapSyncWindows;//记录同步模式，非主控设置
+
+    //QML接口
+    QQuickWidget* m_quickWidget;
 };
 
 #endif // MAINWINDOW_H

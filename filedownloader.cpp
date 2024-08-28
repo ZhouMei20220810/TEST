@@ -19,7 +19,7 @@ void FileDownloader::setUrlOutputFile(const QString& url, const QString& outputF
 {
     m_url = url;
     m_outputFile = outputFile;
-    qDebug() << "setUrlOutputFile url=" << url << "outFile=" << m_outputFile;
+    //qDebug() << "setUrlOutputFile url=" << url << "outFile=" << m_outputFile;
 }
 
 void FileDownloader::run()
