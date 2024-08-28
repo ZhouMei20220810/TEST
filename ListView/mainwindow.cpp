@@ -1,0 +1,310 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QQuickView>
+#include <QQuickItem>
+#include <QQuickWindow>
+#include <QList>
+#include <QVariant>
+#include <QQmlListProperty>
+#include <QVBoxLayout>
+#include <QQmlContext>
+//#include <QQmlEngine>
+#include "qtsizemanager.h"
+/*class SizeManager {
+public:
+    int currentSize() const { return m_currentSize; }
+    void setCurrentSize(int size) { m_currentSize = size; }
+
+private:
+    int m_currentSize = 100; // 默认大小
+};*/
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    // 加载 QML 文件
+    //ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
+    /*QQmlApplicationEngine engine;
+    //创建全局上下文对象
+    QQmlContext* context = engine.rootContext();
+    //context->setContextProperty("SCREEN_WIDTH", 200);
+    const QUrl url(QStringLiteral("qrc:/listview.qml"));
+    //void objectCreated(QObject *object, const QUrl &url)
+    connect(&engine, &QQmlApplicationEngine::objectCreated, this, [url](QObject* object, const QUrl& objUrl)
+        {
+            if (!object && url == objUrl)
+            {
+                QCoreApplication::exit(-1);
+            }
+        });*/
+
+    /*
+    //整个窗口的中心控件
+    QQuickWidget* quickWidget = new QQuickWidget(this);
+    //quickWidget->resize(800,600);
+    quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
+    // 将 quickWidget 添加到布局中
+    setCentralWidget(quickWidget);
+    */
+
+    // 创建一个 SizeManager 实例
+    QtSizeManager* sizeManager = new QtSizeManager();
+
+    //主窗口的子窗口设置QML布局
+    m_quickWidget = new QQuickWidget(ui->widget);
+    //QQmlApplicationEngine engine;
+    //QQmlContext* content = engine.rootContext();    
+    
+    //m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));qrc:/Test.qml
+    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml"))); 
+
+    // 注册 SizeManager 到 QML 上下文中
+    QQmlEngine* engine = m_quickWidget->engine();
+    QQmlContext* content = engine->rootContext();
+    content->setContextProperty("WIDTH", 800/*ui->widget->width() */);
+    content->setContextProperty("HEIGHT", 600/*ui->widget->height()*/);
+    content->setContextProperty("CELL_WIDTH", 237);
+    content->setContextProperty("CELL_HEIGHT", 426);
+    //content->setContextProperty("sizeManager", sizeManager);
+    qmlRegisterType<QtSizeManager>("SizeManager",1,0,"QtSizeManager");
+
+    // 连接 QComboBox 改变事件
+    connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, [sizeManager](int index) {
+            switch (index) {
+            case 0: 
+                sizeManager->setCurrentSize(0.3); 
+                break;
+            case 1: 
+                sizeManager->setCurrentSize(0.5);
+                break;
+            case 2: 
+                sizeManager->setCurrentSize(1); 
+                break;
+                // 可以继续添加更多的情况
+            }
+        });
+
+    //设置QQuickWidget 为父窗口的布局中心
+    QVBoxLayout* layout = new QVBoxLayout(ui->widget);
+    layout->addWidget(m_quickWidget);
+    layout->setContentsMargins(0, 0, 0, 0);//移除边距
+    m_quickWidget->show();
+    //ui->widget->setLayout(layout);
+
+    /*QQmlApplicationEngine engine;
+    QQmlContext* context = engine.rootContext();
+    context->setContextProperty("SCREEN_WIDTH", 200);*/
+    //context->setContextProperty("SCREEN_WIDTH", 200);
+
+
+    /*qmlRegisterType<MainWindow>("MyApp", 1, 0, "MainWindow");
+
+    // 加载 QML 文件
+    engine.rootContext()->setContextProperty("mainWindow", this);
+    //设置全局属性值
+    //engine.rootContext()->setContextProperty("SCREEN_WIDTH", 600);
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));*/
+    /*qmlRegisterType<MainWindow>("MyApp", 1, 0, "MainWindow");
+
+    // 加载 QML 文件
+    engine.rootContext()->setContextProperty("mainWindow", this);
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));*/
+
+    /*m_model = new QStandardItemModel(ui->listView);
+
+    ui->listView->setModel(m_model);*/
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_btnChangeSize_clicked()
+{
+    QQmlApplicationEngine engine;
+    QQmlContext* content = engine.rootContext();
+    content->setContextProperty("CELL_WIDTH", 600);
+    content->setContextProperty("CELL_HEIGHT", 500);
+    //engine.load(QUrl(QStringLiteral("qrc:/listview.qml")));
+    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
+    //设置QQuickWidget 为父窗口的布局中心
+    QVBoxLayout* layout = new QVBoxLayout(ui->widget);
+    layout->addWidget(m_quickWidget);
+    layout->setContentsMargins(0, 0, 0, 0);//移除边距
+    m_quickWidget->show();
+    /*if (engine.rootObjects().isEmpty()) {
+        qFatal("Failed to load the QML file.");
+    }
+
+    // 获取 QML 对象
+    QObject* rootObjectQObject = engine.rootObjects().first();
+    QQuickItem* rootObject = dynamic_cast<QQuickItem*>(rootObjectQObject);
+    if (!rootObject) {
+        qWarning("Failed to cast 'rootObject' to QQuickItem.");
+        return;
+    }
+
+    // 使用 findChild 获取 ListView
+    QObject* listViewQObject = rootObject->findChild<QObject*>("listView");
+    QQuickItem* listView = dynamic_cast<QQuickItem*>(listViewQObject);
+    if (!listView) {
+        qWarning("Failed to cast 'listView' to QQuickItem.");
+        return;
+    }
+
+    // 获取 ListView 的模型
+    QVariant modelVariant = listView->property("model");
+    if (!modelVariant.isValid()) {
+        qWarning("The model property of the ListView is not valid.");
+        return;
+    }
+
+    // 尝试将 QVariant 转换成 QAbstractListModel
+    QAbstractListModel* model = qvariant_cast<QAbstractListModel*>(modelVariant);
+    if (!model) {
+        qWarning("Failed to cast the model property to QAbstractListModel.");
+        return;
+    }
+
+    // 获取模型的行数
+    int count = model->rowCount();
+    if (count > 0) {
+        QVariant data = model->data(model->index(0, 0));
+        if (data.canConvert<QObject*>()) {
+            QObject* item = data.value<QObject*>();
+            QQuickItem* itemAsQQuickItem = dynamic_cast<QQuickItem*>(item);
+            if (itemAsQQuickItem) {
+                itemAsQQuickItem->setProperty("width", 300); // 宽度设为 300
+                itemAsQQuickItem->setProperty("height", 150); // 高度设为 150
+            }
+            else {
+                qWarning("Failed to cast the first item to QQuickItem.");
+            }
+        }
+        else {
+            qWarning("The first item in the model is not a QObject*.");
+        }
+    }
+    else {
+        qWarning("No items found in the model.");
+    }
+    return;*/
+
+
+    /*if (engine.rootObjects().isEmpty()) {
+        qFatal("Failed to load the QML file.");
+    }
+
+    // 获取 QML 对象
+    QObject* rootObjectQObject = engine.rootObjects().first();
+    //QWidget* rootObject = dynamic_cast<QWidget*>(rootObjectQObject);
+    //if (!rootObject) {
+    //    qWarning("Failed to cast 'rootObject' to QQuickItem.");
+    //    return;
+    //}
+    //ui->listView->setModel()
+
+    // 使用 findChild 获取 ListView
+    QObject* listViewQObject = rootObjectQObject->findChild<QObject*>("listView");
+    QQuickItem* listView = dynamic_cast<QQuickItem*>(listViewQObject);
+    if (!listView) {
+        qWarning("Failed to cast 'listView' to QQuickItem.");
+        return;
+    }
+
+    // 使用 findChildren 获取所有的 windowItem 对象
+    QList<QObject*> windowItemObjects = listView->findChildren<QObject*>("windowItem");
+    for (QObject* windowItemQObject : windowItemObjects) {
+        QQuickItem* windowItem = dynamic_cast<QQuickItem*>(windowItemQObject);
+        if (!windowItem) {
+            qWarning("Failed to cast 'windowItem' to QQuickItem.");
+            continue;
+        }
+
+        // 修改 Rectangle 的宽度和高度
+        windowItem->setProperty("width", 300); // 宽度设为 300
+        windowItem->setProperty("height", 150); // 高度设为 150
+    }*/
+}
+
+
+void MainWindow::on_btnAdd_clicked()
+{
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    return;
+    engine.rootContext()->setContextProperty("mainWindow", this);
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+    if (engine.rootObjects().isEmpty()) {
+        qFatal("Failed to load the QML file.");
+    }
+
+    // 获取 QML 对象
+    QObject* rootObjectQObject = engine.rootObjects().first();
+    QQuickItem* rootObject = dynamic_cast<QQuickItem*>(rootObjectQObject);
+    if (!rootObject) {
+        qWarning("Failed to cast 'rootObject' to QQuickItem.");
+        return;
+    }
+
+    // 使用 findChild 获取 ListView
+    QObject* listViewQObject = rootObject->findChild<QObject*>("listView");
+    QQuickItem* listView = dynamic_cast<QQuickItem*>(listViewQObject);
+    if (!listView) {
+        qWarning("Failed to cast 'listView' to QQuickItem.");
+        return;
+    }
+
+    //addItemsToModel(listView);
+}
+
+void MainWindow::fillListModel(QQmlListProperty<QObject>* model)
+{
+    // 清空现有的模型
+    /*model->clear(model);//clear();
+
+    // 填充模型
+    for (int i = 0; i < 1000; ++i) 
+    {
+        QQmlListProperty<QObject> listElement;
+        QQmlListPropertyAppend append(&listElement);
+        append(model, new QQmlListPropertyPrivate());
+        QQmlListPropertyAppend appendElement(&listElement);
+        appendElement(model, new QQmlListPropertyPrivate(QString("Window %1").arg(i + 1)));
+    }*/
+}
+
+// 动态添加数据到 ListModel
+//void MainWindow::addItemsToModel()
+//{
+    /*QVariant modelVariant = listView->property("model");
+    QQmlListProperty<QObject>* model = qvariant_cast<QQmlListProperty<QObject>*>(modelVariant);
+
+    for (int i = 0; i < 1000; ++i) {
+        QVariantMap itemData;
+        itemData.insert("name", QString("Window %1").arg(i + 1));
+        model->append(itemData);
+    }*/
+//}
+
+// 动态添加数据到 ListModel
+//void MainWindow::addItemsToModel(QQuickItem* listView)
+//{
+    // 创建一个新的 ListModel
+    /*QList<QVariantMap> items;
+    for (int i = 0; i < 1000; ++i) {
+        QVariantMap itemData;
+        itemData.insert("name", QString("Window %1").arg(i + 1));
+        items.append(itemData);
+    }
+
+    // 将模型设置为 ListView 的模型
+    QStandardItemModel model(items);
+    listView->setProperty("model", model);*/
+//}

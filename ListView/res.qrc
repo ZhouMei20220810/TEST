@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>listview.qml</file>
+        <file>BVIP.png</file>
+        <file>QVIP.png</file>
+        <file>VIP.png</file>
+        <file>Button.qml</file>
+        <file>Test.qml</file>
+    </qresource>
+</RCC>

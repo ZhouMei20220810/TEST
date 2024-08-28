@@ -1,0 +1,27 @@
+import QtQuick 2.15
+
+Item {
+    id: rootItem
+    width: 640
+    height: 480
+
+    ListView {
+        id: listView
+        anchors.fill: parent
+        model: ListModel {
+            ListElement { name: "Window 1" }
+            ListElement { name: "Window 2" }
+            // ... 更多数据元素
+        }
+
+        delegate: Rectangle {
+            id: windowItem
+            width: 200; height: 100
+            color: "lightblue"
+            Text {
+                anchors.centerIn: parent
+                text: modelData.name
+            }
+        }
+    }
+}
