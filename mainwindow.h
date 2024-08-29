@@ -388,6 +388,9 @@ private:
 
     //QML接口
     QQuickWidget* m_quickWidget;
+
+    //当前树上，所有选中的item
+    QMap<int, S_PHONE_INFO> m_mapCurTreeItemSelect;
 };
 
 #endif // MAINWINDOW_H

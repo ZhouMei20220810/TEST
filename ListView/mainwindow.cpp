@@ -145,8 +145,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnChangeSize_clicked()
 {
-    QMLSizeManager::getInstance()->setCellWidth(100);
-    QMLSizeManager::getInstance()->setCellHeight(200);
+
     
     //load engine 加载完成之后
     //QML信号 C++槽函数，在C++完成绑定，通过objectName访问
@@ -322,6 +321,7 @@ void MainWindow::on_btnAdd_clicked()
 
     // 获取 QML 对象
     QObject* rootObjectQObject = engine.rootObjects().first();
+
     QQuickItem* rootObject = dynamic_cast<QQuickItem*>(rootObjectQObject);
     if (!rootObject) {
         qWarning("Failed to cast 'rootObject' to QQuickItem.");
@@ -383,3 +383,19 @@ void MainWindow::fillListModel(QQmlListProperty<QObject>* model)
     QStandardItemModel model(items);
     listView->setProperty("model", model);*/
 //}
+
+void MainWindow::on_comboBox_currentIndexChanged(int index)
+{
+    //int i = ui->comboBox->itemData(index).toInt();
+    int i = ui->comboBox->itemText(index).toInt();
+    //qDebug() << "click i=" << i << "old width=" << GlobalData::iPhoneItemWidth << "old height=" << GlobalData::iPhoneItemHeight;
+    int iWidth = 207* (i / 100.0);
+    int iHeight = 396 * (i / 100.0);
+
+
+    QMLSizeManager::getInstance()->setCellWidth(iWidth);
+    QMLSizeManager::getInstance()->setCellHeight(iHeight);
+    qDebug() << "click i=" << i << "old width=" << iWidth << "old height=" << iWidth;
+
+}
+

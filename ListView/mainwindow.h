@@ -24,12 +24,14 @@ private slots:
     void on_btnChangeSize_clicked();
 
     void on_btnAdd_clicked();
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
-    //Ìî³äÁĞ±íÄ£ĞÍ
+    //å¡«å……åˆ—è¡¨æ¨¡å‹
     void fillListModel(QQmlListProperty<QObject>* model);
-    //¶¯Ì¬Ìí¼ÓÊı¾İ
+    //åŠ¨æ€æ·»åŠ æ•°æ®
     //void addItemsToModel();
-    // ¶¯Ì¬Ìí¼ÓÊı¾İµ½ ListModel
+    // åŠ¨æ€æ·»åŠ æ•°æ®åˆ° ListModel
     //void addItemsToModel(QQuickItem* listView);
 private:
     Ui::MainWindow *ui;

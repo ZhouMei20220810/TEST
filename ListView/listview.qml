@@ -20,7 +20,7 @@ Rectangle {
         //displayMarginBeginning:15
         //displayMarginEnd:15
         anchors.margins: 15 //GridView距离间距
-        model: 5
+        model: 10000
         //model:["1","2","3","4"]
         /*ListModel {
             ListElement {
@@ -73,8 +73,8 @@ Rectangle {
                 objectName:"btnBg"
                 /*x:15
                 y:15*/ //无效
-                width: QMLSizeManager.cellWidth-30 //207; 
-                height:QMLSizeManager.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
+                width: QMLSizeManager.cellWidth //207;
+                height:QMLSizeManager.cellHeight //396 //更加单元格与实际的差值，形成间隔
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/

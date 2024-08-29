@@ -61,7 +61,17 @@
     </property>
     <item>
      <property name="text">
-      <string>30</string>
+      <string>100</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>80</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>60</string>
      </property>
     </item>
     <item>
@@ -71,7 +81,12 @@
     </item>
     <item>
      <property name="text">
-      <string>100</string>
+      <string>40</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>30</string>
      </property>
     </item>
    </widget>

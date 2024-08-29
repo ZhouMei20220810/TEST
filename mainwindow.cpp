@@ -214,7 +214,7 @@ MainWindow::MainWindow(QWidget *parent)
     //qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
     //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可
     //初始化PhoneItemWidget的宽高
-    QMLSizeManager::getInstance()->setCellWidth(237);
+    /*QMLSizeManager::getInstance()->setCellWidth(237);
     QMLSizeManager::getInstance()->setCellHeight(426);
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
     //创建QQuickWidget并设置源文件
@@ -225,6 +225,7 @@ MainWindow::MainWindow(QWidget *parent)
     content->setContextProperty("CELLWIDTH", 207);
     content->setContextProperty("CELLHEIGHT", 396);
     content->setContextProperty("ISVERTICALSCREEN", GlobalData::bVerticalScreen);
+    
     //一般不用
     //content->setContextProperty("QMLSizeManager", QMLSizeManager::getInstance());
     
@@ -232,8 +233,8 @@ MainWindow::MainWindow(QWidget *parent)
     QVBoxLayout* layout = new QVBoxLayout(ui->quickWidget);
     layout->addWidget(m_quickWidget);
     layout->setContentsMargins(0, 0, 0, 0);//移除边距
-    m_quickWidget->show();
-
+    m_quickWidget->show();*/
+    ui->quickWidget->setVisible(false);
     /*m_quickWidget = new QQuickWidget(this);
     m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/resource/listview.qml")));
     //设置QQuickWidget 为父窗口的布局中心
@@ -255,12 +256,12 @@ MainWindow::~MainWindow()
     {
         m_Timer->stop();
     }
-    if (m_quickWidget != NULL)
+    /*if (m_quickWidget != NULL)
     {
         m_quickWidget->close();
         delete m_quickWidget;
         m_quickWidget = NULL;
-    }
+    }*/
     delete ui;
 }
 
@@ -3696,7 +3697,17 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
     GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
     
-    on_treeWidget_itemPressed(m_pCurItem, NULL);
+    //切换的时候，节省时间直接从缓存数据显示,只有icon模式才能显示切换按钮
+    //on_treeWidget_itemPressed(m_pCurItem, NULL);
+    ui->listWidget->clear();
+    if (m_mapCurTreeItemSelect.size() > 0)
+    {
+        QMap<int, S_PHONE_INFO>::iterator iter = m_mapCurTreeItemSelect.begin();
+        for (; iter != m_mapCurTreeItemSelect.end(); iter++)
+        {
+            AddIconModeListWidgetItem(*iter);
+        }
+    }
 }
 
 
@@ -3711,7 +3722,18 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
     GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
     
-    on_treeWidget_itemPressed(m_pCurItem, NULL);
+    //on_treeWidget_itemPressed(m_pCurItem, NULL);
+    //切换的时候，节省时间直接从缓存数据显示,只有icon模式才能显示切换按钮
+    //on_treeWidget_itemPressed(m_pCurItem, NULL);
+    ui->listWidget->clear();
+    if (m_mapCurTreeItemSelect.size() > 0)
+    {
+        QMap<int, S_PHONE_INFO>::iterator iter = m_mapCurTreeItemSelect.begin();
+        for (; iter != m_mapCurTreeItemSelect.end(); iter++)
+        {
+            AddIconModeListWidgetItem(*iter);
+        }
+    }
 }
 
 
@@ -3796,7 +3818,8 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
         }            
     }
     else
-    {        
+    {      
+        //所有选中的项存在QMap中m_mapCurTreeItemSelect
         if (m_isIconMode)
         {            
             ui->listWidget->clear();
@@ -4205,7 +4228,18 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
     
 
     qDebug() << "click i=" << i << "new width=" << GlobalData::iPhoneItemWidth << "new height=" << GlobalData::iPhoneItemHeight;
+    
+    //切换的时候，节省时间直接从缓存数据显示,只有icon模式才能显示切换按钮
     //on_treeWidget_itemPressed(m_pCurItem, NULL);
+    ui->listWidget->clear();
+    if (m_mapCurTreeItemSelect.size() > 0)
+    {
+        QMap<int, S_PHONE_INFO>::iterator iter = m_mapCurTreeItemSelect.begin();
+        for (; iter != m_mapCurTreeItemSelect.end(); iter++)
+        {
+            AddIconModeListWidgetItem(*iter);
+        }
+    }
 }
 
 
@@ -5024,6 +5058,7 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
     int iChildCount = 0;
     int iSelGroupCount = 0;
     int i = 0;
+    m_mapCurTreeItemSelect.clear();
     Qt::CheckState checkState;
     while (*iter)
     {
@@ -5045,6 +5080,11 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                     m_iCheckCount++;
                     iSelGroupCount++;
                 }
+                if (m_isIconMode)
+                {
+                    m_listInstanceNo << phoneInfo.strInstanceNo;
+                }
+                m_mapCurTreeItemSelect.insert(phoneInfo.iId, phoneInfo);
                 if (m_isIconMode)
                 {
                     m_listInstanceNo << phoneInfo.strInstanceNo;
@@ -5076,6 +5116,11 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                 if (m_isIconMode)
                 {
                     m_listInstanceNo << phoneInfo.strInstanceNo;
+                }
+                m_mapCurTreeItemSelect.insert(phoneInfo.iId, phoneInfo);
+                if (m_isIconMode)
+                {
+                    m_listInstanceNo << phoneInfo.strInstanceNo;
                     AddIconModeListWidgetItem(phoneInfo);
                 }
                 else
@@ -5103,15 +5148,13 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
         iter++;
     }
 
-    int iCount = 0;
+    int iCount = m_mapCurTreeItemSelect.size();
     if (m_isIconMode)
     {
-        iCount = ui->listWidget->count();
         ui->stackedWidgetPhoneItem->setCurrentWidget(0 == iCount?ui->pageIconNoData: ui->pageIconMode);
     }        
     else
     {
-        iCount = ui->listWidget2->count();
         ui->stackedWidgetPhoneItem->setCurrentWidget(0 == iCount ? ui->pageListNoData : ui->pageListMode);
     }
     ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
