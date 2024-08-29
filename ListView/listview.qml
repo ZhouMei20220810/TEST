@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
 import ListItem 1.0
+//import ListModel 1.0
 
 Rectangle {
     id: root
@@ -24,33 +25,7 @@ Rectangle {
 
         //model: 5
         //model:["1","2","3","4"]
-        model:ListModel {
-            ListElement {
-                name: "item1"
-                url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/12.png"
-                label: "Label 1"
-                checked: false
-            }
-            ListElement {
-                name: "item2"
-                url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
-                label: "Label 2"
-                checked: true
-            }
-            ListElement {
-                name: "item3"
-                url:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
-                label: "Label 3"
-                checked: true
-            }
-            ListElement {
-                name: "item4"
-                url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
-                label: "Label 4"
-                checked: true
-            }
-            // 添加更多 ListElement 项
-        }
+        model: 1 //listModel.items
         delegate: Component {
             Button {
                 id: windowItem
@@ -94,7 +69,7 @@ Rectangle {
                 indicator:Image {
                     id: backgroundImage
                     //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
-                    source:ListItem.ImagePath
+                    source:ListItem.ImagePath //item.ImagePath
                     fillMode: Image.PreserveAspectFit
                     anchors {
                         top: parent.top

@@ -14,6 +14,7 @@
 #include "qtsizemanager.h"
 #include "qmlsizemanager.h"
 #include "listitem.h"
+#include "listmodel.h"
 /*class SizeManager {
 public:
     int currentSize() const { return m_currentSize; }
