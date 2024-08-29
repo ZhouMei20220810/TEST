@@ -15,8 +15,8 @@ Rectangle {
         anchors.fill: parent
         //width:237
         //height:426
-        cellWidth:qmlSizeManager.cellWidth // 237 //设置每个item 的宽高，否则会重叠
-        cellHeight:qmlSizeManager.cellHeight //426
+        cellWidth:QMLSizeManager.cellWidth // 237 //设置每个item 的宽高，否则会重叠
+        cellHeight:QMLSizeManager.cellHeight //426
         //displayMarginBeginning:15
         //displayMarginEnd:15
         anchors.margins: 15 //GridView距离间距
@@ -50,7 +50,7 @@ Rectangle {
             // 添加更多 ListElement 项
         }*/    
 
-        QMLSizeManager{
+        /*QMLSizeManager{
             id:qmlSizeManager
             cellWidth:237 //207
             cellHeight:426 //396
@@ -65,15 +65,7 @@ Rectangle {
             onCellHeightChanged:{
                 console.log("QMLSizeManager OnCellHeightChanged w="+cellWidth+"h="+cellHeight);
             }
-            /*Connections{
-            OnCellWidthChanged:{
-                console.log("QMLSizeManager OnCellWidthChanged w="+cellWidth+"h="+cellHeight);
-            }
-            OnCellHeightChanged:{
-                console.log("QMLSizeManager OnCellHeightChanged w="+cellWidth+"h="+cellHeight);
-            }
-            }*/
-        }
+        }*/
 
         delegate: Component {
             Button {
@@ -81,8 +73,8 @@ Rectangle {
                 objectName:"btnBg"
                 /*x:15
                 y:15*/ //无效
-                width: qmlSizeManager.cellWidth-30 //207; 
-                height:qmlSizeManager.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
+                width: QMLSizeManager.cellWidth-30 //207; 
+                height:QMLSizeManager.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
@@ -92,12 +84,13 @@ Rectangle {
                 /*Connections{
                     target:windowItem
                     function onQmlSendSignals(i,str,str2){
-                        qmlSizeManager.receiveSignalFromQMLFile(i,str,str2)
+                        QMLSizeManager.receiveSignalFromQMLFile(i,str,str2)
                     }
                 }*/
                 //或
                 Component.onCompleted: {
-                    qmlSendSignals.connect(qmlSizeManager.receiveSignalFromQMLFile)
+                    //QML信号qmlSendSignals，连接C++ 槽函数qmlSizeManager.receiveSignalFromQMLFile
+                    qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
                 }
                 
                 MouseArea {
@@ -105,7 +98,7 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
                         //直接调用C++中的函数
-                        qmlSizeManager.itemClicked();
+                        QMLSizeManager.itemClicked();
                         //QML发送信号调用 C++槽函数,三步：第三步
                         qmlSendSignals(100,"你好","世界world")
                         console.log("Item was clicked. width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
@@ -172,12 +165,12 @@ Rectangle {
         //设置间距
         //spacing:10
         // 计算每行的列数
-        onWidthChanged: {
+        /*onWidthChanged: {
             var itemWidth = windowItem.width + windowItem.border.width * 2;
             var columns = Math.floor(parent.width / itemWidth);
             columns = columns <= 0 ? 1 : columns; // 防止除法结果为零
             listView.columns = columns;
             console.log("onWidthChanged listView.columns = "+listView.columns);
-        }
+        }*/
     }
 }

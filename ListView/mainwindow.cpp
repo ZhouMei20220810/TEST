@@ -27,7 +27,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
+    //通过qmlRegisterType注册的对象，在QML中一定要写一个QMLSizeManager{id:qmlSizeManager}
+    //qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
+    //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可
+    QMLSizeManager::getInstance()->setCellWidth(237);
+    QMLSizeManager::getInstance()->setCellHeight(426);
+    qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
     // 加载 QML 文件
     //ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
     /*QQmlApplicationEngine engine;
@@ -140,6 +145,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnChangeSize_clicked()
 {
+    QMLSizeManager::getInstance()->setCellWidth(100);
+    QMLSizeManager::getInstance()->setCellHeight(200);
+    
     //load engine 加载完成之后
     //QML信号 C++槽函数，在C++完成绑定，通过objectName访问
     /*QQmlApplicationEngine qmlEngine;
