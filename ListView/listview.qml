@@ -1,71 +1,89 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QMLSizeManager 1.0
 
 Rectangle {
     id: root
     //width: parent.width
     //height: parent.height
-    //width:WIDTH
-    //height:HEIGHT
-    width:700
-    height:600
+    width:800
+    height:500    
+
     GridView {
-        id: listView		
+        id: listView
         anchors.fill: parent
         //width:237
         //height:426
-        cellWidth:CELLWIDTH //237 //设置每个item 的宽高，否则会重叠
-        cellHeight:CELLHEIGHT //426
+        cellWidth:qmlSizeManager.cellWidth // 237 //设置每个item 的宽高，否则会重叠
+        cellHeight:qmlSizeManager.cellHeight //426
         //displayMarginBeginning:15
         //displayMarginEnd:15
-        anchors.margins: 15 //GridView距离间距 
-        model:10000
-        /*model: ListModel {
-            id:listModel
+        anchors.margins: 15 //GridView距离间距
+        model: 5
+        //model:["1","2","3","4"]
+        /*ListModel {
             ListElement {
                 name: "item1"
                 url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/12.png"
                 label: "Label 1"
                 checked: false
-                objectName:"vm_01"
             }
             ListElement {
                 name: "item2"
                 url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
                 label: "Label 2"
                 checked: true
-                objectName:"vm_02"
+            }
+            ListElement {
+                name: "item3"
+                url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
+                label: "Label 3"
+                checked: true
+            }
+            ListElement {
+                name: "item4"
+                url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
+                label: "Label 4"
+                checked: true
             }
             // 添加更多 ListElement 项
         }*/
 
-        //定时器修改cellWidth和cellHeight可以动态改变所有窗口的大小，没什么影响
-        /*Timer 
-        {
-            id: timer
-            interval: 100 // 立即触发
-            running: true
-            repeat: true
-            onTriggered: 
-            {
-                // 如果需要的话，在这里也可以改变大小
-                listView.cellWidth -= 50;
-                listView.cellHeight -= 50;
-                console.log("listView.cellWidth="+listView.cellWidth+"listView.cellHeight="+listView.cellHeight)
+        QMLSizeManager{
+            id:qmlSizeManager
+            cellWidth:237 //207
+            cellHeight:426 //396
+            //可以指定值，外面修改值不会改变
+            Component.onCompleted: {
+                console.log("QMLSizeManager w="+cellWidth+"h="+cellHeight)
             }
-        }*/
+
+            onCellWidthChanged:{
+                console.log("QMLSizeManager onCellWidthChanged w="+cellWidth+"h="+cellHeight);
+            }
+            onCellHeightChanged:{
+                console.log("QMLSizeManager OnCellHeightChanged w="+cellWidth+"h="+cellHeight);
+            }
+            /*Connections{
+            OnCellWidthChanged:{
+                console.log("QMLSizeManager OnCellWidthChanged w="+cellWidth+"h="+cellHeight);
+            }
+            OnCellHeightChanged:{
+                console.log("QMLSizeManager OnCellHeightChanged w="+cellWidth+"h="+cellHeight);
+            }
+            }*/
+        }
+
         delegate: Component {
             Button {
                 id: windowItem
                 /*x:15
-                y:15*/ //无效                
+                y:15*/ //无效
+                width: qmlSizeManager.cellWidth-30 //207; 
+                height:qmlSizeManager.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
-                //width:listView.cellWidth-30 // 207;
-                //height:listView.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
-                width:listView.cellWidth==0?207:listView.cellWidth //207 //sizeManager.m_iWidth
-                height:listView.cellHeight==0?207:listView.cellHeight //396
 
                 MouseArea {
                     id: itemClickArea
@@ -103,14 +121,24 @@ Rectangle {
                     anchors.top: parent.top
                     anchors.right: parent.right
                     anchors.margins: 10
+                    /*MouseArea {
+                        id: checkBoxClickArea
+                        anchors.fill: parent
+                        onClicked: {
+                            console.log("checkBoxClickArea was clicked."+modelData.name); //console.log("Item was clicked: " + modelData.name);
+                            // 在这里可以添加更多的逻辑
+                            //发送显示PhoneInstanceWidget窗口的信号
+                            checked = !checked;
+                        }
+                    }*/
                 }
 
                 Text {
                     id: labelText
-                    text:listModel.label // "testtest" //modelData.label
+                    text: "testtest" //modelData.label
                     anchors {
                         //fill: parent // 使用 fill 锚点确保文本占据整个空间
-			            top: parent.bottom - 20
+                        top: parent.bottom - 20
                         left: parent.left
                         right: parent.right
                         bottom: parent.bottom
@@ -130,24 +158,7 @@ Rectangle {
             var columns = Math.floor(parent.width / itemWidth);
             columns = columns <= 0 ? 1 : columns; // 防止除法结果为零
             listView.columns = columns;
-            console.log("onWidthChanged计算宽度listView.columns="+listView.columns);
-        }
-    }
-
-
-    Connections {
-        target: sizeManager
-        onCurrentSizeChanged: 
-        {
-            console.log("Size changed to: " + sizeManager.currentSize)
-            // 可以在这里更新每个 Item 的大小
-            for (var i = 0; i < 5; i++) {
-                var item = root.itemAt(i)
-                if (item) {
-                    item.width = sizeManager.currentSize
-                    item.height = sizeManager.currentSize
-                }
-            }
+            console.log("onWidthChanged listView.columns = "+listView.columns);
         }
     }
 }

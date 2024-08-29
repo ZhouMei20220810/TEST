@@ -16,10 +16,12 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    qmlsizemanager.cpp \
     qtsizemanager.cpp
 
 HEADERS += \
     mainwindow.h \
+    qmlsizemanager.h \
     qtsizemanager.h
 
 FORMS += \

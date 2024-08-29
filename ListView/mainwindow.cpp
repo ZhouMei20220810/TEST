@@ -12,6 +12,7 @@
 #include <QQmlContext>
 //#include <QQmlEngine>
 #include "qtsizemanager.h"
+#include "qmlsizemanager.h"
 /*class SizeManager {
 public:
     int currentSize() const { return m_currentSize; }
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
     // 加载 QML 文件
     //ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
     /*QQmlApplicationEngine engine;
@@ -52,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     */
 
     // 创建一个 SizeManager 实例
-    QtSizeManager* sizeManager = new QtSizeManager();
+    //QtSizeManager* sizeManager = new QtSizeManager();
 
     //主窗口的子窗口设置QML布局
     m_quickWidget = new QQuickWidget(ui->widget);
@@ -138,7 +140,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnChangeSize_clicked()
 {
-    QQmlApplicationEngine engine;
+    //QMLSizeManager::getInstance()->setCellWidth(500);
+    /*QQmlApplicationEngine engine;
     QQmlContext* content = engine.rootContext();
     content->setContextProperty("CELL_WIDTH", 600);
     content->setContextProperty("CELL_HEIGHT", 500);
@@ -148,7 +151,7 @@ void MainWindow::on_btnChangeSize_clicked()
     QVBoxLayout* layout = new QVBoxLayout(ui->widget);
     layout->addWidget(m_quickWidget);
     layout->setContentsMargins(0, 0, 0, 0);//移除边距
-    m_quickWidget->show();
+    m_quickWidget->show();*/
     /*if (engine.rootObjects().isEmpty()) {
         qFatal("Failed to load the QML file.");
     }
