@@ -5,15 +5,15 @@
 #include <QtQml>
 #include "listitem.h"
 
-class ListModel : public QObject
+class MyListModel : public QObject
 {
     Q_OBJECT
     QML_ELEMENT //声明QML可以访问元素
 public:
-    explicit ListModel(QObject *parent = nullptr);
+    explicit MyListModel(QObject *parent = nullptr);
 
     //单实例
-    static ListModel* getInstance();
+    static MyListModel* getInstance();
     QVariantList getItems() const;
     void setItems(const QVariantList &newItems);
 

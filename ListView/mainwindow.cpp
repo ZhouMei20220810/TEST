@@ -35,9 +35,22 @@ MainWindow::MainWindow(QWidget *parent)
     QMLSizeManager::getInstance()->setCellWidth(237);
     QMLSizeManager::getInstance()->setCellHeight(426);
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
-    ListItem::getInstance()->setPhoneName("外部传入");
+    /*ListItem::getInstance()->setPhoneName("外部传入");
     ListItem::getInstance()->setImagePath(QString("file:///%1").arg("C:/Users/Administrator/AppData/Local/Temp/YiShunYun/VM010071184122.png"));
     qmlRegisterSingletonInstance("ListItem", 1, 0, "ListItem", ListItem::getInstance());
+    */
+
+    ListItem* item = NULL;
+    QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
+    for (int i = 0; i < 2; i++)
+    {
+        item = new ListItem();
+        item->setIndex(i);
+        item->setPhoneName(QString("text%1").arg(i));
+        //item->setImagePath(QString("file:///%1/%2").arg(strTemp).arg("VM010210085185.png"));
+        MyListModel::getInstance()->addItem(item);
+    }
+    qmlRegisterSingletonInstance("MyListModel",1,0,"MyListModel", MyListModel::getInstance());
     // 加载 QML 文件
     //ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
     /*QQmlApplicationEngine engine;

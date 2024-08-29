@@ -1,21 +1,21 @@
 #include "listmodel.h"
 
-ListModel::ListModel(QObject *parent)
+MyListModel::MyListModel(QObject *parent)
     : QObject{parent}
 {}
 
-ListModel *ListModel::getInstance()
+MyListModel* MyListModel::getInstance()
 {
-    static ListModel* listmodel = new ListModel();
+    static MyListModel* listmodel = new MyListModel();
     return listmodel;
 }
 
-QVariantList ListModel::getItems() const
+QVariantList MyListModel::getItems() const
 {
     return items;
 }
 
-void ListModel::setItems(const QVariantList &newItems)
+void MyListModel::setItems(const QVariantList &newItems)
 {
     if (items == newItems)
         return;
