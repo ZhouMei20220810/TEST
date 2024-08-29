@@ -140,6 +140,59 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnChangeSize_clicked()
 {
+    //load engine 加载完成之后
+    //QML信号 C++槽函数，在C++完成绑定，通过objectName访问
+    /*QQmlApplicationEngine qmlEngine;
+    QList<QObject*> objList = qmlEngine.rootObjects();
+    qDebug() << objList.first()->objectName();*/
+
+    // 创建 QQmlApplicationEngine 实例
+    /*QQmlApplicationEngine engine;
+
+    // 注册 C++ 类到 QML
+    //qmlRegisterType<ListModel>("ListModel", 1, 0, "ListModel");
+    //qmlRegisterType<ListItem>("ListItem", 1, 0, "ListItem");
+    qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
+
+    // 创建 ListModel 实例
+    //ListModel* listModel = new ListModel(&engine);
+
+    // 将 ListModel 注册到 QML 上下文中
+    //engine.rootContext()->setContextProperty("listModel", listModel);
+
+    // 加载 QML 文件
+    engine.load(QUrl(QStringLiteral("qrc:/listview.qml")));
+
+    // 检查是否有根对象
+    if (engine.rootObjects().isEmpty()) {
+        qDebug() << "Failed to load QML file.";
+        return;
+    }
+
+    // 获取第一个根对象
+    QObject* rootObject = engine.rootObjects().first();
+    if (NULL == rootObject)
+        return;
+    qDebug() << rootObject->objectName();
+
+    QObject* listview = rootObject->findChild<QObject*>("listView");
+    if (listview == NULL)
+    {
+        return;        
+    }
+    qDebug() << listview << listview->objectName();
+
+    //button不是listview直接子控件因此找不到
+    QObject* button = listview->findChild<QObject*>("windowItem");
+    if (button == NULL)
+    {
+        return;
+    }
+    qDebug() << button << button->objectName();
+    QObject::connect(button,SIGNAL(qmlSendSignals(int,QString,QString)),QMLSizeManager::getInstance(), SLOT(receiveSignalFromQMLFile(int,QString,QString)));
+    */
+    // 在这里可以继续做其他操作，例如连接信号和槽等
+    // 
     //QMLSizeManager::getInstance()->setCellWidth(500);
     /*QQmlApplicationEngine engine;
     QQmlContext* content = engine.rootContext();
