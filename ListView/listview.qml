@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
+import ListItem 1.0
 
 Rectangle {
     id: root
@@ -20,9 +21,10 @@ Rectangle {
         //displayMarginBeginning:15
         //displayMarginEnd:15
         anchors.margins: 15 //GridView距离间距
-        model: 10000
+
+        //model: 5
         //model:["1","2","3","4"]
-        /*ListModel {
+        model:ListModel {
             ListElement {
                 name: "item1"
                 url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/12.png"
@@ -37,7 +39,7 @@ Rectangle {
             }
             ListElement {
                 name: "item3"
-                url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
+                url:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/1.png"
                 label: "Label 3"
                 checked: true
             }
@@ -48,33 +50,15 @@ Rectangle {
                 checked: true
             }
             // 添加更多 ListElement 项
-        }*/    
-
-        /*QMLSizeManager{
-            id:qmlSizeManager
-            cellWidth:237 //207
-            cellHeight:426 //396
-            //可以指定值，外面修改值不会改变
-            Component.onCompleted: {
-                console.log("QMLSizeManager w="+cellWidth+"h="+cellHeight)
-            }
-
-            onCellWidthChanged:{
-                console.log("QMLSizeManager onCellWidthChanged w="+cellWidth+"h="+cellHeight);
-            }
-            onCellHeightChanged:{
-                console.log("QMLSizeManager OnCellHeightChanged w="+cellWidth+"h="+cellHeight);
-            }
-        }*/
-
+        }
         delegate: Component {
             Button {
                 id: windowItem
                 objectName:"btnBg"
                 /*x:15
                 y:15*/ //无效
-                width: QMLSizeManager.cellWidth //207;
-                height:QMLSizeManager.cellHeight //396 //更加单元格与实际的差值，形成间隔
+                width: QMLSizeManager.cellWidth-30 //207; 
+                height:QMLSizeManager.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
@@ -109,8 +93,8 @@ Rectangle {
 
                 indicator:Image {
                     id: backgroundImage
-                    source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
-                    //source:modelData.url
+                    //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
+                    source:ListItem.ImagePath
                     fillMode: Image.PreserveAspectFit
                     anchors {
                         top: parent.top
@@ -147,7 +131,7 @@ Rectangle {
 
                 Text {
                     id: labelText
-                    text: "testtest" //modelData.label
+                    text:ListItem.phoneName //"testtest" //modelData.label
                     anchors {
                         //fill: parent // 使用 fill 锚点确保文本占据整个空间
                         top: parent.bottom - 20

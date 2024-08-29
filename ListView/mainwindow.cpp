@@ -13,6 +13,7 @@
 //#include <QQmlEngine>
 #include "qtsizemanager.h"
 #include "qmlsizemanager.h"
+#include "listitem.h"
 /*class SizeManager {
 public:
     int currentSize() const { return m_currentSize; }
@@ -33,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
     QMLSizeManager::getInstance()->setCellWidth(237);
     QMLSizeManager::getInstance()->setCellHeight(426);
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
+    ListItem::getInstance()->setPhoneName("外部传入");
+    ListItem::getInstance()->setImagePath(QString("file:///%1").arg("C:/Users/Administrator/AppData/Local/Temp/YiShunYun/VM010071184122.png"));
+    qmlRegisterSingletonInstance("ListItem", 1, 0, "ListItem", ListItem::getInstance());
     // 加载 QML 文件
     //ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
     /*QQmlApplicationEngine engine;
