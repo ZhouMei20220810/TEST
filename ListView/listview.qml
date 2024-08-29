@@ -165,12 +165,12 @@ Rectangle {
         //设置间距
         //spacing:10
         // 计算每行的列数
-        /*onWidthChanged: {
+        onWidthChanged: {
             var itemWidth = windowItem.width + windowItem.border.width * 2;
             var columns = Math.floor(parent.width / itemWidth);
             columns = columns <= 0 ? 1 : columns; // 防止除法结果为零
             listView.columns = columns;
             console.log("onWidthChanged listView.columns = "+listView.columns);
-        }*/
+        }
     }
 }

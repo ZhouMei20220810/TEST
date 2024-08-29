@@ -47,6 +47,7 @@ SOURCES += \
     phoneitemwidget.cpp \
     phonelistmodeitemwidget.cpp \
     policydialog.cpp \
+    qmlsizemanager.cpp \
     qmouseframe.cpp \
     qmouselistwidget.cpp \
     qmousetreewidget.cpp \
@@ -111,6 +112,7 @@ HEADERS += \
     phoneitemwidget.h \
     phonelistmodeitemwidget.h \
     policydialog.h \
+    qmlsizemanager.h \
     qmouseframe.h \
     qmouselistwidget.h \
     qmousetreewidget.h \

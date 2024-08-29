@@ -46,6 +46,7 @@
 #include "messagecenterdialog.h"
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "qmlsizemanager.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -186,7 +187,7 @@ MainWindow::MainWindow(QWidget *parent)
     //同步模式列表框
     m_mapSyncWindows.clear();// = new QMap<QString, PhoneInstanceWidget*>;
 
-    QQmlApplicationEngine engine;
+    /*QQmlApplicationEngine engine;
     //创建全局上下文对象
     QQmlContext* context = engine.rootContext();
     QScreen* screen = QGuiApplication::primaryScreen();
@@ -194,8 +195,8 @@ MainWindow::MainWindow(QWidget *parent)
     //context->setContextProperty("SCREEN_WIDTH", this->width());
     //context->setContextProperty("SCREEN_HEIGHT", this->height());
     //通过c++控制QML的全局属性
-    //context->setContextProperty("SCREEN_WIDTH", 800/*rect.width()*/);
-    //context->setContextProperty("SCREEN_HEIGHT", 600/*rect.height()*/);
+    //context->setContextProperty("SCREEN_WIDTH", 800);
+    //context->setContextProperty("SCREEN_HEIGHT", 600);
     //context->setContextProperty("COLOR","red");
     const QUrl url(QStringLiteral("qrc:/resource/listview.qml"));
 
@@ -207,11 +208,26 @@ MainWindow::MainWindow(QWidget *parent)
         {
             QCoreApplication::exit(-1);
         }
-    });
+    });*/
 
+    //通过qmlRegisterType注册的对象，在QML中一定要写一个QMLSizeManager{id:qmlSizeManager}
+    //qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
+    //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可
+    //初始化PhoneItemWidget的宽高
+    QMLSizeManager::getInstance()->setCellWidth(237);
+    QMLSizeManager::getInstance()->setCellHeight(426);
+    qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
     //创建QQuickWidget并设置源文件
     m_quickWidget = new QQuickWidget(ui->quickWidget);
     m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/resource/listview.qml")));
+    QQmlEngine* engine = m_quickWidget->engine();
+    QQmlContext* content = engine->rootContext();
+    content->setContextProperty("CELLWIDTH", 207);
+    content->setContextProperty("CELLHEIGHT", 396);
+    content->setContextProperty("ISVERTICALSCREEN", GlobalData::bVerticalScreen);
+    //一般不用
+    //content->setContextProperty("QMLSizeManager", QMLSizeManager::getInstance());
+    
     //设置QQuickWidget 为父窗口的布局中心
     QVBoxLayout* layout = new QVBoxLayout(ui->quickWidget);
     layout->addWidget(m_quickWidget);
@@ -4159,6 +4175,7 @@ void MainWindow::on_toolBtnCustomer_clicked()
 
 void MainWindow::on_comboBoxView_currentIndexChanged(int index)
 {
+    //item发生改变时调用
     int i = ui->comboBoxView->itemData(index).toInt();
     qDebug()<<"click i="<<i <<"old width="<< GlobalData::iPhoneItemWidth<<"old height="<< GlobalData::iPhoneItemHeight;
     if (GlobalData::bVerticalScreen)
@@ -4170,9 +4187,25 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
     {
         GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
         GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
-    }    
+    }
+
+    //到时候可以修改为将所有选中的项添加到一个集合，从集合中取值
+    //if (ui->listWidget->count() > 0)
+    {
+        QMLSizeManager::getInstance()->setCellWidth(GlobalData::iPhoneItemWidth);
+        QMLSizeManager::getInstance()->setCellHeight(GlobalData::iPhoneItemHeight);
+
+        /*QMLSizeManager::getInstance()
+        QQmlEngine* engine = m_quickWidget->engine();
+        QQmlContext* content = engine->rootContext();
+        content->setContextProperty("CELLWIDTH", GlobalData::iPhoneItemWidth);
+        content->setContextProperty("CELLHEIGHT", GlobalData::iPhoneItemHeight);
+        content->setContextProperty("ISVERTICALSCREEN", GlobalData::bVerticalScreen);*/
+    }
+    
+
     qDebug() << "click i=" << i << "new width=" << GlobalData::iPhoneItemWidth << "new height=" << GlobalData::iPhoneItemHeight;
-    on_treeWidget_itemPressed(m_pCurItem, NULL);
+    //on_treeWidget_itemPressed(m_pCurItem, NULL);
 }
 
 

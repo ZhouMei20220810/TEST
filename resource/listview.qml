@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QMLSizeManager 1.0
 
 Rectangle {
     id: root
@@ -7,18 +8,21 @@ Rectangle {
     //height: parent.height
     width:800
     height:500    
-
+    objectName:"rootRect"
     GridView {
         id: listView
+        objectName:"listView"
         anchors.fill: parent
         //width:237
         //height:426
-        cellWidth:237 //设置每个item 的宽高，否则会重叠
-        cellHeight:426
+        cellWidth:QMLSizeManager.cellWidth // 237 //设置每个item 的宽高，否则会重叠
+        cellHeight:QMLSizeManager.cellHeight //426
         //displayMarginBeginning:15
         //displayMarginEnd:15
         anchors.margins: 15 //GridView距离间距
-        model:["1","2","3","4"] /*ListModel {
+        model: 5
+        //model:["1","2","3","4"]
+        /*ListModel {
             ListElement {
                 name: "item1"
                 url: "file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/Instance/12.png"
@@ -46,21 +50,58 @@ Rectangle {
             // 添加更多 ListElement 项
         }*/
 
+        /*QMLSizeManager{
+            id:qmlSizeManager
+            cellWidth:237 //207
+            cellHeight:426 //396
+            //可以指定值，外面修改值不会改变
+            Component.onCompleted: {
+                console.log("QMLSizeManager w="+cellWidth+"h="+cellHeight)
+            }
+
+            onCellWidthChanged:{
+                console.log("QMLSizeManager onCellWidthChanged w="+cellWidth+"h="+cellHeight);
+            }
+            onCellHeightChanged:{
+                console.log("QMLSizeManager OnCellHeightChanged w="+cellWidth+"h="+cellHeight);
+            }
+        }*/
+
         delegate: Component {
             Button {
                 id: windowItem
+                objectName:"btnBg"
                 /*x:15
                 y:15*/ //无效
-                width: 207; height: 396 //更加单元格与实际的差值，形成间隔
+                width: QMLSizeManager.cellWidth-30 //207; 
+                height:QMLSizeManager.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
-
+                //QML发送信号调用 C++槽函数,三步：第一步
+                signal qmlSendSignals(int i,string str,string str2);
+                //QML发送信号调用 C++槽函数,三步：第二步
+                /*Connections{
+                    target:windowItem
+                    function onQmlSendSignals(i,str,str2){
+                        QMLSizeManager.receiveSignalFromQMLFile(i,str,str2)
+                    }
+                }*/
+                //或
+                Component.onCompleted: {
+                    //QML信号qmlSendSignals，连接C++ 槽函数qmlSizeManager.receiveSignalFromQMLFile
+                    qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
+                }
+                
                 MouseArea {
                     id: itemClickArea
                     anchors.fill: parent
                     onClicked: {
-                        console.log("Item was clicked."+modelData.url); //console.log("Item was clicked: " + modelData.name);
+                        //直接调用C++中的函数
+                        QMLSizeManager.itemClicked();
+                        //QML发送信号调用 C++槽函数,三步：第三步
+                        qmlSendSignals(100,"你好","世界world")
+                        console.log("Item was clicked. width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
                         // 在这里可以添加更多的逻辑
                         //发送显示PhoneInstanceWidget窗口的信号
                     }
@@ -92,7 +133,7 @@ Rectangle {
                     anchors.top: parent.top
                     anchors.right: parent.right
                     anchors.margins: 10
-                    MouseArea {
+                    /*MouseArea {
                         id: checkBoxClickArea
                         anchors.fill: parent
                         onClicked: {
@@ -101,7 +142,7 @@ Rectangle {
                             //发送显示PhoneInstanceWidget窗口的信号
                             checked = !checked;
                         }
-                    }
+                    }*/
                 }
 
                 Text {

@@ -235,6 +235,7 @@
     <ClCompile Include="phoneitemwidget.cpp" />
     <ClCompile Include="phonelistmodeitemwidget.cpp" />
     <ClCompile Include="policydialog.cpp" />
+    <ClCompile Include="qmlsizemanager.cpp" />
     <ClCompile Include="qmouseframe.cpp" />
     <ClCompile Include="qmouselistwidget.cpp" />
     <ClCompile Include="qmousetreewidget.cpp" />
@@ -299,6 +300,7 @@
     <QtMoc Include="phoneitemwidget.h" />
     <QtMoc Include="phonelistmodeitemwidget.h" />
     <QtMoc Include="policydialog.h" />
+    <QtMoc Include="qmlsizemanager.h" />
     <QtMoc Include="qmouseframe.h" />
     <QtMoc Include="qmouselistwidget.h" />
     <QtMoc Include="qmousetreewidget.h" />
@@ -440,6 +442,7 @@
     <None Include="resource\buy\GVIP_level_bg_select.png" />
     <None Include="resource\instance\HorVerScreen.png" />
     <None Include="resource\instance\Input.png" />
+    <None Include="resource\ItemWidget.qml" />
     <None Include="resource\main\KVIP.png" />
     <None Include="resource\buy\KVIP_bg_normal.png" />
     <None Include="resource\buy\KVIP_bg_select.png" />
@@ -523,6 +526,7 @@
     <None Include="resource\instance\key_show.png" />
     <None Include="resource\main\listMode_normal.png" />
     <None Include="resource\main\listMode_select.png" />
+    <None Include="resource\listview.qml" />
     <None Include="resource\login\logo.png" />
     <None Include="resource\main\macroscheme.png" />
     <None Include="resource\login\main_logo.png" />
