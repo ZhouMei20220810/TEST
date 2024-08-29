@@ -42,12 +42,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     ListItem* item = NULL;
     QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 5; i++)
     {
         item = new ListItem();
         item->setIndex(i);
         item->setPhoneName(QString("text%1").arg(i));
-        //item->setImagePath(QString("file:///%1/%2").arg(strTemp).arg("VM010210085185.png"));
+        item->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(i));
         MyListModel::getInstance()->addItem(item);
     }
     qmlRegisterSingletonInstance("MyListModel",1,0,"MyListModel", MyListModel::getInstance());

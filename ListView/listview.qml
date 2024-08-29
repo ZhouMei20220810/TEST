@@ -26,6 +26,75 @@ Rectangle {
                 y:15*/ //无效
                 width: QMLSizeManager.cellWidth-30 //207; 
                 height:QMLSizeManager.cellHeight-30 //396 //更加单元格与实际的差值，形成间隔               
+                /*color: "transparent"
+                border.color: "#FF6B737E"
+                border.width: 2*/
+                //QML发送信号调用 C++槽函数,三步：第一步
+                signal qmlSendSignals(int i,string str,string str2);
+                //QML发送信号调用 C++槽函数,三步：第二步
+                /*Connections{
+                    target:windowItem
+                    function onQmlSendSignals(i,str,str2){
+                        QMLSizeManager.receiveSignalFromQMLFile(i,str,str2)
+                    }
+                }*/
+                //或
+                Component.onCompleted: {
+                    //QML信号qmlSendSignals，连接C++ 槽函数qmlSizeManager.receiveSignalFromQMLFile
+                    qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
+                }
+                
+                MouseArea {
+                    id: itemClickArea
+                    anchors.fill: parent
+                    onClicked: {
+                        //直接调用C++中的函数
+                        QMLSizeManager.itemClicked();
+                        //QML发送信号调用 C++槽函数,三步：第三步
+                        qmlSendSignals(100,"你好","世界world")
+                        console.log("Item was clicked. width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
+                        // 在这里可以添加更多的逻辑
+                        //发送显示PhoneInstanceWidget窗口的信号
+                    }
+                }
+
+                indicator:Image {
+                    id: backgroundImage
+                    //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
+                    source:modelData.ImagePath //item.ImagePath
+                    fillMode: Image.PreserveAspectFit
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom - 20
+                        margins: 2
+                    }
+                    onStatusChanged: {
+                        console.log("Image status changed:", status);
+                        if (status === Image.Error) {
+                            console.log("Image error:", errorString);
+                        }
+                    }
+                }
+
+                CheckBox {
+                    id: checkBox
+                    checked: modelData.checkBox
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    anchors.margins: 10
+                    /*MouseArea {
+                        id: checkBoxClickArea
+                        anchors.fill: parent
+                        onClicked: {
+                            console.log("checkBoxClickArea was clicked."+modelData.name); //console.log("Item was clicked: " + modelData.name);
+                            // 在这里可以添加更多的逻辑
+                            //发送显示PhoneInstanceWidget窗口的信号
+                            checked = !checked;
+                        }
+                    }*/
+                }
 
                 Text {
                     id: labelText
