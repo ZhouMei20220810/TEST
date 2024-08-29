@@ -20,7 +20,8 @@ public:
 
     QString getScreenImage() const;
     void setScreenImage(const QString &newScreenImage);
-
+    //QML中点击后,通知C++处理,添加Q_INVOKABLE QML文件即可访问
+    Q_INVOKABLE void itemClicked();
 signals:
     void cellWidthChanged();
 
@@ -28,6 +29,8 @@ signals:
 
     void screenImageChanged();
 
+public slots:
+    void receiveSignalFromQMLFile(int i, QString str, QString str2);
 private:
     //定义的属性QML中可以访问，C++可以拿到数据
     int cellWidth;

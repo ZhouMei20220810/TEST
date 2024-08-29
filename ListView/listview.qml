@@ -8,9 +8,10 @@ Rectangle {
     //height: parent.height
     width:800
     height:500    
-
+    objectName:"rootRect"
     GridView {
         id: listView
+        objectName:"listView"
         anchors.fill: parent
         //width:237
         //height:426
@@ -47,7 +48,7 @@ Rectangle {
                 checked: true
             }
             // 添加更多 ListElement 项
-        }*/
+        }*/    
 
         QMLSizeManager{
             id:qmlSizeManager
@@ -77,6 +78,7 @@ Rectangle {
         delegate: Component {
             Button {
                 id: windowItem
+                objectName:"btnBg"
                 /*x:15
                 y:15*/ //无效
                 width: qmlSizeManager.cellWidth-30 //207; 
@@ -84,11 +86,28 @@ Rectangle {
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
-
+                //QML发送信号调用 C++槽函数,三步：第一步
+                signal qmlSendSignals(int i,string str,string str2);
+                //QML发送信号调用 C++槽函数,三步：第二步
+                /*Connections{
+                    target:windowItem
+                    function onQmlSendSignals(i,str,str2){
+                        qmlSizeManager.receiveSignalFromQMLFile(i,str,str2)
+                    }
+                }*/
+                //或
+                Component.onCompleted: {
+                    qmlSendSignals.connect(qmlSizeManager.receiveSignalFromQMLFile)
+                }
+                
                 MouseArea {
                     id: itemClickArea
                     anchors.fill: parent
                     onClicked: {
+                        //直接调用C++中的函数
+                        qmlSizeManager.itemClicked();
+                        //QML发送信号调用 C++槽函数,三步：第三步
+                        qmlSendSignals(100,"你好","世界world")
                         console.log("Item was clicked. width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
                         // 在这里可以添加更多的逻辑
                         //发送显示PhoneInstanceWidget窗口的信号
