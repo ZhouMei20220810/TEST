@@ -34,51 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可
     QMLSizeManager::getInstance()->setCellWidth(237);
     QMLSizeManager::getInstance()->setCellHeight(426);
-    qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
-    /*ListItem::getInstance()->setPhoneName("外部传入");
-    ListItem::getInstance()->setImagePath(QString("file:///%1").arg("C:/Users/Administrator/AppData/Local/Temp/YiShunYun/VM010071184122.png"));
-    qmlRegisterSingletonInstance("ListItem", 1, 0, "ListItem", ListItem::getInstance());
-    */
-
-    ListItem* item = NULL;
-    QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
-    for (int i = 0; i < 5; i++)
-    {
-        item = new ListItem();
-        item->setIndex(i);
-        item->setPhoneName(QString("text%1").arg(i));
-        item->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(i));
-        MyListModel::getInstance()->addItem(item);
-    }
+    qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());    
     qmlRegisterSingletonInstance("MyListModel",1,0,"MyListModel", MyListModel::getInstance());
-    // 加载 QML 文件
-    //ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
-    /*QQmlApplicationEngine engine;
-    //创建全局上下文对象
-    QQmlContext* context = engine.rootContext();
-    //context->setContextProperty("SCREEN_WIDTH", 200);
-    const QUrl url(QStringLiteral("qrc:/listview.qml"));
-    //void objectCreated(QObject *object, const QUrl &url)
-    connect(&engine, &QQmlApplicationEngine::objectCreated, this, [url](QObject* object, const QUrl& objUrl)
-        {
-            if (!object && url == objUrl)
-            {
-                QCoreApplication::exit(-1);
-            }
-        });*/
-
-    /*
-    //整个窗口的中心控件
-    QQuickWidget* quickWidget = new QQuickWidget(this);
-    //quickWidget->resize(800,600);
-    quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
-    // 将 quickWidget 添加到布局中
-    setCentralWidget(quickWidget);
-    */
-
-    // 创建一个 SizeManager 实例
-    //QtSizeManager* sizeManager = new QtSizeManager();
-
     //主窗口的子窗口设置QML布局
     m_quickWidget = new QQuickWidget(ui->widget);
     //QQmlApplicationEngine engine;
@@ -163,8 +120,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnChangeSize_clicked()
 {
-
-    
+    ListItem* item = NULL;
+    QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
+    for (int i = 0; i < 5; i++)
+    {
+        item = new ListItem();
+        item->setIndex(i);
+        item->setPhoneName(QString("text%1").arg(i));
+        item->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(i));
+        MyListModel::getInstance()->addItem(item);
+    }
+    //m_quickWidget->updateGeometry();
     //load engine 加载完成之后
     //QML信号 C++槽函数，在C++完成绑定，通过objectName访问
     /*QQmlApplicationEngine qmlEngine;
