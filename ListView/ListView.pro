@@ -15,6 +15,7 @@ CONFIG += c++17
 
 SOURCES += \
     listitem.cpp \
+    listmodel.cpp \
     main.cpp \
     mainwindow.cpp \
     qmlsizemanager.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     listitem.h \
+    listmodel.h \
     mainwindow.h \
     qmlsizemanager.h \
     qtsizemanager.h
