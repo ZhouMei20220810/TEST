@@ -27,6 +27,8 @@ public:
     void HttpPostCheckAppVersion();
     //获取通知列表
     void HttpGetNoticeListInfo(NOTICE_TYPE enType, int iPage, int iPageSize);
+    //获取我的实例级别
+    void HttpGetMyInstanceLevel(int iPhoneId);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
