@@ -43,12 +43,17 @@ MainWindow::MainWindow(QWidget *parent)
     
     //m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));qrc:/Test.qml
     m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml"))); 
+    //设置QQuickWidget 为父窗口的布局中心
+    /*QVBoxLayout* layout = new QVBoxLayout(ui->widget);
+    layout->addWidget(m_quickWidget);
+    layout->setContentsMargins(0, 0, 0, 0);//移除边距
+    m_quickWidget->show();*/
 
     // 注册 SizeManager 到 QML 上下文中
-    QQmlEngine* engine = m_quickWidget->engine();
+    /*QQmlEngine* engine = m_quickWidget->engine();
     QQmlContext* content = engine->rootContext();
-    content->setContextProperty("WIDTH", 800/*ui->widget->width() */);
-    content->setContextProperty("HEIGHT", 600/*ui->widget->height()*/);
+    content->setContextProperty("WIDTH", 800);
+    content->setContextProperty("HEIGHT", 600);
     content->setContextProperty("CELLWIDTH", 247);
     content->setContextProperty("CELLHEIGHT", 436);
     content->setContextProperty("ISVERTICALSCREEN",true); //横屏还是竖屏,控制宽高和图片旋转
@@ -80,13 +85,9 @@ MainWindow::MainWindow(QWidget *parent)
                 break;
                 // 可以继续添加更多的情况
             }
-        });
+        });*/
 
-    //设置QQuickWidget 为父窗口的布局中心
-    QVBoxLayout* layout = new QVBoxLayout(ui->widget);
-    layout->addWidget(m_quickWidget);
-    layout->setContentsMargins(0, 0, 0, 0);//移除边距
-    m_quickWidget->show();
+    
     //ui->widget->setLayout(layout);
 
     /*QQmlApplicationEngine engine;
@@ -120,6 +121,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnChangeSize_clicked()
 {
+    MyListModel::getInstance()->removeAllItem();
     ListItem* item = NULL;
     QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
     for (int i = 0; i < 5; i++)

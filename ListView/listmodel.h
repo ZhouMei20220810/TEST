@@ -39,6 +39,10 @@ public:
         emit itemsChanged();
     }
 
+    void removeAllItem()
+    {
+        items.clear();
+    }
 signals:
 
     void itemsChanged();
