@@ -18,8 +18,7 @@ SOURCES += \
     listmodel.cpp \
     main.cpp \
     mainwindow.cpp \
-    qmlsizemanager.cpp \
-    qtsizemanager.cpp
+    qmlsizemanager.cpp
 
 HEADERS += \
     listitem.h \

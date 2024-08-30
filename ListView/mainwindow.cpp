@@ -11,7 +11,6 @@
 #include <QVBoxLayout>
 #include <QQmlContext>
 //#include <QQmlEngine>
-#include "qtsizemanager.h"
 #include "qmlsizemanager.h"
 #include "listitem.h"
 #include "listmodel.h"
