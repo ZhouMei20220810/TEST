@@ -14,6 +14,7 @@
 #include <QClipboard>
 #include "activecodeitem.h"
 #include <QListWidgetItem>
+#include "toolobject.h"
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* parent)
     : QMoveDialog(parent)
     , ui(new Ui::AddAuthorizationDialog)
@@ -34,7 +35,6 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* 
     m_bIsAccountAuth = false;
     m_bIsReadOnly = true;
     m_phoneInfo = phoneInfo;
-    m_toolObject = new ToolObject(this);
     QRegularExpression regExp("[0-9]*");
     QValidator* validator = new QRegularExpressionValidator(regExp, this);
     ui->lineEditDay->setValidator(validator);
@@ -88,7 +88,6 @@ AddAuthorizationDialog::AddAuthorizationDialog(QMap<int, S_PHONE_INFO> map/*S_PH
     m_bIsAccountAuth = false;
     m_bIsReadOnly = true;
     m_map = map;
-    m_toolObject = new ToolObject(this);
     QRegularExpression regExp("[0-9]*");
     QValidator* validator = new QRegularExpressionValidator(regExp, this);
     ui->lineEditDay->setValidator(validator);
@@ -633,9 +632,9 @@ void AddAuthorizationDialog::on_btnCancelAuthCode_clicked()
 {    
     //取消授权，向服务器发送请求
     qDebug() << "取消授权id=" << m_iInstanceId;
-    m_toolObject->HttpPostCancelAuth(m_iInstanceId);  
+    ToolObject::getInstance()->HttpPostCancelAuth(m_iInstanceId);  
     emit notifyMainWindowRefreshGroupListSignals();
-    connect(m_toolObject, &ToolObject::closeAuthDialogOrGroupRefreshSignals, this, [=]() {
+    connect(ToolObject::getInstance(), &ToolObject::closeAuthDialogOrGroupRefreshSignals, this, [=]() {
         this->close();
         });
 }

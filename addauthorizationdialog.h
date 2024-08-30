@@ -3,7 +3,6 @@
 
 #include "global.h"
 #include <QButtonGroup>
-#include "toolobject.h"
 
 namespace Ui {
 class AddAuthorizationDialog;
@@ -58,7 +57,6 @@ private:
     QButtonGroup* m_btnGroup;
     int m_iDay;
     int m_iInstanceId;
-    ToolObject* m_toolObject;
 };
 
 #endif // ADDAUTHORIZATIONDIALOG_H
