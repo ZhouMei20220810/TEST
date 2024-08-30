@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QGraphicsDropShadowEffect>
+#include "toolobject.h"
 #define  POINT_SIZE         6
 
 void NoticeItem::setupUI(S_NOTICE_INFO info)
@@ -92,9 +93,8 @@ MessageCenterDialog::MessageCenterDialog(bool bForcusShow, QWidget *parent)
     m_LabelAnnouncementPoint->setVisible(false);
 
     //默认公告
-    m_toolObject = new ToolObject();
-    connect(m_toolObject, &ToolObject::noticeListInfoSignals, this, &MessageCenterDialog::do_noticeListInfoSignals);
-    m_toolObject->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
+    connect(ToolObject::getInstance(), &ToolObject::noticeListInfoSignals, this, &MessageCenterDialog::do_noticeListInfoSignals);
+    ToolObject::getInstance()->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
 }
 
 MessageCenterDialog::~MessageCenterDialog()
@@ -109,7 +109,7 @@ void MessageCenterDialog::on_btnAnnouncement_clicked()
     ui->btnActivity->setStyleSheet("QPushButton:hover{border:none;color:#505465;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}QPushButton{color:#A9ADB6;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}");
     ui->labelAnnouncement->setStyleSheet("background-color:#505465;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
     ui->labelActivity->setStyleSheet("background-color:#F4F6FA;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
-    m_toolObject->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
+    ToolObject::getInstance()->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
 }
 
 void MessageCenterDialog::on_btnActivity_clicked()
@@ -119,7 +119,7 @@ void MessageCenterDialog::on_btnActivity_clicked()
     ui->btnAnnouncement->setStyleSheet("QPushButton:hover{border:none;color:#505465;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}QPushButton{color: #A9ADB6;background:transparent;border-radius:1px;padding-left:0px;font-weight:bold;font-size:13px;}");
     ui->labelActivity->setStyleSheet("background-color:#505465;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
     ui->labelAnnouncement->setStyleSheet("background-color:#F4F6FA;max-height:2px;max-width:12px;min-height:2px;min-width:12px;border:none;");
-    m_toolObject->HttpGetNoticeListInfo(NOTICE_ACTIVE, 1, 1000);
+    ToolObject::getInstance()->HttpGetNoticeListInfo(NOTICE_ACTIVE, 1, 1000);
 }
 
 void MessageCenterDialog::LoadNoticeInfoList(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice)
