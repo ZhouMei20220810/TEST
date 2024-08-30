@@ -62,3 +62,29 @@ void QMLSizeManager::receiveSignalFromQMLFile(int i, QString str, QString str2)
 {
     qDebug() << "receiveSignalFromQMLFile 收到来自QML的信号"<<i<<str<<str2;
 }
+
+int QMLSizeManager::getWindowHeight() const
+{
+    return windowHeight;
+}
+
+void QMLSizeManager::setWindowHeight(int newWindowHeight)
+{
+    if (windowHeight == newWindowHeight)
+        return;
+    windowHeight = newWindowHeight;
+    emit windowHeightChanged();
+}
+
+int QMLSizeManager::getWindowWidth() const
+{
+    return windowWidth;
+}
+
+void QMLSizeManager::setWindowWidth(int newWindowWidth)
+{
+    if (windowWidth == newWindowWidth)
+        return;
+    windowWidth = newWindowWidth;
+    emit windowWidthChanged();
+}
