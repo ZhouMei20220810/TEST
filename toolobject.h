@@ -8,7 +8,7 @@ class ToolObject : public QObject
     Q_OBJECT
 public:
     explicit ToolObject(QObject *parent = nullptr);
-
+    static ToolObject* getInstance();
     //手机实例相关接口
     //获取实例截图
     void HttpPostInstanceScreenshot(QStringList strList);

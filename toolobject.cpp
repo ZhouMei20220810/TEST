@@ -17,6 +17,12 @@ ToolObject::ToolObject(QObject *parent)
 {
 
 }
+ToolObject* ToolObject::getInstance()
+{
+    //单实例对象
+    static ToolObject* toolObject = new ToolObject();
+    return toolObject;
+}
 
 //获取实例截图
 void ToolObject::HttpPostInstanceScreenshot(QStringList strList)
