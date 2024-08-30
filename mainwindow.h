@@ -94,10 +94,7 @@ private:
     //激活码接口
     //void HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId);
     void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
-
-    //注销
-    void HttpLogout();
-    
+  
     //手机实例相关接口
     //实例重命名
     void HttpPostInstanceRename(int iId, QString strName);
@@ -107,8 +104,6 @@ private:
     //void HttpGetServerToken();
     //获取我的手机实例
     void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
-    //获取我的实例级别
-    void HttpGetMyInstanceLevel(int iPhoneId);
     //生成QrCode
     void gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale);
 

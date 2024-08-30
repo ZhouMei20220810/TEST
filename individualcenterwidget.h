@@ -31,9 +31,6 @@ private slots:
     void on_toolBtnTransferHistory_clicked();
 
 private:
-    //注销
-    void HttpLogout();
-
     Ui::IndividualCenterWidget *ui;
 };
 
