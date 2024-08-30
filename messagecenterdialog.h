@@ -5,6 +5,7 @@
 #include <QListWidgetItem>
 #include <QLabel>
 #include <QToolButton>
+#include "toolobject.h"
 
 namespace Ui {
 class MessageCenterDialog;
@@ -66,6 +67,8 @@ private:
     QLabel* m_LabelAnnouncementPoint;
 
     bool m_bForcusShow;//是否强制显示
+
+    ToolObject* m_toolObject;
 };
 
 #endif // MESSAGECENTERDIALOG_H

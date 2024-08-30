@@ -442,7 +442,6 @@
     <None Include="resource\buy\GVIP_level_bg_select.png" />
     <None Include="resource\instance\HorVerScreen.png" />
     <None Include="resource\instance\Input.png" />
-    <None Include="resource\ItemWidget.qml" />
     <None Include="resource\main\KVIP.png" />
     <None Include="resource\buy\KVIP_bg_normal.png" />
     <None Include="resource\buy\KVIP_bg_select.png" />

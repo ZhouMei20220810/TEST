@@ -94,7 +94,10 @@ private:
     //激活码接口
     //void HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId);
     void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
-  
+
+    //注销
+    void HttpLogout();
+    
     //手机实例相关接口
     //实例重命名
     void HttpPostInstanceRename(int iId, QString strName);

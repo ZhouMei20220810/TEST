@@ -6,7 +6,6 @@
 #include "mainwindow.h"
 #include <QGraphicsDropShadowEffect>
 #include "messagecenterdialog.h"
-#include "toolobject.h"
 
 #define     PAGE_WIDGET_X_POS       324
 #define     PAGE_WIDGET_Y_POS       32
@@ -166,8 +165,9 @@ void LoginWindow::do_closeWindowSignals()
     //先隐藏窗口，否则感觉反应慢
     this->hide();
 
-    connect(ToolObject::getInstance(), &ToolObject::noticeListInfoSignals, this, &LoginWindow::do_noticeListInfoSignals);
-    ToolObject::getInstance()->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
+    m_toolObject = new ToolObject(this);
+    connect(m_toolObject, &ToolObject::noticeListInfoSignals, this, &LoginWindow::do_noticeListInfoSignals);
+    m_toolObject->HttpGetNoticeListInfo(NOTICE_SYSTEM_ANNOUNCEMENT, 1, 1000);
       
 }
 

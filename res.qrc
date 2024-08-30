@@ -195,6 +195,5 @@
         <file>resource/individual/5.png</file>
         <file>resource/individual/6.png</file>
         <file>resource/listview.qml</file>
-        <file>resource/ItemWidget.qml</file>
     </qresource>
 </RCC>
