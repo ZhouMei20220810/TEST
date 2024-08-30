@@ -2,7 +2,6 @@
 #define PHONEINSTANCEWIDGET_H
 
 #include <QDialog>
-#include "toolobject.h"
 #include "SWPlayer.h"
 #include "SWDataSourceListener.h"
 #include <QGeoPositionInfo>
@@ -144,7 +143,6 @@ private:
 
     S_PHONE_INFO m_PhoneInfo;
     QStringList m_strPhoneList;
-    ToolObject* m_toolObject;
 
     SWPlayer* m_Player;
     Mutex m_Mutex;

@@ -23,6 +23,7 @@
 #include "filedownloader.h"
 #include "recentcopycutcontentdialog.h"
 #include <QMimeData>
+#include "toolobject.h"
 #include "clipboardhistoryapp.h"
 
 #define         TOOLBUTTON_WIDTH            (40)
@@ -62,19 +63,18 @@ PhoneInstanceWidget::PhoneInstanceWidget(S_PHONE_INFO sPhoneInfo,QDialog *parent
     ui->toolBtnPhoneInstance->setText(sPhoneInfo.strInstanceNo);    
 
     m_manager = new QNetworkAccessManager(this);
-    m_toolObject = new ToolObject(this);
     m_getScreenshotsTimer = NULL;
     m_getScreenshotsTimer = new QTimer();
     connect(m_getScreenshotsTimer, &QTimer::timeout, this, [=]()
         {
             m_getScreenshotsTimer->stop();
-            this->m_toolObject->HttpPostInstanceScreenshot(m_strPhoneList);
+            ToolObject::getInstance()->HttpPostInstanceScreenshot(m_strPhoneList);
         });
-    connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this, [=]() {
+    connect(ToolObject::getInstance(), &ToolObject::startTimerShowScreenshotSignals, this, [=]() {
         qDebug() << "获取图片刷新成功,间隔三秒钟下载图片";
         m_getScreenshotsTimer->start(DOWNLOAD_SCREENSHOT_INTERVAL);
         });
-    connect(m_toolObject, &ToolObject::getScreenshortSignals, this, [=](QMap<QString, S_TASK_INFO> mapScreenshotTask) 
+    connect(ToolObject::getInstance(), &ToolObject::getScreenshortSignals, this, [=](QMap<QString, S_TASK_INFO> mapScreenshotTask)
         {
         if (mapScreenshotTask.size() <= 0)
             return;
@@ -879,14 +879,14 @@ void PhoneInstanceWidget::on_Screenshot_clicked(bool checked)
     if (m_bIsMasterOrNot)
     {
         //截图一次请求，可以同时发送多个手机InstanceNo
-        m_toolObject->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
+        ToolObject::getInstance()->HttpPostInstanceScreenshotRefresh(m_strPhoneList);
     }
     else
     {
         //单个手机实例编号，截图自己
         QStringList strList;
         strList<<m_PhoneInfo.strInstanceNo;
-        m_toolObject->HttpPostInstanceScreenshotRefresh(strList);
+        ToolObject::getInstance()->HttpPostInstanceScreenshotRefresh(strList);
     }    
 }
 void PhoneInstanceWidget::on_toolBtnScreenshotDir_clicked()
@@ -906,13 +906,13 @@ void PhoneInstanceWidget::on_toolBtnReboot_clicked()
     if (m_bIsMasterOrNot)
     {
         //截图一次请求，可以同时发送多个手机InstanceNo
-        m_toolObject->HttpPostInstanceReboot(m_strPhoneList);
+        ToolObject::getInstance()->HttpPostInstanceReboot(m_strPhoneList);
     }
     else
     {
         QStringList strList;
         strList << m_PhoneInfo.strInstanceNo;
-        m_toolObject->HttpPostInstanceReboot(strList);
+        ToolObject::getInstance()->HttpPostInstanceReboot(strList);
     }
 }
 
@@ -920,14 +920,14 @@ void PhoneInstanceWidget::on_toolBtnFactoryDataReset_clicked()
 {
     if (m_bIsMasterOrNot)
     {
-        m_toolObject->HttpPostInstanceReset(m_strPhoneList);
+        ToolObject::getInstance()->HttpPostInstanceReset(m_strPhoneList);
     }
     else
     {
         //只能控制自己
         QStringList strList;
         strList << m_PhoneInfo.strInstanceNo;
-        m_toolObject->HttpPostInstanceReset(strList);
+        ToolObject::getInstance()->HttpPostInstanceReset(strList);
     }
 }
 
