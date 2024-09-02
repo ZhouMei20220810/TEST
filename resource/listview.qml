@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
+import ListItem 1.0
 import MyListModel 1.0
 
 Rectangle {
@@ -8,12 +9,26 @@ Rectangle {
     width:QMLSizeManager.windowWidth
     height:QMLSizeManager.windowHeight  
     objectName:"rootRect"
-    GridView {
+    property int iBorderWidth: 2
+    ListItem{id:itemSignal}
+    /*Component.onCompleted:
+    {
+        console.log("组件加载完成后执行强制刷新");
+        root.forceActiveFocus();
+    }*/
+    ScrollView{
+        anchors.fill: parent
+        contentWidth:listView.width
+        contentHeight: listView.height
+        background:null
+        GridView {
         id: listView
         objectName:"listView"
-        anchors.fill: parent
+        //anchors.fill: parent
+        width: QMLSizeManager.windowWidth
+        height: QMLSizeManager.windowHeight
         cellWidth:QMLSizeManager.cellWidth // 237 //设置每个item 的宽高，否则会重叠
-        cellHeight:QMLSizeManager.cellHeight //426
+        cellHeight:QMLSizeManager.cellHeight //426        
         //displayMarginBeginning:15
         //displayMarginEnd:15
         anchors.margins: 15 //GridView距离间距
@@ -30,7 +45,8 @@ Rectangle {
                 border.color: "#FF6B737E"
                 border.width: 2*/
                 //QML发送信号调用 C++槽函数,三步：第一步
-                signal qmlSendSignals(int i,string str,string str2);
+                //signal qmlSendSignals(bool bIsShowMenu);
+                signal qmlSendSignals(int iId,string strPhoneName, string strInstanceNo, string strExpireTime, bool bIsShowMenu);
                 //QML发送信号调用 C++槽函数,三步：第二步
                 /*Connections{
                     target:windowItem
@@ -41,7 +57,8 @@ Rectangle {
                 //或
                 Component.onCompleted: {
                     //QML信号qmlSendSignals，连接C++ 槽函数qmlSizeManager.receiveSignalFromQMLFile
-                    qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
+                    qmlSendSignals.connect(itemSignal.ShowInstanceSignalFromQMLFile)
+                    //qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
                 }
                 
                 MouseArea {
@@ -51,7 +68,7 @@ Rectangle {
                         //直接调用C++中的函数
                         QMLSizeManager.itemClicked();
                         //QML发送信号调用 C++槽函数,三步：第三步
-                        qmlSendSignals(100,"你好","世界world")
+                        qmlSendSignals(modelData.phoneId,modelData.phoneName, modelData.phoneInstanceNo,modelData.ExpireTime, true)
                         console.log("Item was clicked. width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
                         // 在这里可以添加更多的逻辑
                         //发送显示PhoneInstanceWidget窗口的信号
@@ -60,7 +77,7 @@ Rectangle {
 
                 Rectangle{
                 id:authorRect
-                x:0
+                x:iBorderWidth
                 y:5
                 width:52
                 height:19
@@ -101,14 +118,22 @@ Rectangle {
                     anchors.top: parent.top
                     anchors.right: parent.right
                     anchors.margins: 10
+                    background:null
+
+                    onCheckedChanged: {
+                        //QML发送信号调用 C++槽函数,三步：第三步
+                        qmlSendSignals(100,"你好","世界world")
+                    }
                     /*MouseArea {
                         id: checkBoxClickArea
                         anchors.fill: parent
                         onClicked: {
-                            console.log("checkBoxClickArea was clicked."+modelData.name); //console.log("Item was clicked: " + modelData.name);
+                            //console.log("checkBoxClickArea was clicked.name="+modelData.phoneName+" No=" +modelData.phoneInstanceNo); //console.log("Item was clicked: " + modelData.name);
                             // 在这里可以添加更多的逻辑
                             //发送显示PhoneInstanceWidget窗口的信号
-                            checked = !checked;
+                            //checked = !checked;
+                            console.log("checkBoxClickArea was clicked. width="+listView.cellWidth +"height="+ listView.cellHeight+"name="+modelData.phoneName+" No=" +modelData.phoneInstanceNo+" checked="+checked); //console.log("Item was clicked: " + modelData.name);
+                       
                         }
                     }*/
                 }
@@ -140,5 +165,6 @@ Rectangle {
             listView.columns = columns;
             console.log("onWidthChanged listView.columns = "+listView.columns);
         }
+    }
     }
 }

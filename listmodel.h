@@ -27,7 +27,7 @@ public:
         return list;
     }
 
-    void addItem(ListItem *item)
+    void addItem(ListItem* item)
     {
         items.append(QVariant::fromValue(item));
         emit itemsChanged();
@@ -37,6 +37,12 @@ public:
     {
         items.removeOne(QVariant::fromValue(item));
         emit itemsChanged();
+    }
+
+    //移除所有项
+    void removeAllItem()
+    {
+        items.clear();
     }
 
 signals:
