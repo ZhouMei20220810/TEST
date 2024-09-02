@@ -58,16 +58,26 @@ Rectangle {
                     }
                 }
 
-                /*indicator:Image {
-                    id: authorStatus
-                    x:0
-                    y:5
-                    source: modelData.AuthorImgPath
-                }*/
+                Rectangle{
+                id:authorRect
+                x:0
+                y:5
+                width:52
+                height:19
+                color:"transparent"
+                visible:modelData.bShowAuthorImg
+                /*indicator:*/Image {
+                    id: authorStatusImg
+                    anchors.fill:parent
+                    //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/0.png" 
+                    //source:"qrc:/main/resource/main/Authorized.png" //可以显示已授权
+                    source:modelData.authorStatus==1?"qrc:/main/resource/main/Authorized.png":"qrc:/main/resource/main/BeAuthorized.png"
+                }
+                }
 
                 indicator:Image {
                     id: backgroundImage
-                    //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
+                    //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/0.png"  //modelData.imagePath
                     source:modelData.ImagePath //item.ImagePath
                     fillMode: Image.PreserveAspectFit
                     anchors {
