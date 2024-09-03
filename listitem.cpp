@@ -7,38 +7,37 @@ ListItem::ListItem(S_PHONE_INFO info, QObject *parent)
 {
     if (info.strName.isEmpty())
     {
-        phoneName = info.strInstanceNo;
+        setPhoneName(info.strInstanceNo);
     }
     else
     {
-        phoneName = info.strName;
+        setPhoneName(info.strName);
     }
 
-    ImagePath = QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo);
+    setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo));
 
-    checkBox = info.bChecked;
-
-    bShowAuthorImg = true;
+    setCheckBox(info.bChecked);
+    setBShowAuthorImg(true);
     if (info.bIsAuth)
     {
-        authorStatus = 1;
+        setAuthorStatus(1);
         //从外部传入图片路径不能显示
         //AuthorImgPath = "qrc:/main/resource/main/Authorized.png";//QString("qrc:/main/resource/main/Authorized.png");
     }
     else if (info.iAuthType == EN_BE_AUTHORIZATION)
     {
-        authorStatus = 2;
+        setAuthorStatus(2);
         //从外部传入图片路径不能显示
         //AuthorImgPath = "qrc:/main/resource/main/BeAuthorized.png";
     }
     else
-        bShowAuthorImg = false;
+        setBShowAuthorImg(false);
 
     m_FileDownload = NULL;
     m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
     m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";
 
-    PhoneInfo = info;
+    setPhoneInfo(info);
 }
 
 int ListItem::getIndex() const
@@ -392,7 +391,15 @@ void ListItem::downloadUrl(QString url)
             {
                 QPixmap pixmap(m_strTemp);
                 if (!pixmap.isNull())
-                {
+                {                    
+                    if (ImagePath.contains(m_strPicturePath))
+                    {
+                        setImagePath(QString("file:///%1").arg(m_strTemp));
+                    }
+                    else
+                    {
+                        setImagePath(QString("file:///%1").arg(m_strPicturePath));
+                    }
                     if (QFile::exists(m_strPicturePath))
                     {
                         if (!QFile::remove(m_strPicturePath))
@@ -404,9 +411,7 @@ void ListItem::downloadUrl(QString url)
                     {
                         qDebug() << "rename fail: " << m_strPicturePath;
                     }
-                    //file.rename(m_strPicturePath);
-                    //showLabelImage(m_strPicturePath);
-                    setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(phoneInstanceNo));
+                                        
                 }
             });
         m_FileDownload->setUrlOutputFile(url, m_strTemp);

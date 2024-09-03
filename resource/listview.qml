@@ -9,7 +9,12 @@ Canvas{
     height:QMLSizeManager.windowHeight  
     objectName:"rootRect"
     property int borderWidth: 2
-    GridView {
+    // 定义一个属性来控制图片更新
+    ScrollView{
+        anchors.fill: parent
+        contentWidth:listView.width
+        contentHeight: listView.height
+        GridView {
         id: listView
         objectName:"listView"
         anchors.fill: parent
@@ -52,7 +57,7 @@ Canvas{
                     notifyRefreshWindow.connect(MyListModel.do_notifyRefreshWindow)
                     //qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
                 }
-                
+
                 Rectangle
                 {
                     id:bgImgRect
@@ -98,52 +103,6 @@ Canvas{
 	                        }
                         }
 
-                            CheckBox {
-                            id: checkBox
-                            checked: modelData.checkBox
-                            anchors.top: parent.top
-                            anchors.right: parent.right
-                            checkState: allChildrenChecked ? Qt.Checked :
-                                                anyChildChecked ? Qt.PartiallyChecked : Qt.Unchecked
-                            onCheckedChanged: {
-                                // 更新模型中的checked状态
-                                                modelData.checked = checked;
-                                console.log("onCheckedChanged "+modelData.checked)
-
-                                                // 强制刷新当前项
-                                                parent.updateCurrentItem();
-                            }
-                            /*onCheckStateChanged: {
-                                console.log("do_notifyRefreshWindow");
-                                notifyRefreshWindow();
-                            }
-                            MouseArea {
-                                id: checkBoxClickArea
-                                anchors.fill: parent
-                                onClicked: {
-                                    console.log("checkBoxClickArea was clicked."+modelData.phoneName); //console.log("Item was clicked: " + modelData.name);
-                                    // 在这里可以添加更多的逻辑
-                                    //发送显示PhoneInstanceWidget窗口的信号
-                                    checked = !checked;
-                                    //modelData.setCheckBox(checked);
-                                    modelData.setCheckBox(checked);
-                            
-                                    //modelData.setCheckBox(checkState == Qt.Checked);
-                                }
-                            }*/
-                            //anchors.margins: 10
-                            /*MouseArea {
-                                id: checkBoxClickArea
-                                anchors.fill: parent
-                                onClicked: {
-                                    console.log("checkBoxClickArea was clicked."+modelData.name); //console.log("Item was clicked: " + modelData.name);
-                                    // 在这里可以添加更多的逻辑
-                                    //发送显示PhoneInstanceWidget窗口的信号
-                                    notifyRefreshWindow();
-                                }
-                            }*/
-                        }
-
                         onStatusChanged: {
                             console.log("Image status changed:", status);
                             if (status === Image.Error) {
@@ -159,14 +118,29 @@ Canvas{
                                 //QML发送信号调用 C++槽函数,三步：第三步
                                 qmlSendSignals(modelData.phoneId,modelData.phoneName, modelData.phoneInstanceNo,modelData.ExpireTime, true)
                                 //itemClickedSignals(windowItem.index, modelData);
-                                console.log("Item was clicked. width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
+                                console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
                                 // 在这里可以添加更多的逻辑
                                 //发送显示PhoneInstanceWidget窗口的信号
                             }
                         }
                     }
                 }
-
+                 CheckBox {
+                 id: checkBox
+                            checked:QMLSizeManager.CheckBox
+                            anchors.top: parent.top
+                            anchors.right: parent.right                           
+                            onCheckedChanged: {
+                                // 更新模型中的checked状态
+                                                modelData.checked = checked;
+                                console.log("onCheckedChanged "+modelData.checked)
+                                modelData.setCheckBox(checked);
+                                notifyRefreshWindow();
+                                MyListModel.do_notifyRefreshWindow();
+                                                // 强制刷新当前项
+                                                //parent.updateCurrentItem();
+                            }
+                        }
                 
 
                 Text {
@@ -198,4 +172,5 @@ Canvas{
             console.log("onWidthChanged listView.columns = "+listView.columns);
         }
     }
+	}
 }
