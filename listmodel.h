@@ -44,11 +44,21 @@ public:
     {
         items.clear();
     }
-
+    //取消选择
+    void setCancelSelectCheckBox(bool bChecked);
+    //全选
+    Q_INVOKABLE void setAllCheckBox(bool newCheckBox);
+    //反选
+    void setFanXuanCheckBox();
+public slots:
+    void ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu);
+    void do_ItemClickSignals(int index, const QVariant& data);
+    Q_INVOKABLE void do_notifyRefreshWindow();
 signals:
 
     void itemsChanged();
-
+    //复选框勾选通知界面刷新
+    void notifyMainWindowRefreshWindow();
 private:
     QVariantList items;
     Q_PROPERTY(QVariantList items READ getItems WRITE setItems NOTIFY itemsChanged FINAL)

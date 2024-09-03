@@ -58,10 +58,10 @@ border-radius:0px;
 }</string>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
+       <enum>QFrame::Shadow::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
@@ -121,7 +121,7 @@ background:transparent;
           </size>
          </property>
          <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -165,7 +165,7 @@ color:#6296FF;
           </size>
          </property>
          <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -209,7 +209,7 @@ color:#6296FF;
           </size>
          </property>
          <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextUnderIcon</enum>
+          <enum>Qt::ToolButtonStyle::ToolButtonTextUnderIcon</enum>
          </property>
          <property name="autoRaise">
           <bool>false</bool>
@@ -219,7 +219,7 @@ color:#6296FF;
        <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Orientation::Vertical</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -258,10 +258,10 @@ color:#6296FF;
          <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;background-color:white}</string>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <property name="lineWidth">
          <number>0</number>
@@ -318,14 +318,14 @@ color:#505465;
             </size>
            </property>
            <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
+            <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
            </property>
           </widget>
          </item>
          <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -427,25 +427,10 @@ background-image: url(:/main/resource/main/default_photoUrl.png);
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
            <property name="styleSheet">
-            <string notr="true">QToolButton {
-border:none;
-background:transparent;
-color:#FF407AFF;
-}
-QToolButton:hover  {
-border:none;
-background:transparent;
-color:#FF407AFF;
-}
-QToolButton:pressed  {
-border:none;
-background:transparent;
-color:#FF407AFF;
-}
-QToolButton:clicked  {
-border:none;
-background:transparent;
-color:#FF407AFF;
+            <string notr="true">QFrame {
+color: rgb(255, 255, 255);
+background-color: #FFECECF2;
+border-bottom: 1px solid #D7D7DE;
 }</string>
            </property>
            <property name="text">
@@ -462,7 +447,7 @@ color:#FF407AFF;
             </size>
            </property>
            <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
+            <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
            </property>
           </widget>
          </item>
@@ -560,7 +545,7 @@ border:none;
             <string/>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -729,10 +714,10 @@ QPushButton:hover {
          <string notr="true">background-color:#FFFFFFFF;</string>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <property name="spacing">
@@ -900,15 +885,14 @@ subcontrol-origin: margin;
                      <string notr="true">QFrame {
 color: rgb(255, 255, 255);
 background-color: #FFECECF2;
-border-radius:0px;
 border-bottom: 1px solid #D7D7DE;
 }</string>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::StyledPanel</enum>
+                     <enum>QFrame::Shape::StyledPanel</enum>
                     </property>
                     <property name="frameShadow">
-                     <enum>QFrame::Raised</enum>
+                     <enum>QFrame::Shadow::Raised</enum>
                     </property>
                     <layout class="QHBoxLayout" name="horizontalLayout_5">
                      <item>
@@ -942,7 +926,7 @@ border:none;
                      <item>
                       <spacer name="horizontalSpacer_4">
                        <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
+                        <enum>Qt::Orientation::Horizontal</enum>
                        </property>
                        <property name="sizeHint" stdset="0">
                         <size>
@@ -1118,10 +1102,10 @@ border-radius:0px;
 }</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_3">
                     <property name="spacing">
@@ -1171,7 +1155,7 @@ border-radius:0px;
                     <item>
                      <spacer name="horizontalSpacer_3">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -1197,10 +1181,10 @@ border-bottom: 1px solid #D7D7DE;
 }</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_17">
                     <item>
@@ -1562,7 +1546,7 @@ QPushButton:disabled
                     <item>
                      <spacer name="horizontalSpacer_16">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -1583,16 +1567,15 @@ QPushButton:disabled
                    <property name="styleSheet">
                     <string notr="true">QFrame {
 color: rgb(255, 255, 255);
-background-color: #FF#F5F6FA;
 border-radius:0px;
 border-bottom: 1px solid #D7D7DE;
 }</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_2">
                     <property name="spacing">
@@ -1636,7 +1619,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/previewMode_select.png</normaloff>:/main/resource/main/previewMode_select.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -1665,7 +1648,6 @@ padding-left:8px;
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: #505465;
-border-radius:0px;
 padding-left:8px;
 background-color:#E6E9F2;
 }</string>
@@ -1678,14 +1660,14 @@ background-color:#E6E9F2;
                         <normaloff>:/main/resource/main/listMode_normal.png</normaloff>:/main/resource/main/listMode_normal.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <spacer name="horizontalSpacer_2">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -1789,7 +1771,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/changeScreen.png</normaloff>:/main/resource/main/changeScreen.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -1836,7 +1818,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/changeScreen.png</normaloff>:/main/resource/main/changeScreen.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -1858,10 +1840,10 @@ border-bottom: 1px solid #D7D7DE;
 }</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_6">
                     <item>
@@ -2089,7 +2071,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/macroscheme.png</normaloff>:/main/resource/main/macroscheme.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -2131,7 +2113,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/batchOper.png</normaloff>:/main/resource/main/batchOper.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -2155,13 +2137,11 @@ padding-left:8px;
                       <property name="styleSheet">
                        <string notr="true">QToolButton {border:none;
 color: #505465;
-border-radius:1px;
 padding-left:8px;
 }
 QToolButton:hover {
 background-color: #FFE7E8EE;
 color: #505465;
-border-radius:1px;
 padding-left:8px;
 }</string>
                       </property>
@@ -2173,7 +2153,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/appInstaller.png</normaloff>:/main/resource/main/appInstaller.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -2239,7 +2219,7 @@ background-image: url(:/main/resource/main/buyNum.png);
                     <item>
                      <spacer name="horizontalSpacer_15">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -2287,7 +2267,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/packup.png</normaloff>:/main/resource/main/packup.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -2329,7 +2309,7 @@ padding-left:8px;
                         <normaloff>:/main/resource/main/expand.png</normaloff>:/main/resource/main/expand.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -2362,10 +2342,10 @@ padding-left:8px;
                       <bool>true</bool>
                      </property>
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QVBoxLayout" name="verticalLayout_2">
                       <property name="spacing">
@@ -2409,14 +2389,7 @@ padding-left:8px;
                         <number>0</number>
                        </property>
                        <item>
-                        <widget class="QMouseListWidget" name="listWidget">
-                         <property name="mouseTracking">
-                          <bool>true</bool>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true">border:none</string>
-                         </property>
-                        </widget>
+                        <widget class="QWidget" name="widget_2" native="true"/>
                        </item>
                        <item>
                         <widget class="QFrame" name="frame_PageMode">
@@ -2426,17 +2399,23 @@ padding-left:8px;
                            <height>50</height>
                           </size>
                          </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>50</height>
+                          </size>
+                         </property>
                          <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
+                          <enum>QFrame::Shape::StyledPanel</enum>
                          </property>
                          <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
+                          <enum>QFrame::Shadow::Raised</enum>
                          </property>
                          <layout class="QHBoxLayout" name="horizontalLayout_16">
                           <item>
                            <spacer name="horizontalSpacer_13">
                             <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
+                             <enum>Qt::Orientation::Horizontal</enum>
                             </property>
                             <property name="sizeHint" stdset="0">
                              <size>
@@ -2490,7 +2469,7 @@ background:transparent;
                              <string>0/1</string>
                             </property>
                             <property name="alignment">
-                             <set>Qt::AlignCenter</set>
+                             <set>Qt::AlignmentFlag::AlignCenter</set>
                             </property>
                            </widget>
                           </item>
@@ -2614,7 +2593,7 @@ QPushButton:disabled
                           <item>
                            <spacer name="horizontalSpacer_31">
                             <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
+                             <enum>Qt::Orientation::Horizontal</enum>
                             </property>
                             <property name="sizeHint" stdset="0">
                              <size>
@@ -2663,16 +2642,16 @@ QPushButton:disabled
                             <string notr="true">QFrame{background-color:#FFE7E8EE;}</string>
                            </property>
                            <property name="frameShape">
-                            <enum>QFrame::StyledPanel</enum>
+                            <enum>QFrame::Shape::StyledPanel</enum>
                            </property>
                            <property name="frameShadow">
-                            <enum>QFrame::Raised</enum>
+                            <enum>QFrame::Shadow::Raised</enum>
                            </property>
                            <layout class="QVBoxLayout" name="verticalLayout_18">
                             <item>
                              <spacer name="verticalSpacer_10">
                               <property name="orientation">
-                               <enum>Qt::Vertical</enum>
+                               <enum>Qt::Orientation::Vertical</enum>
                               </property>
                               <property name="sizeHint" stdset="0">
                                <size>
@@ -2717,14 +2696,14 @@ background:transparent;</string>
                                <string>添加新设备</string>
                               </property>
                               <property name="alignment">
-                               <set>Qt::AlignCenter</set>
+                               <set>Qt::AlignmentFlag::AlignCenter</set>
                               </property>
                              </widget>
                             </item>
                             <item>
                              <spacer name="verticalSpacer_11">
                               <property name="orientation">
-                               <enum>Qt::Vertical</enum>
+                               <enum>Qt::Orientation::Vertical</enum>
                               </property>
                               <property name="sizeHint" stdset="0">
                                <size>
@@ -2740,7 +2719,7 @@ background:transparent;</string>
                          <item>
                           <spacer name="horizontalSpacer_32">
                            <property name="orientation">
-                            <enum>Qt::Horizontal</enum>
+                            <enum>Qt::Orientation::Horizontal</enum>
                            </property>
                            <property name="sizeHint" stdset="0">
                             <size>
@@ -2755,7 +2734,7 @@ background:transparent;</string>
                        <item>
                         <spacer name="verticalSpacer_12">
                          <property name="orientation">
-                          <enum>Qt::Vertical</enum>
+                          <enum>Qt::Orientation::Vertical</enum>
                          </property>
                          <property name="sizeHint" stdset="0">
                           <size>
@@ -2805,10 +2784,10 @@ background:transparent;</string>
                           <string notr="true"/>
                          </property>
                          <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
+                          <enum>QFrame::Shape::StyledPanel</enum>
                          </property>
                          <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
+                          <enum>QFrame::Shadow::Raised</enum>
                          </property>
                          <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="2,2,2">
                           <property name="topMargin">
@@ -2839,10 +2818,10 @@ background:transparent;</string>
                              </font>
                             </property>
                             <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
+                             <enum>QFrame::Shape::StyledPanel</enum>
                             </property>
                             <property name="frameShadow">
-                             <enum>QFrame::Raised</enum>
+                             <enum>QFrame::Shadow::Raised</enum>
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_40">
                              <property name="leftMargin">
@@ -2879,7 +2858,7 @@ background:transparent;</string>
                              <item>
                               <spacer name="horizontalSpacer_34">
                                <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
+                                <enum>Qt::Orientation::Horizontal</enum>
                                </property>
                                <property name="sizeHint" stdset="0">
                                 <size>
@@ -2943,10 +2922,10 @@ background:transparent;</string>
                           <string notr="true">QFrame{background-color:#FFE7E8EE;}</string>
                          </property>
                          <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
+                          <enum>QFrame::Shape::StyledPanel</enum>
                          </property>
                          <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
+                          <enum>QFrame::Shadow::Raised</enum>
                          </property>
                          <layout class="QHBoxLayout" name="horizontalLayout_9">
                           <property name="spacing">
@@ -2967,7 +2946,7 @@ background:transparent;</string>
                           <item>
                            <spacer name="horizontalSpacer_7">
                             <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
+                             <enum>Qt::Orientation::Horizontal</enum>
                             </property>
                             <property name="sizeHint" stdset="0">
                              <size>
@@ -3023,7 +3002,7 @@ background:transparent;</string>
                                <string>添加新设备</string>
                               </property>
                               <property name="alignment">
-                               <set>Qt::AlignCenter</set>
+                               <set>Qt::AlignmentFlag::AlignCenter</set>
                               </property>
                              </widget>
                             </item>
@@ -3032,7 +3011,7 @@ background:transparent;</string>
                           <item>
                            <spacer name="horizontalSpacer_9">
                             <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
+                             <enum>Qt::Orientation::Horizontal</enum>
                             </property>
                             <property name="sizeHint" stdset="0">
                              <size>
@@ -3048,7 +3027,7 @@ background:transparent;</string>
                        <item>
                         <spacer name="verticalSpacer_2">
                          <property name="orientation">
-                          <enum>Qt::Vertical</enum>
+                          <enum>Qt::Orientation::Vertical</enum>
                          </property>
                          <property name="sizeHint" stdset="0">
                           <size>
@@ -3105,10 +3084,10 @@ background:transparent;</string>
                 <string notr="true">/*QFrame {border-bottom: 1px solid #D7D7DE;}*/</string>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <property name="spacing">
@@ -3141,10 +3120,10 @@ background:transparent;</string>
                    </size>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_20">
                    <property name="spacing">
@@ -3209,10 +3188,10 @@ font-size:16px;
                       </size>
                      </property>
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_37">
                       <property name="spacing">
@@ -3260,10 +3239,10 @@ border:none;</string>
                    </size>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_21">
                    <property name="spacing">
@@ -3336,10 +3315,10 @@ font-size:16px;
                       </size>
                      </property>
                      <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
+                      <enum>QFrame::Shape::StyledPanel</enum>
                      </property>
                      <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
+                      <enum>QFrame::Shadow::Raised</enum>
                      </property>
                      <layout class="QHBoxLayout" name="horizontalLayout_33">
                       <property name="spacing">
@@ -3381,7 +3360,7 @@ border:none;</string>
                 <item>
                  <spacer name="horizontalSpacer_6">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3431,10 +3410,10 @@ border:none;</string>
                     <string notr="true">background-color:#E6E9F2;</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_31" stretch="4,9">
                     <property name="spacing">
@@ -3467,10 +3446,10 @@ border:none;</string>
                        </size>
                       </property>
                       <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
+                       <enum>QFrame::Shape::StyledPanel</enum>
                       </property>
                       <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
+                       <enum>QFrame::Shadow::Raised</enum>
                       </property>
                       <layout class="QVBoxLayout" name="verticalLayout_22">
                        <property name="spacing">
@@ -3497,7 +3476,7 @@ border:none;</string>
                           <string>激活码（0）</string>
                          </property>
                          <property name="alignment">
-                          <set>Qt::AlignCenter</set>
+                          <set>Qt::AlignmentFlag::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -3513,7 +3492,7 @@ border:none;</string>
                        <string>激活状态(成功:0失败：0)</string>
                       </property>
                       <property name="alignment">
-                       <set>Qt::AlignCenter</set>
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
@@ -3556,10 +3535,10 @@ border-top: 1px solid #D7D7DE;
 }</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_30">
                     <property name="spacing">
@@ -3624,7 +3603,7 @@ QComboBox QAbstractItemView::item:selected{
                     <item>
                      <spacer name="horizontalSpacer_8">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -3661,7 +3640,7 @@ max-width:100px;
                         <normaloff>:/main/resource/main/delete.png</normaloff>:/main/resource/main/delete.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -3786,10 +3765,10 @@ QPushButton:disabled
                     <bool>true</bool>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                   </widget>
                  </item>
@@ -3814,10 +3793,10 @@ QPushButton:disabled
                     <string notr="true">background-color:#E6E9F2;</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_38">
                     <property name="spacing">
@@ -3838,10 +3817,10 @@ QPushButton:disabled
                     <item>
                      <widget class="QFrame" name="frame_35">
                       <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
+                       <enum>QFrame::Shape::StyledPanel</enum>
                       </property>
                       <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
+                       <enum>QFrame::Shadow::Raised</enum>
                       </property>
                       <layout class="QHBoxLayout" name="horizontalLayout_39">
                        <property name="spacing">
@@ -3916,7 +3895,7 @@ color:#505465;font-size:13px;font-weight:bold;
                           <string>云手机名称(0)</string>
                          </property>
                          <property name="alignment">
-                          <set>Qt::AlignCenter</set>
+                          <set>Qt::AlignmentFlag::AlignCenter</set>
                          </property>
                         </widget>
                        </item>
@@ -3932,7 +3911,7 @@ color:#505465;font-size:13px;font-weight:bold;
                        <string>激活码（0）</string>
                       </property>
                       <property name="alignment">
-                       <set>Qt::AlignCenter</set>
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
@@ -3948,7 +3927,7 @@ color:#505465;font-size:13px;font-weight:bold;
                        <string>激活状态(成功:0失败：0)</string>
                       </property>
                       <property name="alignment">
-                       <set>Qt::AlignCenter</set>
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
@@ -3991,10 +3970,10 @@ border-top: 1px solid #D7D7DE;
 }</string>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_34">
                     <property name="spacing">
@@ -4054,7 +4033,7 @@ QPushButton:disabled
                     <item>
                      <spacer name="horizontalSpacer_26">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -4091,7 +4070,7 @@ max-width:100px;
                         <normaloff>:/main/resource/main/delete.png</normaloff>:/main/resource/main/delete.png</iconset>
                       </property>
                       <property name="toolButtonStyle">
-                       <enum>Qt::ToolButtonTextBesideIcon</enum>
+                       <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                       </property>
                      </widget>
                     </item>
@@ -4273,10 +4252,10 @@ QPushButton:disabled
                 <string notr="true">QFrame {border-bottom: 1px solid #D7D7DE;}</string>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_15">
                 <property name="spacing">
@@ -4375,7 +4354,7 @@ padding-left:8px;
                 <item>
                  <spacer name="horizontalSpacer_14">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -4406,10 +4385,10 @@ padding-left:8px;
                 <bool>true</bool>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_21">
                 <item>
@@ -4462,7 +4441,7 @@ subcontrol-origin: margin;
                     <rect>
                      <x>0</x>
                      <y>0</y>
-                     <width>1272</width>
+                     <width>80</width>
                      <height>200</height>
                     </rect>
                    </property>
@@ -4484,10 +4463,10 @@ subcontrol-origin: margin;
                 <string notr="true"/>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_22">
                 <property name="spacing">
@@ -4532,7 +4511,7 @@ subcontrol-origin: margin;
                       <item>
                        <spacer name="horizontalSpacer_17">
                         <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
+                         <enum>Qt::Orientation::Horizontal</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
@@ -4572,14 +4551,14 @@ subcontrol-origin: margin;
                          <bool>true</bool>
                         </property>
                         <property name="alignment">
-                         <set>Qt::AlignCenter</set>
+                         <set>Qt::AlignmentFlag::AlignCenter</set>
                         </property>
                        </widget>
                       </item>
                       <item>
                        <spacer name="horizontalSpacer_18">
                         <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
+                         <enum>Qt::Orientation::Horizontal</enum>
                         </property>
                         <property name="sizeHint" stdset="0">
                          <size>
@@ -4594,7 +4573,7 @@ subcontrol-origin: margin;
                     <item>
                      <spacer name="verticalSpacer_6">
                       <property name="orientation">
-                       <enum>Qt::Vertical</enum>
+                       <enum>Qt::Orientation::Vertical</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -4616,7 +4595,7 @@ subcontrol-origin: margin;
                        <string>套餐暂时不足</string>
                       </property>
                       <property name="alignment">
-                       <set>Qt::AlignCenter</set>
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
@@ -4632,14 +4611,14 @@ subcontrol-origin: margin;
                        <string>请稍后查看或购买其他等级云手机</string>
                       </property>
                       <property name="alignment">
-                       <set>Qt::AlignCenter</set>
+                       <set>Qt::AlignmentFlag::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <spacer name="verticalSpacer_7">
                       <property name="orientation">
-                       <enum>Qt::Vertical</enum>
+                       <enum>Qt::Orientation::Vertical</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -4689,10 +4668,10 @@ subcontrol-origin: margin;
                           </size>
                          </property>
                          <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
+                          <enum>QFrame::Shape::StyledPanel</enum>
                          </property>
                          <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
+                          <enum>QFrame::Shadow::Raised</enum>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_7">
                           <property name="spacing">
@@ -4719,10 +4698,10 @@ subcontrol-origin: margin;
                              </size>
                             </property>
                             <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
+                             <enum>QFrame::Shape::StyledPanel</enum>
                             </property>
                             <property name="frameShadow">
-                             <enum>QFrame::Raised</enum>
+                             <enum>QFrame::Shadow::Raised</enum>
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_36">
                              <property name="spacing">
@@ -4756,7 +4735,7 @@ subcontrol-origin: margin;
                              <item>
                               <spacer name="horizontalSpacer_11">
                                <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
+                                <enum>Qt::Orientation::Horizontal</enum>
                                </property>
                                <property name="sizeHint" stdset="0">
                                 <size>
@@ -4788,10 +4767,10 @@ subcontrol-origin: margin;
                              </size>
                             </property>
                             <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
+                             <enum>QFrame::Shape::StyledPanel</enum>
                             </property>
                             <property name="frameShadow">
-                             <enum>QFrame::Raised</enum>
+                             <enum>QFrame::Shadow::Raised</enum>
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_12">
                              <property name="spacing">
@@ -4830,7 +4809,7 @@ subcontrol-origin: margin;
                              <item>
                               <spacer name="horizontalSpacer_10">
                                <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
+                                <enum>Qt::Orientation::Horizontal</enum>
                                </property>
                                <property name="sizeHint" stdset="0">
                                 <size>
@@ -4846,10 +4825,10 @@ subcontrol-origin: margin;
                           <item>
                            <widget class="QFrame" name="frame_30">
                             <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
+                             <enum>QFrame::Shape::StyledPanel</enum>
                             </property>
                             <property name="frameShadow">
-                             <enum>QFrame::Raised</enum>
+                             <enum>QFrame::Shadow::Raised</enum>
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_11">
                              <property name="spacing">
@@ -4918,7 +4897,7 @@ border-image:url(:/main/resource/main/border_select.png);
                                 </size>
                                </property>
                                <property name="toolButtonStyle">
-                                <enum>Qt::ToolButtonTextBesideIcon</enum>
+                                <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                                </property>
                               </widget>
                              </item>
@@ -4973,14 +4952,14 @@ border-image:url(:/main/resource/main/border_select.png);
                                 </size>
                                </property>
                                <property name="toolButtonStyle">
-                                <enum>Qt::ToolButtonTextBesideIcon</enum>
+                                <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                                </property>
                               </widget>
                              </item>
                              <item>
                               <spacer name="horizontalSpacer_12">
                                <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
+                                <enum>Qt::Orientation::Horizontal</enum>
                                </property>
                                <property name="sizeHint" stdset="0">
                                 <size>
@@ -4996,7 +4975,7 @@ border-image:url(:/main/resource/main/border_select.png);
                           <item>
                            <spacer name="verticalSpacer_3">
                             <property name="orientation">
-                             <enum>Qt::Vertical</enum>
+                             <enum>Qt::Orientation::Vertical</enum>
                             </property>
                             <property name="sizeHint" stdset="0">
                              <size>
@@ -5030,10 +5009,10 @@ border-image:url(:/main/resource/main/border_select.png);
                           <string notr="true">border:none;</string>
                          </property>
                          <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
+                          <enum>QFrame::Shape::StyledPanel</enum>
                          </property>
                          <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
+                          <enum>QFrame::Shadow::Raised</enum>
                          </property>
                          <layout class="QVBoxLayout" name="verticalLayout_14">
                           <property name="spacing">
@@ -5066,10 +5045,10 @@ border-image:url(:/main/resource/main/border_select.png);
                              <string notr="true">border:none;</string>
                             </property>
                             <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
+                             <enum>QFrame::Shape::StyledPanel</enum>
                             </property>
                             <property name="frameShadow">
-                             <enum>QFrame::Raised</enum>
+                             <enum>QFrame::Shadow::Raised</enum>
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_29">
                              <property name="spacing">
@@ -5137,7 +5116,7 @@ border-image:url(:/main/resource/main/border_select.png);
                              <item>
                               <spacer name="horizontalSpacer_30">
                                <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
+                                <enum>Qt::Orientation::Horizontal</enum>
                                </property>
                                <property name="sizeHint" stdset="0">
                                 <size>
@@ -5167,7 +5146,7 @@ border-image:url(:/main/resource/main/border_select.png);
                                 </font>
                                </property>
                                <property name="focusPolicy">
-                                <enum>Qt::NoFocus</enum>
+                                <enum>Qt::FocusPolicy::NoFocus</enum>
                                </property>
                                <property name="styleSheet">
                                 <string notr="true">QToolButton:hover { border: none; background: none; }</string>
@@ -5183,7 +5162,7 @@ border-image:url(:/main/resource/main/border_select.png);
                                 <bool>false</bool>
                                </property>
                                <property name="toolButtonStyle">
-                                <enum>Qt::ToolButtonTextBesideIcon</enum>
+                                <enum>Qt::ToolButtonStyle::ToolButtonTextBesideIcon</enum>
                                </property>
                                <property name="autoRaise">
                                 <bool>true</bool>
@@ -5231,10 +5210,10 @@ border-image:url(:/main/resource/main/border_select.png);
                 <string notr="true">QFrame {border-top: 1px solid #D7D7DE;}</string>
                </property>
                <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
+                <enum>QFrame::Shape::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
+                <enum>QFrame::Shadow::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_7">
                 <property name="spacing">
@@ -5316,7 +5295,7 @@ border:none;
                 <item>
                  <spacer name="horizontalSpacer_5">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Orientation::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -5338,10 +5317,10 @@ border:none;
                    <string notr="true">border:none;</string>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_14">
                    <property name="spacing">
@@ -5487,7 +5466,7 @@ background:transparent;
                       <string>1</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignCenter</set>
+                      <set>Qt::AlignmentFlag::AlignCenter</set>
                      </property>
                     </widget>
                    </item>
@@ -5562,10 +5541,10 @@ background:transparent;
                    <string notr="true">border:none;</string>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::StyledPanel</enum>
+                   <enum>QFrame::Shape::StyledPanel</enum>
                   </property>
                   <property name="frameShadow">
-                   <enum>QFrame::Raised</enum>
+                   <enum>QFrame::Shadow::Raised</enum>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_35">
                    <property name="spacing">
@@ -5626,7 +5605,7 @@ background:transparent;
                       <string>￥</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                      <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
                      </property>
                     </widget>
                    </item>
@@ -5645,7 +5624,7 @@ background:transparent;
                       <string>0</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                      <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
                      </property>
                     </widget>
                    </item>
@@ -5673,7 +5652,7 @@ background:transparent;
                       <string>.80</string>
                      </property>
                      <property name="alignment">
-                      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+                      <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
                      </property>
                     </widget>
                    </item>
@@ -5743,7 +5722,7 @@ QPushButton:hover
              <item>
               <spacer name="verticalSpacer_8">
                <property name="orientation">
-                <enum>Qt::Vertical</enum>
+                <enum>Qt::Orientation::Vertical</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
@@ -5758,7 +5737,7 @@ QPushButton:hover
                <item>
                 <spacer name="horizontalSpacer_27">
                  <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                  <enum>Qt::Orientation::Horizontal</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -5774,10 +5753,10 @@ QPushButton:hover
                   <bool>true</bool>
                  </property>
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::Shape::StyledPanel</enum>
                  </property>
                  <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
+                  <enum>QFrame::Shadow::Raised</enum>
                  </property>
                  <layout class="QVBoxLayout" name="verticalLayout_12">
                   <item>
@@ -5798,7 +5777,7 @@ QPushButton:hover
                      <string>二维码已失效，请刷新重新支付</string>
                     </property>
                     <property name="alignment">
-                     <set>Qt::AlignCenter</set>
+                     <set>Qt::AlignmentFlag::AlignCenter</set>
                     </property>
                    </widget>
                   </item>
@@ -5807,7 +5786,7 @@ QPushButton:hover
                     <item>
                      <spacer name="horizontalSpacer_19">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -5842,7 +5821,7 @@ QPushButton:hover
                     <item>
                      <spacer name="horizontalSpacer_20">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -5859,7 +5838,7 @@ QPushButton:hover
                     <item>
                      <spacer name="horizontalSpacer_21">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -5905,7 +5884,7 @@ QPushButton:hover
                     <item>
                      <spacer name="horizontalSpacer_22">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -5922,7 +5901,7 @@ QPushButton:hover
                     <item>
                      <spacer name="horizontalSpacer_23">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -5945,7 +5924,7 @@ QPushButton:hover
                     <item>
                      <spacer name="horizontalSpacer_24">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -5962,7 +5941,7 @@ QPushButton:hover
                     <item>
                      <spacer name="horizontalSpacer_25">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -6029,7 +6008,7 @@ QPushButton:disabled
                     <item>
                      <spacer name="horizontalSpacer_29">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -6096,7 +6075,7 @@ QPushButton:disabled
                     <item>
                      <spacer name="horizontalSpacer_33">
                       <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
+                       <enum>Qt::Orientation::Horizontal</enum>
                       </property>
                       <property name="sizeHint" stdset="0">
                        <size>
@@ -6168,7 +6147,7 @@ QPushButton:disabled
                <item>
                 <spacer name="horizontalSpacer_28">
                  <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                  <enum>Qt::Orientation::Horizontal</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -6183,7 +6162,7 @@ QPushButton:disabled
              <item>
               <spacer name="verticalSpacer_9">
                <property name="orientation">
-                <enum>Qt::Vertical</enum>
+                <enum>Qt::Orientation::Vertical</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>

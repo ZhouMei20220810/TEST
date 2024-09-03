@@ -289,6 +289,9 @@ private slots:
     //同步列表删除widget
     void DeleteSyncPhoneInstanceWidget(QString strInstanceNo);
 private:
+    //通过QML加载数据
+    void loadPreviewModeListByQML();
+private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
     //会员数据列表

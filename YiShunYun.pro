@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui qml
 QT += network
 QT += webenginewidgets
 QT += positioning
@@ -6,7 +6,7 @@ QT += quickwidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 #LIBS += -lssl -lcrypto
-
+CONFIG += c++11
 CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -35,6 +35,8 @@ SOURCES += \
     global.cpp \
     individualcenterwidget.cpp \
     levelitemwidget.cpp \
+    listitem.cpp \
+    listmodel.cpp \
     main.cpp \
     loginwindow.cpp \
     mainwindow.cpp \
@@ -101,6 +103,8 @@ HEADERS += \
     global.h \
     individualcenterwidget.h \
     levelitemwidget.h \
+    listitem.h \
+    listmodel.h \
     loginwindow.h \
     mainwindow.h \
     messagecenterdialog.h \

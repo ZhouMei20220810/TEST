@@ -223,6 +223,8 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="individualcenterwidget.cpp" />
     <ClCompile Include="levelitemwidget.cpp" />
+    <ClCompile Include="listitem.cpp" />
+    <ClCompile Include="listmodel.cpp" />
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -289,6 +291,8 @@
     <ClInclude Include="global.h" />
     <QtMoc Include="individualcenterwidget.h" />
     <QtMoc Include="levelitemwidget.h" />
+    <QtMoc Include="listitem.h" />
+    <QtMoc Include="listmodel.h" />
     <QtMoc Include="loginwindow.h" />
     <QtMoc Include="mainwindow.h" />
     <QtMoc Include="messagecenterdialog.h" />
