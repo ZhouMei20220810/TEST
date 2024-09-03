@@ -4,16 +4,15 @@
 #include <QObject>
 #include <QtQml>
 #include "global.h"
+#include "filedownloader.h"
 
 class ListItem : public QObject
 {
     Q_OBJECT
     QML_ELEMENT //声明QML可以访问元素
 public:
-    explicit ListItem(QObject* parent = nullptr) {};
-    explicit ListItem(S_PHONE_INFO* info, QObject *parent = nullptr);
-    //单实例
-    static ListItem* getInstance();
+    explicit ListItem(S_PHONE_INFO info, QObject *parent = nullptr);
+
 
     int getIndex() const;
     void setIndex(int newIndex);
@@ -28,7 +27,7 @@ public:
     void setPhoneInstanceNo(const QString &newPhoneInstanceNo);
 
     bool getCheckBox() const;
-    void setCheckBox(bool newCheckBox);
+    Q_INVOKABLE void setCheckBox(bool newCheckBox);
 
     QString getImagePath() const;
     void setImagePath(const QString &newImagePath);
@@ -45,6 +44,8 @@ public:
     QString getExpireTime() const;
     void setExpireTime(const QString &newExpireTime);
 
+    //从MainWindow接收通知下载图片
+    void downloadUrl(QString url);
 signals:
 
     void indexChanged();
@@ -69,14 +70,24 @@ signals:
     //void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
     void ExpireTimeChanged();
 
-public slots:
+//public slots:
     //用于处理点击事件，包含左键点击和右键菜单
-    void ShowInstanceSignalFromQMLFile(int iId,QString strPhoneName,QString strInstanceNo,QString strExpireTime,bool bIsShowMenu);
+ //   void ShowInstanceSignalFromQMLFile(int iId,QString strPhoneName,QString strInstanceNo,QString strExpireTime,bool bIsShowMenu);
 
 private:
     
     //显示实例,将显示实例部分从MainWindow中提取出来
     void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
+
+    
+private:
+    S_PHONE_INFO m_sPhoneInfo;
+    QByteArray byteArrayImageUrl;
+    QString  m_strPicturePath;
+    QString  m_strTemp;
+    //设置定时器,图片大小
+    QTimer* m_refreshTimer;
+    FileDownloader* m_FileDownload;
 private:
     int index;          //序列号
     int phoneId;        //手机编号

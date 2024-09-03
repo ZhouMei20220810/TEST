@@ -1,49 +1,44 @@
 #include "listitem.h"
 #include "phoneinstancewidget.h"
+#include "listmodel.h"
 
-ListItem::ListItem(S_PHONE_INFO* info, QObject *parent)
+ListItem::ListItem(S_PHONE_INFO info, QObject *parent)
     : QObject{parent}
 {
-    if (info != NULL)
+    if (info.strName.isEmpty())
     {
-        if (info->strName.isEmpty())
-        {
-            phoneName = info->strInstanceNo;
-        }
-        else
-        {
-            phoneName = info->strName;
-        }
-
-        ImagePath = QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info->strInstanceNo);
-
-        checkBox = info->bChecked;
-
-        bShowAuthorImg = true;
-        if (info->bIsAuth)
-        {
-            authorStatus = 1;
-            //从外部传入图片路径不能显示
-            //AuthorImgPath = "qrc:/main/resource/main/Authorized.png";//QString("qrc:/main/resource/main/Authorized.png");
-        }
-        else if (info->iAuthType == EN_BE_AUTHORIZATION)
-        {
-            authorStatus = 2;
-            //从外部传入图片路径不能显示
-            //AuthorImgPath = "qrc:/main/resource/main/BeAuthorized.png";
-        }
-        else
-            bShowAuthorImg = false;
+        phoneName = info.strInstanceNo;
     }
-    
+    else
+    {
+        phoneName = info.strName;
+    }
 
-    PhoneInfo = *info;
-}
+    ImagePath = QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo);
 
-static ListItem* getInstance()
-{
-    ListItem* listItem = new ListItem();
-    return listItem;
+    checkBox = info.bChecked;
+
+    bShowAuthorImg = true;
+    if (info.bIsAuth)
+    {
+        authorStatus = 1;
+        //从外部传入图片路径不能显示
+        //AuthorImgPath = "qrc:/main/resource/main/Authorized.png";//QString("qrc:/main/resource/main/Authorized.png");
+    }
+    else if (info.iAuthType == EN_BE_AUTHORIZATION)
+    {
+        authorStatus = 2;
+        //从外部传入图片路径不能显示
+        //AuthorImgPath = "qrc:/main/resource/main/BeAuthorized.png";
+    }
+    else
+        bShowAuthorImg = false;
+
+    m_FileDownload = NULL;
+    m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
+    m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";
+
+    PhoneInfo = info;
 }
 
 int ListItem::getIndex() const
@@ -163,7 +158,7 @@ void ListItem::setBShowAuthorImg(bool newBShowAuthorImg)
     emit bShowAuthorImgChanged();
 }
 
-void ListItem::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu)
+/*void ListItem::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu)
 {
     //PhoneInfo为空
     S_PHONE_INFO info;
@@ -174,7 +169,7 @@ void ListItem::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QStr
     qDebug() << "ShowInstanceSignalFromQMLFile strPhoneName="<<strPhoneName<< " VMNo=" << strInstanceNo <<"iId="<<iId<<"strExpireTime="<< strExpireTime<<"bIsShowMenu="<< bIsShowMenu;
     //emit ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
     on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
-}
+}*/
 
 QString ListItem::getExpireTime() const
 {
@@ -386,4 +381,35 @@ void ListItem::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool b
     //m_SyncOperListWidget->resize(2000,2000);
     //m_SyncOperListWidget->setVisible(false);
     */
+}
+void ListItem::downloadUrl(QString url)
+{
+    if (NULL == m_FileDownload)
+        m_FileDownload = new FileDownloader(this);
+    if (m_FileDownload != NULL)
+    {
+        connect(m_FileDownload, &FileDownloader::downloadFinished, this, [this]()
+            {
+                QPixmap pixmap(m_strTemp);
+                if (!pixmap.isNull())
+                {
+                    if (QFile::exists(m_strPicturePath))
+                    {
+                        if (!QFile::remove(m_strPicturePath))
+                        {
+                            qDebug() << "remove fail:" << m_strPicturePath;
+                        }
+                    }
+                    if (!QFile::rename(m_strTemp, m_strPicturePath))
+                    {
+                        qDebug() << "rename fail: " << m_strPicturePath;
+                    }
+                    //file.rename(m_strPicturePath);
+                    //showLabelImage(m_strPicturePath);
+                    setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(phoneInstanceNo));
+                }
+            });
+        m_FileDownload->setUrlOutputFile(url, m_strTemp);
+        m_FileDownload->start();
+    }
 }
