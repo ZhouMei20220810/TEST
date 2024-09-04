@@ -3,11 +3,6 @@ import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
 import MyListModelEx 1.0
 
-Window{
-    id: root
-    width:800
-    height:600
-    visible:true
 Canvas{
     id: canvas
     width:QMLSizeManager.windowWidth
@@ -74,7 +69,7 @@ Canvas{
                     Image {
                         id: backgroundImage
                         //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
-                        source:modelData.ImagePath //item.ImagePath
+                        source:imagePath //item.ImagePath
                         x:2
                         y:2
                         width: QMLSizeManager.cellWidth
@@ -98,13 +93,13 @@ Canvas{
 	                        width:52
 	                        height:19
 	                        color:"transparent"
-	                        visible:modelData.bShowAuthorImg
+	                        visible:isShowAuthImg
 	                        /*indicator:*/Image {
 	                            id: authorStatusImg
 	                            anchors.fill:parent
 	                            //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/0.png" 
 	                            //source:"qrc:/main/resource/main/Authorized.png" //可以显示已授权
-	                            source:modelData.authorStatus==1?"qrc:/main/resource/main/Authorized.png":"qrc:/main/resource/main/BeAuthorized.png"
+	                            source:authorStatus==1?"qrc:/main/resource/main/Authorized.png":"qrc:/main/resource/main/BeAuthorized.png"
 	                        }
                         }
 
@@ -121,7 +116,7 @@ Canvas{
                                 //直接调用C++中的函数
                                 QMLSizeManager.itemClicked();
                                 //QML发送信号调用 C++槽函数,三步：第三步
-                                qmlSendSignals(modelData.phoneId,modelData.phoneName, modelData.phoneInstanceNo,modelData.ExpireTime, true)
+                                qmlSendSignals(phoneId,phoneName, phoneInstanceNo,expireTime, true)
                                 //itemClickedSignals(windowItem.index, modelData);
                                 console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
                                 // 在这里可以添加更多的逻辑
@@ -132,13 +127,15 @@ Canvas{
                 }
                  CheckBox {
                     id: checkBox
-                    checked:isChecked
+                    checked:bChecked //isChecked
                     anchors.top: parent.top
                     anchors.right: parent.right                           
                     onCheckedChanged: 
                     {
                         // 更新模型中的checked状态
-                        modelData.checked = checked;
+                        //modelData.checked = checked;
+                        var index = listView.model.indexOf(windowItem);
+                        MyListModelEx.setData(index, checked, MyListModelEx.CheckedRole);
                         console.log("onCheckedChanged "+modelData.checked)
                         modelData.setCheckBox(checked);
                         notifyRefreshWindow();
@@ -150,7 +147,7 @@ Canvas{
 
                 Text {
                     id: labelText
-                    text:name//modelData.phoneName //"testtest" //modelData.label
+                    text:phoneName //modelData.phoneName //"testtest" //modelData.label
                     elide: Text.ElideMiddle
                     anchors {
                         //fill: parent // 使用 fill 锚点确保文本占据整个空间
@@ -178,5 +175,4 @@ Canvas{
         }
     }
 	}
-}
 }

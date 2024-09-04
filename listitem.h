@@ -11,7 +11,7 @@ class ListItem : public QObject
     Q_OBJECT
     QML_ELEMENT //声明QML可以访问元素
 public:
-    explicit ListItem(S_PHONE_INFO info, QObject *parent = nullptr);
+    explicit ListItem(/*S_PHONE_INFO info, */ QObject * parent = nullptr);
 
 
     int getIndex() const;

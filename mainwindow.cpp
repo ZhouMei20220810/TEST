@@ -207,7 +207,7 @@ MainWindow::MainWindow(QWidget *parent)
     qmlRegisterSingletonInstance("MyListModel", 1, 0, "MyListModel", MyListModel::getInstance());
     qmlRegisterSingletonInstance("MyListModelEx", 1, 0, "MyListModelEx", MyListModelEx::getInstance());
 
-    connect(MyListModel::getInstance(), &MyListModel::notifyMainWindowRefreshWindow, this, [this]() {
+    connect(MyListModelEx::getInstance(), &MyListModelEx::notifyMainWindowRefreshWindow, this, [this]() {
         if (m_quickWidget != NULL)
         {
             //m_quickWidget->updateGeometry();
@@ -215,7 +215,7 @@ MainWindow::MainWindow(QWidget *parent)
             //m_quickWidget->sync();
             
 
-            QList<ListItem*> list = MyListModel::getInstance()->itemList();
+            /*QList<ListItem*> list = MyListModel::getInstance()->itemList();
             int iIconListCount = list.size();
             if (iIconListCount > 0)
             {
@@ -233,7 +233,7 @@ MainWindow::MainWindow(QWidget *parent)
                     }
                 }              
                 
-            }
+            }*/
             QMLSizeManager::getInstance()->setWindowWidth(ui->pageIconMode->width()-1);
             QMLSizeManager::getInstance()->setWindowHeight(ui->pageIconMode->height()-1);
             m_quickWidget->update();
@@ -253,7 +253,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/resource/listview.qml")));
     //m_quickWidget->move(300,0);
     //ui->quickWidget->setVisible(true);
-
+    m_quickWidget->move(ui->pageIconMode->pos());
     // 设置全局样式
     qputenv("QT_QUICK_CONTROLS_STYLE", "Material");
 }
@@ -5075,9 +5075,9 @@ void MainWindow::loadPreviewModeListByQML()
         ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
 
         //清空之前的内容
-        MyListModel::getInstance()->removeAllItem();
+        MyListModelEx::getInstance()->removeAllItem();
         //显示所有数据
-        ListItem* listitem = NULL;
+        //ListItem* listitem = NULL;
         QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
         QMap<int, S_PHONE_INFO>::iterator mapIter;
         int index = 0;
@@ -5085,18 +5085,18 @@ void MainWindow::loadPreviewModeListByQML()
         //for(int i=0;i < 6;i++)
         for (mapIter = m_mapCurTreeItemSelect.begin(); mapIter != m_mapCurTreeItemSelect.end(); mapIter++, index++)
         {
-            listitem = new ListItem(*mapIter);
+            /*listitem = new ListItem(*mapIter);
             
             //connect(listitem, &ListItem::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
             
             listitem->setPhoneId(mapIter->iId);
             listitem->setPhoneInstanceNo(mapIter->strInstanceNo);
             listitem->setExpireTime(mapIter->strExpireTime);
-            listitem->setPhoneName(mapIter->strName);
+            listitem->setPhoneName(mapIter->strName);*/
             /*listitem->setIndex(index);
             listitem->setPhoneName(mapIter->strName);
             listitem->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(index));*/
-            MyListModel::getInstance()->addItem(listitem);
+            MyListModelEx::getInstance()->addItem(*mapIter);
             //MyListModel::getInstance()->addItem(ListItem(*mapIter));
         }
     }
