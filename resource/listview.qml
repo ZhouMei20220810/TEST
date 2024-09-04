@@ -38,7 +38,7 @@ Window{
             id:txt
             width:100
             height:20
-            text: name //+ " "+ value
+            text: name + " "+ imagePath
         }
     }
 }

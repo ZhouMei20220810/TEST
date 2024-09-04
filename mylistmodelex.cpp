@@ -4,11 +4,8 @@ MyListModelEx::MyListModelEx(QObject *parent)
     : QAbstractListModel(parent)
 {
     //初始化数据
-    m_data.append("vm1");
-    m_data.append("vm2");
-    m_data.append("vm3");
-    m_data.append("vm4");
-    m_data.append("vm5");
+    m_data.append(MyData(true, false,1,0,"Vm1","Vmmm","imagePath","2024"));
+    m_data.append(MyData(true, false, 1, 0, "Vm2", "Vmmm", "imagePath", "2024"));
 }
 
 MyListModelEx *MyListModelEx::getInstance()
@@ -40,21 +37,17 @@ QVariant MyListModelEx::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role == MyRoleName::Name)
-    {
-        return m_data[index.row()];
-    }
-    /*switch (role)
+    switch (role)
     {
     case MyRoleName::Name:
-        return m_data[index.row()];
+        return m_data[index.row()].m_strPhoneName;
         break;
-    case MyRoleName::Value:
-        return m_data[index.row()];
+    case MyRoleName::ImagePath:
+        return m_data[index.row()].m_strImagePath;
         break;
     default:
         break;
-    }*/
+    }
     // FIXME: Implement me!
     return QVariant();
 }
@@ -65,7 +58,7 @@ QHash<int, QByteArray> MyListModelEx::roleNames() const
     QHash<int, QByteArray> roles;
     //映射
     roles.insert(MyRoleName::Name,"name");//字符串是QML端用
-    roles.insert(MyRoleName::Value,"value");//枚举是C++端来判断
+    roles.insert(MyRoleName::ImagePath,"imagePath");//枚举是C++端来判断
     return roles;
 }
 

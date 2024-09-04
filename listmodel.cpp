@@ -25,7 +25,7 @@ void MyListModel::setItems(const QVariantList& newItems)
 
 void MyListModel::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu)
 {
-    //ºóĞø¿ÉÒÔ¿¼ÂÇÊÇ·ñÒª¸ù¾İidÕÒÈ«S_PHONE_INFOµÄĞÅÏ¢
+    //åç»­å¯ä»¥è€ƒè™‘æ˜¯å¦è¦æ ¹æ®idæ‰¾å…¨S_PHONE_INFOçš„ä¿¡æ¯
     qDebug() << "ShowInstanceSignalFromQMLFile strPhoneName=" << strPhoneName << " VMNo=" << strInstanceNo << "iId=" << iId << "strExpireTime=" << strExpireTime << "bIsShowMenu=" << bIsShowMenu;
 
 }
@@ -62,7 +62,7 @@ void MyListModel::setAllCheckBox(bool newCheckBox)
     }
 }
 
-//·´Ñ¡
+//åé€‰
 void MyListModel::setFanXuanCheckBox()
 {
     QList<ListItem*> list;
