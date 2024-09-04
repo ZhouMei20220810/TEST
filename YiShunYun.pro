@@ -43,6 +43,7 @@ SOURCES += \
     messagecenterdialog.cpp \
     messagetips.cpp \
     messagetipsdialog.cpp \
+    mylistmodelex.cpp \
     oneclicknewmachinedialog.cpp \
     passwordloginpage.cpp \
     phoneinstancewidget.cpp \
@@ -110,6 +111,7 @@ HEADERS += \
     messagecenterdialog.h \
     messagetips.h \
     messagetipsdialog.h \
+    mylistmodelex.h \
     oneclicknewmachinedialog.h \
     passwordloginpage.h \
     phoneinstancewidget.h \

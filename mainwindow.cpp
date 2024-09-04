@@ -48,6 +48,7 @@
 #include <QQmlContext>
 #include "qmlsizemanager.h"
 #include "listitem.h"
+#include "mylistmodelex.h"
 #include "listmodel.h"
 
 extern QSystemTrayIcon* g_trayIcon;
@@ -200,11 +201,11 @@ MainWindow::MainWindow(QWidget *parent)
     //默认传值ui->pageIconMode布局的宽高
     QMLSizeManager::getInstance()->setWindowWidth(992/*ui->pageIconMode->width()*/);
     QMLSizeManager::getInstance()->setWindowHeight(600/*ui->pageIconMode->height()*/);
-    QMLSizeManager::getInstance()->setCheckBox(8888);
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
     //qmlRegisterSingletonInstance("ListItem", 1, 0, "ListItem", ListItem::getInstance());
     qmlRegisterType<ListItem>("ListItem", 1, 0, "ListItem");
     qmlRegisterSingletonInstance("MyListModel", 1, 0, "MyListModel", MyListModel::getInstance());
+    qmlRegisterSingletonInstance("MyListModelEx", 1, 0, "MyListModelEx", MyListModelEx::getInstance());
 
     connect(MyListModel::getInstance(), &MyListModel::notifyMainWindowRefreshWindow, this, [this]() {
         if (m_quickWidget != NULL)
@@ -3896,8 +3897,7 @@ void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
     //全选
     if (m_isIconMode)
     {
-        QMLSizeManager::getInstance()->setCheckBox(checked?1:0);
-        //MyListModel::getInstance()->setAllCheckBox(checked);
+        MyListModel::getInstance()->setAllCheckBox(checked);
     }
     else
     {

@@ -231,6 +231,7 @@
     <ClCompile Include="messagecenterdialog.cpp" />
     <ClCompile Include="messagetips.cpp" />
     <ClCompile Include="messagetipsdialog.cpp" />
+    <ClCompile Include="mylistmodelex.cpp" />
     <ClCompile Include="oneclicknewmachinedialog.cpp" />
     <ClCompile Include="passwordloginpage.cpp" />
     <ClCompile Include="phoneinstancewidget.cpp" />
@@ -298,6 +299,7 @@
     <QtMoc Include="messagecenterdialog.h" />
     <QtMoc Include="messagetips.h" />
     <QtMoc Include="messagetipsdialog.h" />
+    <QtMoc Include="mylistmodelex.h" />
     <QtMoc Include="oneclicknewmachinedialog.h" />
     <QtMoc Include="passwordloginpage.h" />
     <QtMoc Include="phoneinstancewidget.h" />
