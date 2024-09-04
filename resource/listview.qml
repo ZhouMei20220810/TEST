@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
 import MyListModelEx 1.0
+import Qt5Compat.GraphicalEffects
 
 Canvas{
     id: canvas
@@ -58,36 +59,45 @@ Canvas{
                     //qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
                 }
 
-                Rectangle
-                {
+                Image {
+                    id: backgroundImage
+                    source:imagePath
+                    width: QMLSizeManager.cellWidth
+                    height: QMLSizeManager.cellHeight
+                    visible:false
+                }
+
+                Rectangle{
                     id:bgImgRect
-                    width:QMLSizeManager.cellWidth+4
-                    height:QMLSizeManager.cellHeight+4
+                    width: backgroundImage.width
+                    height: backgroundImage.height
+                    radius: 2
+                    border.width: 2
+                    visible:false
+                }
+
+                Rectangle{
+                    id:opacityRect
+                    width: backgroundImage.width+4
+                    height:backgroundImage.height+4
                     color:"#FF6B737E"
-                //indicator:
-                    //背景图
-                    Image {
-                        id: backgroundImage
-                        //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
-                        source:imagePath //item.ImagePath
+                    radius: 2
+                    OpacityMask {
                         x:2
                         y:2
-                        width: QMLSizeManager.cellWidth
-                        height: QMLSizeManager.cellHeight
-                        //smooth: false //关闭平滑
-                        fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
-                        //anchors.centerIn: parent
-                        //anchors.margins:2
-                        /*anchors {
-                            top: parent.top+2
-                            left: parent.left+2
-                            right: parent.right-2
-                            bottom: parent.bottom-2
-                            //margins: 2
-                        }*/
-                        //授权状态图
-                        Rectangle{
-	                        id:authorRect
+                            width:backgroundImage.width
+                            height: backgroundImage.height
+                             //anchors.fill: grid
+                             source: backgroundImage//grid
+                             maskSource:bgImgRect //rectBg
+
+                         }
+                }
+                 
+
+                //授权状态图
+                Rectangle{
+	                id:authorRect
 	                        x:2
 	                        y:5
 	                        width:52
@@ -101,35 +111,13 @@ Canvas{
 	                            //source:"qrc:/main/resource/main/Authorized.png" //可以显示已授权
 	                            source:authorStatus==1?"qrc:/main/resource/main/Authorized.png":"qrc:/main/resource/main/BeAuthorized.png"
 	                        }
-                        }
+                 }
 
-                        onStatusChanged: {
-                            console.log("Image status changed:", status);
-                            if (status === Image.Error) {
-                                console.log("Image error:", errorString);
-                            }
-                        }
-                        MouseArea {
-                            id: itemClickArea
-                            anchors.fill: parent
-                            onClicked: {
-                                //直接调用C++中的函数
-                                QMLSizeManager.itemClicked();
-                                //QML发送信号调用 C++槽函数,三步：第三步
-                                qmlSendSignals(phoneId,phoneName, phoneInstanceNo,expireTime, true)
-                                //itemClickedSignals(windowItem.index, modelData);
-                                console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
-                                // 在这里可以添加更多的逻辑
-                                //发送显示PhoneInstanceWidget窗口的信号
-                            }
-                        }
-                    }
-                }
                  CheckBox {
                     id: checkBox
                     checked:bChecked //isChecked
-                    anchors.top: parent.top
-                    anchors.right: parent.right                           
+                    anchors.top: opacityRect.top
+                    anchors.right: opacityRect.right                           
                     onCheckedChanged: 
                     {
                         // 更新模型中的checked状态
@@ -144,17 +132,16 @@ Canvas{
                         //parent.updateCurrentItem();
                     }
                 }
-
                 Text {
                     id: labelText
                     text:phoneName //modelData.phoneName //"testtest" //modelData.label
                     elide: Text.ElideMiddle
                     anchors {
                         //fill: parent // 使用 fill 锚点确保文本占据整个空间
-                        top: bgImgRect.bottom
+                        top: opacityRect.bottom
                         left: parent.left
                         right: parent.right
-                        bottom: bgImgRect.bottom+20
+                        bottom: opacityRect.bottom+20
                         bottomMargin:10 //距离底部距离
                         //verticalCenter: parent.verticalCenter // 保持文本垂直居中
                     }
