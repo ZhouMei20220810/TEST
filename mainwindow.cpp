@@ -199,8 +199,8 @@ MainWindow::MainWindow(QWidget *parent)
     //通过qmlRegisterType注册的对象，在QML中一定要写一个QMLSizeManager{id:qmlSizeManager}
     //qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
     //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可    
-    QMLSizeManager::getInstance()->setCellWidth(207);
-    QMLSizeManager::getInstance()->setCellHeight(368);
+    QMLSizeManager::getInstance()->setCellWidth(ITEM_PHONE_VERTICAL_WIDTH);
+    QMLSizeManager::getInstance()->setCellHeight(ITEM_PHONE_VERTICAL_HEIGHT);
     //默认传值ui->pageIconMode布局的宽高
     QMLSizeManager::getInstance()->setWindowWidth(992/*ui->pageIconMode->width()*/);
     QMLSizeManager::getInstance()->setWindowHeight(600/*ui->pageIconMode->height()*/);
@@ -3673,18 +3673,15 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     int i = ui->comboBoxView->itemData(iIndex).toInt();
     GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
     GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
-    
-    //切换的时候，节省时间直接从缓存数据显示,只有icon模式才能显示切换按钮
-    //on_treeWidget_itemPressed(m_pCurItem, NULL);
-    /*ui->listWidget->clear();
-    if (m_mapCurTreeItemSelect.size() > 0)
+    QMLSizeManager::getInstance()->setCellWidth(GlobalData::iPhoneItemWidth);
+    QMLSizeManager::getInstance()->setCellHeight(GlobalData::iPhoneItemHeight);
+    if (m_quickWidget != NULL)
     {
-        QMap<int, S_PHONE_INFO>::iterator iter = m_mapCurTreeItemSelect.begin();
-        for (; iter != m_mapCurTreeItemSelect.end(); iter++)
-        {
-            AddIconModeListWidgetItem(*iter);
-        }
-    }*/
+        //m_quickWidget->updateGeometry();
+        //先同步再更新
+        //m_quickWidget->sync();
+        m_quickWidget->update();
+    }
 }
 
 
@@ -3699,18 +3696,15 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
     GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
     
-    //on_treeWidget_itemPressed(m_pCurItem, NULL);
-    //切换的时候，节省时间直接从缓存数据显示,只有icon模式才能显示切换按钮
-    //on_treeWidget_itemPressed(m_pCurItem, NULL);
-    /*ui->listWidget->clear();
-    if (m_mapCurTreeItemSelect.size() > 0)
+    QMLSizeManager::getInstance()->setCellWidth(GlobalData::iPhoneItemWidth);
+    QMLSizeManager::getInstance()->setCellHeight(GlobalData::iPhoneItemHeight);
+    if (m_quickWidget != NULL)
     {
-        QMap<int, S_PHONE_INFO>::iterator iter = m_mapCurTreeItemSelect.begin();
-        for (; iter != m_mapCurTreeItemSelect.end(); iter++)
-        {
-            AddIconModeListWidgetItem(*iter);
-        }
-    }*/
+        //m_quickWidget->updateGeometry();
+        //先同步再更新
+        //m_quickWidget->sync();
+        m_quickWidget->update();
+    }
 }
 
 
@@ -4144,8 +4138,6 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
         //m_quickWidget->sync();
         m_quickWidget->update();
     }
-    qDebug() << "click i=" << i << "new width=" << GlobalData::iPhoneItemWidth << "new height=" << GlobalData::iPhoneItemHeight;
-
 }
 
 

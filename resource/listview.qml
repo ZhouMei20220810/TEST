@@ -152,8 +152,8 @@ Canvas{
                         top: opacityRect.bottom
                         left: parent.left
                         right: parent.right
-                        bottom: opacityRect.bottom+20
-                        bottomMargin:10 //距离底部距离
+                        bottom: opacityRect.bottom+28
+                        bottomMargin:parent.bottom //距离底部距离
                         //verticalCenter: parent.verticalCenter // 保持文本垂直居中
                     }
                     horizontalAlignment: Text.AlignHCenter // 水平居中

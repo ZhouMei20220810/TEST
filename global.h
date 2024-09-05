@@ -106,10 +106,10 @@
 #define HTTP_SUCCESS_CODE           200
 //phone item
 #define         ITEM_PHONE_VERTICAL_WIDTH       207 //竖屏宽度
-#define         ITEM_PHONE_VERTICAL_HEIGHT      396 //竖屏高度
+#define         ITEM_PHONE_VERTICAL_HEIGHT      368 //竖屏高度-28窗口自己计算高度，这边只计算图片高度
 //phone item
 #define         ITEM_PHONE_HORIZONTAL_WIDTH       368 //横屏宽度
-#define         ITEM_PHONE_HORIZONTAL_HEIGHT      235 //横屏高度
+#define         ITEM_PHONE_HORIZONTAL_HEIGHT      207 //横屏高度
 //instance item
 #define         PHONE_INSTANCE_VERTICAL_WIDTH       520 //竖屏宽度
 #define         PHONE_INSTANCE_VERTICAL_HEIGHT      840 //竖屏高度
