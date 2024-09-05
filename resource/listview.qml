@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
 import MyListModelEx 1.0
-
+import MyStructNameSpace 1.0
 Canvas{
     id: canvas
     width:QMLSizeManager.windowWidth
@@ -33,14 +33,14 @@ Canvas{
                 y:15*/ //无效
                 width: QMLSizeManager.cellWidth //207;
                 height:QMLSizeManager.cellHeight+20+30 //396 //更加单元格与实际的差值，形成间隔
+                property int index:itemIndex  // 设置索引属性
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
                 //QML发送信号调用 C++槽函数,三步：第一步
                 //signal qmlSendSignals(bool bIsShowMenu);
-                signal qmlSendSignals(int iId,string strPhoneName, string strInstanceNo, string strExpireTime, bool bIsShowMenu);
-                //signal itemClickedSignals(int index, QVariant data);
-                signal notifyRefreshWindow();
+                //发送左键点击item背景
+                signal qmlSendSignals(string strPhoneName, string strInstanceNo,bool bIsShowMenu,S_PHONE_INFO info);
                 //QML发送信号调用 C++槽函数,三步：第二步
                 /*Connections{
                     target:windowItem
@@ -54,7 +54,6 @@ Canvas{
                     //qmlSendSignals.connect(itemSignal.ShowInstanceSignalFromQMLFile)
                     qmlSendSignals.connect(MyListModelEx.ShowInstanceSignalFromQMLFile)
                     //itemClickedSignals.connect(MyListModel.do_ItemClickSignals)
-                    notifyRefreshWindow.connect(MyListModelEx.do_notifyRefreshWindow)
                     //qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
                 }
 
@@ -76,6 +75,8 @@ Canvas{
                         height: QMLSizeManager.cellHeight
                         //smooth: false //关闭平滑
                         fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
+                        //加上这个缩放之后背景边框会变厚,去掉OpacityMask又不变了
+                        //fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
                         //anchors.centerIn: parent
                         //anchors.margins:2
                         /*anchors {
@@ -109,23 +110,22 @@ Canvas{
                                 console.log("Image error:", errorString);
                             }
                         }
+                        //
+                        //背景点击
                         MouseArea {
                             id: itemClickArea
                             anchors.fill: parent
                             onClicked: {
                                 //直接调用C++中的函数
-                                QMLSizeManager.itemClicked();
                                 //QML发送信号调用 C++槽函数,三步：第三步
-                                qmlSendSignals(phoneId,phoneName, phoneInstanceNo,expireTime, true)
-                                //itemClickedSignals(windowItem.index, modelData);
-                                console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
+                                qmlSendSignals(phoneName, phoneInstanceNo,true,phoneInfo)
                                 // 在这里可以添加更多的逻辑
                                 //发送显示PhoneInstanceWidget窗口的信号
                             }
                         }
                     }
                 }
-                 CheckBox {
+                CheckBox {
                     id: checkBox
                     checked:bChecked //isChecked
                     anchors.top: parent.top
@@ -133,15 +133,8 @@ Canvas{
                     onCheckedChanged: 
                     {
                         // 更新模型中的checked状态
-                        //modelData.checked = checked;
-                        var index = listView.model.indexOf(windowItem);
-                        MyListModelEx.setData(index, checked, MyListModelEx.CheckedRole);
-                        console.log("onCheckedChanged "+modelData.checked)
-                        modelData.setCheckBox(checked);
-                        notifyRefreshWindow();
-                        MyListModel.do_notifyRefreshWindow();
-                        // 强制刷新当前项
-                        //parent.updateCurrentItem();
+                        console.log("index="+itemIndex+" checked="+checked);
+                        MyListModelEx.onCheckBoxChanged(index,checked);
                     }
                 }
 
