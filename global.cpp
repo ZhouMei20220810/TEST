@@ -23,9 +23,6 @@ QString GlobalData::strAccessKeySecret = "";
 QString GlobalData::strAccessKeyId = "";
 QString GlobalData::strExpiration = "";
 
-int GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH;
-int GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT;
-
 bool GlobalData::bVerticalScreen = true;
 
 ENUM_PICTURE_QUALITY GlobalData::enPictrueQuality = TYPE_QUALITY_HIGH_DEFINITION;

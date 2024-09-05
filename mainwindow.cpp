@@ -3671,10 +3671,10 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
 
     int iIndex = ui->comboBoxView->currentIndex();
     int i = ui->comboBoxView->itemData(iIndex).toInt();
-    GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
-    GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
-    QMLSizeManager::getInstance()->setCellWidth(GlobalData::iPhoneItemWidth);
-    QMLSizeManager::getInstance()->setCellHeight(GlobalData::iPhoneItemHeight);
+    int iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
+    int iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
+    QMLSizeManager::getInstance()->setCellWidth(iPhoneItemWidth);
+    QMLSizeManager::getInstance()->setCellHeight(iPhoneItemHeight);
     if (m_quickWidget != NULL)
     {
         //m_quickWidget->updateGeometry();
@@ -3693,11 +3693,11 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     ui->toolBtnChangeHorScreen->setVisible(true);
     int iIndex = ui->comboBoxView->currentIndex();
     int i = ui->comboBoxView->itemData(iIndex).toInt();
-    GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
-    GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
+    int iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
+    int iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
     
-    QMLSizeManager::getInstance()->setCellWidth(GlobalData::iPhoneItemWidth);
-    QMLSizeManager::getInstance()->setCellHeight(GlobalData::iPhoneItemHeight);
+    QMLSizeManager::getInstance()->setCellWidth(iPhoneItemWidth);
+    QMLSizeManager::getInstance()->setCellHeight(iPhoneItemHeight);
     if (m_quickWidget != NULL)
     {
         //m_quickWidget->updateGeometry();
@@ -4115,22 +4115,22 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
 {
     //item发生改变时调用
     int i = ui->comboBoxView->itemData(index).toInt();
-    qDebug()<<"click i="<<i <<"old width="<< GlobalData::iPhoneItemWidth<<"old height="<< GlobalData::iPhoneItemHeight;
+    int iPhoneItemWidth, iPhoneItemHeight;
     if (GlobalData::bVerticalScreen)
     {
-        GlobalData::iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
-        GlobalData::iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
+        iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
+        iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
     }
     else
     {
-        GlobalData::iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
-        GlobalData::iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
+        iPhoneItemWidth = ITEM_PHONE_HORIZONTAL_WIDTH * (i / 100.0);
+        iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
     }
-
+    qDebug() << "click i=" << i << "new width=" << iPhoneItemWidth << "new height=" << iPhoneItemHeight;
     //到时候可以修改为将所有选中的项添加到一个集合，从集合中取值
     //if (ui->listWidget->count() > 0)
-	QMLSizeManager::getInstance()->setCellWidth(GlobalData::iPhoneItemWidth);
-	QMLSizeManager::getInstance()->setCellHeight(GlobalData::iPhoneItemHeight);
+	QMLSizeManager::getInstance()->setCellWidth(iPhoneItemWidth);
+	QMLSizeManager::getInstance()->setCellHeight(iPhoneItemHeight);
     if (m_quickWidget != NULL)
     {
         //m_quickWidget->updateGeometry();

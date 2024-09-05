@@ -579,9 +579,6 @@ public:
     static QString QStringToBase64(QString str);
     static QString Base64ToQString(QString base64Str);
 
-    static int      iPhoneItemWidth;
-    static int      iPhoneItemHeight;
-
     static bool     bVerticalScreen;
 
     static ENUM_PICTURE_QUALITY enPictrueQuality;
