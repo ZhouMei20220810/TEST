@@ -41,9 +41,8 @@ Canvas{
                 border.width: 2*/
                 //QML发送信号调用 C++槽函数,三步：第一步
                 //signal qmlSendSignals(bool bIsShowMenu);
+                //发送左键点击item背景
                 signal qmlSendSignals(string strPhoneName, string strInstanceNo, bool bIsShowMenu,S_PHONE_INFO info);
-                //signal itemClickedSignals(int index, QVariant data);
-                signal notifyRefreshWindow();
                 //QML发送信号调用 C++槽函数,三步：第二步
                 /*Connections{
                     target:windowItem
@@ -57,7 +56,6 @@ Canvas{
                     //qmlSendSignals.connect(itemSignal.ShowInstanceSignalFromQMLFile)
                     qmlSendSignals.connect(MyListModelEx.ShowInstanceSignalFromQMLFile)
                     //itemClickedSignals.connect(MyListModel.do_ItemClickSignals)
-                    notifyRefreshWindow.connect(MyListModelEx.do_notifyRefreshWindow)
                     //qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
                 }
 
@@ -107,7 +105,6 @@ Canvas{
                                 //QMLSizeManager.itemClicked();
                                 //QML发送信号调用 C++槽函数,三步：第三步
                                 qmlSendSignals(phoneName, phoneInstanceNo,true,phoneInfo)
-                                MyListModelEx.c(index);
                                 //itemClickedSignals(windowItem.index, modelData);
                                 
                                 // 在这里可以添加更多的逻辑
@@ -138,23 +135,12 @@ Canvas{
                     id: checkBox
                     checked:bChecked //isChecked
                     anchors.top: opacityRect.top
-                    anchors.right: opacityRect.right                           
-                    onCheckedChanged: 
+                    anchors.right: opacityRect.right
+
+                    onCheckedChanged:
                     {
-                        // 更新模型中的checked状态
-                        //modelData.checked = checked;
-                        /*console.log("index="+itemIndex);
-                        var index = listView.model.indexOf(windowItem);
-                        MyListModelEx.setData(index, checked, MyListModelEx.CheckedRole);
-                        console.log("onCheckedChanged "+modelData.checked)
-                        modelData.setCheckBox(checked);
-                        notifyRefreshWindow();
-                        MyListModel.do_notifyRefreshWindow();*/
-                        MyListModelEx.itemCheckBoxClicked(windowItem.index);
-                        //console.log("index="+listItem);
-                        //listItem.setCheckBox(checked);
-                        // 强制刷新当前项
-                        //parent.updateCurrentItem();
+                        console.log("index="+itemIndex+" checked="+checked);
+                        MyListModelEx.onCheckBoxChanged(index,checked);
                     }
                 }
                 Text {

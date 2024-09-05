@@ -290,6 +290,24 @@ void MyListModelEx::setFanXuanCheckBox()
         list.append(item);
     }*/
 }
+
+//连接到QML的信号
+void MyListModelEx::onCheckBoxChanged(int index, bool bChecked)
+{
+    //可以记录CheckBox的值状态，选中写入存放同步操作的集合，取消选中集合删掉
+    if (index >= 0 && index < items.size()) {
+        ListItem* item = items[index];
+        item->setCheckBox(bChecked);
+        emit dataChanged(createIndex(index, 0), createIndex(index, 0), { CheckedRole });
+        // 在这里处理checked状态的更改
+        qDebug() << "Item at index" << index << "changed to" << item->getCheckBox();
+    }
+    if (this->m_MainWindow != NULL)
+    {
+        this->m_MainWindow->update();
+    }
+}
+
 void MyListModelEx::ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo,bool bIsShowMenu, S_PHONE_INFO info)
 {
     //后续可以考虑是否要根据id找全S_PHONE_INFO的信息
@@ -302,17 +320,6 @@ void MyListModelEx::do_ItemClickSignals(int index, const QVariant& data)
 {
     qDebug() << "MyListModelEx Clicked item at index:" << index;
     qDebug() << "Item data:" << data;
-}
-
-void MyListModelEx::itemCheckBoxClicked(int index)
-{
-    //可以记录CheckBox的值状态，选中写入存放同步操作的集合，取消选中集合删掉
-    if (this->m_MainWindow != NULL) 
-    {
-        this->m_MainWindow->update();
-    }
-
-    qDebug() << "MyListModelEx::itemCheckBoxClicked index = " << index <<"rowCount="<< rowCount();
 }
 
 //显示实例
