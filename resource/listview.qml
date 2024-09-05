@@ -2,8 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
 import MyListModelEx 1.0
-import Qt5Compat.GraphicalEffects
-import MyStructNameSpace 1.0
 
 Canvas{
     id: canvas
@@ -35,14 +33,14 @@ Canvas{
                 y:15*/ //无效
                 width: QMLSizeManager.cellWidth //207;
                 height:QMLSizeManager.cellHeight+20+30 //396 //更加单元格与实际的差值，形成间隔
-                property int index:itemIndex  // 设置索引属性
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
                 //QML发送信号调用 C++槽函数,三步：第一步
                 //signal qmlSendSignals(bool bIsShowMenu);
-                //发送左键点击item背景
-                signal qmlSendSignals(string strPhoneName, string strInstanceNo, bool bIsShowMenu,S_PHONE_INFO info);
+                signal qmlSendSignals(int iId,string strPhoneName, string strInstanceNo, string strExpireTime, bool bIsShowMenu);
+                //signal itemClickedSignals(int index, QVariant data);
+                signal notifyRefreshWindow();
                 //QML发送信号调用 C++槽函数,三步：第二步
                 /*Connections{
                     target:windowItem
@@ -56,66 +54,40 @@ Canvas{
                     //qmlSendSignals.connect(itemSignal.ShowInstanceSignalFromQMLFile)
                     qmlSendSignals.connect(MyListModelEx.ShowInstanceSignalFromQMLFile)
                     //itemClickedSignals.connect(MyListModel.do_ItemClickSignals)
+                    notifyRefreshWindow.connect(MyListModelEx.do_notifyRefreshWindow)
                     //qmlSendSignals.connect(QMLSizeManager.receiveSignalFromQMLFile)
                 }
 
-                Image {
-                    id: backgroundImage
-                    source:imagePath
-                    width: QMLSizeManager.cellWidth
-                    height: QMLSizeManager.cellHeight
-                    visible:false
-                    //加上这个缩放之后背景边框会变厚
-                    //fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
-                }
-
-                Rectangle{
+                Rectangle
+                {
                     id:bgImgRect
-                    width: backgroundImage.width
-                    height: backgroundImage.height
-                    radius: 2
-                    border.width: 2
-                    visible:false
-                }
-
-                Rectangle{
-                    id:opacityRect
-                    width: backgroundImage.width+4
-                    height:backgroundImage.height+4
+                    width:QMLSizeManager.cellWidth+4
+                    height:QMLSizeManager.cellHeight+4
                     color:"#FF6B737E"
-                    radius: 2
-                    OpacityMask {
+                //indicator:
+                    //背景图
+                    Image {
+                        id: backgroundImage
+                        //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
+                        source:imagePath //item.ImagePath
                         x:2
                         y:2
-                            width:backgroundImage.width
-                            height: backgroundImage.height
-                             //anchors.fill: grid
-                             source: backgroundImage//grid
-                             maskSource:bgImgRect //rectBg
-
-                         }
-
-                         //背景点击
-                         MouseArea {
-                            id: itemClickArea
-                            anchors.fill: parent
-                            onClicked: {
-                                //直接调用C++中的函数
-                                //console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
-                                //QMLSizeManager.itemClicked();
-                                //QML发送信号调用 C++槽函数,三步：第三步
-                                qmlSendSignals(phoneName, phoneInstanceNo,true,phoneInfo)
-                                //itemClickedSignals(windowItem.index, modelData);
-                                
-                                // 在这里可以添加更多的逻辑
-                                //发送显示PhoneInstanceWidget窗口的信号
-                            }
-                        }
-                } 
-
-                //授权状态图
-                Rectangle{
-	                id:authorRect
+                        width: QMLSizeManager.cellWidth
+                        height: QMLSizeManager.cellHeight
+                        //smooth: false //关闭平滑
+                        fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
+                        //anchors.centerIn: parent
+                        //anchors.margins:2
+                        /*anchors {
+                            top: parent.top+2
+                            left: parent.left+2
+                            right: parent.right-2
+                            bottom: parent.bottom-2
+                            //margins: 2
+                        }*/
+                        //授权状态图
+                        Rectangle{
+	                        id:authorRect
 	                        x:2
 	                        y:5
 	                        width:52
@@ -129,31 +101,61 @@ Canvas{
 	                            //source:"qrc:/main/resource/main/Authorized.png" //可以显示已授权
 	                            source:authorStatus==1?"qrc:/main/resource/main/Authorized.png":"qrc:/main/resource/main/BeAuthorized.png"
 	                        }
-                 }
+                        }
 
+                        onStatusChanged: {
+                            console.log("Image status changed:", status);
+                            if (status === Image.Error) {
+                                console.log("Image error:", errorString);
+                            }
+                        }
+                        MouseArea {
+                            id: itemClickArea
+                            anchors.fill: parent
+                            onClicked: {
+                                //直接调用C++中的函数
+                                QMLSizeManager.itemClicked();
+                                //QML发送信号调用 C++槽函数,三步：第三步
+                                qmlSendSignals(phoneId,phoneName, phoneInstanceNo,expireTime, true)
+                                //itemClickedSignals(windowItem.index, modelData);
+                                console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
+                                // 在这里可以添加更多的逻辑
+                                //发送显示PhoneInstanceWidget窗口的信号
+                            }
+                        }
+                    }
+                }
                  CheckBox {
                     id: checkBox
                     checked:bChecked //isChecked
-                    anchors.top: opacityRect.top
-                    anchors.right: opacityRect.right
-
-                    onCheckedChanged:
+                    anchors.top: parent.top
+                    anchors.right: parent.right                           
+                    onCheckedChanged: 
                     {
-                        console.log("index="+itemIndex+" checked="+checked);
-                        MyListModelEx.onCheckBoxChanged(index,checked);
+                        // 更新模型中的checked状态
+                        //modelData.checked = checked;
+                        var index = listView.model.indexOf(windowItem);
+                        MyListModelEx.setData(index, checked, MyListModelEx.CheckedRole);
+                        console.log("onCheckedChanged "+modelData.checked)
+                        modelData.setCheckBox(checked);
+                        notifyRefreshWindow();
+                        MyListModel.do_notifyRefreshWindow();
+                        // 强制刷新当前项
+                        //parent.updateCurrentItem();
                     }
                 }
+
                 Text {
                     id: labelText
                     text:phoneName //modelData.phoneName //"testtest" //modelData.label
                     elide: Text.ElideMiddle
                     anchors {
                         //fill: parent // 使用 fill 锚点确保文本占据整个空间
-                        top: opacityRect.bottom
+                        top: bgImgRect.bottom
                         left: parent.left
                         right: parent.right
-                        bottom: opacityRect.bottom+28
-                        bottomMargin:parent.bottom //距离底部距离
+                        bottom: bgImgRect.bottom+20
+                        bottomMargin:10 //距离底部距离
                         //verticalCenter: parent.verticalCenter // 保持文本垂直居中
                     }
                     horizontalAlignment: Text.AlignHCenter // 水平居中
@@ -161,7 +163,6 @@ Canvas{
                 }
             }
         }
-        
         //设置间距
         //spacing:10
         // 计算每行的列数
