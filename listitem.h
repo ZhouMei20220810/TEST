@@ -12,9 +12,7 @@ class ListItem : public QObject
     Q_OBJECT
     QML_ELEMENT //声明QML可以访问元素
 public:
-   ;
-    explicit ListItem(QObject* parent = nullptr);
-    //explicit ListItem(S_PHONE_INFO* info, QObject *parent = nullptr);
+   explicit ListItem(S_PHONE_INFO info,MainWindow* pMainWindow, QObject *parent = nullptr);
 
     int getPhoneId() const;
     void setPhoneId(int newPhoneId);
@@ -85,7 +83,7 @@ private:
     //设置定时器,图片大小
     QTimer* m_refreshTimer;
     FileDownloader* m_FileDownload;
-
+    MainWindow* m_pMainWindow;
  
 private:
     int itemIndex;      //序列号

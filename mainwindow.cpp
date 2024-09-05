@@ -56,6 +56,9 @@ extern QSystemTrayIcon* g_trayIcon;
 #define         LEVEL_TYPE_TOOLBUTTON_WIDTH        (80)
 #define         LEVEL_TYPE_TOOLBUTTON_HEIGHT       (32)
 
+//注册结构体为QML类型
+Q_DECLARE_METATYPE(S_PHONE_INFO);
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -192,7 +195,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_mapWindows.clear();// = new QMap<QString, PhoneInstanceWidget*>;
     //同步模式列表框
     m_mapSyncWindows.clear();// = new QMap<QString, PhoneInstanceWidget*>;
-
+    
     //通过qmlRegisterType注册的对象，在QML中一定要写一个QMLSizeManager{id:qmlSizeManager}
     //qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
     //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可    
@@ -201,6 +204,7 @@ MainWindow::MainWindow(QWidget *parent)
     //默认传值ui->pageIconMode布局的宽高
     QMLSizeManager::getInstance()->setWindowWidth(992/*ui->pageIconMode->width()*/);
     QMLSizeManager::getInstance()->setWindowHeight(600/*ui->pageIconMode->height()*/);
+    qmlRegisterUncreatableType<S_PHONE_INFO>("MyStructNameSpace", 1, 0, "S_PHONE_INFO", "Cannot create instances of MyStruct");
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
     //qmlRegisterSingletonInstance("ListItem", 1, 0, "ListItem", ListItem::getInstance());
     qmlRegisterType<ListItem>("ListItem", 1, 0, "ListItem");
@@ -1696,7 +1700,7 @@ void MainWindow::ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> ma
 void MainWindow::ShowTaskInfo()
 {
     //MyListModel::getInstance()->itemList();
-    QList<ListItem*> list = MyListModel::getInstance()->itemList();
+    QList<ListItem*> list = MyListModelEx::getInstance(this)->itemList();
     int iIconListCount = list.size();
     QMap<QString, S_TASK_INFO>::iterator iterFind;
     if (iIconListCount > 0)

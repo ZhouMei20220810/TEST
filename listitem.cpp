@@ -2,10 +2,10 @@
 #include "phoneinstancewidget.h"
 #include "listmodel.h"
 
-ListItem::ListItem(/*S_PHONE_INFO info, */ QObject * parent)
+ListItem::ListItem(S_PHONE_INFO info, MainWindow* pMainWindow, QObject *parent)
     : QObject{parent}
 {
-    /*if (info.strName.isEmpty())
+    if (info.strName.isEmpty())
     {
         setPhoneName(info.strInstanceNo);
     }
@@ -37,7 +37,8 @@ ListItem::ListItem(/*S_PHONE_INFO info, */ QObject * parent)
     m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
     m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";
 
-    setPhoneInfo(info);*/
+    setPhoneInfo(info);
+    m_pMainWindow = pMainWindow;
 }
 
 int ListItem::getPhoneId() const

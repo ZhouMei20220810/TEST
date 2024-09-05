@@ -4,26 +4,6 @@
 #include "listitem.h"
 #include "mainwindow.h"
 //是不是直接可以改成S_PHONE_INFO
-class MyData
-{
-public:
-    MyData(bool bChecked,bool bShowAuthImg, int iPhoneId,int iAuthorStatus,QString strPhoneName,QString strInstanceNo,QString strImagePath,QString strExpireTime)
-        :m_bChecked(bChecked),m_bShowAuthImg(bShowAuthImg),m_iPhoneId(iPhoneId)
-        ,m_iAuthorStatus(iAuthorStatus),m_strPhoneName(strPhoneName),m_strInstanceNo(strInstanceNo)
-        ,m_strImagePath(strImagePath),m_strExpireTime(strExpireTime)
-    {
-
-    }
-    bool    m_bChecked;           //是否勾选
-    bool    m_bShowAuthImg;       //是否显示授权状态,没有授权：false 已授权/被授权:true
-    int     m_iPhoneId;           //手机Id
-    int     m_iAuthorStatus;      //授权状态1：已授权，2：被授权
-    QString m_strPhoneName;       //手机名称
-    QString m_strInstanceNo;      //手机示例
-    QString m_strImagePath;       //手机截图
-    QString m_strExpireTime;      //到期时间
-};
-
 class MyListModelEx : public QAbstractListModel
 {
     Q_OBJECT
@@ -59,8 +39,13 @@ public:
     void addItem(MainWindow* mainWindow,S_PHONE_INFO info);
     //移除所有项
     void removeAllItem();
+
+    QList<ListItem*> itemList()
+    {
+        return items;
+    }
 public slots:
-    void ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu);
+    void ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu, S_PHONE_INFO info);
     void do_ItemClickSignals(int index, const QVariant& data);
     //void do_itemClicked(int index);
     Q_INVOKABLE void do_notifyRefreshWindow();
@@ -71,9 +56,8 @@ signals:
     void notifyMainWindowRefreshWindow();
 private:
     //QList<QString> m_data;
-    //QList<MyData> m_data;
     int iItemIndex;
-    QVector<ListItem*> items;
+    QList<ListItem*> items;
     enum Roles {
         /*CheckedRole = Qt::UserRole + 1 */
         NameRole = Qt::DisplayRole + 1,
@@ -84,7 +68,8 @@ private:
         PhoneIdRole,
         AuthorStatusRole,
         ExpireTimeRole,
-        ItemIndexRole
+        ItemIndexRole,
+        PhoneInfoRole
     };
 
     MainWindow* m_MainWindow;

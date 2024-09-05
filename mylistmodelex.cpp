@@ -3,9 +3,6 @@
 MyListModelEx::MyListModelEx(QObject *parent)
     : QAbstractListModel(parent)
 {
-    //初始化数据
-    //m_data.append(MyData(true, false,1,0,"Vm1","Vmmm","imagePath","2024"));
-    //m_data.append(MyData(true, false, 1, 0, "Vm2", "Vmmm", "imagePath", "2024"));
     iItemIndex = 0;
 }
 
@@ -84,6 +81,9 @@ QVariant MyListModelEx::data(const QModelIndex &index, int role) const
     case ItemIndexRole:
         return item->getItemIndex();
         break;
+    case PhoneInfoRole:
+        return QVariant::fromValue(item->getPhoneInfo());
+        break;
     default:
         break;
     }
@@ -109,6 +109,7 @@ QHash<int, QByteArray> MyListModelEx::roleNames() const
     roles.insert(PhoneIdRole, "phoneId");
     roles.insert(ExpireTimeRole, "expireTime");
     roles.insert(ItemIndexRole, "itemIndex");
+    roles.insert(PhoneInfoRole, "phoneInfo");
     return roles;
 }
 
@@ -164,6 +165,10 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
         item->setItemIndex(value.toInt());
         emit dataChanged(index, index, { ItemIndexRole });
         break;
+    case PhoneInfoRole:
+        item->setPhoneInfo(value.value<S_PHONE_INFO>());
+        emit dataChanged(index, index, { PhoneInfoRole });
+        break;
     default:
         break;
     }
@@ -173,7 +178,7 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
 void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool checked*/ )
 {    
     beginInsertRows(QModelIndex(), items.size(), items.size());
-    items.append(new ListItem(this));
+    items.append(new ListItem(info,mainWindow,this));
     items.last()->setItemIndex(iItemIndex++);
     if (info.strName.isEmpty())
     {
@@ -208,6 +213,7 @@ void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool chec
     items.last()->setPhoneInstanceNo(info.strInstanceNo);
     items.last()->setExpireTime(info.strExpireTime);
     items.last()->setPhoneId(info.iId);
+    items.last()->setPhoneInfo(info);
     /*m_FileDownload = NULL;
     m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
     m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";
@@ -231,11 +237,11 @@ void MyListModelEx::removeAllItem()
     iItemIndex = 0;
     endRemoveRows();
 }
-void MyListModelEx::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu)
+void MyListModelEx::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu, S_PHONE_INFO info)
 {
     //后续可以考虑是否要根据id找全S_PHONE_INFO的信息
     qDebug() << "MyListModelEx ShowInstanceSignalFromQMLFile strPhoneName=" << strPhoneName << " VMNo=" << strInstanceNo << "iId=" << iId << "strExpireTime=" << strExpireTime << "bIsShowMenu=" << bIsShowMenu;
-
+    //显示实例窗口
 }
 
 void MyListModelEx::do_ItemClickSignals(int index, const QVariant& data)

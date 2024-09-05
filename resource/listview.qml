@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QMLSizeManager 1.0
 import MyListModelEx 1.0
 import Qt5Compat.GraphicalEffects
+import MyStructNameSpace 1.0
 
 Canvas{
     id: canvas
@@ -40,7 +41,7 @@ Canvas{
                 border.width: 2*/
                 //QML发送信号调用 C++槽函数,三步：第一步
                 //signal qmlSendSignals(bool bIsShowMenu);
-                signal qmlSendSignals(int iId,string strPhoneName, string strInstanceNo, string strExpireTime, bool bIsShowMenu);
+                signal qmlSendSignals(int iId,string strPhoneName, string strInstanceNo, string strExpireTime, bool bIsShowMenu,S_PHONE_INFO info);
                 //signal itemClickedSignals(int index, QVariant data);
                 signal notifyRefreshWindow();
                 //QML发送信号调用 C++槽函数,三步：第二步
@@ -105,7 +106,7 @@ Canvas{
                                 //console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
                                 //QMLSizeManager.itemClicked();
                                 //QML发送信号调用 C++槽函数,三步：第三步
-                                qmlSendSignals(phoneId,phoneName, phoneInstanceNo,expireTime, true)
+                                qmlSendSignals(phoneId,phoneName, phoneInstanceNo,expireTime, true,phoneInfo)
                                 MyListModelEx.c(index);
                                 //itemClickedSignals(windowItem.index, modelData);
                                 
