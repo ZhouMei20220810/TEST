@@ -69,15 +69,15 @@ QVariant MyListModelEx::data(const QModelIndex &index, int role) const
     case IsShowAuthImgRole:
         return item->getBShowAuthorImg();
         break;
-    case PhoneIdRole:
+    /*case PhoneIdRole:
         return item->getPhoneId();
-        break;
+        break;*/
     case InstanceNoRole:
         return item->getPhoneInstanceNo();
         break;
-    case ExpireTimeRole:
+    /*case ExpireTimeRole:
         return item->getExpireTime();
-        break;
+        break;*/
     case ItemIndexRole:
         return item->getItemIndex();
         break;
@@ -106,8 +106,8 @@ QHash<int, QByteArray> MyListModelEx::roleNames() const
     roles.insert(IsShowAuthImgRole, "isShowAuthImg");
     roles.insert(AuthorStatusRole, "authorStatus");
     roles.insert(InstanceNoRole, "phoneInstanceNo");
-    roles.insert(PhoneIdRole, "phoneId");
-    roles.insert(ExpireTimeRole, "expireTime");
+    //roles.insert(PhoneIdRole, "phoneId");
+    //roles.insert(ExpireTimeRole, "expireTime");
     roles.insert(ItemIndexRole, "itemIndex");
     roles.insert(PhoneInfoRole, "phoneInfo");
     return roles;
@@ -146,21 +146,21 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
         emit dataChanged(index, index, { IsShowAuthImgRole });
         return true;
         break;
-    case PhoneIdRole:
+    /*case PhoneIdRole:
         item->setPhoneId(value.toInt());
         emit dataChanged(index, index, { PhoneIdRole });
         return true;
-        break;
+        break;*/
     case InstanceNoRole:
         item->setPhoneInstanceNo(value.toString());
         emit dataChanged(index, index, { InstanceNoRole });
         return true;
         break;
-    case ExpireTimeRole:
+    /*case ExpireTimeRole:
         item->setExpireTime(value.toString());
         emit dataChanged(index, index, { ExpireTimeRole });
         return true;
-        break;
+        break;*/
     case ItemIndexRole:
         item->setItemIndex(value.toInt());
         emit dataChanged(index, index, { ItemIndexRole });
@@ -237,10 +237,10 @@ void MyListModelEx::removeAllItem()
     iItemIndex = 0;
     endRemoveRows();
 }
-void MyListModelEx::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu, S_PHONE_INFO info)
+void MyListModelEx::ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo,bool bIsShowMenu, S_PHONE_INFO info)
 {
     //后续可以考虑是否要根据id找全S_PHONE_INFO的信息
-    qDebug() << "MyListModelEx ShowInstanceSignalFromQMLFile strPhoneName=" << strPhoneName << " VMNo=" << strInstanceNo << "iId=" << iId << "strExpireTime=" << strExpireTime << "bIsShowMenu=" << bIsShowMenu;
+    qDebug() << "MyListModelEx ShowInstanceSignalFromQMLFile strPhoneName=" << strPhoneName << " VMNo=" << strInstanceNo << "iId=" << info.iId << "strExpireTime=" << info.strExpireTime << "bIsShowMenu=" << bIsShowMenu;
     //显示实例窗口
 }
 

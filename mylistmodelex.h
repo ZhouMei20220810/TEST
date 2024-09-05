@@ -16,9 +16,9 @@ public:
         ImagePathRole,
         CheckedRole,
         IsShowAuthImgRole,
-        PhoneIdRole,
+        //PhoneIdRole,
         AuthorStatusRole,
-        ExpireTimeRole,
+        //ExpireTimeRole,
         ItemIndexRole,
         PhoneInfoRole
     };
@@ -48,7 +48,7 @@ public:
         return items;
     }
 public slots:
-    void ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu, S_PHONE_INFO info);
+    void ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo, bool bIsShowMenu, S_PHONE_INFO info);
     void do_ItemClickSignals(int index, const QVariant& data);
     //void do_itemClicked(int index);
     Q_INVOKABLE void do_notifyRefreshWindow();
