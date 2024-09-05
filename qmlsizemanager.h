@@ -17,15 +17,15 @@ public:
 
     int getCellHeight() const;
     void setCellHeight(int newCellHeight);
-
-    QString getScreenImage() const;
-    void setScreenImage(const QString &newScreenImage);
     
     int getWindowWidth() const;
     void setWindowWidth(int newWindowWidth);
 
     int getWindowHeight() const;
     void setWindowHeight(int newWindowHeight);
+
+    bool getItemVerticalScreen() const;
+    void setItemVerticalScreen(bool newItemVerticalScreen);
 
 signals:
     void cellWidthChanged();
@@ -38,6 +38,8 @@ signals:
 
     void windowHeightChanged();
 
+    void itemVerticalScreenChanged();
+
 public slots:
     void receiveSignalFromQMLFile(int i, QString str, QString str2);
 private:
@@ -46,13 +48,13 @@ private:
     int cellHeight;
     int windowWidth;
     int windowHeight;
-    QString screenImage;
+    bool itemVerticalScreen;        //true竖屏,false横屏
     //NOTIFY值修改，通知
     Q_PROPERTY(int cellWidth READ getCellWidth WRITE setCellWidth NOTIFY cellWidthChanged FINAL)
     Q_PROPERTY(int cellHeight READ getCellHeight WRITE setCellHeight NOTIFY cellHeightChanged FINAL)
-    Q_PROPERTY(QString screenImage READ getScreenImage WRITE setScreenImage NOTIFY screenImageChanged FINAL)
     Q_PROPERTY(int windowWidth READ getWindowWidth WRITE setWindowWidth NOTIFY windowWidthChanged FINAL)
     Q_PROPERTY(int windowHeight READ getWindowHeight WRITE setWindowHeight NOTIFY windowHeightChanged FINAL)
+    Q_PROPERTY(bool itemVerticalScreen READ getItemVerticalScreen WRITE setItemVerticalScreen NOTIFY itemVerticalScreenChanged FINAL)
 };
 
 #endif // QMLSIZEMANAGER_H

@@ -579,8 +579,6 @@ public:
     static QString QStringToBase64(QString str);
     static QString Base64ToQString(QString base64Str);
 
-    static bool     bVerticalScreen;
-
     static ENUM_PICTURE_QUALITY enPictrueQuality;
     static bool     bVerticalPhoneInstance;         //系统设置-默认显示false横屏、true竖屏
     static bool     bVerticalPhoneInstanceCenter;

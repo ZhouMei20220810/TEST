@@ -38,22 +38,22 @@ void QMLSizeManager::setCellHeight(int newCellHeight)
     emit cellHeightChanged();
 }
 
-QString QMLSizeManager::getScreenImage() const
-{
-    return screenImage;
-}
-
-void QMLSizeManager::setScreenImage(const QString &newScreenImage)
-{
-    if (screenImage == newScreenImage)
-        return;
-    screenImage = newScreenImage;
-    emit screenImageChanged();
-}
-
 void QMLSizeManager::receiveSignalFromQMLFile(int i, QString str, QString str2)
 {
     qDebug() << "receiveSignalFromQMLFile 收到来自QML的信号"<<i<<str<<str2;
+}
+
+bool QMLSizeManager::getItemVerticalScreen() const
+{
+    return itemVerticalScreen;
+}
+
+void QMLSizeManager::setItemVerticalScreen(bool newItemVerticalScreen)
+{
+    if (itemVerticalScreen == newItemVerticalScreen)
+        return;
+    itemVerticalScreen = newItemVerticalScreen;
+    emit itemVerticalScreenChanged();
 }
 
 int QMLSizeManager::getWindowHeight() const

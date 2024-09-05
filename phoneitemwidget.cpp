@@ -7,6 +7,7 @@
 #include <QTransform>
 #include <QMouseEvent>
 #include "filedownloader.h"
+#include "qmlsizemanager.h"
 //#include <QMatrix>
 
 PhoneItemWidget::PhoneItemWidget(S_PHONE_INFO sPhoneInfo, QWidget *parent)
@@ -80,7 +81,7 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
     if (file1.exists())
     {
         QPixmap pixmap(m_strPicturePath);
-        if (!GlobalData::bVerticalScreen)
+        if (!QMLSizeManager::getInstance()->getItemVerticalScreen())
         {
             QImage image(m_strPicturePath);
             if (!image.isNull())
@@ -109,7 +110,7 @@ void PhoneItemWidget::showLabelImage(QString strImagePath)
     {
         QString strDefaultImage = ":/main/resource/main/defaultSceenShot.png";
         QPixmap pixmap(strDefaultImage);
-        if (!GlobalData::bVerticalScreen)
+        if (!QMLSizeManager::getInstance()->getItemVerticalScreen())
         {
             QImage image(strDefaultImage);
             if (!image.isNull())

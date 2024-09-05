@@ -23,8 +23,6 @@ QString GlobalData::strAccessKeySecret = "";
 QString GlobalData::strAccessKeyId = "";
 QString GlobalData::strExpiration = "";
 
-bool GlobalData::bVerticalScreen = true;
-
 ENUM_PICTURE_QUALITY GlobalData::enPictrueQuality = TYPE_QUALITY_HIGH_DEFINITION;
 bool GlobalData::bVerticalPhoneInstance = true;
 bool GlobalData::bVerticalPhoneInstanceCenter = true;

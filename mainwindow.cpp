@@ -201,6 +201,7 @@ MainWindow::MainWindow(QWidget *parent)
     //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可    
     QMLSizeManager::getInstance()->setCellWidth(ITEM_PHONE_VERTICAL_WIDTH);
     QMLSizeManager::getInstance()->setCellHeight(ITEM_PHONE_VERTICAL_HEIGHT);
+    QMLSizeManager::getInstance()->setItemVerticalScreen(true);
     //默认传值ui->pageIconMode布局的宽高
     QMLSizeManager::getInstance()->setWindowWidth(992/*ui->pageIconMode->width()*/);
     QMLSizeManager::getInstance()->setWindowHeight(600/*ui->pageIconMode->height()*/);
@@ -3665,7 +3666,6 @@ void MainWindow::on_toolBtnExpansionFunction_clicked()
 void MainWindow::on_toolBtnChangeHorScreen_clicked()
 {
     qDebug()<<"切换到横屏";
-    GlobalData::bVerticalScreen = false;
     ui->toolBtnChangeVerScreen->setVisible(true);
     ui->toolBtnChangeHorScreen->setVisible(false);
 
@@ -3675,6 +3675,7 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     int iPhoneItemHeight = ITEM_PHONE_HORIZONTAL_HEIGHT * (i / 100.0);
     QMLSizeManager::getInstance()->setCellWidth(iPhoneItemWidth);
     QMLSizeManager::getInstance()->setCellHeight(iPhoneItemHeight);
+    QMLSizeManager::getInstance()->setItemVerticalScreen(false);
     if (m_quickWidget != NULL)
     {
         //m_quickWidget->updateGeometry();
@@ -3688,7 +3689,6 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
 void MainWindow::on_toolBtnChangeVerScreen_clicked()
 {
     qDebug()<<"切换到竖屏";
-    GlobalData::bVerticalScreen = true;
     ui->toolBtnChangeVerScreen->setVisible(false);
     ui->toolBtnChangeHorScreen->setVisible(true);
     int iIndex = ui->comboBoxView->currentIndex();
@@ -3698,6 +3698,7 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     
     QMLSizeManager::getInstance()->setCellWidth(iPhoneItemWidth);
     QMLSizeManager::getInstance()->setCellHeight(iPhoneItemHeight);
+    QMLSizeManager::getInstance()->setItemVerticalScreen(true);
     if (m_quickWidget != NULL)
     {
         //m_quickWidget->updateGeometry();
@@ -4116,7 +4117,7 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
     //item发生改变时调用
     int i = ui->comboBoxView->itemData(index).toInt();
     int iPhoneItemWidth, iPhoneItemHeight;
-    if (GlobalData::bVerticalScreen)
+    if (QMLSizeManager::getInstance()->getItemVerticalScreen())
     {
         iPhoneItemWidth = ITEM_PHONE_VERTICAL_WIDTH * (i / 100.0);
         iPhoneItemHeight = ITEM_PHONE_VERTICAL_HEIGHT * (i / 100.0);
