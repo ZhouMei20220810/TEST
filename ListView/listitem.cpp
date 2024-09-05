@@ -4,7 +4,7 @@ ListItem::ListItem(QObject *parent)
     : QObject{parent}
 {}
 
-//µ¥ÊµÀı
+//å•å®ä¾‹
 ListItem* ListItem::getInstance()
 {
     static ListItem* listitem = new ListItem();

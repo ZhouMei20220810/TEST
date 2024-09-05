@@ -31,8 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
     //通过qmlRegisterType注册的对象，在QML中一定要写一个QMLSizeManager{id:qmlSizeManager}
     //qmlRegisterType<QMLSizeManager>("QMLSizeManager", 1, 0, "QMLSizeManager");
     //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可
-    QMLSizeManager::getInstance()->setCellWidth(237);
-    QMLSizeManager::getInstance()->setCellHeight(426);
+    QMLSizeManager::getInstance()->setCellWidth(207);
+    QMLSizeManager::getInstance()->setCellHeight(368);
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());    
     qmlRegisterSingletonInstance("MyListModel",1,0,"MyListModel", MyListModel::getInstance());
     //主窗口的子窗口设置QML布局
