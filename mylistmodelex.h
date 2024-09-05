@@ -9,17 +9,20 @@ class MyListModelEx : public QAbstractListModel
     Q_OBJECT
 
 public:
-    enum MyRoleName
-    {
-        Name = Qt::DisplayRole + 1,
-        InstanceNo,
-        ImagePath,
-        Checked,
-        IsShowAuthImg,
-        PhoneId,
-        AuthorStatus,
-        ExpireTime
+    enum Roles {
+        /*CheckedRole = Qt::UserRole + 1 */
+        NameRole = Qt::DisplayRole + 1,
+        InstanceNoRole,
+        ImagePathRole,
+        CheckedRole,
+        IsShowAuthImgRole,
+        PhoneIdRole,
+        AuthorStatusRole,
+        ExpireTimeRole,
+        ItemIndexRole,
+        PhoneInfoRole
     };
+
     explicit MyListModelEx(QObject *parent = nullptr);
 
     static MyListModelEx* getInstance(MainWindow *pMainWindows);
@@ -56,22 +59,8 @@ signals:
     //复选框勾选通知界面刷新
     void notifyMainWindowRefreshWindow();
 private:
-    //QList<QString> m_data;
     int iItemIndex;
-    QList<ListItem*> items;
-    enum Roles {
-        /*CheckedRole = Qt::UserRole + 1 */
-        NameRole = Qt::DisplayRole + 1,
-        InstanceNoRole,
-        ImagePathRole,
-        CheckedRole,
-        IsShowAuthImgRole,
-        PhoneIdRole,
-        AuthorStatusRole,
-        ExpireTimeRole,
-        ItemIndexRole,
-        PhoneInfoRole
-    };
+    QList<ListItem*> items;   
 
     MainWindow* m_MainWindow;
 };
