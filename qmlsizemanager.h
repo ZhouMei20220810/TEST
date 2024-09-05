@@ -20,8 +20,7 @@ public:
 
     QString getScreenImage() const;
     void setScreenImage(const QString &newScreenImage);
-    //QML中点击后,通知C++处理,添加Q_INVOKABLE QML文件即可访问
-    Q_INVOKABLE void itemClicked();
+    
     int getWindowWidth() const;
     void setWindowWidth(int newWindowWidth);
 

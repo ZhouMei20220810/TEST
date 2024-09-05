@@ -51,13 +51,6 @@ void QMLSizeManager::setScreenImage(const QString &newScreenImage)
     emit screenImageChanged();
 }
 
-void QMLSizeManager::itemClicked()
-{
-    qDebug() << "QML 调用 C++中的函数";
-    //QMessageBox::information(NULL, "tishi", "QML 调用 C++中的函数", QMessageBox::Ok);
-
-}
-
 void QMLSizeManager::receiveSignalFromQMLFile(int i, QString str, QString str2)
 {
     qDebug() << "receiveSignalFromQMLFile 收到来自QML的信号"<<i<<str<<str2;

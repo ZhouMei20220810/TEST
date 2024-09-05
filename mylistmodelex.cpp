@@ -257,12 +257,13 @@ void MyListModelEx::do_notifyRefreshWindow()
 }
 
 
-void MyListModelEx::itemClicked(int index)
+void MyListModelEx::itemCheckBoxClicked(int index)
 {
+    //可以记录CheckBox的值状态，选中写入存放同步操作的集合，取消选中集合删掉
     if (this->m_MainWindow != NULL) 
     {
         this->m_MainWindow->update();
     }
 
-    qDebug() << "MyListModelEx::itemClicked index = " << index <<"rowCount="<< rowCount();
+    qDebug() << "MyListModelEx::itemCheckBoxClicked index = " << index <<"rowCount="<< rowCount();
 }

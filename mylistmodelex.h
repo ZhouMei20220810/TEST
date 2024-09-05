@@ -49,7 +49,8 @@ public slots:
     void do_ItemClickSignals(int index, const QVariant& data);
     //void do_itemClicked(int index);
     Q_INVOKABLE void do_notifyRefreshWindow();
-    Q_INVOKABLE void itemClicked(int index);
+    //QML中点击后,通知C++处理,添加Q_INVOKABLE QML文件即可访问
+    Q_INVOKABLE void itemCheckBoxClicked(int index);
 signals:
     
     //复选框勾选通知界面刷新

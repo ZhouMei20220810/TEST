@@ -150,7 +150,7 @@ Canvas{
                         modelData.setCheckBox(checked);
                         notifyRefreshWindow();
                         MyListModel.do_notifyRefreshWindow();*/
-                        MyListModelEx.itemClicked(windowItem.index);
+                        MyListModelEx.itemCheckBoxClicked(windowItem.index);
                         //console.log("index="+listItem);
                         //listItem.setCheckBox(checked);
                         // 强制刷新当前项
