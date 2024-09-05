@@ -3869,7 +3869,7 @@ void MainWindow::on_btnCancelSelect_clicked()
     //取消选择
     if (m_isIconMode)
     {
-        MyListModel::getInstance()->setCancelSelectCheckBox(false);
+        MyListModelEx::getInstance(this)->setCancelSelectCheckBox(false);
     }
     else
     {
@@ -3901,7 +3901,7 @@ void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
     //全选
     if (m_isIconMode)
     {
-        MyListModel::getInstance()->setAllCheckBox(checked);
+        MyListModelEx::getInstance(this)->setAllCheckBox(checked);
     }
     else
     {
@@ -3935,7 +3935,8 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
     //反选
     if (m_isIconMode)
     {
-        MyListModel::getInstance()->setFanXuanCheckBox();
+        MyListModelEx::getInstance(this)->setFanXuanCheckBox();
+        //MyListModel::getInstance()->setFanXuanCheckBox();
     }
     else
     {

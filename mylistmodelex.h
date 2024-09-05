@@ -42,6 +42,12 @@ public:
     void addItem(MainWindow* mainWindow,S_PHONE_INFO info);
     //移除所有项
     void removeAllItem();
+    //取消选择
+    void setCancelSelectCheckBox(bool bChecked);
+    //全选
+    void setAllCheckBox(bool newCheckBox);
+    //反选
+    void setFanXuanCheckBox();
 
     QList<ListItem*> itemList()
     {
@@ -51,13 +57,15 @@ public slots:
     void ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo, bool bIsShowMenu, S_PHONE_INFO info);
     void do_ItemClickSignals(int index, const QVariant& data);
     //void do_itemClicked(int index);
-    Q_INVOKABLE void do_notifyRefreshWindow();
     //QML中点击后,通知C++处理,添加Q_INVOKABLE QML文件即可访问
     Q_INVOKABLE void itemCheckBoxClicked(int index);
 signals:
     
     //复选框勾选通知界面刷新
     void notifyMainWindowRefreshWindow();
+private:
+    //显示实例,将显示实例部分从MainWindow中提取出来
+    void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
 private:
     int iItemIndex;
     QList<ListItem*> items;   

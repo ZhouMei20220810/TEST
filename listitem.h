@@ -69,12 +69,7 @@ signals:
     void ExpireTimeChanged();
 
     void itemIndexChanged();
-
-public slots:
-    void ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu);
-private:    
-    //显示实例,将显示实例部分从MainWindow中提取出来
-    void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
+private:
 
     //S_PHONE_INFO m_sPhoneInfo;
     QByteArray byteArrayImageUrl;
