@@ -40,19 +40,6 @@ ListItem::ListItem(/*S_PHONE_INFO info, */ QObject * parent)
     setPhoneInfo(info);*/
 }
 
-int ListItem::getIndex() const
-{
-    return index;
-}
-
-void ListItem::setIndex(int newIndex)
-{
-    if (index == newIndex)
-        return;
-    index = newIndex;
-    emit indexChanged();
-}
-
 int ListItem::getPhoneId() const
 {
     return phoneId;
@@ -157,7 +144,7 @@ void ListItem::setBShowAuthorImg(bool newBShowAuthorImg)
     emit bShowAuthorImgChanged();
 }
 
-/*void ListItem::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu)
+void ListItem::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu)
 {
     //PhoneInfo为空
     S_PHONE_INFO info;
@@ -168,7 +155,7 @@ void ListItem::setBShowAuthorImg(bool newBShowAuthorImg)
     qDebug() << "ShowInstanceSignalFromQMLFile strPhoneName="<<strPhoneName<< " VMNo=" << strInstanceNo <<"iId="<<iId<<"strExpireTime="<< strExpireTime<<"bIsShowMenu="<< bIsShowMenu;
     //emit ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
     on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
-}*/
+}
 
 QString ListItem::getExpireTime() const
 {
@@ -181,6 +168,19 @@ void ListItem::setExpireTime(const QString &newExpireTime)
         return;
     ExpireTime = newExpireTime;
     emit ExpireTimeChanged();
+}
+
+int ListItem::getItemIndex() const
+{
+    return itemIndex;
+}
+
+void ListItem::setItemIndex(int newItemIndex)
+{
+    if (itemIndex == newItemIndex)
+        return;
+    itemIndex = newItemIndex;
+    emit itemIndexChanged();
 }
 
 //显示实例

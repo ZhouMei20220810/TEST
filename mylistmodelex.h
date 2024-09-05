@@ -2,6 +2,7 @@
 #define MYLISTMODELEX_H
 #include <QAbstractListModel>
 #include "listitem.h"
+#include "mainwindow.h"
 //是不是直接可以改成S_PHONE_INFO
 class MyData
 {
@@ -41,7 +42,7 @@ public:
     };
     explicit MyListModelEx(QObject *parent = nullptr);
 
-    static MyListModelEx* getInstance();
+    static MyListModelEx* getInstance(MainWindow *pMainWindows);
     // Header:
     //ListModel基本用不到
     /*QVariant headerData(int section,
@@ -54,21 +55,24 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int,QByteArray> roleNames() const override;
     
-    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
-    Q_INVOKABLE void addItem(S_PHONE_INFO info);
+    Q_INVOKABLE bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override;
+    void addItem(MainWindow* mainWindow,S_PHONE_INFO info);
     //移除所有项
     void removeAllItem();
 public slots:
     void ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu);
     void do_ItemClickSignals(int index, const QVariant& data);
+    //void do_itemClicked(int index);
     Q_INVOKABLE void do_notifyRefreshWindow();
+    Q_INVOKABLE void itemClicked(int index);
 signals:
-    void itemsChanged();
+    
     //复选框勾选通知界面刷新
     void notifyMainWindowRefreshWindow();
 private:
     //QList<QString> m_data;
     //QList<MyData> m_data;
+    int iItemIndex;
     QVector<ListItem*> items;
     enum Roles {
         /*CheckedRole = Qt::UserRole + 1 */
@@ -79,8 +83,11 @@ private:
         IsShowAuthImgRole,
         PhoneIdRole,
         AuthorStatusRole,
-        ExpireTimeRole
+        ExpireTimeRole,
+        ItemIndexRole
     };
+
+    MainWindow* m_MainWindow;
 };
 
 #endif // MYLISTMODELEX_H

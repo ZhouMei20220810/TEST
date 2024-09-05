@@ -205,9 +205,9 @@ MainWindow::MainWindow(QWidget *parent)
     //qmlRegisterSingletonInstance("ListItem", 1, 0, "ListItem", ListItem::getInstance());
     qmlRegisterType<ListItem>("ListItem", 1, 0, "ListItem");
     qmlRegisterSingletonInstance("MyListModel", 1, 0, "MyListModel", MyListModel::getInstance());
-    qmlRegisterSingletonInstance("MyListModelEx", 1, 0, "MyListModelEx", MyListModelEx::getInstance());
+    qmlRegisterSingletonInstance("MyListModelEx", 1, 0, "MyListModelEx", MyListModelEx::getInstance(this));
 
-    connect(MyListModelEx::getInstance(), &MyListModelEx::notifyMainWindowRefreshWindow, this, [this]() {
+    connect(MyListModelEx::getInstance(this), &MyListModelEx::notifyMainWindowRefreshWindow, this, [this]() {
         if (m_quickWidget != NULL)
         {
             //m_quickWidget->updateGeometry();
@@ -5075,9 +5075,9 @@ void MainWindow::loadPreviewModeListByQML()
         ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
 
         //清空之前的内容
-        MyListModelEx::getInstance()->removeAllItem();
+        MyListModelEx::getInstance(this)->removeAllItem();
         //显示所有数据
-        //ListItem* listitem = NULL;
+        ListItem* listitem = NULL;
         QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
         QMap<int, S_PHONE_INFO>::iterator mapIter;
         int index = 0;
@@ -5085,7 +5085,7 @@ void MainWindow::loadPreviewModeListByQML()
         //for(int i=0;i < 6;i++)
         for (mapIter = m_mapCurTreeItemSelect.begin(); mapIter != m_mapCurTreeItemSelect.end(); mapIter++, index++)
         {
-            /*listitem = new ListItem(*mapIter);
+            /*/listitem = new ListItem(*mapIter);
             
             //connect(listitem, &ListItem::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
             
@@ -5096,7 +5096,7 @@ void MainWindow::loadPreviewModeListByQML()
             /*listitem->setIndex(index);
             listitem->setPhoneName(mapIter->strName);
             listitem->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(index));*/
-            MyListModelEx::getInstance()->addItem(*mapIter);
+            MyListModelEx::getInstance(this)->addItem(this,*mapIter);
             //MyListModel::getInstance()->addItem(ListItem(*mapIter));
         }
     }

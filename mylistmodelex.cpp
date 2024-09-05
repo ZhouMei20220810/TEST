@@ -6,11 +6,18 @@ MyListModelEx::MyListModelEx(QObject *parent)
     //初始化数据
     //m_data.append(MyData(true, false,1,0,"Vm1","Vmmm","imagePath","2024"));
     //m_data.append(MyData(true, false, 1, 0, "Vm2", "Vmmm", "imagePath", "2024"));
+    iItemIndex = 0;
 }
 
-MyListModelEx *MyListModelEx::getInstance()
+MyListModelEx *MyListModelEx::getInstance(MainWindow* pMainWindows)
 {
-    static MyListModelEx* obj = new MyListModelEx();
+    static MyListModelEx* obj = NULL;
+    if (obj == NULL)
+    {
+        obj = new MyListModelEx();
+        obj->m_MainWindow = pMainWindows;
+    }
+    
     return obj;
 }
 
@@ -74,6 +81,9 @@ QVariant MyListModelEx::data(const QModelIndex &index, int role) const
     case ExpireTimeRole:
         return item->getExpireTime();
         break;
+    case ItemIndexRole:
+        return item->getItemIndex();
+        break;
     default:
         break;
     }
@@ -98,6 +108,7 @@ QHash<int, QByteArray> MyListModelEx::roleNames() const
     roles.insert(InstanceNoRole, "phoneInstanceNo");
     roles.insert(PhoneIdRole, "phoneId");
     roles.insert(ExpireTimeRole, "expireTime");
+    roles.insert(ItemIndexRole, "itemIndex");
     return roles;
 }
 
@@ -149,16 +160,21 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
         emit dataChanged(index, index, { ExpireTimeRole });
         return true;
         break;
+    case ItemIndexRole:
+        item->setItemIndex(value.toInt());
+        emit dataChanged(index, index, { ItemIndexRole });
+        break;
     default:
         break;
     }
     return false;
 }
 
-void MyListModelEx::addItem(S_PHONE_INFO info/*bool checked*/ )
-{
+void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool checked*/ )
+{    
     beginInsertRows(QModelIndex(), items.size(), items.size());
     items.append(new ListItem(this));
+    items.last()->setItemIndex(iItemIndex++);
     if (info.strName.isEmpty())
     {
         items.last()->setPhoneName(info.strInstanceNo);
@@ -212,6 +228,7 @@ void MyListModelEx::removeAllItem()
     //清空存储项的向量
     qDeleteAll(items);
     items.clear();
+    iItemIndex = 0;
     endRemoveRows();
 }
 void MyListModelEx::ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu)
@@ -233,3 +250,13 @@ void MyListModelEx::do_notifyRefreshWindow()
     //emit notifyMainWindowRefreshWindow();
 }
 
+
+void MyListModelEx::itemClicked(int index)
+{
+    if (this->m_MainWindow != NULL) 
+    {
+        this->m_MainWindow->update();
+    }
+
+    qDebug() << "MyListModelEx::itemClicked index = " << index <<"rowCount="<< rowCount();
+}

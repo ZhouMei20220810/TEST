@@ -5,17 +5,16 @@
 #include <QtQml>
 #include "global.h"
 #include "filedownloader.h"
+#include "mainwindow.h"
 
 class ListItem : public QObject
 {
     Q_OBJECT
     QML_ELEMENT //声明QML可以访问元素
 public:
-    explicit ListItem(/*S_PHONE_INFO info, */ QObject * parent = nullptr);
-
-
-    int getIndex() const;
-    void setIndex(int newIndex);
+   ;
+    explicit ListItem(QObject* parent = nullptr);
+    //explicit ListItem(S_PHONE_INFO* info, QObject *parent = nullptr);
 
     int getPhoneId() const;
     void setPhoneId(int newPhoneId);
@@ -44,6 +43,9 @@ public:
     QString getExpireTime() const;
     void setExpireTime(const QString &newExpireTime);
 
+    int getItemIndex() const;
+    void setItemIndex(int newItemIndex);	
+public:
     //从MainWindow接收通知下载图片
     void downloadUrl(QString url);
 signals:
@@ -65,31 +67,28 @@ signals:
     void authorStatusChanged();
 
     void bShowAuthorImgChanged();
-
-    //用于处理点击事件，包含左键点击和右键菜单
-    //void ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
+    
     void ExpireTimeChanged();
 
-//public slots:
-    //用于处理点击事件，包含左键点击和右键菜单
- //   void ShowInstanceSignalFromQMLFile(int iId,QString strPhoneName,QString strInstanceNo,QString strExpireTime,bool bIsShowMenu);
+    void itemIndexChanged();
 
-private:
-    
+public slots:
+    void ShowInstanceSignalFromQMLFile(int iId, QString strPhoneName, QString strInstanceNo, QString strExpireTime, bool bIsShowMenu);
+private:    
     //显示实例,将显示实例部分从MainWindow中提取出来
     void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
 
-    
-private:
-    S_PHONE_INFO m_sPhoneInfo;
+    //S_PHONE_INFO m_sPhoneInfo;
     QByteArray byteArrayImageUrl;
     QString  m_strPicturePath;
     QString  m_strTemp;
     //设置定时器,图片大小
     QTimer* m_refreshTimer;
     FileDownloader* m_FileDownload;
+
+ 
 private:
-    int index;          //序列号
+    int itemIndex;      //序列号
     int phoneId;        //手机编号
     QString phoneName; //手机名
     QString phoneInstanceNo; //实例No
@@ -100,7 +99,6 @@ private:
     bool checkBox; //checkBox选中状态
     int  authorStatus; //授权状态0：没有授权，1：已授权，2：被授权
     S_PHONE_INFO PhoneInfo;
-    Q_PROPERTY(int index READ getIndex WRITE setIndex NOTIFY indexChanged FINAL)
     Q_PROPERTY(int phoneId READ getPhoneId WRITE setPhoneId NOTIFY phoneIdChanged FINAL)
     Q_PROPERTY(QString phoneName READ getPhoneName WRITE setPhoneName NOTIFY phoneNameChanged FINAL)
     Q_PROPERTY(QString phoneInstanceNo READ getPhoneInstanceNo WRITE setPhoneInstanceNo NOTIFY phoneInstanceNoChanged FINAL)
@@ -110,6 +108,7 @@ private:
     Q_PROPERTY(int authorStatus READ getAuthorStatus WRITE setAuthorStatus NOTIFY authorStatusChanged FINAL)
     Q_PROPERTY(bool bShowAuthorImg READ getBShowAuthorImg WRITE setBShowAuthorImg NOTIFY bShowAuthorImgChanged FINAL)
     Q_PROPERTY(QString ExpireTime READ getExpireTime WRITE setExpireTime NOTIFY ExpireTimeChanged FINAL)
+    Q_PROPERTY(int itemIndex READ getItemIndex WRITE setItemIndex NOTIFY itemIndexChanged FINAL)
 };
 
 #endif // LISTITEM_H

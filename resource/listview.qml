@@ -34,6 +34,7 @@ Canvas{
                 y:15*/ //无效
                 width: QMLSizeManager.cellWidth //207;
                 height:QMLSizeManager.cellHeight+20+30 //396 //更加单元格与实际的差值，形成间隔
+                property int index:itemIndex  // 设置索引属性
                 /*color: "transparent"
                 border.color: "#FF6B737E"
                 border.width: 2*/
@@ -65,6 +66,8 @@ Canvas{
                     width: QMLSizeManager.cellWidth
                     height: QMLSizeManager.cellHeight
                     visible:false
+                    //加上这个缩放之后背景边框会变厚
+                    //fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
                 }
 
                 Rectangle{
@@ -92,8 +95,25 @@ Canvas{
                              maskSource:bgImgRect //rectBg
 
                          }
-                }
-                 
+
+                         //背景点击
+                         MouseArea {
+                            id: itemClickArea
+                            anchors.fill: parent
+                            onClicked: {
+                                //直接调用C++中的函数
+                                //console.log("Item was clicked. index="+windowItem.index+"width="+listView.cellWidth +"height="+ listView.cellHeight); //console.log("Item was clicked: " + modelData.name);
+                                //QMLSizeManager.itemClicked();
+                                //QML发送信号调用 C++槽函数,三步：第三步
+                                qmlSendSignals(phoneId,phoneName, phoneInstanceNo,expireTime, true)
+                                MyListModelEx.c(index);
+                                //itemClickedSignals(windowItem.index, modelData);
+                                
+                                // 在这里可以添加更多的逻辑
+                                //发送显示PhoneInstanceWidget窗口的信号
+                            }
+                        }
+                } 
 
                 //授权状态图
                 Rectangle{
@@ -122,12 +142,16 @@ Canvas{
                     {
                         // 更新模型中的checked状态
                         //modelData.checked = checked;
+                        /*console.log("index="+itemIndex);
                         var index = listView.model.indexOf(windowItem);
                         MyListModelEx.setData(index, checked, MyListModelEx.CheckedRole);
                         console.log("onCheckedChanged "+modelData.checked)
                         modelData.setCheckBox(checked);
                         notifyRefreshWindow();
-                        MyListModel.do_notifyRefreshWindow();
+                        MyListModel.do_notifyRefreshWindow();*/
+                        MyListModelEx.itemClicked(windowItem.index);
+                        //console.log("index="+listItem);
+                        //listItem.setCheckBox(checked);
                         // 强制刷新当前项
                         //parent.updateCurrentItem();
                     }
@@ -150,6 +174,7 @@ Canvas{
                 }
             }
         }
+        
         //设置间距
         //spacing:10
         // 计算每行的列数
