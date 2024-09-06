@@ -91,7 +91,7 @@ QVariant MyListModelEx::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-//枚举-类型   QByteArray相当于字符串，值？
+//枚举-类型   QByteArray相当于字符串，值?
 QHash<int, QByteArray> MyListModelEx::roleNames() const
 {
     /*static const QHash<int, QByteArray> roles = {
@@ -175,10 +175,24 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
     return false;
 }
 
+void MyListModelEx::do_ImagePathChanged(int index,QString strImagePath)
+{
+    qDebug() << "ListItem 切换图片后,发送信号do_ImagePathChanged";
+    if (index >= 0 && index < items.size()) {
+        ListItem* item = items[index];
+        item->setImagePath(strImagePath);
+        emit dataChanged(createIndex(index, 0), createIndex(index, 0), { ImagePathRole });
+        // 在这里处理checked状态的更改
+        qDebug() << "Item at index" << index << "changed to" << item->getCheckBox();
+    }
+}
+
 void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool checked*/ )
 {    
     beginInsertRows(QModelIndex(), items.size(), items.size());
-    items.append(new ListItem(info,mainWindow,this));
+    ListItem* listItem = new ListItem(info, mainWindow, this);
+    connect(listItem, &ListItem::ImagePathChanged, this, &MyListModelEx::do_ImagePathChanged);
+    items.append(listItem);
     items.last()->setItemIndex(iItemIndex++);
     if (info.strName.isEmpty())
     {
@@ -305,6 +319,31 @@ void MyListModelEx::onCheckBoxChanged(int index, bool bChecked)
     if (this->m_MainWindow != NULL)
     {
         this->m_MainWindow->update();
+    }
+}
+//通过下标获取ListItem
+ListItem* MyListModelEx::getListItemByIndex(int index)
+{
+    ListItem* listItem = NULL;
+    if (index >= 0 && index < items.size())
+    {
+        listItem = items[index];
+    }
+    return listItem;
+}
+//鼠标点击事件
+void MyListModelEx::mousePressEvent(const QVariantMap& event)
+{
+    int buttons = event.value("buttons").toInt();
+    qreal x = event.value("x").toReal();
+    qreal y = event.value("y").toReal();
+    int index = event.value("index").toInt();
+
+    if (buttons & Qt::LeftButton) {
+        qDebug() << "Left mouse button pressed at" << x << y;
+    }
+    else if (buttons & Qt::RightButton) {
+        qDebug() << "Right mouse button pressed at" << x << y;
     }
 }
 

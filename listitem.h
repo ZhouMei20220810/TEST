@@ -58,7 +58,7 @@ signals:
 
     void checkBoxChanged();
 
-    void ImagePathChanged();
+    void ImagePathChanged(int index, QString strImagePath);
 
     void PhoneInfoChanged();
 

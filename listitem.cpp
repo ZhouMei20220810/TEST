@@ -5,39 +5,10 @@
 ListItem::ListItem(S_PHONE_INFO info, MainWindow* pMainWindow, QObject *parent)
     : QObject{parent}
 {
-    if (info.strName.isEmpty())
-    {
-        setPhoneName(info.strInstanceNo);
-    }
-    else
-    {
-        setPhoneName(info.strName);
-    }
-
-    setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo));
-
-    setCheckBox(info.bChecked);
-    setBShowAuthorImg(true);
-    if (info.bIsAuth)
-    {
-        setAuthorStatus(1);
-        //从外部传入图片路径不能显示
-        //AuthorImgPath = "qrc:/main/resource/main/Authorized.png";//QString("qrc:/main/resource/main/Authorized.png");
-    }
-    else if (info.iAuthType == EN_BE_AUTHORIZATION)
-    {
-        setAuthorStatus(2);
-        //从外部传入图片路径不能显示
-        //AuthorImgPath = "qrc:/main/resource/main/BeAuthorized.png";
-    }
-    else
-        setBShowAuthorImg(false);
-
     m_FileDownload = NULL;
     m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
     m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";
 
-    setPhoneInfo(info);
     m_pMainWindow = pMainWindow;
 }
 
@@ -103,7 +74,7 @@ void ListItem::setImagePath(const QString &newImagePath)
     if (ImagePath == newImagePath)
         return;
     ImagePath = newImagePath;
-    emit ImagePathChanged();
+    emit ImagePathChanged(itemIndex, ImagePath);
 }
 
 S_PHONE_INFO ListItem::getPhoneInfo() const
@@ -184,24 +155,27 @@ void ListItem::downloadUrl(QString url)
                 {                    
                     if (ImagePath.contains(m_strPicturePath))
                     {
+                        qDebug() << "time:" << QDateTime::currentDateTime().fromString("yyyy-MM-dd HH:mm:ss") <<"修改之前ImagePath="<< m_strPicturePath;
                         setImagePath(QString("file:///%1").arg(m_strTemp));
+                        qDebug() << "time:" << QDateTime::currentDateTime().fromString("yyyy-MM-dd HH:mm:ss") << "修改之后ImagePath=" << m_strTemp;
                     }
                     else
                     {
+                        qDebug() << "time:" << QDateTime::currentDateTime().fromString("yyyy-MM-dd HH:mm:ss") << "修改之前ImagePath=" << m_strTemp;
                         setImagePath(QString("file:///%1").arg(m_strPicturePath));
-                    }
-                    if (QFile::exists(m_strPicturePath))
-                    {
-                        if (!QFile::remove(m_strPicturePath))
+                        qDebug() << "time:" << QDateTime::currentDateTime().fromString("yyyy-MM-dd HH:mm:ss") << "修改之后ImagePath=" << m_strPicturePath;
+                        if (QFile::exists(m_strPicturePath))
                         {
-                            qDebug() << "remove fail:" << m_strPicturePath;
+                            if (!QFile::remove(m_strPicturePath))
+                            {
+                                qDebug() << "remove fail:" << m_strPicturePath;
+                            }
                         }
-                    }
-                    if (!QFile::rename(m_strTemp, m_strPicturePath))
-                    {
-                        qDebug() << "rename fail: " << m_strPicturePath;
-                    }
-                                        
+                        if (!QFile::rename(m_strTemp, m_strPicturePath))
+                        {
+                            qDebug() << "rename fail: " << m_strPicturePath;
+                        }
+                    }                  
                 }
             });
         m_FileDownload->setUrlOutputFile(url, m_strTemp);

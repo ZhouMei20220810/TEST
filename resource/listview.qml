@@ -71,10 +71,23 @@ Canvas{
                         source:imagePath //item.ImagePath
                         x:2
                         y:2
-                        width: QMLSizeManager.cellWidth
-                        height: QMLSizeManager.cellHeight
+                        width:bgImgRect.width-4
+                        height:bgImgRect.height-4
                         //smooth: false //关闭平滑
-                        fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
+                        //transformOrigin: Image.Center
+                        //fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
+                        rotation:QMLSizeManager.itemVerticalScreen?0:270
+                        /*transform: Rotation {
+                                        origin.x: backgroundImage.height / 2
+                                        origin.y: backgroundImage.width / 2
+                                        angle: QMLSizeManager.itemVerticalScreen?0:270
+                                        axis: Qt.zAxis
+                                    }*/
+                        anchors.centerIn: parent
+                        anchors.margins: 2
+                        /*width:368
+                        height:207
+                        anchors.centerIn: parent*/
                         //加上这个缩放之后背景边框会变厚,去掉OpacityMask又不变了
                         //fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
                         //anchors.centerIn: parent
@@ -115,12 +128,25 @@ Canvas{
                         MouseArea {
                             id: itemClickArea
                             anchors.fill: parent
-                            onClicked: {
+                            acceptedButtons: Qt.LeftButton|Qt.RightButton
+                            //点击背景图弹实例窗口
+                            /*onClicked: {
                                 //直接调用C++中的函数
                                 //QML发送信号调用 C++槽函数,三步：第三步
                                 qmlSendSignals(phoneName, phoneInstanceNo,true,phoneInfo)
                                 // 在这里可以添加更多的逻辑
                                 //发送显示PhoneInstanceWidget窗口的信号
+                            }*/
+                            onPressed: {
+                                // 发送鼠标事件到C++
+                                var event = {
+                                buttons: mouse.button,
+                                x: mouse.x,
+                                y: mouse.y,
+                                index:itemIndex
+                                }
+                                console.log(".qml phoneName"+phoneName+" phoneInstanceNo="+phoneInstanceNo+" mouse.button="+mouse.button);
+                                MyListModelEx.mousePressEvent(event);
                             }
                         }
                     }

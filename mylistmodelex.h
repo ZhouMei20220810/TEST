@@ -53,6 +53,11 @@ public:
     {
         return items;
     }
+    //通过下标获取ListItem
+    ListItem* getListItemByIndex(int index);
+
+    //鼠标点击事件
+    Q_INVOKABLE void mousePressEvent(const QVariantMap& event);
 public slots:
     void ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo, bool bIsShowMenu, S_PHONE_INFO info);
     void do_ItemClickSignals(int index, const QVariant& data);
@@ -60,6 +65,8 @@ public slots:
     //QML中点击后,通知C++处理,添加Q_INVOKABLE QML文件即可访问
     //连接到QML的信号
     Q_INVOKABLE void onCheckBoxChanged(int index,bool bChecked);
+private slots:
+    void do_ImagePathChanged(int index, QString strImagePath);
 signals:
     
     //复选框勾选通知界面刷新
