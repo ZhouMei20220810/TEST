@@ -1162,27 +1162,30 @@ QStringList MainWindow::getCheckedPhoneInstance(bool IsPhoneId)
     //预览模式
     if (m_isIconMode)
     {
-        /*int iCount = ui->listWidget->count();
+		////从MyListModelEx获取设备列表
+        QList<ListItem*> itemList = MyListModelEx::getInstance(this)->itemList();
+        int iCount = itemList.size();
         if (iCount <= 0)
             return strPhoneList;
 
-        QListWidgetItem* item = NULL;
-        PhoneItemWidget* phoneItem = NULL;
+        ListItem* item = NULL;
+        S_PHONE_INFO phoneInfo;
         for (int i = 0; i < iCount; i++)
         {
-            item = ui->listWidget->item(i);
-            if (item != NULL)
+            item = itemList.at(i);
+            if (item == NULL)
             {
-                phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-                phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
-                if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty() && phoneItem->getCheckBoxStatus())
-                {
-                    strPhoneIdList << QString("%1").arg(phoneInfo.iId);
-                    strPhoneList << phoneInfo.strInstanceNo;
-                    GlobalData::mapSyncPhoneList.insert(phoneInfo.iId, phoneInfo);
-                }
+                qDebug() << "MainWindow::getCheckedPhoneInstance index=" << i << " item is null";
+                continue;
             }
-        }*/
+            if (item->getCheckBox())
+            {
+                phoneInfo = item->getPhoneInfo();
+                strPhoneIdList << QString("%1").arg(phoneInfo.iId);
+                strPhoneList << phoneInfo.strInstanceNo;
+                GlobalData::mapSyncPhoneList.insert(phoneInfo.iId, phoneInfo);
+            }
+        }
     }
     else
     {
