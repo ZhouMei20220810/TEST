@@ -49,7 +49,6 @@
 #include "qmlsizemanager.h"
 #include "listitem.h"
 #include "mylistmodelex.h"
-#include "listmodel.h"
 
 extern QSystemTrayIcon* g_trayIcon;
 
@@ -209,46 +208,12 @@ MainWindow::MainWindow(QWidget *parent)
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());
     //qmlRegisterSingletonInstance("ListItem", 1, 0, "ListItem", ListItem::getInstance());
     qmlRegisterType<ListItem>("ListItem", 1, 0, "ListItem");
-    qmlRegisterSingletonInstance("MyListModel", 1, 0, "MyListModel", MyListModel::getInstance());
     qmlRegisterSingletonInstance("MyListModelEx", 1, 0, "MyListModelEx", MyListModelEx::getInstance(this));
 
 	connect(MyListModelEx::getInstance(this), &MyListModelEx::QmlSendMainWindowSignals, this, [this](S_PHONE_INFO info, bool bIsShowMenu) {
         qDebug() << "MainWindow 响应MyListModelEx::QmlSendMainWindowSignals事件";
         on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
-        });
-    connect(MyListModelEx::getInstance(this), &MyListModelEx::notifyMainWindowRefreshWindow, this, [this]() {
-        if (m_quickWidget != NULL)
-        {
-            //m_quickWidget->updateGeometry();
-            //先同步再更新
-            //m_quickWidget->sync();
-            
-
-            /*QList<ListItem*> list = MyListModel::getInstance()->itemList();
-            int iIconListCount = list.size();
-            if (iIconListCount > 0)
-            {
-                ListItem* item = NULL;
-                for (int i = 0; i < iIconListCount; i++)
-                {
-                    item = list.at(i);
-
-                    if (item->getCheckBox())
-                    {
-                        item->setCheckBox(true);
-                        //勾选,用于同步操作
-                        //qDebug() << "index=1 item.phoneName=" << item->getPhoneName();
-                        qDebug() << "选中 name" << item->getPhoneName();
-                    }
-                }              
-                
-            }*/
-            QMLSizeManager::getInstance()->setWindowWidth(ui->pageIconMode->width()-1);
-            QMLSizeManager::getInstance()->setWindowHeight(ui->pageIconMode->height()-1);
-            m_quickWidget->update();
-
-        }
-        });
+        });    
 
     /*QMLSizeManager::getInstance()->setWindowWidth(900);
     QMLSizeManager::getInstance()->setWindowHeight(1000);*/

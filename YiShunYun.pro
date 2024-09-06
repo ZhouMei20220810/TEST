@@ -36,7 +36,6 @@ SOURCES += \
     individualcenterwidget.cpp \
     levelitemwidget.cpp \
     listitem.cpp \
-    listmodel.cpp \
     main.cpp \
     loginwindow.cpp \
     mainwindow.cpp \
@@ -105,7 +104,6 @@ HEADERS += \
     individualcenterwidget.h \
     levelitemwidget.h \
     listitem.h \
-    listmodel.h \
     loginwindow.h \
     mainwindow.h \
     messagecenterdialog.h \
