@@ -230,9 +230,7 @@ void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool chec
     items.last()->setPhoneInfo(info);
     /*m_FileDownload = NULL;
     m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
-    m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";
-
-    setPhoneInfo(info);*/
+    m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";*/
     endInsertRows();
 }
 
@@ -277,12 +275,6 @@ void MyListModelEx::setAllCheckBox(bool newCheckBox)
             emit dataChanged(createIndex(i, 0), createIndex(i, 0), { CheckedRole });
         }
     }
-    /*QList<ListItem*> list;
-    for (const QVariant& variant : items) {
-        ListItem* item = variant.value<ListItem*>();
-        item->setCheckBox(newCheckBox);
-        list.append(item);
-    }*/
 }
 
 //反选
@@ -297,12 +289,6 @@ void MyListModelEx::setFanXuanCheckBox()
             emit dataChanged(createIndex(i, 0), createIndex(i, 0), { CheckedRole });
         }
     }
-    /*QList<ListItem*> list;
-    for (const QVariant& variant : items) {
-        ListItem* item = variant.value<ListItem*>();
-        item->setCheckBox(!item->getCheckBox());
-        list.append(item);
-    }*/
 }
 
 //连接到QML的信号
@@ -314,7 +300,7 @@ void MyListModelEx::onCheckBoxChanged(int index, bool bChecked)
         item->setCheckBox(bChecked);
         emit dataChanged(createIndex(index, 0), createIndex(index, 0), { CheckedRole });
         // 在这里处理checked状态的更改
-        qDebug() << "Item at index" << index << "changed to" << item->getCheckBox();
+        qDebug() << "Item at index" << index << " bChecked=" << item->getCheckBox();
     }
     if (this->m_MainWindow != NULL)
     {
@@ -366,6 +352,15 @@ void MyListModelEx::mousePressEvent(const QVariantMap& event)
     }
 }
 
+void MyListModelEx::do_onContentXYChanged()
+{
+    qDebug() << "c++鼠标滚动do_onContentXYChanged";
+    if (this->m_MainWindow != NULL)
+    {
+        this->m_MainWindow->update();
+    }
+}
+
 void MyListModelEx::ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo,bool bIsShowMenu, S_PHONE_INFO info)
 {
     //后续可以考虑是否要根据id找全S_PHONE_INFO的信息
@@ -373,10 +368,4 @@ void MyListModelEx::ShowInstanceSignalFromQMLFile(QString strPhoneName, QString 
     //显示实例窗口,看看是否能间接调用MainWindow的窗口
     //on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
     
-}
-
-void MyListModelEx::do_ItemClickSignals(int index, const QVariant& data)
-{
-    qDebug() << "MyListModelEx Clicked item at index:" << index;
-    qDebug() << "Item data:" << data;
 }

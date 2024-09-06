@@ -58,9 +58,11 @@ public:
 
     //鼠标点击事件
     Q_INVOKABLE void mousePressEvent(const QVariantMap& event);
+    //滚动条事件
+    Q_INVOKABLE void do_onContentXYChanged();
 public slots:
+    //暂时没有用到，记录一下QML中发送信号，C++槽函数响应
     void ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo, bool bIsShowMenu, S_PHONE_INFO info);
-    void do_ItemClickSignals(int index, const QVariant& data);
     //void do_itemClicked(int index);
     //QML中点击后,通知C++处理,添加Q_INVOKABLE QML文件即可访问
     //连接到QML的信号

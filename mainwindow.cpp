@@ -223,7 +223,6 @@ MainWindow::MainWindow(QWidget *parent)
     //QQmlApplicationEngine engine;
     //QQmlContext* content = engine.rootContext();    
 
-    //m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));qrc:/Test.qml
     m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/resource/listview.qml")));
     //m_quickWidget->move(300,0);
     //ui->quickWidget->setVisible(true);
@@ -1672,7 +1671,6 @@ void MainWindow::ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> ma
 //显示任务
 void MainWindow::ShowTaskInfo()
 {
-    //MyListModel::getInstance()->itemList();
     QList<ListItem*> list = MyListModelEx::getInstance(this)->itemList();
     int iIconListCount = list.size();
     QMap<QString, S_TASK_INFO>::iterator iterFind;
@@ -1685,7 +1683,10 @@ void MainWindow::ShowTaskInfo()
             iterFind = m_mapTask.find(item->getPhoneInstanceNo());
             if (iterFind != m_mapTask.end())
             {
-                item->downloadUrl(iterFind->strUrl);
+                if (!iterFind->strUrl.isEmpty())
+                {
+                    item->downloadUrl(iterFind->strUrl);
+                }
             }
         }
 
@@ -3903,7 +3904,6 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
     if (m_isIconMode)
     {
         MyListModelEx::getInstance(this)->setFanXuanCheckBox();
-        //MyListModel::getInstance()->setFanXuanCheckBox();
     }
     else
     {
@@ -5047,45 +5047,17 @@ void MainWindow::loadPreviewModeListByQML()
         //清空之前的内容
         MyListModelEx::getInstance(this)->removeAllItem();
         //显示所有数据
-        ListItem* listitem = NULL;
-        QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
         QMap<int, S_PHONE_INFO>::iterator mapIter;
-        int index = 0;
-        //制造十倍假数据
-        //for(int i=0;i < 6;i++)
-        for (mapIter = m_mapCurTreeItemSelect.begin(); mapIter != m_mapCurTreeItemSelect.end(); mapIter++, index++)
+        for (mapIter = m_mapCurTreeItemSelect.begin(); mapIter != m_mapCurTreeItemSelect.end(); mapIter++)
         {
-            /*/listitem = new ListItem(*mapIter);
-            
-            //connect(listitem, &ListItem::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-            
-            listitem->setPhoneId(mapIter->iId);
-            listitem->setPhoneInstanceNo(mapIter->strInstanceNo);
-            listitem->setExpireTime(mapIter->strExpireTime);
-            listitem->setPhoneName(mapIter->strName);*/
-            /*listitem->setIndex(index);
-            listitem->setPhoneName(mapIter->strName);
-            listitem->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(index));*/
             MyListModelEx::getInstance(this)->addItem(this,*mapIter);
-            //MyListModel::getInstance()->addItem(ListItem(*mapIter));
         }
+        update();
     }
     else
     {
         ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
     }
-
-    //可以显示
-    /*ListItem* item = NULL;
-    QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
-    for (int i = 0; i < 5; i++)
-    {
-        item = new ListItem();
-        item->setIndex(i);
-        item->setPhoneName(QString("text%1").arg(i));
-        item->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(i));
-        MyListModel::getInstance()->addItem(item);
-    }*/
 }
 
 
