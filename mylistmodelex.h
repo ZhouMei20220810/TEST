@@ -73,9 +73,6 @@ signals:
     //复选框勾选通知界面刷新
     void notifyMainWindowRefreshWindow();
 private:
-    //显示实例,将显示实例部分从MainWindow中提取出来
-    void on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool bShowMenu);
-private:
     int iItemIndex;
     QList<ListItem*> items;   
 
