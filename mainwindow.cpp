@@ -212,6 +212,10 @@ MainWindow::MainWindow(QWidget *parent)
     qmlRegisterSingletonInstance("MyListModel", 1, 0, "MyListModel", MyListModel::getInstance());
     qmlRegisterSingletonInstance("MyListModelEx", 1, 0, "MyListModelEx", MyListModelEx::getInstance(this));
 
+	connect(MyListModelEx::getInstance(this), &MyListModelEx::QmlSendMainWindowSignals, this, [this](S_PHONE_INFO info, bool bIsShowMenu) {
+        qDebug() << "MainWindow 响应MyListModelEx::QmlSendMainWindowSignals事件";
+        on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
+        });
     connect(MyListModelEx::getInstance(this), &MyListModelEx::notifyMainWindowRefreshWindow, this, [this]() {
         if (m_quickWidget != NULL)
         {

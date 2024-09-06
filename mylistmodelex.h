@@ -68,7 +68,8 @@ public slots:
 private slots:
     void do_ImagePathChanged(int index, QString strImagePath);
 signals:
-    
+    //qml点击事件通过QmlSendMainWindowSignals信号通知到MainWindow
+    void QmlSendMainWindowSignals(S_PHONE_INFO info, bool bShowMenu);
     //复选框勾选通知界面刷新
     void notifyMainWindowRefreshWindow();
 private:

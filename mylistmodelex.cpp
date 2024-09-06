@@ -351,8 +351,9 @@ void MyListModelEx::ShowInstanceSignalFromQMLFile(QString strPhoneName, QString 
 {
     //后续可以考虑是否要根据id找全S_PHONE_INFO的信息
     qDebug() << "MyListModelEx ShowInstanceSignalFromQMLFile strPhoneName=" << strPhoneName << " VMNo=" << strInstanceNo << "iId=" << info.iId << "strExpireTime=" << info.strExpireTime << "bIsShowMenu=" << bIsShowMenu;
-    //显示实例窗口
-    on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
+    //显示实例窗口,看看是否能间接调用MainWindow的窗口
+    //on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
+    emit QmlSendMainWindowSignals(info, bIsShowMenu);
 }
 
 void MyListModelEx::do_ItemClickSignals(int index, const QVariant& data)
@@ -367,6 +368,7 @@ void MyListModelEx::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, b
     PhoneInstanceWidget* phoneWidget = new PhoneInstanceWidget(sPhoneInfo);
     phoneWidget->show();
 
+    
     //暂时屏蔽右键菜单
     /*m_CurSelMenuPhoneInfo = sPhoneInfo;
     if (bShowMenu)
