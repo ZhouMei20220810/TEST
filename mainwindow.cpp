@@ -213,7 +213,17 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(MyListModelEx::getInstance(this), &MyListModelEx::QmlSendMainWindowSignals, this, [this](S_PHONE_INFO info, bool bIsShowMenu) {
         qDebug() << "MainWindow 响应MyListModelEx::QmlSendMainWindowSignals事件";
         on_ShowPhoneInstanceWidgetSignals(info, bIsShowMenu);
-        });    
+        });   
+    connect(MyListModelEx::getInstance(this), &MyListModelEx::QmlCheckBoxSignals, this, [this](bool bChecked) {
+        //更新QML 列表选中时，全选复选框的选中条数
+        if (bChecked)
+            m_iCheckCount++;
+        else
+            m_iCheckCount--;
+        int iCount = MyListModelEx::getInstance(this)->rowCount();
+        ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
+        ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount && iCount != 0) ? true : false);
+        });
 
     /*QMLSizeManager::getInstance()->setWindowWidth(900);
     QMLSizeManager::getInstance()->setWindowHeight(1000);*/
@@ -792,36 +802,17 @@ void MainWindow::do_TransferSuccessRefreshInstanceListSignals()
 }
 
 void MainWindow::RefreshTransferPhoneList()
-{
-    
+{    
     S_PHONE_INFO phoneInfo;
     int iListCount = 0;
     int iRow = 0;
     QListWidgetItem* phoneItem = NULL;
     QMap<int, S_PHONE_INFO>::iterator iterFind;
-    int iSelCount = 0;
     //重新显示listWidget
     //预览模式
     if (m_isIconMode)
     {
-        /*PhoneItemWidget* widget = NULL;
-        iListCount = ui->listWidget->count();
-        for (iRow = iListCount - 1; iRow >= 0; iRow--)
-        {
-            phoneItem = ui->listWidget->item(iRow);
-            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
-            iterFind = m_mapPhoneInfo.find(phoneInfo.iId);
-            if (iterFind != m_mapPhoneInfo.end())
-            {
-                widget = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(phoneItem));
-                if (widget != NULL && widget->getCheckBoxStatus())
-                {
-                    iSelCount++;
-                }
-                continue;
-            }
-            ui->listWidget->takeItem(iRow);
-        }*/
+        m_iCheckCount = MyListModelEx::getInstance(this)->getListItemCheckedCount();
     }
     //列表模式
     else
@@ -839,7 +830,7 @@ void MainWindow::RefreshTransferPhoneList()
                 widget2 = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(phoneItem));
                 if (widget2 != NULL && widget2->getCheckBoxStatus())
                 {
-                    iSelCount++;
+                    m_iCheckCount++;
                 }
                 continue;
             }
@@ -848,12 +839,13 @@ void MainWindow::RefreshTransferPhoneList()
     }
     int iCount = 0;
     if (m_isIconMode)
-    {   //iCount = ui->listWidget->count();
+    {   
+        iCount = MyListModelEx::getInstance(this)->rowCount();
     }
     else
         iCount = ui->listWidget2->count();
-    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(iSelCount).arg(iCount));
-    ui->checkBoxAllSelect->setChecked((iSelCount == iCount && iCount != 0) ? true : false);
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount && iCount != 0) ? true : false);
     on_btnGroupRefresh_clicked();
 }
 
@@ -3832,7 +3824,7 @@ void MainWindow::on_btnCancelSelect_clicked()
     //取消选择
     if (m_isIconMode)
     {
-        MyListModelEx::getInstance(this)->setCancelSelectCheckBox(false);
+        m_iCheckCount = MyListModelEx::getInstance(this)->setCancelSelectCheckBox(false);
     }
     else
     {
@@ -3857,18 +3849,23 @@ void MainWindow::on_btnCancelSelect_clicked()
             }
         }
     }
+
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(MyListModelEx::getInstance(this)->rowCount()));
+    ui->checkBoxAllSelect->setChecked(false);
 }
 
 void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
 {
     //全选
+    int iCount = 0;
     if (m_isIconMode)
     {
-        MyListModelEx::getInstance(this)->setAllCheckBox(checked);
+        iCount = MyListModelEx::getInstance(this)->rowCount();
+        m_iCheckCount = MyListModelEx::getInstance(this)->setAllCheckBox(checked);
     }
     else
     {
-        int iCount = ui->listWidget2->count();
+        iCount = ui->listWidget2->count();
         if (iCount <= 0)
         {
             return;
@@ -3889,6 +3886,9 @@ void MainWindow::on_checkBoxAllSelect_clicked(bool checked)
             }
         }
     }
+
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount && iCount != 0) ? true : false);
 }
 
 
@@ -3898,7 +3898,8 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
     //反选
     if (m_isIconMode)
     {
-        MyListModelEx::getInstance(this)->setFanXuanCheckBox();
+        iCount = MyListModelEx::getInstance(this)->rowCount();
+        m_iCheckCount = MyListModelEx::getInstance(this)->setFanXuanCheckBox();
     }
     else
     {
@@ -3923,6 +3924,8 @@ void MainWindow::on_checkBoxFanSelect_clicked(bool checked)
             }
         }
     }
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount && iCount != 0) ? true : false);
 }
 
 void MainWindow::on_toolBtnListMode_clicked()
@@ -3983,7 +3986,7 @@ void MainWindow::on_toolBtnListMode_clicked()
                 //将最新的状态都存放到缓存中
                 widget2->setCheckBoxStatus(listItem.at(i)->getCheckBox());
                 connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-                connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
+                connect(widget2, &PhoneListModeItemWidget::checkBoxClick, this, &MainWindow::do_checkBoxClick);
                 phoneItem = new QListWidgetItem(ui->listWidget2);
                 phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
                 phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -4805,7 +4808,6 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
     m_iCheckCount = 0;
     MyListModelEx::getInstance(this)->removeAllItem();
     ui->listWidget2->clear();
-    int iSelCount = 0;
     QMap<int, S_LEVEL_INFO>::iterator iterFind;
     if (checked)
     {
@@ -4829,7 +4831,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                 child = item->child(i);
                 if (child == NULL)
                     continue;
-                iSelCount++;
+                m_iCheckCount++;
                 phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();   
                 phoneInfo.bChecked = checked;
                 //重新显示listWidget
@@ -4851,7 +4853,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                     }
                     widget2 = new PhoneListModeItemWidget(phoneInfo, this);
                     connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-                    connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
+                    connect(widget2, &PhoneListModeItemWidget::checkBoxClick, this, &MainWindow::do_checkBoxClick);
                     phoneItem = new QListWidgetItem(ui->listWidget2);
                     phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
                     phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -4862,7 +4864,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                            
             ++it;
         }
-        if (iSelCount <= 0)
+        if (m_iCheckCount <= 0)
         {
             m_TaskTimer->stop();
             ui->stackedWidgetPhoneItem->setCurrentWidget(m_isIconMode?ui->pageIconNoData: ui->pageListNoData);
@@ -4883,8 +4885,8 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
     else
         iCount = ui->listWidget2->count();
 
-    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(iSelCount).arg(iCount));
-    ui->checkBoxAllSelect->setChecked((iSelCount == iCount&&iCount !=0) ? true : false);
+    ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
+    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount !=0) ? true : false);
 
     //生成截图
     m_listInstanceNo = strList;
@@ -4902,19 +4904,6 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
     }
 }
 
-void MainWindow::AddIconModeListWidgetItem(S_PHONE_INFO phoneInfo)
-{
-    /*QListWidgetItem* phoneItem = NULL;
-    PhoneItemWidget* widget = new PhoneItemWidget(phoneInfo, this);
-    connect(widget, &PhoneItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-    connect(widget, &PhoneItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
-    phoneItem = new QListWidgetItem(ui->listWidget);
-    phoneItem->setSizeHint(QSize(GlobalData::iPhoneItemWidth, GlobalData::iPhoneItemHeight));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-    phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-    ui->listWidget->addItem(phoneItem);
-    ui->listWidget->setItemWidget(phoneItem, widget);*/
-}
-
 void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
 {
     QListWidgetItem* phoneItem = NULL;
@@ -4929,7 +4918,7 @@ void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
     }
     widget2 = new PhoneListModeItemWidget(phoneInfo, this);
     connect(widget2, &PhoneListModeItemWidget::ShowPhoneInstanceWidgetSignals, this, &MainWindow::on_ShowPhoneInstanceWidgetSignals);
-    connect(widget2, &PhoneListModeItemWidget::stateChanged, this, &MainWindow::do_stateChanged);
+    connect(widget2, &PhoneListModeItemWidget::checkBoxClick, this, &MainWindow::do_checkBoxClick);
     phoneItem = new QListWidgetItem(ui->listWidget2);
     phoneItem->setSizeHint(QSize(LISTMODE_ITEM_WIDTH, LISTMODE_ITEM_HEGITH));
     phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
@@ -4972,7 +4961,6 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                 if (m_isIconMode)
                 {
                     m_listInstanceNo << phoneInfo.strInstanceNo;
-                    //AddIconModeListWidgetItem(phoneInfo);
                 }
                 else
                 {
@@ -5001,7 +4989,6 @@ void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
                 if (m_isIconMode)
                 {
                     m_listInstanceNo << phoneInfo.strInstanceNo;
-                    //AddIconModeListWidgetItem(phoneInfo);
                 }
                 else
                 {
@@ -5088,27 +5075,14 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     on_treeWidget_itemPressed(item, column);
 }
 
-void MainWindow::do_stateChanged(int state)
+void MainWindow::do_checkBoxClick(bool bCheck)
 {
-    switch (state)
-    {
-    case Qt::Checked:
-            m_iCheckCount++;
-        break;
-    case Qt::Unchecked:
-        if(m_iCheckCount > 0)
-            m_iCheckCount--;
-        break;
-    default:
-        break;
-    }
-    int iCount = 0;
-    if (m_isIconMode)
-    {
-        //iCount = ui->listWidget->count();
-    }
+    //列表模式
+    if (bCheck)
+        m_iCheckCount++;
     else
-        iCount = ui->listWidget2->count();
+        m_iCheckCount--;
+    int iCount = ui->listWidget2->count();
     
     ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
     ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount!=0) ? true : false);

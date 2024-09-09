@@ -43,11 +43,11 @@ public:
     //移除所有项
     void removeAllItem();
     //取消选择
-    void setCancelSelectCheckBox(bool bChecked);
+    int setCancelSelectCheckBox(bool bChecked);
     //全选
-    void setAllCheckBox(bool newCheckBox);
-    //反选
-    void setFanXuanCheckBox();
+    int setAllCheckBox(bool newCheckBox);
+    //反选,返回选中条数
+    int setFanXuanCheckBox();
     //设置新的图片路径
     void setNewImagePath(int itemIndex, QString strNewImagePath);
 
@@ -57,6 +57,9 @@ public:
     }
     //通过下标获取ListItem
     ListItem* getListItemByIndex(int index);
+
+    //获取选中条数
+    int getListItemCheckedCount();
 
     //鼠标点击事件
     Q_INVOKABLE void mousePressEvent(const QVariantMap& event);
@@ -72,6 +75,8 @@ public slots:
 signals:
     //qml点击事件通过QmlSendMainWindowSignals信号通知到MainWindow
     void QmlSendMainWindowSignals(S_PHONE_INFO info, bool bShowMenu);
+
+    void QmlCheckBoxSignals(bool bChecked);
 private:
     int iItemIndex;
     QList<ListItem*> items;   

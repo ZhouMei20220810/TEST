@@ -36,6 +36,7 @@ Canvas{
                     property int index:itemIndex  // 设置索引属性
                     //QML发送信号调用 C++槽函数,三步：第一步
                     signal qmlSendSignals(string strPhoneName, string strInstanceNo,bool bIsShowMenu,S_PHONE_INFO info);
+                    signal qmlCheckBoxSignals(bool bChecked);
                     //QML发送信号调用 C++槽函数,三步：第二步
                     /*Connections{
                         target:windowItem
@@ -48,6 +49,7 @@ Canvas{
                     {
                         //QML信号qmlSendSignals，连接C++ 槽函数qmlSizeManager.receiveSignalFromQMLFile
                         qmlSendSignals.connect(MyListModelEx.ShowInstanceSignalFromQMLFile)
+                        qmlCheckBoxSignals.connect(MyListModelEx.QmlCheckBoxSignals)
                     }
 
                     Rectangle
@@ -65,6 +67,7 @@ Canvas{
                             y:2
                             width:bgImgRect.width-4
                             height:bgImgRect.height-4
+                            cache:true
                             //smooth: false //关闭平滑
                             //transformOrigin: Image.Center
                             //fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
@@ -93,6 +96,10 @@ Canvas{
                                     //source:"qrc:/main/resource/main/Authorized.png" //可以显示已授权
                                     source:authorStatus==1?"qrc:/main/resource/main/Authorized.png":"qrc:/main/resource/main/BeAuthorized.png"
                                 }
+                            }
+                            onSourceChanged: {
+                                console.log("Image source chagne");
+
                             }
 
                             onStatusChanged: {
@@ -131,7 +138,11 @@ Canvas{
                         {
                             // 更新模型中的checked状态
                             console.log("index="+itemIndex+" checked="+checked);
-                            MyListModelEx.onCheckBoxChanged(index,checked);
+                            MyListModelEx.onCheckBoxChanged(index,checked);                            
+                        }
+                        onClicked: {
+                            //发送信号
+                            qmlCheckBoxSignals(checked);
                         }
                     }
 

@@ -133,7 +133,6 @@ private:
 
     void startDownload(QString strUrl);
 
-    void AddIconModeListWidgetItem(S_PHONE_INFO phoneInfo);
     void AddListModeListWidgetItem(S_PHONE_INFO phoneInfo);
     void BianliTreeWidgetSelectItem(QTreeWidgetItem* item);
 
@@ -252,7 +251,7 @@ private slots:
     void on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo);
     void on_btnAddPhone_clicked();
     //统计
-    void do_stateChanged(int state);
+    void do_checkBoxClick(bool bCheck);
 
     void on_btnVipServerPolicy_clicked();
 

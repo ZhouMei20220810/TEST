@@ -245,7 +245,7 @@ void MyListModelEx::removeAllItem()
     endRemoveRows();
 }
 //取消选择
-void MyListModelEx::setCancelSelectCheckBox(bool bChecked)
+int MyListModelEx::setCancelSelectCheckBox(bool bChecked)
 {
     int iListCount = items.size();
     for (int i = 0; i < iListCount; i++) {
@@ -256,11 +256,13 @@ void MyListModelEx::setCancelSelectCheckBox(bool bChecked)
             emit dataChanged(createIndex(i, 0), createIndex(i, 0), {CheckedRole});
         }
     }
+    return 0;
 }
 
 //全选
-void MyListModelEx::setAllCheckBox(bool newCheckBox)
+int MyListModelEx::setAllCheckBox(bool newCheckBox)
 {
+    int iSelCount = 0; 
     int iListCount = items.size();
     for (int i = 0; i < iListCount; i++) {
         ListItem* item = items.at(i);
@@ -270,20 +272,29 @@ void MyListModelEx::setAllCheckBox(bool newCheckBox)
             emit dataChanged(createIndex(i, 0), createIndex(i, 0), { CheckedRole });
         }
     }
+    if (newCheckBox)
+        iSelCount = items.count();
+    return iSelCount;
 }
 
 //反选
-void MyListModelEx::setFanXuanCheckBox()
+int MyListModelEx::setFanXuanCheckBox()
 {
+    int iSelCount = 0;
     int iListCount = items.size();
+    bool bChecked = false;
     for (int i = 0; i < iListCount; i++) {
         ListItem* item = items.at(i);
         if (item != NULL)
         {
-            item->setCheckBox(!item->getCheckBox());
+            bChecked = !item->getCheckBox();
+            item->setCheckBox(bChecked);
+            if (bChecked)
+                iSelCount++;
             emit dataChanged(createIndex(i, 0), createIndex(i, 0), { CheckedRole });
         }
     }
+    return iSelCount;
 }
 
 //设置新的图片路径
@@ -298,7 +309,7 @@ void MyListModelEx::setNewImagePath(int itemIndex, QString strNewImagePath)
             qDebug() << "itemIndex=" << itemIndex << " strNewImagePath=" << strNewImagePath;
             item->setImagePath(strNewImagePath);
             setData(createIndex(itemIndex, 0), strNewImagePath, ImagePathRole);
-            emit dataChanged(createIndex(itemIndex, 0), createIndex(itemIndex, 0), { ImagePathRole });
+            //emit dataChanged(createIndex(itemIndex, 0), createIndex(itemIndex, 0), { ImagePathRole });
         }
     }
 
@@ -334,6 +345,24 @@ ListItem* MyListModelEx::getListItemByIndex(int index)
     }
     return listItem;
 }
+
+//获取选中条数
+int MyListModelEx::getListItemCheckedCount()
+{
+    int iSelCount = 0;
+    int iListCount = items.size();
+    ListItem* item = NULL;
+    for (int i = 0; i < iListCount; i++) 
+    {
+        item = items.at(i);
+        if (item == NULL)
+            continue;
+        if (item->getCheckBox())
+            iSelCount++;
+    }
+    return iSelCount;
+}
+
 //鼠标点击事件
 void MyListModelEx::mousePressEvent(const QVariantMap& event)
 {
