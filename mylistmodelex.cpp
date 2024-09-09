@@ -190,7 +190,15 @@ void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool chec
         items.last()->setPhoneName(info.strName);
     }
 
-    items.last()->setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo));
+    QString strFilePath = QString("%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo);
+    if (QFile::exists(strFilePath))
+    {
+        items.last()->setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo));
+    }
+    else
+    {
+        items.last()->setImagePath("qrc:/main/resource/main/defaultSceenShot.png");
+    }
 
     items.last()->setCheckBox(info.bChecked);
     items.last()->setBShowAuthorImg(true);

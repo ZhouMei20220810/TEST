@@ -158,8 +158,7 @@ void ListItem::downloadUrl(QString url)
                 if (!pixmap.isNull())
                 {
                     MyListModelEx::getInstance(m_pMainWindow)->setNewImagePath(itemIndex, QString("file:///%1").arg(m_strTemp));
-                    //MyListModelEx::getInstance(m_pMainWindow)->setData(createIndex(itemIndex, 0))
-                    qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之后ImagePath=" << m_strTemp;
+                    //qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之后ImagePath=" << m_strTemp;
 
                     if (QFile::exists(m_strPicturePath))
                     {
@@ -172,13 +171,7 @@ void ListItem::downloadUrl(QString url)
                     {
                         qDebug() << "rename fail: " << m_strPicturePath;
                     }
-                    //file.rename(m_strPicturePath);
-                    //showLabelImage(m_strPicturePath);
-                    qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之前ImagePath=" << m_strPicturePath;
-                    //setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(phoneInstanceNo));                    
-                    //setImagePath(QString("file:///%1%2.png?v=%3").arg(GlobalData::strFileTempDir).arg(phoneInstanceNo).arg(QString::number(QDateTime::currentMSecsSinceEpoch())));
-                    //updateImage();
-                    //emit ImagePathChanged(itemIndex, ImagePath);
+                    //qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之前ImagePath=" << m_strPicturePath;
                 }
                 else
                 {
