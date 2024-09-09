@@ -11,7 +11,7 @@ class MyListModelEx : public QAbstractListModel
 public:
     enum Roles {
         /*CheckedRole = Qt::UserRole + 1 */
-        NameRole = Qt::DisplayRole + 1,
+        NameRole = Qt::UserRole + 1,
         InstanceNoRole,
         ImagePathRole,
         CheckedRole,
@@ -48,6 +48,8 @@ public:
     void setAllCheckBox(bool newCheckBox);
     //反选
     void setFanXuanCheckBox();
+    //设置新的图片路径
+    void setNewImagePath(int itemIndex, QString strNewImagePath);
 
     QList<ListItem*> itemList()
     {
@@ -67,8 +69,6 @@ public slots:
     //QML中点击后,通知C++处理,添加Q_INVOKABLE QML文件即可访问
     //连接到QML的信号
     Q_INVOKABLE void onCheckBoxChanged(int index,bool bChecked);
-private slots:
-    void do_ImagePathChanged(int index, QString strImagePath);
 signals:
     //qml点击事件通过QmlSendMainWindowSignals信号通知到MainWindow
     void QmlSendMainWindowSignals(S_PHONE_INFO info, bool bShowMenu);

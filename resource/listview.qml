@@ -61,7 +61,6 @@ Canvas{
                             id: backgroundImage
                             //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
                             source:imagePath //item.ImagePath
-                            property int lastModified: lastFileModified
                             x:2
                             y:2
                             width:bgImgRect.width-4
@@ -100,19 +99,6 @@ Canvas{
                                 console.log("Image status changed:", status);
                                 if (status === Image.Error) {
                                     console.log("Image error:", errorString);
-                                }
-                            }
-                            onLastModifiedChanged: {
-                                // 最后修改时间戳改变时，重新设置 source 以触发图像的重新加载
-                                qDebug()<<"qml onLastModifiedChanged";
-                                backgroundImage.source = imagePath;
-                            }
-                            onSourceChanged: {
-                                // 每次 source 改变时重新加载图像
-                                // 即使路径相同也会触发重新加载
-                                if (imagePath !== "") {
-                                    console.log("onSourceChanged "+imagePath);
-                                    backgroundImage.source = imagePath;
                                 }
                             }
                             //

@@ -1,6 +1,7 @@
 #include "listitem.h"
 #include "phoneinstancewidget.h"
 #include "listmodel.h"
+#include "mylistmodelex.h"
 
 ListItem::ListItem(S_PHONE_INFO info, MainWindow* pMainWindow, QObject *parent)
     : QObject{parent}
@@ -146,6 +147,61 @@ void ListItem::downloadUrl(QString url)
 {
     if (NULL == m_FileDownload)
         m_FileDownload = new FileDownloader(this);
+    QString strFileName = url.right(url.size() - url.lastIndexOf('/') - 1);
+    qDebug() << "url=" << url << "strFileName=" << strFileName;
+    m_strTemp = GlobalData::strFileTempDir + strFileName;
+    if (m_FileDownload != NULL)
+    {
+        connect(m_FileDownload, &FileDownloader::downloadFinished, this, [=]()
+            {
+                QPixmap pixmap(m_strTemp);
+                if (!pixmap.isNull())
+                {
+                    MyListModelEx::getInstance(m_pMainWindow)->setNewImagePath(itemIndex, QString("file:///%1").arg(m_strTemp));
+                    //MyListModelEx::getInstance(m_pMainWindow)->setData(createIndex(itemIndex, 0))
+                    qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之后ImagePath=" << m_strTemp;
+
+                    if (QFile::exists(m_strPicturePath))
+                    {
+                        if (!QFile::remove(m_strPicturePath))
+                        {
+                            qDebug() << "remove fail:" << m_strPicturePath;
+                        }
+                    }
+                    if (!QFile::rename(m_strTemp, m_strPicturePath))
+                    {
+                        qDebug() << "rename fail: " << m_strPicturePath;
+                    }
+                    //file.rename(m_strPicturePath);
+                    //showLabelImage(m_strPicturePath);
+                    qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之前ImagePath=" << m_strPicturePath;
+                    //setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(phoneInstanceNo));                    
+                    //setImagePath(QString("file:///%1%2.png?v=%3").arg(GlobalData::strFileTempDir).arg(phoneInstanceNo).arg(QString::number(QDateTime::currentMSecsSinceEpoch())));
+                    //updateImage();
+                    //emit ImagePathChanged(itemIndex, ImagePath);
+                }
+                else
+                {
+                    m_strPicturePath = GlobalData::strFileTempDir + phoneInstanceNo + ".png";
+                    if (QFile::exists(m_strPicturePath))
+                    {
+                        setImagePath(m_strPicturePath);
+                    }
+                    else
+                    {
+                        setImagePath("qrc:/main/resource/main/defaultSceenShot.png");
+                    }
+                }
+            });
+        m_FileDownload->setUrlOutputFile(url, m_strTemp);
+        m_FileDownload->start();
+    }
+}
+
+/*void ListItem::downloadUrl(QString url)
+{
+    if (NULL == m_FileDownload)
+        m_FileDownload = new FileDownloader(this);
     if (m_FileDownload != NULL)
     {
         connect(m_FileDownload, &FileDownloader::downloadFinished, this, [this]()
@@ -181,4 +237,4 @@ void ListItem::downloadUrl(QString url)
         m_FileDownload->setUrlOutputFile(url, m_strTemp);
         m_FileDownload->start();
     }
-}
+}*/

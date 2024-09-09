@@ -39,7 +39,7 @@ int MyListModelEx::rowCount(const QModelIndex &parent) const
 //ListElement
 QVariant MyListModelEx::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= items.count())
+    if (!index.isValid()|| index.row()<0 || index.row() >= items.count())
         return QVariant();
 
     const ListItem* item = items.at(index.row());
@@ -175,23 +175,10 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
     return false;
 }
 
-void MyListModelEx::do_ImagePathChanged(int index,QString strImagePath)
-{
-    qDebug() << "ListItem 切换图片后,发送信号do_ImagePathChanged";
-    if (index >= 0 && index < items.size()) {
-        ListItem* item = items[index];
-        item->setImagePath(strImagePath);
-        emit dataChanged(createIndex(index, 0), createIndex(index, 0), { ImagePathRole });
-        // 在这里处理checked状态的更改
-        qDebug() << "Item at index" << index << "changed to" << item->getCheckBox();
-    }
-}
-
 void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool checked*/ )
 {    
     beginInsertRows(QModelIndex(), items.size(), items.size());
     ListItem* listItem = new ListItem(info, mainWindow, this);
-    connect(listItem, &ListItem::ImagePathChanged, this, &MyListModelEx::do_ImagePathChanged);
     items.append(listItem);
     items.last()->setItemIndex(iItemIndex++);
     if (info.strName.isEmpty())
@@ -288,6 +275,28 @@ void MyListModelEx::setFanXuanCheckBox()
             item->setCheckBox(!item->getCheckBox());
             emit dataChanged(createIndex(i, 0), createIndex(i, 0), { CheckedRole });
         }
+    }
+}
+
+//设置新的图片路径
+void MyListModelEx::setNewImagePath(int itemIndex, QString strNewImagePath)
+{
+    int iListCount = items.size();
+    if (itemIndex >= 0 && itemIndex < iListCount)
+    {
+        ListItem* item = items.at(itemIndex);
+        if (item != NULL)
+        {
+            qDebug() << "itemIndex=" << itemIndex << " strNewImagePath=" << strNewImagePath;
+            item->setImagePath(strNewImagePath);
+            setData(createIndex(itemIndex, 0), strNewImagePath, ImagePathRole);
+            emit dataChanged(createIndex(itemIndex, 0), createIndex(itemIndex, 0), { ImagePathRole });
+        }
+    }
+
+    if (this->m_MainWindow != NULL)
+    {
+        this->m_MainWindow->update();
     }
 }
 
