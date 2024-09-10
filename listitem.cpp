@@ -18,14 +18,11 @@ ListItem::ListItem(S_PHONE_INFO info, MainWindow* pMainWindow, QObject *parent)
             qDebug() << "failed:" << strDir;
     }
     strDir = strDir+"/"+info.strInstanceNo;
+    deleteDirectoryRecursively(strDir);
     if (!dir.exists(strDir))
     {
         if (!dir.mkdir(strDir))
-            qDebug() << "failed:" << strDir;
-    }
-    else
-    {
-        deleteDirectoryRecursively(strDir);
+            qDebug() << "create instanceNo dir failed:" << strDir;
     }
     m_pMainWindow = pMainWindow;
 }
@@ -44,12 +41,23 @@ void ListItem::deleteDirectoryRecursively(const QString& path) {
             deleteDirectoryRecursively(fileInfo.absoluteFilePath());
         }
         else {
-            if (!QFile::remove(fileInfo.absoluteFilePath())) {
+            if (QFile::exists(m_strPicturePath))
+            {
+                if (!QFile::remove(m_strPicturePath))
+                {
+                    qDebug() << "remove fail:" << m_strPicturePath;
+                }
+            }
+            if (!QFile::rename(fileInfo.absoluteFilePath(), m_strPicturePath))
+            {
+                qDebug() << "rename fail: " << m_strPicturePath;
+            }
+            /*if (!QFile::remove()) {
                 qDebug() << "Failed to remove file:" << fileInfo.absoluteFilePath();
             }
             else {
                 qDebug() << "Removed file:" << fileInfo.absoluteFilePath();
-            }
+            }*/
         }
     }
 
