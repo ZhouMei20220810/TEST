@@ -46,7 +46,6 @@ SOURCES += \
     oneclicknewmachinedialog.cpp \
     passwordloginpage.cpp \
     phoneinstancewidget.cpp \
-    phoneitemwidget.cpp \
     phonelistmodeitemwidget.cpp \
     policydialog.cpp \
     qmlsizemanager.cpp \
@@ -113,7 +112,6 @@ HEADERS += \
     oneclicknewmachinedialog.h \
     passwordloginpage.h \
     phoneinstancewidget.h \
-    phoneitemwidget.h \
     phonelistmodeitemwidget.h \
     policydialog.h \
     qmlsizemanager.h \
@@ -172,7 +170,6 @@ FORMS += \
     oneclicknewmachinedialog.ui \
     passwordloginpage.ui \
     phoneinstancewidget.ui \
-    phoneitemwidget.ui \
     phonelistmodeitemwidget.ui \
     policydialog.ui \
     queuetableitem.ui \

@@ -8,9 +8,58 @@ ListItem::ListItem(S_PHONE_INFO info, MainWindow* pMainWindow, QObject *parent)
 {
     m_FileDownload = NULL;
     m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
-    m_strTemp = GlobalData::strFileTempDir + info.strInstanceNo + "_bak.png";
+    m_strTemp = GlobalData::strFileTempDir +info.strInstanceNo+"/" + info.strInstanceNo + "_bak.png";
 
+    QString strDir = GlobalData::strFileTempDir;
+    QDir dir(strDir);
+    if (!dir.exists(strDir))
+    {
+        if (!dir.mkdir(strDir))
+            qDebug() << "failed:" << strDir;
+    }
+    strDir = strDir+"/"+info.strInstanceNo;
+    if (!dir.exists(strDir))
+    {
+        if (!dir.mkdir(strDir))
+            qDebug() << "failed:" << strDir;
+    }
+    else
+    {
+        deleteDirectoryRecursively(strDir);
+    }
     m_pMainWindow = pMainWindow;
+}
+
+void ListItem::deleteDirectoryRecursively(const QString& path) {
+    QDir dir(path);
+
+    if (!dir.exists()) {
+        qDebug() << "Directory does not exist:" << path;
+        return;
+    }
+
+    QFileInfoList entries = dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    foreach(const QFileInfo & fileInfo, entries) {
+        if (fileInfo.isDir()) {
+            deleteDirectoryRecursively(fileInfo.absoluteFilePath());
+        }
+        else {
+            if (!QFile::remove(fileInfo.absoluteFilePath())) {
+                qDebug() << "Failed to remove file:" << fileInfo.absoluteFilePath();
+            }
+            else {
+                qDebug() << "Removed file:" << fileInfo.absoluteFilePath();
+            }
+        }
+    }
+
+    // 删除空目录
+    if (!dir.rmdir(path)) {
+        qDebug() << "Failed to remove directory:" << path;
+    }
+    else {
+        qDebug() << "Removed directory:" << path;
+    }
 }
 
 int ListItem::getPhoneId() const
@@ -147,9 +196,25 @@ void ListItem::downloadUrl(QString url)
 {
     if (NULL == m_FileDownload)
         m_FileDownload = new FileDownloader(this);
+
+    if (QFile::exists(m_strPicturePath))
+    {
+        if (!QFile::remove(m_strPicturePath))
+        {
+            qDebug() << "remove fail:" << m_strPicturePath;
+        }
+    }
+    if (QFile::exists(m_strTemp))
+    {
+        if (!QFile::rename(m_strTemp, m_strPicturePath))
+        {
+            qDebug() << "rename fail: " << m_strPicturePath;
+        }
+    }
+    
     QString strFileName = url.right(url.size() - url.lastIndexOf('/') - 1);
     qDebug() << "url=" << url << "strFileName=" << strFileName;
-    m_strTemp = GlobalData::strFileTempDir + strFileName;
+    m_strTemp = GlobalData::strFileTempDir+ phoneInstanceNo + "/" + strFileName;
     if (m_FileDownload != NULL)
     {
         connect(m_FileDownload, &FileDownloader::downloadFinished, this, [=]()
@@ -160,17 +225,7 @@ void ListItem::downloadUrl(QString url)
                     MyListModelEx::getInstance(m_pMainWindow)->setNewImagePath(itemIndex, QString("file:///%1").arg(m_strTemp));
                     //qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之后ImagePath=" << m_strTemp;
 
-                    if (QFile::exists(m_strPicturePath))
-                    {
-                        if (!QFile::remove(m_strPicturePath))
-                        {
-                            qDebug() << "remove fail:" << m_strPicturePath;
-                        }
-                    }
-                    if (!QFile::rename(m_strTemp, m_strPicturePath))
-                    {
-                        qDebug() << "rename fail: " << m_strPicturePath;
-                    }
+                    
                     //qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之前ImagePath=" << m_strPicturePath;
                 }
                 else
@@ -178,7 +233,7 @@ void ListItem::downloadUrl(QString url)
                     m_strPicturePath = GlobalData::strFileTempDir + phoneInstanceNo + ".png";
                     if (QFile::exists(m_strPicturePath))
                     {
-                        setImagePath(m_strPicturePath);
+                        setImagePath(QString("file:///%1").arg(m_strPicturePath));
                     }
                     else
                     {
