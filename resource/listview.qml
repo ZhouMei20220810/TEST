@@ -33,6 +33,9 @@ Canvas{
                     y:15*/ //无效
                     width: QMLSizeManager.cellWidth //207;
                     height:QMLSizeManager.cellHeight+20+30 //396 //更加单元格与实际的差值，形成间隔
+                    //color:"lightblue"
+                    //radius: 10
+
                     property int index:itemIndex  // 设置索引属性
                     //QML发送信号调用 C++槽函数,三步：第一步
                     signal qmlSendSignals(string strPhoneName, string strInstanceNo,bool bIsShowMenu,S_PHONE_INFO info);
@@ -57,23 +60,24 @@ Canvas{
                         id:bgImgRect
                         width:QMLSizeManager.cellWidth+4
                         height:QMLSizeManager.cellHeight+4
+                        anchors.horizontalCenter: parent.horizontalCenter
                         color:"#FF6B737E"
                         //背景图
                         Image {
                             id: backgroundImage
                             //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
                             source:imagePath //item.ImagePath
-                            x:2
-                            y:2
-                            width:bgImgRect.width-4
-                            height:bgImgRect.height-4
-                            sourceSize.width: bgImgRect.width-4
-                            sourceSize.height:bgImgRect.height-4
-                            cache:true
+                            //x:2
+                            //y:2
+                            //width:bgImgRect.width-4
+                            //height:bgImgRect.height-4
+                            sourceSize.width:QMLSizeManager.itemVerticalScreen?QMLSizeManager.cellWidth:QMLSizeManager.cellHeight //bgImgRect.width-4
+                            sourceSize.height:QMLSizeManager.itemVerticalScreen?QMLSizeManager.cellHeight:QMLSizeManager.cellWidth //bgImgRect.height-4
+
                             //smooth: false //关闭平滑
                             //transformOrigin: Image.Center
                             //fillMode: Image.PreserveAspectFit //Image.PreserveAspectFit //保持纵横比
-                            rotation:QMLSizeManager.itemVerticalScreen?0:270
+                            //rotation:QMLSizeManager.itemVerticalScreen?0:270
                             /*transform: Rotation {
                                             origin.x: backgroundImage.height / 2
                                             origin.y: backgroundImage.width / 2
@@ -81,6 +85,11 @@ Canvas{
                                             axis: Qt.zAxis
                                         }*/
                             anchors.centerIn: parent
+                            transform: Rotation {
+                                angle: QMLSizeManager.itemVerticalScreen ? 0 : 270
+                                origin.x: backgroundImage.width / 2
+                                origin.y: backgroundImage.height / 2
+                            }
                             anchors.margins: 2
 
                             //授权状态图
