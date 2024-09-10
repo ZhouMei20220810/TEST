@@ -86,8 +86,8 @@ Canvas{
                             //授权状态图
                             Rectangle{
                                 id:authorRect
-                                x:2
-                                y:5
+                                x:backgroundImage.left
+                                y:backgroundImage.top+8
                                 width:52
                                 height:19
                                 color:"transparent"
@@ -95,6 +95,8 @@ Canvas{
                                 Image {
                                     id: authorStatusImg
                                     anchors.fill:parent
+                                    sourceSize.width: authorRect.width
+                                    sourceSize.height:authorRect.height
                                     //source:"qrc:/main/resource/main/Authorized.png" //可以显示已授权
                                     source:authorStatus==1?"qrc:/main/resource/main/Authorized.png":"qrc:/main/resource/main/BeAuthorized.png"
                                 }
