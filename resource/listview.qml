@@ -67,6 +67,8 @@ Canvas{
                             y:2
                             width:bgImgRect.width-4
                             height:bgImgRect.height-4
+                            sourceSize.width: bgImgRect.width-4
+                            sourceSize.height:bgImgRect.height-4
                             cache:true
                             //smooth: false //关闭平滑
                             //transformOrigin: Image.Center
@@ -123,7 +125,7 @@ Canvas{
                                     y: mouse.y,
                                     index:itemIndex
                                     }
-                                    console.log(".qml phoneName"+phoneName+" phoneInstanceNo="+phoneInstanceNo+" mouse.button="+mouse.button);
+                                    console.log("qml phoneName"+phoneName+" phoneInstanceNo="+phoneInstanceNo+" mouse.button="+mouse.button);
                                     MyListModelEx.mousePressEvent(event);
                                 }
                             }
