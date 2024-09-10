@@ -62,3 +62,16 @@ void QMLSizeManager::receiveSignalFromQMLFile(int i, QString str, QString str2)
 {
     qDebug() << "receiveSignalFromQMLFile 收到来自QML的信号"<<i<<str<<str2;
 }
+
+bool QMLSizeManager::getVerticalScreen() const
+{
+    return verticalScreen;
+}
+
+void QMLSizeManager::setVerticalScreen(bool newVerticalScreen)
+{
+    if (verticalScreen == newVerticalScreen)
+        return;
+    verticalScreen = newVerticalScreen;
+    emit verticalScreenChanged();
+}

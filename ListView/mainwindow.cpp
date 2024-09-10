@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     //通过一下方法可以不用在QML中声明，直接用QMLSizeManager即可
     QMLSizeManager::getInstance()->setCellWidth(207);
     QMLSizeManager::getInstance()->setCellHeight(368);
+    QMLSizeManager::getInstance()->setVerticalScreen(true);
     qmlRegisterSingletonInstance("QMLSizeManager", 1, 0, "QMLSizeManager", QMLSizeManager::getInstance());    
     qmlRegisterSingletonInstance("MyListModel",1,0,"MyListModel", MyListModel::getInstance());
     //主窗口的子窗口设置QML布局
@@ -41,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     //QQmlContext* content = engine.rootContext();    
     
     //m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));qrc:/Test.qml
-    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml"))); 
+    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
+    //m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/scrollView.qml")));
     //设置QQuickWidget 为父窗口的布局中心
     /*QVBoxLayout* layout = new QVBoxLayout(ui->widget);
     layout->addWidget(m_quickWidget);
@@ -120,7 +122,11 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btnChangeSize_clicked()
 {
-    MyListModel::getInstance()->removeAllItem();
+    QMLSizeManager::getInstance()->setCellWidth(368);
+    QMLSizeManager::getInstance()->setCellHeight(207);
+    QMLSizeManager::getInstance()->setVerticalScreen(false);
+    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
+    /*MyListModel::getInstance()->removeAllItem();
     ListItem* item = NULL;
     QString strTemp = "C:/Users/Administrator/AppData/Local/Temp/YiShunYun";
     for (int i = 0; i < 5; i++)
@@ -130,7 +136,7 @@ void MainWindow::on_btnChangeSize_clicked()
         item->setPhoneName(QString("text%1").arg(i));
         item->setImagePath(QString("file:///%1/%2.png").arg(strTemp).arg(i));
         MyListModel::getInstance()->addItem(item);
-    }
+    }*/
     //m_quickWidget->updateGeometry();
     //load engine 加载完成之后
     //QML信号 C++槽函数，在C++完成绑定，通过objectName访问
@@ -295,6 +301,12 @@ void MainWindow::on_btnChangeSize_clicked()
 
 void MainWindow::on_btnAdd_clicked()
 {
+    QMLSizeManager::getInstance()->setCellWidth(207);
+    QMLSizeManager::getInstance()->setCellHeight(368);
+    QMLSizeManager::getInstance()->setVerticalScreen(true);
+    m_quickWidget->setSource(QUrl(QStringLiteral("qrc:/listview.qml")));
+
+    return ;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     return;
     engine.rootContext()->setContextProperty("mainWindow", this);

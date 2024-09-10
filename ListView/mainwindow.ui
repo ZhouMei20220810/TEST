@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>显示数据</string>
+     <string>横屏</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnAdd">
@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>新增窗口</string>
+     <string>竖屏</string>
     </property>
    </widget>
    <widget class="QWidget" name="widget" native="true">

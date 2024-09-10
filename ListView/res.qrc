@@ -8,5 +8,6 @@
         <file>Button.qml</file>
         <file>Test.qml</file>
         <file>VM010210085185.png</file>
+        <file>scrollView.qml</file>
     </qresource>
 </RCC>

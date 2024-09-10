@@ -1,88 +1,113 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QMLSizeManager 1.0
-import MyListModel 1.0
-import Qt5Compat.GraphicalEffects
+/*import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
 
-Window {
-    id: root
-    width:800
-    height:600
-    visible:true
-    title:"test"
-    objectName:"rootRect"
+Item {
+    visible: true
+    width: 400
+    height: 400
+    //title: "Image Rotation Example"
+    property bool isRotated: false  // 这个属性定义在Window中，可以直接通过isRotated访问
+    property int borderRcWidth: 207
+    property int borderRcHeight: 368
+    Rectangle {
+        id: rotateButton
+        //anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        width: borderRcWidth
+        height: borderRcHeight
+        color: "lightblue"
+        radius: 10
 
-    /*Grid{
-            id:grid
-            x:200
-            width:15
-            height:150
-            columns:3
-            visible: true
-            Repeater{
-                model:grid.width/5*grid.height/5
-                Rectangle{
-                    width:5
-                    height:5
-                    color:index%2==0?"red":"black"
-                }
+        Image {
+            id: image
+            anchors.centerIn: parent
+            source: "qrc:/VM010210085185.png"
+            width: 207
+            height: 368
+            sourceSize.width:207
+            sourceSize.height:368
+
+            transform: Rotation {
+                angle: isRotated ? 270 : 0
+                origin.x: image.width / 2
+                origin.y: image.height / 2
             }
-    }*/
-    Image {
-        id: backgroundImage
-        source: "qrc:/VM010210085185.png"
-        width:207
-        height:368
-    }
+        }
 
-    Rectangle{
-        id:bgImgRect
-        x:100
-        width: backgroundImage.width
-        height: backgroundImage.height
-        radius: 10
-        border.width: 2
+        Text {
+            anchors.centerIn: parent
+            text: "Rotate"
+        }
 
-    }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                // 直接使用isRotated来访问和修改属性
+                isRotated = !isRotated
+                borderRcHeight =(borderRcHeight===207?368:207)
+                borderRcWidth =(borderRcWidth===207?368:207)
 
-    Rectangle{
-        width: backgroundImage.width+4
-        height:backgroundImage.height+4
-        color:"black"
-        radius: 10
-        OpacityMask {
-            x:2
-            y:2
-                width:backgroundImage.width
-                height: backgroundImage.height
-                 //anchors.fill: grid
-                 source: backgroundImage//grid
-                 maskSource:bgImgRect //rectBg
-             }
-    }
-
-    Button{
-        id:subBtn
-        y:root.height-50
-        width:100
-        height: 50
-        text:"缩小"
-        onClicked: {
-            backgroundImage.width=backgroundImage.width*0.9;
-            backgroundImage.height=backgroundImage.height*0.9;
+            }
         }
     }
+}*/
 
-    Button{
-        x:subBtn.width+10
-        y:root.height-50
-        width:100
-        height: 50
-        text:"放大"
-        onClicked: {
-            backgroundImage.width=backgroundImage.width*1.1;
-            backgroundImage.height=backgroundImage.height*1.1;
+import QtQuick 2.5
+import QtQuick.Controls 2.5
+import QMLSizeManager 1.0
+
+Item {
+    id: root
+    width: 800
+    height: 600
+    // 旋转角度属性
+    property real rotationAngle: 0
+    property int itemWidth:rotationAngle===0?207:368
+    property int itemHeight:rotationAngle===0?368:207
+
+    Rectangle
+    {
+        id:imageRect
+        width:QMLSizeManager.cellWidth
+        height: QMLSizeManager.cellHeight
+        color: "lightblue"
+        radius: 10
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        onWidthChanged: {
+            console.log("width="+width)
+        }
+        onHeightChanged: {
+            console.log("height="+height)
+        }
+
+        // 图像
+        Image {
+            id: myImage
+            source: "qrc:/VM010210085185.png"
+            //anchors.fill: parent // 使用锚点使图像填充父容器
+            //preserveRatio: true // 保持图像比例
+            //smooth: true // 平滑处理
+            anchors.centerIn: parent
+            //anchors.left: imageRect.left
+            //anchors.top: imageRect.top
+            //anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.top: parent.top
+            //width: QMLSizeManager.cellWidth
+            //height: QMLSizeManager.cellHeight
+            sourceSize.width: 207
+            sourceSize.height: 368
+            //transformOrigin: Image.Center
+            //rotation:QMLSizeManager.verticalScreen?0:270
+            transform: Rotation {
+                angle: QMLSizeManager.verticalScreen ? 0 : 270
+                origin.x: myImage.width / 2
+                origin.y: myImage.height / 2
+            }
         }
     }
-
 }
+
