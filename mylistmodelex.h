@@ -50,6 +50,8 @@ public:
     int setFanXuanCheckBox();
     //设置新的图片路径
     void setNewImagePath(int itemIndex, QString strNewImagePath);
+    //设置实例名称
+    void setNewPhoneName(int iPhoneId, QString strNewPhoneName);
 
     QList<ListItem*> itemList()
     {

@@ -319,6 +319,25 @@ void MyListModelEx::setNewImagePath(int itemIndex, QString strNewImagePath)
     }
 }
 
+//设置实例名称
+void MyListModelEx::setNewPhoneName(int iPhoneId, QString strNewPhoneName)
+{
+    int iListCount = items.size();
+    ListItem* item = NULL;
+    for (int i = 0; i < iListCount; i++)
+    {
+        item = items.at(i);
+        if (item == NULL)
+            continue;
+        if (item->getPhoneId() == iPhoneId)
+        {
+            //重新修改名称
+            setData(createIndex(i, 0), strNewPhoneName, NameRole);
+            break;
+        }
+    }
+}
+
 //连接到QML的信号
 void MyListModelEx::onCheckBoxChanged(int index, bool bChecked)
 {

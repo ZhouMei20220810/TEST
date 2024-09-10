@@ -374,24 +374,7 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
                     //重新显示listWidget
                     if (m_isIconMode)
                     {
-                        /*PhoneItemWidget* widget = NULL;
-                        iListCount = ui->listWidget->count();
-                        for (iRow = 0; iRow < iListCount; iRow++)
-                        {
-                            phoneItem = ui->listWidget->item(iRow);
-                            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
-                            if (phoneInfo.iId == iId)
-                            {
-                                phoneInfo.strName = strName;
-                                phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-                                widget = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(phoneItem));
-                                if (widget != NULL)
-                                {
-                                    widget->setPhoneName(strName);                                    
-                                }
-                                break;
-                            }
-                        }*/
+                        MyListModelEx::getInstance(this)->setNewPhoneName(iId, strName);
                     }
                     else
                     {
@@ -985,7 +968,6 @@ void MainWindow::InitCloudPhoneTab()
     m_iCheckCount = 0;
 
     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconNoData);
-    //connect(ui->listWidget, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
 	connect(ui->listWidget2, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
     connect(ui->listWidgetActiveCode, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
     connect(ui->listWidgetRenewActiveCode, &QMouseListWidget::hideIndividualCenterWidgetSignals, this, &MainWindow::do_hideIndividualCenterWidgetSignals);
@@ -1038,20 +1020,6 @@ void MainWindow::InitBuyTab()
 //初始化列表
 void MainWindow::InitPhoneList()
 {    
- /*   //imageList->resize(365,400);
-    //设置QListWidget的显示模式
-    ui->listWidget->setViewMode(QListView::IconMode);
-    //设置QListWidget中单元项的图片大小
-    //ui->imageList->setIconSize(QSize(100,100));
-    //设置QListWidget中单元项的间距
-    ui->listWidget->setSpacing(ITEM_WIDGET_SPACING);
-    //设置自动适应布局调整（Adjust适应，Fixed不适应），默认不适应
-    ui->listWidget->setResizeMode(QListWidget::Adjust);
-    //设置不能移动
-    ui->listWidget->setMovement(QListWidget::Static);
-    //设置单选
-    ui->listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-*/
     ui->listWidget2->setViewMode(QListView::ListMode);
     //设置QListWidget中单元项的图片大小
     //ui->imageList->setIconSize(QSize(100,100));
@@ -1681,40 +1649,7 @@ void MainWindow::ShowTaskInfo()
                 }
             }
         }
-
     }
-    /*QMap<QString, S_TASK_INFO>::iterator iter = m_mapTask.begin();
-    for (; iter != m_mapTask.end(); iter++)
-    {
-        downloadUrl(iter->strPadCode,iter->strUrl);
-    }*/
-    
-    /*if (m_mapTask.size() <= 0)
-        return;
-
-    int iCount = ui->listWidget->count();
-    if (iCount <= 0)
-    {
-        qDebug() << "ShowTaskInfo ui->listWidget 已清空";
-        return;
-    }
-        
-    QListWidgetItem* item = NULL;
-    PhoneItemWidget* phoneItem = NULL;
-    S_PHONE_INFO phoneInfo;
-    for (int i = 0; i < iCount; i++)
-    {
-        item = ui->listWidget->item(i);
-        if (item != NULL)
-        {
-            phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-            phoneItem = static_cast<PhoneItemWidget*>(ui->listWidget->itemWidget(item));
-            if (phoneItem != NULL && !phoneInfo.strInstanceNo.isEmpty())
-            {
-                phoneItem->
-            }
-        }        
-    }*/
 }
 void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
 {
@@ -4014,7 +3949,6 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
 
     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
     m_isIconMode = true;
-    //ui->listWidget->clear();
     PhoneListModeItemWidget* widget2 = NULL;
     QListWidgetItem* item = NULL;
     S_PHONE_INFO phoneInfo;
@@ -4127,7 +4061,6 @@ void MainWindow::on_comboBoxView_currentIndexChanged(int index)
     }
     qDebug() << "click i=" << i << "new width=" << iPhoneItemWidth << "new height=" << iPhoneItemHeight;
     //到时候可以修改为将所有选中的项添加到一个集合，从集合中取值
-    //if (ui->listWidget->count() > 0)
 	QMLSizeManager::getInstance()->setCellWidth(iPhoneItemWidth);
 	QMLSizeManager::getInstance()->setCellHeight(iPhoneItemHeight);
     if (m_quickWidget != NULL)
