@@ -178,7 +178,7 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
 void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool checked*/ )
 {    
     beginInsertRows(QModelIndex(), items.size(), items.size());
-    ListItem* listItem = new ListItem(info, mainWindow, this);
+    ListItem* listItem = new ListItem(info, this);
     items.append(listItem);
     items.last()->setItemIndex(iItemIndex++);
     if (info.strName.isEmpty())
@@ -193,7 +193,8 @@ void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool chec
     QString strFilePath = QString("%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo);
     if (QFile::exists(strFilePath))
     {
-        items.last()->setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo));
+        items.last()->setImagePath(QString("%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo));
+        //items.last()->setImagePath(QString("file:///%1%2.png").arg(GlobalData::strFileTempDir).arg(info.strInstanceNo));
     }
     else
     {
@@ -307,7 +308,6 @@ void MyListModelEx::setNewImagePath(int itemIndex, QString strNewImagePath)
         if (item != NULL)
         {
             qDebug() << "itemIndex=" << itemIndex << " strNewImagePath=" << strNewImagePath;
-            item->setImagePath(strNewImagePath);
             setData(createIndex(itemIndex, 0), strNewImagePath, ImagePathRole);
             //emit dataChanged(createIndex(itemIndex, 0), createIndex(itemIndex, 0), { ImagePathRole });
         }

@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QtQml>
 #include "global.h"
-#include "filedownloader.h"
 #include "mainwindow.h"
 
 class ListItem : public QObject
@@ -12,7 +11,7 @@ class ListItem : public QObject
     Q_OBJECT
     QML_ELEMENT //声明QML可以访问元素
 public:
-    explicit ListItem(S_PHONE_INFO info,MainWindow* pMainWindow, QObject *parent = nullptr);
+    explicit ListItem(S_PHONE_INFO info, QObject *parent = nullptr);
 
     void deleteDirectoryRecursively(const QString& path);
     int getPhoneId() const;
@@ -76,10 +75,6 @@ private:
     QByteArray byteArrayImageUrl;
     QString  m_strPicturePath;
     QString  m_strTemp;
-    //设置定时器,图片大小
-    QTimer* m_refreshTimer;
-    FileDownloader* m_FileDownload;
-    MainWindow* m_pMainWindow;
  
 private:
     int itemIndex;      //序列号

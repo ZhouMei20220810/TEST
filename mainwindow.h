@@ -391,6 +391,8 @@ private:
 
     //当前树上，所有选中的item
     QMap<int, S_PHONE_INFO> m_mapCurTreeItemSelect;
+
+    QNetworkAccessManager m_manager;
 };
 
 #endif // MAINWINDOW_H

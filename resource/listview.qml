@@ -66,7 +66,7 @@ Canvas{
                         Image {
                             id: backgroundImage
                             //source:"file:///C:/Users/Administrator/AppData/Local/Temp/YiShunYun/background1.png"  //modelData.imagePath
-                            source:imagePath //item.ImagePath
+                            source:imagePath === "qrc:/main/resource/main/defaultSceenShot.png"?"qrc:/main/resource/main/defaultSceenShot.png":"file:///"+imagePath //item.ImagePath
                             //x:2
                             //y:2
                             //width:bgImgRect.width-4

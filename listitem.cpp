@@ -3,10 +3,9 @@
 #include "listmodel.h"
 #include "mylistmodelex.h"
 
-ListItem::ListItem(S_PHONE_INFO info, MainWindow* pMainWindow, QObject *parent)
+ListItem::ListItem(S_PHONE_INFO info, QObject *parent)
     : QObject{parent}
 {
-    m_FileDownload = NULL;
     m_strPicturePath = GlobalData::strFileTempDir + info.strInstanceNo + ".png";
     m_strTemp = GlobalData::strFileTempDir +info.strInstanceNo+"/" + info.strInstanceNo + "_bak.png";
 
@@ -24,7 +23,6 @@ ListItem::ListItem(S_PHONE_INFO info, MainWindow* pMainWindow, QObject *parent)
         if (!dir.mkdir(strDir))
             qDebug() << "create instanceNo dir failed:" << strDir;
     }
-    m_pMainWindow = pMainWindow;
 }
 
 void ListItem::deleteDirectoryRecursively(const QString& path) {
@@ -202,8 +200,6 @@ void ListItem::setItemIndex(int newItemIndex)
 
 void ListItem::downloadUrl(QString url)
 {
-    if (NULL == m_FileDownload)
-        m_FileDownload = new FileDownloader(this);
 
     if (QFile::exists(m_strPicturePath))
     {
@@ -223,35 +219,7 @@ void ListItem::downloadUrl(QString url)
     QString strFileName = url.right(url.size() - url.lastIndexOf('/') - 1);
     qDebug() << "url=" << url << "strFileName=" << strFileName;
     m_strTemp = GlobalData::strFileTempDir+ phoneInstanceNo + "/" + strFileName;
-    if (m_FileDownload != NULL)
-    {
-        connect(m_FileDownload, &FileDownloader::downloadFinished, this, [=]()
-            {
-                QPixmap pixmap(m_strTemp);
-                if (!pixmap.isNull())
-                {
-                    MyListModelEx::getInstance(m_pMainWindow)->setNewImagePath(itemIndex, QString("file:///%1").arg(m_strTemp));
-                    //qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之后ImagePath=" << m_strTemp;
-
-                    
-                    //qDebug() << "time:" << QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm:ss").toStdString().c_str() << "itemIndex=" << itemIndex << "修改之前ImagePath=" << m_strPicturePath;
-                }
-                else
-                {
-                    m_strPicturePath = GlobalData::strFileTempDir + phoneInstanceNo + ".png";
-                    if (QFile::exists(m_strPicturePath))
-                    {
-                        setImagePath(QString("file:///%1").arg(m_strPicturePath));
-                    }
-                    else
-                    {
-                        setImagePath("qrc:/main/resource/main/defaultSceenShot.png");
-                    }
-                }
-            });
-        m_FileDownload->setUrlOutputFile(url, m_strTemp);
-        m_FileDownload->start();
-    }
+    
 }
 
 /*void ListItem::downloadUrl(QString url)

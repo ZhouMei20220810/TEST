@@ -1630,8 +1630,21 @@ void MainWindow::ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> ma
 
 //显示任务
 void MainWindow::ShowTaskInfo()
-{
-    QList<ListItem*> list = MyListModelEx::getInstance(this)->itemList();
+{    
+    ImageDownloader* downloader= new ImageDownloader(&m_manager,this);
+
+    //启动下载线程
+    QThread* thread = new QThread;
+    downloader->moveToThread(thread);
+    thread->start();
+
+    //添加一些图片url
+    //model.addImageUrl(QUrl("https://example.com/image1.jpg"));
+    //model.addImageUrl(QUrl("https://example.com/image2.jpg"));
+
+    //开始下载图片
+    downloader->downloadImages(m_mapTask);
+    /*QList<ListItem*> list = MyListModelEx::getInstance(this)->itemList();
     int iIconListCount = list.size();
     QMap<QString, S_TASK_INFO>::iterator iterFind;
     if (iIconListCount > 0)
@@ -1649,7 +1662,7 @@ void MainWindow::ShowTaskInfo()
                 }
             }
         }
-    }
+    }*/
 }
 void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
 {
@@ -4384,6 +4397,7 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
     m_CurSelMenuPhoneInfo = sPhoneInfo;
     if (bShowMenu)
     {
+        qDebug() << "显示右键菜单";
         pActionCopyCloudId->setText("复制云号[" + m_CurSelMenuPhoneInfo.strInstanceNo + "]");
         m_PhoneMenu->exec(QCursor::pos());
         return;
