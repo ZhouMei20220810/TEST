@@ -3998,7 +3998,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
                 phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
                 phoneInfo.bChecked = widget2->getCheckBoxStatus();
                 m_listInstanceNo << phoneInfo.strInstanceNo;
-                MyListModelEx::getInstance()->addItem(this, phoneInfo);
+                MyListModelEx::getInstance()->addItem(phoneInfo);
             }
         }
         else
@@ -4788,7 +4788,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
                 {
                     strList << phoneInfo.strInstanceNo;
                     ui->stackedWidgetPhoneItem->setCurrentWidget(ui->pageIconMode);
-                    MyListModelEx::getInstance()->addItem(this, phoneInfo);
+                    MyListModelEx::getInstance()->addItem(phoneInfo);
                 }
                 else
                 {
@@ -4991,7 +4991,7 @@ void MainWindow::loadPreviewModeListByQML()
         QMap<int, S_PHONE_INFO>::iterator mapIter;
         for (mapIter = m_mapCurTreeItemSelect.begin(); mapIter != m_mapCurTreeItemSelect.end(); mapIter++)
         {
-            MyListModelEx::getInstance()->addItem(this,*mapIter);
+            MyListModelEx::getInstance()->addItem(*mapIter);
         }
         update();
     }

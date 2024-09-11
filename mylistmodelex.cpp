@@ -175,7 +175,7 @@ bool MyListModelEx::setData(const QModelIndex& index, const QVariant& value, int
     return false;
 }
 
-void MyListModelEx::addItem(MainWindow* mainWindow, S_PHONE_INFO info/*bool checked*/ )
+void MyListModelEx::addItem(S_PHONE_INFO info/*bool checked*/ )
 {    
     beginInsertRows(QModelIndex(), items.size(), items.size());
     ListItem* listItem = new ListItem(info, this);

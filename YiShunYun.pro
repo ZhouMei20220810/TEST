@@ -33,6 +33,7 @@ SOURCES += \
     filedownloader.cpp \
     forgetpwdialog.cpp \
     global.cpp \
+    imagedownloader.cpp \
     individualcenterwidget.cpp \
     levelitemwidget.cpp \
     listitem.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     filedownloader.h \
     forgetpwdialog.h \
     global.h \
+    imagedownloader.h \
     individualcenterwidget.h \
     levelitemwidget.h \
     listitem.h \
