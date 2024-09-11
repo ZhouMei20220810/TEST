@@ -80,6 +80,8 @@ void ToolObject::HttpPostInstanceScreenshot(QStringList strList)
                 if (HTTP_SUCCESS_CODE == iCode)
                 {
                     //更新界面图
+                    QMap<QString, S_TASK_INFO> mapScreenshotTask;
+                    mapScreenshotTask.clear();
                     if (obj["data"].isArray())
                     {
                         QJsonArray dataArray = obj["data"].toArray();
@@ -97,10 +99,10 @@ void ToolObject::HttpPostInstanceScreenshot(QStringList strList)
                             {
                                 qDebug() << "任务返回空数据 No" << taskInfo.strPadCode << "下载图片地址:" << taskInfo.strUrl;
                             }
-                            m_mapScreenshotTask.insert(taskInfo.strPadCode, taskInfo);
+                            mapScreenshotTask.insert(taskInfo.strPadCode, taskInfo);
                         }
                     }
-                    emit getScreenshortSignals(m_mapScreenshotTask);
+                    emit getScreenshortSignals(mapScreenshotTask);
                     
                 }
                 else

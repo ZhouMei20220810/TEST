@@ -35,8 +35,6 @@ signals:
     void ShowAuthDetailSignals(S_AUTHOR_INFO authInfo);
     void closeAuthDialogOrGroupRefreshSignals();
     void noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice);
-private:
-    QMap<QString, S_TASK_INFO> m_mapScreenshotTask;
 };
 
 #endif // TOOLOBJECT_H
