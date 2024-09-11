@@ -6,13 +6,13 @@ MyListModelEx::MyListModelEx(QObject *parent)
     iItemIndex = 0;
 }
 
-MyListModelEx *MyListModelEx::getInstance(MainWindow* pMainWindows)
+MyListModelEx *MyListModelEx::getInstance(/*MainWindow* pMainWindows*/)
 {
     static MyListModelEx* obj = NULL;
     if (obj == NULL)
     {
         obj = new MyListModelEx();
-        obj->m_MainWindow = pMainWindows;
+        //obj->m_MainWindow = pMainWindows;
     }
     
     return obj;
@@ -313,10 +313,11 @@ void MyListModelEx::setNewImagePath(int itemIndex, QString strNewImagePath)
         }
     }
 
-    if (this->m_MainWindow != NULL)
+    /*if (this->m_MainWindow != NULL)
     {
         this->m_MainWindow->update();
-    }
+    }*/
+    emit refreshMainWindowSignals();
 }
 
 //设置实例名称
@@ -349,10 +350,11 @@ void MyListModelEx::onCheckBoxChanged(int index, bool bChecked)
         // 在这里处理checked状态的更改
         qDebug() << "Item at index" << index << " bChecked=" << item->getCheckBox();
     }
-    if (this->m_MainWindow != NULL)
+    emit refreshMainWindowSignals();
+    /*if (this->m_MainWindow != NULL)
     {
         this->m_MainWindow->update();
-    }
+    }*/
 }
 //通过下标获取ListItem
 ListItem* MyListModelEx::getListItemByIndex(int index)
@@ -419,11 +421,12 @@ void MyListModelEx::mousePressEvent(const QVariantMap& event)
 
 void MyListModelEx::do_onContentXYChanged()
 {
-    qDebug() << "c++鼠标滚动do_onContentXYChanged";
+    /*qDebug() << "c++鼠标滚动do_onContentXYChanged";
     if (this->m_MainWindow != NULL)
     {
         this->m_MainWindow->update();
-    }
+    }*/
+    emit refreshMainWindowSignals();
 }
 
 void MyListModelEx::ShowInstanceSignalFromQMLFile(QString strPhoneName, QString strInstanceNo,bool bIsShowMenu, S_PHONE_INFO info)

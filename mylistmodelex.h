@@ -2,7 +2,7 @@
 #define MYLISTMODELEX_H
 #include <QAbstractListModel>
 #include "listitem.h"
-#include "mainwindow.h"
+//#include "mainwindow.h"
 //是不是直接可以改成S_PHONE_INFO
 class MyListModelEx : public QAbstractListModel
 {
@@ -25,7 +25,7 @@ public:
 
     explicit MyListModelEx(QObject *parent = nullptr);
 
-    static MyListModelEx* getInstance(MainWindow *pMainWindows);
+    static MyListModelEx* getInstance(/*MainWindow *pMainWindows*/);
     // Header:
     //ListModel基本用不到
     /*QVariant headerData(int section,
@@ -79,11 +79,13 @@ signals:
     void QmlSendMainWindowSignals(S_PHONE_INFO info, bool bShowMenu);
 
     void QmlCheckBoxSignals(bool bChecked);
+
+    void refreshMainWindowSignals();
 public:
     int iItemIndex;
     QList<ListItem*> items;   
 
-    MainWindow* m_MainWindow;
+    //MainWindow* m_MainWindow;
 };
 
 // 下载图片的线程任务
@@ -91,10 +93,10 @@ class ImageDownloader : public QObject
 {
     Q_OBJECT
 public:
-    explicit ImageDownloader(QNetworkAccessManager* manager,MainWindow* mainWindow, QObject* parent = nullptr)
-        : QObject(parent), m_pMainWindow(mainWindow), m_manager(manager)
+    explicit ImageDownloader(QNetworkAccessManager* manager, QObject* parent = nullptr)
+        : QObject(parent), m_manager(manager)
     {
-        m_model = MyListModelEx::getInstance(mainWindow);
+        m_model = MyListModelEx::getInstance();
     }
 
     void downloadImages(QMap<QString, S_TASK_INFO> mapTask)
@@ -195,7 +197,6 @@ private slots:
 
 private:
     MyListModelEx* m_model;
-    MainWindow* m_pMainWindow;
     QNetworkAccessManager* m_manager;
 };
 
