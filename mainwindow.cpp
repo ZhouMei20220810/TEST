@@ -2441,10 +2441,11 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                         int iPages = data["pages"].toInt();
                         int iSize = data["size"].toInt();
                         int iTotal = data["total"].toInt();
-                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages<<"iSize="<<iSize;
+                        qDebug() << "iTotal=" << iTotal << "iGroupId=" << iGroupId << "iPages=" << iPages<<"iSize="<<iSize;
                         QJsonArray records = data["records"].toArray();
+                        QMap<int, S_PHONE_INFO> map;
                         if (records.size() > 0)
-                        {
+                        {                            
                             int iRecordsSize = records.size();
                             QJsonObject recordObj;
                             //获取我的手机实例数据，暂未存储
@@ -2465,15 +2466,16 @@ void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, 
                                 phoneInfo.strGrantControl = recordObj["grantControl"].toString();
                                 phoneInfo.bIsAuth = recordObj["isAuth"].toBool();
                                 m_mapPhoneInfo.insert(phoneInfo.iId, phoneInfo);
-                                qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "authType=" << phoneInfo.iAuthType<<"level="<< phoneInfo.iLevel;
+                                map.insert(phoneInfo.iId, phoneInfo);
+                                qDebug() << "iTotal=" << iTotal << "iGroupId=" << iGroupId << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo<<"phoneInfo.strCreateTime="<< phoneInfo.strCreateTime<< "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime <<"phoneInfo.strExpireTime="<< phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "authType=" << phoneInfo.iAuthType<<"level="<< phoneInfo.iLevel;
                             }
                         }
                         if (iLevel > 0)
-                            ShowActiveCodeItemInfo(iLevel, m_mapPhoneInfo);
+                            ShowActiveCodeItemInfo(iLevel, map);
                         else if (iGroupId == -1 && iLevel == -1)
                             RefreshTransferPhoneList();
                         else
-                            ShowPhoneInfo(iGroupId, m_mapPhoneInfo);
+                            ShowPhoneInfo(iGroupId, map);
                     }
                 }
                 else
