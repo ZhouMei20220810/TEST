@@ -17,6 +17,7 @@
 #include <QSystemTrayIcon>
 #include <QToolButton>
 #include <QQuickWidget>
+#include "imagedownloader.h"
 
 namespace Ui {
 class MainWindow;
@@ -287,6 +288,11 @@ private slots:
     void AddSyncPhoneInstanceWidget(S_PHONE_INFO info,PhoneInstanceWidget* phoneWidget=NULL);
     //同步列表删除widget
     void DeleteSyncPhoneInstanceWidget(QString strInstanceNo);
+
+    //注册下载图片线程
+    void registerDownloadImageThread();
+    //注销下载图片线程
+    void UnregisterDownloadImageThread();
 private:
     //通过QML加载数据
     void loadPreviewModeListByQML();
@@ -393,6 +399,8 @@ private:
     QMap<int, S_PHONE_INFO> m_mapCurTreeItemSelect;
 
     QNetworkAccessManager m_manager;
+    ImageDownloader* m_downloader;
+    QThread* m_thread;
 };
 
 #endif // MAINWINDOW_H

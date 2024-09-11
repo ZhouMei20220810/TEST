@@ -241,10 +241,15 @@ MainWindow::MainWindow(QWidget *parent)
     m_quickWidget->move(ui->pageIconMode->pos());
     // 设置全局样式
     qputenv("QT_QUICK_CONTROLS_STYLE", "Material");
+
+    //注册下载图片线程
+    registerDownloadImageThread();
 }
 
 MainWindow::~MainWindow()
 {
+    //注销下载图片线程
+    UnregisterDownloadImageThread();
     if (m_TaskTimer->isActive())
     {
         m_TaskTimer->stop();
@@ -1630,22 +1635,47 @@ void MainWindow::ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> ma
     }
 }
 
+//注册下载图片线程
+void MainWindow::registerDownloadImageThread()
+{
+    m_thread = new QThread(this);
+    m_downloader = new ImageDownloader(&m_manager,this);
+    m_downloader->moveToThread(m_thread);
+    m_thread->start();
+}
+
+//注销下载图片线程
+void MainWindow::UnregisterDownloadImageThread()
+{
+    m_thread->quit();
+    m_thread->wait();
+    m_thread->deleteLater();
+    m_downloader->deleteLater();
+}
+
 //显示任务
 void MainWindow::ShowTaskInfo()
 {    
-    ImageDownloader* downloader= new ImageDownloader(&m_manager,this);
+    /*ImageDownloader* downloader = new ImageDownloader(&m_manager, this);
 
     //启动下载线程
     QThread* thread = new QThread;
     downloader->moveToThread(thread);
-    thread->start();
+    thread->start();*/
 
     //添加一些图片url
     //model.addImageUrl(QUrl("https://example.com/image1.jpg"));
     //model.addImageUrl(QUrl("https://example.com/image2.jpg"));
 
     //开始下载图片
-    downloader->downloadImages(m_mapTask);
+    if (m_downloader != NULL)
+    {
+        m_downloader->downloadImages(m_mapTask);
+    }
+    else
+    {
+        qDebug() << "m_downloader is null";
+    }
     /*QList<ListItem*> list = MyListModelEx::getInstance(this)->itemList();
     int iIconListCount = list.size();
     QMap<QString, S_TASK_INFO>::iterator iterFind;
@@ -5358,4 +5388,3 @@ void MainWindow::on_toolBtnMessageCenter_clicked()
     MessageCenterDialog* dialog = new MessageCenterDialog(true);
     dialog->exec();
 }
-
