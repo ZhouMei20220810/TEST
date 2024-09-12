@@ -137,6 +137,8 @@ private slots:
     //从外面直接拷贝进云手机
     void onClipboardChanged();
     void on_toolBtnCopyToPhone_clicked(QString strSelectText);
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     void InitToolButtonList(int iToolIndex, QFrame* frame, QVBoxLayout* vBox);
     Ui::PhoneInstanceWidget* ui;

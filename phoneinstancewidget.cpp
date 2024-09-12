@@ -1397,11 +1397,31 @@ void PhoneInstanceWidget::on_toolBtnChangeKeyBoard_clicked()
     qDebug() << "this->width" << this->width() << "this.height=" << this->height();
 }
 
-
-
 void PhoneInstanceWidget::closeEvent(QCloseEvent *event)
 {
     //任务栏直接关闭不会响应button调用关闭事件
     on_toolBtnClose_clicked();
     event->accept();
 }
+
+void PhoneInstanceWidget::on_comboBox_currentIndexChanged(int index)
+{
+    //修改分辨率
+    Mutex::Autolock lock(m_Mutex);
+    if (m_Player != NULL)
+    {
+        DataSource* source = m_Player->getDataSource();
+        if (source != NULL)
+        {
+            /**
+            设置投屏用哪一档
+            @param levelIndex （0：自动，1：高清，2：标清，3：流畅）
+            @return 0为成功，其它为失败
+            */
+            qDebug() << "设置分辨率档次：index=" << index;
+            source->setVideoLevel(index);
+            ui->comboBox->setCurrentIndex(index);
+        }
+    }
+}
+

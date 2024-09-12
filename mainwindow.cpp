@@ -3560,10 +3560,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
         return QMainWindow::mouseMoveEvent(event);
     }
 
-    if (event->buttons() & Qt::LeftButton)
-    {
-        CalculateBorderIndex(event);
-    }
+    //if (event->buttons() & Qt::LeftButton)
+    //{
+    //边框拉伸
+    CalculateBorderIndex(event);
+    //}
     
 
     /*if (isLeftPressDown) {
