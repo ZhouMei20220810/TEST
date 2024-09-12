@@ -18,7 +18,7 @@ namespace Ui {
     class PhoneInstanceWidget;
 }
 
-class PhoneInstanceWidget : public QDialog,public SWDataSourceListener
+class PhoneInstanceWidget : public QDialog,public SWDataSourceListener//,public OnVideoStreamChangedListener
 {
     Q_OBJECT
 
@@ -88,10 +88,8 @@ public slots:
     void do_BatchDirectCopyToPhoneSignals(QString strTextList);
     //直接拷贝
     void do_DirectCopyToPhoneSignals(QString strSelectText);    
-protected:
-    bool onPlayStart(S_PAD_INFO padInfo);
-    void onPlayStop(bool bQuit);
 
+public:
     // SWDataSourceListener implementation
     void onReconnecting(int NthTime) override;
     void onConnected() override;
@@ -99,7 +97,13 @@ protected:
     void onDisconnected(int errcode, const char* errmsg) override;
     void onPlayInfo(const char* info) override;
     void onSensorInput(int inputtype, int state) override;
-
+    //void onScreenRotation(int rotation) override;
+    //void onVideoStreamChanged(DataSource* dataSource,
+    //    int width, int height, const char* sps, int sps_len, const char* pps, int pps_len) override;
+    //void onScreenRotation(DataSource* dataSource, int rotation) override;
+private:
+    bool onPlayStart(S_PAD_INFO padInfo);
+    void onPlayStop(bool bQuit);
     virtual void mousePressEvent(QMouseEvent *event) override;
     virtual void mouseReleaseEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;

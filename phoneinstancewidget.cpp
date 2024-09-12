@@ -594,7 +594,7 @@ bool PhoneInstanceWidget::onPlayStart(S_PAD_INFO padInfo)
 			datasource->setVideoLevel(picQualityIndex);
 
 			datasource->setBusinessType(businessType);
-
+            //datasource->setOnVideoStreamChangedListener(this);
 			m_Player->setDataSource(datasource);
             connect(ui->videoViewWidget, &VideoViewWidget::syncTouchEventSignals, this, &PhoneInstanceWidget::do_syncTouchEventSignals);
             connect(this, &PhoneInstanceWidget::dealTouchEventSignals, ui->videoViewWidget, &VideoViewWidget::do_syncTouchEventSignals);
@@ -683,6 +683,21 @@ void PhoneInstanceWidget::onSensorInput(int inputtype, int state)
     //qDebug() << "inputtype=" << inputtype << "state=" << state;
 }
 
+/*void PhoneInstanceWidget::onScreenRotation(int rotation)
+{
+    qDebug() << "onScreenRotation=" << rotation;
+}
+
+void PhoneInstanceWidget::onVideoStreamChanged(DataSource* dataSource, int width, int height, const char* sps, int sps_len, const char* pps, int pps_len)
+{
+    qDebug() << "width=" << width << "height=" << height;
+}
+
+void PhoneInstanceWidget::onScreenRotation(DataSource* dataSource, int rotation)
+{
+    qDebug() << "rotation=" << rotation;
+}
+*/
 void PhoneInstanceWidget::on_toolBtnMore_clicked()
 {
     bool bVisible = ui->frameTool->isVisible();
@@ -1413,6 +1428,61 @@ void PhoneInstanceWidget::on_comboBox_currentIndexChanged(int index)
         DataSource* source = m_Player->getDataSource();
         if (source != NULL)
         {
+            
+            /**
+            设置视频码流的配置档数（高清，标清，流畅三档配置信息）
+            @param videoLevel 视频码流的配置档
+            @return 0为成功，其它为失败
+            */
+            VideoLevel videoLevels[4];
+            videoLevels[0].encodetype = 2;
+            videoLevels[0].width = 720;
+            videoLevels[0].height = 1280;
+            videoLevels[0].maxfps = 20;
+            videoLevels[0].minfps = 15;
+            videoLevels[0].bitrate = 4096;
+            videoLevels[0].gop = videoLevels[0].maxfps * 4;
+            videoLevels[0].resolutionLevel = 1;
+            videoLevels[0].videoQuality = 1;
+            videoLevels[0].maxDelay = 100;
+            videoLevels[0].minDelay = 50;
+
+            memcpy(&videoLevels[1], &videoLevels[0], sizeof(VideoLevel));
+            videoLevels[1].width = 576;
+            videoLevels[1].height = 1024;
+            videoLevels[1].bitrate = 2048;
+            videoLevels[1].resolutionLevel = 2;
+            videoLevels[1].videoQuality = 2;
+            memcpy(&videoLevels[2], &videoLevels[0], sizeof(VideoLevel));
+            videoLevels[2].width = 432;
+            videoLevels[2].height = 768;
+            //videoLevels[2].width = 144;
+            //videoLevels[2].height = 256;
+            videoLevels[2].bitrate = 1024;
+            videoLevels[2].resolutionLevel = 3;
+            videoLevels[2].videoQuality = 3;
+            memcpy(&videoLevels[3], &videoLevels[0], sizeof(VideoLevel));
+            videoLevels[3].width = 288;
+            videoLevels[3].height = 512;
+            //videoLevels[3].width = 96;
+            //videoLevels[3].height = 112;
+            videoLevels[3].maxfps = 10;
+            videoLevels[3].minfps = 10;
+            videoLevels[3].gop = videoLevels[0].maxfps * 4;
+            videoLevels[3].bitrate = 512;
+            videoLevels[3].resolutionLevel = 4;
+            videoLevels[3].videoQuality = 4;
+
+            int videoLevelCount = sizeof(videoLevels) / sizeof(VideoLevel);
+            if (index >= 0 && index < 4)
+            {
+                source->setVideoLevels((VideoLevel*)&videoLevels[index], videoLevelCount);
+            }
+            else
+            {
+                qDebug() << "数组下标越界";
+            }            
+
             /**
             设置投屏用哪一档
             @param levelIndex （0：自动，1：高清，2：标清，3：流畅）
