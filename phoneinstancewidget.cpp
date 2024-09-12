@@ -810,10 +810,6 @@ void PhoneInstanceWidget::on_toolBtnCopyToPhone_clicked(QString strSelectText)
         qobject_cast<ClipboardHistoryApp*>(qApp)->clearCopyStatus();
         emit DirectCopyToPhoneSignals(strSelectText);
     }
-    //else
-    {
-
-    }
 }
 
 void PhoneInstanceWidget::do_DirectCopyToPhoneSignals(QString strSelectText)
