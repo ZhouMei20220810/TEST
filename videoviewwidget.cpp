@@ -11,6 +11,7 @@ VideoViewWidget::VideoViewWidget(QWidget* parent)
     ui->setupUi(this);
 	m_bIsVertical = true;
 	m_parent = parent;
+	//iCount = 0;
 	setStyleSheet("background-color:gray");    
 }
 
@@ -146,30 +147,30 @@ void VideoViewWidget::mouseMoveEvent(QMouseEvent *event)
 	QWidget::mouseMoveEvent(event);
 }
 
-void  VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar frame_len)//data帧数组
+void VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar frame_len)//data帧数组
 {
 	ui->label->setAutoFillBackground(true);
 
 	//保持原图片的长宽比，且不限制矩形框大小
 	//pixmap2 = pixmap2.scaled(ui->label->size(), Qt::KeepAspectRatio);//自适应/等比例
 
-	ui->label->setStyleSheet("background:black;");  // 标签背景
+	ui->label->setStyleSheet("background:transparent;");  // 标签背景
 	ui->label->setAlignment(Qt::AlignCenter);  // 图片居中
 	//QImage image(data, ui->label->width(), frame_len, ui->label->height(), QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
     //QImage image(data, getSrcWidth(), frame_len, 1005, QImage::Format_RGB888);//data数组 //355宽度 //frame_len 高度//每行1005字节数//格式
 	if (!m_bIsVertical)
 	{
-		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_ARGB32);
+		QImage image(data, viewWidth, viewHeight, QImage::Format_ARGB32);
 		if (!image.isNull())
 		{
-			if (!m_bIsVertical)
-			{
-				QTransform transform;
-				transform.rotate(-90, Qt::Axis::ZAxis);
-				image = image.transformed(transform,Qt::TransformationMode::SmoothTransformation);
-			}
+			QTransform transform;
+			transform.rotate(270);
+			//transform.rotate(-90, Qt::Axis::ZAxis);
+			image = image.transformed(transform,Qt::TransformationMode::SmoothTransformation);
+			//保存本地图片
+			//image.save(QString("./temp/%1_%1.png").arg(iCount).arg(iCount++));
 		}		
-		ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size(), Qt::IgnoreAspectRatio));//自适应/等比例
+		ui->label->setPixmap(QPixmap::fromImage(image).scaled(QSize(ui->label->width(),ui->label->height())));//自适应/等比例
 	}
 	else
 	{
@@ -190,12 +191,13 @@ void VideoViewWidget::paintEvent(QPaintEvent *event)
 		QRect rcPaint = event->rect();
 		//ui->label->setPixmap(QPixmap(m_strTempFile).scaled(QSize(ui->label->width(), ui->label->height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 		//ui->label->resize(this->size());
-		int item_w = ui->label->width();// m_rcItem.right - m_rcItem.left;
-		int item_h = ui->label->height();//m_rcItem.bottom - m_rcItem.top;
+		int item_w =m_bIsVertical? ui->label->width():ui->label->height();// m_rcItem.right - m_rcItem.left;
+		int item_h = m_bIsVertical ? ui->label->height():ui->label->width();//m_rcItem.bottom - m_rcItem.top;
 		if (item_w != viewWidth || item_h != viewHeight)
 		{
 			viewWidth = item_w;
 			viewHeight = item_h;
+			//qDebug() << "Image viewWidth=" << viewWidth << "viewHeight=" << viewHeight;
 			setDstFormat(DST_FMT_BGRA, viewWidth, viewHeight, 0);
 		}
 		else if (havePic())//paint bitmap

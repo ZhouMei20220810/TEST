@@ -307,7 +307,7 @@ void MyListModelEx::setNewImagePath(int itemIndex, QString strNewImagePath)
         ListItem* item = items.at(itemIndex);
         if (item != NULL)
         {
-            qDebug() << "itemIndex=" << itemIndex << " strNewImagePath=" << strNewImagePath;
+            //qDebug() << "itemIndex=" << itemIndex << " strNewImagePath=" << strNewImagePath;
             setData(createIndex(itemIndex, 0), strNewImagePath, ImagePathRole);
             //emit dataChanged(createIndex(itemIndex, 0), createIndex(itemIndex, 0), { ImagePathRole });
         }

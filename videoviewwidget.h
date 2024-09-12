@@ -36,6 +36,7 @@ private:
 
     QString m_strTempFile;
     bool m_bIsVertical;
+    //int iCount;
     // QWidget interface
 protected:
     virtual void mousePressEvent(QMouseEvent *event) override;

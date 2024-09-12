@@ -111,12 +111,12 @@ Canvas{
                                 }
                             }
                             onSourceChanged: {
-                                console.log("Image source chagne");
+                                //console.log("Image source chagne");
 
                             }
 
                             onStatusChanged: {
-                                console.log("Image status changed:", status);
+                                //console.log("Image status changed:", status);
                                 if (status === Image.Error) {
                                     console.log("Image error:", errorString);
                                 }
