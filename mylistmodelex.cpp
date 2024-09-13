@@ -317,7 +317,7 @@ void MyListModelEx::setNewImagePath(int itemIndex, QString strNewImagePath)
     {
         this->m_MainWindow->update();
     }*/
-    emit refreshMainWindowSignals();
+    //emit refreshMainWindowSignals();
 }
 
 //设置实例名称

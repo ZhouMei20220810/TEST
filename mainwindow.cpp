@@ -225,7 +225,10 @@ MainWindow::MainWindow(QWidget *parent)
         ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount && iCount != 0) ? true : false);
         });
     connect(MyListModelEx::getInstance(), &MyListModelEx::refreshMainWindowSignals, this, [this]() {
-        this->update();
+        if (this->isTopLevel())
+        {
+            this->update();
+        }        
         });
     /*QMLSizeManager::getInstance()->setWindowWidth(900);
     QMLSizeManager::getInstance()->setWindowHeight(1000);*/
@@ -1671,6 +1674,7 @@ void MainWindow::ShowTaskInfo()
     if (m_downloader != NULL)
     {
         m_downloader->downloadImages(m_mapTask);
+        update();
     }
     else
     {
