@@ -52,7 +52,7 @@ void ImageDownloader::downloadImages(QMap<QString, S_TASK_INFO> mapTask)
                 }
 
                 QString strFileName = strUrl.right(strUrl.size() - strUrl.lastIndexOf('/') - 1);
-                qDebug() << "url=" << strUrl << "strFileName=" << strFileName;
+                //qDebug() << "url=" << strUrl << "strFileName=" << strFileName;
                 strTempImagePath = GlobalData::strFileTempDir + item->getPhoneInstanceNo() + "/" + strFileName;
 
                 //QMetaObject::invokeMethod(m_model, "setImage", Qt::QueuedConnection,

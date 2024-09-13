@@ -3499,7 +3499,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
     //修改尺寸,同步修改QML窗口尺寸
     QMLSizeManager::getInstance()->setWindowWidth(ui->pageIconMode->width());
     QMLSizeManager::getInstance()->setWindowHeight(ui->pageIconMode->height());
-    qDebug() << "quickWidget widht=" << ui->pageIconMode->width() << "heigth=" << ui->pageIconMode->height();
+    //qDebug() << "quickWidget widht=" << ui->pageIconMode->width() << "heigth=" << ui->pageIconMode->height();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
