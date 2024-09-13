@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "易舜云手机"
-!define PRODUCT_VERSION "1.0.2"
+!define PRODUCT_VERSION "1.0.3"
 !define PRODUCT_PUBLISHER "长沙易舜信息技术有限公司"
 !define PRODUCT_WEB_SITE "https://www.ysyos.com/"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\YiShunYun.exe"

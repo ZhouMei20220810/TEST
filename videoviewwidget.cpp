@@ -168,14 +168,19 @@ void VideoViewWidget::Show_RGB(const uchar* data, uchar Per_port_number, uchar f
 			//transform.rotate(-90, Qt::Axis::ZAxis);
 			image = image.transformed(transform,Qt::TransformationMode::SmoothTransformation);
 			//保存本地图片
-			//image.save(QString("./temp/%1_%1.png").arg(iCount).arg(iCount++));
-		}		
-		ui->label->setPixmap(QPixmap::fromImage(image).scaled(QSize(ui->label->width(),ui->label->height())));//自适应/等比例
+			//image.save(QString("./temp/%1_%1.png").arg(iCount).arg(iCount++));		
+			//image.save("./temp/tmp.png");
+			ui->label->setPixmap(QPixmap::fromImage(image).scaled(QSize(ui->label->width(), ui->label->height())));//自适应/等比例
+		}	
 	}
 	else
 	{
 		QImage image(data, ui->label->width(), ui->label->height(), QImage::Format_ARGB32);
-		ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size(), Qt::KeepAspectRatio));//自适应/等比例
+		if (!image.isNull())
+		{
+			//image.save("./temp/tmp.png");
+			ui->label->setPixmap(QPixmap::fromImage(image).scaled(ui->label->size(), Qt::KeepAspectRatio));//自适应/等比例
+		}		
 	}
 	
 }
