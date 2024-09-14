@@ -67,6 +67,7 @@ protected:
 
     virtual void closeEvent(QCloseEvent *event) override;
 	virtual void showEvent(QShowEvent *event) override;
+	virtual void resizeEvent(QResizeEvent *event) override;
 private:
     //分组接口
     void HttpQueryAllGroup();//查询全部分组

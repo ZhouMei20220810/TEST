@@ -230,9 +230,6 @@ MainWindow::MainWindow(QWidget *parent)
             this->update();
         }        
         });
-    /*QMLSizeManager::getInstance()->setWindowWidth(900);
-    QMLSizeManager::getInstance()->setWindowHeight(1000);*/
-
     //主窗口的子窗口设置QML布局
     m_quickWidget = new QQuickWidget(ui->pageIconMode);
     //QQmlApplicationEngine engine;
@@ -2626,19 +2623,6 @@ void MainWindow::HttpLogout()
                 qDebug() << "Code=" << iCode << "message=" << strMessage <<"response:"<<response;
                 if(HTTP_SUCCESS_CODE == iCode)
                 {
-                    /*if (obj["data"].isObject())
-                        {
-                            QJsonObject data = obj["data"].toObject();
-                            QString strToken = data["token"].toString();
-                            QString strMaxExpirationDate = data["maxExpirationDate"].toString();
-
-                            QJsonObject userDetailVO = data["userDetailVO"].toObject();
-                            int id = userDetailVO["id"].toInt();
-                            QString strName = userDetailVO["name"].toString();
-                            QString strAccount = userDetailVO["account"].toString();
-                            QString strMobile = userDetailVO["mobile"].toString();
-                            qDebug() << "跳转到主页面"<<"id="<<id<<"name="<<strName<<"account="<<strAccount<<"mobile="<<strMobile<<"MaxExpirationDate"<<strMaxExpirationDate<<"token="<<strToken;
-                        }*/
                     qDebug()<<"注销成功";
                     this->close();
                 }
@@ -3190,19 +3174,19 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
 
     if (m_bCanResize && dir != NONE)
     {
-        qDebug() << "可以改变尺寸";
+        //qDebug() << "可以改变尺寸";
         if (dir == RIGHT)
         {
             if (m_globalPoint.x() < ev->globalPos().x() && ev->globalPos().x() > rightTop.x())
             {
                 m_bResizeIng = true;
-                qDebug() << "向右拉大";
+                //qDebug() << "向右拉大";
                 this->resize(m_oldSize.width() + (ev->globalX() - m_globalPoint.x()), this->height());
             }
             else if (ev->globalPos().x() < m_globalPoint.x())
             {
                 m_bResizeIng = true;
-                qDebug() << "向右拉小";
+                //qDebug() << "向右拉小";
                 this->resize(m_oldSize.width() - (m_globalPoint.x() - ev->globalX()), this->height());
             }
         }
@@ -3210,13 +3194,13 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
         {
             if (ev->globalY() > m_globalPoint.y() && ev->globalY() > this->y() + this->height())
             {
-                qDebug() << "向下拉大";
+                //qDebug() << "向下拉大";
                 m_bResizeIng = true;
                 this->resize(this->width(), this->height() + ev->globalY() - m_globalPoint.y());
             }
             else if (ev->globalY() < m_globalPoint.y())
             {
-                qDebug() << "向下拉小";
+                //qDebug() << "向下拉小";
                 m_bResizeIng = true;
                 this->resize(this->width(), this->height() - (m_globalPoint.y() - ev->globalY()));
             }
@@ -3226,7 +3210,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             if (m_globalPoint.x() > ev->globalX() && leftTop.x() > ev->globalX())
             {
                 m_bResizeIng = true;
-                qDebug() << "向左拉大";
+                //qDebug() << "向左拉大";
                 this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
                 this->move(this->x() - (m_globalPoint.x() - ev->globalPos().x()), this->y());
             }
@@ -3235,7 +3219,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
                 if (this->width() != this->minimumWidth())
                 {
                     m_bResizeIng = true;
-                    qDebug() << "向左拉小";
+                    //qDebug() << "向左拉小";
                     this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
                     this->move(rightTop.x() - this->width(), this->y());
                 }
@@ -3246,7 +3230,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             if (m_globalPoint.y() > ev->globalY() && ev->globalY() < this->y())
             {
                 m_bResizeIng = true;
-                qDebug() << "向上拉大";
+                //qDebug() << "向上拉大";
 
                 this->resize(this->width(), this->height() + (m_globalPoint.y() - ev->globalY()));
                 this->move(this->x(), this->y() - (m_globalPoint.y() - ev->globalY()));
@@ -3254,7 +3238,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             else if (m_globalPoint.y() < ev->globalY())
             {
                 m_bResizeIng = true;
-                qDebug() << "向上拉小";
+                //qDebug() << "向上拉小";
                 this->resize(this->width(), this->height() - (ev->globalY() - m_globalPoint.y()));
                 this->move(this->x(), leftBottom.y() - this->height());
             }
@@ -3267,12 +3251,12 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
                 if (ev->globalX() > rightBottom.x())
                 {
                     m_bResizeIng = true;
-                    qDebug() << "RIGHTBOTTOM 拉大 x";
+                    //qDebug() << "RIGHTBOTTOM 拉大 x";
                     this->resize(m_oldSize.width() + (ev->globalX() - m_globalPoint.x()), this->height());
                 }
                 if (ev->globalY() > rightBottom.y())
                 {
-                    qDebug() << "RIGHTBOTTOM 拉大 y";
+                    //qDebug() << "RIGHTBOTTOM 拉大 y";
                     m_bResizeIng = true;
                     this->resize(this->width(), this->height() + ev->globalY() - m_globalPoint.y());
                 }
@@ -3281,7 +3265,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             else if (ev->globalX() < m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
             {
                 m_bResizeIng = true;
-                qDebug() << "右下拉小";
+                //qDebug() << "右下拉小";
                 this->resize(m_oldSize.width() - (m_globalPoint.x() - ev->globalX()), this->height());
                 this->resize(this->width(), this->height() - (m_globalPoint.y() - ev->globalY()));
             }
@@ -3290,7 +3274,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
         {
             if (ev->globalX() > m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
             {
-                qDebug() << "右上拉大";
+                //qDebug() << "右上拉大";
                 if (ev->globalX() > rightTop.x())
                 {
                     m_bResizeIng = true;
@@ -3307,7 +3291,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             else if (ev->globalX() < m_globalPoint.x() || ev->globalY() > m_globalPoint.y())
             {
                 m_bResizeIng = true;
-                qDebug() << "右上拉小";
+                //qDebug() << "右上拉小";
 
                 this->resize(this->width(), this->height() - (ev->globalY() - m_globalPoint.y()));
                 this->resize(m_oldSize.width() - (m_globalPoint.x() - ev->globalX()), this->height());
@@ -3318,7 +3302,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
         {
             if (ev->globalX() < m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
             {
-                qDebug() << "左上拉大";
+                //qDebug() << "左上拉大";
                 if (ev->globalX() < leftTop.x())
                 {
                     m_bResizeIng = true;
@@ -3335,7 +3319,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             else if (ev->globalX() > m_globalPoint.x() || ev->globalY() > m_globalPoint.y())
             {
                 m_bResizeIng = true;
-                qDebug() << "左上拉小";
+                //qDebug() << "左上拉小";
                 this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
                 this->move(rightTop.x() - this->width(), this->y());
 
@@ -3351,7 +3335,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
         {
             if (ev->globalX() < m_globalPoint.x() || ev->globalY() > m_globalPoint.y())
             {
-                qDebug() << "左下拉大";
+                //qDebug() << "左下拉大";
                 if (ev->globalX() < leftTop.x())
                 {
                     m_bResizeIng = true;
@@ -3367,7 +3351,7 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
             else if (ev->globalX() > m_globalPoint.x() || ev->globalY() < m_globalPoint.y())
             {
                 m_bResizeIng = true;
-                qDebug() << "左下拉小";
+                //qDebug() << "左下拉小";
 
                 this->resize(this->width(), this->height() - (m_globalPoint.y() - ev->globalY()));
                 this->resize(m_oldSize.width() + m_globalPoint.x() - ev->globalX(), this->height());
@@ -3385,11 +3369,6 @@ void MainWindow::CalculateBorderIndex(QMouseEvent* ev) {
     rightBottom.setY(this->y() + this->height());
     m_oldSize = this->size();
     m_globalPoint = ev->globalPos();
-
-    //修改尺寸,同步修改QML窗口尺寸
-    QMLSizeManager::getInstance()->setWindowWidth(ui->pageIconMode->width());
-    QMLSizeManager::getInstance()->setWindowHeight(ui->pageIconMode->height());
-    //qDebug() << "quickWidget widht=" << ui->pageIconMode->width() << "heigth=" << ui->pageIconMode->height();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
@@ -3514,11 +3493,9 @@ void MainWindow::on_toolBtnChangeHorScreen_clicked()
     QMLSizeManager::getInstance()->setCellWidth(iPhoneItemWidth);
     QMLSizeManager::getInstance()->setCellHeight(iPhoneItemHeight);
     QMLSizeManager::getInstance()->setItemVerticalScreen(false);
+
     if (m_quickWidget != NULL)
     {
-        //m_quickWidget->updateGeometry();
-        //先同步再更新
-        //m_quickWidget->sync();
         m_quickWidget->update();
     }
 }
@@ -3539,9 +3516,6 @@ void MainWindow::on_toolBtnChangeVerScreen_clicked()
     QMLSizeManager::getInstance()->setItemVerticalScreen(true);
     if (m_quickWidget != NULL)
     {
-        //m_quickWidget->updateGeometry();
-        //先同步再更新
-        //m_quickWidget->sync();
         m_quickWidget->update();
     }
 }
@@ -5340,4 +5314,15 @@ void MainWindow::on_toolBtnMessageCenter_clicked()
     //true强制显示
     MessageCenterDialog* dialog = new MessageCenterDialog(true);
     dialog->exec();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event); // 调用基类的resizeEvent
+    QSize size = m_quickWidget->size();
+    //修改尺寸,同步修改QML窗口尺寸
+    QMLSizeManager::getInstance()->setWindowWidth(size.width());
+    QMLSizeManager::getInstance()->setWindowHeight(size.height());
+    //qDebug() << "quickWidget widht=" << ui->pageIconMode->width() << "heigth=" << ui->pageIconMode->height();
+    qDebug() << "size.width" << size.width() << "size.height=" << size.height();
 }
