@@ -2656,6 +2656,8 @@ void MainWindow::HttpLogout()
 
 void MainWindow::on_btnClose_clicked()
 {    
+    //关闭实例窗口
+    closeMainWindowcloseAllPhoneInstanceWidget();
     this->close();
     //关闭主面板时，保存数据
     ClipboardHistoryApp* app = qobject_cast<ClipboardHistoryApp*>(qApp);
@@ -4340,6 +4342,66 @@ void MainWindow::on_ShowPhoneInstanceNotMaster(S_PHONE_INFO sPhoneInfo)
         m_mapSyncWindows.insert(sPhoneInfo.strInstanceNo, phoneWidget);
         //从同步列表中移除，否则会有两个窗口
         DeleteSyncPhoneInstanceWidget(sPhoneInfo.strInstanceNo);        
+    }
+}
+
+void MainWindow::closeMainWindowcloseAllPhoneInstanceWidget()
+{
+    if (GlobalData::bIsSyncOperation)
+    {
+        //释放主控
+        if (m_MainPhoneInstanceWidget != NULL)
+        {
+            delete m_MainPhoneInstanceWidget;
+            m_MainPhoneInstanceWidget = NULL;
+        }
+        //释放副控
+        if (m_mapSyncWindows.size() > 0)
+        {
+            QMap<QString, PhoneInstanceWidget*>::iterator iter = m_mapSyncWindows.begin();
+            PhoneInstanceWidget* widget = NULL;
+            QString strInstanceNo;
+            for (iter = m_mapSyncWindows.begin(); iter != m_mapSyncWindows.end(); )
+            {
+                strInstanceNo = iter.key();
+                widget = iter.value();
+                iter++;
+                if (widget != NULL)
+                {
+                    delete widget;
+                    widget = NULL;
+                }
+                m_mapSyncWindows.remove(strInstanceNo);
+            }
+        }        
+    }
+    else
+    {        
+        if (m_mapWindows.size() > 0)
+        {
+            QMap<QString, PhoneInstanceWidget*>::iterator iter = m_mapWindows.begin();
+            PhoneInstanceWidget* widget = NULL;
+            QString strInstanceNo;
+            for (iter = m_mapWindows.begin(); iter != m_mapWindows.end(); )
+            {
+                strInstanceNo = iter.key();
+                widget = iter.value();
+                iter++;
+                if (widget != NULL)
+                {
+                    delete widget;
+                    widget = NULL;
+                }
+                m_mapWindows.remove(strInstanceNo);
+            }
+            /*PhoneInstanceWidget* widget = m_mapWindows.value(info.strInstanceNo, nullptr);
+            if (widget != NULL)
+            {
+                delete widget;
+                widget = NULL;
+            }
+            m_mapWindows.remove(info.strInstanceNo);*/
+        }
     }
 }
 

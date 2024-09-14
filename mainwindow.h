@@ -276,12 +276,13 @@ private slots:
     void on_btnRefreshRenewList_clicked();
 
     //转移之后，刷新所有列表数据
-    void do_TransferSuccessRefreshInstanceListSignals();
-    //转移后刷新列表
-    void RefreshTransferPhoneList();
+    void do_TransferSuccessRefreshInstanceListSignals();    
 
     void on_toolBtnMessageCenter_clicked();
     
+private:
+    //转移后刷新列表
+    void RefreshTransferPhoneList();
     //清空同步列表
     void ClearSyncPhoneInstanceWidgetList();
     //同步列表添加widget
@@ -293,9 +294,12 @@ private slots:
     void registerDownloadImageThread();
     //注销下载图片线程
     void UnregisterDownloadImageThread();
-private:
+
     //通过QML加载数据
     void loadPreviewModeListByQML();
+    //关闭窗口关闭所有手机示例窗口
+    void closeMainWindowcloseAllPhoneInstanceWidget();
+
 private:
     Ui::MainWindow *ui;
     QMap<int, S_GROUP_INFO> m_mapGroupInfo;
