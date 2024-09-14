@@ -2658,6 +2658,8 @@ void MainWindow::on_btnClose_clicked()
 {    
     //关闭实例窗口
     closeMainWindowcloseAllPhoneInstanceWidget();
+    //清空同步操作模式的列表
+    ClearSyncPhoneInstanceWidgetList();
     this->close();
     //关闭主面板时，保存数据
     ClipboardHistoryApp* app = qobject_cast<ClipboardHistoryApp*>(qApp);
