@@ -24,25 +24,28 @@ void ImageDownloader::downloadImages(QMap<QString, S_TASK_INFO> mapTask)
         }
 
         QString strUrl = iterFind->strUrl;
+        int iIndex = item->getItemIndex();
+        QString strImagePath = item->getImagePath();
+        QString strInstanceNo = item->getPhoneInstanceNo();
         QNetworkRequest request(strUrl);
         QNetworkReply* reply = m_manager->get(request);
-        connect(reply, &QNetworkReply::finished, this, [this, reply, item, strUrl]() {
+        connect(reply, &QNetworkReply::finished, this, [this, reply,iIndex, strInstanceNo, strImagePath, strUrl]() {
             if (reply->error() == QNetworkReply::NoError) {
                 /*QByteArray imageData = reply->readAll();
                 QPixmap pixmap;
                 pixmap.loadFromData(imageData);   */
 
                 //判断之前的文件是否存在
-                QString strPicturePath = GlobalData::strFileTempDir + item->getPhoneInstanceNo() + ".png";
+                QString strPicturePath = GlobalData::strFileTempDir + strInstanceNo + ".png";
                 if (QFile::exists(strPicturePath))
                 {
                     if (!QFile::remove(strPicturePath))
                     {
-                        qDebug() << "remove fail:" << item->getImagePath();
+                        qDebug() << "remove fail:" << strImagePath;
                     }
                 }
 
-                QString strTempImagePath = item->getImagePath();
+                QString strTempImagePath = strImagePath;
                 if (QFile::exists(strTempImagePath))
                 {
                     if (!QFile::rename(strTempImagePath, strPicturePath))
@@ -53,7 +56,7 @@ void ImageDownloader::downloadImages(QMap<QString, S_TASK_INFO> mapTask)
 
                 QString strFileName = strUrl.right(strUrl.size() - strUrl.lastIndexOf('/') - 1);
                 //qDebug() << "url=" << strUrl << "strFileName=" << strFileName;
-                strTempImagePath = GlobalData::strFileTempDir + item->getPhoneInstanceNo() + "/" + strFileName;
+                strTempImagePath = GlobalData::strFileTempDir + strInstanceNo + "/" + strFileName;
 
                 //QMetaObject::invokeMethod(m_model, "setImage", Qt::QueuedConnection,
                 //    Q_ARG(QUrl, item.url),
@@ -68,7 +71,7 @@ void ImageDownloader::downloadImages(QMap<QString, S_TASK_INFO> mapTask)
                 {
                     qDebug() << "downloadImages 下载完毕,但写入文件失败.";
                 }
-                MyListModelEx::getInstance()->setNewImagePath(item->getItemIndex(), strTempImagePath);
+                MyListModelEx::getInstance()->setNewImagePath(iIndex, strTempImagePath);
                 //QMetaObject::invokeMethod(m_model, "setNewImagePath", Qt::QueuedConnection,
                 //    Q_ARG(int, item->getItemIndex()),
                 //    Q_ARG(QString, strTempImagePath));
