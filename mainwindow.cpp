@@ -3535,7 +3535,7 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
 			m_TaskTimer->stop();
 		}
 
-		BianliTreeWidgetSelectItem(item);
+        BianliTreeWidgetSelectItem();
 		if (m_listInstanceNo.size() > 0)
 		{
 			if (NULL != m_TaskTimer)
@@ -4752,107 +4752,112 @@ void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
     ui->listWidget2->setItemWidget(phoneItem, widget2);
 }
 
-void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentItem)
+//获取所有选中的项
+void MainWindow::BianliTreeWidgetSelectItem()
 {
-    QTreeWidgetItemIterator iter(ui->treeWidget);
     QTreeWidgetItem* item = NULL;
     QTreeWidgetItem* child = NULL;
-    S_PHONE_INFO phoneInfo;
+    Qt::CheckState checkState;
     int iChildCount = 0;
     int iSelGroupCount = 0;
-    int i = 0;
+    S_PHONE_INFO phoneInfo;
     m_mapCurTreeItemSelect.clear();
-    Qt::CheckState checkState;
-    while (*iter)
+    int iTopLevelCount = ui->treeWidget->topLevelItemCount();
+    int childIndex=0;
+    for (int iii = 0; iii < iTopLevelCount; iii++)
     {
-        qDebug() << (*iter)->text(0);
-        iChildCount = (*iter)->childCount();
-        
-        item = *iter;
-        //显示当前选中项的所有子项
-        if (item->isSelected())
+        item = ui->treeWidget->topLevelItem(iii);
+        qDebug() << "遍历父节点 iTopLevelCount" << iTopLevelCount  << item->text(0);
+        //父节点是选中的状态
+        if (item && (item->isSelected()||(item->checkState(0) != Qt::Unchecked)))
         {
-            for (i = 0; i < iChildCount; ++i)
+            iSelGroupCount = 0;
+            iChildCount = item->childCount();
+            qDebug() << "组父节点:" << item->text(0) <<" iChildCount="<<iChildCount;
+            if (item->isSelected())//选中父节点，列表加入所有子节点
             {
-                child = item->child(i);
-                checkState = child->checkState(0);
-                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
-                if (checkState == Qt::Checked)
+                for (childIndex = 0; childIndex < iChildCount; childIndex++)
                 {
-                    phoneInfo.bChecked = true;
-                    m_iCheckCount++;
-                    iSelGroupCount++;
+                    child = item->child(childIndex);
+                    qDebug() << "子节点" << child->text(0);
+                    checkState = child->checkState(0);
+                    phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+                    if (checkState == Qt::Checked)
+                    {
+                        phoneInfo.bChecked = true;
+                        m_iCheckCount++;
+                        iSelGroupCount++;
+                    }
+                    m_mapCurTreeItemSelect.insert(phoneInfo.iId, phoneInfo);
+                    if (m_isIconMode)
+                    {
+                        m_listInstanceNo << phoneInfo.strInstanceNo;
+                    }
+                    else
+                    {
+                        AddListModeListWidgetItem(phoneInfo);
+                    }
                 }
-                m_mapCurTreeItemSelect.insert(phoneInfo.iId, phoneInfo);
-                if (m_isIconMode)
-                {
-                    m_listInstanceNo << phoneInfo.strInstanceNo;
-                }
-                else
-                {
-                    AddListModeListWidgetItem(phoneInfo);
-                }
-            }
-            iter++;
-            continue;
-        }
-        qDebug() << item->text(0);
-        //获取组的所有子节点
-        for (i = 0; i < iChildCount; ++i)
-        {
-            child = item->child(i);
-            checkState = child->checkState(0);
-            if (checkState == Qt::Checked || child->isSelected())
-            {            
-                phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();                
-                if (checkState == Qt::Checked)
-                {
-                    phoneInfo.bChecked = true;
-                    m_iCheckCount++;
-                    iSelGroupCount++;
-                }
-                m_mapCurTreeItemSelect.insert(phoneInfo.iId, phoneInfo);
-                if (m_isIconMode)
-                {
-                    m_listInstanceNo << phoneInfo.strInstanceNo;
-                }
-                else
-                {
-                    AddListModeListWidgetItem(phoneInfo);
-                }
-            }            
-        }
-        if (iChildCount != 0)
-        {
-            if (iSelGroupCount == iChildCount)
-            {
-                item->setCheckState(0, Qt::Checked);
-            }
-            else if (iSelGroupCount == 0)
-            {
-                item->setCheckState(0, Qt::Unchecked);
             }
             else
             {
-                item->setCheckState(0, Qt::PartiallyChecked);
+                //父节点不是选中状态的，只显示选中状态
+                for (childIndex = 0; childIndex < iChildCount; childIndex++)
+                {
+                    child = item->child(childIndex);
+                    qDebug() << "子节点" << child->text(0);
+                    checkState = child->checkState(0);
+                    phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+                    if (checkState == Qt::Checked)
+                    {
+                        phoneInfo.bChecked = true;
+                        m_iCheckCount++;
+                        iSelGroupCount++;
+                        m_mapCurTreeItemSelect.insert(phoneInfo.iId, phoneInfo);
+                        if (m_isIconMode)
+                        {
+                            m_listInstanceNo << phoneInfo.strInstanceNo;
+                        }
+                        else
+                        {
+                            AddListModeListWidgetItem(phoneInfo);
+                        }
+                    }                    
+                }
+
+            }
+            
+
+            if (iChildCount != 0)
+            {
+                if (iSelGroupCount == iChildCount)
+                {
+                    item->setCheckState(0, Qt::Checked);
+                }
+                else if (iSelGroupCount == 0)
+                {
+                    item->setCheckState(0, Qt::Unchecked);
+                }
+                else
+                {
+                    item->setCheckState(0, Qt::PartiallyChecked);
+                }
             }
         }
-
-        iter++;
     }
 
     int iCount = m_mapCurTreeItemSelect.size();
     if (m_isIconMode)
     {
         loadPreviewModeListByQML();
-        ui->stackedWidgetPhoneItem->setCurrentWidget(0 == iCount?ui->pageIconNoData: ui->pageIconMode);
-    }        
+        ui->stackedWidgetPhoneItem->setCurrentWidget(0 == iCount ? ui->pageIconNoData : ui->pageIconMode);
+    }
     else
     {
         ui->stackedWidgetPhoneItem->setCurrentWidget(0 == iCount ? ui->pageListNoData : ui->pageListMode);
     }
     ui->checkBoxAllSelect->setText(QString("全选(%1/%2)").arg(m_iCheckCount).arg(iCount));
-    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount&&iCount != 0) ? true : false);
+    ui->checkBoxAllSelect->setChecked((m_iCheckCount == iCount && iCount != 0) ? true : false);
 }
 
 //通过QML加载数据
@@ -4883,6 +4888,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     //点击复选框响应事件
     //qDebug()<<"点击复选框响应事件";
+    //勾选父类
     if (item->parent() == NULL)
     {
         Qt::CheckState check = item->checkState(0);
@@ -4894,6 +4900,36 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
             if (child != NULL)
             {
                 child->setCheckState(0, check);
+            }
+        }
+    }
+    else
+    {
+        QTreeWidgetItem* parent = item->parent();
+        QTreeWidgetItem* child = NULL;
+        int iChildCount = parent->childCount();
+        int iSelCount = 0;
+        for (int i = 0;i<iChildCount;i++)
+        {
+            child = parent->child(i);
+            if (child->checkState(0) == Qt::Checked)
+            {
+                iSelCount++;
+            }
+        }
+        if (iChildCount != 0)
+        {
+            if (iSelCount == iChildCount)
+            {
+                parent->setCheckState(0, Qt::Checked);
+            }
+            else if (iSelCount == 0)
+            {
+                parent->setCheckState(0, Qt::Unchecked);
+            }
+            else
+            {
+                parent->setCheckState(0, Qt::PartiallyChecked);
             }
         }
     }

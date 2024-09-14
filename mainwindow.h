@@ -131,7 +131,8 @@ private:
     void startDownload(QString strUrl);
 
     void AddListModeListWidgetItem(S_PHONE_INFO phoneInfo);
-    void BianliTreeWidgetSelectItem(QTreeWidgetItem* item);
+    //获取所有选中的项
+    void BianliTreeWidgetSelectItem();
 
     void DeleteActiveItemByStatus(ENUM_ACTIVE_CODE_STATUS enType);
     QMap<int, S_PHONE_INFO> getCurrentAllSelectItem(EN_RIGHT_CLICK_TYPE enType);
