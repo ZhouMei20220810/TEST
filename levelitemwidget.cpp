@@ -149,7 +149,6 @@ void LevelItemWidget::on_toolButtonBG_clicked()
     QString strIcon = QString(":/main/resource/buy/%1_level_bg_select.png").arg(m_levelInfo.strLevelName);
     m_toolBtn->setIcon(QIcon(strIcon));
     HttpMemberListByLevelId();
-    emit selectLevelTypeSignals(m_levelInfo);
 }
 
 

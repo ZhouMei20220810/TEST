@@ -1331,7 +1331,6 @@ void MainWindow::InitLevelList()
         //根据点击的level实时显示最新的会员数据
         connect(levelItem, &LevelItemWidget::refreshMemberListSignals, this, &MainWindow::do_refreshMemberListSignals);
         //在全量数据中查找并显示会员数据
-        //connect(levelItem, &LevelItemWidget::selectLevelTypeSignals, this, &MainWindow::do_selectLevelTypeSignals);
         horizontalLayout->addWidget(levelItem);
     }
     m_hBoxLevelTypeToolBtn->addStretch();
@@ -2961,45 +2960,6 @@ void MainWindow::on_btnBeginPay_clicked()
     HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
 }
 
-//level item 
-void MainWindow::do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo)
-{
-    qDebug() << "click do_selectLevelTypeSignals level Type="<< levelInfo.iLevelId;
-    //获取QScrollBar的所有列表
-    QList<LevelItemWidget*> levelItemList = ui->scrollAreaWidgetContents->findChildren<LevelItemWidget*>();
-    foreach(LevelItemWidget* levelItem, levelItemList) 
-    {
-        if (levelItem->getLevelInfo().iLevelId != levelInfo.iLevelId)
-        {
-            levelItem->setLabelCheckStatus(false);
-        }
-    }
-    
-    //设置显示
-    /*LevelItemWidget* levelItemWidget = NULL;
-    QListWidgetItem* levelItem=NULL;
-    LEVEL_TYPE currentType;
-    int iCount = ui->listWidgetLevel->count();    
-    for(int iRow=0; iRow < iCount;iRow++)
-    {
-        levelItem = ui->listWidgetLevel->item(iRow);
-        currentType = (LEVEL_TYPE)levelItem->data(Qt::UserRole).toInt();
-        if (currentType != enType)
-        {
-            levelItemWidget = static_cast<LevelItemWidget*>(ui->listWidgetLevel->itemWidget(levelItem));
-            //enType = (LEVEL_TYPE)item->data(Qt::UserRole).toInt();
-            qDebug()<<"iRow="<<iRow<<"currentType="<<currentType<<"选中状态：";
-            levelItemWidget->setLabelCheckStatus(false);
-
-            //续费的列表
-            //ui->listWidgetRenewList
-        }
-    }*/
-
-    //加载vip列表
-    loadVipType(levelInfo);
-}
-
 void MainWindow::do_refreshMemberListSignals(int iLevelId, QMap<int, S_LEVEL_DATA_INFO> mapData)
 {
     qDebug() << "click do_refreshMemberListSignals level Type=" << iLevelId;
@@ -3083,84 +3043,6 @@ void MainWindow::do_refreshMemberListSignals(int iLevelId, QMap<int, S_LEVEL_DAT
             }
         }
     }
-}
-
-//初始化vip列表
-void MainWindow::loadVipType(S_LEVEL_INFO levelInfo)
-{
-    //清空列表
-    ui->listWidgetVIP->clear();
-
-    QMap<int, QMap<int, S_LEVEL_DATA_INFO>>::iterator iterFind = m_mapLevel.find(levelInfo.iLevelId);
-    if (iterFind != m_mapLevel.end())
-    {
-        qDebug() << "加载vip列表 levelId=" << levelInfo.iLevelId;
-        //加载套餐列表
-        //ui->listWidgetVIP
-        ui->label_2->setText(QString("%1套餐").arg(levelInfo.strLevelName));
-        ui->stackedWidget_2->setCurrentWidget(ui->page_Meal);
-        int iVIPType = 0;
-        QListWidgetItem* vipItem = NULL;
-        VIPItemWidget* vipWidget = NULL;
-        ui->widget->setVisible(true);
-
-        QMap<int, S_LEVEL_DATA_INFO>::iterator iter = iterFind->begin();
-        for (; iter != iterFind->end(); iter++)
-        {            
-            vipItem = new QListWidgetItem(ui->listWidgetVIP);
-            vipItem->setSizeHint(QSize(ITEM_WIDGET_VIP_WIDTH, ITEM_WIDGET_VIP_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-            vipItem->setData(Qt::UserRole, iter->iMemberId);
-            ui->listWidgetVIP->addItem(vipItem);
-
-            qDebug() << "vip=" << iter->iMemberId;
-            vipWidget = new VIPItemWidget(*iter,levelInfo.strLevelName, this);
-            connect(vipWidget, &VIPItemWidget::selectVIPTypeSignals, this, &MainWindow::do_selectVIPTypeSignals);
-            ui->listWidgetVIP->setItemWidget(vipItem, vipWidget);
-
-            //设置默认第一个被选中
-            if (iter == iterFind->begin())
-            {
-                m_curLevelDataInfo = *iter;
-                vipWidget->setLabelCheckStatus(true);
-                //更新支付金额
-                calcNeedPayMoney();
-            }
-        }
-
-        //判断是否可见
-        if (ui->frame_Renew->isVisible())
-        {
-            //初始化续费列表listWidgetRenewList
-            //加载数据并显示
-            ui->listWidgetRenewList->clear();
-            int iCount = m_mapPhoneInfo.size();
-            if (iCount > 0)
-            {
-                //初始化续费列表
-                QListWidgetItem* renewListItem = NULL;
-                renewItemWidget* widget = NULL;
-                QMap<int, S_PHONE_INFO>::iterator iter = m_mapPhoneInfo.begin();
-                for (; iter != m_mapPhoneInfo.end(); iter++)
-                {
-                    qDebug() << "phone level id=" << iter->iLevel;
-                    if (iter->iLevel == levelInfo.iLevelId)
-                    {
-                        renewListItem = new QListWidgetItem(ui->listWidgetRenewList);
-                        renewListItem->setData(Qt::UserRole, QVariant::fromValue(*iter));
-                        renewListItem->setSizeHint(QSize(RENEW_ITEM_WIDTH, RENEW_ITEM_HEIGHT));	// 这里QSize第一个参数是宽度，无所谓值多少，只有高度可以影响显示效果
-                        widget = new renewItemWidget(*iter, this);
-                        ui->listWidgetRenewList->addItem(renewListItem);
-                        ui->listWidgetRenewList->setItemWidget(renewListItem, widget);
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        qDebug() << "无套餐";
-        ui->stackedWidget_2->setCurrentWidget(ui->page_EmptyMeal);
-    }    
 }
 
 //vip item

@@ -20,7 +20,6 @@ public:
     S_LEVEL_INFO getLevelInfo();
 
 signals:
-    void selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
     void refreshMemberListSignals(int iLevelId, QMap<int, S_LEVEL_DATA_INFO> mapData);
 private:
     void startDownload(QString strUrl);

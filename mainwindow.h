@@ -129,9 +129,6 @@ private:
     
     void calcNeedPayMoney();
 
-    //初始化vip列表
-    void loadVipType(S_LEVEL_INFO levelInfo);
-
     void startDownload(QString strUrl);
 
     void AddListModeListWidgetItem(S_PHONE_INFO phoneInfo);
@@ -170,8 +167,6 @@ private slots:
 
     void on_btnBeginPay_clicked();
 
-    //level item 
-    void do_selectLevelTypeSignals(S_LEVEL_INFO levelInfo);
     //vip item
     void do_selectVIPTypeSignals(S_LEVEL_DATA_INFO levelInfo);
     //refresh vip Item
