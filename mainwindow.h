@@ -109,8 +109,6 @@ private:
     //void HttpGetServerToken();
     //获取我的手机实例
     void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
-    //生成QrCode
-    void gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale);
 
     //云手机
     void InitCloudPhoneTab();

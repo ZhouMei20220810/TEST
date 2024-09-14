@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <QRandomGenerator>
+#include "qrencode.h"
 
 int GlobalData::id = 10;
 QString GlobalData::strMaxExpirationDate = "";
@@ -366,4 +367,31 @@ QString generateBrandID(const QString& brand)
         androidID.prepend("S");
 
     return androidID;
+}
+
+QImage generateAlipayQRCode(const QString& data)
+{
+    // 使用QRcode库生成二维码
+    QByteArray qrData = data.toUtf8();
+    QRcode* qrcode = QRcode_encodeString(qrData.constData(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
+
+    if (qrcode == nullptr) {
+        return QImage(); // 生成失败，返回空图像
+    }
+
+    int width = qrcode->width;
+    QImage image(width, width, QImage::Format_ARGB32);
+    image.fill(qRgba(255, 255, 255, 0));
+
+    for (int y = 0; y < qrcode->width; y++) {
+        for (int x = 0; x < qrcode->width; x++) {
+            unsigned char b = qrcode->data[y * qrcode->width + x];
+            if (b & 0x01) {
+                image.setPixel(x, y, qRgba(0, 0, 0, 255));
+            }
+        }
+    }
+
+    QRcode_free(qrcode); // 释放QRcode结构
+    return image;
 }

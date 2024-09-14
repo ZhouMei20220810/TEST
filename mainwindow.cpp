@@ -21,7 +21,6 @@
 #include <QScrollBar>
 #include <QFile>
 #include <QDir>
-#include "qrencode.h"
 #include <QPainter>
 #include <QClipboard>
 #include "messagetips.h"
@@ -2142,75 +2141,6 @@ void MainWindow::HttpMemberLevelListData()
     });
 }
 
-QImage generateAlipayQRCode(const QString& data) 
-{
-    // 使用QRcode库生成二维码
-    QByteArray qrData = data.toUtf8();
-    QRcode* qrcode = QRcode_encodeString(qrData.constData(), 0, QR_ECLEVEL_L, QR_MODE_8, 1);
-
-    if (qrcode == nullptr) {
-        return QImage(); // 生成失败，返回空图像
-    }
-
-    int width = qrcode->width;
-    QImage image(width, width, QImage::Format_ARGB32);
-    image.fill(qRgba(255, 255, 255, 0));
-
-    for (int y = 0; y < qrcode->width; y++) {
-        for (int x = 0; x < qrcode->width; x++) {
-            unsigned char b = qrcode->data[y * qrcode->width + x];
-            if (b & 0x01) {
-                image.setPixel(x, y, qRgba(0, 0, 0, 255));
-            }
-        }
-    }
-
-    QRcode_free(qrcode); // 释放QRcode结构
-    return image;
-}
-
-void MainWindow::gernerateQRCode(const QString& text, QPixmap& qrPixmap, int scale)
-{
-    if (text.isEmpty()) {
-        return;
-    }
-
-    //二维码数据
-    QRcode* qrCode = nullptr;
-
-    //这里二维码版本传入参数是2,实际上二维码生成后，它的版本是根据二维码内容来决定的
-    qrCode = QRcode_encodeString(text.toStdString().c_str(), 2, QR_ECLEVEL_Q, QR_MODE_8, 1);
-    if (nullptr == qrCode) {
-        return;
-    }
-
-    int qrCode_Width = qrCode->width > 0 ? qrCode->width : 1;
-    int width = scale * qrCode_Width;
-    int height = scale * qrCode_Width;
-
-    QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
-
-    QPainter mPainter(&image);
-    QColor background(Qt::white);
-    mPainter.setBrush(background);
-    mPainter.setPen(Qt::NoPen);
-    mPainter.drawRect(0, 0, width, height);
-    QColor foreground(Qt::black);
-    mPainter.setBrush(foreground);
-    for (int y = 0; y < qrCode_Width; ++y) {
-        for (int x = 0; x < qrCode_Width; ++x) {
-            unsigned char character = qrCode->data[y * qrCode_Width + x];
-            if (character & 0x01) {
-                QRect rect(x * scale, y * scale, scale, scale);
-                mPainter.drawRects(&rect, 1);
-            }
-        }
-    }
-
-    qrPixmap = QPixmap::fromImage(image);
-    QRcode_free(qrCode);
-}
-
 //订单接口-创建订单
 void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayType,QString strRelateId)
 {
@@ -2283,16 +2213,6 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
                         QString strOutTradeNo = objResponse["out_trade_no"].toString();
                         QString strQrCode = objResponse["qr_code"].toString();
 
-                        //生成QRCode
-                        /*QString text = ui->lineEdit_content->text();
-
-                        QPixmap qrPixmap;
-                        int width = ui->label_code->width();
-                        int height = ui->label_code->height();
-                        gernerateQRCode(text, qrPixmap, 10);
-                        qrPixmap = qrPixmap.scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-
-                        ui->label_code->setPixmap(qrPixmap);*/
                         qDebug() << strQrCode;
                         QImage qrImage = generateAlipayQRCode(strQrCode);
                         if (!qrImage.isNull())

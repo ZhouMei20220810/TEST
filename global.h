@@ -216,6 +216,9 @@ QString generateRandomImei();
 QString generateBrandID(const QString& brand);
 // 生成随机的手机序列号
 QString generateRandomSerialNumber();
+
+//生成支付宝二维码
+QImage generateAlipayQRCode(const QString& data);
 enum ENUM_ACTIVE_CODE_STATUS
 {
     TYPE_INIT = -1,
