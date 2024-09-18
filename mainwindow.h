@@ -68,9 +68,7 @@ protected:
 	virtual void resizeEvent(QResizeEvent *event) override;
 private:
     //分组接口
-    void HttpQueryAllGroup();//查询全部分组
-    void HttpCreateGroup(QString strGroupName);//创建分组    
-
+    void HttpQueryAllGroup();//查询全部分组  
     //显示树内容
     void ShowGroupInfo();
     //实例列表

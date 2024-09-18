@@ -1492,66 +1492,6 @@ void MainWindow::ShowTaskInfo()
         }
     }*/
 }
-void MainWindow::HttpCreateGroup(QString strGroupName)//创建分组
-{
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_CREATE_GROUP;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    QJsonDocument doc;
-    QJsonObject obj;
-    obj.insert("name", strGroupName);
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                bool data = obj["data"].toBool();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json="<<response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    //界面添加该组
-                    on_btnGroupRefresh_clicked();
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-    });
-}
 
 //获取serverToken
 /*void MainWindow::HttpGetServerToken()
@@ -2124,7 +2064,7 @@ void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGr
     {
         //创建分组
         qDebug() << " 创建分组 strGroupName=" << strGroupName;
-        HttpCreateGroup(strGroupName);
+        ToolObject::getInstance()->HttpCreateGroup(strGroupName);
     }
     break;
     case TYPE_UPDATE_GROUP_WIDGET:

@@ -38,6 +38,8 @@ public:
     void HttpLogout();
     //设置实例分组
     void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
+    //创建分组
+    void HttpCreateGroup(QString strGroupName); 
     //修改分组
     void HttpUpdateGroup(int iGroupId, QString strNewName);
     //激活码接口
