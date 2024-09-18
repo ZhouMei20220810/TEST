@@ -55,8 +55,7 @@ signals:
     //同步到其他设备
     void BatchDirectCopyToPhoneSignals(QString strTextList);
 
-    void closePhoneInstanceWidgetSignals();
-    void activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
+    void closePhoneInstanceWidgetSignals();    
     //同步模式剪切板分发
     void DirectCopyToPhoneSignals(QString strSelectText);
 protected:
@@ -90,11 +89,7 @@ private:
     //创建订单
     void HttpCreateOrder(int iChannel, int iMemberId, int iNum,int iPayType, QString strRelateId);
     //关闭订单
-    void HttpCloseOrder(QString strOutTradeNo);
-    //激活码接口
-    //void HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId);
-    void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
-   
+    void HttpCloseOrder(QString strOutTradeNo);   
     //手机实例相关接口    
     //获取serverToken
     //void HttpGetServerToken();

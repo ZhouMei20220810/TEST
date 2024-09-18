@@ -1002,3 +1002,91 @@ void ToolObject::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
         reply->deleteLater();
         });
 }
+
+//激活码接口
+void ToolObject::HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode)
+{
+    if (mapActiveCode.size() <= 0)
+        return;
+
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_POST_ACTIVE_CODE;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
+    QJsonArray jsonArray;
+    QJsonObject rootObject;
+
+    QMap<int, S_ACTIVE_CODE_INFO>::iterator iter = mapActiveCode.begin();
+    //for (const QString& strActiveCode : strActiveCodeList)
+    for (; iter != mapActiveCode.end(); iter++)
+    {
+        obj.insert("code", iter->strRenewActiveCode);
+        if (iter->iRelateId != 0)
+        {
+            obj.insert("relateId", iter->iRelateId);
+        }
+        //obj.insert("relateId", iRelateId);
+        jsonArray.append(obj);
+    }
+
+
+    rootObject.insert("activateList", jsonArray);
+    doc.setObject(rootObject);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                qDebug() << "response = " << response;
+                QString strMessage = obj["message"].toString();
+                if (obj["data"].isArray())
+                {
+                    QJsonArray dataArray = obj["data"].toArray();
+                    int iSize = dataArray.size();
+                    QString strCode;
+                    bool bSuccess = false;
+                    QJsonObject obj;
+                    QMap<QString, bool> mapStatus;
+                    for (int i = 0; i < iSize; i++)
+                    {
+                        obj = dataArray[i].toObject();
+                        strCode = obj["code"].toString();
+                        bSuccess = obj["isSuccess"].toBool();
+                        mapStatus.insert(strCode, bSuccess);
+                    }
+                    emit activeCodeStatusSignals(mapStatus);
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}

@@ -38,6 +38,8 @@ public:
     void HttpLogout();
     //设置实例分组
     void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
+    //激活码接口
+    void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -51,6 +53,8 @@ signals:
     void HttpGroupRefreshSignals();
     //注销登录
     void HttpLogoutSignals();
+    //激活码
+    void activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
 };
 
 #endif // TOOLOBJECT_H
