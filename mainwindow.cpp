@@ -378,15 +378,16 @@ void MainWindow::HttpPostInstanceRename(int iId, QString strName)
                     int iRow = 0;
                     QListWidgetItem* phoneItem = NULL;                    
                     //重新显示listWidget
-                    if (m_isIconMode)
-                    {
-                        MyListModelEx::getInstance()->setNewPhoneName(iId, strName);
-                    }
-                    else
+                    //预览列表
+                    MyListModelEx::getInstance()->setNewPhoneName(iId, strName);
+
+                    //列表模式
+                    iListCount = ui->listWidget2->count();
+                    if(iListCount > 0)
                     {
                         PhoneListModeItemWidget* widget2 = NULL;
                         //listWidget2
-                        iListCount = ui->listWidget2->count();
+                        
                         for (iRow = 0; iRow < iListCount; iRow++)
                         {
                             phoneItem = ui->listWidget2->item(iRow);

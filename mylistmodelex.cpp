@@ -333,6 +333,7 @@ void MyListModelEx::setNewPhoneName(int iPhoneId, QString strNewPhoneName)
         if (item->getPhoneId() == iPhoneId)
         {
             //重新修改名称
+            item->setPhoneName(strNewPhoneName);
             setData(createIndex(i, 0), strNewPhoneName, NameRole);
             break;
         }

@@ -91,6 +91,7 @@ void ListItem::setPhoneName(const QString &newPhoneName)
     if (phoneName == newPhoneName)
         return;
     phoneName = newPhoneName;
+    PhoneInfo.strName = newPhoneName;
     emit phoneNameChanged();
 }
 
