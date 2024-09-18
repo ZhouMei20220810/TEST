@@ -34,6 +34,10 @@ public:
     void HttpPostInstanceRename(int iId, QString strName);
     //删除分组
     void HttpDeleteGroup(int iGroupId);
+    //注销登录
+    void HttpLogout();
+    //设置实例分组
+    void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -44,7 +48,9 @@ signals:
     //实例重命名
     void HttpPostInstanceRenameSignals(int iId,QString strName);
     //删除分组
-    void HttpDeleteGroupSignals(int iGroupId);
+    void HttpGroupRefreshSignals();
+    //注销登录
+    void HttpLogoutSignals();
 };
 
 #endif // TOOLOBJECT_H

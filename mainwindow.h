@@ -95,13 +95,8 @@ private:
     //激活码接口
     //void HttpPostActivateCode(QStringList strActiveCodeList, int iRelateId);
     void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
-
-    //注销
-    void HttpLogout();
-    
+   
     //手机实例相关接口    
-    //设置实例分组
-    void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
     //获取serverToken
     //void HttpGetServerToken();
     //获取我的手机实例
@@ -273,7 +268,7 @@ private slots:
     void on_toolBtnMessageCenter_clicked();
     
     void do_HttpPostInstanceRenameSignals(int iId,QString strName);
-    void do_HttpDeleteGroupSignals();
+    void do_HttpGroupRefreshSignals();
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();

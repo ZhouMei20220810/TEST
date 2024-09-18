@@ -850,8 +850,147 @@ void ToolObject::HttpDeleteGroup(int iGroupId)//删除分组
                     {
                         //界面直接修改名称不需要重新请求
                         //on_btnGroupRefresh_clicked();
-                        emit HttpDeleteGroupSignals(iGroupId);
+                        emit HttpGroupRefreshSignals();
                     }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
+void ToolObject::HttpLogout()
+{
+    //关闭窗口并且退出登录
+    qDebug() << "注销";
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_YSY_LOGOUT;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+    /*QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("code", strSMSCode);
+    obj.insert("mobile", strPhone);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
+    //QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
+    //发出GET请求
+    QByteArray postData = "";
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "response:" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    qDebug() << "注销成功";
+                    //this->close();
+                    emit HttpLogoutSignals();
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
+
+//设置实例分组
+void ToolObject::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
+{
+    int iSize = strList.size();
+    if (iSize <= 0)
+        return;
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_SET_INSTANCE_GROUP;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    QJsonObject jsonObj;
+    jsonObj["groupId"] = iGroupId;
+
+    QJsonArray listArray;
+    for (int i = 0; i < iSize; i++)
+    {
+        listArray.append(strList.at(i).toInt());
+    }
+    //doc.setObject(listArray);
+    jsonObj["ids"] = listArray;
+    //doc.setArray(listArray);
+    QJsonDocument doc(jsonObj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+    qDebug() << postData;
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                bool bData = obj["data"].toBool();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode && bData)
+                {
+                    //on_btnGroupRefresh_clicked();
+                    emit HttpGroupRefreshSignals();
                 }
                 else
                 {
