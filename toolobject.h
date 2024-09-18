@@ -38,6 +38,8 @@ public:
     void HttpLogout();
     //设置实例分组
     void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
+    //修改分组
+    void HttpUpdateGroup(int iGroupId, QString strNewName);
     //激活码接口
     void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
     //关闭订单
