@@ -114,6 +114,7 @@ MainWindow::MainWindow(QWidget *parent)
             dialog->InitWidget(authInfo);
             dialog->exec();
         });
+    connect(ToolObject::getInstance(), &ToolObject::HttpPostInstanceRenameSignals, this, &MainWindow::do_HttpPostInstanceRenameSignals);
 
     ui->labelAccount->setText(GlobalData::strAccount);
 
@@ -289,140 +290,6 @@ void MainWindow::do_EditGroupNameAction(bool bChecked)
     m_createGroupWidget->show();
 }
 
-//实例重命名
-void MainWindow::HttpPostInstanceRename(int iId, QString strName)
-{
-    //实例名称修改
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_SET_INSTANCE_NAME;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    QJsonDocument doc;
-    QJsonObject obj;
-    obj.insert("id", iId);
-    obj.insert("name", strName);
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                bool data = obj["data"].toBool();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode && data)
-                {
-                    //phoneid=id;
-                    QTreeWidgetItemIterator it(ui->treeWidget);
-                    //遍历所有选中项的迭代器
-                    QTreeWidgetItem* item = NULL;
-                    S_PHONE_INFO phoneInfo;                    
-                    bool bFind = false;
-                    QTreeWidgetItem* child = NULL;
-                    int count = 0;
-                    int i=0;                    
-                    while (*it)
-                    {
-                        item = *it;
-                        qDebug() << item->text(0);
-                        //获取组的所有子节点
-                        count = item->childCount();                        
-                        for (i = 0; i < count; ++i)
-                        {
-                            child = item->child(i);
-                            phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();  
-                            if (phoneInfo.iId == iId)
-                            {
-                                phoneInfo.strName = strName;
-                                child->setData(0, Qt::UserRole, QVariant::fromValue(phoneInfo));
-                                child->setText(0, m_mapLevelList.find(phoneInfo.iLevel).value().strLevelName+" "+strName);
-                                bFind = true;
-                                break;
-                            }
-                        }
-                        if (bFind)
-                        {
-                            break;
-                        }
-                        ++it;
-                    }
-                                  
-                    int iListCount = 0;
-                    int iRow = 0;
-                    QListWidgetItem* phoneItem = NULL;                    
-                    //重新显示listWidget
-                    //预览列表
-                    MyListModelEx::getInstance()->setNewPhoneName(iId, strName);
-
-                    //列表模式
-                    iListCount = ui->listWidget2->count();
-                    if(iListCount > 0)
-                    {
-                        PhoneListModeItemWidget* widget2 = NULL;
-                        //listWidget2
-                        
-                        for (iRow = 0; iRow < iListCount; iRow++)
-                        {
-                            phoneItem = ui->listWidget2->item(iRow);
-                            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
-                            if (phoneInfo.iId == iId)
-                            {
-                                phoneInfo.strName = strName;
-                                phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
-                                widget2 = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(phoneItem));
-                                if (widget2 != NULL)
-                                {
-                                    widget2->setPhoneName(strName);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    /*if (m_pCurItem != NULL)
-                    {
-                        m_pCurItem->setText(0, strName);
-                    }*/
-                    //MessageTipsDialog* tips = new MessageTipsDialog("实例重命名成功!", this);
-                    //tips->show();
-                    //HttpQueryAllGroup();//否则改名后要遍历树节点去更改名称
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
-}
 //设置实例分组
 void MainWindow::HttpPostInstanceSetGroup(int iGroupId, QStringList strList)
 {
@@ -2597,12 +2464,89 @@ void MainWindow::do_createGroupSignals(ENUM_CREATE_OR_UPDATA type, QString strGr
     case TYPE_PHONE_RENAME_WIDGET:
     {
         //手机重命名
-        HttpPostInstanceRename(id, strGroupName);
+        ToolObject::getInstance()->HttpPostInstanceRename(id, strGroupName);
     }
     break;
     default:
         break;
     }
+}
+
+void MainWindow::do_HttpPostInstanceRenameSignals(int iId, QString strName)
+{
+    //phoneid=id;
+    QTreeWidgetItemIterator it(ui->treeWidget);
+    //遍历所有选中项的迭代器
+    QTreeWidgetItem* item = NULL;
+    S_PHONE_INFO phoneInfo;
+    bool bFind = false;
+    QTreeWidgetItem* child = NULL;
+    int count = 0;
+    int i = 0;
+    while (*it)
+    {
+        item = *it;
+        qDebug() << item->text(0);
+        //获取组的所有子节点
+        count = item->childCount();
+        for (i = 0; i < count; ++i)
+        {
+            child = item->child(i);
+            phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+            if (phoneInfo.iId == iId)
+            {
+                phoneInfo.strName = strName;
+                child->setData(0, Qt::UserRole, QVariant::fromValue(phoneInfo));
+                child->setText(0, m_mapLevelList.find(phoneInfo.iLevel).value().strLevelName + " " + strName);
+                bFind = true;
+                break;
+            }
+        }
+        if (bFind)
+        {
+            break;
+        }
+        ++it;
+    }
+
+    int iListCount = 0;
+    int iRow = 0;
+    QListWidgetItem* phoneItem = NULL;
+    //重新显示listWidget
+    //预览列表
+    MyListModelEx::getInstance()->setNewPhoneName(iId, strName);
+
+    //列表模式
+    iListCount = ui->listWidget2->count();
+    if (iListCount > 0)
+    {
+        PhoneListModeItemWidget* widget2 = NULL;
+        //listWidget2
+
+        for (iRow = 0; iRow < iListCount; iRow++)
+        {
+            phoneItem = ui->listWidget2->item(iRow);
+            phoneInfo = phoneItem->data(Qt::UserRole).value<S_PHONE_INFO>();
+            if (phoneInfo.iId == iId)
+            {
+                phoneInfo.strName = strName;
+                phoneItem->setData(Qt::UserRole, QVariant::fromValue(phoneInfo));
+                widget2 = static_cast<PhoneListModeItemWidget*>(ui->listWidget2->itemWidget(phoneItem));
+                if (widget2 != NULL)
+                {
+                    widget2->setPhoneName(strName);
+                }
+                break;
+            }
+        }
+    }
+    /*if (m_pCurItem != NULL)
+    {
+        m_pCurItem->setText(0, strName);
+    }*/
+    //MessageTipsDialog* tips = new MessageTipsDialog("实例重命名成功!", this);
+    //tips->show();
+    //HttpQueryAllGroup();//否则改名后要遍历树节点去更改名称
 }
 
 void MainWindow::on_btnCreateGroup_clicked()

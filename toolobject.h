@@ -29,12 +29,18 @@ public:
     void HttpGetNoticeListInfo(NOTICE_TYPE enType, int iPage, int iPageSize);
     //获取我的实例级别
     void HttpGetMyInstanceLevel(int iPhoneId);
+
+    //实例重命名
+    void HttpPostInstanceRename(int iId, QString strName);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
     void ShowAuthDetailSignals(S_AUTHOR_INFO authInfo);
     void closeAuthDialogOrGroupRefreshSignals();
     void noticeListInfoSignals(NOTICE_TYPE enType, QMap<int, S_NOTICE_INFO> mapNotice);
+
+    //实例重命名
+    void HttpPostInstanceRenameSignals(int iId,QString strName);
 };
 
 #endif // TOOLOBJECT_H

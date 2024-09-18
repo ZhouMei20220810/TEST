@@ -100,9 +100,7 @@ private:
     //注销
     void HttpLogout();
     
-    //手机实例相关接口
-    //实例重命名
-    void HttpPostInstanceRename(int iId, QString strName);
+    //手机实例相关接口    
     //设置实例分组
     void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
     //获取serverToken
@@ -275,6 +273,7 @@ private slots:
 
     void on_toolBtnMessageCenter_clicked();
     
+    void do_HttpPostInstanceRenameSignals(int iId,QString strName);
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();
