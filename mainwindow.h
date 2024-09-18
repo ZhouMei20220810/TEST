@@ -9,7 +9,6 @@
 #include <QMouseEvent>
 #include "levelitemwidget.h"
 #include <QMenu>
-#include "toolobject.h"
 #include "phoneinstancewidget.h"
 #include "creategroupwidget.h"
 #include "systemsettingwidget.h"
@@ -345,7 +344,6 @@ private:
     QAction* pActionBatchAuth;//批量授权
 
     QTreeWidgetItem* m_pCurItem;
-    ToolObject* m_toolObject;
 
     PhoneInstanceWidget* m_MainPhoneInstanceWidget;
     CreateGroupWidget* m_createGroupWidget;

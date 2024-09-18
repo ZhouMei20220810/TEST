@@ -98,16 +98,15 @@ MainWindow::MainWindow(QWidget *parent)
     m_pCurItem = NULL;
     m_PayTimer = NULL;
     m_Timer = NULL;
-    m_toolObject = new ToolObject(this);
-    connect(m_toolObject, &ToolObject::startTimerShowScreenshotSignals, this,[=]
+    connect(ToolObject::getInstance(), &ToolObject::startTimerShowScreenshotSignals, this,[=]
             {
         m_Timer->start(DOWNLOAD_SCREENSHOT_INTERVAL);
     });
-    connect(m_toolObject, &ToolObject::getScreenshortSignals, this, [=](QMap<QString, S_TASK_INFO> mapScreenshotTask) {
+    connect(ToolObject::getInstance(), &ToolObject::getScreenshortSignals, this, [=](QMap<QString, S_TASK_INFO> mapScreenshotTask) {
         m_mapTask = mapScreenshotTask;
         ShowTaskInfo();
         });
-    connect(m_toolObject, &ToolObject::ShowAuthDetailSignals, this, [=](S_AUTHOR_INFO authInfo)
+    connect(ToolObject::getInstance(), &ToolObject::ShowAuthDetailSignals, this, [=](S_AUTHOR_INFO authInfo)
         {
             AddAuthorizationDialog* dialog = new AddAuthorizationDialog(m_CurSelMenuPhoneInfo);
             connect(dialog, &AddAuthorizationDialog::notifyMainWindowRefreshGroupListSignals, this, &MainWindow::on_btnGroupRefresh_clicked);
@@ -143,7 +142,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_Timer, &QTimer::timeout, this, [this]() 
         {
         m_Timer->stop();
-        this->m_toolObject->HttpPostInstanceScreenshot(m_listInstanceNo);
+        ToolObject::getInstance()->HttpPostInstanceScreenshot(m_listInstanceNo);
         });
 
     //加载等级列表
@@ -359,7 +358,7 @@ void MainWindow::do_ActionRestartCloudPhone(bool bChecked)
 
     QStringList strList;    
     strList << m_CurSelMenuPhoneInfo.strInstanceNo;
-    this->m_toolObject->HttpPostInstanceReboot(strList);
+    ToolObject::getInstance()->HttpPostInstanceReboot(strList);
 }
 
 void MainWindow::do_ActionFactoryDataReset(bool bChecked)
@@ -376,7 +375,7 @@ void MainWindow::do_ActionFactoryDataReset(bool bChecked)
 
         QStringList strList;
         strList << m_CurSelMenuPhoneInfo.strInstanceNo;
-        this->m_toolObject->HttpPostInstanceReset(strList);
+        ToolObject::getInstance()->HttpPostInstanceReset(strList);
     }
 }
 void MainWindow::do_ActionUploadFile(bool bChecked)
@@ -442,7 +441,7 @@ void MainWindow::do_ActionAuthorization(bool bChecked)
     if (m_CurSelMenuPhoneInfo.bIsAuth || m_CurSelMenuPhoneInfo.iAuthType == EN_BE_AUTHORIZATION)
     {
         qDebug() << "已授权或者被授权id" << m_CurSelMenuPhoneInfo.iId;
-        m_toolObject->HttpPostAuthDetail(m_CurSelMenuPhoneInfo.iId);
+        ToolObject::getInstance()->HttpPostAuthDetail(m_CurSelMenuPhoneInfo.iId);
     }
     else
     {
@@ -964,7 +963,7 @@ void MainWindow::do_ActionBatchReboot(bool bChecked)
 
     if (strPhoneList.size() > 0)
     {
-        m_toolObject->HttpPostInstanceReboot(strPhoneList);
+        ToolObject::getInstance()->HttpPostInstanceReboot(strPhoneList);
     }    
 }
 
@@ -1028,7 +1027,7 @@ void MainWindow::do_ActionBatchFactoryReset(bool bChecked)
     qDebug() << "批量恢复出厂:" << strTmp;
     if (strPhoneList.size() > 0)
     {
-        m_toolObject->HttpPostInstanceReset(strPhoneList);
+        ToolObject::getInstance()->HttpPostInstanceReset(strPhoneList);
     }
 }
 
@@ -3309,7 +3308,7 @@ void MainWindow::do_timeoutRefreshPicture()
     //获取选中分组的所有手机
     if (m_listInstanceNo.size() > 0)
     {
-        this->m_toolObject->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
+        ToolObject::getInstance()->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
     }
     else
     {
@@ -3581,7 +3580,7 @@ void MainWindow::on_toolBtnPreviewMode_clicked()
     if (m_listInstanceNo.size() > 0)
     {
         m_TaskTimer->start(TIMER_INTERVAL);
-        this->m_toolObject->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
+        ToolObject::getInstance()->HttpPostInstanceScreenshotRefresh(m_listInstanceNo);
     }
 }
 
@@ -4473,7 +4472,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
     if (strList.size() > 0)
     {
         m_TaskTimer->start(TIMER_INTERVAL);
-        this->m_toolObject->HttpPostInstanceScreenshotRefresh(strList);
+        ToolObject::getInstance()->HttpPostInstanceScreenshotRefresh(strList);
     }
     else
     {
