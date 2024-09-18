@@ -115,6 +115,7 @@ MainWindow::MainWindow(QWidget *parent)
             dialog->exec();
         });
     connect(ToolObject::getInstance(), &ToolObject::HttpPostInstanceRenameSignals, this, &MainWindow::do_HttpPostInstanceRenameSignals);
+    connect(ToolObject::getInstance(), &ToolObject::HttpDeleteGroupSignals, this, &MainWindow::do_HttpDeleteGroupSignals);
 
     ui->labelAccount->setText(GlobalData::strAccount);
 
@@ -272,7 +273,7 @@ void MainWindow::do_DeleteGroupAction(bool bChecked)
 {
     QTreeWidgetItem* item = ui->treeWidget->currentItem();
     S_GROUP_INFO groupInfo = item->data(0, Qt::UserRole).value<S_GROUP_INFO>();
-    HttpDeleteGroup(groupInfo.iGroupId);
+    ToolObject::getInstance()->HttpDeleteGroup(groupInfo.iGroupId);
 }
 
 void MainWindow::do_EditGroupNameAction(bool bChecked)
@@ -1691,68 +1692,6 @@ void MainWindow::HttpUpdateGroup(int iGroupId, QString strNewName)//修改分组
     });
 }
 
-void MainWindow::HttpDeleteGroup(int iGroupId)//删除分组
-{
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_DELETE_GROUP;
-    strUrl += QString("/%1").arg(iGroupId);
-    //QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
-    qDebug() << "strUrl = " << strUrl;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    request.setUrl(url);
-
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, "");
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                bool data = obj["data"].toBool();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    //true操作成功
-                    if (data)
-                    {
-                        //界面直接修改名称不需要重新请求
-                        on_btnGroupRefresh_clicked();
-                    }
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-    });
-}
-
 //获取serverToken
 /*void MainWindow::HttpGetServerToken()
 {
@@ -2547,6 +2486,11 @@ void MainWindow::do_HttpPostInstanceRenameSignals(int iId, QString strName)
     //MessageTipsDialog* tips = new MessageTipsDialog("实例重命名成功!", this);
     //tips->show();
     //HttpQueryAllGroup();//否则改名后要遍历树节点去更改名称
+}
+
+void MainWindow::do_HttpDeleteGroupSignals()
+{
+    on_btnGroupRefresh_clicked();
 }
 
 void MainWindow::on_btnCreateGroup_clicked()

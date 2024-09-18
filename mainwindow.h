@@ -73,7 +73,6 @@ private:
     void HttpQueryAllGroup();//查询全部分组
     void HttpCreateGroup(QString strGroupName);//创建分组
     void HttpUpdateGroup(int iGroupId, QString strNewName);//修改分组
-    void HttpDeleteGroup(int iGroupId);//删除分组
 
     //显示树内容
     void ShowGroupInfo();
@@ -274,6 +273,7 @@ private slots:
     void on_toolBtnMessageCenter_clicked();
     
     void do_HttpPostInstanceRenameSignals(int iId,QString strName);
+    void do_HttpDeleteGroupSignals();
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();

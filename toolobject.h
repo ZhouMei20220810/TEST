@@ -32,6 +32,8 @@ public:
 
     //实例重命名
     void HttpPostInstanceRename(int iId, QString strName);
+    //删除分组
+    void HttpDeleteGroup(int iGroupId);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -41,6 +43,8 @@ signals:
 
     //实例重命名
     void HttpPostInstanceRenameSignals(int iId,QString strName);
+    //删除分组
+    void HttpDeleteGroupSignals(int iGroupId);
 };
 
 #endif // TOOLOBJECT_H
