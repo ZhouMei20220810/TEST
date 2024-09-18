@@ -117,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ToolObject::getInstance(), &ToolObject::HttpGroupRefreshSignals, this, &MainWindow::do_HttpGroupRefreshSignals);
     connect(ToolObject::getInstance(), &ToolObject::HttpLogoutSignals, this, &MainWindow::close);
     connect(ToolObject::getInstance(), &ToolObject::HttpCreateOrderSignals, this, &MainWindow::do_HttpCreateOrderSignals);
+    connect(ToolObject::getInstance(), &ToolObject::HttpLevelListSignals, this, &MainWindow::do_HttpLevelListSignals);
 
     ui->labelAccount->setText(GlobalData::strAccount);
 
@@ -147,7 +148,7 @@ MainWindow::MainWindow(QWidget *parent)
         });
 
     //加载等级列表
-    HttpLevelList();
+    ToolObject::getInstance()->HttpLevelList();
 
     on_btnGroupRefresh_clicked();
     //初始化Tab云手机
@@ -1494,168 +1495,6 @@ void MainWindow::ShowTaskInfo()
     }*/
 }
 
-//获取serverToken
-/*void MainWindow::HttpGetServerToken()
-{
-    int iGroupId = 0;
-    QTreeWidgetItem* selectItem = ui->treeWidget->currentItem();
-    if (selectItem != NULL)
-    {
-        iGroupId = selectItem->data(0, Qt::UserRole).toInt();
-    }
-
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_GET_SERVER_TOKEN;
-    strUrl += QString("/%1").arg(iGroupId);
-    //QString strUrl = QString("%1%2{%3}").arg(HTTP_SERVER_DOMAIN_ADDRESS).arg(HTTP_DELETE_GROUP).arg(iGroupId);//.toLocal8Bit();
-    qDebug() << "strUrl = " << strUrl;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + m_userInfo.strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    qDebug() << "token:   " << strToken;
-    request.setUrl(url);
-
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, "");
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                bool data = obj["data"].toBool();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "data=" << data << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    qDebug() << "操作成功";
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-    });
-}*/
-
-//会员级别接口
-void MainWindow::HttpLevelList()
-{    
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_LEVEL_LIST;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    /*QJsonDocument doc;
-    QJsonObject obj;
-    obj.insert("code", strCode);
-    obj.insert("password", strPassword);
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
-    QByteArray postData = "";
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();                
-                qDebug() << "Code=" << iCode << "message=" << strMessage <<"json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    if (obj["data"].isArray())
-                    {
-                        QJsonArray dataArray = obj["data"].toArray();
-                        QJsonObject objData;
-                        int iSize = dataArray.size();
-                        m_mapLevelList.clear();
-                        S_LEVEL_INFO info;
-                        for (int i = 0; i < iSize; i++)
-                        {
-                            objData = dataArray.at(i).toObject();
-                            info.iLevelId = objData["id"].toInt();
-                            info.strLevelName = objData["name"].toString();
-                            info.strColorIcon = objData["colorIcon"].toString();
-                            /*if (!info.strColorIcon.isEmpty())
-                            {
-                                startDownload(info.strColorIcon);
-                            }*/
-                            //安卓用
-                            info.strAshIcon = objData["ashIcon"].toString();
-                            /*if (!info.strAshIcon.isEmpty())
-                            {
-                                startDownload(info.strAshIcon);
-                            }*/
-                            //isEnabled true能用;false禁用
-                            info.bIsEnabled = objData["isEnable"].toBool();
-                            info.strLevelRemark = objData["remark"].toString();
-                            info.strFucImg = objData["describeUrl"].toString();
-                            qDebug() << "等级" << info.iLevelId << " name=" << info.strLevelName;
-                            if (info.bIsEnabled)
-                            {
-                                m_mapLevelList.insert(info.iLevelId, info);
-                            }                                                       
-                        }
-                        InitLevelList();
-                    }
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
-}
-
 //会员相关接口
 void MainWindow::HttpMemberLevelListData()
 {
@@ -2088,6 +1927,14 @@ void MainWindow::do_HttpCreateOrderSignals(QString strQrCode)
         m_iPayCount = 59;
         m_PayTimer->start(1000);
     }
+}
+
+//会员级别响应
+void MainWindow::do_HttpLevelListSignals(QMap<int, S_LEVEL_INFO> mapLevelList)
+{
+    m_mapLevelList.clear();
+    m_mapLevelList = mapLevelList;
+    InitLevelList();
 }
 
 void MainWindow::on_btnCreateGroup_clicked()

@@ -48,6 +48,8 @@ public:
     void HttpCreateOrder(int iChannel, int iMemberId, int iNum, int iPayType, QString strRelateId);
     //关闭订单
     void HttpCloseOrder(QString strOutTradeNo);
+    //会员级别接口
+    void HttpLevelList();
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -65,6 +67,8 @@ signals:
     void activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
     //创建订单信号
     void HttpCreateOrderSignals(QString strQrCode);
+    //会员级别响应
+    void HttpLevelListSignals(QMap<int, S_LEVEL_INFO> mapLevelList);
 };
 
 #endif // TOOLOBJECT_H

@@ -1363,3 +1363,102 @@ void ToolObject::HttpCloseOrder(QString strOutTradeNo)
         reply->deleteLater();
         });
 }
+
+//会员级别接口
+void ToolObject::HttpLevelList()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_LEVEL_LIST;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    /*QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("code", strCode);
+    obj.insert("password", strPassword);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
+    QByteArray postData = "";
+    //发出GET请求
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isArray())
+                    {
+                        QJsonArray dataArray = obj["data"].toArray();
+                        QJsonObject objData;
+                        int iSize = dataArray.size();
+                        //int会员等级
+                        QMap<int, S_LEVEL_INFO> mapLevelList;
+                        mapLevelList.clear();
+                        S_LEVEL_INFO info;
+                        for (int i = 0; i < iSize; i++)
+                        {
+                            objData = dataArray.at(i).toObject();
+                            info.iLevelId = objData["id"].toInt();
+                            info.strLevelName = objData["name"].toString();
+                            info.strColorIcon = objData["colorIcon"].toString();
+                            /*if (!info.strColorIcon.isEmpty())
+                            {
+                                startDownload(info.strColorIcon);
+                            }*/
+                            //安卓用
+                            info.strAshIcon = objData["ashIcon"].toString();
+                            /*if (!info.strAshIcon.isEmpty())
+                            {
+                                startDownload(info.strAshIcon);
+                            }*/
+                            //isEnabled true能用;false禁用
+                            info.bIsEnabled = objData["isEnable"].toBool();
+                            info.strLevelRemark = objData["remark"].toString();
+                            info.strFucImg = objData["describeUrl"].toString();
+                            qDebug() << "等级" << info.iLevelId << " name=" << info.strLevelName;
+                            if (info.bIsEnabled)
+                            {
+                                mapLevelList.insert(info.iLevelId, info);
+                            }
+                        }
+
+                        emit HttpLevelListSignals(mapLevelList);                        
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}

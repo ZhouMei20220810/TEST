@@ -78,8 +78,6 @@ private:
     //激活码续费列表
     void ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> mapPhoneInfo);
 
-    //会员级别接口
-    void HttpLevelList();
     //会员相关接口
     void HttpMemberLevelListData();
 
@@ -260,6 +258,8 @@ private slots:
     void do_HttpGroupRefreshSignals();
     //创建订单响应
     void do_HttpCreateOrderSignals(QString strQrCode);
+    //会员级别响应
+    void do_HttpLevelListSignals(QMap<int, S_LEVEL_INFO> mapLevelList);
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();
