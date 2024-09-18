@@ -78,13 +78,6 @@ private:
     //激活码续费列表
     void ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> mapPhoneInfo);
 
-    //会员相关接口
-    void HttpMemberLevelListData();
-
-    
-    //手机实例相关接口    
-    //获取serverToken
-    //void HttpGetServerToken();
     //获取我的手机实例
     void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
 
@@ -260,6 +253,8 @@ private slots:
     void do_HttpCreateOrderSignals(QString strQrCode);
     //会员级别响应
     void do_HttpLevelListSignals(QMap<int, S_LEVEL_INFO> mapLevelList);
+    //会员数据响应
+    void do_HttpMemberLevelListDataSignals(QMap<int, QMap<int, S_LEVEL_DATA_INFO>> mapLevel);
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();

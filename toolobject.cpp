@@ -1462,3 +1462,97 @@ void ToolObject::HttpLevelList()
         reply->deleteLater();
         });
 }
+
+//会员相关接口
+void ToolObject::HttpMemberLevelListData()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_MEMBER_LEVEL_LIST_DATA;
+    //strUrl += QString("?page=%1&pageSize=%2").arg(iPage).arg(iPageSize);
+    qDebug() << "strUrl = " << strUrl;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    request.setUrl(url);
+
+    //发出GET请求
+    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isArray())
+                    {
+                        QJsonArray dataArray = obj["data"].toArray();
+                        QMap<int, S_LEVEL_DATA_INFO> mapData;
+                        S_LEVEL_DATA_INFO sLevelData;
+                        QJsonObject data;
+
+                        QJsonArray memberList;
+                        QJsonObject member;
+                        int iMemberIndex = 0;
+                        QMap<int, QMap<int, S_LEVEL_DATA_INFO>> mapLevel;
+                        for (int i = 0; i < dataArray.size(); i++)
+                        {
+                            data = dataArray[i].toObject();
+                            sLevelData.iLevelId = data["level"].toInt();
+                            memberList = data["memberList"].toArray();
+                            mapData.clear();
+                            for (iMemberIndex = 0; iMemberIndex < memberList.size(); iMemberIndex++)
+                            {
+                                member = memberList[iMemberIndex].toObject();
+                                sLevelData.iMemberId = member["id"].toInt();
+                                sLevelData.strMemberName = member["name"].toString();
+                                sLevelData.fPrice = member["price"].toDouble();
+                                sLevelData.fActivityPrice = member["activityPrice"].toDouble();
+                                sLevelData.strUrl = member["url"].toString();
+                                sLevelData.strRemark = member["remark"].toString();
+                                sLevelData.strInstanceLevel = member["instanceLevel"].toString();
+                                sLevelData.iUseDay = member["useDay"].toInt();
+                                sLevelData.strLevelName = member["levelName"].toString();
+                                sLevelData.strColorIcon = member["colorIcon"].toString();
+                                sLevelData.strAshIcon = member["ashIcon"].toString();
+                                sLevelData.strLevelRemark = member["levelRemark"].toString();
+                                mapData.insert(sLevelData.iMemberId, sLevelData);
+                            }
+                            mapLevel.insert(sLevelData.iLevelId, mapData);
+                        }
+
+                        HttpMemberLevelListDataSignals(mapLevel);
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}

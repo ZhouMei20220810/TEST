@@ -50,6 +50,8 @@ public:
     void HttpCloseOrder(QString strOutTradeNo);
     //会员级别接口
     void HttpLevelList();
+    //会员相关接口
+    void HttpMemberLevelListData();
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -69,6 +71,8 @@ signals:
     void HttpCreateOrderSignals(QString strQrCode);
     //会员级别响应
     void HttpLevelListSignals(QMap<int, S_LEVEL_INFO> mapLevelList);
+    //会员相关接口响应
+    void HttpMemberLevelListDataSignals(QMap<int, QMap<int, S_LEVEL_DATA_INFO>> mapLevel);
 };
 
 #endif // TOOLOBJECT_H
