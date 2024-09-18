@@ -1,15 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "global.h"
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonParseError>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QUrlQuery>
-#include <QTreeWidget>
 #include "updategroupwidget.h"
 //#include "levelitemwidget.h"
 #include <QAbstractItemView>
@@ -1364,18 +1355,7 @@ void MainWindow::UnregisterDownloadImageThread()
 
 //显示任务
 void MainWindow::ShowTaskInfo()
-{    
-    /*ImageDownloader* downloader = new ImageDownloader(&m_manager, this);
-
-    //启动下载线程
-    QThread* thread = new QThread;
-    downloader->moveToThread(thread);
-    thread->start();*/
-
-    //添加一些图片url
-    //model.addImageUrl(QUrl("https://example.com/image1.jpg"));
-    //model.addImageUrl(QUrl("https://example.com/image2.jpg"));
-
+{
     //开始下载图片
     if (m_downloader != NULL)
     {
@@ -1386,25 +1366,6 @@ void MainWindow::ShowTaskInfo()
     {
         qDebug() << "m_downloader is null";
     }
-    /*QList<ListItem*> list = MyListModelEx::getInstance(this)->itemList();
-    int iIconListCount = list.size();
-    QMap<QString, S_TASK_INFO>::iterator iterFind;
-    if (iIconListCount > 0)
-    {
-        ListItem* item = NULL;
-        for (int i = 0; i < iIconListCount; i++)
-        {
-            item = list.at(i);
-            iterFind = m_mapTask.find(item->getPhoneInstanceNo());
-            if (iterFind != m_mapTask.end())
-            {
-                if (!iterFind->strUrl.isEmpty())
-                {
-                    item->downloadUrl(iterFind->strUrl);
-                }
-            }
-        }
-    }*/
 }
 
 //云手机
@@ -1677,8 +1638,7 @@ void MainWindow::do_HttpGetMyPhoneInstanceSignals(int iLevel,int iGroupId,QMap<i
     else
     {
         m_mapPhoneInfo = map;
-    }
-    
+    }    
     
     if (iLevel > 0)
         ShowActiveCodeItemInfo(iLevel, map);
@@ -4055,13 +4015,11 @@ void MainWindow::on_toolBtnRemoveSuccessItem_clicked()
     DeleteActiveItemByStatus(TYPE_SUCCESS);
 }
 
-
 void MainWindow::on_toolBtnRemoveFailedItem_clicked()
 {
     //更改失败项状态
     DeleteActiveItemByStatus(TYPE_FAILED);
 }
-
 
 void MainWindow::on_checkBoxActiveCodeRenew_clicked(bool checked)
 {
