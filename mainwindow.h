@@ -88,8 +88,6 @@ private:
 
     //创建订单
     void HttpCreateOrder(int iChannel, int iMemberId, int iNum,int iPayType, QString strRelateId);
-    //关闭订单
-    void HttpCloseOrder(QString strOutTradeNo);   
     //手机实例相关接口    
     //获取serverToken
     //void HttpGetServerToken();

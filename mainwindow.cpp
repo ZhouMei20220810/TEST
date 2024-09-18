@@ -1978,66 +1978,6 @@ void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayTy
     });
 }
 
-//关闭订单
-void MainWindow::HttpCloseOrder(QString strOutTradeNo)
-{
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += "/api/order/closeOrder";// HTTP_CLOSE_ORDER;
-    //strUrl += QString("?outTradeNo=%1").arg(strOutTradeNo);
-    strUrl += QString("/%1").arg(strOutTradeNo);
-    qDebug() << "strUrl = " << strUrl;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    request.setUrl(url);
-
-    QNetworkReply* reply = manager->post(request, "");
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                bool bData = obj["data"].toBool();
-                QString strMessage = obj["message"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    if(bData)
-                        qDebug() << "关闭订单成功";
-                    else
-                        qDebug() << "关闭订单失败";
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-    });
-}
-
 //获取我的手机实例
 void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel)
 {

@@ -40,6 +40,8 @@ public:
     void HttpPostInstanceSetGroup(int iGroupId, QStringList strList);
     //激活码接口
     void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
+    //关闭订单
+    void HttpCloseOrder(QString strOutTradeNo);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
