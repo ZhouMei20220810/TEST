@@ -54,6 +54,8 @@ public:
     void HttpMemberLevelListData();
     //查询全部分组
     void HttpQueryAllGroup();  
+    //获取我的手机实例
+    void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -77,6 +79,8 @@ signals:
     void HttpMemberLevelListDataSignals(QMap<int, QMap<int, S_LEVEL_DATA_INFO>> mapLevel);
     //查询全部分组
     void HttpQueryAllGroupSignals(QMap<int, S_GROUP_INFO> mapGroupInfo);
+    //手机实例响应
+    void HttpGetMyPhoneInstanceSignals(int iLevel, int iGroupId, QMap<int, S_PHONE_INFO> map);
 };
 
 #endif // TOOLOBJECT_H

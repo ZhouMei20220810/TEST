@@ -76,9 +76,6 @@ private:
     //激活码续费列表
     void ShowActiveCodeItemInfo(int iLevelId, QMap<int, S_PHONE_INFO> mapPhoneInfo);
 
-    //获取我的手机实例
-    void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
-
     //云手机
     void InitCloudPhoneTab();
     void InitPhoneList();
@@ -255,6 +252,8 @@ private slots:
     void do_HttpMemberLevelListDataSignals(QMap<int, QMap<int, S_LEVEL_DATA_INFO>> mapLevel);
     //查询列表
     void do_HttpQueryAllGroupSignals(QMap<int, S_GROUP_INFO> mapGroupInfo);
+    //我的手机响应
+    void do_HttpGetMyPhoneInstanceSignals(int iLevel, int iGroupId, QMap<int, S_PHONE_INFO> map);
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();
