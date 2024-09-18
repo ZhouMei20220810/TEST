@@ -83,8 +83,7 @@ private:
     //会员相关接口
     void HttpMemberLevelListData();
 
-    //创建订单
-    void HttpCreateOrder(int iChannel, int iMemberId, int iNum,int iPayType, QString strRelateId);
+    
     //手机实例相关接口    
     //获取serverToken
     //void HttpGetServerToken();
@@ -255,9 +254,12 @@ private slots:
     void do_TransferSuccessRefreshInstanceListSignals();    
 
     void on_toolBtnMessageCenter_clicked();
-    
+    //重命名响应
     void do_HttpPostInstanceRenameSignals(int iId,QString strName);
+    //刷新树形列表
     void do_HttpGroupRefreshSignals();
+    //创建订单响应
+    void do_HttpCreateOrderSignals(QString strQrCode);
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();

@@ -116,6 +116,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ToolObject::getInstance(), &ToolObject::HttpPostInstanceRenameSignals, this, &MainWindow::do_HttpPostInstanceRenameSignals);
     connect(ToolObject::getInstance(), &ToolObject::HttpGroupRefreshSignals, this, &MainWindow::do_HttpGroupRefreshSignals);
     connect(ToolObject::getInstance(), &ToolObject::HttpLogoutSignals, this, &MainWindow::close);
+    connect(ToolObject::getInstance(), &ToolObject::HttpCreateOrderSignals, this, &MainWindow::do_HttpCreateOrderSignals);
 
     ui->labelAccount->setText(GlobalData::strAccount);
 
@@ -1749,108 +1750,6 @@ void MainWindow::HttpMemberLevelListData()
     });
 }
 
-//订单接口-创建订单
-void MainWindow::HttpCreateOrder(int iChannel,int iMemberId,int iNum, int iPayType,QString strRelateId)
-{
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_CREATE_ORDER;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit());
-    request.setUrl(url);
-    QJsonDocument doc;
-    QJsonObject obj;
-
-    obj.insert("channel", iChannel);
-    obj.insert("memberId", iMemberId);
-    obj.insert("num", iNum);
-    obj.insert("payType", iPayType);
-    if (!strRelateId.isEmpty())
-    {
-        obj.insert("relateId", strRelateId);
-    }
-    doc.setObject(obj);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() <<"response="<< response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    QString strData = obj["data"].toString();
-                    qDebug() << strData;
-
-                    doc = QJsonDocument::fromJson(strData.toUtf8(), &parseError);
-                    if (parseError.error != QJsonParseError::NoError)
-                    {
-                        qDebug() << response;
-                        qWarning() << "Json parse error:" << parseError.errorString();
-                    }
-                    else
-                    {
-                        obj = doc.object();
-                        QJsonObject objResponse = obj["alipay_trade_precreate_response"].toObject();
-                        QString strCode = objResponse["code"].toString();
-                        QString strMsg = objResponse["msg"].toString();
-                        QString strOutTradeNo = objResponse["out_trade_no"].toString();
-                        QString strQrCode = objResponse["qr_code"].toString();
-
-                        qDebug() << strQrCode;
-                        QImage qrImage = generateAlipayQRCode(strQrCode);
-                        if (!qrImage.isNull())
-                        {
-                            QDir dir;
-                            GlobalData::strQrcode = dir.tempPath() + "/alipay_qrcode.png";
-                            qrImage.save(GlobalData::strQrcode);
-                            int width = ui->labelQrCode->width();
-                            int height = ui->labelQrCode->height();
-                            ui->labelQrCode->setPixmap(QPixmap(GlobalData::strQrcode).scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-                            //正常情况
-                            ui->stackedWidget->setCurrentWidget(ui->pageQrCode);
-                            ui->labelPayTimeoutTip->setVisible(false);
-                            ui->btnRefreshQrCode->setVisible(false);
-                            m_iPayCount = 59;
-                            m_PayTimer->start(1000);
-                        }
-                    }                    
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-    });
-}
-
 //获取我的手机实例
 void MainWindow::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel)
 {
@@ -2170,6 +2069,27 @@ void MainWindow::do_HttpGroupRefreshSignals()
     on_btnGroupRefresh_clicked();
 }
 
+//创建订单响应
+void MainWindow::do_HttpCreateOrderSignals(QString strQrCode)
+{
+    QImage qrImage = generateAlipayQRCode(strQrCode);
+    if (!qrImage.isNull())
+    {
+        QDir dir;
+        GlobalData::strQrcode = dir.tempPath() + "/alipay_qrcode.png";
+        qrImage.save(GlobalData::strQrcode);
+        int width = ui->labelQrCode->width();
+        int height = ui->labelQrCode->height();
+        ui->labelQrCode->setPixmap(QPixmap(GlobalData::strQrcode).scaled(QSize(width, height), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+        //正常情况
+        ui->stackedWidget->setCurrentWidget(ui->pageQrCode);
+        ui->labelPayTimeoutTip->setVisible(false);
+        ui->btnRefreshQrCode->setVisible(false);
+        m_iPayCount = 59;
+        m_PayTimer->start(1000);
+    }
+}
+
 void MainWindow::on_btnCreateGroup_clicked()
 {
     //新建分组
@@ -2251,7 +2171,7 @@ void MainWindow::on_btnBeginPay_clicked()
     QString strBuyNum = ui->lineEditBuyNumber->text();
     m_iBuyNum = strBuyNum.toInt();
 
-    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
+    ToolObject::getInstance()->HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
 }
 
 void MainWindow::do_refreshMemberListSignals(int iLevelId, QMap<int, S_LEVEL_DATA_INFO> mapData)
@@ -3882,7 +3802,7 @@ void MainWindow::on_btnVipServerPolicy_clicked()
 void MainWindow::on_btnRefreshQrCode_clicked()
 {
     //刷新支付
-    HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
+    ToolObject::getInstance()->HttpCreateOrder(4, m_curLevelDataInfo.iMemberId, m_iBuyNum, 1, m_strPayRelateId);
 }
 
 void MainWindow::on_btnAddActiveCode_clicked()

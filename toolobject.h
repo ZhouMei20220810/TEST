@@ -44,6 +44,8 @@ public:
     void HttpUpdateGroup(int iGroupId, QString strNewName);
     //激活码接口
     void HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCode);
+    //创建订单
+    void HttpCreateOrder(int iChannel, int iMemberId, int iNum, int iPayType, QString strRelateId);
     //关闭订单
     void HttpCloseOrder(QString strOutTradeNo);
 signals:
@@ -61,6 +63,8 @@ signals:
     void HttpLogoutSignals();
     //激活码
     void activeCodeStatusSignals(QMap<QString, bool> mapActiveCodeStatus);
+    //创建订单信号
+    void HttpCreateOrderSignals(QString strQrCode);
 };
 
 #endif // TOOLOBJECT_H

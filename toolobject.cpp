@@ -1218,7 +1218,92 @@ void ToolObject::HttpPostActivateCode(QMap<int, S_ACTIVE_CODE_INFO> mapActiveCod
         reply->deleteLater();
         });
 }
+//订单接口-创建订单
+void ToolObject::HttpCreateOrder(int iChannel, int iMemberId, int iNum, int iPayType, QString strRelateId)
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_CREATE_ORDER;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit());
+    request.setUrl(url);
+    QJsonDocument doc;
+    QJsonObject obj;
 
+    obj.insert("channel", iChannel);
+    obj.insert("memberId", iMemberId);
+    obj.insert("num", iNum);
+    obj.insert("payType", iPayType);
+    if (!strRelateId.isEmpty())
+    {
+        obj.insert("relateId", strRelateId);
+    }
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);
+
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << "response=" << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    QString strData = obj["data"].toString();
+                    qDebug() << strData;
+
+                    doc = QJsonDocument::fromJson(strData.toUtf8(), &parseError);
+                    if (parseError.error != QJsonParseError::NoError)
+                    {
+                        qDebug() << response;
+                        qWarning() << "Json parse error:" << parseError.errorString();
+                    }
+                    else
+                    {
+                        obj = doc.object();
+                        QJsonObject objResponse = obj["alipay_trade_precreate_response"].toObject();
+                        QString strCode = objResponse["code"].toString();
+                        QString strMsg = objResponse["msg"].toString();
+                        QString strOutTradeNo = objResponse["out_trade_no"].toString();
+                        QString strQrCode = objResponse["qr_code"].toString();
+
+                        qDebug() << strQrCode;
+                        emit HttpCreateOrderSignals(strQrCode);
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
 //关闭订单
 void ToolObject::HttpCloseOrder(QString strOutTradeNo)
 {
