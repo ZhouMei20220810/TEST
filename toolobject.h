@@ -52,6 +52,8 @@ public:
     void HttpLevelList();
     //会员相关接口
     void HttpMemberLevelListData();
+    //查询全部分组
+    void HttpQueryAllGroup();  
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -73,6 +75,8 @@ signals:
     void HttpLevelListSignals(QMap<int, S_LEVEL_INFO> mapLevelList);
     //会员相关接口响应
     void HttpMemberLevelListDataSignals(QMap<int, QMap<int, S_LEVEL_DATA_INFO>> mapLevel);
+    //查询全部分组
+    void HttpQueryAllGroupSignals(QMap<int, S_GROUP_INFO> mapGroupInfo);
 };
 
 #endif // TOOLOBJECT_H

@@ -67,8 +67,6 @@ protected:
 	virtual void showEvent(QShowEvent *event) override;
 	virtual void resizeEvent(QResizeEvent *event) override;
 private:
-    //分组接口
-    void HttpQueryAllGroup();//查询全部分组  
     //显示树内容
     void ShowGroupInfo();
     //实例列表
@@ -255,6 +253,8 @@ private slots:
     void do_HttpLevelListSignals(QMap<int, S_LEVEL_INFO> mapLevelList);
     //会员数据响应
     void do_HttpMemberLevelListDataSignals(QMap<int, QMap<int, S_LEVEL_DATA_INFO>> mapLevel);
+    //查询列表
+    void do_HttpQueryAllGroupSignals(QMap<int, S_GROUP_INFO> mapGroupInfo);
 private:
     //转移后刷新列表
     void RefreshTransferPhoneList();

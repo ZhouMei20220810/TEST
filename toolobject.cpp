@@ -1556,3 +1556,93 @@ void ToolObject::HttpMemberLevelListData()
         reply->deleteLater();
         });
 }
+
+//查询全部分组
+void ToolObject::HttpQueryAllGroup()
+{
+    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
+    strUrl += HTTP_QUERY_ALL_GROUP;
+    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
+    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
+    //创建请求对象
+    QNetworkRequest request;
+    QUrl url(strUrl);
+    qDebug() << "url:" << strUrl;
+    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
+    qDebug() << "strToken=" << strToken;
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
+    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
+    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
+    request.setUrl(url);
+    /*QJsonDocument doc;
+    QJsonObject obj;
+    obj.insert("code", strSMSCode);
+    obj.insert("mobile", strPhone);
+    doc.setObject(obj);
+    QByteArray postData = doc.toJson(QJsonDocument::Compact);*/
+    //QByteArray postData = QString("{\"mobile\":\"%1\",\"code\":\"%2\"}").arg(strPhone).arg(strSMSCode).toLocal8Bit();
+    //发出GET请求
+    QByteArray postData = "";
+    QNetworkReply* reply = manager->post(request, postData);
+    //连接请求完成的信号
+    connect(reply, &QNetworkReply::finished, this, [=] {
+        //读取响应数据
+        QByteArray response = reply->readAll();
+        qDebug() << response;
+
+        QJsonParseError parseError;
+        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
+        if (parseError.error != QJsonParseError::NoError)
+        {
+            qDebug() << response;
+            qWarning() << "Json parse error:" << parseError.errorString();
+        }
+        else
+        {
+            if (doc.isObject())
+            {
+                QJsonObject obj = doc.object();
+                int iCode = obj["code"].toInt();
+                QString strMessage = obj["message"].toString();
+                qDebug() << "Code=" << iCode << "message=" << strMessage << "response:" << response;
+                if (HTTP_SUCCESS_CODE == iCode)
+                {
+                    if (obj["data"].isArray())
+                    {
+                        QJsonArray dataArray = obj["data"].toArray();
+                        int iGroupSize = dataArray.size();
+                        if (0 == iGroupSize)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            QMap<int, S_GROUP_INFO> mapGroupInfo;                            
+                            //树形列表显示
+                            S_GROUP_INFO groupInfo;
+                            QJsonObject dataObj;
+                            for (int i = 0; i < iGroupSize; i++)
+                            {
+                                dataObj = dataArray[i].toObject();
+                                groupInfo.iGroupId = dataObj["id"].toInt();
+                                groupInfo.iGroupNum = dataObj["num"].toInt();
+                                groupInfo.strGroupName = dataObj["name"].toString();
+                                qDebug() << "iGroupId=" << groupInfo.iGroupId << "strGroupName=" << groupInfo.strGroupName << "iGroupCount=" << groupInfo.iGroupNum;
+
+                                mapGroupInfo.insert(i, groupInfo);
+                            }
+                            emit HttpQueryAllGroupSignals(mapGroupInfo);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageTips* tips = new MessageTips(strMessage);
+                    tips->show();
+                }
+            }
+        }
+        reply->deleteLater();
+        });
+}
