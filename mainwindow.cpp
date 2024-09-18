@@ -2403,7 +2403,7 @@ void MainWindow::on_treeWidget_itemPressed(QTreeWidgetItem *item, int column)
 			m_TaskTimer->stop();
 		}
 
-        BianliTreeWidgetSelectItem();
+        BianliTreeWidgetSelectItem(item);
 		if (m_listInstanceNo.size() > 0)
 		{
 			if (NULL != m_TaskTimer)
@@ -3621,7 +3621,7 @@ void MainWindow::AddListModeListWidgetItem(S_PHONE_INFO phoneInfo)
 }
 
 //获取所有选中的项
-void MainWindow::BianliTreeWidgetSelectItem()
+void MainWindow::BianliTreeWidgetSelectItem(QTreeWidgetItem* currentSelItem)
 {
     QTreeWidgetItem* item = NULL;
     QTreeWidgetItem* child = NULL;
@@ -3632,6 +3632,7 @@ void MainWindow::BianliTreeWidgetSelectItem()
     m_mapCurTreeItemSelect.clear();
     int iTopLevelCount = ui->treeWidget->topLevelItemCount();
     int childIndex=0;
+    bool bFind = false;
     for (int iii = 0; iii < iTopLevelCount; iii++)
     {
         item = ui->treeWidget->topLevelItem(iii);
@@ -3673,6 +3674,10 @@ void MainWindow::BianliTreeWidgetSelectItem()
                 for (childIndex = 0; childIndex < iChildCount; childIndex++)
                 {
                     child = item->child(childIndex);
+                    if (child == currentSelItem)
+                    {
+                        bFind = true;
+                    }
                     qDebug() << "子节点" << child->text(0);
                     checkState = child->checkState(0);
                     phoneInfo = child->data(0, Qt::UserRole).value<S_PHONE_INFO>();
@@ -3713,7 +3718,11 @@ void MainWindow::BianliTreeWidgetSelectItem()
             }
         }
     }
-
+    if (!bFind && currentSelItem->parent()!=NULL)
+    {
+        phoneInfo = currentSelItem->data(0, Qt::UserRole).value<S_PHONE_INFO>();
+        m_mapCurTreeItemSelect.insert(phoneInfo.iId, phoneInfo);
+    }
     int iCount = m_mapCurTreeItemSelect.size();
     if (m_isIconMode)
     {
