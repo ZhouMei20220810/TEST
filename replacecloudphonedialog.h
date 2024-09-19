@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#define         REPLACE_LIST_ITEM_WIDTH             327
+#define         REPLACE_LIST_ITEM_WIDTH             307
 #define         REPLACE_LIST_ITEM_HEIGHT            20
 
 namespace Ui {
@@ -74,7 +74,7 @@ private:
         m_LabelStatus = new QLabel(this);
         strStyleSheet = "QLabel{background:transparent;color:#4A4A4A;font-size:12px;}";
         m_LabelStatus->setStyleSheet(strStyleSheet);
-        m_LabelStatus->setText("222");
+        m_LabelStatus->setText("");
         m_LabelStatus->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
         hLayout->addWidget(m_LabelStatus);
 
