@@ -495,31 +495,32 @@ QMap<int, S_PHONE_INFO> MainWindow::getCurrentAllSelectItem(EN_RIGHT_CLICK_TYPE 
     case EN_ICON_MODE_WIDGET:
         //获取预览模式选中项
     {
-        /*int iCount = ui->listWidget->count();
-        if (iCount > 0)
+        QList<ListItem*> itemList = MyListModelEx::getInstance()->itemList();
+        int iCount = itemList.size();
+        if (iCount <= 0)
+            return map;
+
+        ListItem* item = NULL;
+        S_PHONE_INFO phoneInfo;
+        for (int i = 0; i < iCount; i++)
         {
-            QListWidgetItem* item = NULL;
-            QListWidgetItem* phoneItem = NULL;
-            QMap<int, S_LEVEL_INFO>::iterator iterFind;
-            for (int i = 0; i < iCount; i++)
+            item = itemList.at(i);
+            if (item == NULL)
             {
-                item = ui->listWidget->item(i);
-                if (item != NULL)
-                {
-                    //是否选中
-                    if (((PhoneItemWidget*)ui->listWidget->itemWidget(item))->getCheckBoxStatus())
-                    {
-                        phoneInfo = item->data(Qt::UserRole).value<S_PHONE_INFO>();
-                        if (phoneInfo.bIsAuth || phoneInfo.iAuthType == EN_BE_AUTHORIZATION)
-                        {
-                            qDebug() << "已授权或者被授权 name=" << phoneInfo.strName << "No=" << phoneInfo.strInstanceNo;
-                            continue;
-                        }
-                        map.insert(phoneInfo.iId, phoneInfo);
-                    }
-                }
+                qDebug() << "MainWindow::getCheckedPhoneInstance index=" << i << " item is null";
+                continue;
             }
-        }*/
+            if (item->getCheckBox())
+            {
+                phoneInfo = item->getPhoneInfo();
+                if (phoneInfo.bIsAuth || phoneInfo.iAuthType == EN_BE_AUTHORIZATION)
+                {
+                    qDebug() << "已授权或者被授权 name=" << phoneInfo.strName << "No=" << phoneInfo.strInstanceNo;
+                    continue;
+                }
+                map.insert(phoneInfo.iId, phoneInfo);
+            }
+        }        
     }
         break;
     case EN_LIST_MODE_WIDGET:
@@ -3140,6 +3141,10 @@ void MainWindow::on_ShowPhoneInstanceWidgetSignals(S_PHONE_INFO sPhoneInfo, bool
     if (bShowMenu)
     {
         qDebug() << "显示右键菜单";
+        if (m_isIconMode)
+            GlobalData::enRightClickType = EN_ICON_MODE_WIDGET;
+        else
+            GlobalData::enRightClickType = EN_LIST_MODE_WIDGET;
         pActionCopyCloudId->setText("复制云号[" + m_CurSelMenuPhoneInfo.strInstanceNo + "]");
         m_PhoneMenu->exec(QCursor::pos());
         return;
