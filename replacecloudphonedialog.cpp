@@ -1,13 +1,9 @@
 #include "replacecloudphonedialog.h"
 #include "ui_replacecloudphonedialog.h"
 #include "messagetips.h"
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QJsonParseError>
-#include <QJsonObject>
-#include <QJsonArray>
+#include "toolobject.h"
 
-ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList,QWidget *parent)
+ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<int, S_LEVEL_INFO> mapLevelList, QWidget *parent)
     : QMoveDialog(parent)
     , ui(new Ui::ReplaceCloudPhoneDialog)
 {
@@ -32,7 +28,9 @@ ReplaceCloudPhoneDialog::ReplaceCloudPhoneDialog(S_PHONE_INFO phoneInfo, QMap<in
     m_iCurSelCount = 0;
     ui->checkBoxAll->setText(QString("%1/%2         名称").arg(0).arg(0));
     //按等级拉去数据
-    HttpGetMyPhoneInstance(0, 1, 1000, phoneInfo.iLevel);
+    ToolObject::getInstance()->HttpGetMyPhoneInstance(0, 1, 1000, phoneInfo.iLevel);
+    connect(ToolObject::getInstance(), &ToolObject::HttpGetMyPhoneInstanceSignals, this, &ReplaceCloudPhoneDialog::do_HttpGetMyPhoneInstanceSignals);
+    connect(ToolObject::getInstance(), &ToolObject::HttpPostReplaceInstanceSignals, this, &ReplaceCloudPhoneDialog::LoadReplaceInstanceStatus);
 }
 
 ReplaceCloudPhoneDialog::~ReplaceCloudPhoneDialog()
@@ -82,102 +80,9 @@ void ReplaceCloudPhoneDialog::on_btnOk_clicked()
         tips->show();
         return;
     }
-    HttpPostReplaceInstance(map);
+    ToolObject::getInstance()->HttpPostReplaceInstance(map);
 }
 
-void ReplaceCloudPhoneDialog::HttpPostReplaceInstance(QMap<int, int> mapId)
-{
-    int iSize = mapId.size();
-    if (iSize <= 0)
-        return;
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_POST_REPLACE_INSTANCE;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    //request.setRawHeader("Authorization", m_userInfo.strMobile.toUtf8());
-    request.setUrl(url);
-    //QJsonObject jsonObj;
-    //jsonObj["groupId"] = iGroupId;
-
-    QJsonArray listArray;
-    //for (int i = 0; i < iSize; i++)
-    QMap<int, int>::iterator iter= mapId.begin();
-    for(;iter != mapId.end();iter++)
-    {
-        listArray.append(iter.value());
-    }
-    //doc.setObject(listArray);
-    //jsonObj["idList"] = listArray;
-    //doc.setArray(listArray);
-    QJsonDocument doc(listArray);
-    QByteArray postData = doc.toJson(QJsonDocument::Compact);
-    qDebug() << postData;
-    //发出GET请求
-    QNetworkReply* reply = manager->post(request, postData);
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qDebug() << response;
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    QJsonArray dataArray = obj["data"].toArray();
-                    QJsonObject data;
-                    int iSize = dataArray.size();
-                    S_REPLACE_INFO replaceInfo;
-                    //行
-                    QMap<int, S_REPLACE_INFO> map;
-                    QMap<int, int>::const_iterator iterId = mapId.begin();
-                    for (int i = 0; i < iSize; i++)
-                    {
-                        data = dataArray[i].toObject();
-                        replaceInfo.id = data["id"].toInt();
-                        replaceInfo.iInstanceId = data["instanceId"].toInt();
-                        replaceInfo.iType = data["type"].toInt();
-                        replaceInfo.iCreateBy = data["createBy"].toInt();
-                        replaceInfo.strCreateTime = data["createTime"].toString();
-                        replaceInfo.strRemark = data["remark"].toString();
-                        replaceInfo.bIsSuccess = data["isSuccess"].toBool();
-                        //服务器返回的数据按请求的数据返回，没有返回与手机相关的信息
-                        map.insert(iterId.key(), replaceInfo);
-                    }
-                    LoadReplaceInstanceStatus(map);
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
-}
 void ReplaceCloudPhoneDialog::LoadReplaceInstanceStatus(QMap<int, S_REPLACE_INFO> map)
 {
     if (map.size() <= 0)
@@ -196,104 +101,6 @@ void ReplaceCloudPhoneDialog::LoadReplaceInstanceStatus(QMap<int, S_REPLACE_INFO
             widget->setReplacePhoneStatus(iter->strRemark);
         }
     }
-}
-
-void ReplaceCloudPhoneDialog::HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel)
-{
-    QString strUrl = HTTP_SERVER_DOMAIN_ADDRESS;
-    strUrl += HTTP_GET_MY_PHONE_INSTANCE;
-    //level不传值,返回该 组下面所有的level
-    if (iLevel != 0)
-        strUrl += QString::asprintf("?level=%d&page=%d&pageSize=%d", iLevel, iPage, iPageSize);
-    else
-        strUrl += QString::asprintf("?groupId=%d&page=%d&pageSize=%d", iGroupId, iPage, iPageSize);
-    qDebug() << "strUrl = " << strUrl;
-    //创建网络访问管理器,不是指针函数结束会释放因此不会进入finished的槽
-    QNetworkAccessManager* manager = new QNetworkAccessManager(this);
-    //创建请求对象
-    QNetworkRequest request;
-    QUrl url(strUrl);
-    qDebug() << "url:" << strUrl;
-    QString strToken = HTTP_TOKEN_HEADER + GlobalData::strToken;
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    request.setRawHeader(LOGIN_DEVICE_TYPE, LOGIN_DEVICE_TYPE_VALUE);
-    request.setRawHeader("Authorization", strToken.toLocal8Bit()); //strToken.toLocal8Bit());
-    request.setUrl(url);
-
-    //发出GET请求
-    QNetworkReply* reply = manager->get(request);//manager->post(request, "");
-    //连接请求完成的信号
-    connect(reply, &QNetworkReply::finished, this, [=] {
-        //读取响应数据
-        QByteArray response = reply->readAll();
-        qDebug() << response;
-
-        QJsonParseError parseError;
-        QJsonDocument doc = QJsonDocument::fromJson(response, &parseError);
-        if (parseError.error != QJsonParseError::NoError)
-        {
-            qWarning() << "Json parse error:" << parseError.errorString();
-        }
-        else
-        {
-            if (doc.isObject())
-            {
-                QJsonObject obj = doc.object();
-                int iCode = obj["code"].toInt();
-                QString strMessage = obj["message"].toString();
-                qDebug() << "Code=" << iCode << "message=" << strMessage << "json=" << response;
-                if (HTTP_SUCCESS_CODE == iCode)
-                {
-                    if (obj["data"].isObject())
-                    {
-                        m_mapPhone.clear();
-                        QJsonObject data = obj["data"].toObject();
-                        int iCurrent = data["current"].toInt();
-                        int iPages = data["pages"].toInt();
-                        int iSize = data["size"].toInt();
-                        int iTotal = data["total"].toInt();
-                        qDebug() << "iTotal=" << iTotal << "iCurrent=" << iCurrent << "iPages=" << iPages << "iSize=" << iSize;
-                        QJsonArray records = data["records"].toArray();
-                        if (records.size() > 0)
-                        {
-                            int iRecordsSize = records.size();
-                            QJsonObject recordObj;
-                            //获取我的手机实例数据，暂未存储
-                            S_PHONE_INFO phoneInfo;
-                            for (int i = 0; i < iRecordsSize; i++)
-                            {
-                                memset(&phoneInfo, 0, sizeof(S_PHONE_INFO));
-                                recordObj = records[i].toObject();
-                                phoneInfo.strCreateTime = recordObj["createTime"].toString();
-                                phoneInfo.strCurrentTime = recordObj["current"].toString();
-                                phoneInfo.strExpireTime = recordObj["expireTime"].toString();
-                                phoneInfo.iId = recordObj["id"].toInt();
-                                phoneInfo.iLevel = recordObj["level"].toInt();
-                                phoneInfo.strName = recordObj["name"].toString();
-                                phoneInfo.strInstanceNo = recordObj["no"].toString();
-                                phoneInfo.strServerToken = recordObj["serverToken"].toString();
-                                phoneInfo.iAuthType = recordObj["type"].toInt();
-                                phoneInfo.strGrantControl = recordObj["grantControl"].toString();
-                                phoneInfo.bIsAuth = recordObj["isAuth"].toBool();
-                                m_mapPhone.insert(phoneInfo.iId, phoneInfo);
-                                qDebug() << "name" << phoneInfo.strName << "strInstanceNo=" << phoneInfo.strInstanceNo << "phoneInfo.strCreateTime=" << phoneInfo.strCreateTime << "phoneInfo.strCurrentTime=" << phoneInfo.strCurrentTime << "phoneInfo.strExpireTime=" << phoneInfo.strExpireTime << "id=" << phoneInfo.iId << "type=" << phoneInfo.iAuthType << "level=" << phoneInfo.iLevel;
-                            }
-                        }
-                        //if (iLevel != 0)
-                            //    ShowActiveCodeItemInfo(iLevel, m_mapPhoneInfo);
-                            //else 
-                        ShowPhoneInfo(m_mapPhone);
-                    }
-                }
-                else
-                {
-                    MessageTips* tips = new MessageTips(strMessage, this);
-                    tips->show();
-                }
-            }
-        }
-        reply->deleteLater();
-        });
 }
 
 void ReplaceCloudPhoneDialog::ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo)
@@ -370,3 +177,8 @@ void ReplaceCloudPhoneDialog::on_checkBoxAll_clicked(bool checked)
     }
 }
 
+void ReplaceCloudPhoneDialog::do_HttpGetMyPhoneInstanceSignals(int iLevel, int iGroupId, QMap<int, S_PHONE_INFO> map)
+{
+    qDebug() << "更换云机 等级" << iLevel;
+    ShowPhoneInfo(map);
+}

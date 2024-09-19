@@ -101,15 +101,12 @@ private slots:
     void on_btnOk_clicked();
     void do_replaceItemCheckBoxStatus(bool checked);
     void on_checkBoxAll_clicked(bool checked);
-
+    void do_HttpGetMyPhoneInstanceSignals(int iLevel, int iGroupId, QMap<int, S_PHONE_INFO> map);
 private:
-    void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel);
-    void HttpPostReplaceInstance(QMap<int, int> map);
     void ShowPhoneInfo(QMap<int, S_PHONE_INFO> mapPhoneInfo);
     void LoadReplaceInstanceStatus(QMap<int, S_REPLACE_INFO> map);
 private:
     Ui::ReplaceCloudPhoneDialog *ui;
-    QMap<int, S_PHONE_INFO> m_mapPhone;
     QMap<int, S_LEVEL_INFO> m_mapLevelList;
     int         m_iCurSelCount;
 };

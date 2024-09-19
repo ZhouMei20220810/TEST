@@ -56,6 +56,8 @@ public:
     void HttpQueryAllGroup();  
     //获取我的手机实例
     void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
+    //更换手机
+    void HttpPostReplaceInstance(QMap<int, int> mapId);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -81,6 +83,8 @@ signals:
     void HttpQueryAllGroupSignals(QMap<int, S_GROUP_INFO> mapGroupInfo);
     //手机实例响应
     void HttpGetMyPhoneInstanceSignals(int iLevel, int iGroupId, QMap<int, S_PHONE_INFO> map);
+    //更换手机响应
+    void HttpPostReplaceInstanceSignals(QMap<int, S_REPLACE_INFO> map);
 };
 
 #endif // TOOLOBJECT_H
