@@ -17,12 +17,11 @@ public:
 
 private slots:
     void on_btnClose_clicked();
-private:
-    void HttpGetAcitveCodeHistory(int iPage, int iPageSize);
-    void ShowActiveCodeInfoList();
+
+    void ShowActiveCodeInfoList(QMap<int, S_ACTIVE_CODE_DETAIL_INFO> mapActiveInfo);
 private:
     Ui::ActiveCodeHistoryDialog *ui;
-    QMap<int, S_ACTIVE_CODE_DETAIL_INFO> m_mapActiveInfo;
+    //QMap<int, S_ACTIVE_CODE_DETAIL_INFO> m_mapActiveInfo;
 };
 
 #endif // ACTIVECODEHISTORYDIALOG_H

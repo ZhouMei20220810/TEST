@@ -62,6 +62,8 @@ public:
     void HttpGetMyOrder(int iPage, int iPageSize);
     // 订单接口-清空订单
     void HttpEmptyOrder();
+    //激活码记录
+    void HttpGetAcitveCodeHistory(int iPage, int iPageSize);
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -91,6 +93,8 @@ signals:
     void HttpPostReplaceInstanceSignals(QMap<int, S_REPLACE_INFO> map);
     //显示订单列表
     void ShowOrderInfoListSignals(QMap<int, S_ORDER_INFO> mapOrderInfo);
+    //激活码记录
+    void HttpGetAcitveCodeHistorySignals(QMap<int, S_ACTIVE_CODE_DETAIL_INFO> mapActiveInfo);
 };
 
 #endif // TOOLOBJECT_H
