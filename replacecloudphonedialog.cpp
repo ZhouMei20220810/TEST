@@ -140,7 +140,16 @@ void ReplaceCloudPhoneDialog::do_replaceItemCheckBoxStatus(bool checked)
     }
     int iCount = ui->listWidget->count();
     ui->checkBoxAll->setText(QString("%1/%2         名称").arg(m_iCurSelCount).arg(iCount));
-    ui->checkBoxAll->setChecked(m_iCurSelCount == iCount ? true : false);
+    if (m_iCurSelCount == 0)
+        ui->checkBoxAll->setCheckState(Qt::Unchecked);
+    else
+    {
+        if (m_iCurSelCount == iCount && iCount != 0)
+            ui->checkBoxAll->setCheckState(Qt::Checked);
+        else
+            ui->checkBoxAll->setCheckState(Qt::PartiallyChecked);
+    }
+    
 }
 
 void ReplaceCloudPhoneDialog::on_checkBoxAll_clicked(bool checked)
@@ -181,4 +190,5 @@ void ReplaceCloudPhoneDialog::do_HttpGetMyPhoneInstanceSignals(int iLevel, int i
 {
     qDebug() << "更换云机 等级" << iLevel;
     ShowPhoneInfo(map);
+    ui->checkBoxAll->setText(QString("%1/%2         名称").arg(0).arg(map.size()));
 }
