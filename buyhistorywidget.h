@@ -20,20 +20,10 @@ private slots:
 
     void on_btnClose_clicked();
 
-private:
-    //订单接口
-    // 我的支付订单
-    void HttpGetMyOrder(int iPage, int iPageSize);    
-    //清空
-    void HttpEmptyOrder();
-
     //显示数据
-    void ShowOrderInfoList();
-
+    void ShowOrderInfoList(QMap<int, S_ORDER_INFO> mapOrderInfo);
+private:
     Ui::BuyHistoryWidget *ui;
-
-    //int序号
-    QMap<int, S_ORDER_INFO> m_mapOrderInfo;
 };
 
 #endif // BUYHISTORYWIDGET_H

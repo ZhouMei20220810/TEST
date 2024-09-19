@@ -58,6 +58,10 @@ public:
     void HttpGetMyPhoneInstance(int iGroupId, int iPage, int iPageSize, int iLevel = 0);
     //更换手机
     void HttpPostReplaceInstance(QMap<int, int> mapId);
+    // 订单接口-我的支付订单
+    void HttpGetMyOrder(int iPage, int iPageSize);
+    // 订单接口-清空订单
+    void HttpEmptyOrder();
 signals:
     void startTimerShowScreenshotSignals();
     void getScreenshortSignals(QMap<QString, S_TASK_INFO> mapScreenshotTask);
@@ -85,6 +89,8 @@ signals:
     void HttpGetMyPhoneInstanceSignals(int iLevel, int iGroupId, QMap<int, S_PHONE_INFO> map);
     //更换手机响应
     void HttpPostReplaceInstanceSignals(QMap<int, S_REPLACE_INFO> map);
+    //显示订单列表
+    void ShowOrderInfoListSignals(QMap<int, S_ORDER_INFO> mapOrderInfo);
 };
 
 #endif // TOOLOBJECT_H
