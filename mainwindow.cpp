@@ -7,12 +7,9 @@
 #include "vipitemwidget.h"
 #include "Logoutdialog.h"
 #include "messagetipsdialog.h"
-#include "phoneitemwidget.h"
+//#include "phoneitemwidget.h"
 #include "phonelistmodeitemwidget.h"
-#include <QScrollBar>
-#include <QFile>
 #include <QDir>
-#include <QPainter>
 #include <QClipboard>
 #include "messagetips.h"
 #include <QThread>
@@ -34,8 +31,6 @@
 #include "oneclicknewmachinedialog.h"
 #include "clipboardhistoryapp.h"
 #include "messagecenterdialog.h"
-#include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include "qmlsizemanager.h"
 #include "listitem.h"
 #include "mylistmodelex.h"
@@ -3510,7 +3505,7 @@ void MainWindow::on_checkBoxGroup_clicked(bool checked)
         //遍历所有选中项的迭代器
         QTreeWidgetItem* item = NULL;
         S_PHONE_INFO phoneInfo;
-        PhoneItemWidget* widget=NULL;
+        //PhoneItemWidget* widget=NULL;
         QListWidgetItem* phoneItem = NULL;
         PhoneListModeItemWidget* widget2 = NULL;
         while (*it)
