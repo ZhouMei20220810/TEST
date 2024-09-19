@@ -15,6 +15,7 @@
 #include "activecodeitem.h"
 #include <QListWidgetItem>
 #include "toolobject.h"
+#include <QGraphicsDropShadowEffect>
 AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* parent)
     : QMoveDialog(parent)
     , ui(new Ui::AddAuthorizationDialog)
@@ -23,6 +24,14 @@ AddAuthorizationDialog::AddAuthorizationDialog(S_PHONE_INFO phoneInfo, QWidget* 
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowTitle("授权管理");
+
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+    shadow->setBlurRadius(5);//阴影模糊半径
+    shadow->setXOffset(0);//水平偏移
+    shadow->setYOffset(0); //垂直偏移
+    shadow->setColor(Qt::gray);//阴影颜色
+    this->setGraphicsEffect(shadow);
 
     //只读+不能选择
     ui->plainTextEdit->setReadOnly(true);
